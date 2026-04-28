@@ -70,12 +70,21 @@ const theme = createTheme({
 });
 
 function ProtectedRoute({ children }) {
-  const { isAuthenticated } = useAuth();
-  return isAuthenticated ? children : <Navigate to="/login" />;
+  const { isAuthenticated, loading } = useAuth();
+
+  if (loading) {
+    return null;
+  }
+
+  return isAuthenticated ? children : <Navigate to="/login" replace />;
 }
 
 function App() {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, loading } = useAuth();
+
+  if (loading) {
+    return null;
+  }
 
   return (
     <ThemeProvider theme={theme}>

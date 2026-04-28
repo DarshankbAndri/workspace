@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import {
   Box,
@@ -16,9 +16,9 @@ import { login as apiLogin } from '../services/api';
 
 function LoginPage() {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, isAuthenticated, loading } = useAuth();
   const [apiError, setApiError] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [apiLoading, setApiLoading] = useState(false);
   
   const {
     register,
@@ -31,8 +31,12 @@ function LoginPage() {
     },
   });
 
+  if (!loading && isAuthenticated) {
+    return <Navigate to="/dashboard" replace />;
+  }
+
   const onSubmit = async (data) => {
-    setLoading(true);
+    setApiLoading(true);
     setApiError('');
 
     try {
@@ -77,7 +81,7 @@ function LoginPage() {
         setApiError(`Error: ${err.message}`);
       }
     } finally {
-      setLoading(false);
+      setApiLoading(false);
     }
   };
 
@@ -149,7 +153,7 @@ function LoginPage() {
               })}
               margin="normal"
               variant="outlined"
-              disabled={loading}
+              disabled={apiLoading}
               error={!!errors.username}
               helperText={errors.username?.message}
             />
@@ -168,7 +172,7 @@ function LoginPage() {
               })}
               margin="normal"
               variant="outlined"
-              disabled={loading}
+              disabled={apiLoading}
               error={!!errors.password}
               helperText={errors.password?.message}
             />
@@ -187,9 +191,9 @@ function LoginPage() {
                 },
                 position: 'relative',
               }}
-              disabled={loading}
+              disabled={apiLoading}
             >
-              {loading ? <CircularProgress size={24} sx={{ color: 'white' }} /> : 'Login'}
+              {apiLoading ? <CircularProgress size={24} sx={{ color: 'white' }} /> : 'Login'}
             </Button>
           </form>
 
