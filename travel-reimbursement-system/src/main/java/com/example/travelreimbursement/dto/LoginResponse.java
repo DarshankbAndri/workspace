@@ -1,5 +1,8 @@
 package com.example.travelreimbursement.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class LoginResponse {
     
     private String token;

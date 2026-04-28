@@ -19,7 +19,7 @@
             <column name="amount" type="DECIMAL(10,2)">
                 <constraints nullable="false"/>
             </column>
-            <column name="status" type="claim_status_enum" defaultValue="DRAFT">
+            <column name="status" type="VARCHAR(50)" defaultValue="DRAFT">
                 <constraints nullable="false"/>
             </column>
             <column name="created_at" type="TIMESTAMP" defaultValueDate="NOW()">
@@ -29,6 +29,9 @@
             <column name="updated_at" type="TIMESTAMP" defaultValueDate="NOW()">
                 <constraints nullable="false"/>
             </column>
+            <column name="rejection_reason" type="TEXT"/>
+            <column name="approved_at" type="TIMESTAMP"/>
+            <column name="paid_at" type="TIMESTAMP"/>
         </createTable>
     </changeSet>
 

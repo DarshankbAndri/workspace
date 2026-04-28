@@ -15,17 +15,17 @@
             <column name="approver_id" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="status" type="approval_status_enum">
+            <column name="status" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
             <column name="comments" type="TEXT"/>
-            <column name="approval_date" type="TIMESTAMP" defaultValueDate="NOW()">
+            <column name="approved_at" type="TIMESTAMP" defaultValueDate="NOW()">
                 <constraints nullable="false"/>
             </column>
             <column name="created_at" type="TIMESTAMP" defaultValueDate="NOW()">
                 <constraints nullable="false"/>
             </column>
-            <column name="updated_at" type="TIMESTAMP" defaultValueDate="NOW()">
+            <column name="role" type="VARCHAR(50)" defaultValue="MANAGER">
                 <constraints nullable="false"/>
             </column>
         </createTable>

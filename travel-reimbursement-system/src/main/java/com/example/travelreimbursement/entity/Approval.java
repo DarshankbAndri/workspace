@@ -21,11 +21,11 @@ public class Approval {
     private User approver;
     
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "VARCHAR(50)")
     private UserRole role;
     
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "VARCHAR(50)")
     private ApprovalStatus status = ApprovalStatus.PENDING;
     
     @Column(columnDefinition = "TEXT")

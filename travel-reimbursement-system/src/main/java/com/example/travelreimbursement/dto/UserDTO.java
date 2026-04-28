@@ -1,11 +1,14 @@
 package com.example.travelreimbursement.dto;
 
 import com.example.travelreimbursement.entity.UserRole;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.LocalDateTime;
 
 @Schema(description = "Data Transfer Object for User information")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserDTO {
     
     @Schema(description = "User ID", example = "1")
@@ -33,9 +36,11 @@ public class UserDTO {
     private Long managerId;
     
     @Schema(description = "Account creation timestamp")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createdAt;
     
     @Schema(description = "Last update timestamp")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime updatedAt;
     
     @Schema(description = "Account active status", example = "true")

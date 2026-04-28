@@ -5,14 +5,23 @@
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
     <changeSet id="001-create-user-role-enum" author="admin">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM pg_type WHERE typname = 'user_role_enum'</sqlCheck>
+        </preConditions>
         <sql splitStatements="false">CREATE TYPE user_role_enum AS ENUM ('EMPLOYEE', 'MANAGER', 'HR');</sql>
     </changeSet>
 
     <changeSet id="001-create-claim-status-enum" author="admin">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM pg_type WHERE typname = 'claim_status_enum'</sqlCheck>
+        </preConditions>
         <sql splitStatements="false">CREATE TYPE claim_status_enum AS ENUM ('DRAFT', 'PENDING_MANAGER_APPROVAL', 'MANAGER_APPROVED', 'PENDING_HR_APPROVAL', 'HR_APPROVED', 'PAID', 'REJECTED');</sql>
     </changeSet>
 
     <changeSet id="001-create-approval-status-enum" author="admin">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM pg_type WHERE typname = 'approval_status_enum'</sqlCheck>
+        </preConditions>
         <sql splitStatements="false">CREATE TYPE approval_status_enum AS ENUM ('PENDING', 'APPROVED', 'REJECTED');</sql>
     </changeSet>
 

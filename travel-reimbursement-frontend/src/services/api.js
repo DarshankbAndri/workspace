@@ -40,7 +40,16 @@ api.interceptors.response.use(
 
 // Authentication API
 export const login = (username, password) => {
-  return api.post('/auth/login', { username, password });
+  console.log('Logging in with username:', username);
+  return api.post('/auth/login', { username, password })
+    .then(response => {
+      console.log('Login successful:', response);
+      return response;
+    })
+    .catch(error => {
+      console.error('Login API error:', error);
+      throw error;
+    });
 };
 
 export const changePassword = (currentPassword, newPassword, confirmPassword) => {

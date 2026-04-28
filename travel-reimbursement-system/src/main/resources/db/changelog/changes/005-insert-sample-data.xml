@@ -12,7 +12,7 @@
             <column name="email" value="alice@example.com"/>
             <column name="first_name" value="Alice"/>
             <column name="last_name" value="Johnson"/>
-            <column name="password" value="$2a$10$FuIqMjb0HuFwKXLbW6GKtu3J5yPvnfEI3qhj0OLyYvqS8YyM8lHKi"/>
+            <column name="password" value="$2a$10$pzm/TDsZuRtX1l3We1sYoelILNwaQC7foIyDn/HzKWAGusVZtaDc."/>
             <column name="role" value="HR"/>
             <column name="department" value="Human Resources"/>
             <column name="active" value="true"/>
@@ -24,7 +24,7 @@
             <column name="email" value="bob@example.com"/>
             <column name="first_name" value="Bob"/>
             <column name="last_name" value="Smith"/>
-            <column name="password" value="$2a$10$FuIqMjb0HuFwKXLbW6GKtu3J5yPvnfEI3qhj0OLyYvqS8YyM8lHKi"/>
+            <column name="password" value="$2a$10$pzm/TDsZuRtX1l3We1sYoelILNwaQC7foIyDn/HzKWAGusVZtaDc."/>
             <column name="role" value="MANAGER"/>
             <column name="department" value="Engineering"/>
             <column name="active" value="true"/>
@@ -36,7 +36,7 @@
             <column name="email" value="charlie@example.com"/>
             <column name="first_name" value="Charlie"/>
             <column name="last_name" value="Brown"/>
-            <column name="password" value="$2a$10$FuIqMjb0HuFwKXLbW6GKtu3J5yPvnfEI3qhj0OLyYvqS8YyM8lHKi"/>
+            <column name="password" value="$2a$10$pzm/TDsZuRtX1l3We1sYoelILNwaQC7foIyDn/HzKWAGusVZtaDc."/>
             <column name="role" value="EMPLOYEE"/>
             <column name="department" value="Engineering"/>
             <column name="manager_id" valueNumeric="2"/>
@@ -49,7 +49,7 @@
             <column name="email" value="david@example.com"/>
             <column name="first_name" value="David"/>
             <column name="last_name" value="Wilson"/>
-            <column name="password" value="$2a$10$FuIqMjb0HuFwKXLbW6GKtu3J5yPvnfEI3qhj0OLyYvqS8YyM8lHKi"/>
+            <column name="password" value="$2a$10$pzm/TDsZuRtX1l3We1sYoelILNwaQC7foIyDn/HzKWAGusVZtaDc."/>
             <column name="role" value="EMPLOYEE"/>
             <column name="department" value="Engineering"/>
             <column name="manager_id" valueNumeric="2"/>
@@ -62,7 +62,7 @@
             <column name="email" value="emma@example.com"/>
             <column name="first_name" value="Emma"/>
             <column name="last_name" value="Davis"/>
-            <column name="password" value="$2a$10$FuIqMjb0HuFwKXLbW6GKtu3J5yPvnfEI3qhj0OLyYvqS8YyM8lHKi"/>
+            <column name="password" value="$2a$10$pzm/TDsZuRtX1l3We1sYoelILNwaQC7foIyDn/HzKWAGusVZtaDc."/>
             <column name="role" value="MANAGER"/>
             <column name="department" value="Sales"/>
             <column name="active" value="true"/>
@@ -74,7 +74,7 @@
             <column name="email" value="frank@example.com"/>
             <column name="first_name" value="Frank"/>
             <column name="last_name" value="Miller"/>
-            <column name="password" value="$2a$10$FuIqMjb0HuFwKXLbW6GKtu3J5yPvnfEI3qhj0OLyYvqS8YyM8lHKi"/>
+            <column name="password" value="$2a$10$pzm/TDsZuRtX1l3We1sYoelILNwaQC7foIyDn/HzKWAGusVZtaDc."/>
             <column name="role" value="EMPLOYEE"/>
             <column name="department" value="Sales"/>
             <column name="manager_id" valueNumeric="5"/>
@@ -130,7 +130,7 @@
             <column name="approver_id" valueNumeric="2"/>
             <column name="status" value="APPROVED"/>
             <column name="comments" value="Approved by manager"/>
-            <column name="approval_date" valueDate="NOW()"/>
+            <column name="approved_at" valueDate="NOW()"/>
         </insert>
 
         <!-- Emma (Manager) approves Frank's claim -->
@@ -139,7 +139,7 @@
             <column name="approver_id" valueNumeric="5"/>
             <column name="status" value="APPROVED"/>
             <column name="comments" value="Approved by manager"/>
-            <column name="approval_date" valueDate="NOW()"/>
+            <column name="approved_at" valueDate="NOW()"/>
         </insert>
     </changeSet>
 

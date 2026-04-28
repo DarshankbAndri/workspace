@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 import {
   Box,
   Container,
@@ -16,42 +17,73 @@ import { login as apiLogin } from '../services/api';
 function LoginPage() {
   const navigate = useNavigate();
   const { login } = useAuth();
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [apiError, setApiError] = useState('');
   const [loading, setLoading] = useState(false);
+  
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      username: '',
+      password: '',
+    },
+  });
 
-  const handleLogin = async () => {
-    if (!username || !password) {
-      setError('Please fill in all fields');
-      return;
-    }
-
+  const onSubmit = async (data) => {
     setLoading(true);
-    setError('');
+    setApiError('');
 
     try {
-      const response = await apiLogin(username, password);
+      const response = await apiLogin(data.username, data.password);
+      console.log('Login response:', response);
+      
+      if (!response || !response.data) {
+        setApiError('Invalid response from server');
+        return;
+      }
+      
       const { token, user } = response.data;
+      
+      if (!token || !user) {
+        setApiError('Token or user data missing from response');
+        console.error('Missing token or user:', { token, user });
+        return;
+      }
       
       // Store token and user data in AuthContext and localStorage
       login(user, token);
       navigate('/dashboard');
     } catch (err) {
-      if (err.response && err.response.status === 401) {
-        setError('Invalid username or password');
+      console.error('Login error:', err);
+      
+      if (err.response) {
+        // Server responded with error status
+        if (err.response.status === 401) {
+          setApiError('Invalid username or password');
+        } else if (err.response.status === 400) {
+          setApiError('Invalid request format');
+        } else {
+          setApiError(`Login failed: ${err.response.status} - ${err.response.statusText}`);
+        }
+        console.error('Response error:', err.response.data);
+      } else if (err.request) {
+        // Request made but no response
+        setApiError('No response from server. Check if backend is running.');
+        console.error('Request error:', err.request);
       } else {
-        setError('Login failed. Please try again.');
+        // Other errors
+        setApiError(`Error: ${err.message}`);
       }
     } finally {
       setLoading(false);
     }
   };
 
-  const handleKeyPress = (event) => {
-    if (event.key === 'Enter') {
-      handleLogin();
-    }
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    handleSubmit(onSubmit)();
   };
 
   return (
@@ -100,49 +132,66 @@ function LoginPage() {
             </Typography>
           </Box>
 
-          {error && <Alert severity="error" sx={{ marginBottom: 2 }}>{error}</Alert>}
+          {apiError && <Alert severity="error" sx={{ marginBottom: 2 }}>{apiError}</Alert>}
 
-          {/* Form Fields */}
-          <TextField
-            fullWidth
-            label="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            margin="normal"
-            variant="outlined"
-            disabled={loading}
-          />
+          {/* Login Form */}
+          <form onSubmit={handleFormSubmit} noValidate>
+            {/* Username Field */}
+            <TextField
+              fullWidth
+              label="Username"
+              {...register('username', {
+                required: 'Username is required',
+                minLength: {
+                  value: 3,
+                  message: 'Username must be at least 3 characters',
+                },
+              })}
+              margin="normal"
+              variant="outlined"
+              disabled={loading}
+              error={!!errors.username}
+              helperText={errors.username?.message}
+            />
 
-          <TextField
-            fullWidth
-            label="Password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            margin="normal"
-            variant="outlined"
-            disabled={loading}
-            onKeyPress={handleKeyPress}
-          />
+            {/* Password Field */}
+            <TextField
+              fullWidth
+              label="Password"
+              type="password"
+              {...register('password', {
+                required: 'Password is required',
+                minLength: {
+                  value: 6,
+                  message: 'Password must be at least 6 characters',
+                },
+              })}
+              margin="normal"
+              variant="outlined"
+              disabled={loading}
+              error={!!errors.password}
+              helperText={errors.password?.message}
+            />
 
-          {/* Login Button */}
-          <Button
-            fullWidth
-            variant="contained"
-            size="large"
-            sx={{
-              marginTop: 3,
-              backgroundColor: '#003da5',
-              '&:hover': {
-                backgroundColor: '#002c7a',
-              },
-              position: 'relative',
-            }}
-            onClick={handleLogin}
-            disabled={loading}
-          >
-            {loading ? <CircularProgress size={24} sx={{ color: 'white' }} /> : 'Login'}
-          </Button>
+            {/* Login Button */}
+            <Button
+              fullWidth
+              variant="contained"
+              size="large"
+              type="submit"
+              sx={{
+                marginTop: 3,
+                backgroundColor: '#003da5',
+                '&:hover': {
+                  backgroundColor: '#002c7a',
+                },
+                position: 'relative',
+              }}
+              disabled={loading}
+            >
+              {loading ? <CircularProgress size={24} sx={{ color: 'white' }} /> : 'Login'}
+            </Button>
+          </form>
 
           {/* Info Box */}
           <Box
