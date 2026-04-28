@@ -1,0 +1,447 @@
+{
+  "info": {
+    "name": "Travel Reimbursement System API",
+    "description": "Complete API collection for Employee Travel Reimbursement System",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080/api",
+      "type": "string"
+    },
+    {
+      "key": "userId",
+      "value": "3",
+      "type": "string"
+    },
+    {
+      "key": "managerId",
+      "value": "2",
+      "type": "string"
+    },
+    {
+      "key": "hrId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "claimId",
+      "value": "1",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/users"
+          }
+        },
+        {
+          "name": "Get User by ID",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/users/1"
+          }
+        },
+        {
+          "name": "Get User by Username",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/users/username/alice"
+          }
+        },
+        {
+          "name": "Create User - HR",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/users",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"alice\",\n  \"email\": \"alice@example.com\",\n  \"firstName\": \"Alice\",\n  \"lastName\": \"Johnson\",\n  \"role\": \"HR\",\n  \"department\": \"Human Resources\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Create User - Manager",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/users",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"bob\",\n  \"email\": \"bob@example.com\",\n  \"firstName\": \"Bob\",\n  \"lastName\": \"Smith\",\n  \"role\": \"MANAGER\",\n  \"department\": \"Engineering\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Create User - Employee",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/users",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"charlie\",\n  \"email\": \"charlie@example.com\",\n  \"firstName\": \"Charlie\",\n  \"lastName\": \"Brown\",\n  \"role\": \"EMPLOYEE\",\n  \"department\": \"Engineering\",\n  \"managerId\": 2\n}"
+            }
+          }
+        },
+        {
+          "name": "Update User",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/users/3",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Charles\",\n  \"lastName\": \"Brown\",\n  \"email\": \"charlie.updated@example.com\",\n  \"department\": \"Sales\",\n  \"active\": true\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Claims",
+      "item": [
+        {
+          "name": "Create Claim (Draft)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/claims?userId={{userId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["claims"],
+              "query": [
+                {
+                  "key": "userId",
+                  "value": "{{userId}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"description\": \"Business trip to New York for client meeting\",\n  \"amount\": 1500.00\n}"
+            }
+          }
+        },
+        {
+          "name": "Submit Claim",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/claims/{{claimId}}/submit?userId={{userId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["claims", "{{claimId}}", "submit"],
+              "query": [
+                {
+                  "key": "userId",
+                  "value": "{{userId}}"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get My Claims",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/claims/my?userId={{userId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["claims", "my"],
+              "query": [
+                {
+                  "key": "userId",
+                  "value": "{{userId}}"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Pending Claims (Manager)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/claims/pending?managerId={{managerId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["claims", "pending"],
+              "query": [
+                {
+                  "key": "managerId",
+                  "value": "{{managerId}}"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Claim Details",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/claims/{{claimId}}"
+          }
+        },
+        {
+          "name": "Approve Claim (Manager)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/claims/{{claimId}}/approve?managerId={{managerId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["claims", "{{claimId}}", "approve"],
+              "query": [
+                {
+                  "key": "managerId",
+                  "value": "{{managerId}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"comments\": \"Approved. Amount looks reasonable and documentation is complete.\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Reject Claim (Manager)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/claims/{{claimId}}/reject?managerId={{managerId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["claims", "{{claimId}}", "reject"],
+              "query": [
+                {
+                  "key": "managerId",
+                  "value": "{{managerId}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"comments\": \"Missing required receipts. Please resubmit with documentation.\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Approve Claim (HR)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/claims/{{claimId}}/hr-approve?hrId={{hrId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["claims", "{{claimId}}", "hr-approve"],
+              "query": [
+                {
+                  "key": "hrId",
+                  "value": "{{hrId}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"comments\": \"Approved for payment processing. Will be paid within 5-7 business days.\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Mark Claim as Paid (HR)",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/claims/{{claimId}}/pay?hrId={{hrId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["claims", "{{claimId}}", "pay"],
+              "query": [
+                {
+                  "key": "hrId",
+                  "value": "{{hrId}}"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Workflow Examples",
+      "item": [
+        {
+          "name": "Complete Workflow - Create to Paid",
+          "item": [
+            {
+              "name": "1. Create Draft Claim",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/claims?userId=3",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["claims"],
+                  "query": [
+                    {
+                      "key": "userId",
+                      "value": "3"
+                    }
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"description\": \"Flight and hotel for conference in Boston\",\n  \"amount\": 2500.00\n}"
+                }
+              }
+            },
+            {
+              "name": "2. Submit for Manager Review",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/claims/1/submit?userId=3",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["claims", "1", "submit"],
+                  "query": [
+                    {
+                      "key": "userId",
+                      "value": "3"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "3. Manager Approves",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/claims/1/approve?managerId=2",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["claims", "1", "approve"],
+                  "query": [
+                    {
+                      "key": "managerId",
+                      "value": "2"
+                    }
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"comments\": \"Conference attendance approved. Important for professional development.\"\n}"
+                }
+              }
+            },
+            {
+              "name": "4. HR Approves",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/claims/1/hr-approve?hrId=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["claims", "1", "hr-approve"],
+                  "query": [
+                    {
+                      "key": "hrId",
+                      "value": "1"
+                    }
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"comments\": \"Ready for payment. Queuing for next payroll cycle.\"\n}"
+                }
+              }
+            },
+            {
+              "name": "5. Mark as Paid",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/claims/1/pay?hrId=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["claims", "1", "pay"],
+                  "query": [
+                    {
+                      "key": "hrId",
+                      "value": "1"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

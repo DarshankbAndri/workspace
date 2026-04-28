@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <!-- Add missing columns to claims table -->
+    <changeSet id="006-add-missing-columns-to-claims" author="admin">
+        <addColumn tableName="claims">
+            <column name="rejection_reason" type="TEXT"/>
+            <column name="approved_at" type="TIMESTAMP"/>
+            <column name="paid_at" type="TIMESTAMP"/>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>

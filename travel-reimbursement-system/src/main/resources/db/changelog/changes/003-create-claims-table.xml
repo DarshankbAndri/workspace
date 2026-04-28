@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="003-create-claims-table" author="admin">
+        <createTable tableName="claims">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="manager_id" type="BIGINT"/>
+            <column name="description" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amount" type="DECIMAL(10,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="claim_status_enum" defaultValue="DRAFT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP" defaultValueDate="NOW()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="submitted_at" type="TIMESTAMP"/>
+            <column name="updated_at" type="TIMESTAMP" defaultValueDate="NOW()">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="003-add-claims-fk" author="admin">
+        <addForeignKeyConstraint constraintName="fk_claims_user_id"
+                                 baseTableName="claims"
+                                 baseColumnNames="user_id"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_claims_manager_id"
+                                 baseTableName="claims"
+                                 baseColumnNames="manager_id"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="003-create-claims-indexes" author="admin">
+        <createIndex indexName="idx_claims_user_id" tableName="claims">
+            <column name="user_id"/>
+        </createIndex>
+        <createIndex indexName="idx_claims_manager_id" tableName="claims">
+            <column name="manager_id"/>
+        </createIndex>
+        <createIndex indexName="idx_claims_status" tableName="claims">
+            <column name="status"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="001-create-user-role-enum" author="admin">
+        <sql splitStatements="false">CREATE TYPE user_role_enum AS ENUM ('EMPLOYEE', 'MANAGER', 'HR');</sql>
+    </changeSet>
+
+    <changeSet id="001-create-claim-status-enum" author="admin">
+        <sql splitStatements="false">CREATE TYPE claim_status_enum AS ENUM ('DRAFT', 'PENDING_MANAGER_APPROVAL', 'MANAGER_APPROVED', 'PENDING_HR_APPROVAL', 'HR_APPROVED', 'PAID', 'REJECTED');</sql>
+    </changeSet>
+
+    <changeSet id="001-create-approval-status-enum" author="admin">
+        <sql splitStatements="false">CREATE TYPE approval_status_enum AS ENUM ('PENDING', 'APPROVED', 'REJECTED');</sql>
+    </changeSet>
+
+</databaseChangeLog>
