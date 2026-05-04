@@ -9,6 +9,6 @@
     <include file="db/changelog/changes/003-create-claims-table.xml"/>
     <include file="db/changelog/changes/004-create-approvals-table.xml"/>
     <include file="db/changelog/changes/005-insert-sample-data.xml"/>
-    <include file="db/changelog/changes/006-migrate-enum-columns-to-varchar.xml"/>
+    <include file="db/changelog/changes/006-add-claim-basics-and-expense-tables.xml"/>
 
 </databaseChangeLog>

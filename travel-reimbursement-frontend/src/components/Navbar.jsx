@@ -1,8 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  AppBar,
-  Toolbar,
   Typography,
   Button,
   Menu,
@@ -10,14 +8,20 @@ import {
   Avatar,
   Box,
   Divider,
+  IconButton,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
-import { AccountCircle, LogoutOutlined } from '@mui/icons-material';
+import { AccountCircle, LogoutOutlined, Menu as MenuIcon } from '@mui/icons-material';
 import { useAuth } from '../context/AuthContext';
 
 function Navbar() {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [navAnchorEl, setNavAnchorEl] = React.useState(null);
 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -25,6 +29,14 @@ function Navbar() {
 
   const handleMenuClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleNavMenuOpen = (event) => {
+    setNavAnchorEl(event.currentTarget);
+  };
+
+  const handleNavMenuClose = () => {
+    setNavAnchorEl(null);
   };
 
   const handleLogout = () => {
@@ -36,6 +48,47 @@ function Navbar() {
   const handleNavigation = (path) => {
     navigate(path);
     handleMenuClose();
+    handleNavMenuClose();
+  };
+
+  const navButtonStyles = {
+    fontSize: '0.9rem',
+    fontWeight: 500,
+    color: 'white',
+    position: 'relative',
+    transition: 'all 0.3s ease',
+    '&:hover': {
+      backgroundColor: 'rgba(255,255,255,0.15)',
+      transform: 'translateY(-2px)',
+    },
+    '&::after': {
+      content: '""',
+      position: 'absolute',
+      bottom: 0,
+      left: 0,
+      width: '0%',
+      height: '2px',
+      backgroundColor: '#ffc107',
+      transition: 'width 0.3s ease',
+    },
+    '&:hover::after': {
+      width: '100%',
+    },
+  };
+
+  const createUserButtonStyles = {
+    fontSize: '0.9rem',
+    fontWeight: 700,
+    color: '#ffc107',
+    backgroundColor: 'rgba(255,193,7,0.15)',
+    padding: '6px 16px',
+    borderRadius: '4px',
+    transition: 'all 0.3s ease',
+    '&:hover': {
+      backgroundColor: 'rgba(255,193,7,0.3)',
+      transform: 'translateY(-2px)',
+      boxShadow: '0 4px 12px rgba(255,193,7,0.3)',
+    },
   };
 
   // SVG Curved border between white and blue
@@ -67,8 +120,9 @@ function Navbar() {
       <Box
         sx={{
           display: 'flex',
+          flexDirection: { xs: 'column', md: 'row' },
           position: 'relative',
-          height: '70px',
+          height: { xs: 'auto', md: '70px' },
           zIndex: 10,
           boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
           overflow: 'visible',
@@ -77,12 +131,11 @@ function Navbar() {
         {/* White Section (20% with curved right edge) */}
         <Box
           sx={{
-            width: '22%',
+            width: { xs: '100%', md: '22%' },
             backgroundColor: 'white',
             display: 'flex',
             alignItems: 'center',
-            paddingLeft: 3,
-            paddingRight: 2,
+            padding: { xs: 2, md: '0 24px' },
             position: 'relative',
             zIndex: 2,
           }}
@@ -147,201 +200,109 @@ function Navbar() {
         {/* Light Blue Section (78% - adjusted for curved border) */}
         <Box
           sx={{
-            width: '78%',
+            width: { xs: '100%', md: '78%' },
             background: 'linear-gradient(135deg, #1565c0 0%, #003da5 100%)',
             display: 'flex',
-            alignItems: 'center',
+            flexDirection: { xs: 'column', md: 'row' },
+            alignItems: { xs: 'flex-start', md: 'center' },
             justifyContent: 'space-between',
-            paddingLeft: 4,
-            paddingRight: 3,
+            padding: { xs: 2, md: 0 },
+            gap: { xs: 1, md: 0 },
             position: 'relative',
             zIndex: 1,
           }}
         >
           {/* Center Navigation Links */}
-          <Box sx={{ display: 'flex', gap: 1, flexGrow: 1 }}>
-            <Button
-              color="inherit"
-              sx={{
-                fontSize: '0.9rem',
-                fontWeight: 500,
-                color: 'white',
-                position: 'relative',
-                transition: 'all 0.3s ease',
-                '&:hover': {
-                  backgroundColor: 'rgba(255,255,255,0.15)',
-                  transform: 'translateY(-2px)',
-                },
-                '&::after': {
-                  content: '""',
-                  position: 'absolute',
-                  bottom: 0,
-                  left: 0,
-                  width: '0%',
-                  height: '2px',
-                  backgroundColor: '#ffc107',
-                  transition: 'width 0.3s ease',
-                },
-                '&:hover::after': {
-                  width: '100%',
-                },
-              }}
-              onClick={() => navigate('/dashboard')}
-            >
-              Dashboard
-            </Button>
-            <Button
-              color="inherit"
-              sx={{
-                fontSize: '0.9rem',
-                fontWeight: 500,
-                color: 'white',
-                position: 'relative',
-                transition: 'all 0.3s ease',
-                '&:hover': {
-                  backgroundColor: 'rgba(255,255,255,0.15)',
-                  transform: 'translateY(-2px)',
-                },
-                '&::after': {
-                  content: '""',
-                  position: 'absolute',
-                  bottom: 0,
-                  left: 0,
-                  width: '0%',
-                  height: '2px',
-                  backgroundColor: '#ffc107',
-                  transition: 'width 0.3s ease',
-                },
-                '&:hover::after': {
-                  width: '100%',
-                },
-              }}
-              onClick={() => navigate('/create-claim')}
-            >
-              New Claim
-            </Button>
-            <Button
-              color="inherit"
-              sx={{
-                fontSize: '0.9rem',
-                fontWeight: 500,
-                color: 'white',
-                position: 'relative',
-                transition: 'all 0.3s ease',
-                '&:hover': {
-                  backgroundColor: 'rgba(255,255,255,0.15)',
-                  transform: 'translateY(-2px)',
-                },
-                '&::after': {
-                  content: '""',
-                  position: 'absolute',
-                  bottom: 0,
-                  left: 0,
-                  width: '0%',
-                  height: '2px',
-                  backgroundColor: '#ffc107',
-                  transition: 'width 0.3s ease',
-                },
-                '&:hover::after': {
-                  width: '100%',
-                },
-              }}
-              onClick={() => navigate('/my-claims')}
-            >
-              My Claims
-            </Button>
-
-            {user?.role === 'MANAGER' && (
-              <Button
-                color="inherit"
-                sx={{
-                  fontSize: '0.9rem',
-                  fontWeight: 500,
-                  color: 'white',
-                  position: 'relative',
-                  transition: 'all 0.3s ease',
-                  '&:hover': {
-                    backgroundColor: 'rgba(255,255,255,0.15)',
-                    transform: 'translateY(-2px)',
-                  },
-                  '&::after': {
-                    content: '""',
-                    position: 'absolute',
-                    bottom: 0,
-                    left: 0,
-                    width: '0%',
-                    height: '2px',
-                    backgroundColor: '#ffc107',
-                    transition: 'width 0.3s ease',
-                  },
-                  '&:hover::after': {
-                    width: '100%',
-                  },
-                }}
-                onClick={() => navigate('/approvals')}
-              >
-                Approvals
-              </Button>
-            )}
-
-            {user?.role === 'HR' && (
+          <Box sx={{ display: 'flex', gap: 1, flexGrow: 1, flexWrap: 'wrap', alignItems: 'center' }}>
+            {!isMobile ? (
               <>
                 <Button
                   color="inherit"
-                  sx={{
-                    fontSize: '0.9rem',
-                    fontWeight: 500,
-                    color: 'white',
-                    position: 'relative',
-                    transition: 'all 0.3s ease',
-                    '&:hover': {
-                      backgroundColor: 'rgba(255,255,255,0.15)',
-                      transform: 'translateY(-2px)',
-                    },
-                    '&::after': {
-                      content: '""',
-                      position: 'absolute',
-                      bottom: 0,
-                      left: 0,
-                      width: '0%',
-                      height: '2px',
-                      backgroundColor: '#ffc107',
-                      transition: 'width 0.3s ease',
-                    },
-                    '&:hover::after': {
-                      width: '100%',
-                    },
-                  }}
-                  onClick={() => navigate('/payments')}
+                  sx={navButtonStyles}
+                  onClick={() => navigate('/dashboard')}
                 >
-                  Payments
+                  Dashboard
                 </Button>
                 <Button
                   color="inherit"
-                  sx={{
-                    fontSize: '0.9rem',
-                    fontWeight: 700,
-                    color: '#ffc107',
-                    backgroundColor: 'rgba(255,193,7,0.15)',
-                    padding: '6px 16px',
-                    borderRadius: '4px',
-                    transition: 'all 0.3s ease',
-                    '&:hover': {
-                      backgroundColor: 'rgba(255,193,7,0.3)',
-                      transform: 'translateY(-2px)',
-                      boxShadow: '0 4px 12px rgba(255,193,7,0.3)',
-                    },
-                  }}
-                  onClick={() => navigate('/create-user')}
+                  sx={navButtonStyles}
+                  onClick={() => navigate('/create-claim')}
                 >
-                  ➕ Create User
+                  New Claim
                 </Button>
+                <Button
+                  color="inherit"
+                  sx={navButtonStyles}
+                  onClick={() => navigate('/my-claims')}
+                >
+                  My Claims
+                </Button>
+
+                {user?.role === 'MANAGER' && (
+                  <Button
+                    color="inherit"
+                    sx={navButtonStyles}
+                    onClick={() => navigate('/approvals')}
+                  >
+                    Approvals
+                  </Button>
+                )}
+
+                {user?.role === 'HR' && (
+                  <>
+                    <Button
+                      color="inherit"
+                      sx={navButtonStyles}
+                      onClick={() => navigate('/payments')}
+                    >
+                      Payments
+                    </Button>
+                    <Button
+                      color="inherit"
+                      sx={createUserButtonStyles}
+                      onClick={() => navigate('/create-user')}
+                    >
+                      ➕ Create User
+                    </Button>
+                  </>
+                )}
+              </>
+            ) : (
+              <>
+                <IconButton
+                  color="inherit"
+                  onClick={handleNavMenuOpen}
+                  sx={{ ml: 'auto' }}
+                  aria-label="Open navigation menu"
+                >
+                  <MenuIcon sx={{ color: 'white' }} />
+                </IconButton>
+                <Menu
+                  anchorEl={navAnchorEl}
+                  open={Boolean(navAnchorEl)}
+                  onClose={handleNavMenuClose}
+                  anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                  transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                >
+                  <MenuItem onClick={() => handleNavigation('/dashboard')}>Dashboard</MenuItem>
+                  <MenuItem onClick={() => handleNavigation('/create-claim')}>New Claim</MenuItem>
+                  <MenuItem onClick={() => handleNavigation('/my-claims')}>My Claims</MenuItem>
+                  {user?.role === 'MANAGER' && (
+                    <MenuItem onClick={() => handleNavigation('/approvals')}>Approvals</MenuItem>
+                  )}
+                  {user?.role === 'HR' && (
+                    <>
+                      <MenuItem onClick={() => handleNavigation('/payments')}>Payments</MenuItem>
+                      <MenuItem onClick={() => handleNavigation('/create-user')}>Create User</MenuItem>
+                    </>
+                  )}
+                </Menu>
               </>
             )}
           </Box>
 
           {/* Right side - User menu */}
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, marginLeft: 'auto' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, marginLeft: 'auto', mt: { xs: 1, md: 0 } }}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
               <Avatar
                 sx={{

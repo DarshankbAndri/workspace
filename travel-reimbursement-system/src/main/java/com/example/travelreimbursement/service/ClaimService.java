@@ -1,6 +1,12 @@
 package com.example.travelreimbursement.service;
 
 import com.example.travelreimbursement.dto.ClaimDTO;
+import com.example.travelreimbursement.dto.DailySummaryDTO;
+import com.example.travelreimbursement.dto.HotelDTO;
+import com.example.travelreimbursement.dto.MiscellaneousDTO;
+import com.example.travelreimbursement.dto.OtherExpenseDTO;
+import com.example.travelreimbursement.dto.TelephoneDTO;
+import com.example.travelreimbursement.dto.TaxiDTO;
 import com.example.travelreimbursement.entity.*;
 import com.example.travelreimbursement.exception.InvalidOperationException;
 import com.example.travelreimbursement.exception.ResourceNotFoundException;
@@ -11,7 +17,9 @@ import com.example.travelreimbursement.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,17 +41,40 @@ public class ClaimService {
     public ClaimDTO createClaim(Long userId, ClaimDTO claimDTO) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
-        
+
         Claim claim = new Claim();
         claim.setUser(user);
-        claim.setDescription(claimDTO.getDescription());
-        claim.setAmount(claimDTO.getAmount());
+        claim.setProjectName(claimDTO.getProjectName());
+        claim.setTravelPurpose(claimDTO.getTravelPurpose());
+        claim.setTravelFromDate(claimDTO.getTravelFromDate());
+        claim.setTravelFromTime(claimDTO.getTravelFromTime());
+        claim.setTravelToDate(claimDTO.getTravelToDate());
+        claim.setTravelToTime(claimDTO.getTravelToTime());
+        claim.setFromLocation(claimDTO.getFromLocation());
+        claim.setToLocation(claimDTO.getToLocation());
+        claim.setDescription(claimDTO.getDescription() != null && !claimDTO.getDescription().isBlank()
+                ? claimDTO.getDescription()
+                : (claimDTO.getTravelPurpose() != null && !claimDTO.getTravelPurpose().isBlank()
+                    ? claimDTO.getTravelPurpose()
+                    : claimDTO.getProjectName()));
+
+        BigDecimal totalAmount = calculateTotalAmount(claimDTO);
+        claim.setAmount(totalAmount.compareTo(BigDecimal.ZERO) > 0
+                ? totalAmount
+                : (claimDTO.getAmount() != null ? claimDTO.getAmount() : BigDecimal.ZERO));
         claim.setStatus(ClaimStatus.DRAFT);
-        
+
         if (user.getManager() != null) {
             claim.setManager(user.getManager());
         }
-        
+
+        claim.setDailySummaryEntries(mapDailySummaryEntries(claimDTO.getDailySummary(), claim));
+        claim.setHotelEntries(mapHotelEntries(claimDTO.getHotel(), claim));
+        claim.setTelephoneEntries(mapTelephoneEntries(claimDTO.getTelephone(), claim));
+        claim.setTaxiEntries(mapTaxiEntries(claimDTO.getTaxi(), claim));
+        claim.setMiscellaneousEntries(mapMiscellaneousEntries(claimDTO.getMiscellaneous(), claim));
+        claim.setOtherExpenseEntries(mapOtherExpenseEntries(claimDTO.getOtherExpenses(), claim));
+
         Claim savedClaim = claimRepository.save(claim);
         return convertToDTO(savedClaim);
     }
@@ -249,17 +280,275 @@ public class ClaimService {
     private ClaimDTO convertToDTO(Claim claim) {
         return new ClaimDTO(
                 claim.getId(),
+                claim.getProjectName(),
+                claim.getTravelPurpose(),
+                claim.getTravelFromDate(),
+                claim.getTravelFromTime(),
+                claim.getTravelToDate(),
+                claim.getTravelToTime(),
+                claim.getFromLocation(),
+                claim.getToLocation(),
                 claim.getDescription(),
                 claim.getAmount(),
                 claim.getStatus(),
                 claim.getRejectionReason(),
                 claim.getUser().getId(),
                 claim.getManager() != null ? claim.getManager().getId() : null,
+                mapDailySummaryToDTO(claim.getDailySummaryEntries()),
+                mapHotelToDTO(claim.getHotelEntries()),
+                mapTelephoneToDTO(claim.getTelephoneEntries()),
+                mapTaxiToDTO(claim.getTaxiEntries()),
+                mapMiscellaneousToDTO(claim.getMiscellaneousEntries()),
+                mapOtherExpensesToDTO(claim.getOtherExpenseEntries()),
                 claim.getCreatedAt(),
                 claim.getSubmittedAt(),
                 claim.getApprovedAt(),
                 claim.getPaidAt(),
                 claim.getUpdatedAt()
         );
+    }
+
+    private BigDecimal calculateTotalAmount(ClaimDTO claimDTO) {
+        BigDecimal total = BigDecimal.ZERO;
+        total = total.add(sumSection(claimDTO.getDailySummary()));
+        total = total.add(sumSection(claimDTO.getHotel()));
+        total = total.add(sumSection(claimDTO.getTelephone()));
+        total = total.add(sumSection(claimDTO.getTaxi()));
+        total = total.add(sumSection(claimDTO.getMiscellaneous()));
+        total = total.add(sumSection(claimDTO.getOtherExpenses()));
+        return total;
+    }
+
+    private BigDecimal sumSection(List<? extends Object> entries) {
+        if (entries == null) {
+            return BigDecimal.ZERO;
+        }
+        return entries.stream()
+                .map(entry -> {
+                    if (entry instanceof DailySummaryDTO) {
+                        return getLineTotal(((DailySummaryDTO) entry).getAmount(), ((DailySummaryDTO) entry).getDays());
+                    }
+                    if (entry instanceof HotelDTO) {
+                        return getLineTotal(((HotelDTO) entry).getAmount(), ((HotelDTO) entry).getDays());
+                    }
+                    if (entry instanceof TelephoneDTO) {
+                        return getLineTotal(((TelephoneDTO) entry).getAmount(), ((TelephoneDTO) entry).getDays());
+                    }
+                    if (entry instanceof TaxiDTO) {
+                        return getLineTotal(((TaxiDTO) entry).getAmount(), ((TaxiDTO) entry).getDays());
+                    }
+                    if (entry instanceof MiscellaneousDTO) {
+                        return getLineTotal(((MiscellaneousDTO) entry).getAmount(), ((MiscellaneousDTO) entry).getDays());
+                    }
+                    if (entry instanceof OtherExpenseDTO) {
+                        return getLineTotal(((OtherExpenseDTO) entry).getAmount(), ((OtherExpenseDTO) entry).getDays());
+                    }
+                    return BigDecimal.ZERO;
+                })
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    private BigDecimal getLineTotal(BigDecimal amount, Integer days) {
+        BigDecimal normalizedAmount = amount == null ? BigDecimal.ZERO : amount;
+        BigDecimal normalizedDays = days == null ? BigDecimal.ZERO : BigDecimal.valueOf(days);
+        return normalizedAmount.multiply(normalizedDays);
+    }
+
+    private List<DailySummaryEntry> mapDailySummaryEntries(List<DailySummaryDTO> dtos, Claim claim) {
+        if (dtos == null) {
+            return new ArrayList<>();
+        }
+        return dtos.stream()
+                .map(dto -> {
+                    DailySummaryEntry entry = new DailySummaryEntry();
+                    entry.setClaim(claim);
+                    entry.setDescription(dto.getDescription());
+                    entry.setAmount(dto.getAmount());
+                    entry.setDays(dto.getDays());
+                    entry.setTotal(getLineTotal(dto.getAmount(), dto.getDays()));
+                    return entry;
+                })
+                .collect(Collectors.toList());
+    }
+
+    private List<HotelEntry> mapHotelEntries(List<HotelDTO> dtos, Claim claim) {
+        if (dtos == null) {
+            return new ArrayList<>();
+        }
+        return dtos.stream()
+                .map(dto -> {
+                    HotelEntry entry = new HotelEntry();
+                    entry.setClaim(claim);
+                    entry.setDescription(dto.getDescription());
+                    entry.setAmount(dto.getAmount());
+                    entry.setDays(dto.getDays());
+                    entry.setTotal(getLineTotal(dto.getAmount(), dto.getDays()));
+                    return entry;
+                })
+                .collect(Collectors.toList());
+    }
+
+    private List<TelephoneEntry> mapTelephoneEntries(List<TelephoneDTO> dtos, Claim claim) {
+        if (dtos == null) {
+            return new ArrayList<>();
+        }
+        return dtos.stream()
+                .map(dto -> {
+                    TelephoneEntry entry = new TelephoneEntry();
+                    entry.setClaim(claim);
+                    entry.setDescription(dto.getDescription());
+                    entry.setAmount(dto.getAmount());
+                    entry.setDays(dto.getDays());
+                    entry.setTotal(getLineTotal(dto.getAmount(), dto.getDays()));
+                    return entry;
+                })
+                .collect(Collectors.toList());
+    }
+
+    private List<TaxiEntry> mapTaxiEntries(List<TaxiDTO> dtos, Claim claim) {
+        if (dtos == null) {
+            return new ArrayList<>();
+        }
+        return dtos.stream()
+                .map(dto -> {
+                    TaxiEntry entry = new TaxiEntry();
+                    entry.setClaim(claim);
+                    entry.setDescription(dto.getDescription());
+                    entry.setAmount(dto.getAmount());
+                    entry.setDays(dto.getDays());
+                    entry.setTotal(getLineTotal(dto.getAmount(), dto.getDays()));
+                    return entry;
+                })
+                .collect(Collectors.toList());
+    }
+
+    private List<MiscellaneousEntry> mapMiscellaneousEntries(List<MiscellaneousDTO> dtos, Claim claim) {
+        if (dtos == null) {
+            return new ArrayList<>();
+        }
+        return dtos.stream()
+                .map(dto -> {
+                    MiscellaneousEntry entry = new MiscellaneousEntry();
+                    entry.setClaim(claim);
+                    entry.setDescription(dto.getDescription());
+                    entry.setAmount(dto.getAmount());
+                    entry.setDays(dto.getDays());
+                    entry.setTotal(getLineTotal(dto.getAmount(), dto.getDays()));
+                    return entry;
+                })
+                .collect(Collectors.toList());
+    }
+
+    private List<OtherExpenseEntry> mapOtherExpenseEntries(List<OtherExpenseDTO> dtos, Claim claim) {
+        if (dtos == null) {
+            return new ArrayList<>();
+        }
+        return dtos.stream()
+                .map(dto -> {
+                    OtherExpenseEntry entry = new OtherExpenseEntry();
+                    entry.setClaim(claim);
+                    entry.setDescription(dto.getDescription());
+                    entry.setAmount(dto.getAmount());
+                    entry.setDays(dto.getDays());
+                    entry.setTotal(getLineTotal(dto.getAmount(), dto.getDays()));
+                    return entry;
+                })
+                .collect(Collectors.toList());
+    }
+
+    private List<DailySummaryDTO> mapDailySummaryToDTO(List<DailySummaryEntry> entries) {
+        if (entries == null) {
+            return new ArrayList<>();
+        }
+        return entries.stream()
+                .map(entry -> {
+                    DailySummaryDTO dto = new DailySummaryDTO();
+                    dto.setDescription(entry.getDescription());
+                    dto.setAmount(entry.getAmount());
+                    dto.setDays(entry.getDays());
+                    dto.setTotal(entry.getTotal());
+                    return dto;
+                })
+                .collect(Collectors.toList());
+    }
+
+    private List<HotelDTO> mapHotelToDTO(List<HotelEntry> entries) {
+        if (entries == null) {
+            return new ArrayList<>();
+        }
+        return entries.stream()
+                .map(entry -> {
+                    HotelDTO dto = new HotelDTO();
+                    dto.setDescription(entry.getDescription());
+                    dto.setAmount(entry.getAmount());
+                    dto.setDays(entry.getDays());
+                    dto.setTotal(entry.getTotal());
+                    return dto;
+                })
+                .collect(Collectors.toList());
+    }
+
+    private List<TelephoneDTO> mapTelephoneToDTO(List<TelephoneEntry> entries) {
+        if (entries == null) {
+            return new ArrayList<>();
+        }
+        return entries.stream()
+                .map(entry -> {
+                    TelephoneDTO dto = new TelephoneDTO();
+                    dto.setDescription(entry.getDescription());
+                    dto.setAmount(entry.getAmount());
+                    dto.setDays(entry.getDays());
+                    dto.setTotal(entry.getTotal());
+                    return dto;
+                })
+                .collect(Collectors.toList());
+    }
+
+    private List<TaxiDTO> mapTaxiToDTO(List<TaxiEntry> entries) {
+        if (entries == null) {
+            return new ArrayList<>();
+        }
+        return entries.stream()
+                .map(entry -> {
+                    TaxiDTO dto = new TaxiDTO();
+                    dto.setDescription(entry.getDescription());
+                    dto.setAmount(entry.getAmount());
+                    dto.setDays(entry.getDays());
+                    dto.setTotal(entry.getTotal());
+                    return dto;
+                })
+                .collect(Collectors.toList());
+    }
+
+    private List<MiscellaneousDTO> mapMiscellaneousToDTO(List<MiscellaneousEntry> entries) {
+        if (entries == null) {
+            return new ArrayList<>();
+        }
+        return entries.stream()
+                .map(entry -> {
+                    MiscellaneousDTO dto = new MiscellaneousDTO();
+                    dto.setDescription(entry.getDescription());
+                    dto.setAmount(entry.getAmount());
+                    dto.setDays(entry.getDays());
+                    dto.setTotal(entry.getTotal());
+                    return dto;
+                })
+                .collect(Collectors.toList());
+    }
+
+    private List<OtherExpenseDTO> mapOtherExpensesToDTO(List<OtherExpenseEntry> entries) {
+        if (entries == null) {
+            return new ArrayList<>();
+        }
+        return entries.stream()
+                .map(entry -> {
+                    OtherExpenseDTO dto = new OtherExpenseDTO();
+                    dto.setDescription(entry.getDescription());
+                    dto.setAmount(entry.getAmount());
+                    dto.setDays(entry.getDays());
+                    dto.setTotal(entry.getTotal());
+                    return dto;
+                })
+                .collect(Collectors.toList());
     }
 }

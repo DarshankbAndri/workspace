@@ -18,12 +18,13 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
+  TextField,
 } from '@mui/material';
-import { PaymentOutlined } from '@mui/icons-material';
+import { CheckCircle, Cancel } from '@mui/icons-material';
 import { useAuth } from '../context/AuthContext';
-import { getPendingClaimsByManager, markClaimAsPaid } from '../services/api';
+import { getPendingClaimsByManager, approveClaim, rejectClaim } from '../services/api';
 
-function HRPaymentPage() {
+function ManagerApprovalPage() {
   const { user } = useAuth();
   const [claims, setClaims] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -31,79 +32,85 @@ function HRPaymentPage() {
   const [successMessage, setSuccessMessage] = useState('');
   const [selectedClaim, setSelectedClaim] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
+  const [dialogAction, setDialogAction] = useState(null); // 'approve' or 'reject'
+  const [comments, setComments] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    fetchApprovedClaims();
+    fetchPendingClaims();
   }, []);
 
-  const fetchApprovedClaims = async () => {
+  const fetchPendingClaims = async () => {
     try {
       setLoading(true);
-      // For HR, we'll get all pending manager approval claims (those ready to be marked as paid)
-      // In a real app, we'd have a specific endpoint for HR-level claims
-      const response = await getPendingClaimsByManager(user.userId);
-      // Filter for APPROVED status (those that are ready to be paid)
-      // For demo purposes, we'll show all
+      const response = await getPendingClaimsByManager(user.id);
       setClaims(response.data);
       setError('');
     } catch (err) {
-      setError('Failed to load claims. Please try again.');
+      setError('Failed to load pending claims. Please try again.');
       console.error('Error fetching claims:', err);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleOpenPaymentDialog = (claim) => {
+  const handleOpenApprovalDialog = (claim, action) => {
     setSelectedClaim(claim);
+    setDialogAction(action);
+    setComments('');
     setOpenDialog(true);
   };
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
     setSelectedClaim(null);
+    setDialogAction(null);
+    setComments('');
   };
 
-  const handleMarkAsPaid = async () => {
+  const handleApprove = async () => {
+    if (!comments.trim()) {
+      setError('Please add comments before approving');
+      return;
+    }
+
     setSubmitting(true);
     try {
-      await markClaimAsPaid(selectedClaim.id, user.userId);
-      setSuccessMessage(`✅ Claim #${selectedClaim.id} marked as paid!`);
+      await approveClaim(selectedClaim.id, user.id, { comments });
+      setSuccessMessage('✅ Claim approved successfully!');
       handleCloseDialog();
       setTimeout(() => {
-        fetchApprovedClaims();
+        fetchPendingClaims();
         setSuccessMessage('');
       }, 1500);
     } catch (err) {
-      setError('Failed to mark claim as paid. Please try again.');
+      setError('Failed to approve claim. Please try again.');
     } finally {
       setSubmitting(false);
     }
   };
 
-  const getStatusColor = (status) => {
-    const statusColors = {
-      APPROVED: 'success',
-      MANAGER_APPROVED: 'warning',
-      PAID: 'success',
-      REJECTED: 'error',
-    };
-    return statusColors[status] || 'default';
-  };
+  const handleReject = async () => {
+    if (!comments.trim()) {
+      setError('Please add rejection reason');
+      return;
+    }
 
-  const getStatusLabel = (status) => {
-    const labels = {
-      APPROVED: 'Approved',
-      MANAGER_APPROVED: 'Manager Approved',
-      PAID: 'Paid',
-      REJECTED: 'Rejected',
-    };
-    return labels[status] || status;
+    setSubmitting(true);
+    try {
+      await rejectClaim(selectedClaim.id, user.id, { comments });
+      setSuccessMessage('❌ Claim rejected');
+      handleCloseDialog();
+      setTimeout(() => {
+        fetchPendingClaims();
+        setSuccessMessage('');
+      }, 1500);
+    } catch (err) {
+      setError('Failed to reject claim. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
   };
-
-  // Filter for APPROVED claims only
-  const approvedClaims = claims.filter((claim) => claim.status === 'APPROVED' || claim.status === 'MANAGER_APPROVED');
 
   return (
     <Box sx={{ minHeight: '100vh', backgroundColor: '#f5f5f5', paddingY: 4 }}>
@@ -111,10 +118,10 @@ function HRPaymentPage() {
         {/* Header */}
         <Box sx={{ marginBottom: 3 }}>
           <Typography variant="h4" sx={{ fontWeight: 'bold', marginBottom: 1 }}>
-            Payment Processing
+            Pending Approvals
           </Typography>
           <Typography variant="subtitle1" sx={{ color: 'text.secondary' }}>
-            Mark approved claims as paid
+            Review and approve travel reimbursement claims from your team
           </Typography>
         </Box>
 
@@ -130,38 +137,16 @@ function HRPaymentPage() {
           </Alert>
         )}
 
-        {/* Stats */}
-        <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr 1fr' }, gap: 2, marginBottom: 3 }}>
-          <Paper sx={{ padding: 2, textAlign: 'center' }}>
-            <Typography variant="h6" sx={{ fontWeight: 'bold', color: '#ff9800' }}>
-              {approvedClaims.length}
-            </Typography>
-            <Typography variant="caption">Ready for Payment</Typography>
-          </Paper>
-          <Paper sx={{ padding: 2, textAlign: 'center' }}>
-            <Typography variant="h6" sx={{ fontWeight: 'bold', color: '#4caf50' }}>
-              ${approvedClaims.reduce((sum, claim) => sum + (claim.amount || 0), 0).toFixed(2)}
-            </Typography>
-            <Typography variant="caption">Total Amount</Typography>
-          </Paper>
-          <Paper sx={{ padding: 2, textAlign: 'center' }}>
-            <Typography variant="h6" sx={{ fontWeight: 'bold', color: '#2196f3' }}>
-              {claims.filter((c) => c.status === 'PAID').length}
-            </Typography>
-            <Typography variant="caption">Already Paid</Typography>
-          </Paper>
-        </Box>
-
         {/* Table */}
         <TableContainer component={Paper}>
           {loading ? (
             <Box sx={{ display: 'flex', justifyContent: 'center', padding: 4 }}>
               <CircularProgress />
             </Box>
-          ) : approvedClaims.length === 0 ? (
+          ) : claims.length === 0 ? (
             <Box sx={{ padding: 4, textAlign: 'center' }}>
               <Typography variant="body1" sx={{ color: 'text.secondary' }}>
-                No claims ready for payment processing
+                No pending claims for approval
               </Typography>
             </Box>
           ) : (
@@ -172,13 +157,12 @@ function HRPaymentPage() {
                   <TableCell sx={{ fontWeight: 'bold' }}>Employee</TableCell>
                   <TableCell sx={{ fontWeight: 'bold' }}>Description</TableCell>
                   <TableCell align="right" sx={{ fontWeight: 'bold' }}>Amount</TableCell>
-                  <TableCell sx={{ fontWeight: 'bold' }}>Status</TableCell>
-                  <TableCell sx={{ fontWeight: 'bold' }}>Approved Date</TableCell>
-                  <TableCell align="center" sx={{ fontWeight: 'bold' }}>Action</TableCell>
+                  <TableCell sx={{ fontWeight: 'bold' }}>Submitted</TableCell>
+                  <TableCell align="center" sx={{ fontWeight: 'bold' }}>Actions</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {approvedClaims.map((claim) => (
+                {claims.map((claim) => (
                   <TableRow key={claim.id} sx={{ '&:hover': { backgroundColor: '#f9f9f9' } }}>
                     <TableCell>#{claim.id}</TableCell>
                     <TableCell>
@@ -195,31 +179,31 @@ function HRPaymentPage() {
                       </Typography>
                     </TableCell>
                     <TableCell>
-                      <Chip
-                        label={getStatusLabel(claim.status)}
-                        color={getStatusColor(claim.status)}
-                        size="small"
-                      />
-                    </TableCell>
-                    <TableCell>
                       <Typography variant="caption">
-                        {claim.approvedAt ? new Date(claim.approvedAt).toLocaleDateString() : '-'}
+                        {claim.submittedAt ? new Date(claim.submittedAt).toLocaleDateString() : '-'}
                       </Typography>
                     </TableCell>
                     <TableCell align="center">
-                      {claim.status !== 'PAID' ? (
+                      <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center' }}>
                         <Button
                           size="small"
                           variant="contained"
                           color="success"
-                          startIcon={<PaymentOutlined />}
-                          onClick={() => handleOpenPaymentDialog(claim)}
+                          startIcon={<CheckCircle />}
+                          onClick={() => handleOpenApprovalDialog(claim, 'approve')}
                         >
-                          Mark Paid
+                          Approve
                         </Button>
-                      ) : (
-                        <Chip label="Paid" color="success" size="small" />
-                      )}
+                        <Button
+                          size="small"
+                          variant="outlined"
+                          color="error"
+                          startIcon={<Cancel />}
+                          onClick={() => handleOpenApprovalDialog(claim, 'reject')}
+                        >
+                          Reject
+                        </Button>
+                      </Box>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -228,19 +212,13 @@ function HRPaymentPage() {
           )}
         </TableContainer>
 
-        {/* Payment Dialog */}
+        {/* Approval Dialog */}
         <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
           <DialogTitle sx={{ fontWeight: 'bold' }}>
-            💳 Mark Claim as Paid
+            {dialogAction === 'approve' ? '✅ Approve' : '❌ Reject'} Claim #{selectedClaim?.id}
           </DialogTitle>
           <DialogContent sx={{ paddingTop: 2 }}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-              <Box>
-                <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-                  Claim ID
-                </Typography>
-                <Typography variant="body2">#{selectedClaim?.id}</Typography>
-              </Box>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, marginBottom: 2 }}>
               <Box>
                 <Typography variant="caption" sx={{ color: 'text.secondary' }}>
                   Employee
@@ -253,7 +231,7 @@ function HRPaymentPage() {
                 <Typography variant="caption" sx={{ color: 'text.secondary' }}>
                   Amount
                 </Typography>
-                <Typography variant="h6" sx={{ fontWeight: 'bold', color: '#4caf50' }}>
+                <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
                   ${selectedClaim?.amount?.toFixed(2)}
                 </Typography>
               </Box>
@@ -263,25 +241,35 @@ function HRPaymentPage() {
                 </Typography>
                 <Typography variant="body2">{selectedClaim?.description}</Typography>
               </Box>
-              <Paper sx={{ padding: 2, backgroundColor: '#e8f5e9', border: '1px solid #81c784' }}>
-                <Typography variant="caption" sx={{ color: '#2e7d32' }}>
-                  <strong>✓</strong> Once marked as paid, the claim status will be updated and the employee will be notified.
-                </Typography>
-              </Paper>
             </Box>
+
+            <TextField
+              fullWidth
+              multiline
+              rows={4}
+              label={dialogAction === 'approve' ? 'Approval Comments' : 'Rejection Reason'}
+              value={comments}
+              onChange={(e) => setComments(e.target.value)}
+              placeholder={
+                dialogAction === 'approve'
+                  ? 'Add your approval comments...'
+                  : 'Explain why you are rejecting this claim...'
+              }
+              disabled={submitting}
+            />
           </DialogContent>
           <DialogActions>
             <Button onClick={handleCloseDialog} disabled={submitting}>
               Cancel
             </Button>
             <Button
-              onClick={handleMarkAsPaid}
+              onClick={dialogAction === 'approve' ? handleApprove : handleReject}
               variant="contained"
-              color="success"
+              color={dialogAction === 'approve' ? 'success' : 'error'}
               disabled={submitting}
             >
               {submitting ? <CircularProgress size={20} sx={{ marginRight: 1 }} /> : null}
-              Mark as Paid
+              {dialogAction === 'approve' ? 'Approve' : 'Reject'}
             </Button>
           </DialogActions>
         </Dialog>
@@ -290,4 +278,4 @@ function HRPaymentPage() {
   );
 }
 
-export default HRPaymentPage;
+export default ManagerApprovalPage;

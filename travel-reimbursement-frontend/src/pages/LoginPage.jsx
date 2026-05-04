@@ -98,13 +98,13 @@ function LoginPage() {
         alignItems: 'center',
         justifyContent: 'center',
         background: 'linear-gradient(135deg, #003da5 0%, #1565c0 100%)',
-        padding: 2,
+        padding: { xs: 2, sm: 4 },
       }}
     >
       <Container maxWidth="sm">
         <Paper
           sx={{
-            padding: 4,
+            padding: { xs: 3, sm: 4 },
             borderRadius: 2,
             boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
           }}
