@@ -22,10 +22,7 @@ import {
   Grid,
   Stack,
   Collapse,
-  IconButton,
-  Input,
 } from '@mui/material';
-import { Close as CloseIcon, AttachFile as AttachFileIcon } from '@mui/icons-material';
 import { useAuth } from '../context/AuthContext';
 import { getMyClaimsById } from '../services/api';
 
@@ -39,10 +36,6 @@ function MyClaimsPage() {
   const [openDialog, setOpenDialog] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [showExpenses, setShowExpenses] = useState(false);
-  const [openUploadDialog, setOpenUploadDialog] = useState(false);
-  const [currentSection, setCurrentSection] = useState('');
-  const [documentName, setDocumentName] = useState('');
-  const [selectedFile, setSelectedFile] = useState(null);
 
   useEffect(() => {
     fetchClaims();
@@ -91,19 +84,8 @@ function MyClaimsPage() {
   };
 
   const handleViewDetails = (claim) => {
-    const claimWithDocs = {
-      ...claim,
-      documents: claim.documents || {
-        dailySummary: [],
-        hotel: [],
-        telephone: [],
-        taxi: [],
-        miscellaneous: [],
-        otherExpenses: [],
-      },
-    };
-    setSelectedClaim(claimWithDocs);
-    setEditedClaim({ ...claimWithDocs });
+    setSelectedClaim(claim);
+    setEditedClaim({ ...claim });
     setEditMode(false);
     setShowExpenses(false);
     setOpenDialog(true);
@@ -115,59 +97,6 @@ function MyClaimsPage() {
     setEditedClaim(null);
     setEditMode(false);
     setShowExpenses(false);
-  };
-
-  const handleOpenUpload = (section) => {
-    setCurrentSection(section);
-    setDocumentName('');
-    setSelectedFile(null);
-    setOpenUploadDialog(true);
-  };
-
-  const handleCloseUpload = () => {
-    setOpenUploadDialog(false);
-    setCurrentSection('');
-    setDocumentName('');
-    setSelectedFile(null);
-  };
-
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (file && (file.type.startsWith('image/') || file.type === 'application/pdf')) {
-      setSelectedFile(file);
-    } else {
-      alert('Please select an image or PDF file.');
-    }
-  };
-
-  const handleUploadDocument = () => {
-    if (!documentName.trim() || !selectedFile) {
-      alert('Please provide a document name and select a file.');
-      return;
-    }
-    const newDoc = {
-      name: documentName,
-      file: selectedFile,
-      url: URL.createObjectURL(selectedFile), // For preview
-    };
-    setEditedClaim((prev) => ({
-      ...prev,
-      documents: {
-        ...prev.documents,
-        [currentSection]: [...(prev.documents[currentSection] || []), newDoc],
-      },
-    }));
-    handleCloseUpload();
-  };
-
-  const handleRemoveDocument = (section, index) => {
-    setEditedClaim((prev) => ({
-      ...prev,
-      documents: {
-        ...prev.documents,
-        [section]: prev.documents[section].filter((_, i) => i !== index),
-      },
-    }));
   };
 
   const handleEditToggle = () => {
@@ -196,21 +125,14 @@ function MyClaimsPage() {
     setEditMode(false);
   };
 
-  const renderExpenseSection = (title, items, sectionKey) => {
+  const renderExpenseSection = (title, items) => {
     if (!items || items.length === 0) return null;
-
-    const documents = editedClaim?.documents?.[sectionKey] || [];
 
     return (
       <Box sx={{ mb: 2 }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
-          <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>
-            {title}
-          </Typography>
-          <Button size="small" variant="outlined" onClick={() => handleOpenUpload(sectionKey)}>
-            Upload Document
-          </Button>
-        </Box>
+        <Typography variant="subtitle2" sx={{ fontWeight: 'bold', mb: 1 }}>
+          {title}
+        </Typography>
         <Table size="small">
           <TableHead>
             <TableRow>
@@ -231,28 +153,6 @@ function MyClaimsPage() {
             ))}
           </TableBody>
         </Table>
-        {documents.length > 0 && (
-          <Box sx={{ mt: 1, display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-            {documents.map((doc, index) => (
-              <Box key={index} sx={{ position: 'relative', display: 'inline-block' }}>
-                <Chip
-                  icon={<AttachFileIcon />}
-                  label={doc.name}
-                  size="small"
-                  onClick={() => window.open(doc.url, '_blank')}
-                  sx={{ cursor: 'pointer' }}
-                />
-                <IconButton
-                  size="small"
-                  sx={{ position: 'absolute', top: -8, right: -8, backgroundColor: 'white', border: '1px solid #ccc' }}
-                  onClick={() => handleRemoveDocument(sectionKey, index)}
-                >
-                  <CloseIcon fontSize="small" />
-                </IconButton>
-              </Box>
-            ))}
-          </Box>
-        )}
       </Box>
     );
   };
@@ -507,12 +407,12 @@ function MyClaimsPage() {
 
               <Collapse in={showExpenses}>
                 <Box sx={{ mt: 2, mb: 2 }}>
-                  {renderExpenseSection('Daily Summary', selectedClaim?.dailySummary, 'dailySummary')}
-                  {renderExpenseSection('Hotel', selectedClaim?.hotel, 'hotel')}
-                  {renderExpenseSection('Telephone Calls / Internet', selectedClaim?.telephone, 'telephone')}
-                  {renderExpenseSection('Taxi', selectedClaim?.taxi, 'taxi')}
-                  {renderExpenseSection('Miscellaneous', selectedClaim?.miscellaneous, 'miscellaneous')}
-                  {renderExpenseSection('Other Trip Expenses', selectedClaim?.otherExpenses, 'otherExpenses')}
+                  {renderExpenseSection('Daily Summary', selectedClaim?.dailySummary)}
+                  {renderExpenseSection('Hotel', selectedClaim?.hotel)}
+                  {renderExpenseSection('Telephone Calls / Internet', selectedClaim?.telephone)}
+                  {renderExpenseSection('Taxi', selectedClaim?.taxi)}
+                  {renderExpenseSection('Miscellaneous', selectedClaim?.miscellaneous)}
+                  {renderExpenseSection('Other Trip Expenses', selectedClaim?.otherExpenses)}
                 </Box>
               </Collapse>
             </Stack>
@@ -531,39 +431,6 @@ function MyClaimsPage() {
                 <Button onClick={handleCloseDialog}>Close</Button>
               </>
             )}
-          </DialogActions>
-        </Dialog>
-
-        {/* Upload Document Dialog */}
-        <Dialog open={openUploadDialog} onClose={handleCloseUpload} maxWidth="sm" fullWidth>
-          <DialogTitle>Upload Document</DialogTitle>
-          <DialogContent>
-            <Stack spacing={2} sx={{ pt: 1 }}>
-              <TextField
-                fullWidth
-                label="Document Name"
-                value={documentName}
-                onChange={(e) => setDocumentName(e.target.value)}
-                size="small"
-              />
-              <Input
-                type="file"
-                accept="image/*,.pdf"
-                onChange={handleFileChange}
-                inputProps={{ 'aria-label': 'Upload file' }}
-              />
-              {selectedFile && (
-                <Typography variant="body2">
-                  Selected: {selectedFile.name}
-                </Typography>
-              )}
-            </Stack>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleCloseUpload}>Cancel</Button>
-            <Button variant="contained" onClick={handleUploadDocument}>
-              Done
-            </Button>
           </DialogActions>
         </Dialog>
       </Container>
