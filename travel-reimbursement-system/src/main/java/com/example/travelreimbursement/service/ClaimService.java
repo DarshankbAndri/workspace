@@ -21,6 +21,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -366,6 +367,7 @@ public class ClaimService {
                     entry.setAmount(dto.getAmount());
                     entry.setDays(dto.getDays());
                     entry.setTotal(getLineTotal(dto.getAmount(), dto.getDays()));
+                    entry.setSectionId(UUID.randomUUID().toString());
                     return entry;
                 })
                 .collect(Collectors.toList());
@@ -383,6 +385,7 @@ public class ClaimService {
                     entry.setAmount(dto.getAmount());
                     entry.setDays(dto.getDays());
                     entry.setTotal(getLineTotal(dto.getAmount(), dto.getDays()));
+                    entry.setSectionId(UUID.randomUUID().toString());
                     return entry;
                 })
                 .collect(Collectors.toList());
@@ -400,6 +403,7 @@ public class ClaimService {
                     entry.setAmount(dto.getAmount());
                     entry.setDays(dto.getDays());
                     entry.setTotal(getLineTotal(dto.getAmount(), dto.getDays()));
+                    entry.setSectionId(UUID.randomUUID().toString());
                     return entry;
                 })
                 .collect(Collectors.toList());
@@ -417,6 +421,7 @@ public class ClaimService {
                     entry.setAmount(dto.getAmount());
                     entry.setDays(dto.getDays());
                     entry.setTotal(getLineTotal(dto.getAmount(), dto.getDays()));
+                    entry.setSectionId(UUID.randomUUID().toString());
                     return entry;
                 })
                 .collect(Collectors.toList());
@@ -434,6 +439,7 @@ public class ClaimService {
                     entry.setAmount(dto.getAmount());
                     entry.setDays(dto.getDays());
                     entry.setTotal(getLineTotal(dto.getAmount(), dto.getDays()));
+                    entry.setSectionId(UUID.randomUUID().toString());
                     return entry;
                 })
                 .collect(Collectors.toList());
@@ -451,6 +457,7 @@ public class ClaimService {
                     entry.setAmount(dto.getAmount());
                     entry.setDays(dto.getDays());
                     entry.setTotal(getLineTotal(dto.getAmount(), dto.getDays()));
+                    entry.setSectionId(UUID.randomUUID().toString());
                     return entry;
                 })
                 .collect(Collectors.toList());
@@ -463,6 +470,8 @@ public class ClaimService {
         return entries.stream()
                 .map(entry -> {
                     DailySummaryDTO dto = new DailySummaryDTO();
+                    dto.setId(entry.getId());
+                    dto.setSectionId(entry.getSectionId());
                     dto.setDescription(entry.getDescription());
                     dto.setAmount(entry.getAmount());
                     dto.setDays(entry.getDays());
@@ -479,6 +488,8 @@ public class ClaimService {
         return entries.stream()
                 .map(entry -> {
                     HotelDTO dto = new HotelDTO();
+                    dto.setId(entry.getId());
+                    dto.setSectionId(entry.getSectionId());
                     dto.setDescription(entry.getDescription());
                     dto.setAmount(entry.getAmount());
                     dto.setDays(entry.getDays());
@@ -495,6 +506,8 @@ public class ClaimService {
         return entries.stream()
                 .map(entry -> {
                     TelephoneDTO dto = new TelephoneDTO();
+                    dto.setId(entry.getId());
+                    dto.setSectionId(entry.getSectionId());
                     dto.setDescription(entry.getDescription());
                     dto.setAmount(entry.getAmount());
                     dto.setDays(entry.getDays());
@@ -511,6 +524,8 @@ public class ClaimService {
         return entries.stream()
                 .map(entry -> {
                     TaxiDTO dto = new TaxiDTO();
+                    dto.setId(entry.getId());
+                    dto.setSectionId(entry.getSectionId());
                     dto.setDescription(entry.getDescription());
                     dto.setAmount(entry.getAmount());
                     dto.setDays(entry.getDays());
@@ -527,6 +542,8 @@ public class ClaimService {
         return entries.stream()
                 .map(entry -> {
                     MiscellaneousDTO dto = new MiscellaneousDTO();
+                    dto.setId(entry.getId());
+                    dto.setSectionId(entry.getSectionId());
                     dto.setDescription(entry.getDescription());
                     dto.setAmount(entry.getAmount());
                     dto.setDays(entry.getDays());
@@ -543,6 +560,8 @@ public class ClaimService {
         return entries.stream()
                 .map(entry -> {
                     OtherExpenseDTO dto = new OtherExpenseDTO();
+                    dto.setId(entry.getId());
+                    dto.setSectionId(entry.getSectionId());
                     dto.setDescription(entry.getDescription());
                     dto.setAmount(entry.getAmount());
                     dto.setDays(entry.getDays());

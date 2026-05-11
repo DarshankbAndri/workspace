@@ -38,7 +38,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: phone
-                  type: VARCHAR(20)
+                  type: varchar(100)
 ```
 
 ### Example 2: Create a new table

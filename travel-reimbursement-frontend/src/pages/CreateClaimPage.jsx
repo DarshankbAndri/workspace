@@ -20,7 +20,7 @@ import {
   Chip,
 } from '@mui/material';
 import { useAuth } from '../context/AuthContext';
-import { createClaim } from '../services/api';
+import { createClaim, uploadDocument } from '../services/api';
 import ConfirmDialog from '../components/common/ConfirmDialog';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
@@ -63,20 +63,22 @@ function CreateClaimPage() {
   });
 
   const [documents, setDocuments] = useState({
-    dailySummary: [],
-    hotel: [],
-    telephone: [],
-    taxi: [],
-    miscellaneous: [],
-    otherExpenses: [],
+    dailySummary: {},
+    hotel: {},
+    telephone: {},
+    taxi: {},
+    miscellaneous: {},
+    otherExpenses: {},
   });
 
   const [openUploadDialog, setOpenUploadDialog] = useState(false);
   const [currentSection, setCurrentSection] = useState('');
+  const [currentEntryId, setCurrentEntryId] = useState(null);
   const [documentName, setDocumentName] = useState('');
   const [selectedFile, setSelectedFile] = useState(null);
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
   const [confirmRemoveSection, setConfirmRemoveSection] = useState('');
+  const [confirmRemoveEntryId, setConfirmRemoveEntryId] = useState(null);
   const [confirmRemoveIndex, setConfirmRemoveIndex] = useState(null);
 
   const handleBasicChange = (e) => {
@@ -110,8 +112,9 @@ function CreateClaimPage() {
     });
   };
 
-  const handleOpenUpload = (section) => {
+  const handleOpenUpload = (section, entryId) => {
     setCurrentSection(section);
+    setCurrentEntryId(entryId);
     setDocumentName('');
     setSelectedFile(null);
     setOpenUploadDialog(true);
@@ -120,6 +123,7 @@ function CreateClaimPage() {
   const handleCloseUpload = () => {
     setOpenUploadDialog(false);
     setCurrentSection('');
+    setCurrentEntryId(null);
     setDocumentName('');
     setSelectedFile(null);
   };
@@ -138,20 +142,30 @@ function CreateClaimPage() {
       alert('Please provide a document name and select a file.');
       return;
     }
+    if (!currentSection || !currentEntryId) {
+      alert('Unable to attach the document to the selected entry.');
+      return;
+    }
+
     const newDoc = {
       name: documentName,
       file: selectedFile,
-      url: URL.createObjectURL(selectedFile), // For preview
+      url: URL.createObjectURL(selectedFile),
     };
+
     setDocuments((prev) => ({
       ...prev,
-      [currentSection]: [...(prev[currentSection] || []), newDoc],
+      [currentSection]: {
+        ...prev[currentSection],
+        [currentEntryId]: [...(prev[currentSection]?.[currentEntryId] || []), newDoc],
+      },
     }));
     handleCloseUpload();
   };
 
-  const handleOpenConfirmRemove = (section, index) => {
+  const handleOpenConfirmRemove = (section, entryId, index) => {
     setConfirmRemoveSection(section);
+    setConfirmRemoveEntryId(entryId);
     setConfirmRemoveIndex(index);
     setConfirmDialogOpen(true);
   };
@@ -159,24 +173,76 @@ function CreateClaimPage() {
   const handleCloseConfirm = () => {
     setConfirmDialogOpen(false);
     setConfirmRemoveSection('');
+    setConfirmRemoveEntryId(null);
     setConfirmRemoveIndex(null);
   };
 
   const handleConfirmRemove = () => {
-    if (confirmRemoveSection && confirmRemoveIndex != null) {
-      setDocuments((prev) => ({
-        ...prev,
-        [confirmRemoveSection]: prev[confirmRemoveSection].filter((_, i) => i !== confirmRemoveIndex),
-      }));
+    if (confirmRemoveSection && confirmRemoveEntryId && confirmRemoveIndex != null) {
+      setDocuments((prev) => {
+        const entryDocs = prev[confirmRemoveSection]?.[confirmRemoveEntryId] || [];
+        const updatedEntryDocs = entryDocs.filter((_, i) => i !== confirmRemoveIndex);
+        return {
+          ...prev,
+          [confirmRemoveSection]: {
+            ...prev[confirmRemoveSection],
+            [confirmRemoveEntryId]: updatedEntryDocs,
+          },
+        };
+      });
     }
     handleCloseConfirm();
   };
 
-  const handleRemoveDocument = (section, index) => {
-    setDocuments((prev) => ({
-      ...prev,
-      [section]: prev[section].filter((_, i) => i !== index),
-    }));
+  const handleRemoveDocument = (section, entryId, index) => {
+    setDocuments((prev) => {
+      const entryDocs = prev[section]?.[entryId] || [];
+      const updatedEntryDocs = entryDocs.filter((_, i) => i !== index);
+      return {
+        ...prev,
+        [section]: {
+          ...prev[section],
+          [entryId]: updatedEntryDocs,
+        },
+      };
+    });
+  };
+
+  const uploadDocumentsForClaim = async (claimResponse) => {
+    const entryTypeMap = {
+      dailySummary: 'daily',
+      hotel: 'hotel',
+      telephone: 'telephone',
+      taxi: 'taxi',
+      miscellaneous: 'miscellaneous',
+      otherExpenses: 'other',
+    };
+
+    for (const section of sectionDefinitions) {
+      const entryRows = sections[section.key];
+      const createdEntries = claimResponse[section.key] || [];
+      const entryDocsById = documents[section.key] || {};
+
+      for (let rowIndex = 0; rowIndex < entryRows.length; rowIndex += 1) {
+        const row = entryRows[rowIndex];
+        const createdEntry = createdEntries[rowIndex];
+        const docsForRow = entryDocsById[row.id] || [];
+
+        if (!createdEntry || !createdEntry.id || docsForRow.length === 0) {
+          continue;
+        }
+
+        for (const doc of docsForRow) {
+          await uploadDocument(
+            entryTypeMap[section.key],
+            createdEntry.id,
+            createdEntry.sectionId,
+            doc.name,
+            doc.file,
+          );
+        }
+      }
+    }
   };
 
   const formatCurrency = (value) => {
@@ -276,7 +342,12 @@ function CreateClaimPage() {
 
     setLoading(true);
     try {
-      await createClaim(user.id, claimPayload);
+      const response = await createClaim(user.id, claimPayload);
+      const createdClaim = response.data;
+      if (Object.values(documents).some((sectionDocs) =>
+        Object.values(sectionDocs).some((docs) => docs.length > 0))) {
+        await uploadDocumentsForClaim(createdClaim);
+      }
       setSuccess(true);
       setError('');
     } catch (err) {
@@ -302,7 +373,7 @@ function CreateClaimPage() {
 
           {success && (
             <Alert severity="success" sx={{ mb: 3 }} onClose={() => setSuccess(false)}>
-              ✅ Claim form updated locally. Backend integration will be added later.
+              ✅ Claim created and documents uploaded successfully.
             </Alert>
           )}
 
@@ -396,135 +467,139 @@ function CreateClaimPage() {
                       startIcon={<AddCircleOutlineIcon />}
                       onClick={() => addSectionItem(section.key)}
                       disabled={loading}
-                      sx={{ mr: 1 }}
                     >
                       Add entry
-                    </Button>
-                    <Button
-                      size="small"
-                      variant="outlined"
-                      onClick={() => handleOpenUpload(section.key)}
-                      disabled={loading}
-                    >
-                      Upload Document
                     </Button>
                   </Box>
                 </Box>
 
-                {sections[section.key].map((item, index) => (
-                  <Box key={item.id} sx={{ mb: 2, pb: 2, borderBottom: index !== sections[section.key].length - 1 ? '1px solid #e0e0e0' : 'none' }}>
-                    <Grid container spacing={2} alignItems="center">
-                      <Grid item xs={12} md={5}>
-                        <TextField
-                          fullWidth
-                          label="Description"
-                          value={item.description}
-                          onChange={(e) => handleSectionChange(section.key, index, 'description', e.target.value)}
-                          disabled={loading}
-                        />
+                {sections[section.key].map((item, index) => {
+                  const entryDocs = documents[section.key]?.[item.id] || [];
+                  return (
+                    <Box key={item.id} sx={{ mb: 2, pb: 2, borderBottom: index !== sections[section.key].length - 1 ? '1px solid #e0e0e0' : 'none' }}>
+                      <Grid container spacing={2} alignItems="center">
+                        <Grid item xs={12} md={4}>
+                          <TextField
+                            fullWidth
+                            label="Description"
+                            value={item.description}
+                            onChange={(e) => handleSectionChange(section.key, index, 'description', e.target.value)}
+                            disabled={loading}
+                          />
+                        </Grid>
+                        <Grid item xs={12} md={2}>
+                          <TextField
+                            fullWidth
+                            label="Amount"
+                            type="number"
+                            value={item.amount}
+                            onChange={(e) => handleSectionChange(section.key, index, 'amount', e.target.value)}
+                            inputProps={{ step: '0.01', min: '0' }}
+                            disabled={loading}
+                          />
+                        </Grid>
+                        <Grid item xs={12} md={2}>
+                          <TextField
+                            fullWidth
+                            label="No. Days"
+                            type="number"
+                            value={item.days}
+                            onChange={(e) => handleSectionChange(section.key, index, 'days', e.target.value)}
+                            inputProps={{ step: '1', min: '0' }}
+                            disabled={loading}
+                          />
+                        </Grid>
+                        <Grid item xs={12} md={2}>
+                          <TextField
+                            fullWidth
+                            label="Total"
+                            value={`$${getLineTotal(item)}`}
+                            InputProps={{ readOnly: true }}
+                            disabled
+                          />
+                        </Grid>
+                        <Grid item xs={12} md={1}>
+                          <Button
+                            size="small"
+                            variant="outlined"
+                            onClick={() => handleOpenUpload(section.key, item.id)}
+                            disabled={loading}
+                          >
+                            Upload
+                          </Button>
+                        </Grid>
+                        <Grid item xs={12} md={1}>
+                          <IconButton
+                            color="error"
+                            onClick={() => removeSectionItem(section.key, index)}
+                            disabled={loading}
+                            aria-label="Remove entry"
+                          >
+                            <RemoveCircleOutlineIcon />
+                          </IconButton>
+                        </Grid>
                       </Grid>
-                      <Grid item xs={12} md={2}>
-                        <TextField
-                          fullWidth
-                          label="Amount"
-                          type="number"
-                          value={item.amount}
-                          onChange={(e) => handleSectionChange(section.key, index, 'amount', e.target.value)}
-                          inputProps={{ step: '0.01', min: '0' }}
-                          disabled={loading}
-                        />
-                      </Grid>
-                      <Grid item xs={12} md={2}>
-                        <TextField
-                          fullWidth
-                          label="No. Days"
-                          type="number"
-                          value={item.days}
-                          onChange={(e) => handleSectionChange(section.key, index, 'days', e.target.value)}
-                          inputProps={{ step: '1', min: '0' }}
-                          disabled={loading}
-                        />
-                      </Grid>
-                      <Grid item xs={12} md={2}>
-                        <TextField
-                          fullWidth
-                          label="Total"
-                          value={`$${getLineTotal(item)}`}
-                          InputProps={{ readOnly: true }}
-                          disabled
-                        />
-                      </Grid>
-                      <Grid item xs={12} md={1}>
-                        <IconButton
-                          color="error"
-                          onClick={() => removeSectionItem(section.key, index)}
-                          disabled={loading}
-                          aria-label="Remove entry"
-                        >
-                          <RemoveCircleOutlineIcon />
-                        </IconButton>
-                      </Grid>
-                    </Grid>
-                  </Box>
-                ))}
 
-                {documents[section.key] && documents[section.key].length > 0 && (
-                  <Box sx={{ mt: 2, display: 'flex', flexWrap: 'wrap', gap: 2 }}>
-                    {documents[section.key].map((doc, index) => (
-                      <Box key={index} sx={{ position: 'relative', display: 'inline-block', textAlign: 'center' }}>
-                        <Box
-                          sx={{
-                            width: 40,
-                            height: 40,
-                            border: '1px solid #ccc',
-                            borderRadius: 1,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            overflow: 'hidden',
-                            cursor: 'pointer',
-                            backgroundColor: '#f9f9f9',
-                          }}
-                          onClick={() => window.open(doc.url, '_blank')}
-                        >
-                          {doc.file.type.startsWith('image/') ? (
-                            <img
-                              src={doc.url}
-                              alt={doc.name}
-                              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                            />
-                          ) : (
-                            <PdfIcon sx={{ fontSize: 32, color: '#d32f2f' }} />
-                          )}
+                      {entryDocs.length > 0 && (
+                        <Box sx={{ mt: 2, display: 'flex', flexWrap: 'wrap', gap: 2 }}>
+                          {entryDocs.map((doc, docIndex) => (
+                            <Box key={docIndex} sx={{ position: 'relative', display: 'inline-block', textAlign: 'center' }}>
+                              <Box
+                                sx={{
+                                  width: 40,
+                                  height: 40,
+                                  border: '1px solid #ccc',
+                                  borderRadius: 1,
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                  overflow: 'hidden',
+                                  cursor: 'pointer',
+                                  backgroundColor: '#f9f9f9',
+                                }}
+                                onClick={() => window.open(doc.url, '_blank')}
+                              >
+                                {doc.file.type.startsWith('image/') ? (
+                                  <img
+                                    src={doc.url}
+                                    alt={doc.name}
+                                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                  />
+                                ) : (
+                                  <PdfIcon sx={{ fontSize: 32, color: '#d32f2f' }} />
+                                )}
+                              </Box>
+                              <Typography variant="caption" sx={{ display: 'block', mt: 0.5, maxWidth: 40, overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                {doc.name}
+                              </Typography>
+                              <IconButton
+                                size="small"
+                                sx={{
+                                  position: 'absolute',
+                                  top: -11,
+                                  right: -11,
+                                  border: 'none',
+                                  color: '#0e0d0d',
+                                  minWidth: 'auto',
+                                  padding: '4px',
+                                }}
+                                onClick={() => handleOpenConfirmRemove(section.key, item.id, docIndex)}
+                              >
+                                <CloseIcon sx={{ fontSize: 13 }} />
+                              </IconButton>
+                            </Box>
+                          ))}
                         </Box>
-                        <Typography variant="caption" sx={{ display: 'block', mt: 0.5, maxWidth: 40, overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                          {doc.name}
-                        </Typography>
-                        <IconButton
-                          size="small"
-                          sx={{
-                            position: 'absolute',
-                            top: -11,
-                            right: -11,
-                            border: 'none',
-                            color: '#0e0d0d',
-                            minWidth: 'auto',
-                            padding: '4px',
-                          }}
-                          onClick={() => handleOpenConfirmRemove(section.key, index)}
-                        >
-                          <CloseIcon sx={{ fontSize: 13 }} />
-                        </IconButton>
-                      </Box>
-                    ))}
-                  </Box>
-                )}
+                      )}
+                    </Box>
+                  );
+                })}
               </Paper>
             ))}
 
             <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
               <Button type="submit" variant="contained" size="large" disabled={loading}>
-                {loading ? 'Saving...' : 'Save Claim UI'}
+                {loading ? 'Saving...' : 'Save Claim'}
               </Button>
               <Button variant="outlined" size="large" onClick={() => navigate('/dashboard')} disabled={loading}>
                 Cancel

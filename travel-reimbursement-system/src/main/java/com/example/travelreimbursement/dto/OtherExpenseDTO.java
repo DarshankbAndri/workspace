@@ -5,7 +5,11 @@ import java.math.BigDecimal;
 
 @Schema(description = "Other trip expense entry")
 public class OtherExpenseDTO {
+    @Schema(description = "Entry ID", example = "1")
+    private Long id;
 
+    @Schema(description = "Section ID for document grouping", example = "section-123")
+    private String sectionId;
     @Schema(description = "Entry description", example = "Parking fees")
     private String description;
 
@@ -19,6 +23,22 @@ public class OtherExpenseDTO {
     private BigDecimal total;
 
     public OtherExpenseDTO() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getSectionId() {
+        return sectionId;
+    }
+
+    public void setSectionId(String sectionId) {
+        this.sectionId = sectionId;
     }
 
     public String getDescription() {

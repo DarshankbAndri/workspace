@@ -2,6 +2,7 @@ package com.example.travelreimbursement.entity;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Table(name = "taxi_entries")
@@ -15,6 +16,9 @@ public class TaxiEntry {
     @JoinColumn(name = "claim_id", nullable = false)
     private Claim claim;
 
+    @Column(name = "section_id", nullable = false, length = 20)
+    private String sectionId;
+
     @Column(columnDefinition = "TEXT")
     private String description;
 
@@ -25,6 +29,9 @@ public class TaxiEntry {
 
     @Column(precision = 10, scale = 2)
     private BigDecimal total;
+
+    @OneToMany(mappedBy = "taxiEntry", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TaxiDocument> documents;
 
     public TaxiEntry() {
     }
@@ -75,5 +82,21 @@ public class TaxiEntry {
 
     public void setTotal(BigDecimal total) {
         this.total = total;
+    }
+
+    public String getSectionId() {
+        return sectionId;
+    }
+
+    public void setSectionId(String sectionId) {
+        this.sectionId = sectionId;
+    }
+
+    public List<TaxiDocument> getDocuments() {
+        return documents;
+    }
+
+    public void setDocuments(List<TaxiDocument> documents) {
+        this.documents = documents;
     }
 }

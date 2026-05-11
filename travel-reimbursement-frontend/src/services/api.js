@@ -82,6 +82,18 @@ export const createClaim = (userId, claimData) => {
   return api.post(`/claims?userId=${userId}`, claimData);
 };
 
+export const uploadDocument = (entryType, entryId, sectionId, documentName, file) => {
+  const formData = new FormData();
+  formData.append('documentName', documentName);
+  formData.append('file', file);
+  formData.append('sectionId', sectionId);
+  return api.post(`/documents/upload/${entryType}/${entryId}`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+};
+
 export const submitClaim = (claimId, userId) => {
   return api.post(`/claims/${claimId}/submit?userId=${userId}`);
 };
