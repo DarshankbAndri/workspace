@@ -2,6 +2,7 @@ package com.example.travelreimbursement.service;
 
 import com.example.travelreimbursement.dto.ClaimDTO;
 import com.example.travelreimbursement.dto.DailySummaryDTO;
+import com.example.travelreimbursement.dto.DocumentDTO;
 import com.example.travelreimbursement.dto.HotelDTO;
 import com.example.travelreimbursement.dto.MiscellaneousDTO;
 import com.example.travelreimbursement.dto.OtherExpenseDTO;
@@ -476,6 +477,7 @@ public class ClaimService {
                     dto.setAmount(entry.getAmount());
                     dto.setDays(entry.getDays());
                     dto.setTotal(entry.getTotal());
+                    dto.setDocuments(mapDocumentsToDTO(entry.getDocuments()));
                     return dto;
                 })
                 .collect(Collectors.toList());
@@ -494,6 +496,7 @@ public class ClaimService {
                     dto.setAmount(entry.getAmount());
                     dto.setDays(entry.getDays());
                     dto.setTotal(entry.getTotal());
+                    dto.setDocuments(mapDocumentsToDTO(entry.getDocuments()));
                     return dto;
                 })
                 .collect(Collectors.toList());
@@ -512,6 +515,7 @@ public class ClaimService {
                     dto.setAmount(entry.getAmount());
                     dto.setDays(entry.getDays());
                     dto.setTotal(entry.getTotal());
+                    dto.setDocuments(mapDocumentsToDTO(entry.getDocuments()));
                     return dto;
                 })
                 .collect(Collectors.toList());
@@ -530,6 +534,7 @@ public class ClaimService {
                     dto.setAmount(entry.getAmount());
                     dto.setDays(entry.getDays());
                     dto.setTotal(entry.getTotal());
+                    dto.setDocuments(mapDocumentsToDTO(entry.getDocuments()));
                     return dto;
                 })
                 .collect(Collectors.toList());
@@ -548,6 +553,7 @@ public class ClaimService {
                     dto.setAmount(entry.getAmount());
                     dto.setDays(entry.getDays());
                     dto.setTotal(entry.getTotal());
+                    dto.setDocuments(mapDocumentsToDTO(entry.getDocuments()));
                     return dto;
                 })
                 .collect(Collectors.toList());
@@ -566,8 +572,77 @@ public class ClaimService {
                     dto.setAmount(entry.getAmount());
                     dto.setDays(entry.getDays());
                     dto.setTotal(entry.getTotal());
+                    dto.setDocuments(mapDocumentsToDTO(entry.getDocuments()));
                     return dto;
                 })
+                .collect(Collectors.toList());
+    }
+
+    private List<DocumentDTO> mapDocumentsToDTO(List<?> documents) {
+        if (documents == null || documents.isEmpty()) {
+            return new ArrayList<>();
+        }
+        return documents.stream()
+                .map(doc -> {
+                    // Handle different document types (HotelDocument, TaxiDocument, etc.)
+                    if (doc instanceof HotelDocument) {
+                        HotelDocument hotelDoc = (HotelDocument) doc;
+                        return new DocumentDTO(
+                                hotelDoc.getId(),
+                                hotelDoc.getDocumentName(),
+                                hotelDoc.getFileName(),
+                                hotelDoc.getFilePath(),
+                                hotelDoc.getUploadedAt()
+                        );
+                    } else if (doc instanceof TaxiDocument) {
+                        TaxiDocument taxiDoc = (TaxiDocument) doc;
+                        return new DocumentDTO(
+                                taxiDoc.getId(),
+                                taxiDoc.getDocumentName(),
+                                taxiDoc.getFileName(),
+                                taxiDoc.getFilePath(),
+                                taxiDoc.getUploadedAt()
+                        );
+                    } else if (doc instanceof TelephoneDocument) {
+                        TelephoneDocument telDoc = (TelephoneDocument) doc;
+                        return new DocumentDTO(
+                                telDoc.getId(),
+                                telDoc.getDocumentName(),
+                                telDoc.getFileName(),
+                                telDoc.getFilePath(),
+                                telDoc.getUploadedAt()
+                        );
+                    } else if (doc instanceof MiscellaneousDocument) {
+                        MiscellaneousDocument miscDoc = (MiscellaneousDocument) doc;
+                        return new DocumentDTO(
+                                miscDoc.getId(),
+                                miscDoc.getDocumentName(),
+                                miscDoc.getFileName(),
+                                miscDoc.getFilePath(),
+                                miscDoc.getUploadedAt()
+                        );
+                    } else if (doc instanceof OtherExpenseDocument) {
+                        OtherExpenseDocument otherDoc = (OtherExpenseDocument) doc;
+                        return new DocumentDTO(
+                                otherDoc.getId(),
+                                otherDoc.getDocumentName(),
+                                otherDoc.getFileName(),
+                                otherDoc.getFilePath(),
+                                otherDoc.getUploadedAt()
+                        );
+                    } else if (doc instanceof DailySummaryDocument) {
+                        DailySummaryDocument dailyDoc = (DailySummaryDocument) doc;
+                        return new DocumentDTO(
+                                dailyDoc.getId(),
+                                dailyDoc.getDocumentName(),
+                                dailyDoc.getFileName(),
+                                dailyDoc.getFilePath(),
+                                dailyDoc.getUploadedAt()
+                        );
+                    }
+                    return null;
+                })
+                .filter(dto -> dto != null)
                 .collect(Collectors.toList());
     }
 }

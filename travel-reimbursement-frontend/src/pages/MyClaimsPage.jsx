@@ -22,9 +22,12 @@ import {
   Grid,
   Stack,
   Collapse,
+  IconButton,
 } from '@mui/material';
+import { PictureAsPdf as PdfIcon, Image as ImageIcon } from '@mui/icons-material/';
 import { useAuth } from '../context/AuthContext';
 import { getMyClaimsById } from '../services/api';
+import DocumentPreview from '../components/DocumentPreview';
 
 function MyClaimsPage() {
   const { user } = useAuth();
@@ -36,6 +39,8 @@ function MyClaimsPage() {
   const [openDialog, setOpenDialog] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [showExpenses, setShowExpenses] = useState(false);
+  const [documentPreviewOpen, setDocumentPreviewOpen] = useState(false);
+  const [selectedDocuments, setSelectedDocuments] = useState([]);
 
   useEffect(() => {
     fetchClaims();
@@ -99,6 +104,18 @@ function MyClaimsPage() {
     setShowExpenses(false);
   };
 
+  const handleOpenDocuments = (documents) => {
+    if (documents && documents.length > 0) {
+      setSelectedDocuments(documents);
+      setDocumentPreviewOpen(true);
+    }
+  };
+
+  const handleCloseDocumentPreview = () => {
+    setDocumentPreviewOpen(false);
+    setSelectedDocuments([]);
+  };
+
   const handleEditToggle = () => {
     setEditMode(true);
     setEditedClaim({ ...selectedClaim });
@@ -129,30 +146,71 @@ function MyClaimsPage() {
     if (!items || items.length === 0) return null;
 
     return (
-      <Box sx={{ mb: 2 }}>
-        <Typography variant="subtitle2" sx={{ fontWeight: 'bold', mb: 1 }}>
+      <Box sx={{ mb: 3 }}>
+        <Typography variant="subtitle2" sx={{ fontWeight: 'bold', mb: 2 }}>
           {title}
         </Typography>
-        <Table size="small">
-          <TableHead>
-            <TableRow>
-              <TableCell>Description</TableCell>
-              <TableCell align="right">Amount</TableCell>
-              <TableCell align="right">Days</TableCell>
-              <TableCell align="right">Total</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {items.map((item, index) => (
-              <TableRow key={`${title}-${index}`}>
-                <TableCell>{item.description || '-'}</TableCell>
-                <TableCell align="right">{item.amount != null ? `$${Number(item.amount).toFixed(2)}` : '-'}</TableCell>
-                <TableCell align="right">{item.days ?? '-'}</TableCell>
-                <TableCell align="right">{item.total != null ? `$${Number(item.total).toFixed(2)}` : '-'}</TableCell>
+        <TableContainer sx={{ border: '1px solid #e0e0e0', borderRadius: 1 }}>
+          <Table size="small">
+            <TableHead>
+              <TableRow sx={{ backgroundColor: '#f5f5f5' }}>
+                <TableCell sx={{ fontWeight: 'bold' }}>Description</TableCell>
+                <TableCell align="right" sx={{ fontWeight: 'bold' }}>Amount</TableCell>
+                <TableCell align="right" sx={{ fontWeight: 'bold' }}>Days</TableCell>
+                <TableCell align="right" sx={{ fontWeight: 'bold' }}>Total</TableCell>
+                <TableCell sx={{ fontWeight: 'bold' }}>Documents</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHead>
+            <TableBody>
+              {items.map((item, index) => (
+                <TableRow key={`${title}-${index}`}>
+                  <TableCell>{item.description || '-'}</TableCell>
+                  <TableCell align="right">{item.amount != null ? `$${Number(item.amount).toFixed(2)}` : '-'}</TableCell>
+                  <TableCell align="right">{item.days ?? '-'}</TableCell>
+                  <TableCell align="right" sx={{ fontWeight: 'bold' }}>
+                    {item.total != null ? `$${Number(item.total).toFixed(2)}` : '-'}
+                  </TableCell>
+                  <TableCell>
+                    {item.documents && item.documents.length > 0 ? (
+                      <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+                        {item.documents.map((doc, docIndex) => (
+                          <Box
+                            key={docIndex}
+                            sx={{
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: 0.5,
+                              p: 0.5,
+                              backgroundColor: '#f0f0f0',
+                              borderRadius: 1,
+                              cursor: 'pointer',
+                              '&:hover': { backgroundColor: '#e0e0e0' },
+                              transition: 'background-color 0.2s',
+                            }}
+                            onClick={() => handleOpenDocuments(item.documents)}
+                          >
+                            {doc.fileName && doc.fileName.toLowerCase().endsWith('.pdf') ? (
+                              <PdfIcon sx={{ fontSize: 16, color: '#d32f2f' }} />
+                            ) : (
+                              <ImageIcon sx={{ fontSize: 16, color: '#1976d2' }} />
+                            )}
+                            <Typography variant="caption" sx={{ maxWidth: 100, overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                              {doc.documentName}
+                            </Typography>
+                          </Box>
+                        ))}
+                      </Box>
+                    ) : (
+                      <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+                        No documents
+                      </Typography>
+                    )}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </Box>
     );
   };
@@ -433,6 +491,13 @@ function MyClaimsPage() {
             )}
           </DialogActions>
         </Dialog>
+
+        {/* Document Preview Dialog */}
+        <DocumentPreview
+          open={documentPreviewOpen}
+          onClose={handleCloseDocumentPreview}
+          documents={selectedDocuments}
+        />
       </Container>
     </Box>
   );

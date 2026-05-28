@@ -30,7 +30,7 @@ public class TelephoneEntry {
     @Column(precision = 10, scale = 2)
     private BigDecimal total;
 
-    @OneToMany(mappedBy = "telephoneEntry", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "telephoneEntry", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TelephoneDocument> documents;
 
     public TelephoneEntry() {

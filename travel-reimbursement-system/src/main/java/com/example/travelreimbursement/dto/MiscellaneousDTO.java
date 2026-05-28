@@ -2,6 +2,7 @@ package com.example.travelreimbursement.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Schema(description = "Miscellaneous expense entry")
 public class MiscellaneousDTO {
@@ -21,6 +22,9 @@ public class MiscellaneousDTO {
 
     @Schema(description = "Line total amount", example = "40.00")
     private BigDecimal total;
+
+    @Schema(description = "List of documents attached to this entry")
+    private List<DocumentDTO> documents;
 
     public MiscellaneousDTO() {
     }
@@ -71,5 +75,13 @@ public class MiscellaneousDTO {
 
     public void setTotal(BigDecimal total) {
         this.total = total;
+    }
+
+    public List<DocumentDTO> getDocuments() {
+        return documents;
+    }
+
+    public void setDocuments(List<DocumentDTO> documents) {
+        this.documents = documents;
     }
 }

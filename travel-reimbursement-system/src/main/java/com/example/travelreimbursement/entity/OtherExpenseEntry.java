@@ -30,7 +30,7 @@ public class OtherExpenseEntry {
     @Column(precision = 10, scale = 2)
     private BigDecimal total;
 
-    @OneToMany(mappedBy = "otherExpenseEntry", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "otherExpenseEntry", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OtherExpenseDocument> documents;
 
     public OtherExpenseEntry() {

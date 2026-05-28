@@ -30,7 +30,7 @@ public class HotelEntry {
     @Column(precision = 10, scale = 2)
     private BigDecimal total;
 
-    @OneToMany(mappedBy = "hotelEntry", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "hotelEntry", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<HotelDocument> documents;
 
     public HotelEntry() {
