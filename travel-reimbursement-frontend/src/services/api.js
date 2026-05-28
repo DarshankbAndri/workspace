@@ -126,4 +126,57 @@ export const markClaimAsPaid = (claimId, hrId) => {
   return api.put(`/claims/${claimId}/pay?hrId=${hrId}`);
 };
 
+// Document download API - Create separate axios instance for file downloads
+const fileApi = axios.create({
+  baseURL: API_BASE_URL,
+  timeout: 30000, // Longer timeout for file operations
+});
+
+// Add JWT token to file API requests
+fileApi.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+// Handle file API response errors
+fileApi.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      window.location.href = '/login';
+    }
+    return Promise.reject(error);
+  }
+);
+
+export const downloadDocument = (documentId, entryType) => {
+  console.log(`Downloading document ${documentId} of type ${entryType}`);
+  return fileApi.get(`/documents/download/${documentId}?entryType=${entryType}`, {
+    responseType: 'blob',
+  }).catch((error) => {
+    console.error('Download error:', error);
+    throw error;
+  });
+};
+
+export const viewDocument = (documentId, entryType) => {
+  console.log(`Viewing document ${documentId} of type ${entryType}`);
+  return fileApi.get(`/documents/view/${documentId}?entryType=${entryType}`, {
+    responseType: 'blob',
+  }).catch((error) => {
+    console.error('View error:', error);
+    throw error;
+  });
+};
+
 export default api;

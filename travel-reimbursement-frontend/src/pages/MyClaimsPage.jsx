@@ -41,6 +41,7 @@ function MyClaimsPage() {
   const [showExpenses, setShowExpenses] = useState(false);
   const [documentPreviewOpen, setDocumentPreviewOpen] = useState(false);
   const [selectedDocuments, setSelectedDocuments] = useState([]);
+  const [selectedEntryType, setSelectedEntryType] = useState('daily');
 
   useEffect(() => {
     fetchClaims();
@@ -104,9 +105,10 @@ function MyClaimsPage() {
     setShowExpenses(false);
   };
 
-  const handleOpenDocuments = (documents) => {
+  const handleOpenDocuments = (documents, entryType = 'daily') => {
     if (documents && documents.length > 0) {
       setSelectedDocuments(documents);
+      setSelectedEntryType(entryType);
       setDocumentPreviewOpen(true);
     }
   };
@@ -142,7 +144,7 @@ function MyClaimsPage() {
     setEditMode(false);
   };
 
-  const renderExpenseSection = (title, items) => {
+  const renderExpenseSection = (title, items, entryType) => {
     if (!items || items.length === 0) return null;
 
     return (
@@ -187,7 +189,7 @@ function MyClaimsPage() {
                               '&:hover': { backgroundColor: '#e0e0e0' },
                               transition: 'background-color 0.2s',
                             }}
-                            onClick={() => handleOpenDocuments(item.documents)}
+                            onClick={() => handleOpenDocuments(item.documents, entryType)}
                           >
                             {doc.fileName && doc.fileName.toLowerCase().endsWith('.pdf') ? (
                               <PdfIcon sx={{ fontSize: 16, color: '#d32f2f' }} />
@@ -465,12 +467,12 @@ function MyClaimsPage() {
 
               <Collapse in={showExpenses}>
                 <Box sx={{ mt: 2, mb: 2 }}>
-                  {renderExpenseSection('Daily Summary', selectedClaim?.dailySummary)}
-                  {renderExpenseSection('Hotel', selectedClaim?.hotel)}
-                  {renderExpenseSection('Telephone Calls / Internet', selectedClaim?.telephone)}
-                  {renderExpenseSection('Taxi', selectedClaim?.taxi)}
-                  {renderExpenseSection('Miscellaneous', selectedClaim?.miscellaneous)}
-                  {renderExpenseSection('Other Trip Expenses', selectedClaim?.otherExpenses)}
+                  {renderExpenseSection('Daily Summary', selectedClaim?.dailySummary, 'daily')}
+                  {renderExpenseSection('Hotel', selectedClaim?.hotel, 'hotel')}
+                  {renderExpenseSection('Telephone Calls / Internet', selectedClaim?.telephone, 'telephone')}
+                  {renderExpenseSection('Taxi', selectedClaim?.taxi, 'taxi')}
+                  {renderExpenseSection('Miscellaneous', selectedClaim?.miscellaneous, 'miscellaneous')}
+                  {renderExpenseSection('Other Trip Expenses', selectedClaim?.otherExpenses, 'other')}
                 </Box>
               </Collapse>
             </Stack>
@@ -497,6 +499,7 @@ function MyClaimsPage() {
           open={documentPreviewOpen}
           onClose={handleCloseDocumentPreview}
           documents={selectedDocuments}
+          entryType={selectedEntryType}
         />
       </Container>
     </Box>

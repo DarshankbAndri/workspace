@@ -281,4 +281,77 @@ public class DocumentService {
                 throw new IllegalArgumentException("Invalid entry type: " + entryType);
         }
     }
+
+    /**
+     * Download a document file
+     */
+    public FileDownloadResponse downloadDocument(Long documentId, String entryType) throws IOException {
+        String filePath = null;
+        String fileName = null;
+
+        switch (entryType.toLowerCase()) {
+            case "daily":
+                DailySummaryDocument dailyDoc = dailySummaryDocumentRepository.findById(documentId)
+                    .orElseThrow(() -> new IllegalArgumentException("Document not found"));
+                filePath = dailyDoc.getFilePath();
+                fileName = dailyDoc.getFileName();
+                break;
+            case "hotel":
+                HotelDocument hotelDoc = hotelDocumentRepository.findById(documentId)
+                    .orElseThrow(() -> new IllegalArgumentException("Document not found"));
+                filePath = hotelDoc.getFilePath();
+                fileName = hotelDoc.getFileName();
+                break;
+            case "telephone":
+                TelephoneDocument teleDoc = telephoneDocumentRepository.findById(documentId)
+                    .orElseThrow(() -> new IllegalArgumentException("Document not found"));
+                filePath = teleDoc.getFilePath();
+                fileName = teleDoc.getFileName();
+                break;
+            case "taxi":
+                TaxiDocument taxiDoc = taxiDocumentRepository.findById(documentId)
+                    .orElseThrow(() -> new IllegalArgumentException("Document not found"));
+                filePath = taxiDoc.getFilePath();
+                fileName = taxiDoc.getFileName();
+                break;
+            case "miscellaneous":
+                MiscellaneousDocument miscDoc = miscellaneousDocumentRepository.findById(documentId)
+                    .orElseThrow(() -> new IllegalArgumentException("Document not found"));
+                filePath = miscDoc.getFilePath();
+                fileName = miscDoc.getFileName();
+                break;
+            case "other":
+                OtherExpenseDocument otherDoc = otherExpenseDocumentRepository.findById(documentId)
+                    .orElseThrow(() -> new IllegalArgumentException("Document not found"));
+                filePath = otherDoc.getFilePath();
+                fileName = otherDoc.getFileName();
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid entry type: " + entryType);
+        }
+
+        byte[] fileContent = fileStorageService.retrieveFile(filePath);
+        return new FileDownloadResponse(fileName, fileContent);
+    }
+
+    /**
+     * Inner class for file download response
+     */
+    public static class FileDownloadResponse {
+        private final String fileName;
+        private final byte[] content;
+
+        public FileDownloadResponse(String fileName, byte[] content) {
+            this.fileName = fileName;
+            this.content = content;
+        }
+
+        public String getFileName() {
+            return fileName;
+        }
+
+        public byte[] getContent() {
+            return content;
+        }
+    }
 }
