@@ -4,31 +4,31 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 import java.util.List;
 
-@Schema(description = "Daily Allowance expense entry")
-public class DailySummaryDTO {
+@Schema(description = "Bills Paid By Company expense entry")
+public class BillsPaidByCompanyDTO {
 
     @Schema(description = "Entry ID", example = "1")
     private Long id;
 
-    @Schema(description = "Section ID for document grouping", example = "section-123")
+    @Schema(description = "Section ID for document grouping", example = "section-456")
     private String sectionId;
 
-    @Schema(description = "Entry description", example = "Lunch provided by company")
+    @Schema(description = "Entry description", example = "Hotel bill paid by company")
     private String description;
 
-    @Schema(description = "Daily amount", example = "150.00")
+    @Schema(description = "Amount", example = "500.00")
     private BigDecimal amount;
 
-    @Schema(description = "Number of days", example = "2")
+    @Schema(description = "Number of days/items", example = "1")
     private Integer days;
 
-    @Schema(description = "Line total amount", example = "300.00")
+    @Schema(description = "Total amount", example = "500.00")
     private BigDecimal total;
 
     @Schema(description = "List of documents attached to this entry")
     private List<DocumentDTO> documents;
 
-    public DailySummaryDTO() {
+    public BillsPaidByCompanyDTO() {
     }
 
     public Long getId() {

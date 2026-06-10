@@ -29,12 +29,13 @@ import { Close as CloseIcon, AttachFile as AttachFileIcon, PictureAsPdf as PdfIc
 const createLineItem = () => ({ id: `${Date.now()}-${Math.random()}`, description: '', amount: '', days: '' });
 
 const sectionDefinitions = [
-  { key: 'dailySummary', title: 'Daily Summary' },
+  { key: 'dailySummary', title: 'Daily Allowance' },
   { key: 'hotel', title: 'Hotel' },
   { key: 'telephone', title: 'Telephone Calls / Internet' },
   { key: 'taxi', title: 'Taxi' },
   { key: 'miscellaneous', title: 'Miscellaneous' },
   { key: 'otherExpenses', title: 'Other Trip Expenses' },
+  { key: 'billsPaidByCompany', title: 'Bills Paid By Company' },
 ];
 
 function CreateClaimPage() {
@@ -60,6 +61,7 @@ function CreateClaimPage() {
     taxi: [createLineItem()],
     miscellaneous: [createLineItem()],
     otherExpenses: [createLineItem()],
+    billsPaidByCompany: [createLineItem()],
   });
 
   const [documents, setDocuments] = useState({
@@ -69,6 +71,7 @@ function CreateClaimPage() {
     taxi: {},
     miscellaneous: {},
     otherExpenses: {},
+    billsPaidByCompany: {},
   });
 
   const [openUploadDialog, setOpenUploadDialog] = useState(false);
@@ -216,6 +219,7 @@ function CreateClaimPage() {
       taxi: 'taxi',
       miscellaneous: 'miscellaneous',
       otherExpenses: 'other',
+      billsPaidByCompany: 'bills-paid-by-company',
     };
 
     for (const section of sectionDefinitions) {
@@ -333,6 +337,12 @@ function CreateClaimPage() {
         total: parseFloat(getLineTotal(item)),
       })),
       otherExpenses: sections.otherExpenses.map((item) => ({
+        description: item.description,
+        amount: item.amount ? parseFloat(item.amount) : null,
+        days: item.days ? parseInt(item.days, 10) : null,
+        total: parseFloat(getLineTotal(item)),
+      })),
+      billsPaidByCompany: sections.billsPaidByCompany.map((item) => ({
         description: item.description,
         amount: item.amount ? parseFloat(item.amount) : null,
         days: item.days ? parseInt(item.days, 10) : null,

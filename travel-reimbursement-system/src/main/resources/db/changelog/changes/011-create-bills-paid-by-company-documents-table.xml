@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="011-create-bills-paid-by-company-documents-table" author="admin">
+        <createTable tableName="bills_paid_by_company_documents">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="section_id" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="bills_paid_by_company_entry_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="document_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="file_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="file_path" type="VARCHAR(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="uploaded_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint constraintName="fk_bills_paid_by_company_documents_entry"
+                                 baseTableName="bills_paid_by_company_documents"
+                                 baseColumnNames="bills_paid_by_company_entry_id"
+                                 referencedTableName="bills_paid_by_company_entries"
+                                 referencedColumnNames="id"/>
+        <createIndex indexName="idx_bills_paid_by_company_documents_section" tableName="bills_paid_by_company_documents">
+            <column name="section_id"/>
+        </createIndex>
+        <createIndex indexName="idx_bills_paid_by_company_documents_entry" tableName="bills_paid_by_company_documents">
+            <column name="bills_paid_by_company_entry_id"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

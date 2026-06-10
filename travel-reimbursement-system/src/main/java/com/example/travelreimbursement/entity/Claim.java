@@ -100,6 +100,9 @@ public class Claim {
 
     @OneToMany(mappedBy = "claim", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OtherExpenseEntry> otherExpenseEntries;
+
+    @OneToMany(mappedBy = "claim", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<BillsPaidByCompanyEntry> billsPaidByCompanyEntries;
     
     // Default constructor
     public Claim() {
@@ -117,7 +120,8 @@ public class Claim {
                  List<TelephoneEntry> telephoneEntries,
                  List<TaxiEntry> taxiEntries,
                  List<MiscellaneousEntry> miscellaneousEntries,
-                 List<OtherExpenseEntry> otherExpenseEntries) {
+                 List<OtherExpenseEntry> otherExpenseEntries,
+                 List<BillsPaidByCompanyEntry> billsPaidByCompanyEntries) {
         this.id = id;
         this.user = user;
         this.manager = manager;
@@ -144,6 +148,7 @@ public class Claim {
         this.taxiEntries = taxiEntries;
         this.miscellaneousEntries = miscellaneousEntries;
         this.otherExpenseEntries = otherExpenseEntries;
+        this.billsPaidByCompanyEntries = billsPaidByCompanyEntries;
     }
     
     // Getters and Setters
@@ -307,6 +312,10 @@ public class Claim {
         this.updatedAt = updatedAt;
     }
     
+    
+
+   
+
     public List<DailySummaryEntry> getDailySummaryEntries() {
         return dailySummaryEntries;
     }
@@ -353,6 +362,14 @@ public class Claim {
 
     public void setOtherExpenseEntries(List<OtherExpenseEntry> otherExpenseEntries) {
         this.otherExpenseEntries = otherExpenseEntries;
+    }
+
+    public List<BillsPaidByCompanyEntry> getBillsPaidByCompanyEntries() {
+        return billsPaidByCompanyEntries;
+    }
+
+    public void setBillsPaidByCompanyEntries(List<BillsPaidByCompanyEntry> billsPaidByCompanyEntries) {
+        this.billsPaidByCompanyEntries = billsPaidByCompanyEntries;
     }
     
     @PrePersist

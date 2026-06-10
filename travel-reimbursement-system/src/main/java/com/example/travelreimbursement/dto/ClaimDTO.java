@@ -62,8 +62,8 @@ public class ClaimDTO {
     
     @Schema(description = "Manager ID for approval", example = "2")
     private Long managerId;
-    
-    @Schema(description = "Daily summary entries")
+
+    @Schema(description = "Daily Allowance entries (legacy)")
     private List<DailySummaryDTO> dailySummary;
 
     @Schema(description = "Hotel entries")
@@ -80,6 +80,9 @@ public class ClaimDTO {
 
     @Schema(description = "Other trip expense entries")
     private List<OtherExpenseDTO> otherExpenses;
+
+    @Schema(description = "Bills Paid By Company entries")
+    private List<BillsPaidByCompanyDTO> billsPaidByCompany;
     
     @Schema(description = "Claim creation timestamp")
     private LocalDateTime createdAt;
@@ -256,6 +259,7 @@ public class ClaimDTO {
         this.managerId = managerId;
     }
 
+
     public List<DailySummaryDTO> getDailySummary() {
         return dailySummary;
     }
@@ -302,6 +306,14 @@ public class ClaimDTO {
 
     public void setOtherExpenses(List<OtherExpenseDTO> otherExpenses) {
         this.otherExpenses = otherExpenses;
+    }
+
+    public List<BillsPaidByCompanyDTO> getBillsPaidByCompany() {
+        return billsPaidByCompany;
+    }
+
+    public void setBillsPaidByCompany(List<BillsPaidByCompanyDTO> billsPaidByCompany) {
+        this.billsPaidByCompany = billsPaidByCompany;
     }
     
     public LocalDateTime getCreatedAt() {

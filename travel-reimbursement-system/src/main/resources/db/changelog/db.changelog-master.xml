@@ -22,5 +22,7 @@
     <include file="db/changelog/changes/007-taxi-tables.xml"/>
     <include file="db/changelog/changes/007-miscellaneous-tables.xml"/>
     <include file="db/changelog/changes/007-other-expense-tables.xml"/>
+    <include file="db/changelog/changes/011-create-bills-paid-by-company-entries-table.xml"/>
+    <include file="db/changelog/changes/011-create-bills-paid-by-company-documents-table.xml"/>
 
 </databaseChangeLog>

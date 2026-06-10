@@ -1,5 +1,6 @@
 package com.example.travelreimbursement.service;
 
+import com.example.travelreimbursement.dto.BillsPaidByCompanyDTO;
 import com.example.travelreimbursement.dto.ClaimDTO;
 import com.example.travelreimbursement.dto.DailySummaryDTO;
 import com.example.travelreimbursement.dto.DocumentDTO;
@@ -76,6 +77,7 @@ public class ClaimService {
         claim.setTaxiEntries(mapTaxiEntries(claimDTO.getTaxi(), claim));
         claim.setMiscellaneousEntries(mapMiscellaneousEntries(claimDTO.getMiscellaneous(), claim));
         claim.setOtherExpenseEntries(mapOtherExpenseEntries(claimDTO.getOtherExpenses(), claim));
+        claim.setBillsPaidByCompanyEntries(mapBillsPaidByCompanyEntries(claimDTO.getBillsPaidByCompany(), claim));
 
         Claim savedClaim = claimRepository.save(claim);
         return convertToDTO(savedClaim);
@@ -280,7 +282,7 @@ public class ClaimService {
     }
     
     private ClaimDTO convertToDTO(Claim claim) {
-        return new ClaimDTO(
+        ClaimDTO dto = new ClaimDTO(
                 claim.getId(),
                 claim.getProjectName(),
                 claim.getTravelPurpose(),
@@ -308,6 +310,8 @@ public class ClaimService {
                 claim.getPaidAt(),
                 claim.getUpdatedAt()
         );
+        dto.setBillsPaidByCompany(mapBillsPaidByCompanyToDTO(claim.getBillsPaidByCompanyEntries()));
+        return dto;
     }
 
     private BigDecimal calculateTotalAmount(ClaimDTO claimDTO) {
@@ -578,6 +582,43 @@ public class ClaimService {
                 .collect(Collectors.toList());
     }
 
+    private List<BillsPaidByCompanyEntry> mapBillsPaidByCompanyEntries(List<BillsPaidByCompanyDTO> dtos, Claim claim) {
+        if (dtos == null) {
+            return new ArrayList<>();
+        }
+        return dtos.stream()
+                .map(dto -> {
+                    BillsPaidByCompanyEntry entry = new BillsPaidByCompanyEntry();
+                    entry.setClaim(claim);
+                    entry.setDescription(dto.getDescription());
+                    entry.setAmount(dto.getAmount());
+                    entry.setDays(dto.getDays());
+                    entry.setTotal(getLineTotal(dto.getAmount(), dto.getDays()));
+                    entry.setSectionId(UUID.randomUUID().toString());
+                    return entry;
+                })
+                .collect(Collectors.toList());
+    }
+
+    private List<BillsPaidByCompanyDTO> mapBillsPaidByCompanyToDTO(List<BillsPaidByCompanyEntry> entries) {
+        if (entries == null) {
+            return new ArrayList<>();
+        }
+        return entries.stream()
+                .map(entry -> {
+                    BillsPaidByCompanyDTO dto = new BillsPaidByCompanyDTO();
+                    dto.setId(entry.getId());
+                    dto.setSectionId(entry.getSectionId());
+                    dto.setDescription(entry.getDescription());
+                    dto.setAmount(entry.getAmount());
+                    dto.setDays(entry.getDays());
+                    dto.setTotal(entry.getTotal());
+                    dto.setDocuments(mapDocumentsToDTO(entry.getDocuments()));
+                    return dto;
+                })
+                .collect(Collectors.toList());
+    }
+
     private List<DocumentDTO> mapDocumentsToDTO(List<?> documents) {
         if (documents == null || documents.isEmpty()) {
             return new ArrayList<>();
@@ -638,6 +679,15 @@ public class ClaimService {
                                 dailyDoc.getFileName(),
                                 dailyDoc.getFilePath(),
                                 dailyDoc.getUploadedAt()
+                        );
+                    } else if (doc instanceof BillsPaidByCompanyDocument) {
+                        BillsPaidByCompanyDocument billsDoc = (BillsPaidByCompanyDocument) doc;
+                        return new DocumentDTO(
+                                billsDoc.getId(),
+                                billsDoc.getDocumentName(),
+                                billsDoc.getFileName(),
+                                billsDoc.getFilePath(),
+                                billsDoc.getUploadedAt()
                         );
                     }
                     return null;

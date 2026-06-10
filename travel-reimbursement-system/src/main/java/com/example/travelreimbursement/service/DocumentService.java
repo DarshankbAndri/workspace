@@ -23,12 +23,14 @@ public class DocumentService {
     private final TaxiDocumentRepository taxiDocumentRepository;
     private final MiscellaneousDocumentRepository miscellaneousDocumentRepository;
     private final OtherExpenseDocumentRepository otherExpenseDocumentRepository;
+    private final BillsPaidByCompanyDocumentRepository billsPaidByCompanyDocumentRepository;
     private final DailySummaryEntryRepository dailySummaryEntryRepository;
     private final HotelEntryRepository hotelEntryRepository;
     private final TelephoneEntryRepository telephoneEntryRepository;
     private final TaxiEntryRepository taxiEntryRepository;
     private final MiscellaneousEntryRepository miscellaneousEntryRepository;
     private final OtherExpenseEntryRepository otherExpenseEntryRepository;
+    private final BillsPaidByCompanyEntryRepository billsPaidByCompanyEntryRepository;
 
     public DocumentService(FileStorageService fileStorageService,
                           DailySummaryDocumentRepository dailySummaryDocumentRepository,
@@ -37,12 +39,14 @@ public class DocumentService {
                           TaxiDocumentRepository taxiDocumentRepository,
                           MiscellaneousDocumentRepository miscellaneousDocumentRepository,
                           OtherExpenseDocumentRepository otherExpenseDocumentRepository,
+                          BillsPaidByCompanyDocumentRepository billsPaidByCompanyDocumentRepository,
                           DailySummaryEntryRepository dailySummaryEntryRepository,
                           HotelEntryRepository hotelEntryRepository,
                           TelephoneEntryRepository telephoneEntryRepository,
                           TaxiEntryRepository taxiEntryRepository,
                           MiscellaneousEntryRepository miscellaneousEntryRepository,
-                          OtherExpenseEntryRepository otherExpenseEntryRepository) {
+                          OtherExpenseEntryRepository otherExpenseEntryRepository,
+                          BillsPaidByCompanyEntryRepository billsPaidByCompanyEntryRepository) {
         this.fileStorageService = fileStorageService;
         this.dailySummaryDocumentRepository = dailySummaryDocumentRepository;
         this.hotelDocumentRepository = hotelDocumentRepository;
@@ -50,12 +54,14 @@ public class DocumentService {
         this.taxiDocumentRepository = taxiDocumentRepository;
         this.miscellaneousDocumentRepository = miscellaneousDocumentRepository;
         this.otherExpenseDocumentRepository = otherExpenseDocumentRepository;
+        this.billsPaidByCompanyDocumentRepository = billsPaidByCompanyDocumentRepository;
         this.dailySummaryEntryRepository = dailySummaryEntryRepository;
         this.hotelEntryRepository = hotelEntryRepository;
         this.telephoneEntryRepository = telephoneEntryRepository;
         this.taxiEntryRepository = taxiEntryRepository;
         this.miscellaneousEntryRepository = miscellaneousEntryRepository;
         this.otherExpenseEntryRepository = otherExpenseEntryRepository;
+        this.billsPaidByCompanyEntryRepository = billsPaidByCompanyEntryRepository;
     }
 
     /**
@@ -70,6 +76,7 @@ public class DocumentService {
         TaxiEntry taxiEntry = null;
         MiscellaneousEntry miscEntry = null;
         OtherExpenseEntry otherEntry = null;
+        BillsPaidByCompanyEntry billsEntry = null;
 
         Long claimId = null;
 
@@ -77,7 +84,7 @@ public class DocumentService {
         switch (entryType.toLowerCase()) {
             case "daily":
                 dailyEntry = dailySummaryEntryRepository.findById(entryId)
-                    .orElseThrow(() -> new IllegalArgumentException("Daily summary entry not found"));
+                    .orElseThrow(() -> new IllegalArgumentException("Daily Allowance entry not found"));
                 claimId = dailyEntry.getClaim().getId();
                 break;
             case "hotel":
@@ -104,6 +111,11 @@ public class DocumentService {
                 otherEntry = otherExpenseEntryRepository.findById(entryId)
                     .orElseThrow(() -> new IllegalArgumentException("Other expense entry not found"));
                 claimId = otherEntry.getClaim().getId();
+                break;
+            case "bills-paid-by-company":
+                billsEntry = billsPaidByCompanyEntryRepository.findById(entryId)
+                    .orElseThrow(() -> new IllegalArgumentException("Bills paid by company entry not found"));
+                claimId = billsEntry.getClaim().getId();
                 break;
             default:
                 throw new IllegalArgumentException("Invalid entry type: " + entryType);
@@ -186,6 +198,18 @@ public class DocumentService {
                 return new DocumentResponse(otherDoc.getId(), otherDoc.getDocumentName(),
                     otherDoc.getFileName(), otherDoc.getSectionId(), otherDoc.getUploadedAt());
 
+            case "bills-paid-by-company":
+                BillsPaidByCompanyDocument billsDoc = new BillsPaidByCompanyDocument();
+                billsDoc.setDocumentName(documentName);
+                billsDoc.setFileName(file.getOriginalFilename());
+                billsDoc.setFilePath(filePath);
+                billsDoc.setSectionId(sectionId);
+                billsDoc.setBillsPaidByCompanyEntry(billsEntry);
+                billsDoc.setUploadedAt(LocalDateTime.now());
+                billsPaidByCompanyDocumentRepository.save(billsDoc);
+                return new DocumentResponse(billsDoc.getId(), billsDoc.getDocumentName(),
+                    billsDoc.getFileName(), billsDoc.getSectionId(), billsDoc.getUploadedAt());
+
             default:
                 throw new IllegalArgumentException("Invalid entry type: " + entryType);
         }
@@ -228,6 +252,12 @@ public class DocumentService {
             .collect(Collectors.toList()));
 
         responses.addAll(otherExpenseDocumentRepository.findBySectionId(sectionId)
+            .stream()
+            .map(d -> new DocumentResponse(d.getId(), d.getDocumentName(), d.getFileName(),
+                d.getSectionId(), d.getUploadedAt()))
+            .collect(Collectors.toList()));
+
+        responses.addAll(billsPaidByCompanyDocumentRepository.findBySectionId(sectionId)
             .stream()
             .map(d -> new DocumentResponse(d.getId(), d.getDocumentName(), d.getFileName(),
                 d.getSectionId(), d.getUploadedAt()))
@@ -276,6 +306,12 @@ public class DocumentService {
                     .orElseThrow(() -> new IllegalArgumentException("Document not found"));
                 fileStorageService.deleteFile(otherDoc.getFilePath());
                 otherExpenseDocumentRepository.delete(otherDoc);
+                break;
+            case "bills-paid-by-company":
+                BillsPaidByCompanyDocument billsDoc = billsPaidByCompanyDocumentRepository.findById(documentId)
+                    .orElseThrow(() -> new IllegalArgumentException("Document not found"));
+                fileStorageService.deleteFile(billsDoc.getFilePath());
+                billsPaidByCompanyDocumentRepository.delete(billsDoc);
                 break;
             default:
                 throw new IllegalArgumentException("Invalid entry type: " + entryType);

@@ -467,12 +467,13 @@ function MyClaimsPage() {
 
               <Collapse in={showExpenses}>
                 <Box sx={{ mt: 2, mb: 2 }}>
-                  {renderExpenseSection('Daily Summary', selectedClaim?.dailySummary, 'daily')}
+                  {renderExpenseSection('Daily Allowance', selectedClaim?.dailySummary, 'daily')}
                   {renderExpenseSection('Hotel', selectedClaim?.hotel, 'hotel')}
                   {renderExpenseSection('Telephone Calls / Internet', selectedClaim?.telephone, 'telephone')}
                   {renderExpenseSection('Taxi', selectedClaim?.taxi, 'taxi')}
                   {renderExpenseSection('Miscellaneous', selectedClaim?.miscellaneous, 'miscellaneous')}
                   {renderExpenseSection('Other Trip Expenses', selectedClaim?.otherExpenses, 'other')}
+                  {renderExpenseSection('Bills Paid By Company', selectedClaim?.billsPaidByCompany, 'billsPaidByCompany')}
                 </Box>
               </Collapse>
             </Stack>
