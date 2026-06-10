@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="003-create-equipment-master" author="codex">
+        <createTable tableName="equipment_master">
+            <column name="id" type="BIGSERIAL"><constraints primaryKey="true"/></column>
+            <column name="equipment_code" type="VARCHAR(50)"><constraints nullable="false" unique="true"/></column>
+            <column name="equipment_name" type="VARCHAR(150)"><constraints nullable="false"/></column>
+            <column name="category" type="VARCHAR(100)"><constraints nullable="false"/></column>
+            <column name="location" type="VARCHAR(100)"/>
+            <column name="manufacturer" type="VARCHAR(120)"/>
+            <column name="model_number" type="VARCHAR(100)"/>
+            <column name="serial_number" type="VARCHAR(100)"/>
+            <column name="installation_date" type="DATE"/>
+            <column name="warranty_expiry_date" type="DATE"/>
+            <column name="status" type="VARCHAR(30)" defaultValue="ACTIVE"><constraints nullable="false"/></column>
+            <column name="criticality" type="VARCHAR(30)" defaultValue="MEDIUM"><constraints nullable="false"/></column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"><constraints nullable="false"/></column>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"><constraints nullable="false"/></column>
+        </createTable>
+        <createIndex indexName="idx_equipment_master_code" tableName="equipment_master"><column name="equipment_code"/></createIndex>
+        <createIndex indexName="idx_equipment_master_status" tableName="equipment_master"><column name="status"/></createIndex>
+    </changeSet>
+
+    <changeSet id="003-create-vendor-master" author="codex">
+        <createTable tableName="vendor_master">
+            <column name="id" type="BIGSERIAL"><constraints primaryKey="true"/></column>
+            <column name="vendor_code" type="VARCHAR(50)"><constraints nullable="false" unique="true"/></column>
+            <column name="vendor_name" type="VARCHAR(150)"><constraints nullable="false"/></column>
+            <column name="contact_person" type="VARCHAR(120)"/>
+            <column name="email" type="VARCHAR(150)"/>
+            <column name="phone" type="VARCHAR(30)"/>
+            <column name="address" type="VARCHAR(500)"/>
+            <column name="service_category" type="VARCHAR(120)"/>
+            <column name="active" type="BOOLEAN" defaultValueBoolean="true"><constraints nullable="false"/></column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"><constraints nullable="false"/></column>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"><constraints nullable="false"/></column>
+        </createTable>
+        <createIndex indexName="idx_vendor_master_code" tableName="vendor_master"><column name="vendor_code"/></createIndex>
+        <createIndex indexName="idx_vendor_master_active" tableName="vendor_master"><column name="active"/></createIndex>
+    </changeSet>
+
+    <changeSet id="003-create-maintenance-request" author="codex">
+        <createTable tableName="maintenance_request">
+            <column name="id" type="BIGSERIAL"><constraints primaryKey="true"/></column>
+            <column name="request_number" type="VARCHAR(60)"><constraints nullable="false" unique="true"/></column>
+            <column name="equipment_id" type="BIGINT"><constraints nullable="false"/></column>
+            <column name="request_type" type="VARCHAR(40)" defaultValue="BREAKDOWN"><constraints nullable="false"/></column>
+            <column name="priority" type="VARCHAR(30)" defaultValue="MEDIUM"><constraints nullable="false"/></column>
+            <column name="status" type="VARCHAR(30)" defaultValue="OPEN"><constraints nullable="false"/></column>
+            <column name="title" type="VARCHAR(200)"><constraints nullable="false"/></column>
+            <column name="description" type="VARCHAR(1000)"><constraints nullable="false"/></column>
+            <column name="reported_by" type="VARCHAR(120)"/>
+            <column name="requested_date" type="DATE"><constraints nullable="false"/></column>
+            <column name="target_completion_date" type="DATE"/>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"><constraints nullable="false"/></column>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"><constraints nullable="false"/></column>
+        </createTable>
+        <addForeignKeyConstraint constraintName="fk_request_equipment" baseTableName="maintenance_request" baseColumnNames="equipment_id" referencedTableName="equipment_master" referencedColumnNames="id"/>
+        <createIndex indexName="idx_request_equipment" tableName="maintenance_request"><column name="equipment_id"/></createIndex>
+        <createIndex indexName="idx_request_status" tableName="maintenance_request"><column name="status"/></createIndex>
+    </changeSet>
+
+    <changeSet id="003-create-maintenance-assignment" author="codex">
+        <createTable tableName="maintenance_assignment">
+            <column name="id" type="BIGSERIAL"><constraints primaryKey="true"/></column>
+            <column name="request_id" type="BIGINT"><constraints nullable="false"/></column>
+            <column name="vendor_id" type="BIGINT"/>
+            <column name="assigned_to" type="VARCHAR(120)"><constraints nullable="false"/></column>
+            <column name="assigned_date" type="DATE"><constraints nullable="false"/></column>
+            <column name="planned_start_date" type="DATE"/>
+            <column name="planned_end_date" type="DATE"/>
+            <column name="actual_start_date" type="DATE"/>
+            <column name="actual_end_date" type="DATE"/>
+            <column name="status" type="VARCHAR(30)" defaultValue="ASSIGNED"><constraints nullable="false"/></column>
+            <column name="estimated_cost" type="NUMERIC(12,2)"/>
+            <column name="actual_cost" type="NUMERIC(12,2)"/>
+            <column name="remarks" type="VARCHAR(1000)"/>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"><constraints nullable="false"/></column>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"><constraints nullable="false"/></column>
+        </createTable>
+        <addForeignKeyConstraint constraintName="fk_assignment_request" baseTableName="maintenance_assignment" baseColumnNames="request_id" referencedTableName="maintenance_request" referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_assignment_vendor" baseTableName="maintenance_assignment" baseColumnNames="vendor_id" referencedTableName="vendor_master" referencedColumnNames="id"/>
+        <createIndex indexName="idx_assignment_request" tableName="maintenance_assignment"><column name="request_id"/></createIndex>
+    </changeSet>
+
+    <changeSet id="003-create-equipment-downtime" author="codex">
+        <createTable tableName="equipment_downtime">
+            <column name="id" type="BIGSERIAL"><constraints primaryKey="true"/></column>
+            <column name="equipment_id" type="BIGINT"><constraints nullable="false"/></column>
+            <column name="request_id" type="BIGINT"/>
+            <column name="downtime_start" type="TIMESTAMP"><constraints nullable="false"/></column>
+            <column name="downtime_end" type="TIMESTAMP"/>
+            <column name="downtime_hours" type="NUMERIC(10,2)"/>
+            <column name="reason" type="VARCHAR(120)"><constraints nullable="false"/></column>
+            <column name="planned" type="BOOLEAN" defaultValueBoolean="false"><constraints nullable="false"/></column>
+            <column name="remarks" type="VARCHAR(1000)"/>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"><constraints nullable="false"/></column>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"><constraints nullable="false"/></column>
+        </createTable>
+        <addForeignKeyConstraint constraintName="fk_downtime_equipment" baseTableName="equipment_downtime" baseColumnNames="equipment_id" referencedTableName="equipment_master" referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_downtime_request" baseTableName="equipment_downtime" baseColumnNames="request_id" referencedTableName="maintenance_request" referencedColumnNames="id"/>
+        <createIndex indexName="idx_downtime_equipment" tableName="equipment_downtime"><column name="equipment_id"/></createIndex>
+        <createIndex indexName="idx_downtime_start" tableName="equipment_downtime"><column name="downtime_start"/></createIndex>
+    </changeSet>
+</databaseChangeLog>
