@@ -3,7 +3,6 @@ package com.example.cmmsApplication.dao;
 import com.example.cmmsApplication.entity.EquipmentDowntime;
 import com.example.cmmsApplication.repository.EquipmentDowntimeRepository;
 import org.springframework.stereotype.Component;
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,5 +19,5 @@ public class EquipmentDowntimeDAO {
     public List<EquipmentDowntime> findAll() { return repository.findAll(); }
     public List<EquipmentDowntime> findByEquipmentId(Long equipmentId) { return repository.findByEquipmentId(equipmentId); }
     public void deleteById(Long id) { repository.deleteById(id); }
-    public BigDecimal sumDowntimeHours() { return repository.sumDowntimeHours(); }
+    public Long sumDowntimeMinutes() { return repository.sumDowntimeMinutes(); }
 }

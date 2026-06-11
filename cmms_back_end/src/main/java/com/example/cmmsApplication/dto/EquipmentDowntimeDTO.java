@@ -19,7 +19,9 @@ public class EquipmentDowntimeDTO {
     private LocalDateTime downtimeStart;
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime downtimeEnd;
+    private Long downtimeMinutes;
     private BigDecimal downtimeHours;
+    private BigDecimal downtimeDays;
     @NotBlank(message = "Reason is required")
     private String reason;
     private Boolean planned;
@@ -43,8 +45,12 @@ public class EquipmentDowntimeDTO {
     public void setDowntimeStart(LocalDateTime downtimeStart) { this.downtimeStart = downtimeStart; }
     public LocalDateTime getDowntimeEnd() { return downtimeEnd; }
     public void setDowntimeEnd(LocalDateTime downtimeEnd) { this.downtimeEnd = downtimeEnd; }
+    public Long getDowntimeMinutes() { return downtimeMinutes; }
+    public void setDowntimeMinutes(Long downtimeMinutes) { this.downtimeMinutes = downtimeMinutes; }
     public BigDecimal getDowntimeHours() { return downtimeHours; }
     public void setDowntimeHours(BigDecimal downtimeHours) { this.downtimeHours = downtimeHours; }
+    public BigDecimal getDowntimeDays() { return downtimeDays; }
+    public void setDowntimeDays(BigDecimal downtimeDays) { this.downtimeDays = downtimeDays; }
     public String getReason() { return reason; }
     public void setReason(String reason) { this.reason = reason; }
     public Boolean getPlanned() { return planned; }

@@ -70,6 +70,7 @@ CREATE TABLE IF NOT EXISTS equipment_downtime (
     downtime_start TIMESTAMP NOT NULL,
     downtime_end TIMESTAMP,
     downtime_hours NUMERIC(10,2),
+    downtime_minutes BIGINT,
     reason VARCHAR(120) NOT NULL,
     planned BOOLEAN NOT NULL DEFAULT FALSE,
     remarks VARCHAR(1000),

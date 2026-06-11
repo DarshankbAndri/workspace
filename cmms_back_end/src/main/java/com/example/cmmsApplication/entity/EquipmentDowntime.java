@@ -2,6 +2,7 @@ package com.example.cmmsApplication.entity;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
@@ -26,8 +27,8 @@ public class EquipmentDowntime {
     @Column(name = "downtime_end")
     private LocalDateTime downtimeEnd;
 
-    @Column(name = "downtime_hours", precision = 10, scale = 2)
-    private BigDecimal downtimeHours;
+    @Column(name = "downtime_minutes")
+    private Long downtimeMinutes;
 
     @Column(nullable = false, length = 120)
     private String reason;
@@ -46,22 +47,37 @@ public class EquipmentDowntime {
 
     @PrePersist
     public void onCreate() {
-        calculateHours();
+        calculateDuration();
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
     }
 
     @PreUpdate
     public void onUpdate() {
-        calculateHours();
+        calculateDuration();
         updatedAt = LocalDateTime.now();
     }
 
-    private void calculateHours() {
+    private void calculateDuration() {
         if (downtimeStart != null && downtimeEnd != null && downtimeEnd.isAfter(downtimeStart)) {
-            double hours = Duration.between(downtimeStart, downtimeEnd).toMinutes() / 60.0;
-            downtimeHours = BigDecimal.valueOf(hours).setScale(2, java.math.RoundingMode.HALF_UP);
+            downtimeMinutes = Duration.between(downtimeStart, downtimeEnd).toMinutes();
+        } else {
+            downtimeMinutes = null;
         }
+    }
+
+    public BigDecimal getDowntimeHours() {
+        if (downtimeMinutes == null) {
+            return null;
+        }
+        return BigDecimal.valueOf(downtimeMinutes).divide(BigDecimal.valueOf(60), 2, RoundingMode.HALF_UP);
+    }
+
+    public BigDecimal getDowntimeDays() {
+        if (downtimeMinutes == null) {
+            return null;
+        }
+        return BigDecimal.valueOf(downtimeMinutes).divide(BigDecimal.valueOf(1440), 2, RoundingMode.HALF_UP);
     }
 
     public Long getId() { return id; }
@@ -74,8 +90,8 @@ public class EquipmentDowntime {
     public void setDowntimeStart(LocalDateTime downtimeStart) { this.downtimeStart = downtimeStart; }
     public LocalDateTime getDowntimeEnd() { return downtimeEnd; }
     public void setDowntimeEnd(LocalDateTime downtimeEnd) { this.downtimeEnd = downtimeEnd; }
-    public BigDecimal getDowntimeHours() { return downtimeHours; }
-    public void setDowntimeHours(BigDecimal downtimeHours) { this.downtimeHours = downtimeHours; }
+    public Long getDowntimeMinutes() { return downtimeMinutes; }
+    public void setDowntimeMinutes(Long downtimeMinutes) { this.downtimeMinutes = downtimeMinutes; }
     public String getReason() { return reason; }
     public void setReason(String reason) { this.reason = reason; }
     public Boolean getPlanned() { return planned; }

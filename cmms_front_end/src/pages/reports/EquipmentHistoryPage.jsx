@@ -4,6 +4,13 @@ import { DataGrid } from '@mui/x-data-grid';
 import { getEquipments } from '../../services/equipmentService';
 import { getDowntimeEntries, getMaintenanceAssignments, getMaintenanceRequests } from '../../services/maintenanceService';
 
+const formatDowntime = (item) => {
+  if (item.downtimeMinutes !== null && item.downtimeMinutes !== undefined) {
+    return `${item.downtimeMinutes} minutes`;
+  }
+  return `${item.downtimeHours || 0} hours`;
+};
+
 function EquipmentHistoryPage() {
   const [equipmentId, setEquipmentId] = React.useState('');
   const [equipments, setEquipments] = React.useState([]);
@@ -22,7 +29,7 @@ function EquipmentHistoryPage() {
             const request = requests.find((requestItem) => requestItem.id === item.requestId);
             return { id: `ASN-${item.id}`, equipmentId: request?.equipmentId, type: 'Assignment', reference: item.requestNumber, detail: item.assignedTo, status: item.status, date: item.assignedDate };
           }),
-          ...downtimes.map((item) => ({ id: `DT-${item.id}`, equipmentId: item.equipmentId, type: 'Downtime', reference: item.requestNumber || '-', detail: item.reason, status: `${item.downtimeHours || 0} hours`, date: item.downtimeStart })),
+          ...downtimes.map((item) => ({ id: `DT-${item.id}`, equipmentId: item.equipmentId, type: 'Downtime', reference: item.requestNumber || '-', detail: item.reason, status: formatDowntime(item), date: item.downtimeStart })),
         ];
         setRows(historyRows);
       })

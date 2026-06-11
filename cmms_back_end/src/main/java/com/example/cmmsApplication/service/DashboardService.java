@@ -8,6 +8,7 @@ import com.example.cmmsApplication.dto.DashboardDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 @Service
 @Transactional(readOnly = true)
@@ -25,12 +26,14 @@ public class DashboardService {
     }
 
     public DashboardDTO getSummary() {
-        BigDecimal downtimeHours = downtimeDAO.sumDowntimeHours();
+        Long downtimeMinutes = downtimeDAO.sumDowntimeMinutes();
+        BigDecimal downtimeHours = BigDecimal.valueOf(downtimeMinutes == null ? 0 : downtimeMinutes)
+                .divide(BigDecimal.valueOf(60), 2, RoundingMode.HALF_UP);
         return new DashboardDTO(
                 equipmentDAO.count(),
                 vendorDAO.countActive(),
                 requestDAO.countOpenRequests(),
-                downtimeHours == null ? BigDecimal.ZERO : downtimeHours
+                downtimeHours
         );
     }
 }

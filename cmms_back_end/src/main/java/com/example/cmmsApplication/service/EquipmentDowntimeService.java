@@ -64,7 +64,7 @@ public class EquipmentDowntimeService {
     }
 
     private void apply(EquipmentDowntime downtime, EquipmentDowntimeDTO dto) {
-        if (dto.getDowntimeEnd() != null && !dto.getDowntimeEnd().isAfter(dto.getDowntimeStart())) {
+        if (dto.getDowntimeStart() != null && dto.getDowntimeEnd() != null && !dto.getDowntimeEnd().isAfter(dto.getDowntimeStart())) {
             throw new InvalidOperationException("Downtime end must be after downtime start");
         }
         Equipment equipment = equipmentService.getEntity(dto.getEquipmentId());
@@ -73,7 +73,6 @@ public class EquipmentDowntimeService {
         downtime.setRequest(request);
         downtime.setDowntimeStart(dto.getDowntimeStart());
         downtime.setDowntimeEnd(dto.getDowntimeEnd());
-        downtime.setDowntimeHours(dto.getDowntimeHours());
         downtime.setReason(dto.getReason());
         downtime.setPlanned(dto.getPlanned() != null && dto.getPlanned());
         downtime.setRemarks(dto.getRemarks());
@@ -89,7 +88,9 @@ public class EquipmentDowntimeService {
         dto.setRequestNumber(downtime.getRequest() == null ? null : downtime.getRequest().getRequestNumber());
         dto.setDowntimeStart(downtime.getDowntimeStart());
         dto.setDowntimeEnd(downtime.getDowntimeEnd());
+        dto.setDowntimeMinutes(downtime.getDowntimeMinutes());
         dto.setDowntimeHours(downtime.getDowntimeHours());
+        dto.setDowntimeDays(downtime.getDowntimeDays());
         dto.setReason(downtime.getReason());
         dto.setPlanned(downtime.getPlanned());
         dto.setRemarks(downtime.getRemarks());
