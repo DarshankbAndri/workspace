@@ -5,6 +5,7 @@ import com.example.cmmsApplication.dto.MaintenanceAssignmentDTO;
 import com.example.cmmsApplication.entity.MaintenanceAssignment;
 import com.example.cmmsApplication.entity.MaintenanceRequest;
 import com.example.cmmsApplication.entity.Vendor;
+import com.example.cmmsApplication.exception.InvalidOperationException;
 import com.example.cmmsApplication.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -61,6 +62,12 @@ public class MaintenanceAssignmentService {
         MaintenanceRequest request = requestService.getEntity(dto.getRequestId());
         assignment.setRequest(request);
         Vendor vendor = dto.getVendorId() == null ? null : vendorService.getEntity(dto.getVendorId());
+        if (vendor != null) {
+            Long requestSiteId = request.getSite() == null ? null : request.getSite().getId();
+            if (requestSiteId == null || !vendorService.isVendorAssignedToSite(vendor.getId(), requestSiteId)) {
+                throw new InvalidOperationException("Selected vendor is not assigned to this site.");
+            }
+        }
         assignment.setVendor(vendor);
         assignment.setAssignedTo(dto.getAssignedTo());
         assignment.setAssignedDate(dto.getAssignedDate());

@@ -2,21 +2,28 @@ package com.example.cmmsApplication.service;
 
 import com.example.cmmsApplication.dao.VendorDAO;
 import com.example.cmmsApplication.dto.VendorDTO;
+import com.example.cmmsApplication.dto.VendorSiteAssignmentDTO;
+import com.example.cmmsApplication.entity.Site;
 import com.example.cmmsApplication.entity.Vendor;
+import com.example.cmmsApplication.entity.VendorSiteAssignment;
 import com.example.cmmsApplication.exception.InvalidOperationException;
 import com.example.cmmsApplication.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
 @Transactional
 public class VendorService {
     private final VendorDAO vendorDAO;
+    private final SiteService siteService;
 
-    public VendorService(VendorDAO vendorDAO) {
+    public VendorService(VendorDAO vendorDAO, SiteService siteService) {
         this.vendorDAO = vendorDAO;
+        this.siteService = siteService;
     }
 
     public VendorDTO create(VendorDTO dto) {
@@ -25,6 +32,7 @@ public class VendorService {
         }
         Vendor vendor = new Vendor();
         apply(vendor, dto);
+        replaceAssignments(vendor, dto.getSiteAssignments());
         return toDTO(vendorDAO.save(vendor));
     }
 
@@ -34,17 +42,29 @@ public class VendorService {
             throw new InvalidOperationException("Vendor code already exists: " + dto.getVendorCode());
         }
         apply(vendor, dto);
+        vendor.getSiteAssignments().clear();
+        replaceAssignments(vendor, dto.getSiteAssignments());
         return toDTO(vendorDAO.save(vendor));
     }
 
     @Transactional(readOnly = true)
     public VendorDTO getById(Long id) {
-        return toDTO(getEntity(id));
+        return toDTO(getEntityWithAssignments(id));
     }
 
     @Transactional(readOnly = true)
-    public List<VendorDTO> getAll() {
-        return vendorDAO.findAll().stream().map(this::toDTO).collect(Collectors.toList());
+    public List<VendorDTO> getAll(Long siteId, Boolean active) {
+        List<Vendor> vendors;
+        if (siteId != null && active != null) {
+            vendors = vendorDAO.findBySiteIdAndActive(siteId, active);
+        } else if (siteId != null) {
+            vendors = vendorDAO.findBySiteId(siteId);
+        } else if (active != null) {
+            vendors = vendorDAO.findByActive(active);
+        } else {
+            vendors = vendorDAO.findAll();
+        }
+        return vendors.stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     public void delete(Long id) {
@@ -58,6 +78,17 @@ public class VendorService {
                 .orElseThrow(() -> new ResourceNotFoundException("Vendor not found with id: " + id));
     }
 
+    @Transactional(readOnly = true)
+    public Vendor getEntityWithAssignments(Long id) {
+        return vendorDAO.findWithSiteAssignmentsById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Vendor not found with id: " + id));
+    }
+
+    @Transactional(readOnly = true)
+    public boolean isVendorAssignedToSite(Long vendorId, Long siteId) {
+        return vendorDAO.findBySiteId(siteId).stream().anyMatch((vendor) -> vendor.getId().equals(vendorId));
+    }
+
     private void apply(Vendor vendor, VendorDTO dto) {
         vendor.setVendorCode(dto.getVendorCode());
         vendor.setVendorName(dto.getVendorName());
@@ -67,6 +98,45 @@ public class VendorService {
         vendor.setAddress(dto.getAddress());
         vendor.setServiceCategory(dto.getServiceCategory());
         vendor.setActive(dto.getActive() == null || dto.getActive());
+    }
+
+    private void replaceAssignments(Vendor vendor, List<VendorSiteAssignmentDTO> assignments) {
+        validateAssignments(assignments);
+        for (VendorSiteAssignmentDTO dto : assignments) {
+            Site site = siteService.getEntity(dto.getSiteId());
+            if (!"ACTIVE".equalsIgnoreCase(site.getStatus())) {
+                throw new InvalidOperationException("Selected site is inactive");
+            }
+            VendorSiteAssignment assignment = new VendorSiteAssignment();
+            assignment.setVendor(vendor);
+            assignment.setSite(site);
+            assignment.setPrimarySite(Boolean.TRUE.equals(dto.getPrimarySite()));
+            assignment.setStatus(isBlank(dto.getStatus()) ? "ACTIVE" : dto.getStatus());
+            vendor.getSiteAssignments().add(assignment);
+        }
+    }
+
+    private void validateAssignments(List<VendorSiteAssignmentDTO> assignments) {
+        if (assignments == null || assignments.isEmpty()) {
+            throw new InvalidOperationException("At least one site assignment is required");
+        }
+        int primaryCount = 0;
+        Set<Long> activeSites = new HashSet<>();
+        for (VendorSiteAssignmentDTO assignment : assignments) {
+            if (assignment.getSiteId() == null) {
+                throw new InvalidOperationException("Site is required for every assignment");
+            }
+            if (Boolean.TRUE.equals(assignment.getPrimarySite())) {
+                primaryCount++;
+            }
+            String status = isBlank(assignment.getStatus()) ? "ACTIVE" : assignment.getStatus();
+            if ("ACTIVE".equalsIgnoreCase(status) && !activeSites.add(assignment.getSiteId())) {
+                throw new InvalidOperationException("Duplicate active site assignment is not allowed");
+            }
+        }
+        if (primaryCount > 1) {
+            throw new InvalidOperationException("Only one primary site is allowed per vendor");
+        }
     }
 
     private VendorDTO toDTO(Vendor vendor) {
@@ -82,6 +152,35 @@ public class VendorService {
         dto.setActive(vendor.getActive());
         dto.setCreatedAt(vendor.getCreatedAt());
         dto.setUpdatedAt(vendor.getUpdatedAt());
+        List<VendorSiteAssignmentDTO> assignments = vendor.getSiteAssignments().stream()
+                .map(this::toAssignmentDTO)
+                .collect(Collectors.toList());
+        dto.setSiteAssignments(assignments);
+        List<VendorSiteAssignmentDTO> activeAssignments = assignments.stream()
+                .filter((assignment) -> !"INACTIVE".equalsIgnoreCase(assignment.getStatus()))
+                .collect(Collectors.toList());
+        dto.setAssignedSiteCount(activeAssignments.size());
+        dto.setPrimarySiteName(activeAssignments.stream()
+                .filter((assignment) -> Boolean.TRUE.equals(assignment.getPrimarySite()))
+                .map(VendorSiteAssignmentDTO::getSiteName)
+                .findFirst()
+                .orElse(null));
+        dto.setSiteNames(activeAssignments.stream().map(VendorSiteAssignmentDTO::getSiteName).collect(Collectors.joining(", ")));
         return dto;
+    }
+
+    private VendorSiteAssignmentDTO toAssignmentDTO(VendorSiteAssignment assignment) {
+        VendorSiteAssignmentDTO dto = new VendorSiteAssignmentDTO();
+        dto.setAssignmentId(assignment.getId());
+        dto.setSiteId(assignment.getSite().getId());
+        dto.setSiteCode(assignment.getSite().getSiteCode());
+        dto.setSiteName(assignment.getSite().getSiteName());
+        dto.setPrimarySite(assignment.getPrimarySite());
+        dto.setStatus(assignment.getStatus());
+        return dto;
+    }
+
+    private boolean isBlank(String value) {
+        return value == null || value.trim().isEmpty();
     }
 }

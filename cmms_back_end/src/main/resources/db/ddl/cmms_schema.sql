@@ -151,6 +151,16 @@ CREATE TABLE IF NOT EXISTS employee_site_assignment (
     updated_at TIMESTAMP
 );
 
+CREATE TABLE IF NOT EXISTS vendor_site_assignment (
+    assignment_id BIGSERIAL PRIMARY KEY,
+    vendor_id BIGINT NOT NULL REFERENCES vendor_master(id),
+    site_id BIGINT NOT NULL REFERENCES site_master(site_id),
+    is_primary_site BOOLEAN DEFAULT FALSE,
+    status VARCHAR(20) DEFAULT 'ACTIVE',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP
+);
+
 ALTER TABLE users ADD COLUMN IF NOT EXISTS employee_id BIGINT;
 ALTER TABLE users ADD CONSTRAINT fk_users_employee_id FOREIGN KEY (employee_id) REFERENCES employee_master(employee_id);
 ALTER TABLE users ADD CONSTRAINT uk_users_employee_id UNIQUE (employee_id);
@@ -184,3 +194,6 @@ CREATE INDEX IF NOT EXISTS idx_users_employee_id ON users(employee_id);
 CREATE INDEX IF NOT EXISTS idx_equipment_site_id ON equipment_master(site_id);
 CREATE INDEX IF NOT EXISTS idx_request_site_id ON maintenance_request(site_id);
 CREATE INDEX IF NOT EXISTS idx_downtime_site_id ON equipment_downtime(site_id);
+CREATE INDEX IF NOT EXISTS idx_vendor_site_vendor_id ON vendor_site_assignment(vendor_id);
+CREATE INDEX IF NOT EXISTS idx_vendor_site_site_id ON vendor_site_assignment(site_id);
+CREATE INDEX IF NOT EXISTS idx_vendor_site_status ON vendor_site_assignment(status);

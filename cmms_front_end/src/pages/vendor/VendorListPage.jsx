@@ -1,25 +1,32 @@
 import React from 'react';
-import { Box, Button, IconButton, Paper, Stack, Typography, Alert } from '@mui/material';
+import { Box, Button, IconButton, MenuItem, Paper, Stack, TextField, Typography, Alert } from '@mui/material';
 import { Add, Delete, Edit } from '@mui/icons-material';
 import { DataGrid } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
 import { deleteVendor, getVendors } from '../../services/vendorService';
+import { getSites } from '../../services/siteService';
 
 function VendorListPage() {
   const navigate = useNavigate();
   const [rows, setRows] = React.useState([]);
+  const [sites, setSites] = React.useState([]);
+  const [siteFilter, setSiteFilter] = React.useState('');
+  const [statusFilter, setStatusFilter] = React.useState('ACTIVE');
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState('');
 
   const loadRows = React.useCallback(() => {
     setLoading(true);
-    getVendors()
+    getVendors({ ...(siteFilter ? { siteId: siteFilter } : {}), ...(statusFilter ? { status: statusFilter } : {}) })
       .then(setRows)
       .catch(() => setError('Unable to load vendors.'))
       .finally(() => setLoading(false));
-  }, []);
+  }, [siteFilter, statusFilter]);
 
   React.useEffect(() => { loadRows(); }, [loadRows]);
+  React.useEffect(() => {
+    getSites().then((data) => setSites(data.filter((site) => site.status !== 'INACTIVE'))).catch(() => setError('Unable to load sites.'));
+  }, []);
 
   const handleDelete = async (id) => {
     if (!window.confirm('Delete this vendor?')) return;
@@ -34,6 +41,9 @@ function VendorListPage() {
     { field: 'email', headerName: 'Email', minWidth: 200, flex: 1 },
     { field: 'phone', headerName: 'Phone', minWidth: 140, flex: 0.8 },
     { field: 'serviceCategory', headerName: 'Category', minWidth: 140, flex: 0.8 },
+    { field: 'assignedSiteCount', headerName: 'Sites', minWidth: 90, flex: 0.5 },
+    { field: 'primarySiteName', headerName: 'Primary Site', minWidth: 180, flex: 1 },
+    { field: 'siteNames', headerName: 'Assigned Sites', minWidth: 220, flex: 1.2 },
     { field: 'active', headerName: 'Active', minWidth: 90, flex: 0.5, valueFormatter: ({ value }) => (value ? 'Yes' : 'No') },
     {
       field: 'actions',
@@ -59,6 +69,19 @@ function VendorListPage() {
         <Button variant="contained" startIcon={<Add />} onClick={() => navigate('/vendors/new')}>Add Vendor</Button>
       </Stack>
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
+      <Paper sx={{ p: 2, mb: 2, borderRadius: 1 }}>
+        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+          <TextField select label="Site" value={siteFilter} onChange={(event) => setSiteFilter(event.target.value)} sx={{ minWidth: 240 }}>
+            <MenuItem value="">All Sites</MenuItem>
+            {sites.map((site) => <MenuItem key={site.id} value={site.id}>{site.siteName} ({site.siteCode})</MenuItem>)}
+          </TextField>
+          <TextField select label="Status" value={statusFilter} onChange={(event) => setStatusFilter(event.target.value)} sx={{ minWidth: 180 }}>
+            <MenuItem value="">All</MenuItem>
+            <MenuItem value="ACTIVE">ACTIVE</MenuItem>
+            <MenuItem value="INACTIVE">INACTIVE</MenuItem>
+          </TextField>
+        </Stack>
+      </Paper>
       <Paper sx={{ height: 560, borderRadius: 1 }}>
         <DataGrid rows={rows} columns={columns} loading={loading} disableRowSelectionOnClick pageSizeOptions={[10, 25, 50]} initialState={{ pagination: { paginationModel: { pageSize: 10 } } }} />
       </Paper>

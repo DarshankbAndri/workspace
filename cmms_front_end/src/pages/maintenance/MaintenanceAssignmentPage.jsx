@@ -28,6 +28,10 @@ function MaintenanceAssignmentPage() {
   const [editingId, setEditingId] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState('');
+  const selectedRequest = React.useMemo(
+    () => requests.find((request) => String(request.id) === String(form.requestId)),
+    [requests, form.requestId]
+  );
 
   const loadData = React.useCallback(() => {
     setLoading(true);
@@ -44,7 +48,18 @@ function MaintenanceAssignmentPage() {
   React.useEffect(() => { loadData(); }, [loadData]);
 
   const updateField = (field) => (event) => setForm((current) => ({ ...current, [field]: event.target.value }));
+  const updateRequest = (event) => setForm((current) => ({ ...current, requestId: event.target.value, vendorId: '' }));
   const resetForm = () => { setEditingId(null); setForm(initialForm); };
+
+  React.useEffect(() => {
+    if (!selectedRequest?.siteId) {
+      setVendors([]);
+      return;
+    }
+    getVendors({ siteId: selectedRequest.siteId, status: 'ACTIVE' })
+      .then(setVendors)
+      .catch(() => setError('Unable to load vendors for selected request site.'));
+  }, [selectedRequest?.siteId]);
 
   const payload = {
     ...form,
@@ -122,8 +137,8 @@ function MaintenanceAssignmentPage() {
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
       <Paper component="form" onSubmit={handleSubmit} sx={{ p: 2.5, mb: 2, borderRadius: 1 }}>
         <Grid container spacing={2}>
-          <Grid item xs={12} md={4}><TextField required select fullWidth label="Request" value={form.requestId} onChange={updateField('requestId')}>{requests.map((item) => <MenuItem key={item.id} value={item.id}>{item.requestNumber} - {item.title}</MenuItem>)}</TextField></Grid>
-          <Grid item xs={12} md={4}><TextField select fullWidth label="Vendor" value={form.vendorId} onChange={updateField('vendorId')}><MenuItem value="">Internal Team</MenuItem>{vendors.map((item) => <MenuItem key={item.id} value={item.id}>{item.vendorName}</MenuItem>)}</TextField></Grid>
+          <Grid item xs={12} md={4}><TextField required select fullWidth label="Request" value={form.requestId} onChange={updateRequest}>{requests.map((item) => <MenuItem key={item.id} value={item.id}>{item.requestNumber} - {item.title}</MenuItem>)}</TextField></Grid>
+          <Grid item xs={12} md={4}><TextField select fullWidth disabled={!form.requestId} label="Vendor" value={form.vendorId} onChange={updateField('vendorId')} helperText={form.requestId && vendors.length === 0 ? 'No vendors assigned to this site.' : ''}><MenuItem value="">Internal Team</MenuItem>{vendors.map((item) => <MenuItem key={item.id} value={item.id}>{item.vendorName}</MenuItem>)}</TextField></Grid>
           <Grid item xs={12} md={4}><TextField required fullWidth label="Assigned To" value={form.assignedTo} onChange={updateField('assignedTo')} /></Grid>
           <Grid item xs={12} md={3}><TextField type="date" fullWidth label="Assigned Date" value={form.assignedDate} onChange={updateField('assignedDate')} InputLabelProps={{ shrink: true }} /></Grid>
           <Grid item xs={12} md={3}><TextField type="date" fullWidth label="Planned Start" value={form.plannedStartDate || ''} onChange={updateField('plannedStartDate')} InputLabelProps={{ shrink: true }} /></Grid>

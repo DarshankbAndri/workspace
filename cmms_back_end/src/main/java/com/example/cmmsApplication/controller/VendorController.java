@@ -39,7 +39,14 @@ public class VendorController {
     }
 
     @GetMapping
-    public ResponseEntity<List<VendorDTO>> getAll() {
-        return ResponseEntity.ok(vendorService.getAll());
+    public ResponseEntity<List<VendorDTO>> getAll(@RequestParam(required = false) Long siteId,
+                                                  @RequestParam(required = false) String status) {
+        Boolean active = null;
+        if ("ACTIVE".equalsIgnoreCase(status)) {
+            active = true;
+        } else if ("INACTIVE".equalsIgnoreCase(status)) {
+            active = false;
+        }
+        return ResponseEntity.ok(vendorService.getAll(siteId, active));
     }
 }

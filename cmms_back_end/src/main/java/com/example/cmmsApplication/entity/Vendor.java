@@ -2,6 +2,8 @@ package com.example.cmmsApplication.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "vendor_master")
@@ -40,6 +42,9 @@ public class Vendor {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
+    @OneToMany(mappedBy = "vendor", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<VendorSiteAssignment> siteAssignments = new ArrayList<>();
+
     @PrePersist
     public void onCreate() {
         createdAt = LocalDateTime.now();
@@ -73,4 +78,6 @@ public class Vendor {
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+    public List<VendorSiteAssignment> getSiteAssignments() { return siteAssignments; }
+    public void setSiteAssignments(List<VendorSiteAssignment> siteAssignments) { this.siteAssignments = siteAssignments; }
 }
