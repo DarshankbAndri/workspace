@@ -99,6 +99,58 @@ CREATE TABLE IF NOT EXISTS equipment_downtime (
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE IF NOT EXISTS site_master (
+    site_id BIGSERIAL PRIMARY KEY,
+    site_code VARCHAR(50) UNIQUE NOT NULL,
+    site_name VARCHAR(200) NOT NULL,
+    organization_name VARCHAR(200),
+    site_type VARCHAR(100),
+    address_line1 VARCHAR(300),
+    address_line2 VARCHAR(300),
+    city VARCHAR(100),
+    state VARCHAR(100),
+    country VARCHAR(100),
+    pincode VARCHAR(20),
+    contact_person VARCHAR(100),
+    contact_mobile VARCHAR(20),
+    contact_email VARCHAR(150),
+    latitude NUMERIC(12,8),
+    longitude NUMERIC(12,8),
+    status VARCHAR(20),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS employee_master (
+    employee_id BIGSERIAL PRIMARY KEY,
+    employee_code VARCHAR(50) UNIQUE NOT NULL,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100),
+    mobile_number VARCHAR(20) NOT NULL,
+    email VARCHAR(150),
+    gender VARCHAR(20),
+    date_of_birth DATE,
+    date_of_joining DATE,
+    designation VARCHAR(100),
+    department VARCHAR(100),
+    status VARCHAR(20),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS employee_site_assignment (
+    assignment_id BIGSERIAL PRIMARY KEY,
+    employee_id BIGINT NOT NULL REFERENCES employee_master(employee_id),
+    site_id BIGINT NOT NULL REFERENCES site_master(site_id),
+    role_name VARCHAR(100) NOT NULL,
+    is_primary_site BOOLEAN DEFAULT FALSE,
+    effective_from DATE,
+    effective_to DATE,
+    status VARCHAR(20),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP
+);
+
 CREATE INDEX IF NOT EXISTS idx_equipment_master_code ON equipment_master(equipment_code);
 CREATE INDEX IF NOT EXISTS idx_equipment_master_status ON equipment_master(status);
 CREATE INDEX IF NOT EXISTS idx_vendor_master_code ON vendor_master(vendor_code);
@@ -111,3 +163,10 @@ CREATE INDEX IF NOT EXISTS idx_pm_schedule_active ON preventive_maintenance_sche
 CREATE INDEX IF NOT EXISTS idx_assignment_request ON maintenance_assignment(request_id);
 CREATE INDEX IF NOT EXISTS idx_downtime_equipment ON equipment_downtime(equipment_id);
 CREATE INDEX IF NOT EXISTS idx_downtime_start ON equipment_downtime(downtime_start);
+CREATE INDEX IF NOT EXISTS idx_site_master_code ON site_master(site_code);
+CREATE INDEX IF NOT EXISTS idx_site_master_status ON site_master(status);
+CREATE INDEX IF NOT EXISTS idx_employee_master_code ON employee_master(employee_code);
+CREATE INDEX IF NOT EXISTS idx_employee_master_status ON employee_master(status);
+CREATE INDEX IF NOT EXISTS idx_employee_assignment_employee ON employee_site_assignment(employee_id);
+CREATE INDEX IF NOT EXISTS idx_employee_assignment_site ON employee_site_assignment(site_id);
+CREATE INDEX IF NOT EXISTS idx_employee_assignment_status ON employee_site_assignment(status);
