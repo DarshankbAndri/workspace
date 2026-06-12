@@ -60,13 +60,20 @@ public class MaintenanceAssignmentService {
 
     private void apply(MaintenanceAssignment assignment, MaintenanceAssignmentDTO dto) {
         MaintenanceRequest request = requestService.getEntity(dto.getRequestId());
+        Long requestSiteId = request.getSite() == null ? null : request.getSite().getId();
+        if (dto.getSiteId() == null) {
+            throw new InvalidOperationException("Site is required");
+        }
+        if (requestSiteId == null || !dto.getSiteId().equals(requestSiteId)) {
+            throw new InvalidOperationException("Selected request does not belong to selected site");
+        }
         assignment.setRequest(request);
-        Vendor vendor = dto.getVendorId() == null ? null : vendorService.getEntity(dto.getVendorId());
-        if (vendor != null) {
-            Long requestSiteId = request.getSite() == null ? null : request.getSite().getId();
-            if (requestSiteId == null || !vendorService.isVendorAssignedToSite(vendor.getId(), requestSiteId)) {
-                throw new InvalidOperationException("Selected vendor is not assigned to this site.");
-            }
+        if (dto.getVendorId() == null) {
+            throw new InvalidOperationException("Vendor is required");
+        }
+        Vendor vendor = vendorService.getEntity(dto.getVendorId());
+        if (!vendorService.isVendorAssignedToSite(vendor.getId(), requestSiteId)) {
+            throw new InvalidOperationException("Selected vendor is not assigned to the request site.");
         }
         assignment.setVendor(vendor);
         assignment.setAssignedTo(dto.getAssignedTo());
@@ -84,6 +91,9 @@ public class MaintenanceAssignmentService {
     private MaintenanceAssignmentDTO toDTO(MaintenanceAssignment assignment) {
         MaintenanceAssignmentDTO dto = new MaintenanceAssignmentDTO();
         dto.setId(assignment.getId());
+        dto.setSiteId(assignment.getRequest().getSite() == null ? null : assignment.getRequest().getSite().getId());
+        dto.setSiteCode(assignment.getRequest().getSite() == null ? null : assignment.getRequest().getSite().getSiteCode());
+        dto.setSiteName(assignment.getRequest().getSite() == null ? null : assignment.getRequest().getSite().getSiteName());
         dto.setRequestId(assignment.getRequest().getId());
         dto.setRequestNumber(assignment.getRequest().getRequestNumber());
         dto.setRequestTitle(assignment.getRequest().getTitle());

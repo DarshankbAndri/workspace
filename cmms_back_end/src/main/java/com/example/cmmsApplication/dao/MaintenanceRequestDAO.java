@@ -19,6 +19,8 @@ public class MaintenanceRequestDAO {
     public Optional<MaintenanceRequest> findById(Long id) { return repository.findById(id); }
     public List<MaintenanceRequest> findAll() { return repository.findAll(); }
     public List<MaintenanceRequest> findBySiteId(Long siteId) { return repository.findBySiteId(siteId); }
+    public List<MaintenanceRequest> findByStatus(String status) { return repository.findByStatus(status); }
+    public List<MaintenanceRequest> findBySiteIdAndStatus(Long siteId, String status) { return repository.findBySiteIdAndStatus(siteId, status); }
     public void deleteById(Long id) { repository.deleteById(id); }
     public long countOpenRequests() { return repository.countByStatusIn(Arrays.asList("OPEN", "IN_PROGRESS", "ON_HOLD")); }
     public long countOpenRequestsBySiteId(Long siteId) { return repository.countBySiteIdAndStatusIn(siteId, Arrays.asList("OPEN", "IN_PROGRESS", "ON_HOLD")); }

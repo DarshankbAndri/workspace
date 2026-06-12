@@ -9,10 +9,14 @@ import java.time.LocalDateTime;
 
 public class MaintenanceAssignmentDTO {
     private Long id;
+    private Long siteId;
+    private String siteCode;
+    private String siteName;
     @NotNull(message = "Maintenance request is required")
     private Long requestId;
     private String requestNumber;
     private String requestTitle;
+    @NotNull(message = "Vendor is required")
     private Long vendorId;
     private String vendorName;
     @NotBlank(message = "Assigned to is required")
@@ -36,6 +40,12 @@ public class MaintenanceAssignmentDTO {
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
+    public Long getSiteId() { return siteId; }
+    public void setSiteId(Long siteId) { this.siteId = siteId; }
+    public String getSiteCode() { return siteCode; }
+    public void setSiteCode(String siteCode) { this.siteCode = siteCode; }
+    public String getSiteName() { return siteName; }
+    public void setSiteName(String siteName) { this.siteName = siteName; }
     public Long getRequestId() { return requestId; }
     public void setRequestId(Long requestId) { this.requestId = requestId; }
     public String getRequestNumber() { return requestNumber; }

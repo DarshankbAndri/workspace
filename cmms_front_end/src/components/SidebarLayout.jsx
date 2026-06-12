@@ -28,6 +28,7 @@ import {
   ChevronRight,
   DarkMode,
   Dashboard,
+  EventRepeat,
   ExpandLess,
   ExpandMore,
   History,
@@ -64,7 +65,8 @@ const operationGroups = [
       { label: 'Requests', path: '/maintenance/requests', icon: <Assignment /> },
       { label: 'Assignments', path: '/maintenance/assignments', icon: <Build /> },
       { label: 'Downtime', path: '/maintenance/downtime', icon: <Timeline /> },
-    ],
+      { label: 'Preventive Maintenance', path: '/maintenance/preventive', icon: <EventRepeat /> },
+    ]
   },
   {
     key: 'reports',

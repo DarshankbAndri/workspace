@@ -54,8 +54,17 @@ public class MaintenanceRequestService {
     }
 
     @Transactional(readOnly = true)
-    public List<MaintenanceRequestDTO> getAll(Long siteId) {
-        List<MaintenanceRequest> requests = siteId == null ? requestDAO.findAll() : requestDAO.findBySiteId(siteId);
+    public List<MaintenanceRequestDTO> getAll(Long siteId, String status) {
+        List<MaintenanceRequest> requests;
+        if (siteId != null && status != null && !status.isBlank()) {
+            requests = requestDAO.findBySiteIdAndStatus(siteId, status);
+        } else if (siteId != null) {
+            requests = requestDAO.findBySiteId(siteId);
+        } else if (status != null && !status.isBlank()) {
+            requests = requestDAO.findByStatus(status);
+        } else {
+            requests = requestDAO.findAll();
+        }
         return requests.stream().map(this::toDTO).collect(Collectors.toList());
     }
 

@@ -2,7 +2,8 @@ import api from './api';
 
 export const getDashboardSummary = (siteId) => api.get('/dashboard/summary', { params: siteId ? { siteId } : {} }).then((response) => response.data);
 
-export const getMaintenanceRequests = (siteId) => api.get('/maintenance/requests', { params: siteId ? { siteId } : {} }).then((response) => response.data);
+export const getMaintenanceRequests = (siteId, status) => api.get('/maintenance/requests', { params: { ...(siteId ? { siteId } : {}), ...(status ? { status } : {}) } }).then((response) => response.data);
+export const getRequestsBySite = (siteId) => getMaintenanceRequests(siteId);
 export const getMaintenanceRequestById = (id) => api.get(`/maintenance/requests/${id}`).then((response) => response.data);
 export const createMaintenanceRequest = (data) => api.post('/maintenance/requests', data).then((response) => response.data);
 export const updateMaintenanceRequest = (id, data) => api.put(`/maintenance/requests/${id}`, data).then((response) => response.data);
