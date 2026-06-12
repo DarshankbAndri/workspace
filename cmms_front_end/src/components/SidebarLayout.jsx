@@ -4,6 +4,7 @@ import {
   AppBar,
   Avatar,
   Box,
+  ButtonBase,
   Collapse,
   Divider,
   Drawer,
@@ -23,7 +24,6 @@ import {
   Assignment,
   Build,
   Business,
-  EventRepeat,
   ChevronLeft,
   ChevronRight,
   DarkMode,
@@ -35,6 +35,7 @@ import {
   Logout,
   Menu,
   People,
+  Place,
   PrecisionManufacturing,
   Timeline,
 } from '@mui/icons-material';
@@ -43,7 +44,7 @@ import { useAuth } from '../context/AuthContext';
 const drawerWidth = 280;
 const collapsedWidth = 76;
 
-const groups = [
+const operationGroups = [
   {
     key: 'masters',
     label: 'Masters',
@@ -63,7 +64,6 @@ const groups = [
       { label: 'Requests', path: '/maintenance/requests', icon: <Assignment /> },
       { label: 'Assignments', path: '/maintenance/assignments', icon: <Build /> },
       { label: 'Downtime', path: '/maintenance/downtime', icon: <Timeline /> },
-      { label: 'Preventive Maintenance', path: '/maintenance/preventive', icon: <EventRepeat /> },
     ],
   },
   {
@@ -74,6 +74,19 @@ const groups = [
     items: [
       { label: 'Equipment History', path: '/reports/equipment-history', icon: <History /> },
       { label: 'Downtime Analysis', path: '/reports/downtime-analysis', icon: <Timeline /> },
+    ],
+  },
+];
+
+const hrGroups = [
+  {
+    key: 'creation',
+    label: 'Creation',
+    icon: <People />,
+    paths: ['/hr'],
+    items: [
+      { label: 'Sites', path: '/hr/sites', icon: <Place /> },
+      { label: 'Employees', path: '/hr/employees', icon: <People /> },
     ],
   },
 ];
@@ -125,6 +138,36 @@ function SidebarLink({ to, icon, label, nested = false, collapsed, onClick }) {
   ) : link;
 }
 
+function CategoryButton({ selected, label, collapsed, onClick }) {
+  const button = (
+    <ButtonBase
+      onClick={onClick}
+      sx={(theme) => ({
+        flex: 1,
+        minHeight: 36,
+        px: collapsed ? 0 : 1,
+        borderRadius: 1,
+        color: selected ? 'primary.main' : 'text.secondary',
+        bgcolor: selected ? alpha(theme.palette.primary.main, theme.palette.mode === 'dark' ? 0.24 : 0.12) : 'transparent',
+        border: `1px solid ${selected ? alpha(theme.palette.primary.main, 0.45) : theme.palette.divider}`,
+        fontSize: 13,
+        fontWeight: 800,
+        '&:hover': {
+          bgcolor: selected ? alpha(theme.palette.primary.main, theme.palette.mode === 'dark' ? 0.3 : 0.16) : 'action.hover',
+        },
+      })}
+    >
+      {collapsed ? label[0] : label}
+    </ButtonBase>
+  );
+
+  return collapsed ? (
+    <Tooltip title={label} placement="right">
+      {button}
+    </Tooltip>
+  ) : button;
+}
+
 function SidebarLayout({ children, mode, onToggleMode }) {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
@@ -133,18 +176,25 @@ function SidebarLayout({ children, mode, onToggleMode }) {
   const { user, logout } = useAuth();
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [collapsed, setCollapsed] = React.useState(() => localStorage.getItem('cmmsSidebarCollapsed') === 'true');
+  const [selectedCategory, setSelectedCategory] = React.useState('operation');
   const [openGroups, setOpenGroups] = React.useState({
     masters: true,
     maintenance: true,
     reports: true,
+    creation: true,
   });
 
   React.useEffect(() => {
-    const activeGroup = groups.find((group) => group.paths.some((path) => location.pathname.startsWith(path)));
+    setSelectedCategory(location.pathname.startsWith('/hr') ? 'hr' : 'operation');
+  }, [location.pathname]);
+
+  React.useEffect(() => {
+    const currentGroups = selectedCategory === 'hr' ? hrGroups : operationGroups;
+    const activeGroup = currentGroups.find((group) => group.paths.some((path) => location.pathname.startsWith(path)));
     if (activeGroup) {
       setOpenGroups((current) => ({ ...current, [activeGroup.key]: true }));
     }
-  }, [location.pathname]);
+  }, [location.pathname, selectedCategory]);
 
   const closeMobile = () => setMobileOpen(false);
   const drawerIsCollapsed = isDesktop && collapsed;
@@ -172,6 +222,12 @@ function SidebarLayout({ children, mode, onToggleMode }) {
     setOpenGroups((current) => ({ ...current, [groupKey]: !current[groupKey] }));
   };
 
+  const showCategory = (category) => {
+    setSelectedCategory(category);
+  };
+
+  const visibleGroups = selectedCategory === 'hr' ? hrGroups : operationGroups;
+
   const drawer = (
     <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', bgcolor: 'background.paper' }}>
       <Box sx={{ minHeight: 72, px: drawerIsCollapsed ? 1.5 : 2.25, display: 'flex', alignItems: 'center', gap: 1.5 }}>
@@ -195,10 +251,26 @@ function SidebarLayout({ children, mode, onToggleMode }) {
           </Box>
         )}
       </Box>
+      <Box sx={{ px: drawerIsCollapsed ? 1 : 1.5, pb: 1.5, display: 'flex', gap: 1 }}>
+        <CategoryButton
+          selected={selectedCategory === 'operation'}
+          label="Operation"
+          collapsed={drawerIsCollapsed}
+          onClick={() => showCategory('operation')}
+        />
+        <CategoryButton
+          selected={selectedCategory === 'hr'}
+          label="HR"
+          collapsed={drawerIsCollapsed}
+          onClick={() => showCategory('hr')}
+        />
+      </Box>
       <Divider />
       <List sx={{ flex: 1, py: 1 }}>
-        <SidebarLink to="/dashboard" icon={<Dashboard />} label="Dashboard" collapsed={drawerIsCollapsed} onClick={closeMobile} />
-        {groups.map((group) => {
+        {selectedCategory === 'operation' && (
+          <SidebarLink to="/dashboard" icon={<Dashboard />} label="Dashboard" collapsed={drawerIsCollapsed} onClick={closeMobile} />
+        )}
+        {visibleGroups.map((group) => {
           const activeGroup = group.paths.some((path) => location.pathname.startsWith(path));
           const groupButton = (
             <ListItemButton

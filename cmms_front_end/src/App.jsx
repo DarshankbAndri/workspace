@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { ThemeProvider, createTheme, CssBaseline, useMediaQuery } from '@mui/material';
+import { Box, Paper, ThemeProvider, Typography, createTheme, CssBaseline, useMediaQuery } from '@mui/material';
 import { useAuth } from './context/AuthContext';
 import SidebarLayout from './components/SidebarLayout';
 import LoginPage from './pages/LoginPage';
@@ -91,6 +91,17 @@ function ProtectedRoute({ children }) {
   return isAuthenticated ? children : <Navigate to="/login" replace />;
 }
 
+function PlaceholderPage({ title }) {
+  return (
+    <Paper sx={{ p: 3, borderRadius: 1 }}>
+      <Typography variant="h5" fontWeight={700} gutterBottom>{title}</Typography>
+      <Box sx={{ color: 'text.secondary' }}>
+        <Typography variant="body2">This page will be available soon.</Typography>
+      </Box>
+    </Paper>
+  );
+}
+
 function App() {
   const { isAuthenticated, loading } = useAuth();
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
@@ -135,6 +146,8 @@ function App() {
           <Route path="/maintenance/preventive" element={protectedPage(<PreventiveMaintenancePage />)} />
           <Route path="/reports/equipment-history" element={protectedPage(<EquipmentHistoryPage />)} />
           <Route path="/reports/downtime-analysis" element={protectedPage(<DowntimeAnalysisPage />)} />
+          <Route path="/hr/sites" element={protectedPage(<PlaceholderPage title="Sites" />)} />
+          <Route path="/hr/employees" element={protectedPage(<PlaceholderPage title="Employees" />)} />
           <Route path="/create-user" element={protectedPage(<UserManagementPage />)} />
           <Route path="*" element={<Navigate to={isAuthenticated ? '/dashboard' : '/login'} replace />} />
         </Routes>
