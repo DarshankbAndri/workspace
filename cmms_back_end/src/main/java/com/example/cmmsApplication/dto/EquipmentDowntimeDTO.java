@@ -12,8 +12,13 @@ public class EquipmentDowntimeDTO {
     private Long equipmentId;
     private String equipmentCode;
     private String equipmentName;
+    @NotNull(message = "Site is required")
+    private Long siteId;
+    private String siteCode;
+    private String siteName;
     private Long requestId;
     private String requestNumber;
+    private String requestTitle;
     @NotNull(message = "Downtime start is required")
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime downtimeStart;
@@ -37,10 +42,18 @@ public class EquipmentDowntimeDTO {
     public void setEquipmentCode(String equipmentCode) { this.equipmentCode = equipmentCode; }
     public String getEquipmentName() { return equipmentName; }
     public void setEquipmentName(String equipmentName) { this.equipmentName = equipmentName; }
+    public Long getSiteId() { return siteId; }
+    public void setSiteId(Long siteId) { this.siteId = siteId; }
+    public String getSiteCode() { return siteCode; }
+    public void setSiteCode(String siteCode) { this.siteCode = siteCode; }
+    public String getSiteName() { return siteName; }
+    public void setSiteName(String siteName) { this.siteName = siteName; }
     public Long getRequestId() { return requestId; }
     public void setRequestId(Long requestId) { this.requestId = requestId; }
     public String getRequestNumber() { return requestNumber; }
     public void setRequestNumber(String requestNumber) { this.requestNumber = requestNumber; }
+    public String getRequestTitle() { return requestTitle; }
+    public void setRequestTitle(String requestTitle) { this.requestTitle = requestTitle; }
     public LocalDateTime getDowntimeStart() { return downtimeStart; }
     public void setDowntimeStart(LocalDateTime downtimeStart) { this.downtimeStart = downtimeStart; }
     public LocalDateTime getDowntimeEnd() { return downtimeEnd; }

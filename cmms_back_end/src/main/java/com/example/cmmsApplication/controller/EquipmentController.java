@@ -39,7 +39,7 @@ public class EquipmentController {
     }
 
     @GetMapping
-    public ResponseEntity<List<EquipmentDTO>> getAll() {
-        return ResponseEntity.ok(equipmentService.getAll());
+    public ResponseEntity<List<EquipmentDTO>> getAll(@RequestParam(required = false) Long siteId) {
+        return ResponseEntity.ok(equipmentService.getAll(siteId));
     }
 }

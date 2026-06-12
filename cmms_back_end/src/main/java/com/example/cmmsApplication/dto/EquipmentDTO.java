@@ -2,6 +2,7 @@ package com.example.cmmsApplication.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -11,6 +12,10 @@ public class EquipmentDTO {
     private String equipmentCode;
     @NotBlank(message = "Equipment name is required")
     private String equipmentName;
+    @NotNull(message = "Site is required")
+    private Long siteId;
+    private String siteCode;
+    private String siteName;
     @NotBlank(message = "Category is required")
     private String category;
     private String location;
@@ -32,6 +37,12 @@ public class EquipmentDTO {
     public void setEquipmentCode(String equipmentCode) { this.equipmentCode = equipmentCode; }
     public String getEquipmentName() { return equipmentName; }
     public void setEquipmentName(String equipmentName) { this.equipmentName = equipmentName; }
+    public Long getSiteId() { return siteId; }
+    public void setSiteId(Long siteId) { this.siteId = siteId; }
+    public String getSiteCode() { return siteCode; }
+    public void setSiteCode(String siteCode) { this.siteCode = siteCode; }
+    public String getSiteName() { return siteName; }
+    public void setSiteName(String siteName) { this.siteName = siteName; }
     public String getCategory() { return category; }
     public void setCategory(String category) { this.category = category; }
     public String getLocation() { return location; }

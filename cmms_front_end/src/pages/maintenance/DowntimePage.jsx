@@ -15,6 +15,7 @@ import {
 import { Clear, Delete, Edit, Save } from '@mui/icons-material';
 import { DataGrid } from '@mui/x-data-grid';
 import { getEquipments } from '../../services/equipmentService';
+import { getSites } from '../../services/siteService';
 import {
   createDowntimeEntry,
   deleteDowntimeEntry,
@@ -26,6 +27,7 @@ import {
 const nowLocal = () => new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 16);
 
 const initialForm = {
+  siteId: '',
   equipmentId: '',
   requestId: '',
   downtimeStart: nowLocal(),
@@ -58,8 +60,10 @@ const formatDuration = (value) => value ?? '-';
 
 function DowntimePage() {
   const [rows, setRows] = React.useState([]);
+  const [sites, setSites] = React.useState([]);
   const [equipments, setEquipments] = React.useState([]);
   const [requests, setRequests] = React.useState([]);
+  const [siteFilter, setSiteFilter] = React.useState('');
   const [form, setForm] = React.useState(initialForm);
   const [editingId, setEditingId] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
@@ -72,19 +76,27 @@ function DowntimePage() {
 
   const loadData = React.useCallback(() => {
     setLoading(true);
-    Promise.all([getDowntimeEntries(), getEquipments(), getMaintenanceRequests()])
-      .then(([downtimeRows, equipmentRows, requestRows]) => {
+    Promise.all([getDowntimeEntries(siteFilter ? { siteId: siteFilter } : {}), getEquipments(), getMaintenanceRequests(), getSites()])
+      .then(([downtimeRows, equipmentRows, requestRows, siteRows]) => {
         setRows(downtimeRows);
         setEquipments(equipmentRows);
         setRequests(requestRows);
+        setSites(siteRows.filter((site) => site.status !== 'INACTIVE'));
       })
       .catch(() => setError('Unable to load downtime data.'))
       .finally(() => setLoading(false));
-  }, []);
+  }, [siteFilter]);
 
   React.useEffect(() => { loadData(); }, [loadData]);
 
   const updateField = (field) => (event) => setForm((current) => ({ ...current, [field]: event.target.value }));
+  const updateSite = (event) => setForm((current) => ({ ...current, siteId: event.target.value, equipmentId: '', requestId: '' }));
+  const updateEquipment = (event) => setForm((current) => ({ ...current, equipmentId: event.target.value, requestId: '' }));
+  const formEquipments = equipments.filter((equipment) => String(equipment.siteId || '') === String(form.siteId || ''));
+  const formRequests = requests.filter((request) => (
+    String(request.siteId || '') === String(form.siteId || '') &&
+    (!form.equipmentId || String(request.equipmentId || '') === String(form.equipmentId))
+  ));
 
   const resetForm = () => {
     setEditingId(null);
@@ -102,6 +114,7 @@ function DowntimePage() {
 
     const payload = {
       ...form,
+      siteId: Number(form.siteId),
       equipmentId: Number(form.equipmentId),
       requestId: form.requestId ? Number(form.requestId) : null,
       downtimeEnd: form.downtimeEnd || null,
@@ -124,6 +137,7 @@ function DowntimePage() {
   const editRow = (row) => {
     setEditingId(row.id);
     setForm({
+      siteId: row.siteId || '',
       equipmentId: row.equipmentId || '',
       requestId: row.requestId || '',
       downtimeStart: row.downtimeStart?.slice(0, 16) || '',
@@ -141,6 +155,7 @@ function DowntimePage() {
 
   const columns = [
     { field: 'equipmentName', headerName: 'Equipment', minWidth: 190, flex: 1 },
+    { field: 'siteName', headerName: 'Site', minWidth: 170, flex: 0.9 },
     { field: 'requestNumber', headerName: 'Maintenance Request', minWidth: 170, flex: 0.9 },
     { field: 'downtimeStart', headerName: 'Start Time', minWidth: 170, flex: 0.9 },
     { field: 'downtimeEnd', headerName: 'End Time', minWidth: 170, flex: 0.9, valueFormatter: ({ value }) => value || '-' },
@@ -171,19 +186,32 @@ function DowntimePage() {
       </Typography>
 
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
+      <Card sx={{ mb: 2, borderRadius: 1, border: '1px solid', borderColor: 'divider', boxShadow: 'none' }}>
+        <CardContent sx={{ p: 2 }}>
+          <TextField select label="Site Filter" value={siteFilter} onChange={(event) => setSiteFilter(event.target.value)} sx={{ minWidth: { xs: '100%', sm: 280 } }}>
+            <MenuItem value="">All Sites</MenuItem>
+            {sites.map((site) => <MenuItem key={site.id} value={site.id}>{site.siteName} ({site.siteCode})</MenuItem>)}
+          </TextField>
+        </CardContent>
+      </Card>
 
       <Card component="form" onSubmit={handleSubmit} sx={{ mb: 2, borderRadius: 1, border: '1px solid', borderColor: 'divider', boxShadow: 'none' }}>
         <CardContent sx={{ p: 2.5 }}>
           <Grid container spacing={2}>
             <Grid item xs={12} md={4}>
-              <TextField required select fullWidth label="Equipment" value={form.equipmentId} onChange={updateField('equipmentId')}>
-                {equipments.map((item) => <MenuItem key={item.id} value={item.id}>{item.equipmentCode} - {item.equipmentName}</MenuItem>)}
+              <TextField required select fullWidth label="Site" value={form.siteId} onChange={updateSite}>
+                {sites.map((site) => <MenuItem key={site.id} value={site.id}>{site.siteName} ({site.siteCode})</MenuItem>)}
               </TextField>
             </Grid>
             <Grid item xs={12} md={4}>
-              <TextField select fullWidth label="Maintenance Request" value={form.requestId} onChange={updateField('requestId')}>
+              <TextField required select fullWidth disabled={!form.siteId} label="Equipment" value={form.equipmentId} onChange={updateEquipment}>
+                {formEquipments.map((item) => <MenuItem key={item.id} value={item.id}>{item.equipmentCode} - {item.equipmentName}</MenuItem>)}
+              </TextField>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <TextField select fullWidth disabled={!form.siteId || !form.equipmentId} label="Maintenance Request" value={form.requestId} onChange={updateField('requestId')}>
                 <MenuItem value="">No request</MenuItem>
-                {requests.map((item) => <MenuItem key={item.id} value={item.id}>{item.requestNumber} - {item.title}</MenuItem>)}
+                {formRequests.map((item) => <MenuItem key={item.id} value={item.id}>{item.requestNumber} - {item.title}</MenuItem>)}
               </TextField>
             </Grid>
             <Grid item xs={12} md={4}>

@@ -89,14 +89,15 @@ const groupAssignmentsByVendor = (assignments) => {
     .slice(0, 8);
 };
 
-export const getDashboardSummary = () => api.get('/dashboard/summary').then((response) => response.data);
+export const getDashboardSummary = (siteId) => api.get('/dashboard/summary', { params: siteId ? { siteId } : {} }).then((response) => response.data);
 
-export const getDashboardData = async () => {
+export const getDashboardData = async (siteId) => {
+  const params = siteId ? { siteId } : {};
   const [summary, equipments, downtimeEntries, assignments, upcomingMaintenance] = await Promise.all([
-    getDashboardSummary(),
-    api.get('/equipment').then((response) => response.data),
-    api.get('/maintenance/downtime').then((response) => response.data),
-    api.get('/maintenance/assignments').then((response) => response.data),
+    getDashboardSummary(siteId),
+    api.get('/equipment', { params }).then((response) => response.data),
+    api.get('/maintenance/downtime', { params }).then((response) => response.data),
+    api.get('/maintenance/assignments', { params }).then((response) => response.data),
     getUpcomingPMSchedules(30),
   ]);
 

@@ -3,6 +3,7 @@ package com.example.cmmsApplication.service;
 import com.example.cmmsApplication.dao.EquipmentDAO;
 import com.example.cmmsApplication.dto.EquipmentDTO;
 import com.example.cmmsApplication.entity.Equipment;
+import com.example.cmmsApplication.entity.Site;
 import com.example.cmmsApplication.exception.InvalidOperationException;
 import com.example.cmmsApplication.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
@@ -14,9 +15,11 @@ import java.util.stream.Collectors;
 @Transactional
 public class EquipmentService {
     private final EquipmentDAO equipmentDAO;
+    private final SiteService siteService;
 
-    public EquipmentService(EquipmentDAO equipmentDAO) {
+    public EquipmentService(EquipmentDAO equipmentDAO, SiteService siteService) {
         this.equipmentDAO = equipmentDAO;
+        this.siteService = siteService;
     }
 
     public EquipmentDTO create(EquipmentDTO dto) {
@@ -43,8 +46,9 @@ public class EquipmentService {
     }
 
     @Transactional(readOnly = true)
-    public List<EquipmentDTO> getAll() {
-        return equipmentDAO.findAll().stream().map(this::toDTO).collect(Collectors.toList());
+    public List<EquipmentDTO> getAll(Long siteId) {
+        List<Equipment> equipment = siteId == null ? equipmentDAO.findAll() : equipmentDAO.findBySiteId(siteId);
+        return equipment.stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     public void delete(Long id) {
@@ -59,6 +63,8 @@ public class EquipmentService {
     }
 
     private void apply(Equipment equipment, EquipmentDTO dto) {
+        Site site = validateActiveSite(dto.getSiteId());
+        equipment.setSite(site);
         equipment.setEquipmentCode(dto.getEquipmentCode());
         equipment.setEquipmentName(dto.getEquipmentName());
         equipment.setCategory(dto.getCategory());
@@ -72,11 +78,25 @@ public class EquipmentService {
         equipment.setCriticality(dto.getCriticality() == null ? "MEDIUM" : dto.getCriticality());
     }
 
+    private Site validateActiveSite(Long siteId) {
+        if (siteId == null) {
+            throw new InvalidOperationException("Site is required");
+        }
+        Site site = siteService.getEntity(siteId);
+        if (!"ACTIVE".equalsIgnoreCase(site.getStatus())) {
+            throw new InvalidOperationException("Selected site is inactive");
+        }
+        return site;
+    }
+
     private EquipmentDTO toDTO(Equipment equipment) {
         EquipmentDTO dto = new EquipmentDTO();
         dto.setId(equipment.getId());
         dto.setEquipmentCode(equipment.getEquipmentCode());
         dto.setEquipmentName(equipment.getEquipmentName());
+        dto.setSiteId(equipment.getSite() == null ? null : equipment.getSite().getId());
+        dto.setSiteCode(equipment.getSite() == null ? null : equipment.getSite().getSiteCode());
+        dto.setSiteName(equipment.getSite() == null ? null : equipment.getSite().getSiteName());
         dto.setCategory(equipment.getCategory());
         dto.setLocation(equipment.getLocation());
         dto.setManufacturer(equipment.getManufacturer());

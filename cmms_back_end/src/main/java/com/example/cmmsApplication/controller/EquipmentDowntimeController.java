@@ -39,10 +39,8 @@ public class EquipmentDowntimeController {
     }
 
     @GetMapping
-    public ResponseEntity<List<EquipmentDowntimeDTO>> getAll(@RequestParam(required = false) Long equipmentId) {
-        if (equipmentId != null) {
-            return ResponseEntity.ok(downtimeService.getByEquipmentId(equipmentId));
-        }
-        return ResponseEntity.ok(downtimeService.getAll());
+    public ResponseEntity<List<EquipmentDowntimeDTO>> getAll(@RequestParam(required = false) Long siteId,
+                                                             @RequestParam(required = false) Long equipmentId) {
+        return ResponseEntity.ok(downtimeService.getAll(siteId, equipmentId));
     }
 }

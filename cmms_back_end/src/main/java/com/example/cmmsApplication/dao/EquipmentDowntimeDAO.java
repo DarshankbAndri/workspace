@@ -18,6 +18,9 @@ public class EquipmentDowntimeDAO {
     public Optional<EquipmentDowntime> findById(Long id) { return repository.findById(id); }
     public List<EquipmentDowntime> findAll() { return repository.findAll(); }
     public List<EquipmentDowntime> findByEquipmentId(Long equipmentId) { return repository.findByEquipmentId(equipmentId); }
+    public List<EquipmentDowntime> findBySiteId(Long siteId) { return repository.findBySiteId(siteId); }
+    public List<EquipmentDowntime> findBySiteIdAndEquipmentId(Long siteId, Long equipmentId) { return repository.findBySiteIdAndEquipmentId(siteId, equipmentId); }
     public void deleteById(Long id) { repository.deleteById(id); }
     public Long sumDowntimeMinutes() { return repository.sumDowntimeMinutes(); }
+    public Long sumDowntimeMinutesBySiteId(Long siteId) { return repository.sumDowntimeMinutesBySiteId(siteId); }
 }

@@ -18,6 +18,10 @@ public class MaintenanceRequest {
     @JoinColumn(name = "equipment_id", nullable = false)
     private Equipment equipment;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "site_id")
+    private Site site;
+
     @Column(name = "request_type", nullable = false, length = 40)
     private String requestType = "BREAKDOWN";
 
@@ -72,6 +76,8 @@ public class MaintenanceRequest {
     public void setRequestNumber(String requestNumber) { this.requestNumber = requestNumber; }
     public Equipment getEquipment() { return equipment; }
     public void setEquipment(Equipment equipment) { this.equipment = equipment; }
+    public Site getSite() { return site; }
+    public void setSite(Site site) { this.site = site; }
     public String getRequestType() { return requestType; }
     public void setRequestType(String requestType) { this.requestType = requestType; }
     public String getPriority() { return priority; }

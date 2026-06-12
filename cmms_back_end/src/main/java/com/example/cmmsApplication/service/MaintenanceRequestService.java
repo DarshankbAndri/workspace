@@ -4,6 +4,7 @@ import com.example.cmmsApplication.dao.MaintenanceRequestDAO;
 import com.example.cmmsApplication.dto.MaintenanceRequestDTO;
 import com.example.cmmsApplication.entity.Equipment;
 import com.example.cmmsApplication.entity.MaintenanceRequest;
+import com.example.cmmsApplication.entity.Site;
 import com.example.cmmsApplication.exception.InvalidOperationException;
 import com.example.cmmsApplication.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
@@ -18,10 +19,12 @@ import java.util.stream.Collectors;
 public class MaintenanceRequestService {
     private final MaintenanceRequestDAO requestDAO;
     private final EquipmentService equipmentService;
+    private final SiteService siteService;
 
-    public MaintenanceRequestService(MaintenanceRequestDAO requestDAO, EquipmentService equipmentService) {
+    public MaintenanceRequestService(MaintenanceRequestDAO requestDAO, EquipmentService equipmentService, SiteService siteService) {
         this.requestDAO = requestDAO;
         this.equipmentService = equipmentService;
+        this.siteService = siteService;
     }
 
     public MaintenanceRequestDTO create(MaintenanceRequestDTO dto) {
@@ -51,8 +54,9 @@ public class MaintenanceRequestService {
     }
 
     @Transactional(readOnly = true)
-    public List<MaintenanceRequestDTO> getAll() {
-        return requestDAO.findAll().stream().map(this::toDTO).collect(Collectors.toList());
+    public List<MaintenanceRequestDTO> getAll(Long siteId) {
+        List<MaintenanceRequest> requests = siteId == null ? requestDAO.findAll() : requestDAO.findBySiteId(siteId);
+        return requests.stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     public void delete(Long id) {
@@ -67,7 +71,12 @@ public class MaintenanceRequestService {
     }
 
     private void apply(MaintenanceRequest request, MaintenanceRequestDTO dto) {
+        Site site = validateActiveSite(dto.getSiteId());
         Equipment equipment = equipmentService.getEntity(dto.getEquipmentId());
+        if (equipment.getSite() == null || !site.getId().equals(equipment.getSite().getId())) {
+            throw new InvalidOperationException("Selected equipment does not belong to selected site");
+        }
+        request.setSite(site);
         request.setEquipment(equipment);
         if (dto.getRequestNumber() != null && !dto.getRequestNumber().isBlank()) {
             request.setRequestNumber(dto.getRequestNumber());
@@ -82,6 +91,17 @@ public class MaintenanceRequestService {
         request.setTargetCompletionDate(dto.getTargetCompletionDate());
     }
 
+    private Site validateActiveSite(Long siteId) {
+        if (siteId == null) {
+            throw new InvalidOperationException("Site is required");
+        }
+        Site site = siteService.getEntity(siteId);
+        if (!"ACTIVE".equalsIgnoreCase(site.getStatus())) {
+            throw new InvalidOperationException("Selected site is inactive");
+        }
+        return site;
+    }
+
     private String generateRequestNumber() {
         return "MR-" + LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE) + "-" + System.currentTimeMillis();
     }
@@ -93,6 +113,9 @@ public class MaintenanceRequestService {
         dto.setEquipmentId(request.getEquipment().getId());
         dto.setEquipmentCode(request.getEquipment().getEquipmentCode());
         dto.setEquipmentName(request.getEquipment().getEquipmentName());
+        dto.setSiteId(request.getSite() == null ? null : request.getSite().getId());
+        dto.setSiteCode(request.getSite() == null ? null : request.getSite().getSiteCode());
+        dto.setSiteName(request.getSite() == null ? null : request.getSite().getSiteName());
         dto.setRequestType(request.getRequestType());
         dto.setPriority(request.getPriority());
         dto.setStatus(request.getStatus());

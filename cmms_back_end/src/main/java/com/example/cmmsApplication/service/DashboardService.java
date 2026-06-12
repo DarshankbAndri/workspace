@@ -25,14 +25,14 @@ public class DashboardService {
         this.downtimeDAO = downtimeDAO;
     }
 
-    public DashboardDTO getSummary() {
-        Long downtimeMinutes = downtimeDAO.sumDowntimeMinutes();
+    public DashboardDTO getSummary(Long siteId) {
+        Long downtimeMinutes = siteId == null ? downtimeDAO.sumDowntimeMinutes() : downtimeDAO.sumDowntimeMinutesBySiteId(siteId);
         BigDecimal downtimeHours = BigDecimal.valueOf(downtimeMinutes == null ? 0 : downtimeMinutes)
                 .divide(BigDecimal.valueOf(60), 2, RoundingMode.HALF_UP);
         return new DashboardDTO(
-                equipmentDAO.count(),
+                siteId == null ? equipmentDAO.count() : equipmentDAO.countBySiteId(siteId),
                 vendorDAO.countActive(),
-                requestDAO.countOpenRequests(),
+                siteId == null ? requestDAO.countOpenRequests() : requestDAO.countOpenRequestsBySiteId(siteId),
                 downtimeHours
         );
     }

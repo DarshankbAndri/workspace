@@ -42,8 +42,9 @@ public class MaintenanceAssignmentService {
     }
 
     @Transactional(readOnly = true)
-    public List<MaintenanceAssignmentDTO> getAll() {
-        return assignmentDAO.findAll().stream().map(this::toDTO).collect(Collectors.toList());
+    public List<MaintenanceAssignmentDTO> getAll(Long siteId) {
+        List<MaintenanceAssignment> assignments = siteId == null ? assignmentDAO.findAll() : assignmentDAO.findBySiteId(siteId);
+        return assignments.stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     public void delete(Long id) {

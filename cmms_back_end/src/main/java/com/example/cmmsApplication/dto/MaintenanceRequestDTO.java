@@ -13,6 +13,10 @@ public class MaintenanceRequestDTO {
     private Long equipmentId;
     private String equipmentCode;
     private String equipmentName;
+    @NotNull(message = "Site is required")
+    private Long siteId;
+    private String siteCode;
+    private String siteName;
     private String requestType;
     private String priority;
     private String status;
@@ -38,6 +42,12 @@ public class MaintenanceRequestDTO {
     public void setEquipmentCode(String equipmentCode) { this.equipmentCode = equipmentCode; }
     public String getEquipmentName() { return equipmentName; }
     public void setEquipmentName(String equipmentName) { this.equipmentName = equipmentName; }
+    public Long getSiteId() { return siteId; }
+    public void setSiteId(Long siteId) { this.siteId = siteId; }
+    public String getSiteCode() { return siteCode; }
+    public void setSiteCode(String siteCode) { this.siteCode = siteCode; }
+    public String getSiteName() { return siteName; }
+    public void setSiteName(String siteName) { this.siteName = siteName; }
     public String getRequestType() { return requestType; }
     public void setRequestType(String requestType) { this.requestType = requestType; }
     public String getPriority() { return priority; }

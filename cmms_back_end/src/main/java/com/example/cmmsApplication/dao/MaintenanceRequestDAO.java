@@ -18,8 +18,10 @@ public class MaintenanceRequestDAO {
     public MaintenanceRequest save(MaintenanceRequest request) { return repository.save(request); }
     public Optional<MaintenanceRequest> findById(Long id) { return repository.findById(id); }
     public List<MaintenanceRequest> findAll() { return repository.findAll(); }
+    public List<MaintenanceRequest> findBySiteId(Long siteId) { return repository.findBySiteId(siteId); }
     public void deleteById(Long id) { repository.deleteById(id); }
     public long countOpenRequests() { return repository.countByStatusIn(Arrays.asList("OPEN", "IN_PROGRESS", "ON_HOLD")); }
+    public long countOpenRequestsBySiteId(Long siteId) { return repository.countBySiteIdAndStatusIn(siteId, Arrays.asList("OPEN", "IN_PROGRESS", "ON_HOLD")); }
     public long countByPmScheduleId(Long pmScheduleId) { return repository.countByPmScheduleId(pmScheduleId); }
     public long countCompletedByPmScheduleId(Long pmScheduleId) { return repository.countByPmScheduleIdAndStatusIn(pmScheduleId, Arrays.asList("COMPLETED", "CLOSED")); }
     public boolean existsByRequestNumber(String requestNumber) { return repository.existsByRequestNumber(requestNumber); }

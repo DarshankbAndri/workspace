@@ -3,10 +3,12 @@ import { Alert, Box, Button, Grid, MenuItem, Paper, Stack, TextField, Typography
 import { Save } from '@mui/icons-material';
 import { useNavigate, useParams } from 'react-router-dom';
 import { createEquipment, getEquipmentById, updateEquipment } from '../../services/equipmentService';
+import { getSites } from '../../services/siteService';
 
 const initialForm = {
   equipmentCode: '',
   equipmentName: '',
+  siteId: '',
   category: '',
   location: '',
   manufacturer: '',
@@ -23,8 +25,13 @@ function EquipmentFormPage() {
   const navigate = useNavigate();
   const isEdit = Boolean(id);
   const [form, setForm] = React.useState(initialForm);
+  const [sites, setSites] = React.useState([]);
   const [error, setError] = React.useState('');
   const [saving, setSaving] = React.useState(false);
+
+  React.useEffect(() => {
+    getSites().then((data) => setSites(data.filter((site) => site.status !== 'INACTIVE'))).catch(() => setError('Unable to load sites.'));
+  }, []);
 
   React.useEffect(() => {
     if (isEdit) {
@@ -39,10 +46,11 @@ function EquipmentFormPage() {
     setSaving(true);
     setError('');
     try {
+      const payload = { ...form, siteId: Number(form.siteId) };
       if (isEdit) {
-        await updateEquipment(id, form);
+        await updateEquipment(id, payload);
       } else {
-        await createEquipment(form);
+        await createEquipment(payload);
       }
       navigate('/equipment');
     } catch (err) {
@@ -59,7 +67,8 @@ function EquipmentFormPage() {
       <Paper component="form" onSubmit={handleSubmit} sx={{ p: 3, borderRadius: 1 }}>
         <Grid container spacing={2}>
           <Grid item xs={12} md={4}><TextField required fullWidth label="Equipment Code" value={form.equipmentCode} onChange={updateField('equipmentCode')} /></Grid>
-          <Grid item xs={12} md={8}><TextField required fullWidth label="Equipment Name" value={form.equipmentName} onChange={updateField('equipmentName')} /></Grid>
+          <Grid item xs={12} md={4}><TextField required fullWidth label="Equipment Name" value={form.equipmentName} onChange={updateField('equipmentName')} /></Grid>
+          <Grid item xs={12} md={4}><TextField required select fullWidth label="Site" value={form.siteId || ''} onChange={updateField('siteId')}>{sites.map((site) => <MenuItem key={site.id} value={site.id}>{site.siteName} ({site.siteCode})</MenuItem>)}</TextField></Grid>
           <Grid item xs={12} md={4}><TextField required fullWidth label="Category" value={form.category} onChange={updateField('category')} /></Grid>
           <Grid item xs={12} md={4}><TextField fullWidth label="Location" value={form.location || ''} onChange={updateField('location')} /></Grid>
           <Grid item xs={12} md={4}><TextField fullWidth label="Manufacturer" value={form.manufacturer || ''} onChange={updateField('manufacturer')} /></Grid>

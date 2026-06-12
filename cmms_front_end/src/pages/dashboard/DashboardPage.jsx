@@ -6,7 +6,9 @@ import {
   CardContent,
   CircularProgress,
   Grid,
+  MenuItem,
   Stack,
+  TextField,
   Typography,
   alpha,
   useTheme,
@@ -33,6 +35,7 @@ import {
   YAxis,
 } from 'recharts';
 import { getDashboardData } from '../../services/dashboardService';
+import { getSites } from '../../services/siteService';
 
 const metricCards = [
   {
@@ -107,13 +110,16 @@ function ChartCard({ title, subtitle, children }) {
 function DashboardPage() {
   const theme = useTheme();
   const [dashboard, setDashboard] = React.useState(null);
+  const [sites, setSites] = React.useState([]);
+  const [siteId, setSiteId] = React.useState('');
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState('');
 
   React.useEffect(() => {
     let mounted = true;
 
-    getDashboardData()
+    setLoading(true);
+    getDashboardData(siteId || undefined)
       .then((data) => {
         if (mounted) {
           setDashboard(data);
@@ -133,6 +139,12 @@ function DashboardPage() {
     return () => {
       mounted = false;
     };
+  }, [siteId]);
+
+  React.useEffect(() => {
+    getSites()
+      .then((data) => setSites(data.filter((site) => site.status !== 'INACTIVE')))
+      .catch(() => setError('Unable to load sites for dashboard filter.'));
   }, []);
 
   const summary = dashboard?.summary ?? {};
@@ -151,22 +163,28 @@ function DashboardPage() {
             Enterprise maintenance overview for assets, vendors, work orders, and downtime.
           </Typography>
         </Box>
-        <Box
-          sx={{
-            alignSelf: { xs: 'flex-start', md: 'center' },
-            px: 1.5,
-            py: 0.75,
-            borderRadius: 1,
-            bgcolor: alpha(theme.palette.success.main, 0.12),
-            color: 'success.main',
-            display: 'flex',
-            alignItems: 'center',
-            gap: 0.75,
-          }}
-        >
-          <CheckCircle fontSize="small" />
-          <Typography variant="caption" fontWeight={800}>Live API Metrics</Typography>
-        </Box>
+        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.5} alignItems={{ xs: 'stretch', sm: 'center' }}>
+          <TextField select size="small" label="Site" value={siteId} onChange={(event) => setSiteId(event.target.value)} sx={{ minWidth: 240 }}>
+            <MenuItem value="">All Sites</MenuItem>
+            {sites.map((site) => <MenuItem key={site.id} value={site.id}>{site.siteName} ({site.siteCode})</MenuItem>)}
+          </TextField>
+          <Box
+            sx={{
+              alignSelf: { xs: 'flex-start', md: 'center' },
+              px: 1.5,
+              py: 0.75,
+              borderRadius: 1,
+              bgcolor: alpha(theme.palette.success.main, 0.12),
+              color: 'success.main',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 0.75,
+            }}
+          >
+            <CheckCircle fontSize="small" />
+            <Typography variant="caption" fontWeight={800}>Live API Metrics</Typography>
+          </Box>
+        </Stack>
       </Stack>
 
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}

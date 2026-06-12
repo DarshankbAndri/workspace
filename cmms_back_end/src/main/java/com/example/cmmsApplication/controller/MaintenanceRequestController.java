@@ -39,7 +39,7 @@ public class MaintenanceRequestController {
     }
 
     @GetMapping
-    public ResponseEntity<List<MaintenanceRequestDTO>> getAll() {
-        return ResponseEntity.ok(requestService.getAll());
+    public ResponseEntity<List<MaintenanceRequestDTO>> getAll(@RequestParam(required = false) Long siteId) {
+        return ResponseEntity.ok(requestService.getAll(siteId));
     }
 }

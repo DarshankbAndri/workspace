@@ -39,7 +39,7 @@ public class MaintenanceAssignmentController {
     }
 
     @GetMapping
-    public ResponseEntity<List<MaintenanceAssignmentDTO>> getAll() {
-        return ResponseEntity.ok(assignmentService.getAll());
+    public ResponseEntity<List<MaintenanceAssignmentDTO>> getAll(@RequestParam(required = false) Long siteId) {
+        return ResponseEntity.ok(assignmentService.getAll(siteId));
     }
 }

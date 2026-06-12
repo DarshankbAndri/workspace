@@ -17,6 +17,10 @@ public class Equipment {
     @Column(name = "equipment_name", nullable = false, length = 150)
     private String equipmentName;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "site_id")
+    private Site site;
+
     @Column(nullable = false, length = 100)
     private String category;
 
@@ -67,6 +71,8 @@ public class Equipment {
     public void setEquipmentCode(String equipmentCode) { this.equipmentCode = equipmentCode; }
     public String getEquipmentName() { return equipmentName; }
     public void setEquipmentName(String equipmentName) { this.equipmentName = equipmentName; }
+    public Site getSite() { return site; }
+    public void setSite(Site site) { this.site = site; }
     public String getCategory() { return category; }
     public void setCategory(String category) { this.category = category; }
     public String getLocation() { return location; }

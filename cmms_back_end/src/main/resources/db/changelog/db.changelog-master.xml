@@ -9,5 +9,6 @@
     <include file="db/changelog/changes/003-create-cmms-tables.xml"/>
     <include file="db/changelog/changes/004-create-hr-tables.xml"/>
     <include file="db/changelog/changes/005-link-users-to-employees.xml"/>
+    <include file="db/changelog/changes/006-add-site-to-operation-records.xml"/>
 
 </databaseChangeLog>

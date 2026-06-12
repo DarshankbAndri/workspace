@@ -18,6 +18,10 @@ public class EquipmentDowntime {
     private Equipment equipment;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "site_id")
+    private Site site;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "request_id")
     private MaintenanceRequest request;
 
@@ -84,6 +88,8 @@ public class EquipmentDowntime {
     public void setId(Long id) { this.id = id; }
     public Equipment getEquipment() { return equipment; }
     public void setEquipment(Equipment equipment) { this.equipment = equipment; }
+    public Site getSite() { return site; }
+    public void setSite(Site site) { this.site = site; }
     public MaintenanceRequest getRequest() { return request; }
     public void setRequest(MaintenanceRequest request) { this.request = request; }
     public LocalDateTime getDowntimeStart() { return downtimeStart; }
