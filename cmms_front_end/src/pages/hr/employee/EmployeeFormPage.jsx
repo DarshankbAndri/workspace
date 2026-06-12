@@ -4,12 +4,14 @@ import {
   Box,
   Button,
   Checkbox,
+  FormControlLabel,
   Grid,
   IconButton,
   MenuItem,
   Paper,
   Snackbar,
   Stack,
+  Switch,
   Table,
   TableBody,
   TableCell,
@@ -45,6 +47,13 @@ const initialForm = {
   designation: '',
   department: '',
   status: 'ACTIVE',
+  loginEnabled: false,
+  userId: null,
+  username: '',
+  password: '',
+  confirmPassword: '',
+  authRole: 'EMPLOYEE',
+  accountStatus: 'ACTIVE',
   siteAssignments: [{ ...emptyAssignment, primarySite: true }],
 };
 
@@ -59,6 +68,7 @@ function EmployeeFormPage() {
   const [error, setError] = React.useState('');
   const [saving, setSaving] = React.useState(false);
   const [snackbar, setSnackbar] = React.useState('');
+  const [resetPassword, setResetPassword] = React.useState(false);
 
   React.useEffect(() => {
     getSites().then((data) => setSites(data.filter((site) => site.status !== 'INACTIVE'))).catch(() => setError('Unable to load sites.'));
@@ -73,6 +83,7 @@ function EmployeeFormPage() {
   }, [id, isEdit]);
 
   const updateField = (field) => (event) => setForm((current) => ({ ...current, [field]: event.target.value }));
+  const updateCheckedField = (field) => (event) => setForm((current) => ({ ...current, [field]: event.target.checked }));
 
   const updateAssignment = (index, field, value) => {
     setForm((current) => ({
@@ -108,6 +119,13 @@ function EmployeeFormPage() {
   const validateForm = () => {
     if (!form.employeeCode.trim()) return 'Employee code is required.';
     if (!form.mobileNumber.trim()) return 'Mobile number is required.';
+    if (form.loginEnabled) {
+      if (!form.username.trim()) return 'Username is required when login is enabled.';
+      if (!form.userId && !form.password) return 'Password is required when creating login user.';
+      if ((form.password || form.confirmPassword) && form.password !== form.confirmPassword) {
+        return 'Password and Confirm Password must match.';
+      }
+    }
     if (!form.siteAssignments.length) return 'At least one site assignment is required.';
     const primaryCount = form.siteAssignments.filter((assignment) => assignment.primarySite).length;
     if (primaryCount > 1) return 'Only one primary site is allowed.';
@@ -141,6 +159,8 @@ function EmployeeFormPage() {
         ...form,
         dateOfBirth: form.dateOfBirth || null,
         dateOfJoining: form.dateOfJoining || null,
+        password: form.loginEnabled && (!isEdit || resetPassword) ? form.password : '',
+        confirmPassword: form.loginEnabled && (!isEdit || resetPassword) ? form.confirmPassword : '',
         siteAssignments: form.siteAssignments.map((assignment) => ({
           ...assignment,
           siteId: Number(assignment.siteId),
@@ -181,6 +201,35 @@ function EmployeeFormPage() {
             <Grid item xs={12} md={4}><TextField disabled={viewOnly} fullWidth label="Designation" value={form.designation || ''} onChange={updateField('designation')} /></Grid>
             <Grid item xs={12} md={4}><TextField disabled={viewOnly} fullWidth label="Department" value={form.department || ''} onChange={updateField('department')} /></Grid>
             <Grid item xs={12} md={4}><TextField select disabled={viewOnly} fullWidth label="Status" value={form.status || 'ACTIVE'} onChange={updateField('status')}><MenuItem value="ACTIVE">ACTIVE</MenuItem><MenuItem value="INACTIVE">INACTIVE</MenuItem></TextField></Grid>
+          </Grid>
+        </Paper>
+
+        <Paper sx={{ p: 3, borderRadius: 1, mb: 2 }}>
+          <Stack direction={{ xs: 'column', sm: 'row' }} alignItems={{ xs: 'flex-start', sm: 'center' }} justifyContent="space-between" spacing={2} sx={{ mb: 2 }}>
+            <Box>
+              <Typography variant="h6" fontWeight={800}>Login Details</Typography>
+              <Typography variant="body2" color="text.secondary">Optionally create or update this employee's application login.</Typography>
+            </Box>
+            <FormControlLabel
+              control={<Switch disabled={viewOnly} checked={Boolean(form.loginEnabled)} onChange={updateCheckedField('loginEnabled')} />}
+              label="Enable Login"
+            />
+          </Stack>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={4}><TextField required={Boolean(form.loginEnabled)} disabled={viewOnly || !form.loginEnabled} fullWidth label="Username" value={form.username || ''} onChange={updateField('username')} /></Grid>
+            <Grid item xs={12} md={4}><TextField select disabled={viewOnly || !form.loginEnabled} fullWidth label="Auth Role" value={form.authRole || 'EMPLOYEE'} onChange={updateField('authRole')}><MenuItem value="EMPLOYEE">EMPLOYEE</MenuItem><MenuItem value="MANAGER">MANAGER</MenuItem><MenuItem value="HR">HR</MenuItem><MenuItem value="ADMIN">ADMIN</MenuItem></TextField></Grid>
+            <Grid item xs={12} md={4}><TextField select disabled={viewOnly || !form.loginEnabled} fullWidth label="Account Status" value={form.accountStatus || 'ACTIVE'} onChange={updateField('accountStatus')}><MenuItem value="ACTIVE">ACTIVE</MenuItem><MenuItem value="INACTIVE">INACTIVE</MenuItem></TextField></Grid>
+            {isEdit && form.loginEnabled && !viewOnly && (
+              <Grid item xs={12}>
+                <FormControlLabel control={<Checkbox checked={resetPassword} onChange={(event) => setResetPassword(event.target.checked)} />} label="Reset Password" />
+              </Grid>
+            )}
+            {form.loginEnabled && (!isEdit || resetPassword) && !viewOnly && (
+              <>
+                <Grid item xs={12} md={4}><TextField required={!form.userId} type="password" fullWidth label="Password" value={form.password || ''} onChange={updateField('password')} /></Grid>
+                <Grid item xs={12} md={4}><TextField required={!form.userId} type="password" fullWidth label="Confirm Password" value={form.confirmPassword || ''} onChange={updateField('confirmPassword')} /></Grid>
+              </>
+            )}
           </Grid>
         </Paper>
 

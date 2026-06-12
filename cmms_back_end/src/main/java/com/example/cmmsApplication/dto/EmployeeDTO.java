@@ -1,5 +1,7 @@
 package com.example.cmmsApplication.dto;
 
+import com.example.cmmsApplication.entity.UserRole;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -26,6 +28,15 @@ public class EmployeeDTO {
     private String department;
     private String status;
     private Integer assignedSiteCount;
+    private Boolean loginEnabled;
+    private Long userId;
+    private String username;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String password;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String confirmPassword;
+    private UserRole authRole;
+    private String accountStatus;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     @Valid
@@ -57,6 +68,20 @@ public class EmployeeDTO {
     public void setStatus(String status) { this.status = status; }
     public Integer getAssignedSiteCount() { return assignedSiteCount; }
     public void setAssignedSiteCount(Integer assignedSiteCount) { this.assignedSiteCount = assignedSiteCount; }
+    public Boolean getLoginEnabled() { return loginEnabled; }
+    public void setLoginEnabled(Boolean loginEnabled) { this.loginEnabled = loginEnabled; }
+    public Long getUserId() { return userId; }
+    public void setUserId(Long userId) { this.userId = userId; }
+    public String getUsername() { return username; }
+    public void setUsername(String username) { this.username = username; }
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
+    public String getConfirmPassword() { return confirmPassword; }
+    public void setConfirmPassword(String confirmPassword) { this.confirmPassword = confirmPassword; }
+    public UserRole getAuthRole() { return authRole; }
+    public void setAuthRole(UserRole authRole) { this.authRole = authRole; }
+    public String getAccountStatus() { return accountStatus; }
+    public void setAccountStatus(String accountStatus) { this.accountStatus = accountStatus; }
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
     public LocalDateTime getUpdatedAt() { return updatedAt; }

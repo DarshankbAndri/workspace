@@ -8,6 +8,7 @@ import com.example.cmmsApplication.dto.EmployeeSiteAssignmentDTO;
 import com.example.cmmsApplication.entity.Employee;
 import com.example.cmmsApplication.entity.EmployeeSiteAssignment;
 import com.example.cmmsApplication.entity.Site;
+import com.example.cmmsApplication.entity.User;
 import com.example.cmmsApplication.exception.InvalidOperationException;
 import com.example.cmmsApplication.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
@@ -25,11 +26,13 @@ public class EmployeeService {
     private final EmployeeDAO employeeDAO;
     private final SiteDAO siteDAO;
     private final EmployeeSiteAssignmentDAO assignmentDAO;
+    private final UserService userService;
 
-    public EmployeeService(EmployeeDAO employeeDAO, SiteDAO siteDAO, EmployeeSiteAssignmentDAO assignmentDAO) {
+    public EmployeeService(EmployeeDAO employeeDAO, SiteDAO siteDAO, EmployeeSiteAssignmentDAO assignmentDAO, UserService userService) {
         this.employeeDAO = employeeDAO;
         this.siteDAO = siteDAO;
         this.assignmentDAO = assignmentDAO;
+        this.userService = userService;
     }
 
     public EmployeeDTO create(EmployeeDTO dto) {
@@ -40,7 +43,9 @@ public class EmployeeService {
         Employee employee = new Employee();
         apply(employee, dto);
         replaceAssignments(employee, dto.getSiteAssignments());
-        return toDTO(employeeDAO.save(employee), true);
+        Employee savedEmployee = employeeDAO.save(employee);
+        userService.syncEmployeeLogin(savedEmployee, dto);
+        return toDTO(savedEmployee, true);
     }
 
     public EmployeeDTO update(Long id, EmployeeDTO dto) {
@@ -52,7 +57,9 @@ public class EmployeeService {
         apply(employee, dto);
         employee.getSiteAssignments().clear();
         replaceAssignments(employee, dto.getSiteAssignments());
-        return toDTO(employeeDAO.save(employee), true);
+        Employee savedEmployee = employeeDAO.save(employee);
+        userService.syncEmployeeLogin(savedEmployee, dto);
+        return toDTO(savedEmployee, true);
     }
 
     @Transactional(readOnly = true)
@@ -166,6 +173,17 @@ public class EmployeeService {
         dto.setStatus(employee.getStatus());
         dto.setCreatedAt(employee.getCreatedAt());
         dto.setUpdatedAt(employee.getUpdatedAt());
+        User loginUser = userService.getLoginUserByEmployeeId(employee.getId());
+        if (loginUser != null) {
+            dto.setLoginEnabled(true);
+            dto.setUserId(loginUser.getId());
+            dto.setUsername(loginUser.getUsername());
+            dto.setAuthRole(loginUser.getRole());
+            dto.setAccountStatus(Boolean.TRUE.equals(loginUser.getActive()) ? "ACTIVE" : "INACTIVE");
+        } else {
+            dto.setLoginEnabled(false);
+            dto.setAccountStatus("ACTIVE");
+        }
 
         List<EmployeeSiteAssignment> assignments = includeAssignments
                 ? employee.getSiteAssignments()

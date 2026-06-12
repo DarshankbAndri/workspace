@@ -76,6 +76,7 @@ public class AuthController {
                     user.getUpdatedAt(),
                     user.getActive()
             );
+            userDTO.setEmployeeId(user.getEmployee() != null ? user.getEmployee().getId() : null);
             
             LoginResponse response = new LoginResponse(token, userDTO, "Login successful");
             return ResponseEntity.ok(response);

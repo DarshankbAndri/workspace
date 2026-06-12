@@ -151,6 +151,10 @@ CREATE TABLE IF NOT EXISTS employee_site_assignment (
     updated_at TIMESTAMP
 );
 
+ALTER TABLE users ADD COLUMN IF NOT EXISTS employee_id BIGINT;
+ALTER TABLE users ADD CONSTRAINT fk_users_employee_id FOREIGN KEY (employee_id) REFERENCES employee_master(employee_id);
+ALTER TABLE users ADD CONSTRAINT uk_users_employee_id UNIQUE (employee_id);
+
 CREATE INDEX IF NOT EXISTS idx_equipment_master_code ON equipment_master(equipment_code);
 CREATE INDEX IF NOT EXISTS idx_equipment_master_status ON equipment_master(status);
 CREATE INDEX IF NOT EXISTS idx_vendor_master_code ON vendor_master(vendor_code);
@@ -170,3 +174,4 @@ CREATE INDEX IF NOT EXISTS idx_employee_master_status ON employee_master(status)
 CREATE INDEX IF NOT EXISTS idx_employee_assignment_employee ON employee_site_assignment(employee_id);
 CREATE INDEX IF NOT EXISTS idx_employee_assignment_site ON employee_site_assignment(site_id);
 CREATE INDEX IF NOT EXISTS idx_employee_assignment_status ON employee_site_assignment(status);
+CREATE INDEX IF NOT EXISTS idx_users_employee_id ON users(employee_id);

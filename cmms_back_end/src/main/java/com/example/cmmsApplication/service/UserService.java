@@ -1,6 +1,8 @@
 package com.example.cmmsApplication.service;
 
 import com.example.cmmsApplication.dto.UserDTO;
+import com.example.cmmsApplication.dto.EmployeeDTO;
+import com.example.cmmsApplication.entity.Employee;
 import com.example.cmmsApplication.entity.User;
 import com.example.cmmsApplication.entity.UserRole;
 import com.example.cmmsApplication.exception.ResourceNotFoundException;
@@ -132,9 +134,67 @@ public class UserService {
         User updatedUser = userRepository.save(user);
         return convertToDTO(updatedUser);
     }
+
+    public User syncEmployeeLogin(Employee employee, EmployeeDTO employeeDTO) {
+        User user = userRepository.findByEmployeeId(employee.getId()).orElse(null);
+        if (!Boolean.TRUE.equals(employeeDTO.getLoginEnabled())) {
+            if (user != null) {
+                user.setActive(false);
+                return userRepository.save(user);
+            }
+            return null;
+        }
+
+        if (isBlank(employeeDTO.getUsername())) {
+            throw new InvalidOperationException("Username is required when login is enabled");
+        }
+
+        boolean creating = user == null;
+        if (creating && isBlank(employeeDTO.getPassword())) {
+            throw new InvalidOperationException("Password is required when creating login user");
+        }
+        if (!isBlank(employeeDTO.getPassword()) && !employeeDTO.getPassword().equals(employeeDTO.getConfirmPassword())) {
+            throw new InvalidOperationException("Password and confirm password must match");
+        }
+        if (creating && userRepository.existsByUsername(employeeDTO.getUsername())) {
+            throw new InvalidOperationException("Username already exists: " + employeeDTO.getUsername());
+        }
+        if (!creating && userRepository.existsByUsernameAndIdNot(employeeDTO.getUsername(), user.getId())) {
+            throw new InvalidOperationException("Username already exists: " + employeeDTO.getUsername());
+        }
+
+        if (creating) {
+            user = new User();
+            user.setEmployee(employee);
+        }
+
+        String email = firstNonBlank(employee.getEmail(), employee.getEmployeeCode() + "@employee.local");
+        if (creating && userRepository.existsByEmail(email)) {
+            email = employee.getEmployeeCode() + "." + employee.getId() + "@employee.local";
+        } else if (!creating && userRepository.existsByEmailAndIdNot(email, user.getId())) {
+            email = employee.getEmployeeCode() + "." + employee.getId() + "@employee.local";
+        }
+
+        user.setUsername(employeeDTO.getUsername());
+        user.setEmail(email);
+        user.setFirstName(employee.getFirstName());
+        user.setLastName(firstNonBlank(employee.getLastName(), "-"));
+        user.setDepartment(firstNonBlank(employee.getDepartment(), "HR"));
+        user.setRole(employeeDTO.getAuthRole() == null ? UserRole.EMPLOYEE : employeeDTO.getAuthRole());
+        user.setActive(!"INACTIVE".equalsIgnoreCase(employeeDTO.getAccountStatus()));
+        if (!isBlank(employeeDTO.getPassword())) {
+            user.setPassword(passwordEncoder.encode(employeeDTO.getPassword()));
+        }
+        return userRepository.save(user);
+    }
+
+    @Transactional(readOnly = true)
+    public User getLoginUserByEmployeeId(Long employeeId) {
+        return userRepository.findByEmployeeId(employeeId).orElse(null);
+    }
     
     private UserDTO convertToDTO(User user) {
-        return new UserDTO(
+        UserDTO dto = new UserDTO(
                 user.getId(),
                 user.getUsername(),
                 user.getEmail(),
@@ -147,5 +207,15 @@ public class UserService {
                 user.getUpdatedAt(),
                 user.getActive()
         );
+        dto.setEmployeeId(user.getEmployee() != null ? user.getEmployee().getId() : null);
+        return dto;
+    }
+
+    private boolean isBlank(String value) {
+        return value == null || value.trim().isEmpty();
+    }
+
+    private String firstNonBlank(String value, String fallback) {
+        return isBlank(value) ? fallback : value;
     }
 }

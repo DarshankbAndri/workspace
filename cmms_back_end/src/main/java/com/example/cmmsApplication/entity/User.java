@@ -33,6 +33,10 @@ public class User {
     
     @Column(nullable = false)
     private String department;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "employee_id")
+    private Employee employee;
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "manager_id")
@@ -136,6 +140,14 @@ public class User {
     
     public void setDepartment(String department) {
         this.department = department;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
     
     public User getManager() {

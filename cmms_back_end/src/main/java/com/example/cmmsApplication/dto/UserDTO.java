@@ -34,6 +34,9 @@ public class UserDTO {
     
     @Schema(description = "Manager ID", example = "2")
     private Long managerId;
+
+    @Schema(description = "Linked employee ID", example = "10")
+    private Long employeeId;
     
     @Schema(description = "Account creation timestamp")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
@@ -130,6 +133,14 @@ public class UserDTO {
     
     public void setManagerId(Long managerId) {
         this.managerId = managerId;
+    }
+
+    public Long getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(Long employeeId) {
+        this.employeeId = employeeId;
     }
     
     public LocalDateTime getCreatedAt() {
