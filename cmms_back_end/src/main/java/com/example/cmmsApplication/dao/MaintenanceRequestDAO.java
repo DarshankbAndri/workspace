@@ -20,6 +20,8 @@ public class MaintenanceRequestDAO {
     public List<MaintenanceRequest> findAll() { return repository.findAll(); }
     public void deleteById(Long id) { repository.deleteById(id); }
     public long countOpenRequests() { return repository.countByStatusIn(Arrays.asList("OPEN", "IN_PROGRESS", "ON_HOLD")); }
+    public long countByPmScheduleId(Long pmScheduleId) { return repository.countByPmScheduleId(pmScheduleId); }
+    public long countCompletedByPmScheduleId(Long pmScheduleId) { return repository.countByPmScheduleIdAndStatusIn(pmScheduleId, Arrays.asList("COMPLETED", "CLOSED")); }
     public boolean existsByRequestNumber(String requestNumber) { return repository.existsByRequestNumber(requestNumber); }
     public boolean existsByRequestNumberAndIdNot(String requestNumber, Long id) { return repository.existsByRequestNumberAndIdNot(requestNumber, id); }
 }

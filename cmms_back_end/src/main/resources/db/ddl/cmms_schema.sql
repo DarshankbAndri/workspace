@@ -33,6 +33,7 @@ CREATE TABLE IF NOT EXISTS maintenance_request (
     id BIGSERIAL PRIMARY KEY,
     request_number VARCHAR(60) NOT NULL UNIQUE,
     equipment_id BIGINT NOT NULL REFERENCES equipment_master(id),
+    pm_schedule_id BIGINT,
     request_type VARCHAR(40) NOT NULL DEFAULT 'BREAKDOWN',
     priority VARCHAR(30) NOT NULL DEFAULT 'MEDIUM',
     status VARCHAR(30) NOT NULL DEFAULT 'OPEN',
@@ -41,6 +42,26 @@ CREATE TABLE IF NOT EXISTS maintenance_request (
     reported_by VARCHAR(120),
     requested_date DATE NOT NULL,
     target_completion_date DATE,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS preventive_maintenance_schedule (
+    id BIGSERIAL PRIMARY KEY,
+    equipment_id BIGINT NOT NULL REFERENCES equipment_master(id),
+    vendor_id BIGINT REFERENCES vendor_master(id),
+    schedule_code VARCHAR(60) NOT NULL UNIQUE,
+    title VARCHAR(200) NOT NULL,
+    description VARCHAR(1000) NOT NULL,
+    frequency VARCHAR(20) NOT NULL,
+    priority VARCHAR(30) NOT NULL DEFAULT 'MEDIUM',
+    assigned_to VARCHAR(120),
+    start_date DATE NOT NULL,
+    next_due_date DATE NOT NULL,
+    last_generated_date DATE,
+    active BOOLEAN NOT NULL DEFAULT TRUE,
+    last_notification_status VARCHAR(120),
+    last_notification_at TIMESTAMP,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -84,6 +105,9 @@ CREATE INDEX IF NOT EXISTS idx_vendor_master_code ON vendor_master(vendor_code);
 CREATE INDEX IF NOT EXISTS idx_vendor_master_active ON vendor_master(active);
 CREATE INDEX IF NOT EXISTS idx_request_equipment ON maintenance_request(equipment_id);
 CREATE INDEX IF NOT EXISTS idx_request_status ON maintenance_request(status);
+CREATE INDEX IF NOT EXISTS idx_request_pm_schedule ON maintenance_request(pm_schedule_id);
+CREATE INDEX IF NOT EXISTS idx_pm_schedule_due ON preventive_maintenance_schedule(next_due_date);
+CREATE INDEX IF NOT EXISTS idx_pm_schedule_active ON preventive_maintenance_schedule(active);
 CREATE INDEX IF NOT EXISTS idx_assignment_request ON maintenance_assignment(request_id);
 CREATE INDEX IF NOT EXISTS idx_downtime_equipment ON equipment_downtime(equipment_id);
 CREATE INDEX IF NOT EXISTS idx_downtime_start ON equipment_downtime(downtime_start);

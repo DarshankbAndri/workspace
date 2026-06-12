@@ -23,6 +23,7 @@ import {
   Assignment,
   Build,
   Business,
+  EventRepeat,
   ChevronLeft,
   ChevronRight,
   DarkMode,
@@ -62,6 +63,7 @@ const groups = [
       { label: 'Requests', path: '/maintenance/requests', icon: <Assignment /> },
       { label: 'Assignments', path: '/maintenance/assignments', icon: <Build /> },
       { label: 'Downtime', path: '/maintenance/downtime', icon: <Timeline /> },
+      { label: 'Preventive Maintenance', path: '/maintenance/preventive', icon: <EventRepeat /> },
     ],
   },
   {

@@ -13,6 +13,7 @@ import VendorFormPage from './pages/vendor/VendorFormPage';
 import MaintenanceRequestPage from './pages/maintenance/MaintenanceRequestPage';
 import MaintenanceAssignmentPage from './pages/maintenance/MaintenanceAssignmentPage';
 import DowntimePage from './pages/maintenance/DowntimePage';
+import PreventiveMaintenancePage from './pages/maintenance/PreventiveMaintenancePage';
 import EquipmentHistoryPage from './pages/reports/EquipmentHistoryPage';
 import DowntimeAnalysisPage from './pages/reports/DowntimeAnalysisPage';
 
@@ -131,6 +132,7 @@ function App() {
           <Route path="/maintenance/requests" element={protectedPage(<MaintenanceRequestPage />)} />
           <Route path="/maintenance/assignments" element={protectedPage(<MaintenanceAssignmentPage />)} />
           <Route path="/maintenance/downtime" element={protectedPage(<DowntimePage />)} />
+          <Route path="/maintenance/preventive" element={protectedPage(<PreventiveMaintenancePage />)} />
           <Route path="/reports/equipment-history" element={protectedPage(<EquipmentHistoryPage />)} />
           <Route path="/reports/downtime-analysis" element={protectedPage(<DowntimeAnalysisPage />)} />
           <Route path="/create-user" element={protectedPage(<UserManagementPage />)} />

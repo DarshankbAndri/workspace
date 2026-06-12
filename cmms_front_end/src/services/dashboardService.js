@@ -1,4 +1,5 @@
 import api from './api';
+import { getUpcomingPMSchedules } from './preventiveMaintenanceService';
 
 const MONTH_LABELS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
@@ -91,11 +92,12 @@ const groupAssignmentsByVendor = (assignments) => {
 export const getDashboardSummary = () => api.get('/dashboard/summary').then((response) => response.data);
 
 export const getDashboardData = async () => {
-  const [summary, equipments, downtimeEntries, assignments] = await Promise.all([
+  const [summary, equipments, downtimeEntries, assignments, upcomingMaintenance] = await Promise.all([
     getDashboardSummary(),
     api.get('/equipment').then((response) => response.data),
     api.get('/maintenance/downtime').then((response) => response.data),
     api.get('/maintenance/assignments').then((response) => response.data),
+    getUpcomingPMSchedules(30),
   ]);
 
   return {
@@ -103,5 +105,6 @@ export const getDashboardData = async () => {
     equipmentStatus: groupEquipmentByStatus(equipments),
     monthlyDowntime: groupDowntimeByMonth(downtimeEntries),
     vendorPerformance: groupAssignmentsByVendor(assignments),
+    upcomingMaintenance,
   };
 };

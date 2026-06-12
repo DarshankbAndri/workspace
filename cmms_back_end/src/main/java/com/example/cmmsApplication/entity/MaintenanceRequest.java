@@ -42,6 +42,10 @@ public class MaintenanceRequest {
     @Column(name = "target_completion_date")
     private LocalDate targetCompletionDate;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pm_schedule_id")
+    private PreventiveMaintenanceSchedule pmSchedule;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
@@ -84,6 +88,8 @@ public class MaintenanceRequest {
     public void setRequestedDate(LocalDate requestedDate) { this.requestedDate = requestedDate; }
     public LocalDate getTargetCompletionDate() { return targetCompletionDate; }
     public void setTargetCompletionDate(LocalDate targetCompletionDate) { this.targetCompletionDate = targetCompletionDate; }
+    public PreventiveMaintenanceSchedule getPmSchedule() { return pmSchedule; }
+    public void setPmSchedule(PreventiveMaintenanceSchedule pmSchedule) { this.pmSchedule = pmSchedule; }
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
     public LocalDateTime getUpdatedAt() { return updatedAt; }

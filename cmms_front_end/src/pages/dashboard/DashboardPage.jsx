@@ -15,6 +15,7 @@ import {
   Build,
   Business,
   CheckCircle,
+  EventRepeat,
   PrecisionManufacturing,
   Timeline,
 } from '@mui/icons-material';
@@ -138,6 +139,7 @@ function DashboardPage() {
   const equipmentStatus = dashboard?.equipmentStatus ?? [];
   const monthlyDowntime = dashboard?.monthlyDowntime ?? [];
   const vendorPerformance = dashboard?.vendorPerformance ?? [];
+  const upcomingMaintenance = dashboard?.upcomingMaintenance ?? [];
   const hasDowntime = monthlyDowntime.some((item) => item.hours > 0);
 
   return (
@@ -251,7 +253,54 @@ function DashboardPage() {
             </ChartCard>
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid item xs={12} lg={4}>
+            <ChartCard title="Upcoming Maintenance" subtitle="PM schedules due in the next 30 days">
+              {upcomingMaintenance.length ? (
+                <Stack spacing={1.25} sx={{ minHeight: 340 }}>
+                  {upcomingMaintenance.slice(0, 6).map((item) => (
+                    <Box
+                      key={item.id}
+                      sx={{
+                        p: 1.5,
+                        border: '1px solid',
+                        borderColor: 'divider',
+                        borderRadius: 1,
+                        display: 'flex',
+                        gap: 1.25,
+                        alignItems: 'flex-start',
+                      }}
+                    >
+                      <Box
+                        sx={{
+                          width: 36,
+                          height: 36,
+                          borderRadius: 1,
+                          display: 'grid',
+                          placeItems: 'center',
+                          color: 'primary.main',
+                          bgcolor: alpha(theme.palette.primary.main, 0.12),
+                          flexShrink: 0,
+                        }}
+                      >
+                        <EventRepeat fontSize="small" />
+                      </Box>
+                      <Box sx={{ minWidth: 0 }}>
+                        <Typography variant="body2" fontWeight={800} noWrap>{item.title}</Typography>
+                        <Typography variant="caption" color="text.secondary" display="block" noWrap>{item.equipmentName}</Typography>
+                        <Typography variant="caption" color="text.secondary" display="block">
+                          Due {item.nextDueDate} · {item.frequency} · {Number(item.completionPercentage || 0).toFixed(0)}% complete
+                        </Typography>
+                      </Box>
+                    </Box>
+                  ))}
+                </Stack>
+              ) : (
+                <EmptyChart label="No PM schedules due in the next 30 days" />
+              )}
+            </ChartCard>
+          </Grid>
+
+          <Grid item xs={12} lg={8}>
             <ChartCard title="Vendor Performance" subtitle="Completed maintenance assignments by vendor">
               {vendorPerformance.length ? (
                 <Box sx={{ height: 340 }}>
