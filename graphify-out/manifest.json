@@ -903,5 +903,10 @@
     "mtime": 1781515130.433244,
     "ast_hash": "b2b2c90129f3a668178cb043fc96238f",
     "semantic_hash": ""
+  },
+  "cmms_back_end/src/main/resources/db/sample/cmms_sample_data.sql": {
+    "mtime": 1781516395.0526154,
+    "ast_hash": "6d9d257bfa746ff3d2c74c6fcf748f71",
+    "semantic_hash": ""
   }
 }
