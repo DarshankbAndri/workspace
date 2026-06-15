@@ -11,6 +11,8 @@ import {
   MenuItem,
   Paper,
   Stack,
+  ToggleButton,
+  ToggleButtonGroup,
   TextField,
   Typography,
 } from '@mui/material';
@@ -27,6 +29,158 @@ const initialForm = {
   permissionIds: [],
 };
 
+const permissionCategories = [
+  { key: 'operation', label: 'Operation' },
+  { key: 'hr', label: 'HR' },
+  { key: 'admin', label: 'Admin' },
+];
+
+const categoryGroupOrder = {
+  operation: ['Dashboard', 'Masters', 'Maintenance', 'Reports'],
+  hr: ['Creation'],
+  admin: ['Access Control'],
+};
+
+const subGroupOrder = {
+  Dashboard: ['Dashboard'],
+  Masters: ['Equipment', 'Vendors'],
+  Maintenance: ['Requests', 'Assignments', 'Downtime'],
+  Reports: ['Reports'],
+  Creation: ['Sites', 'Employees'],
+  'Access Control': ['Roles', 'Permissions', 'User Role'],
+};
+
+const permissionCodeOrder = [
+  'DASHBOARD_VIEW',
+  'EQUIPMENT_VIEW',
+  'EQUIPMENT_CREATE',
+  'EQUIPMENT_UPDATE',
+  'EQUIPMENT_DELETE',
+  'VENDOR_VIEW',
+  'VENDOR_CREATE',
+  'VENDOR_UPDATE',
+  'VENDOR_DELETE',
+  'REQUEST_VIEW',
+  'REQUEST_CREATE',
+  'REQUEST_UPDATE',
+  'REQUEST_DELETE',
+  'ASSIGNMENT_VIEW',
+  'ASSIGNMENT_CREATE',
+  'ASSIGNMENT_UPDATE',
+  'ASSIGNMENT_DELETE',
+  'DOWNTIME_VIEW',
+  'DOWNTIME_CREATE',
+  'DOWNTIME_UPDATE',
+  'DOWNTIME_DELETE',
+  'REPORT_VIEW',
+  'SITE_VIEW',
+  'SITE_CREATE',
+  'SITE_UPDATE',
+  'SITE_DELETE',
+  'EMPLOYEE_VIEW',
+  'EMPLOYEE_CREATE',
+  'EMPLOYEE_UPDATE',
+  'EMPLOYEE_DELETE',
+  'ROLE_VIEW',
+  'ROLE_CREATE',
+  'ROLE_UPDATE',
+  'ROLE_DELETE',
+  'PERMISSION_VIEW',
+  'USER_ROLE_ASSIGN',
+];
+
+function getPermissionCategory(permission) {
+  const code = permission.permissionCode || '';
+  const moduleName = (permission.moduleName || '').toLowerCase();
+  if (
+    moduleName.includes('site') ||
+    moduleName.includes('employee') ||
+    code.startsWith('SITE_') ||
+    code.startsWith('EMPLOYEE_')
+  ) {
+    return 'hr';
+  }
+  if (
+    moduleName.includes('admin') ||
+    moduleName.includes('role') ||
+    moduleName.includes('permission') ||
+    code.startsWith('ROLE_') ||
+    code === 'PERMISSION_VIEW' ||
+    code === 'USER_ROLE_ASSIGN' ||
+    code.startsWith('USER_ROLE_')
+  ) {
+    return 'admin';
+  }
+  return 'operation';
+}
+
+function getPermissionGroupLabel(permission, category) {
+  const code = permission.permissionCode || '';
+  if (category === 'operation') {
+    if (code === 'DASHBOARD_VIEW') return 'Dashboard';
+    if (code.startsWith('EQUIPMENT_') || code.startsWith('VENDOR_')) return 'Masters';
+    if (code.startsWith('REQUEST_') || code.startsWith('ASSIGNMENT_') || code.startsWith('DOWNTIME_')) return 'Maintenance';
+    if (code === 'REPORT_VIEW') return 'Reports';
+  }
+  if (category === 'hr') {
+    return 'Creation';
+  }
+  if (category === 'admin') {
+    return 'Access Control';
+  }
+  return permission.moduleName || 'General';
+}
+
+function getPermissionSubGroupLabel(permission, category) {
+  const code = permission.permissionCode || '';
+  if (category === 'operation') {
+    if (code === 'DASHBOARD_VIEW') return 'Dashboard';
+    if (code.startsWith('EQUIPMENT_')) return 'Equipment';
+    if (code.startsWith('VENDOR_')) return 'Vendors';
+    if (code.startsWith('REQUEST_')) return 'Requests';
+    if (code.startsWith('ASSIGNMENT_')) return 'Assignments';
+    if (code.startsWith('DOWNTIME_')) return 'Downtime';
+    if (code === 'REPORT_VIEW') return 'Reports';
+  }
+  if (category === 'hr') {
+    if (code.startsWith('SITE_')) return 'Sites';
+    if (code.startsWith('EMPLOYEE_')) return 'Employees';
+  }
+  if (category === 'admin') {
+    if (code.startsWith('ROLE_')) return 'Roles';
+    if (code === 'PERMISSION_VIEW') return 'Permissions';
+    if (code === 'USER_ROLE_ASSIGN' || code.startsWith('USER_ROLE_')) return 'User Role';
+  }
+  return permission.moduleName || 'General';
+}
+
+function groupPermissionsBySubGroup(permissions, category, groupLabel) {
+  const grouped = permissions.reduce((groups, permission) => {
+    const subGroupLabel = getPermissionSubGroupLabel(permission, category);
+    groups[subGroupLabel] = groups[subGroupLabel] || [];
+    groups[subGroupLabel].push(permission);
+    return groups;
+  }, {});
+  const ordered = {};
+  for (const subGroupLabel of subGroupOrder[groupLabel] || Object.keys(grouped)) {
+    if (grouped[subGroupLabel]?.length) {
+      ordered[subGroupLabel] = sortPermissions(grouped[subGroupLabel]);
+    }
+  }
+  return ordered;
+}
+
+function sortPermissions(permissions) {
+  return [...permissions].sort((a, b) => {
+    const aIndex = permissionCodeOrder.indexOf(a.permissionCode);
+    const bIndex = permissionCodeOrder.indexOf(b.permissionCode);
+    const normalizedA = aIndex === -1 ? Number.MAX_SAFE_INTEGER : aIndex;
+    const normalizedB = bIndex === -1 ? Number.MAX_SAFE_INTEGER : bIndex;
+    if (normalizedA !== normalizedB) return normalizedA - normalizedB;
+    return (a.permissionCode || '').localeCompare(b.permissionCode || '');
+  });
+}
+
 function RoleFormPage() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -34,6 +188,7 @@ function RoleFormPage() {
   const [form, setForm] = React.useState(initialForm);
   const [permissionGroups, setPermissionGroups] = React.useState({});
   const [permissionSearch, setPermissionSearch] = React.useState('');
+  const [selectedCategory, setSelectedCategory] = React.useState('operation');
   const [error, setError] = React.useState('');
   const [saving, setSaving] = React.useState(false);
 
@@ -56,7 +211,25 @@ function RoleFormPage() {
       .catch(() => setError('Unable to load role.'));
   }, [id, isEdit]);
 
-  const allPermissions = React.useMemo(() => Object.values(permissionGroups).flat(), [permissionGroups]);
+  const categoryPermissionGroups = React.useMemo(() => {
+    const grouped = Object.values(permissionGroups).flat().reduce((groups, permission) => {
+      if (getPermissionCategory(permission) !== selectedCategory) {
+        return groups;
+      }
+      const groupLabel = getPermissionGroupLabel(permission, selectedCategory);
+      groups[groupLabel] = groups[groupLabel] || [];
+      groups[groupLabel].push(permission);
+      return groups;
+    }, {});
+    const ordered = {};
+    for (const groupLabel of categoryGroupOrder[selectedCategory] || Object.keys(grouped)) {
+      if (grouped[groupLabel]?.length) {
+        ordered[groupLabel] = sortPermissions(grouped[groupLabel]);
+      }
+    }
+    return ordered;
+  }, [permissionGroups, selectedCategory]);
+  const categoryPermissions = React.useMemo(() => Object.values(categoryPermissionGroups).flat(), [categoryPermissionGroups]);
   const selectedPermissionIds = React.useMemo(() => new Set(form.permissionIds), [form.permissionIds]);
 
   const updateField = (field) => (event) => setForm((current) => ({ ...current, [field]: event.target.value }));
@@ -147,16 +320,43 @@ function RoleFormPage() {
             </Box>
             <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1}>
               <TextField size="small" label="Search permissions" value={permissionSearch} onChange={(event) => setPermissionSearch(event.target.value)} />
-              <Button variant="outlined" onClick={() => selectPermissions(allPermissions.map((permission) => permission.id))}>Select All</Button>
-              <Button variant="outlined" color="inherit" onClick={() => setForm((current) => ({ ...current, permissionIds: [] }))}>Clear All</Button>
+              <Button variant="outlined" onClick={() => selectPermissions(categoryPermissions.map((permission) => permission.id))}>Select All</Button>
+              <Button variant="outlined" color="inherit" onClick={() => clearPermissions(categoryPermissions.map((permission) => permission.id))}>Clear All</Button>
             </Stack>
           </Stack>
 
+          <ToggleButtonGroup
+            exclusive
+            value={selectedCategory}
+            onChange={(_, value) => value && setSelectedCategory(value)}
+            size="small"
+            sx={{ mb: 2, flexWrap: 'wrap', gap: 1 }}
+          >
+            {permissionCategories.map((category) => (
+              <ToggleButton
+                key={category.key}
+                value={category.key}
+                sx={{
+                  borderRadius: 1,
+                  px: 2,
+                  fontWeight: 800,
+                  '&.Mui-selected': {
+                    color: 'primary.main',
+                    bgcolor: 'action.selected',
+                  },
+                }}
+              >
+                {category.label}
+              </ToggleButton>
+            ))}
+          </ToggleButtonGroup>
+
           <Stack spacing={2}>
-            {Object.entries(permissionGroups).map(([moduleName, permissions]) => {
+            {Object.entries(categoryPermissionGroups).map(([moduleName, permissions]) => {
               const visiblePermissions = permissions.filter(matchesSearch);
               if (!visiblePermissions.length) return null;
               const visibleIds = visiblePermissions.map((permission) => permission.id);
+              const visibleSubGroups = groupPermissionsBySubGroup(visiblePermissions, selectedCategory, moduleName);
               return (
                 <Paper key={moduleName} variant="outlined" sx={{ p: 2, borderRadius: 1 }}>
                   <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" alignItems={{ xs: 'stretch', sm: 'center' }} spacing={1} sx={{ mb: 1 }}>
@@ -170,16 +370,25 @@ function RoleFormPage() {
                     </Stack>
                   </Stack>
                   <Divider sx={{ mb: 1 }} />
-                  <Grid container spacing={1}>
-                    {visiblePermissions.map((permission) => (
-                      <Grid item xs={12} sm={6} md={4} key={permission.permissionCode}>
-                        <FormControlLabel
-                          control={<Checkbox checked={selectedPermissionIds.has(permission.id)} onChange={() => togglePermission(permission.id)} />}
-                          label={`${permission.permissionCode} - ${permission.permissionName}`}
-                        />
-                      </Grid>
+                  <Stack spacing={1.5}>
+                    {Object.entries(visibleSubGroups).map(([subGroupLabel, subGroupPermissions]) => (
+                      <Box key={subGroupLabel}>
+                        <Typography variant="body2" fontWeight={800} color="text.secondary" sx={{ mb: 0.5 }}>
+                          {subGroupLabel}
+                        </Typography>
+                        <Grid container spacing={1}>
+                          {subGroupPermissions.map((permission) => (
+                            <Grid item xs={12} sm={6} md={4} key={permission.permissionCode}>
+                              <FormControlLabel
+                                control={<Checkbox checked={selectedPermissionIds.has(permission.id)} onChange={() => togglePermission(permission.id)} />}
+                                label={`${permission.permissionCode} - ${permission.permissionName}`}
+                              />
+                            </Grid>
+                          ))}
+                        </Grid>
+                      </Box>
                     ))}
-                  </Grid>
+                  </Stack>
                 </Paper>
               );
             })}

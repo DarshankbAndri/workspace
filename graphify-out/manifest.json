@@ -835,8 +835,8 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/pages/admin/roles/RoleFormPage.jsx": {
-    "mtime": 1781506126.0644994,
-    "ast_hash": "c2263ac21c20790fc95cc5a600caecea",
+    "mtime": 1781511634.6950624,
+    "ast_hash": "08f395666a479ddd4aecde77a75b967a",
     "semantic_hash": ""
   },
   "cmms_front_end/src/services/permissionService.js": {
