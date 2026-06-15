@@ -2,13 +2,18 @@ package com.example.cmmsApplication.service;
 
 import com.example.cmmsApplication.dao.EmployeeDAO;
 import com.example.cmmsApplication.dao.EmployeeSiteAssignmentDAO;
+import com.example.cmmsApplication.dao.RoleDAO;
 import com.example.cmmsApplication.dao.SiteDAO;
+import com.example.cmmsApplication.dao.UserRoleAssignmentDAO;
 import com.example.cmmsApplication.dto.EmployeeDTO;
+import com.example.cmmsApplication.dto.EmployeeRoleAssignmentDTO;
 import com.example.cmmsApplication.dto.EmployeeSiteAssignmentDTO;
 import com.example.cmmsApplication.entity.Employee;
 import com.example.cmmsApplication.entity.EmployeeSiteAssignment;
+import com.example.cmmsApplication.entity.RoleMaster;
 import com.example.cmmsApplication.entity.Site;
 import com.example.cmmsApplication.entity.User;
+import com.example.cmmsApplication.entity.UserRoleAssignment;
 import com.example.cmmsApplication.exception.InvalidOperationException;
 import com.example.cmmsApplication.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
@@ -28,13 +33,17 @@ public class EmployeeService {
     private final EmployeeSiteAssignmentDAO assignmentDAO;
     private final UserService userService;
     private final AccessControlService accessControlService;
+    private final UserRoleAssignmentDAO userRoleAssignmentDAO;
+    private final RoleDAO roleDAO;
 
-    public EmployeeService(EmployeeDAO employeeDAO, SiteDAO siteDAO, EmployeeSiteAssignmentDAO assignmentDAO, UserService userService, AccessControlService accessControlService) {
+    public EmployeeService(EmployeeDAO employeeDAO, SiteDAO siteDAO, EmployeeSiteAssignmentDAO assignmentDAO, UserService userService, AccessControlService accessControlService, UserRoleAssignmentDAO userRoleAssignmentDAO, RoleDAO roleDAO) {
         this.employeeDAO = employeeDAO;
         this.siteDAO = siteDAO;
         this.assignmentDAO = assignmentDAO;
         this.userService = userService;
         this.accessControlService = accessControlService;
+        this.userRoleAssignmentDAO = userRoleAssignmentDAO;
+        this.roleDAO = roleDAO;
     }
 
     public EmployeeDTO create(EmployeeDTO dto) {
@@ -48,7 +57,8 @@ public class EmployeeService {
         apply(employee, dto);
         replaceAssignments(employee, dto.getSiteAssignments());
         Employee savedEmployee = employeeDAO.save(employee);
-        userService.syncEmployeeLogin(savedEmployee, dto);
+        User loginUser = userService.syncEmployeeLogin(savedEmployee, dto);
+        syncRoleAssignments(savedEmployee, loginUser, dto);
         return toDTO(savedEmployee, true);
     }
 
@@ -64,7 +74,8 @@ public class EmployeeService {
         employee.getSiteAssignments().clear();
         replaceAssignments(employee, dto.getSiteAssignments());
         Employee savedEmployee = employeeDAO.save(employee);
-        userService.syncEmployeeLogin(savedEmployee, dto);
+        User loginUser = userService.syncEmployeeLogin(savedEmployee, dto);
+        syncRoleAssignments(savedEmployee, loginUser, dto);
         return toDTO(savedEmployee, true);
     }
 
@@ -140,6 +151,7 @@ public class EmployeeService {
         if (primaryCount > 1) {
             throw new InvalidOperationException("Only one primary site is allowed per employee");
         }
+        validateRoleAssignments(dto);
     }
 
     private void validateDateRange(LocalDate effectiveFrom, LocalDate effectiveTo) {
@@ -217,6 +229,11 @@ public class EmployeeService {
         if (includeAssignments) {
             dto.setSiteAssignments(assignments.stream().map(this::toAssignmentDTO).collect(Collectors.toList()));
         }
+        if (loginUser != null) {
+            dto.setRoleAssignments(userRoleAssignmentDAO.findByUserId(loginUser.getId()).stream()
+                    .map(this::toRoleAssignmentDTO)
+                    .collect(Collectors.toList()));
+        }
         return dto;
     }
 
@@ -239,5 +256,76 @@ public class EmployeeService {
 
     private List<Long> assignmentSiteIds(List<EmployeeSiteAssignmentDTO> assignments) {
         return assignments == null ? List.of() : assignments.stream().map(EmployeeSiteAssignmentDTO::getSiteId).collect(Collectors.toList());
+    }
+
+    private void validateRoleAssignments(EmployeeDTO dto) {
+        List<EmployeeRoleAssignmentDTO> roleAssignments = dto.getRoleAssignments();
+        if (Boolean.TRUE.equals(dto.getLoginEnabled()) && (roleAssignments == null || roleAssignments.stream().noneMatch((assignment) -> !"INACTIVE".equalsIgnoreCase(assignment.getStatus())))) {
+            throw new InvalidOperationException("At least one role assignment is required when login is enabled");
+        }
+        if (roleAssignments == null || roleAssignments.isEmpty()) {
+            return;
+        }
+        Set<Long> assignedSiteIds = dto.getSiteAssignments().stream()
+                .map(EmployeeSiteAssignmentDTO::getSiteId)
+                .collect(Collectors.toSet());
+        Set<String> activeRoleSites = new HashSet<>();
+        for (EmployeeRoleAssignmentDTO assignment : roleAssignments) {
+            if (assignment.getRoleId() == null) {
+                throw new InvalidOperationException("Role is required for every role assignment");
+            }
+            RoleMaster role = roleDAO.findById(assignment.getRoleId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Role not found with id: " + assignment.getRoleId()));
+            if (!"ACTIVE".equalsIgnoreCase(role.getStatus())) {
+                throw new InvalidOperationException("Selected role is inactive: " + role.getRoleCode());
+            }
+            if (assignment.getSiteId() != null && !assignedSiteIds.contains(assignment.getSiteId())) {
+                throw new InvalidOperationException("Role assignment site must be one of the employee assigned sites");
+            }
+            String status = isBlank(assignment.getStatus()) ? "ACTIVE" : assignment.getStatus();
+            if ("ACTIVE".equalsIgnoreCase(status)) {
+                String key = assignment.getRoleId() + "|" + (assignment.getSiteId() == null ? "GLOBAL" : assignment.getSiteId());
+                if (!activeRoleSites.add(key)) {
+                    throw new InvalidOperationException("Duplicate active role assignment for same site is not allowed");
+                }
+            }
+        }
+    }
+
+    private void syncRoleAssignments(Employee employee, User loginUser, EmployeeDTO dto) {
+        User existingUser = loginUser == null ? userService.getLoginUserByEmployeeId(employee.getId()) : loginUser;
+        if (existingUser == null) {
+            return;
+        }
+        userRoleAssignmentDAO.deleteByUserId(existingUser.getId());
+        if (!Boolean.TRUE.equals(dto.getLoginEnabled()) || dto.getRoleAssignments() == null) {
+            return;
+        }
+        for (EmployeeRoleAssignmentDTO dtoAssignment : dto.getRoleAssignments()) {
+            RoleMaster role = roleDAO.findById(dtoAssignment.getRoleId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Role not found with id: " + dtoAssignment.getRoleId()));
+            Site site = dtoAssignment.getSiteId() == null ? null : siteDAO.findById(dtoAssignment.getSiteId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Site not found with id: " + dtoAssignment.getSiteId()));
+            UserRoleAssignment assignment = new UserRoleAssignment();
+            assignment.setUser(existingUser);
+            assignment.setRole(role);
+            assignment.setSite(site);
+            assignment.setStatus(isBlank(dtoAssignment.getStatus()) ? "ACTIVE" : dtoAssignment.getStatus());
+            userRoleAssignmentDAO.save(assignment);
+        }
+    }
+
+    private EmployeeRoleAssignmentDTO toRoleAssignmentDTO(UserRoleAssignment assignment) {
+        EmployeeRoleAssignmentDTO dto = new EmployeeRoleAssignmentDTO();
+        dto.setUserRoleId(assignment.getId());
+        dto.setUserId(assignment.getUser().getId());
+        dto.setRoleId(assignment.getRole().getId());
+        dto.setRoleCode(assignment.getRole().getRoleCode());
+        dto.setRoleName(assignment.getRole().getRoleName());
+        dto.setSiteId(assignment.getSite() == null ? null : assignment.getSite().getId());
+        dto.setSiteCode(assignment.getSite() == null ? null : assignment.getSite().getSiteCode());
+        dto.setSiteName(assignment.getSite() == null ? null : assignment.getSite().getSiteName());
+        dto.setStatus(assignment.getStatus());
+        return dto;
     }
 }

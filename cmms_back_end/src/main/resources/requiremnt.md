@@ -17,499 +17,401 @@ Find related files and existing patterns for:
 Then implement using the existing project pattern.
 Do not duplicate files or APIs.
 
-Implement Role, Permission, and Site-based access control for CMMS.
+Implement Role Creation and Permission Assignment UI + Backend integration.
 
 Current project already has:
 - React Vite frontend
 - Spring Boot backend
 - PostgreSQL
-- Existing User table
-- Existing login API
-- Existing JWT authentication
+- Existing login/JWT authentication
+- Existing User table/service
 - Employee module
-- Site module
-- Employee site assignment
-- Operation modules:
-  Dashboard
-  Equipment
-  Vendors
-  Maintenance Requests
-  Maintenance Assignments
-  Downtime
-  Reports
+- Role/Permission backend may already exist from previous task
+- Existing sidebar with Operation / HR / Admin category
+- Existing layered backend architecture:
+  Controller
+  Service
+  DAO
+  DTO
+  Repository
+  Entity
+
+Requirement:
+Create UI page where admin can:
+1. Create new role
+2. Edit role
+3. View role
+4. Delete/inactivate role
+5. Assign permissions to role
+6. Assign role to employee during employee creation/edit
 
 IMPORTANT:
-All filtering and permission enforcement must happen in backend.
-Frontend can hide/show UI, but backend must be the final security layer.
+Analyze existing role/permission/user/employee implementation first.
+Do not recreate duplicate tables or APIs if already available.
+Do not break existing login/authentication.
+All role and permission APIs must be protected.
 
-Do not break existing login.
-Do not create a second authentication system.
-Reuse existing JWT/security setup.
-Analyze existing User, Employee, Site, and Auth code first.
+DATABASE EXPECTED
 
-GOAL
-
-Each logged-in user should access only:
-1. Menus allowed by their role/permissions.
-2. Sites assigned to that employee/user.
-3. Data belonging to their allowed sites.
-
-Example:
-Employee A assigned to Site 1 and Site 2.
-When Employee A logs in:
-- Site dropdown should show only Site 1 and Site 2.
-- Equipment list should show only equipment from Site 1 and Site 2.
-- Requests should show only those sites.
-- Downtime should show only those sites.
-- Dashboard should calculate only those sites.
-- User cannot access other site data even by changing API URL manually.
-
-DATABASE DESIGN
-
-Create/modify tables as needed.
-
-Required permission model:
+Use existing tables if already created:
 
 role_master
-- role_id BIGSERIAL PRIMARY KEY
-- role_code VARCHAR(50) UNIQUE NOT NULL
-- role_name VARCHAR(100) NOT NULL
-- description TEXT
-- status VARCHAR(20) DEFAULT 'ACTIVE'
-- created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-- updated_at TIMESTAMP
-
 permission_master
-- permission_id BIGSERIAL PRIMARY KEY
-- permission_code VARCHAR(100) UNIQUE NOT NULL
-- permission_name VARCHAR(150) NOT NULL
-- module_name VARCHAR(100)
-- action_name VARCHAR(50)
-- status VARCHAR(20) DEFAULT 'ACTIVE'
-- created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-- updated_at TIMESTAMP
-
 role_permission
-- role_permission_id BIGSERIAL PRIMARY KEY
-- role_id BIGINT NOT NULL
-- permission_id BIGINT NOT NULL
-- created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-- FOREIGN KEY role_id REFERENCES role_master(role_id)
-- FOREIGN KEY permission_id REFERENCES permission_master(permission_id)
-- UNIQUE(role_id, permission_id)
-
 user_role
-- user_role_id BIGSERIAL PRIMARY KEY
-- user_id BIGINT NOT NULL
-- role_id BIGINT NOT NULL
-- site_id BIGINT NULL
-- status VARCHAR(20) DEFAULT 'ACTIVE'
-- created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-- updated_at TIMESTAMP
-- FOREIGN KEY role_id REFERENCES role_master(role_id)
-- FOREIGN KEY site_id REFERENCES site_master(site_id)
 
-If existing user table has different primary key/column names, adapt to existing naming.
+If not available, create them.
 
-Meaning:
-- User can have multiple roles.
-- Role can be global if site_id is NULL.
-- Role can be site-specific if site_id is present.
+ROLE UI REQUIREMENT
 
-SEED DEFAULT ROLES
+Create pages:
 
-Create default roles:
+src/pages/admin/roles/RoleListPage.jsx
+src/pages/admin/roles/RoleFormPage.jsx
+src/pages/admin/roles/RoleViewPage.jsx
 
-SUPER_ADMIN
-ADMIN
-HR_ADMIN
-SITE_MANAGER
-MAINTENANCE_MANAGER
-TECHNICIAN
-VIEWER
+Create service:
 
-SEED DEFAULT PERMISSIONS
+src/services/roleService.js
+src/services/permissionService.js
 
-Use permission codes:
+Add routes:
 
-DASHBOARD_VIEW
+/admin/roles
+/admin/roles/new
+/admin/roles/:id/edit
+/admin/roles/:id/view
 
-SITE_VIEW
-SITE_CREATE
-SITE_UPDATE
-SITE_DELETE
+SIDEBAR REQUIREMENT
 
-EMPLOYEE_VIEW
-EMPLOYEE_CREATE
-EMPLOYEE_UPDATE
-EMPLOYEE_DELETE
+Under Admin category show:
 
-EQUIPMENT_VIEW
-EQUIPMENT_CREATE
-EQUIPMENT_UPDATE
-EQUIPMENT_DELETE
+Admin
+  Roles
 
-VENDOR_VIEW
-VENDOR_CREATE
-VENDOR_UPDATE
-VENDOR_DELETE
+Show Admin category only if logged-in user has role/permission admin access.
 
-REQUEST_VIEW
-REQUEST_CREATE
-REQUEST_UPDATE
-REQUEST_DELETE
+Show Roles menu only if user has ROLE_VIEW or ADMIN permission.
 
-ASSIGNMENT_VIEW
-ASSIGNMENT_CREATE
-ASSIGNMENT_UPDATE
-ASSIGNMENT_DELETE
+ROLE LIST PAGE
 
-DOWNTIME_VIEW
-DOWNTIME_CREATE
-DOWNTIME_UPDATE
-DOWNTIME_DELETE
+Use Material UI DataGrid.
 
-REPORT_VIEW
+Columns:
+- Role Code
+- Role Name
+- Description
+- Status
+- Permission Count
+- Created At
+- Actions
 
-Default mapping:
-- SUPER_ADMIN: all permissions, all sites
-- ADMIN: all operation permissions, all sites
-- HR_ADMIN: site and employee permissions
-- SITE_MANAGER: view/create/update operation data for assigned sites
-- MAINTENANCE_MANAGER: requests, assignments, downtime for assigned sites
-- TECHNICIAN: request view/update and downtime create/view for assigned sites
-- VIEWER: view only for assigned sites
+Actions:
+- View
+- Edit
+- Delete/Inactivate
 
-BACKEND REQUIREMENTS
+Filters:
+- Search by role code / role name
+- Status filter ACTIVE / INACTIVE
 
-Create backend modules:
+Buttons:
+- Add Role button
 
-Role:
-- Entity
-- DTO
-- Repository
-- DAO if project uses DAO
-- Service
-- Controller
+Button visibility:
+- Add Role visible only for ROLE_CREATE permission
+- Edit visible only for ROLE_UPDATE permission
+- Delete visible only for ROLE_DELETE permission
+- View visible only for ROLE_VIEW permission
 
-Permission:
-- Entity
-- DTO
-- Repository
-- DAO if project uses DAO
-- Service
-- Controller
+ROLE FORM PAGE
 
-UserRole:
-- Entity
-- DTO
-- Repository
-- DAO if project uses DAO
-- Service
+Sections:
 
-AccessControlService:
-Create a central service for permission and site filtering.
+Section 1: Role Details
+Fields:
+- Role Code
+- Role Name
+- Description
+- Status ACTIVE / INACTIVE
 
-Methods required:
-- getCurrentUser()
-- getCurrentUserId()
-- getCurrentEmployeeId()
-- getAllowedSiteIds()
-- hasPermission(permissionCode)
-- hasAnyPermission(permissionCodes)
-- validatePermission(permissionCode)
-- validateSiteAccess(siteId)
-- validateAnySiteAccess(Collection<Long> siteIds)
-- isSuperAdmin()
-- isAdmin()
+Validation:
+- Role Code required
+- Role Code unique
+- Role Name required
+- Status required
 
-All business modules must call this service.
+Section 2: Permission Assignment
 
-JWT REQUIREMENT
+Show permission list grouped by module.
 
-Update login response to include:
-- token
-- user info
-- roles
-- permissions
-- allowedSites
+Example:
 
-Example response:
+Dashboard
+  [ ] DASHBOARD_VIEW
 
-{
-  "token": "...",
-  "user": {
-    "userId": 1,
-    "username": "admin",
-    "employeeId": 10,
-    "employeeName": "Ramesh"
-  },
-  "roles": ["SITE_MANAGER"],
-  "permissions": ["DASHBOARD_VIEW", "EQUIPMENT_VIEW"],
-  "allowedSites": [
-    { "siteId": 1, "siteCode": "BLR", "siteName": "Bangalore Plant" }
-  ]
-}
+Site
+  [ ] SITE_VIEW
+  [ ] SITE_CREATE
+  [ ] SITE_UPDATE
+  [ ] SITE_DELETE
 
-Do not put huge permissions inside JWT unless existing system already does it.
-It is okay to return permissions in login response and also validate from DB in backend.
+Employee
+  [ ] EMPLOYEE_VIEW
+  [ ] EMPLOYEE_CREATE
+  [ ] EMPLOYEE_UPDATE
+  [ ] EMPLOYEE_DELETE
 
-SITE FILTERING RULE
+Equipment
+  [ ] EQUIPMENT_VIEW
+  [ ] EQUIPMENT_CREATE
+  [ ] EQUIPMENT_UPDATE
+  [ ] EQUIPMENT_DELETE
 
-Backend must apply site filtering automatically.
+Vendor
+  [ ] VENDOR_VIEW
+  [ ] VENDOR_CREATE
+  [ ] VENDOR_UPDATE
+  [ ] VENDOR_DELETE
 
-For all list APIs:
-- If user is SUPER_ADMIN or ADMIN, allow all sites unless siteId filter is passed.
-- If normal user, restrict to assigned siteIds only.
-- If siteId query param is passed, validate it is inside allowedSiteIds.
-- If siteId is not passed, return data only for allowedSiteIds.
+Maintenance Request
+  [ ] REQUEST_VIEW
+  [ ] REQUEST_CREATE
+  [ ] REQUEST_UPDATE
+  [ ] REQUEST_DELETE
 
-Apply this to:
+Maintenance Assignment
+  [ ] ASSIGNMENT_VIEW
+  [ ] ASSIGNMENT_CREATE
+  [ ] ASSIGNMENT_UPDATE
+  [ ] ASSIGNMENT_DELETE
 
-GET /api/hr/sites
-GET /api/hr/employees
-GET /api/equipment
-GET /api/vendors
-GET /api/maintenance/requests
-GET /api/maintenance/assignments
-GET /api/maintenance/downtime
-GET /api/cmms/dashboard/**
-GET /api/reports/** if exists
+Downtime
+  [ ] DOWNTIME_VIEW
+  [ ] DOWNTIME_CREATE
+  [ ] DOWNTIME_UPDATE
+  [ ] DOWNTIME_DELETE
 
-CREATE/UPDATE RULE
+Reports
+  [ ] REPORT_VIEW
 
-For create/update APIs:
-- Validate required permission.
-- Validate selected siteId belongs to current user's allowed sites.
-- Reject cross-site access.
+Permission UI requirements:
+- Group permissions by moduleName
+- Add Select All per module
+- Add Clear All per module
+- Add global Select All
+- Search permission by permission code/name
+- Show selected permission count
+- Save selected permissions with role
+- On edit, pre-select existing permissions
 
-Examples:
-- Equipment create: EQUIPMENT_CREATE + site access
-- Request create: REQUEST_CREATE + site access
-- Assignment create: ASSIGNMENT_CREATE + request site access + vendor mapped to site
-- Downtime create: DOWNTIME_CREATE + equipment/request site access
-- Vendor assignment to site: VENDOR_UPDATE + site access
-- Employee site assignment: EMPLOYEE_UPDATE + site access
+ROLE VIEW PAGE
 
-DELETE RULE
+Show:
+- Role details
+- Assigned permissions grouped by module
+- Permission count
 
-Delete/inactive APIs:
-- Validate DELETE permission.
-- Validate record site access where applicable.
-- Prefer status inactive instead of physical delete if existing pattern uses that.
+BACKEND API REQUIREMENTS
 
-API ENDPOINTS
-
-Add:
-
-GET /api/auth/me
-Returns current user, roles, permissions, allowedSites.
+Create/update these APIs if missing:
 
 Role APIs:
-GET /api/admin/roles
-GET /api/admin/roles/{id}
-POST /api/admin/roles
-PUT /api/admin/roles/{id}
+GET    /api/admin/roles
+GET    /api/admin/roles/{id}
+POST   /api/admin/roles
+PUT    /api/admin/roles/{id}
 DELETE /api/admin/roles/{id}
 
 Permission APIs:
 GET /api/admin/permissions
 GET /api/admin/permissions/grouped
 
-User Role APIs:
-GET /api/admin/users/{userId}/roles
-PUT /api/admin/users/{userId}/roles
+Role request DTO:
 
-All admin APIs require ADMIN or SUPER_ADMIN permission.
+RoleDto {
+  roleId
+  roleCode
+  roleName
+  description
+  status
+  List<Long> permissionIds
+  List<PermissionDto> permissions
+}
 
-FRONTEND REQUIREMENTS
+PermissionDto {
+  permissionId
+  permissionCode
+  permissionName
+  moduleName
+  actionName
+  status
+}
 
-Update auth store/context.
+Backend logic:
 
-Store after login:
-- token
-- user
-- roles
-- permissions
-- allowedSites
+Create Role:
+1. Validate ROLE_CREATE permission.
+2. Validate roleCode required.
+3. Validate roleCode unique.
+4. Validate roleName required.
+5. Save role_master.
+6. Save role_permission rows.
+7. Use transaction.
 
-Create helpers:
-- hasPermission(permissionCode)
-- hasAnyPermission(permissionCodes)
-- getAllowedSites()
-- isAdmin()
-- isSuperAdmin()
+Update Role:
+1. Validate ROLE_UPDATE permission.
+2. Validate role exists.
+3. Validate roleCode unique except current role.
+4. Update role_master.
+5. Replace role_permission rows safely.
+6. Use transaction.
 
-SIDEBAR PERMISSION RULE
+Delete Role:
+1. Validate ROLE_DELETE permission.
+2. Do not physical delete if role is assigned to users.
+3. Mark status INACTIVE.
+4. Prevent deleting SUPER_ADMIN role.
+5. Prevent current user's own active admin role from being removed if it will lock them out.
 
-Show menus only if user has permission.
+Get Role:
+- Return role details and permissions.
 
-Operation:
-Dashboard -> DASHBOARD_VIEW
-Equipment -> EQUIPMENT_VIEW
-Vendors -> VENDOR_VIEW
-Requests -> REQUEST_VIEW
-Assignments -> ASSIGNMENT_VIEW
-Downtime -> DOWNTIME_VIEW
-Reports -> REPORT_VIEW
+Get Roles:
+- Return permission count.
 
-HR:
-Sites -> SITE_VIEW
-Employees -> EMPLOYEE_VIEW
+Get Permissions:
+- Return all active permissions.
 
-Admin:
-Roles -> role management permission
-Permissions -> permission management permission
-User Roles -> user role management permission
+Get Permissions Grouped:
+- Return permissions grouped by moduleName.
 
-SITE DROPDOWN RULE
+EMPLOYEE ROLE ASSIGNMENT REQUIREMENT
 
-All site dropdowns must use allowedSites from /api/auth/me or login response.
+Update Employee Form.
 
-Do not call all-sites API for normal users.
+In Employee creation/edit page:
+Add Section: Role Assignment
 
-For normal users:
-- Show only assigned sites.
-- If only one site is assigned, auto-select that site.
-- If multiple sites assigned, user can select from assigned sites only.
+Employee can have roles.
 
-For ADMIN/SUPER_ADMIN:
-- Allow All Sites option in dashboard/list filters.
-- Allow selecting any active site.
+Since employee already has site assignments, role assignment should support:
 
-Apply site dropdown rules in:
-- Dashboard
-- Equipment list/form
-- Vendor list/form
-- Request list/form
-- Assignment page
-- Downtime list/form
-- Reports
-- Employee site assignment
+Option A:
+Assign global role:
+- Role dropdown
+- Applies to all assigned sites
 
-FRONTEND BUTTON PERMISSION RULE
+Option B:
+Assign site-specific role:
+Editable grid:
+- Site dropdown
+- Role dropdown
+- Status ACTIVE / INACTIVE
+- Add Row
+- Remove Row
 
-Hide or disable buttons based on permission:
+Use this design:
 
-Create buttons:
-- EQUIPMENT_CREATE
-- VENDOR_CREATE
-- REQUEST_CREATE
-- ASSIGNMENT_CREATE
-- DOWNTIME_CREATE
-- SITE_CREATE
-- EMPLOYEE_CREATE
+Employee Basic Info
+Employee Site Assignments
+Login Details
+Role Assignment
 
-Edit buttons:
-- *_UPDATE
+Role Assignment table columns:
+- Site dropdown
+- Role dropdown
+- Status
+- Remove
 
-Delete buttons:
-- *_DELETE
+Rules:
+- Site dropdown should show only employee assigned sites.
+- Role dropdown should show active roles.
+- Same employee/user cannot have duplicate ACTIVE role for same site.
+- At least one role required if login is enabled.
+- If login is not enabled, role assignment can be optional.
+- If role site is blank/null, treat as global role if backend supports global role.
+- Prefer site-specific roles for this project.
 
-If user has only VIEW permission:
-- show list/detail only
-- hide create/edit/delete
+Update Employee create/update backend:
+1. Save employee.
+2. Save employee site assignments.
+3. Create/update linked user login if enabled.
+4. Save user_role mappings.
+5. Validate selected roles exist and ACTIVE.
+6. Validate role site is part of employee assigned sites.
+7. Use transaction.
 
-ROUTE PROTECTION
+Update Employee get by id:
+- Return roleAssignments.
 
-Add protected route wrapper:
-- Requires authentication
-- Requires permission
+EmployeeDto should include:
 
-Example:
-<Route path="/equipment" element={
-  <ProtectedRoute permission="EQUIPMENT_VIEW">
-    <EquipmentListPage />
-  </ProtectedRoute>
-} />
+List<EmployeeRoleAssignmentDto> roleAssignments
 
-If no permission:
-- show Access Denied page
-- do not redirect silently
+EmployeeRoleAssignmentDto:
+- userRoleId
+- userId
+- roleId
+- roleCode
+- roleName
+- siteId
+- siteCode
+- siteName
+- status
 
-BACKEND VALIDATION EXAMPLES
+FRONTEND EMPLOYEE FORM
 
-Equipment list:
-- get allowedSiteIds from AccessControlService
-- if siteId passed, validate site access
-- query equipment where site_id in allowedSiteIds or site_id = siteId
+Update employeeService.js as needed.
 
-Equipment create:
-- validatePermission("EQUIPMENT_CREATE")
-- validateSiteAccess(dto.siteId)
+Employee form should:
+- Load active roles
+- Load employee assigned sites
+- Allow adding role rows
+- Validate duplicate role/site rows
+- Send roleAssignments with employee save/update payload
+- On edit, pre-load assigned roles
 
-Request create:
-- validatePermission("REQUEST_CREATE")
-- validateSiteAccess(dto.siteId)
-- validate equipment belongs to dto.siteId
+SECURITY
 
-Assignment create:
-- validatePermission("ASSIGNMENT_CREATE")
-- fetch request
-- validateSiteAccess(request.siteId)
-- validate vendor assigned to request.siteId
+Use existing JWT authentication.
+Role APIs must be protected.
 
-Downtime create:
-- validatePermission("DOWNTIME_CREATE")
-- validateSiteAccess(dto.siteId)
-- validate equipment/request belongs to dto.siteId
+Required permission checks:
+- ROLE_VIEW for list/view
+- ROLE_CREATE for create
+- ROLE_UPDATE for update
+- ROLE_DELETE for delete
+- PERMISSION_VIEW for permission list
+- EMPLOYEE_UPDATE for assigning roles in employee form
 
-Dashboard:
-- validate DASHBOARD_VIEW
-- restrict all queries to allowed site ids
+If these permission codes do not exist, add seed records:
+ROLE_VIEW
+ROLE_CREATE
+ROLE_UPDATE
+ROLE_DELETE
+PERMISSION_VIEW
+USER_ROLE_ASSIGN
 
-REPORTS:
-- validate REPORT_VIEW
-- restrict all report data to allowed site ids
-
-UI PAGES TO CREATE
-
-Admin pages if not existing:
-
-src/pages/admin/roles/RoleListPage.jsx
-src/pages/admin/roles/RoleFormPage.jsx
-
-src/pages/admin/userRoles/UserRoleAssignmentPage.jsx
-
-Services:
-src/services/authService.js update
-src/services/roleService.js
-src/services/permissionService.js
-src/services/userRoleService.js
-
-Add Admin category/menu only if user has admin permissions:
-
-Admin
-  Roles
-  User Roles
-  Permissions
-
-DATABASE MIGRATION
-
-Generate PostgreSQL DDL or Liquibase migration based on existing project style.
-
-Also seed default roles and permissions.
+Frontend must hide menus/buttons based on permissions.
+Backend must enforce permissions regardless of frontend.
 
 IMPORTANT CODING RULES
 
-1. Analyze existing auth code first.
-2. Do not break existing login.
-3. Do not duplicate user table.
-4. Reuse existing User entity/service.
-5. Add employee_id/user_id link only if needed.
-6. Backend must enforce all permissions and site filters.
-7. Frontend is only for user experience.
-8. Do not trust siteId from frontend without validation.
-9. Do not return unauthorized data from backend.
-10. Reuse existing response wrapper.
-11. Reuse existing Axios instance.
-12. Ensure frontend builds.
-13. Ensure backend compiles.
+1. Analyze existing role/permission/user/employee code first.
+2. Reuse existing Axios instance.
+3. Reuse existing response wrapper.
+4. Do not hardcode API base URL.
+5. Do not duplicate auth logic.
+6. Do not break login.
+7. Do not create duplicate role tables if already exists.
+8. Ensure frontend builds.
+9. Ensure backend compiles.
 
 After implementation, summarize:
-- Tables added/modified
-- APIs added
-- Backend services created
-- Existing modules updated with site filtering
-- Frontend pages updated
-- Permission rules added
+- Pages created
+- Services created/updated
+- Routes added
+- APIs added/updated
+- Employee form changes
+- Tables/seeds added

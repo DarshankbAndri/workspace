@@ -21,6 +21,8 @@ import SiteFormPage from './pages/hr/site/SiteFormPage';
 import EmployeeListPage from './pages/hr/employee/EmployeeListPage';
 import EmployeeFormPage from './pages/hr/employee/EmployeeFormPage';
 import RoleListPage from './pages/admin/roles/RoleListPage';
+import RoleFormPage from './pages/admin/roles/RoleFormPage';
+import RoleViewPage from './pages/admin/roles/RoleViewPage';
 import PermissionListPage from './pages/admin/permissions/PermissionListPage';
 import UserRoleAssignmentPage from './pages/admin/userRoles/UserRoleAssignmentPage';
 
@@ -164,6 +166,9 @@ function App() {
           <Route path="/hr/employees/new" element={protectedPage(<EmployeeFormPage />, 'EMPLOYEE_CREATE')} />
           <Route path="/hr/employees/:id/edit" element={protectedPage(<EmployeeFormPage />, 'EMPLOYEE_UPDATE')} />
           <Route path="/admin/roles" element={protectedPage(<RoleListPage />, 'ROLE_VIEW')} />
+          <Route path="/admin/roles/new" element={protectedPage(<RoleFormPage />, 'ROLE_CREATE')} />
+          <Route path="/admin/roles/:id/edit" element={protectedPage(<RoleFormPage />, 'ROLE_UPDATE')} />
+          <Route path="/admin/roles/:id/view" element={protectedPage(<RoleViewPage />, 'ROLE_VIEW')} />
           <Route path="/admin/permissions" element={protectedPage(<PermissionListPage />, 'PERMISSION_VIEW')} />
           <Route path="/admin/user-roles" element={protectedPage(<UserRoleAssignmentPage />, 'USER_ROLE_VIEW')} />
           <Route path="/create-user" element={protectedPage(<UserManagementPage />)} />

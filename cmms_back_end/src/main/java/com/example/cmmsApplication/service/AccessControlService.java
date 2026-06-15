@@ -36,7 +36,7 @@ public class AccessControlService {
             "DOWNTIME_VIEW", "DOWNTIME_CREATE", "DOWNTIME_UPDATE", "DOWNTIME_DELETE",
             "REPORT_VIEW",
             "ROLE_VIEW", "ROLE_CREATE", "ROLE_UPDATE", "ROLE_DELETE",
-            "PERMISSION_VIEW", "USER_ROLE_VIEW", "USER_ROLE_UPDATE"
+            "PERMISSION_VIEW", "USER_ROLE_VIEW", "USER_ROLE_UPDATE", "USER_ROLE_ASSIGN"
     );
 
     private final UserRepository userRepository;

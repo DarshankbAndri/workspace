@@ -14,6 +14,8 @@ public class PermissionDTO {
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
+    public Long getPermissionId() { return id; }
+    public void setPermissionId(Long permissionId) { this.id = permissionId; }
     public String getPermissionCode() { return permissionCode; }
     public void setPermissionCode(String permissionCode) { this.permissionCode = permissionCode; }
     public String getPermissionName() { return permissionName; }

@@ -12,5 +12,10 @@ public interface UserRoleAssignmentRepository extends JpaRepository<UserRoleAssi
     @EntityGraph(attributePaths = {"role", "site", "user"})
     List<UserRoleAssignment> findByUserIdAndStatusIgnoreCase(Long userId, String status);
 
+    @EntityGraph(attributePaths = {"role", "site", "user"})
+    List<UserRoleAssignment> findByUserId(Long userId);
+
+    boolean existsByUserIdAndRoleIdAndStatusIgnoreCase(Long userId, Long roleId, String status);
+
     void deleteByUserId(Long userId);
 }

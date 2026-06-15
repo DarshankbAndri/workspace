@@ -41,6 +41,8 @@ public class EmployeeDTO {
     private LocalDateTime updatedAt;
     @Valid
     private List<EmployeeSiteAssignmentDTO> siteAssignments = new ArrayList<>();
+    @Valid
+    private List<EmployeeRoleAssignmentDTO> roleAssignments = new ArrayList<>();
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -88,4 +90,6 @@ public class EmployeeDTO {
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
     public List<EmployeeSiteAssignmentDTO> getSiteAssignments() { return siteAssignments; }
     public void setSiteAssignments(List<EmployeeSiteAssignmentDTO> siteAssignments) { this.siteAssignments = siteAssignments; }
+    public List<EmployeeRoleAssignmentDTO> getRoleAssignments() { return roleAssignments; }
+    public void setRoleAssignments(List<EmployeeRoleAssignmentDTO> roleAssignments) { this.roleAssignments = roleAssignments; }
 }

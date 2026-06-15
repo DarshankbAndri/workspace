@@ -145,8 +145,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/EmployeeDTO.java": {
-    "mtime": 1781244649.7189415,
-    "ast_hash": "0710fc79cf5dcec35010c1c4fa2f66e1",
+    "mtime": 1781506007.678292,
+    "ast_hash": "f81b04e016deec37c4deffa3d610f545",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/EmployeeSiteAssignmentDTO.java": {
@@ -360,8 +360,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/service/EmployeeService.java": {
-    "mtime": 1781500932.4903412,
-    "ast_hash": "cf129db50bae9fa2b8e5d13d4b6aec18",
+    "mtime": 1781506077.4904108,
+    "ast_hash": "2314ca2155c4a9ca8c2af77fe813e816",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/service/EquipmentDowntimeService.java": {
@@ -425,8 +425,8 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/App.jsx": {
-    "mtime": 1781500826.70392,
-    "ast_hash": "093ac9105c29e21e395c0a02a0252ace",
+    "mtime": 1781506159.482992,
+    "ast_hash": "c2c6d77f0d904b5bf3c8658a506ccb6c",
     "semantic_hash": ""
   },
   "cmms_front_end/src/components/DocumentPreview.jsx": {
@@ -440,8 +440,8 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/components/SidebarLayout.jsx": {
-    "mtime": 1781500859.8420005,
-    "ast_hash": "d404ecf05b2b3e39fe30b16838cfdea4",
+    "mtime": 1781505556.0866978,
+    "ast_hash": "6e00bbaf46a04f8c17786a3ee53d99b7",
     "semantic_hash": ""
   },
   "cmms_front_end/src/components/common/ConfirmDialog.jsx": {
@@ -490,8 +490,8 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/pages/hr/employee/EmployeeFormPage.jsx": {
-    "mtime": 1781244715.810138,
-    "ast_hash": "90d9b2043759fbb26ef0caa28982153a",
+    "mtime": 1781506201.2731874,
+    "ast_hash": "8d7f5d7242f11cab82bc76c9045448bd",
     "semantic_hash": ""
   },
   "cmms_front_end/src/pages/hr/employee/EmployeeListPage.jsx": {
@@ -655,8 +655,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/resources/requiremnt.md": {
-    "mtime": 1781500006.5400343,
-    "ast_hash": "669bfa1d8366717089a5e6a876f4d983",
+    "mtime": 1781505919.7001667,
+    "ast_hash": "834b33f4b6363c8616a2db312a82ecc3",
     "semantic_hash": ""
   },
   "cmms_front_end/COMPONENT_DOCS.md": {
@@ -730,8 +730,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/dao/UserRoleAssignmentDAO.java": {
-    "mtime": 1781500405.817441,
-    "ast_hash": "9fc6b519c81a46b77da1616ee8400ac9",
+    "mtime": 1781506044.3450687,
+    "ast_hash": "a52529092273fc9bb44c7daf609eb085",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/AllowedSiteDTO.java": {
@@ -745,13 +745,13 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/PermissionDTO.java": {
-    "mtime": 1781500374.7349567,
-    "ast_hash": "36d63f3676a098e57dfef7c1cf11624d",
+    "mtime": 1781506007.6375494,
+    "ast_hash": "ed8271ec93c67364b9083a6f5c125739",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/RoleDTO.java": {
-    "mtime": 1781500374.7319472,
-    "ast_hash": "3e52b0b97d19c31feb9ded46ab973024",
+    "mtime": 1781506007.6505628,
+    "ast_hash": "083ffe7f94ed6a54a32a4819c7d0e798",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/UserRoleAssignmentDTO.java": {
@@ -795,23 +795,23 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/repository/UserRoleAssignmentRepository.java": {
-    "mtime": 1781500405.806445,
-    "ast_hash": "87d7c50b1cb6de509a28a1005eae68d2",
+    "mtime": 1781506044.3382204,
+    "ast_hash": "5a4df01d9d02c3d2302804c7ceceed3b",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/service/AccessControlService.java": {
-    "mtime": 1781500467.1440673,
-    "ast_hash": "75f597aad171614b3c41741186c1c8da",
+    "mtime": 1781506091.0598392,
+    "ast_hash": "7836361acd8823ebfe6f0bef84b1804b",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/service/PermissionService.java": {
-    "mtime": 1781500515.8478997,
-    "ast_hash": "eaaab332b08b061b94e3d8fdd409c339",
+    "mtime": 1781505496.0874214,
+    "ast_hash": "5cc5be3838f06011c07276dbb44f28e0",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/service/RoleService.java": {
-    "mtime": 1781500515.8509936,
-    "ast_hash": "995f100887d21363c07a23a1b4a80e8e",
+    "mtime": 1781506044.351388,
+    "ast_hash": "0c84c649fdef5c35ba78e178aff13b53",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/service/UserRoleAssignmentService.java": {
@@ -825,13 +825,38 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/pages/admin/roles/RoleListPage.jsx": {
-    "mtime": 1781500797.4566238,
-    "ast_hash": "1336b2ba7f482b482aac2e23a6983e8d",
+    "mtime": 1781506159.4905448,
+    "ast_hash": "0c6ef9be6c966670d5cfe75019203c8c",
     "semantic_hash": ""
   },
   "cmms_front_end/src/pages/admin/userRoles/UserRoleAssignmentPage.jsx": {
     "mtime": 1781500797.4669638,
     "ast_hash": "744e503f731be8fb80229ca5f142b6a5",
+    "semantic_hash": ""
+  },
+  "cmms_front_end/src/pages/admin/roles/RoleFormPage.jsx": {
+    "mtime": 1781506126.0644994,
+    "ast_hash": "c2263ac21c20790fc95cc5a600caecea",
+    "semantic_hash": ""
+  },
+  "cmms_front_end/src/services/permissionService.js": {
+    "mtime": 1781505702.4954925,
+    "ast_hash": "e43c2b4e0f42ed403fd23b018893e2dc",
+    "semantic_hash": ""
+  },
+  "cmms_front_end/src/services/roleService.js": {
+    "mtime": 1781505702.490494,
+    "ast_hash": "8e85cd5b5ba918917fc68ff7cfe1a0ad",
+    "semantic_hash": ""
+  },
+  "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/EmployeeRoleAssignmentDTO.java": {
+    "mtime": 1781506007.6612916,
+    "ast_hash": "0f99b1fd6ee634d20a93346dfab84100",
+    "semantic_hash": ""
+  },
+  "cmms_front_end/src/pages/admin/roles/RoleViewPage.jsx": {
+    "mtime": 1781506126.068499,
+    "ast_hash": "7efa94398455a01033614aba51caa28d",
     "semantic_hash": ""
   }
 }

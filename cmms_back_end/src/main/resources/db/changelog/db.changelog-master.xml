@@ -13,5 +13,6 @@
     <include file="db/changelog/changes/007-create-vendor-site-assignment.xml"/>
     <include file="db/changelog/changes/008-add-site-to-pm-schedule.xml"/>
     <include file="db/changelog/changes/009-create-access-control-tables.xml"/>
+    <include file="db/changelog/changes/010-add-user-role-assign-permission.xml"/>
 
 </databaseChangeLog>

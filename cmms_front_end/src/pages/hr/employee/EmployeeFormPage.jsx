@@ -25,6 +25,7 @@ import { Add, Delete, Save } from '@mui/icons-material';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { createEmployee, getEmployeeById, updateEmployee } from '../../../services/employeeService';
 import { getSites } from '../../../services/siteService';
+import { getRoles } from '../../../services/roleService';
 
 const emptyAssignment = {
   siteId: '',
@@ -32,6 +33,12 @@ const emptyAssignment = {
   primarySite: false,
   effectiveFrom: '',
   effectiveTo: '',
+  status: 'ACTIVE',
+};
+
+const emptyRoleAssignment = {
+  siteId: '',
+  roleId: '',
   status: 'ACTIVE',
 };
 
@@ -55,6 +62,7 @@ const initialForm = {
   authRole: 'EMPLOYEE',
   accountStatus: 'ACTIVE',
   siteAssignments: [{ ...emptyAssignment, primarySite: true }],
+  roleAssignments: [],
 };
 
 function EmployeeFormPage() {
@@ -65,6 +73,7 @@ function EmployeeFormPage() {
   const viewOnly = Boolean(location.state?.viewOnly);
   const [form, setForm] = React.useState(initialForm);
   const [sites, setSites] = React.useState([]);
+  const [roles, setRoles] = React.useState([]);
   const [error, setError] = React.useState('');
   const [saving, setSaving] = React.useState(false);
   const [snackbar, setSnackbar] = React.useState('');
@@ -72,12 +81,13 @@ function EmployeeFormPage() {
 
   React.useEffect(() => {
     getSites().then((data) => setSites(data.filter((site) => site.status !== 'INACTIVE'))).catch(() => setError('Unable to load sites.'));
+    getRoles().then((data) => setRoles(data.filter((role) => role.status !== 'INACTIVE'))).catch(() => setError('Unable to load roles.'));
   }, []);
 
   React.useEffect(() => {
     if (isEdit) {
       getEmployeeById(id)
-        .then((data) => setForm({ ...initialForm, ...data, siteAssignments: normalizeAssignments(data.siteAssignments) }))
+        .then((data) => setForm({ ...initialForm, ...data, siteAssignments: normalizeAssignments(data.siteAssignments), roleAssignments: normalizeRoleAssignments(data.roleAssignments) }))
         .catch(() => setError('Unable to load employee.'));
     }
   }, [id, isEdit]);
@@ -107,6 +117,24 @@ function EmployeeFormPage() {
 
   const addAssignment = () => {
     setForm((current) => ({ ...current, siteAssignments: [...current.siteAssignments, { ...emptyAssignment }] }));
+  };
+
+  const updateRoleAssignment = (index, field, value) => {
+    setForm((current) => ({
+      ...current,
+      roleAssignments: current.roleAssignments.map((assignment, assignmentIndex) => {
+        if (assignmentIndex !== index) return assignment;
+        return { ...assignment, [field]: value };
+      }),
+    }));
+  };
+
+  const addRoleAssignment = () => {
+    setForm((current) => ({ ...current, roleAssignments: [...current.roleAssignments, { ...emptyRoleAssignment }] }));
+  };
+
+  const removeRoleAssignment = (index) => {
+    setForm((current) => ({ ...current, roleAssignments: current.roleAssignments.filter((_, assignmentIndex) => assignmentIndex !== index) }));
   };
 
   const removeAssignment = (index) => {
@@ -142,6 +170,21 @@ function EmployeeFormPage() {
         activeKeys.add(key);
       }
     }
+    const activeAssignedSiteIds = new Set(form.siteAssignments.filter((assignment) => assignment.status === 'ACTIVE').map((assignment) => String(assignment.siteId)));
+    const activeRoleKeys = new Set();
+    const activeRoleAssignments = form.roleAssignments.filter((assignment) => assignment.status === 'ACTIVE');
+    if (form.loginEnabled && activeRoleAssignments.length === 0) return 'At least one role assignment is required when login is enabled.';
+    for (const assignment of form.roleAssignments) {
+      if (!assignment.roleId) return 'Role is required for every role assignment.';
+      if (assignment.siteId && !activeAssignedSiteIds.has(String(assignment.siteId))) {
+        return 'Role assignment site must be one of the active employee assigned sites.';
+      }
+      if (assignment.status === 'ACTIVE') {
+        const key = `${assignment.roleId}|${assignment.siteId || 'GLOBAL'}`;
+        if (activeRoleKeys.has(key)) return 'Duplicate active role assignment for same site is not allowed.';
+        activeRoleKeys.add(key);
+      }
+    }
     return '';
   };
 
@@ -166,6 +209,11 @@ function EmployeeFormPage() {
           siteId: Number(assignment.siteId),
           effectiveFrom: assignment.effectiveFrom || null,
           effectiveTo: assignment.effectiveTo || null,
+        })),
+        roleAssignments: form.roleAssignments.map((assignment) => ({
+          ...assignment,
+          roleId: Number(assignment.roleId),
+          siteId: assignment.siteId ? Number(assignment.siteId) : null,
         })),
       };
       if (isEdit) {
@@ -269,6 +317,54 @@ function EmployeeFormPage() {
               </TableBody>
             </Table>
           </TableContainer>
+        </Paper>
+
+        <Paper sx={{ p: 3, borderRadius: 1, mt: 2 }}>
+          <Stack direction={{ xs: 'column', sm: 'row' }} alignItems={{ xs: 'flex-start', sm: 'center' }} justifyContent="space-between" spacing={2} sx={{ mb: 2 }}>
+            <Box>
+              <Typography variant="h6" fontWeight={800}>Role Assignment</Typography>
+              <Typography variant="body2" color="text.secondary">Assign global or site-specific access roles for this employee login.</Typography>
+            </Box>
+            {!viewOnly && <Button variant="outlined" startIcon={<Add />} onClick={addRoleAssignment}>Add Role</Button>}
+          </Stack>
+          <TableContainer>
+            <Table size="small">
+              <TableHead>
+                <TableRow>
+                  <TableCell sx={{ minWidth: 220 }}>Site</TableCell>
+                  <TableCell sx={{ minWidth: 220 }}>Role</TableCell>
+                  <TableCell sx={{ minWidth: 140 }}>Status</TableCell>
+                  <TableCell align="right">Action</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {form.roleAssignments.length === 0 && (
+                  <TableRow>
+                    <TableCell colSpan={4}>
+                      <Typography variant="body2" color="text.secondary">No role assignments added.</Typography>
+                    </TableCell>
+                  </TableRow>
+                )}
+                {form.roleAssignments.map((assignment, index) => (
+                  <TableRow key={`${assignment.userRoleId || 'new'}-${index}`}>
+                    <TableCell>
+                      <TextField select disabled={viewOnly} fullWidth size="small" value={assignment.siteId || ''} onChange={(event) => updateRoleAssignment(index, 'siteId', event.target.value)}>
+                        <MenuItem value="">Global</MenuItem>
+                        {selectedSites(form.siteAssignments, sites).map((site) => <MenuItem key={site.id} value={site.id}>{site.siteName}</MenuItem>)}
+                      </TextField>
+                    </TableCell>
+                    <TableCell>
+                      <TextField select disabled={viewOnly} fullWidth size="small" value={assignment.roleId || ''} onChange={(event) => updateRoleAssignment(index, 'roleId', event.target.value)}>
+                        {roles.map((role) => <MenuItem key={role.id} value={role.id}>{role.roleName}</MenuItem>)}
+                      </TextField>
+                    </TableCell>
+                    <TableCell><TextField select disabled={viewOnly} fullWidth size="small" value={assignment.status || 'ACTIVE'} onChange={(event) => updateRoleAssignment(index, 'status', event.target.value)}><MenuItem value="ACTIVE">ACTIVE</MenuItem><MenuItem value="INACTIVE">INACTIVE</MenuItem></TextField></TableCell>
+                    <TableCell align="right">{!viewOnly && <IconButton aria-label="Remove role" color="error" onClick={() => removeRoleAssignment(index)}><Delete fontSize="small" /></IconButton>}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
           <Stack direction="row" spacing={1.5} sx={{ mt: 3 }}>
             {!viewOnly && <Button type="submit" variant="contained" startIcon={<Save />} disabled={saving}>{saving ? 'Saving...' : 'Save'}</Button>}
             <Button variant="outlined" onClick={() => navigate('/hr/employees')}>{viewOnly ? 'Back' : 'Cancel'}</Button>
@@ -293,6 +389,21 @@ function normalizeAssignments(assignments = []) {
     primarySite: Boolean(assignment.primarySite),
     status: assignment.status || 'ACTIVE',
   }));
+}
+
+function normalizeRoleAssignments(assignments = []) {
+  return assignments.map((assignment) => ({
+    ...emptyRoleAssignment,
+    ...assignment,
+    siteId: assignment.siteId || '',
+    roleId: assignment.roleId || '',
+    status: assignment.status || 'ACTIVE',
+  }));
+}
+
+function selectedSites(assignments, sites) {
+  const selectedIds = new Set(assignments.filter((assignment) => assignment.siteId && assignment.status === 'ACTIVE').map((assignment) => Number(assignment.siteId)));
+  return sites.filter((site) => selectedIds.has(Number(site.id)));
 }
 
 export default EmployeeFormPage;
