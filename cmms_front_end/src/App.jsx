@@ -10,10 +10,14 @@ import EquipmentListPage from './pages/equipment/EquipmentListPage';
 import EquipmentFormPage from './pages/equipment/EquipmentFormPage';
 import VendorListPage from './pages/vendor/VendorListPage';
 import VendorFormPage from './pages/vendor/VendorFormPage';
-import MaintenanceRequestPage from './pages/maintenance/MaintenanceRequestPage';
-import MaintenanceAssignmentPage from './pages/maintenance/MaintenanceAssignmentPage';
-import DowntimePage from './pages/maintenance/DowntimePage';
-import PreventiveMaintenancePage from './pages/maintenance/PreventiveMaintenancePage';
+import MaintenanceRequestListPage from './pages/maintenance/requests/MaintenanceRequestListPage';
+import MaintenanceRequestFormPage from './pages/maintenance/requests/MaintenanceRequestFormPage';
+import MaintenanceAssignmentListPage from './pages/maintenance/assignments/MaintenanceAssignmentListPage';
+import MaintenanceAssignmentFormPage from './pages/maintenance/assignments/MaintenanceAssignmentFormPage';
+import DowntimeListPage from './pages/maintenance/downtime/DowntimeListPage';
+import DowntimeFormPage from './pages/maintenance/downtime/DowntimeFormPage';
+import PreventiveMaintenanceListPage from './pages/maintenance/preventive/PreventiveMaintenanceListPage';
+import PreventiveMaintenanceFormPage from './pages/maintenance/preventive/PreventiveMaintenanceFormPage';
 import EquipmentHistoryPage from './pages/reports/EquipmentHistoryPage';
 import DowntimeAnalysisPage from './pages/reports/DowntimeAnalysisPage';
 import SiteListPage from './pages/hr/site/SiteListPage';
@@ -153,10 +157,22 @@ function App() {
           <Route path="/vendors" element={protectedPage(<VendorListPage />, 'VENDOR_VIEW')} />
           <Route path="/vendors/new" element={protectedPage(<VendorFormPage />, 'VENDOR_CREATE')} />
           <Route path="/vendors/:id" element={protectedPage(<VendorFormPage />, 'VENDOR_UPDATE')} />
-          <Route path="/maintenance/requests" element={protectedPage(<MaintenanceRequestPage />, 'REQUEST_VIEW')} />
-          <Route path="/maintenance/assignments" element={protectedPage(<MaintenanceAssignmentPage />, 'ASSIGNMENT_VIEW')} />
-          <Route path="/maintenance/downtime" element={protectedPage(<DowntimePage />, 'DOWNTIME_VIEW')} />
-          <Route path="/maintenance/preventive" element={protectedPage(<PreventiveMaintenancePage />, 'REQUEST_VIEW')} />
+          <Route path="/maintenance/requests" element={protectedPage(<MaintenanceRequestListPage />, 'REQUEST_VIEW')} />
+          <Route path="/maintenance/requests/new" element={protectedPage(<MaintenanceRequestFormPage />, 'REQUEST_CREATE')} />
+          <Route path="/maintenance/requests/:id/edit" element={protectedPage(<MaintenanceRequestFormPage />, 'REQUEST_UPDATE')} />
+          <Route path="/maintenance/requests/:id/view" element={protectedPage(<MaintenanceRequestFormPage />, 'REQUEST_VIEW')} />
+          <Route path="/maintenance/assignments" element={protectedPage(<MaintenanceAssignmentListPage />, 'ASSIGNMENT_VIEW')} />
+          <Route path="/maintenance/assignments/new" element={protectedPage(<MaintenanceAssignmentFormPage />, 'ASSIGNMENT_CREATE')} />
+          <Route path="/maintenance/assignments/:id/edit" element={protectedPage(<MaintenanceAssignmentFormPage />, 'ASSIGNMENT_UPDATE')} />
+          <Route path="/maintenance/assignments/:id/view" element={protectedPage(<MaintenanceAssignmentFormPage />, 'ASSIGNMENT_VIEW')} />
+          <Route path="/maintenance/downtime" element={protectedPage(<DowntimeListPage />, 'DOWNTIME_VIEW')} />
+          <Route path="/maintenance/downtime/new" element={protectedPage(<DowntimeFormPage />, 'DOWNTIME_CREATE')} />
+          <Route path="/maintenance/downtime/:id/edit" element={protectedPage(<DowntimeFormPage />, 'DOWNTIME_UPDATE')} />
+          <Route path="/maintenance/downtime/:id/view" element={protectedPage(<DowntimeFormPage />, 'DOWNTIME_VIEW')} />
+          <Route path="/maintenance/preventive" element={protectedPage(<PreventiveMaintenanceListPage />, 'REQUEST_VIEW')} />
+          <Route path="/maintenance/preventive/new" element={protectedPage(<PreventiveMaintenanceFormPage />, 'REQUEST_CREATE')} />
+          <Route path="/maintenance/preventive/:id/edit" element={protectedPage(<PreventiveMaintenanceFormPage />, 'REQUEST_UPDATE')} />
+          <Route path="/maintenance/preventive/:id/view" element={protectedPage(<PreventiveMaintenanceFormPage />, 'REQUEST_VIEW')} />
           <Route path="/reports/equipment-history" element={protectedPage(<EquipmentHistoryPage />, 'REPORT_VIEW')} />
           <Route path="/reports/downtime-analysis" element={protectedPage(<DowntimeAnalysisPage />, 'REPORT_VIEW')} />
           <Route path="/hr/sites" element={protectedPage(<SiteListPage />, 'SITE_VIEW')} />

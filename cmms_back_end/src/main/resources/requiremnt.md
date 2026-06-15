@@ -1,417 +1,215 @@
-Before implementing this task, use Graphify/project graph first.
+Update Maintenance Request, Maintenance Assignment, and Downtime pages to follow the same list + add form flow as Vendor module.
 
-Find related files and existing patterns for:
-- frontend page
-- route
-- sidebar
-- service
-- backend controller
-- service
-- DAO
-- repository
-- entity
-- DTO
-- authentication/security
-- database table
+Current issue:
+Requests, Assignments, and Downtime pages currently show creation form directly or mixed with list.
 
-Then implement using the existing project pattern.
-Do not duplicate files or APIs.
+Required behavior:
+Each module should have a landing list page first.
+The list page should have filters, table, and Add button.
+Only when user clicks Add, the creation page/form should open.
+After successful save, navigate back to list page.
 
-Implement Role Creation and Permission Assignment UI + Backend integration.
+Apply this to:
 
-Current project already has:
-- React Vite frontend
-- Spring Boot backend
-- PostgreSQL
-- Existing login/JWT authentication
-- Existing User table/service
-- Employee module
-- Role/Permission backend may already exist from previous task
-- Existing sidebar with Operation / HR / Admin category
-- Existing layered backend architecture:
-  Controller
-  Service
-  DAO
-  DTO
-  Repository
-  Entity
-
-Requirement:
-Create UI page where admin can:
-1. Create new role
-2. Edit role
-3. View role
-4. Delete/inactivate role
-5. Assign permissions to role
-6. Assign role to employee during employee creation/edit
+1. Maintenance Requests
+2. Maintenance Assignments
+3. Downtime
 
 IMPORTANT:
-Analyze existing role/permission/user/employee implementation first.
-Do not recreate duplicate tables or APIs if already available.
-Do not break existing login/authentication.
-All role and permission APIs must be protected.
+Frontend changes only unless route/API mismatch requires small service adjustment.
+Do not change backend logic.
+Do not change database.
+Do not change authentication.
+Do not change permission logic.
+Do not break existing Vendor page.
 
-DATABASE EXPECTED
+Analyze existing Vendor module UI flow and copy the same pattern.
 
-Use existing tables if already created:
+REQUEST MODULE
 
-role_master
-permission_master
-role_permission
-user_role
+Create/update pages:
 
-If not available, create them.
+src/pages/maintenance/requests/MaintenanceRequestListPage.jsx
+src/pages/maintenance/requests/MaintenanceRequestFormPage.jsx
 
-ROLE UI REQUIREMENT
+Routes:
 
-Create pages:
+/maintenance/requests
+/maintenance/requests/new
+/maintenance/requests/:id/edit
+/maintenance/requests/:id/view
 
-src/pages/admin/roles/RoleListPage.jsx
-src/pages/admin/roles/RoleFormPage.jsx
-src/pages/admin/roles/RoleViewPage.jsx
-
-Create service:
-
-src/services/roleService.js
-src/services/permissionService.js
-
-Add routes:
-
-/admin/roles
-/admin/roles/new
-/admin/roles/:id/edit
-/admin/roles/:id/view
-
-SIDEBAR REQUIREMENT
-
-Under Admin category show:
-
-Admin
-  Roles
-
-Show Admin category only if logged-in user has role/permission admin access.
-
-Show Roles menu only if user has ROLE_VIEW or ADMIN permission.
-
-ROLE LIST PAGE
-
-Use Material UI DataGrid.
-
-Columns:
-- Role Code
-- Role Name
-- Description
-- Status
-- Permission Count
-- Created At
-- Actions
-
-Actions:
-- View
-- Edit
-- Delete/Inactivate
+Landing page:
+- Show filters
+- Show request list DataGrid
+- Add Request button
+- Edit/View/Delete actions based on existing permission helper if available
 
 Filters:
-- Search by role code / role name
-- Status filter ACTIVE / INACTIVE
+- Site filter
+- Status filter
+- Priority filter
+- Search by request title/equipment/site
 
-Buttons:
-- Add Role button
+Add button:
+- Navigate to /maintenance/requests/new
 
-Button visibility:
-- Add Role visible only for ROLE_CREATE permission
-- Edit visible only for ROLE_UPDATE permission
-- Delete visible only for ROLE_DELETE permission
-- View visible only for ROLE_VIEW permission
+After save:
+- Navigate back to /maintenance/requests
 
-ROLE FORM PAGE
+ASSIGNMENT MODULE
 
-Sections:
+Create/update pages:
 
-Section 1: Role Details
-Fields:
-- Role Code
-- Role Name
-- Description
-- Status ACTIVE / INACTIVE
+src/pages/maintenance/assignments/MaintenanceAssignmentListPage.jsx
+src/pages/maintenance/assignments/MaintenanceAssignmentFormPage.jsx
 
-Validation:
-- Role Code required
-- Role Code unique
-- Role Name required
-- Status required
+Routes:
 
-Section 2: Permission Assignment
+/maintenance/assignments
+/maintenance/assignments/new
+/maintenance/assignments/:id/edit
+/maintenance/assignments/:id/view
 
-Show permission list grouped by module.
+Landing page:
+- Show filters
+- Show assignment list DataGrid
+- Add Assignment button
 
-Example:
+Filters:
+- Site filter
+- Request status filter
+- Vendor filter
+- Assignment status filter
+- Search by request title/vendor/equipment/site
 
-Dashboard
-  [ ] DASHBOARD_VIEW
+Add button:
+- Navigate to /maintenance/assignments/new
 
-Site
-  [ ] SITE_VIEW
-  [ ] SITE_CREATE
-  [ ] SITE_UPDATE
-  [ ] SITE_DELETE
+Form behavior:
+- Site first
+- Then show related requests for selected site
+- Then show vendors assigned to selected site
 
-Employee
-  [ ] EMPLOYEE_VIEW
-  [ ] EMPLOYEE_CREATE
-  [ ] EMPLOYEE_UPDATE
-  [ ] EMPLOYEE_DELETE
+After save:
+- Navigate back to /maintenance/assignments
 
-Equipment
-  [ ] EQUIPMENT_VIEW
-  [ ] EQUIPMENT_CREATE
-  [ ] EQUIPMENT_UPDATE
-  [ ] EQUIPMENT_DELETE
+DOWNTIME MODULE
 
-Vendor
-  [ ] VENDOR_VIEW
-  [ ] VENDOR_CREATE
-  [ ] VENDOR_UPDATE
-  [ ] VENDOR_DELETE
+Create/update pages:
 
-Maintenance Request
-  [ ] REQUEST_VIEW
-  [ ] REQUEST_CREATE
-  [ ] REQUEST_UPDATE
-  [ ] REQUEST_DELETE
+src/pages/maintenance/downtime/DowntimeListPage.jsx
+src/pages/maintenance/downtime/DowntimeFormPage.jsx
 
-Maintenance Assignment
-  [ ] ASSIGNMENT_VIEW
-  [ ] ASSIGNMENT_CREATE
-  [ ] ASSIGNMENT_UPDATE
-  [ ] ASSIGNMENT_DELETE
+Routes:
 
-Downtime
-  [ ] DOWNTIME_VIEW
-  [ ] DOWNTIME_CREATE
-  [ ] DOWNTIME_UPDATE
-  [ ] DOWNTIME_DELETE
+/maintenance/downtime
+/maintenance/downtime/new
+/maintenance/downtime/:id/edit
+/maintenance/downtime/:id/view
 
-Reports
-  [ ] REPORT_VIEW
+Landing page:
+- Show filters
+- Show downtime list DataGrid
+- Add Downtime button
 
-Permission UI requirements:
-- Group permissions by moduleName
-- Add Select All per module
-- Add Clear All per module
-- Add global Select All
-- Search permission by permission code/name
-- Show selected permission count
-- Save selected permissions with role
-- On edit, pre-select existing permissions
+Filters:
+- Site filter
+- Equipment filter
+- Request filter
+- Date from
+- Date to
+- Search by equipment/request/site
 
-ROLE VIEW PAGE
+Add button:
+- Navigate to /maintenance/downtime/new
 
-Show:
-- Role details
-- Assigned permissions grouped by module
-- Permission count
+Form behavior:
+- Site first
+- Equipment filtered by selected site
+- Request filtered by selected site/equipment
+- Calculate downtime as existing logic
 
-BACKEND API REQUIREMENTS
+After save:
+- Navigate back to /maintenance/downtime
 
-Create/update these APIs if missing:
+COMMON UI RULES
 
-Role APIs:
-GET    /api/admin/roles
-GET    /api/admin/roles/{id}
-POST   /api/admin/roles
-PUT    /api/admin/roles/{id}
-DELETE /api/admin/roles/{id}
+Use same style as Vendor module:
+- Page header
+- Filter card
+- DataGrid/list card
+- Add button at top right
+- Snackbar success/error
+- Confirmation dialog before delete/inactive
+- Loading state
+- Empty state
+- Responsive layout
 
-Permission APIs:
-GET /api/admin/permissions
-GET /api/admin/permissions/grouped
+PERMISSION RULES
 
-Role request DTO:
+Use existing frontend permission helpers if available.
 
-RoleDto {
-  roleId
-  roleCode
-  roleName
-  description
-  status
-  List<Long> permissionIds
-  List<PermissionDto> permissions
-}
+Add button visible only if:
+- REQUEST_CREATE for request
+- ASSIGNMENT_CREATE for assignment
+- DOWNTIME_CREATE for downtime
 
-PermissionDto {
-  permissionId
-  permissionCode
-  permissionName
-  moduleName
-  actionName
-  status
-}
+Edit button visible only if:
+- REQUEST_UPDATE
+- ASSIGNMENT_UPDATE
+- DOWNTIME_UPDATE
 
-Backend logic:
+Delete button visible only if:
+- REQUEST_DELETE
+- ASSIGNMENT_DELETE
+- DOWNTIME_DELETE
 
-Create Role:
-1. Validate ROLE_CREATE permission.
-2. Validate roleCode required.
-3. Validate roleCode unique.
-4. Validate roleName required.
-5. Save role_master.
-6. Save role_permission rows.
-7. Use transaction.
+View button visible if:
+- REQUEST_VIEW
+- ASSIGNMENT_VIEW
+- DOWNTIME_VIEW
 
-Update Role:
-1. Validate ROLE_UPDATE permission.
-2. Validate role exists.
-3. Validate roleCode unique except current role.
-4. Update role_master.
-5. Replace role_permission rows safely.
-6. Use transaction.
+ROUTE UPDATE
 
-Delete Role:
-1. Validate ROLE_DELETE permission.
-2. Do not physical delete if role is assigned to users.
-3. Mark status INACTIVE.
-4. Prevent deleting SUPER_ADMIN role.
-5. Prevent current user's own active admin role from being removed if it will lock them out.
+Update App.jsx/routes:
+- Sidebar menu should point to list routes only:
+  Requests -> /maintenance/requests
+  Assignments -> /maintenance/assignments
+  Downtime -> /maintenance/downtime
 
-Get Role:
-- Return role details and permissions.
+Do not point sidebar directly to form pages.
 
-Get Roles:
-- Return permission count.
+SERVICE REQUIREMENT
 
-Get Permissions:
-- Return all active permissions.
+Reuse existing services:
+- maintenanceService.js
+- assignmentService.js
+- downtimeService.js
+or existing project service names.
 
-Get Permissions Grouped:
-- Return permissions grouped by moduleName.
+Do not create duplicate Axios config.
+Do not hardcode API base URL.
 
-EMPLOYEE ROLE ASSIGNMENT REQUIREMENT
+If existing APIs already support list/create/update/getById/delete, reuse them.
 
-Update Employee Form.
-
-In Employee creation/edit page:
-Add Section: Role Assignment
-
-Employee can have roles.
-
-Since employee already has site assignments, role assignment should support:
-
-Option A:
-Assign global role:
-- Role dropdown
-- Applies to all assigned sites
-
-Option B:
-Assign site-specific role:
-Editable grid:
-- Site dropdown
-- Role dropdown
-- Status ACTIVE / INACTIVE
-- Add Row
-- Remove Row
-
-Use this design:
-
-Employee Basic Info
-Employee Site Assignments
-Login Details
-Role Assignment
-
-Role Assignment table columns:
-- Site dropdown
-- Role dropdown
-- Status
-- Remove
-
-Rules:
-- Site dropdown should show only employee assigned sites.
-- Role dropdown should show active roles.
-- Same employee/user cannot have duplicate ACTIVE role for same site.
-- At least one role required if login is enabled.
-- If login is not enabled, role assignment can be optional.
-- If role site is blank/null, treat as global role if backend supports global role.
-- Prefer site-specific roles for this project.
-
-Update Employee create/update backend:
-1. Save employee.
-2. Save employee site assignments.
-3. Create/update linked user login if enabled.
-4. Save user_role mappings.
-5. Validate selected roles exist and ACTIVE.
-6. Validate role site is part of employee assigned sites.
-7. Use transaction.
-
-Update Employee get by id:
-- Return roleAssignments.
-
-EmployeeDto should include:
-
-List<EmployeeRoleAssignmentDto> roleAssignments
-
-EmployeeRoleAssignmentDto:
-- userRoleId
-- userId
-- roleId
-- roleCode
-- roleName
-- siteId
-- siteCode
-- siteName
-- status
-
-FRONTEND EMPLOYEE FORM
-
-Update employeeService.js as needed.
-
-Employee form should:
-- Load active roles
-- Load employee assigned sites
-- Allow adding role rows
-- Validate duplicate role/site rows
-- Send roleAssignments with employee save/update payload
-- On edit, pre-load assigned roles
-
-SECURITY
-
-Use existing JWT authentication.
-Role APIs must be protected.
-
-Required permission checks:
-- ROLE_VIEW for list/view
-- ROLE_CREATE for create
-- ROLE_UPDATE for update
-- ROLE_DELETE for delete
-- PERMISSION_VIEW for permission list
-- EMPLOYEE_UPDATE for assigning roles in employee form
-
-If these permission codes do not exist, add seed records:
-ROLE_VIEW
-ROLE_CREATE
-ROLE_UPDATE
-ROLE_DELETE
-PERMISSION_VIEW
-USER_ROLE_ASSIGN
-
-Frontend must hide menus/buttons based on permissions.
-Backend must enforce permissions regardless of frontend.
+If existing page has combined form/list logic:
+- Split into ListPage and FormPage.
+- Keep existing form validation and service calls.
+- Move only UI flow, not backend logic.
 
 IMPORTANT CODING RULES
 
-1. Analyze existing role/permission/user/employee code first.
-2. Reuse existing Axios instance.
-3. Reuse existing response wrapper.
-4. Do not hardcode API base URL.
-5. Do not duplicate auth logic.
-6. Do not break login.
-7. Do not create duplicate role tables if already exists.
-8. Ensure frontend builds.
-9. Ensure backend compiles.
+1. Analyze Vendor page flow first.
+2. Match Vendor page structure and style.
+3. Do not change backend unless absolutely required.
+4. Do not change database.
+5. Do not change JWT/auth.
+6. Do not remove site-first filtering logic.
+7. Ensure frontend builds successfully.
 
 After implementation, summarize:
-- Pages created
-- Services created/updated
-- Routes added
-- APIs added/updated
-- Employee form changes
-- Tables/seeds added
+- Pages created/modified
+- Routes updated
+- Sidebar routes updated
+- Confirm backend was not changed

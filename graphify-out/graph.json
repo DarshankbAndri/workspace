@@ -3020,7 +3020,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dao_equipmentdao",
-      "community": 4,
+      "community": 29,
       "norm_label": "equipmentdao.java"
     },
     {
@@ -3030,7 +3030,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "dao_equipmentdao_equipmentdao",
-      "community": 4,
+      "community": 29,
       "norm_label": "equipmentdao"
     },
     {
@@ -3040,7 +3040,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "dao_equipmentdao_equipmentdao_equipmentdao",
-      "community": 4,
+      "community": 29,
       "norm_label": ".equipmentdao()"
     },
     {
@@ -3050,7 +3050,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "equipmentrepository",
-      "community": 4,
+      "community": 29,
       "norm_label": "equipmentrepository"
     },
     {
@@ -3060,7 +3060,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "dao_equipmentdao_equipmentdao_save",
-      "community": 4,
+      "community": 29,
       "norm_label": ".save()"
     },
     {
@@ -3070,7 +3070,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dao_equipmentdao_java_equipment",
-      "community": 4,
+      "community": 29,
       "norm_label": "equipment"
     },
     {
@@ -3080,7 +3080,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "dao_equipmentdao_equipmentdao_findbyid",
-      "community": 4,
+      "community": 29,
       "norm_label": ".findbyid()"
     },
     {
@@ -3090,7 +3090,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dao_equipmentdao_java_long",
-      "community": 4,
+      "community": 29,
       "norm_label": "long"
     },
     {
@@ -3100,7 +3100,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dao_equipmentdao_java_optional",
-      "community": 4,
+      "community": 29,
       "norm_label": "optional"
     },
     {
@@ -3110,7 +3110,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "dao_equipmentdao_equipmentdao_findall",
-      "community": 4,
+      "community": 29,
       "norm_label": ".findall()"
     },
     {
@@ -3120,7 +3120,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dao_equipmentdao_java_list",
-      "community": 4,
+      "community": 29,
       "norm_label": "list"
     },
     {
@@ -3130,7 +3130,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "dao_equipmentdao_equipmentdao_findbysiteid",
-      "community": 4,
+      "community": 29,
       "norm_label": ".findbysiteid()"
     },
     {
@@ -3140,7 +3140,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "dao_equipmentdao_equipmentdao_findbysiteids",
-      "community": 4,
+      "community": 29,
       "norm_label": ".findbysiteids()"
     },
     {
@@ -3150,7 +3150,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dao_equipmentdao_java_collection",
-      "community": 4,
+      "community": 29,
       "norm_label": "collection"
     },
     {
@@ -3160,7 +3160,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "dao_equipmentdao_equipmentdao_deletebyid",
-      "community": 4,
+      "community": 29,
       "norm_label": ".deletebyid()"
     },
     {
@@ -3180,7 +3180,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "dao_equipmentdao_equipmentdao_countbysiteid",
-      "community": 4,
+      "community": 29,
       "norm_label": ".countbysiteid()"
     },
     {
@@ -3190,7 +3190,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "dao_equipmentdao_equipmentdao_existsbyequipmentcode",
-      "community": 4,
+      "community": 29,
       "norm_label": ".existsbyequipmentcode()"
     },
     {
@@ -3200,7 +3200,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dao_equipmentdao_java_string",
-      "community": 4,
+      "community": 29,
       "norm_label": "string"
     },
     {
@@ -3210,7 +3210,7 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "dao_equipmentdao_equipmentdao_existsbyequipmentcodeandidnot",
-      "community": 4,
+      "community": 29,
       "norm_label": ".existsbyequipmentcodeandidnot()"
     },
     {
@@ -3960,7 +3960,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dao_preventivemaintenancescheduledao",
-      "community": 51,
+      "community": 20,
       "norm_label": "preventivemaintenancescheduledao.java"
     },
     {
@@ -3970,7 +3970,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "dao_preventivemaintenancescheduledao_preventivemaintenancescheduledao",
-      "community": 51,
+      "community": 20,
       "norm_label": "preventivemaintenancescheduledao"
     },
     {
@@ -3980,7 +3980,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "dao_preventivemaintenancescheduledao_preventivemaintenancescheduledao_preventivemaintenancescheduledao",
-      "community": 51,
+      "community": 20,
       "norm_label": ".preventivemaintenancescheduledao()"
     },
     {
@@ -3990,7 +3990,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "preventivemaintenanceschedulerepository",
-      "community": 51,
+      "community": 20,
       "norm_label": "preventivemaintenanceschedulerepository"
     },
     {
@@ -4000,7 +4000,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "dao_preventivemaintenancescheduledao_preventivemaintenancescheduledao_save",
-      "community": 51,
+      "community": 20,
       "norm_label": ".save()"
     },
     {
@@ -4010,7 +4010,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dao_preventivemaintenancescheduledao_java_preventivemaintenanceschedule",
-      "community": 51,
+      "community": 20,
       "norm_label": "preventivemaintenanceschedule"
     },
     {
@@ -4020,7 +4020,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "dao_preventivemaintenancescheduledao_preventivemaintenancescheduledao_findbyid",
-      "community": 51,
+      "community": 20,
       "norm_label": ".findbyid()"
     },
     {
@@ -4030,7 +4030,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dao_preventivemaintenancescheduledao_java_long",
-      "community": 51,
+      "community": 20,
       "norm_label": "long"
     },
     {
@@ -4040,7 +4040,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dao_preventivemaintenancescheduledao_java_optional",
-      "community": 51,
+      "community": 20,
       "norm_label": "optional"
     },
     {
@@ -4050,7 +4050,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "dao_preventivemaintenancescheduledao_preventivemaintenancescheduledao_findall",
-      "community": 51,
+      "community": 20,
       "norm_label": ".findall()"
     },
     {
@@ -4060,7 +4060,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dao_preventivemaintenancescheduledao_java_list",
-      "community": 51,
+      "community": 20,
       "norm_label": "list"
     },
     {
@@ -4070,7 +4070,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "dao_preventivemaintenancescheduledao_preventivemaintenancescheduledao_deletebyid",
-      "community": 51,
+      "community": 20,
       "norm_label": ".deletebyid()"
     },
     {
@@ -4080,7 +4080,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "dao_preventivemaintenancescheduledao_preventivemaintenancescheduledao_existsbyschedulecode",
-      "community": 51,
+      "community": 20,
       "norm_label": ".existsbyschedulecode()"
     },
     {
@@ -4090,7 +4090,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dao_preventivemaintenancescheduledao_java_string",
-      "community": 51,
+      "community": 20,
       "norm_label": "string"
     },
     {
@@ -4100,7 +4100,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "dao_preventivemaintenancescheduledao_preventivemaintenancescheduledao_existsbyschedulecodeandidnot",
-      "community": 51,
+      "community": 20,
       "norm_label": ".existsbyschedulecodeandidnot()"
     },
     {
@@ -4110,7 +4110,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "dao_preventivemaintenancescheduledao_preventivemaintenancescheduledao_finddue",
-      "community": 51,
+      "community": 20,
       "norm_label": ".finddue()"
     },
     {
@@ -4120,7 +4120,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dao_preventivemaintenancescheduledao_java_localdate",
-      "community": 51,
+      "community": 20,
       "norm_label": "localdate"
     },
     {
@@ -4130,7 +4130,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "dao_preventivemaintenancescheduledao_preventivemaintenancescheduledao_findupcoming",
-      "community": 51,
+      "community": 20,
       "norm_label": ".findupcoming()"
     },
     {
@@ -4350,7 +4350,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "dao_rolepermissiondao_rolepermissiondao_findbyrolecodes",
-      "community": 105,
+      "community": 33,
       "norm_label": ".findbyrolecodes()"
     },
     {
@@ -4370,7 +4370,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dao_rolepermissiondao_java_string",
-      "community": 105,
+      "community": 33,
       "norm_label": "string"
     },
     {
@@ -10160,7 +10160,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dto_userdto",
-      "community": 29,
+      "community": 1,
       "norm_label": "userdto.java"
     },
     {
@@ -10170,7 +10170,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "dto_userdto_userdto",
-      "community": 29,
+      "community": 1,
       "norm_label": "userdto"
     },
     {
@@ -10180,7 +10180,7 @@
       "source_location": "L53",
       "_origin": "ast",
       "id": "dto_userdto_userdto_userdto",
-      "community": 29,
+      "community": 1,
       "norm_label": ".userdto()"
     },
     {
@@ -10190,7 +10190,7 @@
       "source_location": "L57",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dto_userdto_java_long",
-      "community": 29,
+      "community": 1,
       "norm_label": "long"
     },
     {
@@ -10200,7 +10200,7 @@
       "source_location": "L57",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dto_userdto_java_string",
-      "community": 29,
+      "community": 1,
       "norm_label": "string"
     },
     {
@@ -10210,7 +10210,7 @@
       "source_location": "L57",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dto_userdto_java_userrole",
-      "community": 29,
+      "community": 1,
       "norm_label": "userrole"
     },
     {
@@ -10220,7 +10220,7 @@
       "source_location": "L57",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dto_userdto_java_localdatetime",
-      "community": 29,
+      "community": 1,
       "norm_label": "localdatetime"
     },
     {
@@ -10230,7 +10230,7 @@
       "source_location": "L57",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dto_userdto_java_boolean",
-      "community": 29,
+      "community": 1,
       "norm_label": "boolean"
     },
     {
@@ -10240,7 +10240,7 @@
       "source_location": "L74",
       "_origin": "ast",
       "id": "dto_userdto_userdto_getid",
-      "community": 29,
+      "community": 1,
       "norm_label": ".getid()"
     },
     {
@@ -10250,7 +10250,7 @@
       "source_location": "L78",
       "_origin": "ast",
       "id": "dto_userdto_userdto_setid",
-      "community": 29,
+      "community": 1,
       "norm_label": ".setid()"
     },
     {
@@ -10260,7 +10260,7 @@
       "source_location": "L82",
       "_origin": "ast",
       "id": "dto_userdto_userdto_getusername",
-      "community": 29,
+      "community": 1,
       "norm_label": ".getusername()"
     },
     {
@@ -10270,7 +10270,7 @@
       "source_location": "L86",
       "_origin": "ast",
       "id": "dto_userdto_userdto_setusername",
-      "community": 29,
+      "community": 1,
       "norm_label": ".setusername()"
     },
     {
@@ -10280,7 +10280,7 @@
       "source_location": "L90",
       "_origin": "ast",
       "id": "dto_userdto_userdto_getemail",
-      "community": 29,
+      "community": 1,
       "norm_label": ".getemail()"
     },
     {
@@ -10290,7 +10290,7 @@
       "source_location": "L94",
       "_origin": "ast",
       "id": "dto_userdto_userdto_setemail",
-      "community": 29,
+      "community": 1,
       "norm_label": ".setemail()"
     },
     {
@@ -10300,7 +10300,7 @@
       "source_location": "L98",
       "_origin": "ast",
       "id": "dto_userdto_userdto_getfirstname",
-      "community": 29,
+      "community": 1,
       "norm_label": ".getfirstname()"
     },
     {
@@ -10310,7 +10310,7 @@
       "source_location": "L102",
       "_origin": "ast",
       "id": "dto_userdto_userdto_setfirstname",
-      "community": 29,
+      "community": 1,
       "norm_label": ".setfirstname()"
     },
     {
@@ -10320,7 +10320,7 @@
       "source_location": "L106",
       "_origin": "ast",
       "id": "dto_userdto_userdto_getlastname",
-      "community": 29,
+      "community": 1,
       "norm_label": ".getlastname()"
     },
     {
@@ -10330,7 +10330,7 @@
       "source_location": "L110",
       "_origin": "ast",
       "id": "dto_userdto_userdto_setlastname",
-      "community": 29,
+      "community": 1,
       "norm_label": ".setlastname()"
     },
     {
@@ -10340,7 +10340,7 @@
       "source_location": "L114",
       "_origin": "ast",
       "id": "dto_userdto_userdto_getrole",
-      "community": 29,
+      "community": 1,
       "norm_label": ".getrole()"
     },
     {
@@ -10350,7 +10350,7 @@
       "source_location": "L118",
       "_origin": "ast",
       "id": "dto_userdto_userdto_setrole",
-      "community": 29,
+      "community": 1,
       "norm_label": ".setrole()"
     },
     {
@@ -10360,7 +10360,7 @@
       "source_location": "L122",
       "_origin": "ast",
       "id": "dto_userdto_userdto_getdepartment",
-      "community": 29,
+      "community": 1,
       "norm_label": ".getdepartment()"
     },
     {
@@ -10370,7 +10370,7 @@
       "source_location": "L126",
       "_origin": "ast",
       "id": "dto_userdto_userdto_setdepartment",
-      "community": 29,
+      "community": 1,
       "norm_label": ".setdepartment()"
     },
     {
@@ -10390,7 +10390,7 @@
       "source_location": "L134",
       "_origin": "ast",
       "id": "dto_userdto_userdto_setmanagerid",
-      "community": 29,
+      "community": 1,
       "norm_label": ".setmanagerid()"
     },
     {
@@ -10400,7 +10400,7 @@
       "source_location": "L138",
       "_origin": "ast",
       "id": "dto_userdto_userdto_getemployeeid",
-      "community": 29,
+      "community": 1,
       "norm_label": ".getemployeeid()"
     },
     {
@@ -10410,7 +10410,7 @@
       "source_location": "L142",
       "_origin": "ast",
       "id": "dto_userdto_userdto_setemployeeid",
-      "community": 33,
+      "community": 1,
       "norm_label": ".setemployeeid()"
     },
     {
@@ -10420,7 +10420,7 @@
       "source_location": "L146",
       "_origin": "ast",
       "id": "dto_userdto_userdto_getcreatedat",
-      "community": 29,
+      "community": 1,
       "norm_label": ".getcreatedat()"
     },
     {
@@ -10430,7 +10430,7 @@
       "source_location": "L150",
       "_origin": "ast",
       "id": "dto_userdto_userdto_setcreatedat",
-      "community": 29,
+      "community": 1,
       "norm_label": ".setcreatedat()"
     },
     {
@@ -10440,7 +10440,7 @@
       "source_location": "L154",
       "_origin": "ast",
       "id": "dto_userdto_userdto_getupdatedat",
-      "community": 29,
+      "community": 1,
       "norm_label": ".getupdatedat()"
     },
     {
@@ -10450,7 +10450,7 @@
       "source_location": "L158",
       "_origin": "ast",
       "id": "dto_userdto_userdto_setupdatedat",
-      "community": 29,
+      "community": 1,
       "norm_label": ".setupdatedat()"
     },
     {
@@ -10460,7 +10460,7 @@
       "source_location": "L162",
       "_origin": "ast",
       "id": "dto_userdto_userdto_getactive",
-      "community": 29,
+      "community": 1,
       "norm_label": ".getactive()"
     },
     {
@@ -10470,7 +10470,7 @@
       "source_location": "L166",
       "_origin": "ast",
       "id": "dto_userdto_userdto_setactive",
-      "community": 29,
+      "community": 1,
       "norm_label": ".setactive()"
     },
     {
@@ -14800,7 +14800,7 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "entity_rolepermission_rolepermission_getpermission",
-      "community": 135,
+      "community": 33,
       "norm_label": ".getpermission()"
     },
     {
@@ -15620,7 +15620,7 @@
       "source_location": "L153",
       "_origin": "ast",
       "id": "entity_user_user_getmanager",
-      "community": 33,
+      "community": 2,
       "norm_label": ".getmanager()"
     },
     {
@@ -16830,7 +16830,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "resourcenotfoundexception",
-      "community": 20,
+      "community": 135,
       "norm_label": "resourcenotfoundexception"
     },
     {
@@ -18020,7 +18020,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "repository_preventivemaintenanceschedulerepository",
-      "community": 51,
+      "community": 20,
       "norm_label": "preventivemaintenanceschedulerepository.java"
     },
     {
@@ -18030,7 +18030,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "repository_preventivemaintenanceschedulerepository_preventivemaintenanceschedulerepository",
-      "community": 51,
+      "community": 20,
       "norm_label": "preventivemaintenanceschedulerepository"
     },
     {
@@ -18040,7 +18040,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "repository_preventivemaintenanceschedulerepository_preventivemaintenanceschedulerepository_existsbyschedulecode",
-      "community": 51,
+      "community": 20,
       "norm_label": ".existsbyschedulecode()"
     },
     {
@@ -18050,7 +18050,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_preventivemaintenanceschedulerepository_java_string",
-      "community": 51,
+      "community": 20,
       "norm_label": "string"
     },
     {
@@ -18060,7 +18060,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "repository_preventivemaintenanceschedulerepository_preventivemaintenanceschedulerepository_existsbyschedulecodeandidnot",
-      "community": 51,
+      "community": 20,
       "norm_label": ".existsbyschedulecodeandidnot()"
     },
     {
@@ -18070,7 +18070,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_preventivemaintenanceschedulerepository_java_long",
-      "community": 51,
+      "community": 20,
       "norm_label": "long"
     },
     {
@@ -18080,7 +18080,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "repository_preventivemaintenanceschedulerepository_preventivemaintenanceschedulerepository_findbyactivetrueandnextduedatelessthanequalorderbynextduedateasc",
-      "community": 51,
+      "community": 20,
       "norm_label": ".findbyactivetrueandnextduedatelessthanequalorderbynextduedateasc()"
     },
     {
@@ -18090,7 +18090,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_preventivemaintenanceschedulerepository_java_localdate",
-      "community": 51,
+      "community": 20,
       "norm_label": "localdate"
     },
     {
@@ -18100,7 +18100,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_preventivemaintenanceschedulerepository_java_list",
-      "community": 51,
+      "community": 20,
       "norm_label": "list"
     },
     {
@@ -18110,7 +18110,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_preventivemaintenanceschedulerepository_java_preventivemaintenanceschedule",
-      "community": 51,
+      "community": 20,
       "norm_label": "preventivemaintenanceschedule"
     },
     {
@@ -18120,7 +18120,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "repository_preventivemaintenanceschedulerepository_preventivemaintenanceschedulerepository_findbyactivetrueandnextduedatebetweenorderbynextduedateasc",
-      "community": 51,
+      "community": 20,
       "norm_label": ".findbyactivetrueandnextduedatebetweenorderbynextduedateasc()"
     },
     {
@@ -18130,7 +18130,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "repository_rolepermissionrepository",
-      "community": 105,
+      "community": 170,
       "norm_label": "rolepermissionrepository.java"
     },
     {
@@ -18140,7 +18140,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "repository_rolepermissionrepository_rolepermissionrepository",
-      "community": 105,
+      "community": 170,
       "norm_label": "rolepermissionrepository"
     },
     {
@@ -18150,7 +18150,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "repository_rolepermissionrepository_rolepermissionrepository_findbyrolerolecodein",
-      "community": 105,
+      "community": 170,
       "norm_label": ".findbyrolerolecodein()"
     },
     {
@@ -18160,7 +18160,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_rolepermissionrepository_java_collection",
-      "community": 105,
+      "community": 170,
       "norm_label": "collection"
     },
     {
@@ -18170,7 +18170,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_rolepermissionrepository_java_string",
-      "community": 105,
+      "community": 170,
       "norm_label": "string"
     },
     {
@@ -18180,7 +18180,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_rolepermissionrepository_java_list",
-      "community": 105,
+      "community": 170,
       "norm_label": "list"
     },
     {
@@ -18190,7 +18190,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_rolepermissionrepository_java_rolepermission",
-      "community": 105,
+      "community": 170,
       "norm_label": "rolepermission"
     },
     {
@@ -18200,7 +18200,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_rolepermissionrepository_java_entitygraph",
-      "community": 105,
+      "community": 170,
       "norm_label": "entitygraph"
     },
     {
@@ -18210,7 +18210,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "repository_rolepermissionrepository_rolepermissionrepository_findbyroleid",
-      "community": 105,
+      "community": 170,
       "norm_label": ".findbyroleid()"
     },
     {
@@ -18220,7 +18220,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_rolepermissionrepository_java_long",
-      "community": 105,
+      "community": 170,
       "norm_label": "long"
     },
     {
@@ -18230,7 +18230,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "repository_rolepermissionrepository_rolepermissionrepository_deletebyroleid",
-      "community": 105,
+      "community": 170,
       "norm_label": ".deletebyroleid()"
     },
     {
@@ -18240,7 +18240,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "modifying",
-      "community": 105,
+      "community": 170,
       "norm_label": "modifying"
     },
     {
@@ -18250,7 +18250,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_rolepermissionrepository_java_query",
-      "community": 105,
+      "community": 170,
       "norm_label": "query"
     },
     {
@@ -19060,7 +19060,7 @@
       "source_location": "L64",
       "_origin": "ast",
       "id": "service_accesscontrolservice_accesscontrolservice_getcurrentuser",
-      "community": 175,
+      "community": 33,
       "norm_label": ".getcurrentuser()"
     },
     {
@@ -19070,7 +19070,7 @@
       "source_location": "L64",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_accesscontrolservice_java_user",
-      "community": 33,
+      "community": 174,
       "norm_label": "user"
     },
     {
@@ -19080,7 +19080,7 @@
       "source_location": "L73",
       "_origin": "ast",
       "id": "service_accesscontrolservice_accesscontrolservice_getcurrentuserid",
-      "community": 175,
+      "community": 33,
       "norm_label": ".getcurrentuserid()"
     },
     {
@@ -19090,7 +19090,7 @@
       "source_location": "L73",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_accesscontrolservice_java_long",
-      "community": 175,
+      "community": 33,
       "norm_label": "long"
     },
     {
@@ -19100,7 +19100,7 @@
       "source_location": "L77",
       "_origin": "ast",
       "id": "service_accesscontrolservice_accesscontrolservice_getcurrentemployeeid",
-      "community": 175,
+      "community": 33,
       "norm_label": ".getcurrentemployeeid()"
     },
     {
@@ -19110,7 +19110,7 @@
       "source_location": "L82",
       "_origin": "ast",
       "id": "service_accesscontrolservice_accesscontrolservice_getallowedsiteids",
-      "community": 175,
+      "community": 33,
       "norm_label": ".getallowedsiteids()"
     },
     {
@@ -19120,7 +19120,7 @@
       "source_location": "L82",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_accesscontrolservice_java_list",
-      "community": 175,
+      "community": 33,
       "norm_label": "list"
     },
     {
@@ -19130,7 +19130,7 @@
       "source_location": "L107",
       "_origin": "ast",
       "id": "service_accesscontrolservice_accesscontrolservice_getallowedsites",
-      "community": 175,
+      "community": 33,
       "norm_label": ".getallowedsites()"
     },
     {
@@ -19140,7 +19140,7 @@
       "source_location": "L107",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_accesscontrolservice_java_allowedsitedto",
-      "community": 175,
+      "community": 174,
       "norm_label": "allowedsitedto"
     },
     {
@@ -19180,7 +19180,7 @@
       "source_location": "L124",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_accesscontrolservice_java_collection",
-      "community": 175,
+      "community": 33,
       "norm_label": "collection"
     },
     {
@@ -19210,7 +19210,7 @@
       "source_location": "L147",
       "_origin": "ast",
       "id": "service_accesscontrolservice_accesscontrolservice_validateanysiteaccess",
-      "community": 175,
+      "community": 33,
       "norm_label": ".validateanysiteaccess()"
     },
     {
@@ -19230,7 +19230,7 @@
       "source_location": "L163",
       "_origin": "ast",
       "id": "service_accesscontrolservice_accesscontrolservice_isadmin",
-      "community": 175,
+      "community": 33,
       "norm_label": ".isadmin()"
     },
     {
@@ -19270,7 +19270,7 @@
       "source_location": "L196",
       "_origin": "ast",
       "id": "service_accesscontrolservice_accesscontrolservice_buildaccesspayload",
-      "community": 33,
+      "community": 174,
       "norm_label": ".buildaccesspayload()"
     },
     {
@@ -19280,7 +19280,7 @@
       "source_location": "L196",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_accesscontrolservice_java_authaccessdto",
-      "community": 33,
+      "community": 174,
       "norm_label": "authaccessdto"
     },
     {
@@ -19310,7 +19310,7 @@
       "source_location": "L231",
       "_origin": "ast",
       "id": "service_accesscontrolservice_accesscontrolservice_getallowedsitesfor",
-      "community": 33,
+      "community": 174,
       "norm_label": ".getallowedsitesfor()"
     },
     {
@@ -19350,7 +19350,7 @@
       "source_location": "L285",
       "_origin": "ast",
       "id": "service_accesscontrolservice_accesscontrolservice_touserdto",
-      "community": 33,
+      "community": 174,
       "norm_label": ".touserdto()"
     },
     {
@@ -19360,7 +19360,7 @@
       "source_location": "L285",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_accesscontrolservice_java_userdto",
-      "community": 33,
+      "community": 174,
       "norm_label": "userdto"
     },
     {
@@ -19900,7 +19900,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "service_equipmentdowntimeservice_equipmentdowntimeservice_equipmentdowntimeservice",
-      "community": 167,
+      "community": 63,
       "norm_label": ".equipmentdowntimeservice()"
     },
     {
@@ -19910,7 +19910,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_equipmentdowntimeservice_java_equipmentdowntimedao",
-      "community": 167,
+      "community": 63,
       "norm_label": "equipmentdowntimedao"
     },
     {
@@ -19920,7 +19920,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_equipmentdowntimeservice_java_equipmentservice",
-      "community": 167,
+      "community": 63,
       "norm_label": "equipmentservice"
     },
     {
@@ -19930,7 +19930,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_equipmentdowntimeservice_java_maintenancerequestservice",
-      "community": 167,
+      "community": 63,
       "norm_label": "maintenancerequestservice"
     },
     {
@@ -19940,7 +19940,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_equipmentdowntimeservice_java_siteservice",
-      "community": 167,
+      "community": 63,
       "norm_label": "siteservice"
     },
     {
@@ -19950,7 +19950,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_equipmentdowntimeservice_java_accesscontrolservice",
-      "community": 167,
+      "community": 63,
       "norm_label": "accesscontrolservice"
     },
     {
@@ -22170,7 +22170,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "service_vendorservice_vendorservice_vendorservice",
-      "community": 170,
+      "community": 69,
       "norm_label": ".vendorservice()"
     },
     {
@@ -22180,7 +22180,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_vendorservice_java_vendordao",
-      "community": 170,
+      "community": 69,
       "norm_label": "vendordao"
     },
     {
@@ -22190,7 +22190,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_vendorservice_java_siteservice",
-      "community": 170,
+      "community": 69,
       "norm_label": "siteservice"
     },
     {
@@ -22200,7 +22200,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_vendorservice_java_accesscontrolservice",
-      "community": 170,
+      "community": 69,
       "norm_label": "accesscontrolservice"
     },
     {
@@ -22857,7 +22857,7 @@
       "label": "createAppTheme()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/App.jsx",
-      "source_location": "L29",
+      "source_location": "L33",
       "_origin": "ast",
       "id": "src_app_createapptheme",
       "community": 36,
@@ -22867,7 +22867,7 @@
       "label": "AccessDenied()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/App.jsx",
-      "source_location": "L93",
+      "source_location": "L97",
       "_origin": "ast",
       "id": "src_app_accessdenied",
       "community": 36,
@@ -22877,7 +22877,7 @@
       "label": "ProtectedRoute()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/App.jsx",
-      "source_location": "L104",
+      "source_location": "L108",
       "_origin": "ast",
       "id": "src_app_protectedroute",
       "community": 36,
@@ -22887,7 +22887,7 @@
       "label": "App()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/App.jsx",
-      "source_location": "L118",
+      "source_location": "L122",
       "_origin": "ast",
       "id": "src_app_app",
       "community": 36,
@@ -23420,7 +23420,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "equipment_equipmentformpage",
-      "community": 70,
+      "community": 30,
       "norm_label": "equipmentformpage.jsx"
     },
     {
@@ -23430,7 +23430,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "equipment_equipmentformpage_initialform",
-      "community": 70,
+      "community": 30,
       "norm_label": "initialform"
     },
     {
@@ -23440,7 +23440,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "equipment_equipmentformpage_equipmentformpage",
-      "community": 70,
+      "community": 30,
       "norm_label": "equipmentformpage()"
     },
     {
@@ -23450,7 +23450,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "equipment_equipmentlistpage",
-      "community": 70,
+      "community": 30,
       "norm_label": "equipmentlistpage.jsx"
     },
     {
@@ -23460,7 +23460,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "equipment_equipmentlistpage_equipmentlistpage",
-      "community": 70,
+      "community": 30,
       "norm_label": "equipmentlistpage()"
     },
     {
@@ -23470,7 +23470,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "employee_employeeformpage",
-      "community": 69,
+      "community": 172,
       "norm_label": "employeeformpage.jsx"
     },
     {
@@ -23480,7 +23480,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "employee_employeeformpage_emptyassignment",
-      "community": 69,
+      "community": 172,
       "norm_label": "emptyassignment"
     },
     {
@@ -23490,7 +23490,7 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "employee_employeeformpage_emptyroleassignment",
-      "community": 69,
+      "community": 172,
       "norm_label": "emptyroleassignment"
     },
     {
@@ -23500,7 +23500,7 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "employee_employeeformpage_initialform",
-      "community": 69,
+      "community": 172,
       "norm_label": "initialform"
     },
     {
@@ -23510,7 +23510,7 @@
       "source_location": "L68",
       "_origin": "ast",
       "id": "employee_employeeformpage_employeeformpage",
-      "community": 69,
+      "community": 172,
       "norm_label": "employeeformpage()"
     },
     {
@@ -23520,7 +23520,7 @@
       "source_location": "L379",
       "_origin": "ast",
       "id": "employee_employeeformpage_normalizeassignments",
-      "community": 69,
+      "community": 172,
       "norm_label": "normalizeassignments()"
     },
     {
@@ -23530,7 +23530,7 @@
       "source_location": "L394",
       "_origin": "ast",
       "id": "employee_employeeformpage_normalizeroleassignments",
-      "community": 69,
+      "community": 172,
       "norm_label": "normalizeroleassignments()"
     },
     {
@@ -23540,7 +23540,7 @@
       "source_location": "L404",
       "_origin": "ast",
       "id": "employee_employeeformpage_selectedsites",
-      "community": 69,
+      "community": 172,
       "norm_label": "selectedsites()"
     },
     {
@@ -23550,7 +23550,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "employee_employeelistpage",
-      "community": 69,
+      "community": 172,
       "norm_label": "employeelistpage.jsx"
     },
     {
@@ -23560,7 +23560,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "employee_employeelistpage_employeelistpage",
-      "community": 69,
+      "community": 172,
       "norm_label": "employeelistpage()"
     },
     {
@@ -23680,7 +23680,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "maintenance_maintenanceassignmentpage",
-      "community": 30,
+      "community": 51,
       "norm_label": "maintenanceassignmentpage.jsx"
     },
     {
@@ -23690,7 +23690,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "maintenance_maintenanceassignmentpage_initialform",
-      "community": 30,
+      "community": 51,
       "norm_label": "initialform"
     },
     {
@@ -23700,7 +23700,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "maintenance_maintenanceassignmentpage_maintenanceassignmentpage",
-      "community": 30,
+      "community": 51,
       "norm_label": "maintenanceassignmentpage()"
     },
     {
@@ -23804,13 +23804,303 @@
       "norm_label": "preventivemaintenancepage()"
     },
     {
+      "label": "MaintenanceAssignmentFormPage.jsx",
+      "file_type": "code",
+      "source_file": "cmms_front_end/src/pages/maintenance/assignments/MaintenanceAssignmentFormPage.jsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "assignments_maintenanceassignmentformpage",
+      "community": 51,
+      "norm_label": "maintenanceassignmentformpage.jsx"
+    },
+    {
+      "label": "initialForm",
+      "file_type": "code",
+      "source_file": "cmms_front_end/src/pages/maintenance/assignments/MaintenanceAssignmentFormPage.jsx",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "assignments_maintenanceassignmentformpage_initialform",
+      "community": 51,
+      "norm_label": "initialform"
+    },
+    {
+      "label": "MaintenanceAssignmentFormPage()",
+      "file_type": "code",
+      "source_file": "cmms_front_end/src/pages/maintenance/assignments/MaintenanceAssignmentFormPage.jsx",
+      "source_location": "L25",
+      "_origin": "ast",
+      "id": "assignments_maintenanceassignmentformpage_maintenanceassignmentformpage",
+      "community": 51,
+      "norm_label": "maintenanceassignmentformpage()"
+    },
+    {
+      "label": "MaintenanceAssignmentListPage.jsx",
+      "file_type": "code",
+      "source_file": "cmms_front_end/src/pages/maintenance/assignments/MaintenanceAssignmentListPage.jsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "assignments_maintenanceassignmentlistpage",
+      "community": 51,
+      "norm_label": "maintenanceassignmentlistpage.jsx"
+    },
+    {
+      "label": "MaintenanceAssignmentListPage()",
+      "file_type": "code",
+      "source_file": "cmms_front_end/src/pages/maintenance/assignments/MaintenanceAssignmentListPage.jsx",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "assignments_maintenanceassignmentlistpage_maintenanceassignmentlistpage",
+      "community": 51,
+      "norm_label": "maintenanceassignmentlistpage()"
+    },
+    {
+      "label": "DowntimeFormPage.jsx",
+      "file_type": "code",
+      "source_file": "cmms_front_end/src/pages/maintenance/downtime/DowntimeFormPage.jsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "downtime_downtimeformpage",
+      "community": 30,
+      "norm_label": "downtimeformpage.jsx"
+    },
+    {
+      "label": "nowLocal()",
+      "file_type": "code",
+      "source_file": "cmms_front_end/src/pages/maintenance/downtime/DowntimeFormPage.jsx",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "downtime_downtimeformpage_nowlocal",
+      "community": 30,
+      "norm_label": "nowlocal()"
+    },
+    {
+      "label": "initialForm",
+      "file_type": "code",
+      "source_file": "cmms_front_end/src/pages/maintenance/downtime/DowntimeFormPage.jsx",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "downtime_downtimeformpage_initialform",
+      "community": 30,
+      "norm_label": "initialform"
+    },
+    {
+      "label": "calculateDuration()",
+      "file_type": "code",
+      "source_file": "cmms_front_end/src/pages/maintenance/downtime/DowntimeFormPage.jsx",
+      "source_location": "L21",
+      "_origin": "ast",
+      "id": "downtime_downtimeformpage_calculateduration",
+      "community": 30,
+      "norm_label": "calculateduration()"
+    },
+    {
+      "label": "DowntimeFormPage()",
+      "file_type": "code",
+      "source_file": "cmms_front_end/src/pages/maintenance/downtime/DowntimeFormPage.jsx",
+      "source_location": "L28",
+      "_origin": "ast",
+      "id": "downtime_downtimeformpage_downtimeformpage",
+      "community": 30,
+      "norm_label": "downtimeformpage()"
+    },
+    {
+      "label": "DowntimeListPage.jsx",
+      "file_type": "code",
+      "source_file": "cmms_front_end/src/pages/maintenance/downtime/DowntimeListPage.jsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "downtime_downtimelistpage",
+      "community": 30,
+      "norm_label": "downtimelistpage.jsx"
+    },
+    {
+      "label": "formatDuration()",
+      "file_type": "code",
+      "source_file": "cmms_front_end/src/pages/maintenance/downtime/DowntimeListPage.jsx",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "downtime_downtimelistpage_formatduration",
+      "community": 30,
+      "norm_label": "formatduration()"
+    },
+    {
+      "label": "DowntimeListPage()",
+      "file_type": "code",
+      "source_file": "cmms_front_end/src/pages/maintenance/downtime/DowntimeListPage.jsx",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "downtime_downtimelistpage_downtimelistpage",
+      "community": 30,
+      "norm_label": "downtimelistpage()"
+    },
+    {
+      "label": "PreventiveMaintenanceFormPage.jsx",
+      "file_type": "code",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceFormPage.jsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "preventive_preventivemaintenanceformpage",
+      "community": 70,
+      "norm_label": "preventivemaintenanceformpage.jsx"
+    },
+    {
+      "label": "today()",
+      "file_type": "code",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceFormPage.jsx",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "preventive_preventivemaintenanceformpage_today",
+      "community": 70,
+      "norm_label": "today()"
+    },
+    {
+      "label": "initialForm",
+      "file_type": "code",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceFormPage.jsx",
+      "source_location": "L12",
+      "_origin": "ast",
+      "id": "preventive_preventivemaintenanceformpage_initialform",
+      "community": 70,
+      "norm_label": "initialform"
+    },
+    {
+      "label": "frequencies",
+      "file_type": "code",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceFormPage.jsx",
+      "source_location": "L26",
+      "_origin": "ast",
+      "id": "preventive_preventivemaintenanceformpage_frequencies",
+      "community": 70,
+      "norm_label": "frequencies"
+    },
+    {
+      "label": "priorities",
+      "file_type": "code",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceFormPage.jsx",
+      "source_location": "L27",
+      "_origin": "ast",
+      "id": "preventive_preventivemaintenanceformpage_priorities",
+      "community": 70,
+      "norm_label": "priorities"
+    },
+    {
+      "label": "PreventiveMaintenanceFormPage()",
+      "file_type": "code",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceFormPage.jsx",
+      "source_location": "L29",
+      "_origin": "ast",
+      "id": "preventive_preventivemaintenanceformpage_preventivemaintenanceformpage",
+      "community": 70,
+      "norm_label": "preventivemaintenanceformpage()"
+    },
+    {
+      "label": "PreventiveMaintenanceListPage.jsx",
+      "file_type": "code",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceListPage.jsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "preventive_preventivemaintenancelistpage",
+      "community": 70,
+      "norm_label": "preventivemaintenancelistpage.jsx"
+    },
+    {
+      "label": "frequencies",
+      "file_type": "code",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceListPage.jsx",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "preventive_preventivemaintenancelistpage_frequencies",
+      "community": 70,
+      "norm_label": "frequencies"
+    },
+    {
+      "label": "priorities",
+      "file_type": "code",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceListPage.jsx",
+      "source_location": "L12",
+      "_origin": "ast",
+      "id": "preventive_preventivemaintenancelistpage_priorities",
+      "community": 70,
+      "norm_label": "priorities"
+    },
+    {
+      "label": "formatPercent()",
+      "file_type": "code",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceListPage.jsx",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "preventive_preventivemaintenancelistpage_formatpercent",
+      "community": 70,
+      "norm_label": "formatpercent()"
+    },
+    {
+      "label": "PreventiveMaintenanceListPage()",
+      "file_type": "code",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceListPage.jsx",
+      "source_location": "L15",
+      "_origin": "ast",
+      "id": "preventive_preventivemaintenancelistpage_preventivemaintenancelistpage",
+      "community": 70,
+      "norm_label": "preventivemaintenancelistpage()"
+    },
+    {
+      "label": "MaintenanceRequestFormPage.jsx",
+      "file_type": "code",
+      "source_file": "cmms_front_end/src/pages/maintenance/requests/MaintenanceRequestFormPage.jsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "requests_maintenancerequestformpage",
+      "community": 30,
+      "norm_label": "maintenancerequestformpage.jsx"
+    },
+    {
+      "label": "initialForm",
+      "file_type": "code",
+      "source_file": "cmms_front_end/src/pages/maintenance/requests/MaintenanceRequestFormPage.jsx",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "requests_maintenancerequestformpage_initialform",
+      "community": 30,
+      "norm_label": "initialform"
+    },
+    {
+      "label": "MaintenanceRequestFormPage()",
+      "file_type": "code",
+      "source_file": "cmms_front_end/src/pages/maintenance/requests/MaintenanceRequestFormPage.jsx",
+      "source_location": "L22",
+      "_origin": "ast",
+      "id": "requests_maintenancerequestformpage_maintenancerequestformpage",
+      "community": 30,
+      "norm_label": "maintenancerequestformpage()"
+    },
+    {
+      "label": "MaintenanceRequestListPage.jsx",
+      "file_type": "code",
+      "source_file": "cmms_front_end/src/pages/maintenance/requests/MaintenanceRequestListPage.jsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "requests_maintenancerequestlistpage",
+      "community": 30,
+      "norm_label": "maintenancerequestlistpage.jsx"
+    },
+    {
+      "label": "MaintenanceRequestListPage()",
+      "file_type": "code",
+      "source_file": "cmms_front_end/src/pages/maintenance/requests/MaintenanceRequestListPage.jsx",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "requests_maintenancerequestlistpage_maintenancerequestlistpage",
+      "community": 30,
+      "norm_label": "maintenancerequestlistpage()"
+    },
+    {
       "label": "VendorFormPage.jsx",
       "file_type": "code",
       "source_file": "cmms_front_end/src/pages/vendor/VendorFormPage.jsx",
       "source_location": "L1",
       "_origin": "ast",
       "id": "vendor_vendorformpage",
-      "community": 63,
+      "community": 51,
       "norm_label": "vendorformpage.jsx"
     },
     {
@@ -23820,7 +24110,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "vendor_vendorformpage_emptyassignment",
-      "community": 63,
+      "community": 51,
       "norm_label": "emptyassignment"
     },
     {
@@ -23830,7 +24120,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "vendor_vendorformpage_initialform",
-      "community": 63,
+      "community": 51,
       "norm_label": "initialform"
     },
     {
@@ -23840,7 +24130,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "vendor_vendorformpage_vendorformpage",
-      "community": 63,
+      "community": 51,
       "norm_label": "vendorformpage()"
     },
     {
@@ -23850,7 +24140,7 @@
       "source_location": "L169",
       "_origin": "ast",
       "id": "vendor_vendorformpage_normalizeassignments",
-      "community": 63,
+      "community": 51,
       "norm_label": "normalizeassignments()"
     },
     {
@@ -23860,7 +24150,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "vendor_vendorlistpage",
-      "community": 63,
+      "community": 51,
       "norm_label": "vendorlistpage.jsx"
     },
     {
@@ -23870,7 +24160,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "vendor_vendorlistpage_vendorlistpage",
-      "community": 63,
+      "community": 51,
       "norm_label": "vendorlistpage()"
     },
     {
@@ -24290,7 +24580,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "services_employeeservice",
-      "community": 69,
+      "community": 172,
       "norm_label": "employeeservice.js"
     },
     {
@@ -24300,7 +24590,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "services_employeeservice_getemployees",
-      "community": 69,
+      "community": 172,
       "norm_label": "getemployees()"
     },
     {
@@ -24310,7 +24600,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "services_employeeservice_getemployeebyid",
-      "community": 69,
+      "community": 172,
       "norm_label": "getemployeebyid()"
     },
     {
@@ -24320,7 +24610,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "services_employeeservice_createemployee",
-      "community": 69,
+      "community": 172,
       "norm_label": "createemployee()"
     },
     {
@@ -24330,7 +24620,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "services_employeeservice_updateemployee",
-      "community": 69,
+      "community": 172,
       "norm_label": "updateemployee()"
     },
     {
@@ -24340,7 +24630,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "services_employeeservice_deleteemployee",
-      "community": 69,
+      "community": 172,
       "norm_label": "deleteemployee()"
     },
     {
@@ -24350,7 +24640,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "services_equipmentservice",
-      "community": 70,
+      "community": 30,
       "norm_label": "equipmentservice.js"
     },
     {
@@ -24360,7 +24650,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "services_equipmentservice_getequipments",
-      "community": 70,
+      "community": 30,
       "norm_label": "getequipments()"
     },
     {
@@ -24370,7 +24660,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "services_equipmentservice_getequipmentbyid",
-      "community": 70,
+      "community": 30,
       "norm_label": "getequipmentbyid()"
     },
     {
@@ -24380,7 +24670,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "services_equipmentservice_createequipment",
-      "community": 70,
+      "community": 30,
       "norm_label": "createequipment()"
     },
     {
@@ -24390,7 +24680,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "services_equipmentservice_updateequipment",
-      "community": 70,
+      "community": 30,
       "norm_label": "updateequipment()"
     },
     {
@@ -24400,7 +24690,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "services_equipmentservice_deleteequipment",
-      "community": 70,
+      "community": 30,
       "norm_label": "deleteequipment()"
     },
     {
@@ -24410,7 +24700,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "services_maintenanceservice",
-      "community": 30,
+      "community": 51,
       "norm_label": "maintenanceservice.js"
     },
     {
@@ -24420,7 +24710,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "services_maintenanceservice_getdashboardsummary",
-      "community": 30,
+      "community": 51,
       "norm_label": "getdashboardsummary()"
     },
     {
@@ -24440,7 +24730,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "services_maintenanceservice_getrequestsbysite",
-      "community": 30,
+      "community": 51,
       "norm_label": "getrequestsbysite()"
     },
     {
@@ -24490,54 +24780,74 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "services_maintenanceservice_getmaintenanceassignments",
-      "community": 30,
+      "community": 51,
       "norm_label": "getmaintenanceassignments()"
+    },
+    {
+      "label": "getMaintenanceAssignmentById()",
+      "file_type": "code",
+      "source_file": "cmms_front_end/src/services/maintenanceService.js",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "services_maintenanceservice_getmaintenanceassignmentbyid",
+      "community": 51,
+      "norm_label": "getmaintenanceassignmentbyid()"
     },
     {
       "label": "createMaintenanceAssignment()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/services/maintenanceService.js",
-      "source_location": "L13",
+      "source_location": "L14",
       "_origin": "ast",
       "id": "services_maintenanceservice_createmaintenanceassignment",
-      "community": 30,
+      "community": 51,
       "norm_label": "createmaintenanceassignment()"
     },
     {
       "label": "updateMaintenanceAssignment()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/services/maintenanceService.js",
-      "source_location": "L14",
+      "source_location": "L15",
       "_origin": "ast",
       "id": "services_maintenanceservice_updatemaintenanceassignment",
-      "community": 30,
+      "community": 51,
       "norm_label": "updatemaintenanceassignment()"
     },
     {
       "label": "deleteMaintenanceAssignment()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/services/maintenanceService.js",
-      "source_location": "L15",
+      "source_location": "L16",
       "_origin": "ast",
       "id": "services_maintenanceservice_deletemaintenanceassignment",
-      "community": 30,
+      "community": 51,
       "norm_label": "deletemaintenanceassignment()"
     },
     {
       "label": "getDowntimeEntries()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/services/maintenanceService.js",
-      "source_location": "L17",
+      "source_location": "L18",
       "_origin": "ast",
       "id": "services_maintenanceservice_getdowntimeentries",
       "community": 30,
       "norm_label": "getdowntimeentries()"
     },
     {
+      "label": "getDowntimeEntryById()",
+      "file_type": "code",
+      "source_file": "cmms_front_end/src/services/maintenanceService.js",
+      "source_location": "L19",
+      "_origin": "ast",
+      "id": "services_maintenanceservice_getdowntimeentrybyid",
+      "community": 30,
+      "norm_label": "getdowntimeentrybyid()"
+    },
+    {
       "label": "createDowntimeEntry()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/services/maintenanceService.js",
-      "source_location": "L18",
+      "source_location": "L20",
       "_origin": "ast",
       "id": "services_maintenanceservice_createdowntimeentry",
       "community": 30,
@@ -24547,7 +24857,7 @@
       "label": "updateDowntimeEntry()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/services/maintenanceService.js",
-      "source_location": "L19",
+      "source_location": "L21",
       "_origin": "ast",
       "id": "services_maintenanceservice_updatedowntimeentry",
       "community": 30,
@@ -24557,7 +24867,7 @@
       "label": "deleteDowntimeEntry()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/services/maintenanceService.js",
-      "source_location": "L20",
+      "source_location": "L22",
       "_origin": "ast",
       "id": "services_maintenanceservice_deletedowntimeentry",
       "community": 30,
@@ -24760,7 +25070,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "services_siteservice_getsites",
-      "community": 63,
+      "community": 30,
       "norm_label": "getsites()"
     },
     {
@@ -24810,7 +25120,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "services_vendorservice",
-      "community": 63,
+      "community": 51,
       "norm_label": "vendorservice.js"
     },
     {
@@ -24820,7 +25130,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "services_vendorservice_getvendors",
-      "community": 63,
+      "community": 51,
       "norm_label": "getvendors()"
     },
     {
@@ -24830,7 +25140,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "services_vendorservice_getvendorsbysite",
-      "community": 30,
+      "community": 51,
       "norm_label": "getvendorsbysite()"
     },
     {
@@ -24840,7 +25150,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "services_vendorservice_getvendorbyid",
-      "community": 63,
+      "community": 51,
       "norm_label": "getvendorbyid()"
     },
     {
@@ -24850,7 +25160,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "services_vendorservice_createvendor",
-      "community": 63,
+      "community": 51,
       "norm_label": "createvendor()"
     },
     {
@@ -24860,7 +25170,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "services_vendorservice_updatevendor",
-      "community": 63,
+      "community": 51,
       "norm_label": "updatevendor()"
     },
     {
@@ -24870,7 +25180,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "services_vendorservice_deletevendor",
-      "community": 63,
+      "community": 51,
       "norm_label": "deletevendor()"
     },
     {
@@ -39881,9 +40191,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dao/RolePermissionDAO.java",
       "source_location": "L22",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "dao_rolepermissiondao_rolepermissiondao",
-      "target": "dao_rolepermissiondao_rolepermissiondao_flush",
-      "confidence_score": 1.0
+      "target": "dao_rolepermissiondao_rolepermissiondao_flush"
     },
     {
       "relation": "method",
@@ -63386,9 +63696,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/repository/EquipmentDowntimeRepository.java",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "repository_equipmentdowntimerepository",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_equipmentdowntimerepository_java_query",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_equipmentdowntimerepository_java_query"
     },
     {
       "relation": "contains",
@@ -63686,9 +63996,9 @@
       "source_location": "L18",
       "weight": 1.0,
       "context": "attribute",
+      "confidence_score": 1.0,
       "source": "repository_equipmentdowntimerepository_equipmentdowntimerepository_sumdowntimeminutes",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_equipmentdowntimerepository_java_query",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_equipmentdowntimerepository_java_query"
     },
     {
       "relation": "references",
@@ -63697,9 +64007,9 @@
       "source_location": "L21",
       "weight": 1.0,
       "context": "attribute",
+      "confidence_score": 1.0,
       "source": "repository_equipmentdowntimerepository_equipmentdowntimerepository_sumdowntimeminutesbysiteid",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_equipmentdowntimerepository_java_query",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_equipmentdowntimerepository_java_query"
     },
     {
       "relation": "imports",
@@ -64921,9 +65231,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/repository/RolePermissionRepository.java",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "repository_rolepermissionrepository",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_rolepermissionrepository_java_query",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_rolepermissionrepository_java_query"
     },
     {
       "relation": "imports",
@@ -64943,9 +65253,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/repository/RolePermissionRepository.java",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "repository_rolepermissionrepository",
-      "target": "modifying",
-      "confidence_score": 1.0
+      "target": "modifying"
     },
     {
       "relation": "contains",
@@ -65104,9 +65414,9 @@
       "source_location": "L22",
       "weight": 1.0,
       "context": "attribute",
+      "confidence_score": 1.0,
       "source": "repository_rolepermissionrepository_rolepermissionrepository_deletebyroleid",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_rolepermissionrepository_java_query",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_rolepermissionrepository_java_query"
     },
     {
       "relation": "references",
@@ -65115,9 +65425,9 @@
       "source_location": "L22",
       "weight": 1.0,
       "context": "attribute",
+      "confidence_score": 1.0,
       "source": "repository_rolepermissionrepository_rolepermissionrepository_deletebyroleid",
-      "target": "modifying",
-      "confidence_score": 1.0
+      "target": "modifying"
     },
     {
       "relation": "imports",
@@ -68688,9 +68998,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/RoleService.java",
       "source_location": "L20",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_roleservice",
-      "target": "set",
-      "confidence_score": 1.0
+      "target": "set"
     },
     {
       "relation": "imports",
@@ -77055,6 +77365,50 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "cmms_front_end/src/App.jsx",
+      "source_location": "L16",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "assignments_maintenanceassignmentformpage"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/App.jsx",
+      "source_location": "L16",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "assignments_maintenanceassignmentformpage_maintenanceassignmentformpage"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/App.jsx",
+      "source_location": "L15",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "assignments_maintenanceassignmentlistpage"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/App.jsx",
+      "source_location": "L15",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "assignments_maintenanceassignmentlistpage_maintenanceassignmentlistpage"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/App.jsx",
       "source_location": "L5",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -77115,6 +77469,50 @@
       "confidence_score": 1.0,
       "source": "src_app",
       "target": "dashboard_dashboardpage_dashboardpage"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/App.jsx",
+      "source_location": "L18",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "downtime_downtimeformpage"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/App.jsx",
+      "source_location": "L18",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "downtime_downtimeformpage_downtimeformpage"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/App.jsx",
+      "source_location": "L17",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "downtime_downtimelistpage"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/App.jsx",
+      "source_location": "L17",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "downtime_downtimelistpage_downtimelistpage"
     },
     {
       "relation": "imports_from",
@@ -77357,6 +77755,94 @@
       "confidence_score": 1.0,
       "source": "src_app",
       "target": "permissions_permissionlistpage_permissionlistpage"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/App.jsx",
+      "source_location": "L20",
+      "weight": 1.0,
+      "source": "src_app",
+      "target": "preventive_preventivemaintenanceformpage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/App.jsx",
+      "source_location": "L20",
+      "weight": 1.0,
+      "source": "src_app",
+      "target": "preventive_preventivemaintenanceformpage_preventivemaintenanceformpage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/App.jsx",
+      "source_location": "L19",
+      "weight": 1.0,
+      "source": "src_app",
+      "target": "preventive_preventivemaintenancelistpage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/App.jsx",
+      "source_location": "L19",
+      "weight": 1.0,
+      "source": "src_app",
+      "target": "preventive_preventivemaintenancelistpage_preventivemaintenancelistpage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/App.jsx",
+      "source_location": "L14",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "requests_maintenancerequestformpage"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/App.jsx",
+      "source_location": "L14",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "requests_maintenancerequestformpage_maintenancerequestformpage"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/App.jsx",
+      "source_location": "L13",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "requests_maintenancerequestlistpage"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/App.jsx",
+      "source_location": "L13",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "requests_maintenancerequestlistpage_maintenancerequestlistpage"
     },
     {
       "relation": "imports_from",
@@ -77896,6 +78382,17 @@
       "target": "common_confirmdialog_confirmdialog"
     },
     {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/assignments/MaintenanceAssignmentListPage.jsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "assignments_maintenanceassignmentlistpage",
+      "target": "context_authcontext"
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "cmms_front_end/src/context/AuthContext.jsx",
@@ -77929,6 +78426,17 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/downtime/DowntimeListPage.jsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "downtime_downtimelistpage",
+      "target": "context_authcontext"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "cmms_front_end/src/pages/LoginPage.jsx",
       "source_location": "L14",
       "weight": 1.0,
@@ -77945,6 +78453,28 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "pages_usermanagementpage",
+      "target": "context_authcontext"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceListPage.jsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "preventive_preventivemaintenancelistpage",
+      "target": "context_authcontext",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/requests/MaintenanceRequestListPage.jsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "requests_maintenancerequestlistpage",
       "target": "context_authcontext"
     },
     {
@@ -78006,6 +78536,50 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/assignments/MaintenanceAssignmentListPage.jsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "assignments_maintenanceassignmentlistpage",
+      "target": "context_authcontext_useauth"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/assignments/MaintenanceAssignmentListPage.jsx",
+      "source_location": "L13",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "assignments_maintenanceassignmentlistpage_maintenanceassignmentlistpage",
+      "target": "context_authcontext_useauth"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/downtime/DowntimeListPage.jsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "downtime_downtimelistpage",
+      "target": "context_authcontext_useauth"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/downtime/DowntimeListPage.jsx",
+      "source_location": "L15",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "downtime_downtimelistpage_downtimelistpage",
+      "target": "context_authcontext_useauth"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "cmms_front_end/src/pages/LoginPage.jsx",
       "source_location": "L14",
       "weight": 1.0,
@@ -78044,6 +78618,50 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "pages_usermanagementpage_usermanagementpage",
+      "target": "context_authcontext_useauth"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceListPage.jsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "preventive_preventivemaintenancelistpage",
+      "target": "context_authcontext_useauth",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceListPage.jsx",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "preventive_preventivemaintenancelistpage_preventivemaintenancelistpage",
+      "target": "context_authcontext_useauth",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/requests/MaintenanceRequestListPage.jsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "requests_maintenancerequestlistpage",
+      "target": "context_authcontext_useauth"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/requests/MaintenanceRequestListPage.jsx",
+      "source_location": "L12",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "requests_maintenancerequestlistpage_maintenancerequestlistpage",
       "target": "context_authcontext_useauth"
     },
     {
@@ -80325,6 +80943,1382 @@
       "target": "services_vendorservice_getvendorsbysite"
     },
     {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/assignments/MaintenanceAssignmentFormPage.jsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "assignments_maintenanceassignmentformpage",
+      "target": "assignments_maintenanceassignmentformpage_initialform"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/assignments/MaintenanceAssignmentFormPage.jsx",
+      "source_location": "L25",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "assignments_maintenanceassignmentformpage",
+      "target": "assignments_maintenanceassignmentformpage_maintenanceassignmentformpage"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/assignments/MaintenanceAssignmentFormPage.jsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "assignments_maintenanceassignmentformpage",
+      "target": "services_maintenanceservice"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/assignments/MaintenanceAssignmentFormPage.jsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "assignments_maintenanceassignmentformpage",
+      "target": "services_maintenanceservice_createmaintenanceassignment"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/assignments/MaintenanceAssignmentFormPage.jsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "assignments_maintenanceassignmentformpage",
+      "target": "services_maintenanceservice_getmaintenanceassignmentbyid"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/assignments/MaintenanceAssignmentFormPage.jsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "assignments_maintenanceassignmentformpage",
+      "target": "services_maintenanceservice_getrequestsbysite"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/assignments/MaintenanceAssignmentFormPage.jsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "assignments_maintenanceassignmentformpage",
+      "target": "services_maintenanceservice_updatemaintenanceassignment"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/assignments/MaintenanceAssignmentFormPage.jsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "assignments_maintenanceassignmentformpage",
+      "target": "services_siteservice"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/assignments/MaintenanceAssignmentFormPage.jsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "assignments_maintenanceassignmentformpage",
+      "target": "services_siteservice_getsites"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/assignments/MaintenanceAssignmentFormPage.jsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "assignments_maintenanceassignmentformpage",
+      "target": "services_vendorservice"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/assignments/MaintenanceAssignmentFormPage.jsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "assignments_maintenanceassignmentformpage",
+      "target": "services_vendorservice_getvendorsbysite"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/assignments/MaintenanceAssignmentFormPage.jsx",
+      "source_location": "L88",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "assignments_maintenanceassignmentformpage_maintenanceassignmentformpage",
+      "target": "services_maintenanceservice_createmaintenanceassignment"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/assignments/MaintenanceAssignmentFormPage.jsx",
+      "source_location": "L44",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "assignments_maintenanceassignmentformpage_maintenanceassignmentformpage",
+      "target": "services_maintenanceservice_getmaintenanceassignmentbyid"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/assignments/MaintenanceAssignmentFormPage.jsx",
+      "source_location": "L56",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "assignments_maintenanceassignmentformpage_maintenanceassignmentformpage",
+      "target": "services_maintenanceservice_getrequestsbysite"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/assignments/MaintenanceAssignmentFormPage.jsx",
+      "source_location": "L86",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "assignments_maintenanceassignmentformpage_maintenanceassignmentformpage",
+      "target": "services_maintenanceservice_updatemaintenanceassignment"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/assignments/MaintenanceAssignmentFormPage.jsx",
+      "source_location": "L39",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "assignments_maintenanceassignmentformpage_maintenanceassignmentformpage",
+      "target": "services_siteservice_getsites"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/assignments/MaintenanceAssignmentFormPage.jsx",
+      "source_location": "L56",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "assignments_maintenanceassignmentformpage_maintenanceassignmentformpage",
+      "target": "services_vendorservice_getvendorsbysite"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/assignments/MaintenanceAssignmentListPage.jsx",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "assignments_maintenanceassignmentlistpage",
+      "target": "assignments_maintenanceassignmentlistpage_maintenanceassignmentlistpage"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/assignments/MaintenanceAssignmentListPage.jsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "assignments_maintenanceassignmentlistpage",
+      "target": "services_maintenanceservice"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/assignments/MaintenanceAssignmentListPage.jsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "assignments_maintenanceassignmentlistpage",
+      "target": "services_maintenanceservice_deletemaintenanceassignment"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/assignments/MaintenanceAssignmentListPage.jsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "assignments_maintenanceassignmentlistpage",
+      "target": "services_maintenanceservice_getmaintenanceassignments"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/assignments/MaintenanceAssignmentListPage.jsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "assignments_maintenanceassignmentlistpage",
+      "target": "services_siteservice"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/assignments/MaintenanceAssignmentListPage.jsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "assignments_maintenanceassignmentlistpage",
+      "target": "services_siteservice_getsites"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/assignments/MaintenanceAssignmentListPage.jsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "assignments_maintenanceassignmentlistpage",
+      "target": "services_vendorservice"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/assignments/MaintenanceAssignmentListPage.jsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "assignments_maintenanceassignmentlistpage",
+      "target": "services_vendorservice_getvendors"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/assignments/MaintenanceAssignmentListPage.jsx",
+      "source_location": "L56",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "assignments_maintenanceassignmentlistpage_maintenanceassignmentlistpage",
+      "target": "services_maintenanceservice_deletemaintenanceassignment"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/assignments/MaintenanceAssignmentListPage.jsx",
+      "source_location": "L25",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "assignments_maintenanceassignmentlistpage_maintenanceassignmentlistpage",
+      "target": "services_maintenanceservice_getmaintenanceassignments"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/assignments/MaintenanceAssignmentListPage.jsx",
+      "source_location": "L33",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "assignments_maintenanceassignmentlistpage_maintenanceassignmentlistpage",
+      "target": "services_siteservice_getsites"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/assignments/MaintenanceAssignmentListPage.jsx",
+      "source_location": "L33",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "assignments_maintenanceassignmentlistpage_maintenanceassignmentlistpage",
+      "target": "services_vendorservice_getvendors"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/downtime/DowntimeFormPage.jsx",
+      "source_location": "L21",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "downtime_downtimeformpage",
+      "target": "downtime_downtimeformpage_calculateduration"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/downtime/DowntimeFormPage.jsx",
+      "source_location": "L28",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "downtime_downtimeformpage",
+      "target": "downtime_downtimeformpage_downtimeformpage"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/downtime/DowntimeFormPage.jsx",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "downtime_downtimeformpage",
+      "target": "downtime_downtimeformpage_initialform"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/downtime/DowntimeFormPage.jsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "downtime_downtimeformpage",
+      "target": "downtime_downtimeformpage_nowlocal"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/downtime/DowntimeFormPage.jsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "downtime_downtimeformpage",
+      "target": "services_equipmentservice"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/downtime/DowntimeFormPage.jsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "downtime_downtimeformpage",
+      "target": "services_equipmentservice_getequipments"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/downtime/DowntimeFormPage.jsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "downtime_downtimeformpage",
+      "target": "services_maintenanceservice"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/downtime/DowntimeFormPage.jsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "downtime_downtimeformpage",
+      "target": "services_maintenanceservice_createdowntimeentry"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/downtime/DowntimeFormPage.jsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "downtime_downtimeformpage",
+      "target": "services_maintenanceservice_getdowntimeentrybyid"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/downtime/DowntimeFormPage.jsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "downtime_downtimeformpage",
+      "target": "services_maintenanceservice_getmaintenancerequests"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/downtime/DowntimeFormPage.jsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "downtime_downtimeformpage",
+      "target": "services_maintenanceservice_updatedowntimeentry"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/downtime/DowntimeFormPage.jsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "downtime_downtimeformpage",
+      "target": "services_siteservice"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/downtime/DowntimeFormPage.jsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "downtime_downtimeformpage",
+      "target": "services_siteservice_getsites"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/downtime/DowntimeFormPage.jsx",
+      "source_location": "L43",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "downtime_downtimeformpage_downtimeformpage",
+      "target": "services_equipmentservice_getequipments"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/downtime/DowntimeFormPage.jsx",
+      "source_location": "L97",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "downtime_downtimeformpage_downtimeformpage",
+      "target": "services_maintenanceservice_createdowntimeentry"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/downtime/DowntimeFormPage.jsx",
+      "source_location": "L54",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "downtime_downtimeformpage_downtimeformpage",
+      "target": "services_maintenanceservice_getdowntimeentrybyid"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/downtime/DowntimeFormPage.jsx",
+      "source_location": "L43",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "downtime_downtimeformpage_downtimeformpage",
+      "target": "services_maintenanceservice_getmaintenancerequests"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/downtime/DowntimeFormPage.jsx",
+      "source_location": "L95",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "downtime_downtimeformpage_downtimeformpage",
+      "target": "services_maintenanceservice_updatedowntimeentry"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/downtime/DowntimeFormPage.jsx",
+      "source_location": "L43",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "downtime_downtimeformpage_downtimeformpage",
+      "target": "services_siteservice_getsites"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/downtime/DowntimeListPage.jsx",
+      "source_location": "L13",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "downtime_downtimelistpage",
+      "target": "downtime_downtimelistpage_downtimelistpage"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/downtime/DowntimeListPage.jsx",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "downtime_downtimelistpage",
+      "target": "downtime_downtimelistpage_formatduration"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/downtime/DowntimeListPage.jsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "downtime_downtimelistpage",
+      "target": "services_equipmentservice"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/downtime/DowntimeListPage.jsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "downtime_downtimelistpage",
+      "target": "services_equipmentservice_getequipments"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/downtime/DowntimeListPage.jsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "downtime_downtimelistpage",
+      "target": "services_maintenanceservice"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/downtime/DowntimeListPage.jsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "downtime_downtimelistpage",
+      "target": "services_maintenanceservice_deletedowntimeentry"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/downtime/DowntimeListPage.jsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "downtime_downtimelistpage",
+      "target": "services_maintenanceservice_getdowntimeentries"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/downtime/DowntimeListPage.jsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "downtime_downtimelistpage",
+      "target": "services_maintenanceservice_getmaintenancerequests"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/downtime/DowntimeListPage.jsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "downtime_downtimelistpage",
+      "target": "services_siteservice"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/downtime/DowntimeListPage.jsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "downtime_downtimelistpage",
+      "target": "services_siteservice_getsites"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/downtime/DowntimeListPage.jsx",
+      "source_location": "L36",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "downtime_downtimelistpage_downtimelistpage",
+      "target": "services_equipmentservice_getequipments"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/downtime/DowntimeListPage.jsx",
+      "source_location": "L74",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "downtime_downtimelistpage_downtimelistpage",
+      "target": "services_maintenanceservice_deletedowntimeentry"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/downtime/DowntimeListPage.jsx",
+      "source_location": "L28",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "downtime_downtimelistpage_downtimelistpage",
+      "target": "services_maintenanceservice_getdowntimeentries"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/downtime/DowntimeListPage.jsx",
+      "source_location": "L36",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "downtime_downtimelistpage_downtimelistpage",
+      "target": "services_maintenanceservice_getmaintenancerequests"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/downtime/DowntimeListPage.jsx",
+      "source_location": "L36",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "downtime_downtimelistpage_downtimelistpage",
+      "target": "services_siteservice_getsites"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceFormPage.jsx",
+      "source_location": "L26",
+      "weight": 1.0,
+      "source": "preventive_preventivemaintenanceformpage",
+      "target": "preventive_preventivemaintenanceformpage_frequencies",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceFormPage.jsx",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "preventive_preventivemaintenanceformpage",
+      "target": "preventive_preventivemaintenanceformpage_initialform",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceFormPage.jsx",
+      "source_location": "L29",
+      "weight": 1.0,
+      "source": "preventive_preventivemaintenanceformpage",
+      "target": "preventive_preventivemaintenanceformpage_preventivemaintenanceformpage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceFormPage.jsx",
+      "source_location": "L27",
+      "weight": 1.0,
+      "source": "preventive_preventivemaintenanceformpage",
+      "target": "preventive_preventivemaintenanceformpage_priorities",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceFormPage.jsx",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "preventive_preventivemaintenanceformpage",
+      "target": "preventive_preventivemaintenanceformpage_today",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceFormPage.jsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "preventive_preventivemaintenanceformpage",
+      "target": "services_equipmentservice",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceFormPage.jsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "preventive_preventivemaintenanceformpage",
+      "target": "services_equipmentservice_getequipments",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceFormPage.jsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "preventive_preventivemaintenanceformpage",
+      "target": "services_preventivemaintenanceservice",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceFormPage.jsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "preventive_preventivemaintenanceformpage",
+      "target": "services_preventivemaintenanceservice_createpmschedule",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceFormPage.jsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "preventive_preventivemaintenanceformpage",
+      "target": "services_preventivemaintenanceservice_getpmschedulebyid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceFormPage.jsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "preventive_preventivemaintenanceformpage",
+      "target": "services_preventivemaintenanceservice_updatepmschedule",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceFormPage.jsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "preventive_preventivemaintenanceformpage",
+      "target": "services_siteservice",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceFormPage.jsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "preventive_preventivemaintenanceformpage",
+      "target": "services_siteservice_getsites",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceFormPage.jsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "preventive_preventivemaintenanceformpage",
+      "target": "services_vendorservice",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceFormPage.jsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "preventive_preventivemaintenanceformpage",
+      "target": "services_vendorservice_getvendorsbysite",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceFormPage.jsx",
+      "source_location": "L43",
+      "weight": 1.0,
+      "source": "preventive_preventivemaintenanceformpage_preventivemaintenanceformpage",
+      "target": "services_equipmentservice_getequipments",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceFormPage.jsx",
+      "source_location": "L104",
+      "weight": 1.0,
+      "source": "preventive_preventivemaintenanceformpage_preventivemaintenanceformpage",
+      "target": "services_preventivemaintenanceservice_createpmschedule",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceFormPage.jsx",
+      "source_location": "L53",
+      "weight": 1.0,
+      "source": "preventive_preventivemaintenanceformpage_preventivemaintenanceformpage",
+      "target": "services_preventivemaintenanceservice_getpmschedulebyid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceFormPage.jsx",
+      "source_location": "L102",
+      "weight": 1.0,
+      "source": "preventive_preventivemaintenanceformpage_preventivemaintenanceformpage",
+      "target": "services_preventivemaintenanceservice_updatepmschedule",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceFormPage.jsx",
+      "source_location": "L43",
+      "weight": 1.0,
+      "source": "preventive_preventivemaintenanceformpage_preventivemaintenanceformpage",
+      "target": "services_siteservice_getsites",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceFormPage.jsx",
+      "source_location": "L73",
+      "weight": 1.0,
+      "source": "preventive_preventivemaintenanceformpage_preventivemaintenanceformpage",
+      "target": "services_vendorservice_getvendorsbysite",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceListPage.jsx",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "preventive_preventivemaintenancelistpage",
+      "target": "preventive_preventivemaintenancelistpage_formatpercent",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceListPage.jsx",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "preventive_preventivemaintenancelistpage",
+      "target": "preventive_preventivemaintenancelistpage_frequencies",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceListPage.jsx",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "preventive_preventivemaintenancelistpage",
+      "target": "preventive_preventivemaintenancelistpage_preventivemaintenancelistpage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceListPage.jsx",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "preventive_preventivemaintenancelistpage",
+      "target": "preventive_preventivemaintenancelistpage_priorities",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceListPage.jsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "preventive_preventivemaintenancelistpage",
+      "target": "services_equipmentservice",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceListPage.jsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "preventive_preventivemaintenancelistpage",
+      "target": "services_equipmentservice_getequipments",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceListPage.jsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "preventive_preventivemaintenancelistpage",
+      "target": "services_preventivemaintenanceservice",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceListPage.jsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "preventive_preventivemaintenancelistpage",
+      "target": "services_preventivemaintenanceservice_deletepmschedule",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceListPage.jsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "preventive_preventivemaintenancelistpage",
+      "target": "services_preventivemaintenanceservice_generateduepmworkorders",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceListPage.jsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "preventive_preventivemaintenancelistpage",
+      "target": "services_preventivemaintenanceservice_generatepmworkorder",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceListPage.jsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "preventive_preventivemaintenancelistpage",
+      "target": "services_preventivemaintenanceservice_getpmschedules",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceListPage.jsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "preventive_preventivemaintenancelistpage",
+      "target": "services_siteservice",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceListPage.jsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "preventive_preventivemaintenancelistpage",
+      "target": "services_siteservice_getsites",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceListPage.jsx",
+      "source_location": "L37",
+      "weight": 1.0,
+      "source": "preventive_preventivemaintenancelistpage_preventivemaintenancelistpage",
+      "target": "services_equipmentservice_getequipments",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceListPage.jsx",
+      "source_location": "L69",
+      "weight": 1.0,
+      "source": "preventive_preventivemaintenancelistpage_preventivemaintenancelistpage",
+      "target": "services_preventivemaintenanceservice_deletepmschedule",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceListPage.jsx",
+      "source_location": "L94",
+      "weight": 1.0,
+      "source": "preventive_preventivemaintenancelistpage_preventivemaintenancelistpage",
+      "target": "services_preventivemaintenanceservice_generateduepmworkorders",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceListPage.jsx",
+      "source_location": "L82",
+      "weight": 1.0,
+      "source": "preventive_preventivemaintenancelistpage_preventivemaintenancelistpage",
+      "target": "services_preventivemaintenanceservice_generatepmworkorder",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceListPage.jsx",
+      "source_location": "L29",
+      "weight": 1.0,
+      "source": "preventive_preventivemaintenancelistpage_preventivemaintenancelistpage",
+      "target": "services_preventivemaintenanceservice_getpmschedules",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/preventive/PreventiveMaintenanceListPage.jsx",
+      "source_location": "L37",
+      "weight": 1.0,
+      "source": "preventive_preventivemaintenancelistpage_preventivemaintenancelistpage",
+      "target": "services_siteservice_getsites",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/requests/MaintenanceRequestFormPage.jsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "requests_maintenancerequestformpage",
+      "target": "requests_maintenancerequestformpage_initialform"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/requests/MaintenanceRequestFormPage.jsx",
+      "source_location": "L22",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "requests_maintenancerequestformpage",
+      "target": "requests_maintenancerequestformpage_maintenancerequestformpage"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/requests/MaintenanceRequestFormPage.jsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "requests_maintenancerequestformpage",
+      "target": "services_equipmentservice"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/requests/MaintenanceRequestFormPage.jsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "requests_maintenancerequestformpage",
+      "target": "services_equipmentservice_getequipments"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/requests/MaintenanceRequestFormPage.jsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "requests_maintenancerequestformpage",
+      "target": "services_maintenanceservice"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/requests/MaintenanceRequestFormPage.jsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "requests_maintenancerequestformpage",
+      "target": "services_maintenanceservice_createmaintenancerequest"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/requests/MaintenanceRequestFormPage.jsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "requests_maintenancerequestformpage",
+      "target": "services_maintenanceservice_getmaintenancerequestbyid"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/requests/MaintenanceRequestFormPage.jsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "requests_maintenancerequestformpage",
+      "target": "services_maintenanceservice_updatemaintenancerequest"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/requests/MaintenanceRequestFormPage.jsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "requests_maintenancerequestformpage",
+      "target": "services_siteservice"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/requests/MaintenanceRequestFormPage.jsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "requests_maintenancerequestformpage",
+      "target": "services_siteservice_getsites"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/requests/MaintenanceRequestFormPage.jsx",
+      "source_location": "L35",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "requests_maintenancerequestformpage_maintenancerequestformpage",
+      "target": "services_equipmentservice_getequipments"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/requests/MaintenanceRequestFormPage.jsx",
+      "source_location": "L64",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "requests_maintenancerequestformpage_maintenancerequestformpage",
+      "target": "services_maintenanceservice_createmaintenancerequest"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/requests/MaintenanceRequestFormPage.jsx",
+      "source_location": "L45",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "requests_maintenancerequestformpage_maintenancerequestformpage",
+      "target": "services_maintenanceservice_getmaintenancerequestbyid"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/requests/MaintenanceRequestFormPage.jsx",
+      "source_location": "L62",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "requests_maintenancerequestformpage_maintenancerequestformpage",
+      "target": "services_maintenanceservice_updatemaintenancerequest"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/requests/MaintenanceRequestFormPage.jsx",
+      "source_location": "L35",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "requests_maintenancerequestformpage_maintenancerequestformpage",
+      "target": "services_siteservice_getsites"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/requests/MaintenanceRequestListPage.jsx",
+      "source_location": "L10",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "requests_maintenancerequestlistpage",
+      "target": "requests_maintenancerequestlistpage_maintenancerequestlistpage"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/requests/MaintenanceRequestListPage.jsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "requests_maintenancerequestlistpage",
+      "target": "services_maintenanceservice"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/requests/MaintenanceRequestListPage.jsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "requests_maintenancerequestlistpage",
+      "target": "services_maintenanceservice_deletemaintenancerequest"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/requests/MaintenanceRequestListPage.jsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "requests_maintenancerequestlistpage",
+      "target": "services_maintenanceservice_getmaintenancerequests"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/requests/MaintenanceRequestListPage.jsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "requests_maintenancerequestlistpage",
+      "target": "services_siteservice"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/requests/MaintenanceRequestListPage.jsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "requests_maintenancerequestlistpage",
+      "target": "services_siteservice_getsites"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/requests/MaintenanceRequestListPage.jsx",
+      "source_location": "L45",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "requests_maintenancerequestlistpage_maintenancerequestlistpage",
+      "target": "services_maintenanceservice_deletemaintenancerequest"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/requests/MaintenanceRequestListPage.jsx",
+      "source_location": "L23",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "requests_maintenancerequestlistpage_maintenancerequestlistpage",
+      "target": "services_maintenanceservice_getmaintenancerequests"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/pages/maintenance/requests/MaintenanceRequestListPage.jsx",
+      "source_location": "L31",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "requests_maintenancerequestlistpage_maintenancerequestlistpage",
+      "target": "services_siteservice_getsites"
+    },
+    {
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
@@ -81427,6 +83421,26 @@
       "confidence_score": 1.0,
       "source": "services_maintenanceservice",
       "target": "services_maintenanceservice_getdowntimeentries"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/services/maintenanceService.js",
+      "source_location": "L19",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "services_maintenanceservice",
+      "target": "services_maintenanceservice_getdowntimeentrybyid"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/services/maintenanceService.js",
+      "source_location": "L13",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "services_maintenanceservice",
+      "target": "services_maintenanceservice_getmaintenanceassignmentbyid"
     },
     {
       "relation": "contains",
@@ -87912,5 +89926,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "aba33c892f49cd8ff81d33a8c27b1d33b5d795ac"
+  "built_at_commit": "36a9309ed65b596636a6089ae8950cb6e9b5fddd"
 }
