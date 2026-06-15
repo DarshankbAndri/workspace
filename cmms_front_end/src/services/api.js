@@ -32,6 +32,9 @@ api.interceptors.response.use(
       // Clear auth data and redirect to login
       localStorage.removeItem('token');
       localStorage.removeItem('user');
+      localStorage.removeItem('roles');
+      localStorage.removeItem('permissions');
+      localStorage.removeItem('allowedSites');
       window.location.href = '/login';
     }
     return Promise.reject(error);
@@ -59,6 +62,17 @@ export const changePassword = (currentPassword, newPassword, confirmPassword) =>
     confirmPassword,
   });
 };
+
+export const getCurrentUserAccess = () => api.get('/auth/me');
+export const getRoles = () => api.get('/admin/roles');
+export const getRoleById = (id) => api.get(`/admin/roles/${id}`);
+export const createRole = (role) => api.post('/admin/roles', role);
+export const updateRole = (id, role) => api.put(`/admin/roles/${id}`, role);
+export const deleteRole = (id) => api.delete(`/admin/roles/${id}`);
+export const getPermissions = () => api.get('/admin/permissions');
+export const getGroupedPermissions = () => api.get('/admin/permissions/grouped');
+export const getUserRoles = (userId) => api.get(`/admin/users/${userId}/roles`);
+export const updateUserRoles = (userId, assignments) => api.put(`/admin/users/${userId}/roles`, assignments);
 
 // User API
 export const getUserById = (userId) => {
@@ -153,6 +167,9 @@ fileApi.interceptors.response.use(
     if (error.response && error.response.status === 401) {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
+      localStorage.removeItem('roles');
+      localStorage.removeItem('permissions');
+      localStorage.removeItem('allowedSites');
       window.location.href = '/login';
     }
     return Promise.reject(error);

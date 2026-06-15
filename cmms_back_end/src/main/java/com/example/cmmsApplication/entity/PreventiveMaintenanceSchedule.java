@@ -16,6 +16,10 @@ public class PreventiveMaintenanceSchedule {
     private Equipment equipment;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "site_id")
+    private Site site;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vendor_id")
     private Vendor vendor;
 
@@ -79,6 +83,8 @@ public class PreventiveMaintenanceSchedule {
     public void setId(Long id) { this.id = id; }
     public Equipment getEquipment() { return equipment; }
     public void setEquipment(Equipment equipment) { this.equipment = equipment; }
+    public Site getSite() { return site; }
+    public void setSite(Site site) { this.site = site; }
     public Vendor getVendor() { return vendor; }
     public void setVendor(Vendor vendor) { this.vendor = vendor; }
     public String getScheduleCode() { return scheduleCode; }

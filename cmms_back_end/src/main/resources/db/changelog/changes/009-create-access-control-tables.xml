@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="009-create-access-control-tables" author="codex">
+        <sql>
+            CREATE TABLE IF NOT EXISTS role_master (
+                role_id BIGSERIAL PRIMARY KEY,
+                role_code VARCHAR(50) UNIQUE NOT NULL,
+                role_name VARCHAR(100) NOT NULL,
+                description TEXT,
+                status VARCHAR(20) DEFAULT 'ACTIVE',
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP
+            );
+
+            CREATE TABLE IF NOT EXISTS permission_master (
+                permission_id BIGSERIAL PRIMARY KEY,
+                permission_code VARCHAR(100) UNIQUE NOT NULL,
+                permission_name VARCHAR(150) NOT NULL,
+                module_name VARCHAR(100),
+                action_name VARCHAR(50),
+                status VARCHAR(20) DEFAULT 'ACTIVE',
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP
+            );
+
+            CREATE TABLE IF NOT EXISTS role_permission (
+                role_permission_id BIGSERIAL PRIMARY KEY,
+                role_id BIGINT NOT NULL REFERENCES role_master(role_id),
+                permission_id BIGINT NOT NULL REFERENCES permission_master(permission_id),
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                CONSTRAINT uk_role_permission UNIQUE (role_id, permission_id)
+            );
+
+            CREATE TABLE IF NOT EXISTS user_role (
+                user_role_id BIGSERIAL PRIMARY KEY,
+                user_id BIGINT NOT NULL REFERENCES users(id),
+                role_id BIGINT NOT NULL REFERENCES role_master(role_id),
+                site_id BIGINT NULL REFERENCES site_master(site_id),
+                status VARCHAR(20) DEFAULT 'ACTIVE',
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP
+            );
+
+            INSERT INTO role_master (role_code, role_name, description, status, created_at, updated_at) VALUES
+            ('SUPER_ADMIN', 'Super Admin', 'Full system access across all sites', 'ACTIVE', NOW(), NOW()),
+            ('ADMIN', 'Admin', 'Administrative access across all operation sites', 'ACTIVE', NOW(), NOW()),
+            ('HR_ADMIN', 'HR Admin', 'HR site and employee administration access', 'ACTIVE', NOW(), NOW()),
+            ('SITE_MANAGER', 'Site Manager', 'Operation management access for assigned sites', 'ACTIVE', NOW(), NOW()),
+            ('MAINTENANCE_MANAGER', 'Maintenance Manager', 'Maintenance access for assigned sites', 'ACTIVE', NOW(), NOW()),
+            ('TECHNICIAN', 'Technician', 'Technician access for assigned sites', 'ACTIVE', NOW(), NOW()),
+            ('VIEWER', 'Viewer', 'Read-only access for assigned sites', 'ACTIVE', NOW(), NOW())
+            ON CONFLICT (role_code) DO NOTHING;
+
+            INSERT INTO permission_master (permission_code, permission_name, module_name, action_name, status, created_at, updated_at) VALUES
+            ('DASHBOARD_VIEW', 'View Dashboard', 'Dashboard', 'VIEW', 'ACTIVE', NOW(), NOW()),
+            ('SITE_VIEW', 'View Sites', 'Site', 'VIEW', 'ACTIVE', NOW(), NOW()),
+            ('SITE_CREATE', 'Create Sites', 'Site', 'CREATE', 'ACTIVE', NOW(), NOW()),
+            ('SITE_UPDATE', 'Update Sites', 'Site', 'UPDATE', 'ACTIVE', NOW(), NOW()),
+            ('SITE_DELETE', 'Delete Sites', 'Site', 'DELETE', 'ACTIVE', NOW(), NOW()),
+            ('EMPLOYEE_VIEW', 'View Employees', 'Employee', 'VIEW', 'ACTIVE', NOW(), NOW()),
+            ('EMPLOYEE_CREATE', 'Create Employees', 'Employee', 'CREATE', 'ACTIVE', NOW(), NOW()),
+            ('EMPLOYEE_UPDATE', 'Update Employees', 'Employee', 'UPDATE', 'ACTIVE', NOW(), NOW()),
+            ('EMPLOYEE_DELETE', 'Delete Employees', 'Employee', 'DELETE', 'ACTIVE', NOW(), NOW()),
+            ('EQUIPMENT_VIEW', 'View Equipment', 'Equipment', 'VIEW', 'ACTIVE', NOW(), NOW()),
+            ('EQUIPMENT_CREATE', 'Create Equipment', 'Equipment', 'CREATE', 'ACTIVE', NOW(), NOW()),
+            ('EQUIPMENT_UPDATE', 'Update Equipment', 'Equipment', 'UPDATE', 'ACTIVE', NOW(), NOW()),
+            ('EQUIPMENT_DELETE', 'Delete Equipment', 'Equipment', 'DELETE', 'ACTIVE', NOW(), NOW()),
+            ('VENDOR_VIEW', 'View Vendors', 'Vendor', 'VIEW', 'ACTIVE', NOW(), NOW()),
+            ('VENDOR_CREATE', 'Create Vendors', 'Vendor', 'CREATE', 'ACTIVE', NOW(), NOW()),
+            ('VENDOR_UPDATE', 'Update Vendors', 'Vendor', 'UPDATE', 'ACTIVE', NOW(), NOW()),
+            ('VENDOR_DELETE', 'Delete Vendors', 'Vendor', 'DELETE', 'ACTIVE', NOW(), NOW()),
+            ('REQUEST_VIEW', 'View Requests', 'Request', 'VIEW', 'ACTIVE', NOW(), NOW()),
+            ('REQUEST_CREATE', 'Create Requests', 'Request', 'CREATE', 'ACTIVE', NOW(), NOW()),
+            ('REQUEST_UPDATE', 'Update Requests', 'Request', 'UPDATE', 'ACTIVE', NOW(), NOW()),
+            ('REQUEST_DELETE', 'Delete Requests', 'Request', 'DELETE', 'ACTIVE', NOW(), NOW()),
+            ('ASSIGNMENT_VIEW', 'View Assignments', 'Assignment', 'VIEW', 'ACTIVE', NOW(), NOW()),
+            ('ASSIGNMENT_CREATE', 'Create Assignments', 'Assignment', 'CREATE', 'ACTIVE', NOW(), NOW()),
+            ('ASSIGNMENT_UPDATE', 'Update Assignments', 'Assignment', 'UPDATE', 'ACTIVE', NOW(), NOW()),
+            ('ASSIGNMENT_DELETE', 'Delete Assignments', 'Assignment', 'DELETE', 'ACTIVE', NOW(), NOW()),
+            ('DOWNTIME_VIEW', 'View Downtime', 'Downtime', 'VIEW', 'ACTIVE', NOW(), NOW()),
+            ('DOWNTIME_CREATE', 'Create Downtime', 'Downtime', 'CREATE', 'ACTIVE', NOW(), NOW()),
+            ('DOWNTIME_UPDATE', 'Update Downtime', 'Downtime', 'UPDATE', 'ACTIVE', NOW(), NOW()),
+            ('DOWNTIME_DELETE', 'Delete Downtime', 'Downtime', 'DELETE', 'ACTIVE', NOW(), NOW()),
+            ('REPORT_VIEW', 'View Reports', 'Report', 'VIEW', 'ACTIVE', NOW(), NOW()),
+            ('ROLE_VIEW', 'View Roles', 'Admin', 'VIEW', 'ACTIVE', NOW(), NOW()),
+            ('ROLE_CREATE', 'Create Roles', 'Admin', 'CREATE', 'ACTIVE', NOW(), NOW()),
+            ('ROLE_UPDATE', 'Update Roles', 'Admin', 'UPDATE', 'ACTIVE', NOW(), NOW()),
+            ('ROLE_DELETE', 'Delete Roles', 'Admin', 'DELETE', 'ACTIVE', NOW(), NOW()),
+            ('PERMISSION_VIEW', 'View Permissions', 'Admin', 'VIEW', 'ACTIVE', NOW(), NOW()),
+            ('USER_ROLE_VIEW', 'View User Roles', 'Admin', 'VIEW', 'ACTIVE', NOW(), NOW()),
+            ('USER_ROLE_UPDATE', 'Update User Roles', 'Admin', 'UPDATE', 'ACTIVE', NOW(), NOW())
+            ON CONFLICT (permission_code) DO NOTHING;
+
+            INSERT INTO role_permission (role_id, permission_id)
+            SELECT r.role_id, p.permission_id
+            FROM role_master r
+            CROSS JOIN permission_master p
+            WHERE r.role_code IN ('SUPER_ADMIN', 'ADMIN')
+            ON CONFLICT (role_id, permission_id) DO NOTHING;
+
+            INSERT INTO role_permission (role_id, permission_id)
+            SELECT r.role_id, p.permission_id
+            FROM role_master r
+            JOIN permission_master p ON p.permission_code IN ('DASHBOARD_VIEW', 'SITE_VIEW', 'SITE_CREATE', 'SITE_UPDATE', 'SITE_DELETE', 'EMPLOYEE_VIEW', 'EMPLOYEE_CREATE', 'EMPLOYEE_UPDATE', 'EMPLOYEE_DELETE')
+            WHERE r.role_code = 'HR_ADMIN'
+            ON CONFLICT (role_id, permission_id) DO NOTHING;
+
+            INSERT INTO role_permission (role_id, permission_id)
+            SELECT r.role_id, p.permission_id
+            FROM role_master r
+            JOIN permission_master p ON p.permission_code IN ('DASHBOARD_VIEW', 'EQUIPMENT_VIEW', 'EQUIPMENT_CREATE', 'EQUIPMENT_UPDATE', 'VENDOR_VIEW', 'REQUEST_VIEW', 'REQUEST_CREATE', 'REQUEST_UPDATE', 'ASSIGNMENT_VIEW', 'ASSIGNMENT_CREATE', 'ASSIGNMENT_UPDATE', 'DOWNTIME_VIEW', 'DOWNTIME_CREATE', 'DOWNTIME_UPDATE', 'REPORT_VIEW')
+            WHERE r.role_code = 'SITE_MANAGER'
+            ON CONFLICT (role_id, permission_id) DO NOTHING;
+
+            INSERT INTO role_permission (role_id, permission_id)
+            SELECT r.role_id, p.permission_id
+            FROM role_master r
+            JOIN permission_master p ON p.permission_code IN ('DASHBOARD_VIEW', 'EQUIPMENT_VIEW', 'VENDOR_VIEW', 'REQUEST_VIEW', 'REQUEST_CREATE', 'REQUEST_UPDATE', 'ASSIGNMENT_VIEW', 'ASSIGNMENT_CREATE', 'ASSIGNMENT_UPDATE', 'DOWNTIME_VIEW', 'DOWNTIME_CREATE', 'DOWNTIME_UPDATE', 'REPORT_VIEW')
+            WHERE r.role_code = 'MAINTENANCE_MANAGER'
+            ON CONFLICT (role_id, permission_id) DO NOTHING;
+
+            INSERT INTO role_permission (role_id, permission_id)
+            SELECT r.role_id, p.permission_id
+            FROM role_master r
+            JOIN permission_master p ON p.permission_code IN ('DASHBOARD_VIEW', 'EQUIPMENT_VIEW', 'REQUEST_VIEW', 'REQUEST_UPDATE', 'DOWNTIME_VIEW', 'DOWNTIME_CREATE')
+            WHERE r.role_code = 'TECHNICIAN'
+            ON CONFLICT (role_id, permission_id) DO NOTHING;
+
+            INSERT INTO role_permission (role_id, permission_id)
+            SELECT r.role_id, p.permission_id
+            FROM role_master r
+            JOIN permission_master p ON p.permission_code IN ('DASHBOARD_VIEW', 'SITE_VIEW', 'EMPLOYEE_VIEW', 'EQUIPMENT_VIEW', 'VENDOR_VIEW', 'REQUEST_VIEW', 'ASSIGNMENT_VIEW', 'DOWNTIME_VIEW', 'REPORT_VIEW')
+            WHERE r.role_code = 'VIEWER'
+            ON CONFLICT (role_id, permission_id) DO NOTHING;
+        </sql>
+    </changeSet>
+</databaseChangeLog>

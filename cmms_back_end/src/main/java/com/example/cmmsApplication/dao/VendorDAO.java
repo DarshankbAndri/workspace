@@ -3,6 +3,7 @@ package com.example.cmmsApplication.dao;
 import com.example.cmmsApplication.entity.Vendor;
 import com.example.cmmsApplication.repository.VendorRepository;
 import org.springframework.stereotype.Component;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,7 +21,9 @@ public class VendorDAO {
     public List<Vendor> findAll() { return repository.findAll(); }
     public List<Vendor> findByActive(Boolean active) { return repository.findByActive(active); }
     public List<Vendor> findBySiteId(Long siteId) { return repository.findDistinctBySiteAssignmentsSiteIdAndSiteAssignmentsStatusIgnoreCase(siteId, "ACTIVE"); }
+    public List<Vendor> findBySiteIds(Collection<Long> siteIds) { return repository.findDistinctBySiteAssignmentsSiteIdInAndSiteAssignmentsStatusIgnoreCase(siteIds, "ACTIVE"); }
     public List<Vendor> findBySiteIdAndActive(Long siteId, Boolean active) { return repository.findDistinctBySiteAssignmentsSiteIdAndSiteAssignmentsStatusIgnoreCaseAndActive(siteId, "ACTIVE", active); }
+    public List<Vendor> findBySiteIdsAndActive(Collection<Long> siteIds, Boolean active) { return repository.findDistinctBySiteAssignmentsSiteIdInAndSiteAssignmentsStatusIgnoreCaseAndActive(siteIds, "ACTIVE", active); }
     public void deleteById(Long id) { repository.deleteById(id); }
     public long countActive() { return repository.countByActiveTrue(); }
     public boolean existsByVendorCode(String code) { return repository.existsByVendorCode(code); }

@@ -16,13 +16,17 @@ import java.util.stream.Collectors;
 public class EquipmentService {
     private final EquipmentDAO equipmentDAO;
     private final SiteService siteService;
+    private final AccessControlService accessControlService;
 
-    public EquipmentService(EquipmentDAO equipmentDAO, SiteService siteService) {
+    public EquipmentService(EquipmentDAO equipmentDAO, SiteService siteService, AccessControlService accessControlService) {
         this.equipmentDAO = equipmentDAO;
         this.siteService = siteService;
+        this.accessControlService = accessControlService;
     }
 
     public EquipmentDTO create(EquipmentDTO dto) {
+        accessControlService.validatePermission("EQUIPMENT_CREATE");
+        accessControlService.validateSiteAccess(dto.getSiteId());
         if (equipmentDAO.existsByEquipmentCode(dto.getEquipmentCode())) {
             throw new InvalidOperationException("Equipment code already exists: " + dto.getEquipmentCode());
         }
@@ -32,7 +36,10 @@ public class EquipmentService {
     }
 
     public EquipmentDTO update(Long id, EquipmentDTO dto) {
+        accessControlService.validatePermission("EQUIPMENT_UPDATE");
         Equipment equipment = getEntity(id);
+        accessControlService.validateSiteAccess(equipment.getSite() == null ? null : equipment.getSite().getId());
+        accessControlService.validateSiteAccess(dto.getSiteId());
         if (equipmentDAO.existsByEquipmentCodeAndIdNot(dto.getEquipmentCode(), id)) {
             throw new InvalidOperationException("Equipment code already exists: " + dto.getEquipmentCode());
         }
@@ -42,17 +49,28 @@ public class EquipmentService {
 
     @Transactional(readOnly = true)
     public EquipmentDTO getById(Long id) {
-        return toDTO(getEntity(id));
+        accessControlService.validatePermission("EQUIPMENT_VIEW");
+        Equipment equipment = getEntity(id);
+        accessControlService.validateSiteAccess(equipment.getSite() == null ? null : equipment.getSite().getId());
+        return toDTO(equipment);
     }
 
     @Transactional(readOnly = true)
     public List<EquipmentDTO> getAll(Long siteId) {
-        List<Equipment> equipment = siteId == null ? equipmentDAO.findAll() : equipmentDAO.findBySiteId(siteId);
+        accessControlService.validatePermission("EQUIPMENT_VIEW");
+        if (siteId != null) {
+            accessControlService.validateSiteAccess(siteId);
+        }
+        List<Equipment> equipment = siteId != null
+                ? equipmentDAO.findBySiteId(siteId)
+                : accessControlService.isAdmin() ? equipmentDAO.findAll() : equipmentDAO.findBySiteIds(accessControlService.getAllowedSiteIds());
         return equipment.stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     public void delete(Long id) {
-        getEntity(id);
+        accessControlService.validatePermission("EQUIPMENT_DELETE");
+        Equipment equipment = getEntity(id);
+        accessControlService.validateSiteAccess(equipment.getSite() == null ? null : equipment.getSite().getId());
         equipmentDAO.deleteById(id);
     }
 

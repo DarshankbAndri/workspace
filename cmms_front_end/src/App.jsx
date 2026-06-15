@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { ThemeProvider, createTheme, CssBaseline, useMediaQuery } from '@mui/material';
+import { ThemeProvider, createTheme, CssBaseline, useMediaQuery, Box, Paper, Typography } from '@mui/material';
 import { useAuth } from './context/AuthContext';
 import SidebarLayout from './components/SidebarLayout';
 import LoginPage from './pages/LoginPage';
@@ -20,6 +20,9 @@ import SiteListPage from './pages/hr/site/SiteListPage';
 import SiteFormPage from './pages/hr/site/SiteFormPage';
 import EmployeeListPage from './pages/hr/employee/EmployeeListPage';
 import EmployeeFormPage from './pages/hr/employee/EmployeeFormPage';
+import RoleListPage from './pages/admin/roles/RoleListPage';
+import PermissionListPage from './pages/admin/permissions/PermissionListPage';
+import UserRoleAssignmentPage from './pages/admin/userRoles/UserRoleAssignmentPage';
 
 const createAppTheme = (mode) => createTheme({
   palette: {
@@ -85,14 +88,29 @@ const createAppTheme = (mode) => createTheme({
   },
 });
 
-function ProtectedRoute({ children }) {
-  const { isAuthenticated, loading } = useAuth();
+function AccessDenied() {
+  return (
+    <Box sx={{ minHeight: '70vh', display: 'grid', placeItems: 'center' }}>
+      <Paper sx={{ p: 3, borderRadius: 1, maxWidth: 420, textAlign: 'center' }}>
+        <Typography variant="h5" fontWeight={800} sx={{ mb: 1 }}>Access Denied</Typography>
+        <Typography color="text.secondary">Your account does not have permission to open this page.</Typography>
+      </Paper>
+    </Box>
+  );
+}
+
+function ProtectedRoute({ children, permission }) {
+  const { isAuthenticated, loading, hasPermission } = useAuth();
 
   if (loading) {
     return null;
   }
 
-  return isAuthenticated ? children : <Navigate to="/login" replace />;
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return hasPermission(permission) ? children : <AccessDenied />;
 }
 
 function App() {
@@ -113,8 +131,8 @@ function App() {
     return null;
   }
 
-  const protectedPage = (page) => (
-    <ProtectedRoute>
+  const protectedPage = (page, permission) => (
+    <ProtectedRoute permission={permission}>
       <SidebarLayout mode={mode} onToggleMode={toggleMode}>{page}</SidebarLayout>
     </ProtectedRoute>
   );
@@ -126,25 +144,28 @@ function App() {
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/" element={<Navigate to={isAuthenticated ? '/dashboard' : '/login'} replace />} />
-          <Route path="/dashboard" element={protectedPage(<DashboardPage />)} />
-          <Route path="/equipment" element={protectedPage(<EquipmentListPage />)} />
-          <Route path="/equipment/new" element={protectedPage(<EquipmentFormPage />)} />
-          <Route path="/equipment/:id" element={protectedPage(<EquipmentFormPage />)} />
-          <Route path="/vendors" element={protectedPage(<VendorListPage />)} />
-          <Route path="/vendors/new" element={protectedPage(<VendorFormPage />)} />
-          <Route path="/vendors/:id" element={protectedPage(<VendorFormPage />)} />
-          <Route path="/maintenance/requests" element={protectedPage(<MaintenanceRequestPage />)} />
-          <Route path="/maintenance/assignments" element={protectedPage(<MaintenanceAssignmentPage />)} />
-          <Route path="/maintenance/downtime" element={protectedPage(<DowntimePage />)} />
-          <Route path="/maintenance/preventive" element={protectedPage(<PreventiveMaintenancePage />)} />
-          <Route path="/reports/equipment-history" element={protectedPage(<EquipmentHistoryPage />)} />
-          <Route path="/reports/downtime-analysis" element={protectedPage(<DowntimeAnalysisPage />)} />
-          <Route path="/hr/sites" element={protectedPage(<SiteListPage />)} />
-          <Route path="/hr/sites/new" element={protectedPage(<SiteFormPage />)} />
-          <Route path="/hr/sites/:id/edit" element={protectedPage(<SiteFormPage />)} />
-          <Route path="/hr/employees" element={protectedPage(<EmployeeListPage />)} />
-          <Route path="/hr/employees/new" element={protectedPage(<EmployeeFormPage />)} />
-          <Route path="/hr/employees/:id/edit" element={protectedPage(<EmployeeFormPage />)} />
+          <Route path="/dashboard" element={protectedPage(<DashboardPage />, 'DASHBOARD_VIEW')} />
+          <Route path="/equipment" element={protectedPage(<EquipmentListPage />, 'EQUIPMENT_VIEW')} />
+          <Route path="/equipment/new" element={protectedPage(<EquipmentFormPage />, 'EQUIPMENT_CREATE')} />
+          <Route path="/equipment/:id" element={protectedPage(<EquipmentFormPage />, 'EQUIPMENT_UPDATE')} />
+          <Route path="/vendors" element={protectedPage(<VendorListPage />, 'VENDOR_VIEW')} />
+          <Route path="/vendors/new" element={protectedPage(<VendorFormPage />, 'VENDOR_CREATE')} />
+          <Route path="/vendors/:id" element={protectedPage(<VendorFormPage />, 'VENDOR_UPDATE')} />
+          <Route path="/maintenance/requests" element={protectedPage(<MaintenanceRequestPage />, 'REQUEST_VIEW')} />
+          <Route path="/maintenance/assignments" element={protectedPage(<MaintenanceAssignmentPage />, 'ASSIGNMENT_VIEW')} />
+          <Route path="/maintenance/downtime" element={protectedPage(<DowntimePage />, 'DOWNTIME_VIEW')} />
+          <Route path="/maintenance/preventive" element={protectedPage(<PreventiveMaintenancePage />, 'REQUEST_VIEW')} />
+          <Route path="/reports/equipment-history" element={protectedPage(<EquipmentHistoryPage />, 'REPORT_VIEW')} />
+          <Route path="/reports/downtime-analysis" element={protectedPage(<DowntimeAnalysisPage />, 'REPORT_VIEW')} />
+          <Route path="/hr/sites" element={protectedPage(<SiteListPage />, 'SITE_VIEW')} />
+          <Route path="/hr/sites/new" element={protectedPage(<SiteFormPage />, 'SITE_CREATE')} />
+          <Route path="/hr/sites/:id/edit" element={protectedPage(<SiteFormPage />, 'SITE_UPDATE')} />
+          <Route path="/hr/employees" element={protectedPage(<EmployeeListPage />, 'EMPLOYEE_VIEW')} />
+          <Route path="/hr/employees/new" element={protectedPage(<EmployeeFormPage />, 'EMPLOYEE_CREATE')} />
+          <Route path="/hr/employees/:id/edit" element={protectedPage(<EmployeeFormPage />, 'EMPLOYEE_UPDATE')} />
+          <Route path="/admin/roles" element={protectedPage(<RoleListPage />, 'ROLE_VIEW')} />
+          <Route path="/admin/permissions" element={protectedPage(<PermissionListPage />, 'PERMISSION_VIEW')} />
+          <Route path="/admin/user-roles" element={protectedPage(<UserRoleAssignmentPage />, 'USER_ROLE_VIEW')} />
           <Route path="/create-user" element={protectedPage(<UserManagementPage />)} />
           <Route path="*" element={<Navigate to={isAuthenticated ? '/dashboard' : '/login'} replace />} />
         </Routes>

@@ -16,7 +16,8 @@ import {
 import { AddTask, Clear, Delete, Edit, PlayArrow, Save } from '@mui/icons-material';
 import { DataGrid } from '@mui/x-data-grid';
 import { getEquipments } from '../../services/equipmentService';
-import { getVendors } from '../../services/vendorService';
+import { getSites } from '../../services/siteService';
+import { getVendorsBySite } from '../../services/vendorService';
 import {
   createPMSchedule,
   deletePMSchedule,
@@ -29,6 +30,7 @@ import {
 const today = () => new Date().toISOString().slice(0, 10);
 
 const initialForm = {
+  siteId: '',
   equipmentId: '',
   vendorId: '',
   title: '',
@@ -48,6 +50,7 @@ const formatPercent = (value) => Number(value || 0).toFixed(2);
 
 function PreventiveMaintenancePage() {
   const [rows, setRows] = React.useState([]);
+  const [sites, setSites] = React.useState([]);
   const [equipments, setEquipments] = React.useState([]);
   const [vendors, setVendors] = React.useState([]);
   const [form, setForm] = React.useState(initialForm);
@@ -59,17 +62,27 @@ function PreventiveMaintenancePage() {
 
   const loadData = React.useCallback(() => {
     setLoading(true);
-    Promise.all([getPMSchedules(), getEquipments(), getVendors()])
-      .then(([scheduleRows, equipmentRows, vendorRows]) => {
+    Promise.all([getPMSchedules(), getEquipments(), getSites()])
+      .then(([scheduleRows, equipmentRows, siteRows]) => {
         setRows(scheduleRows);
         setEquipments(equipmentRows);
-        setVendors(vendorRows.filter((vendor) => vendor.active !== false));
+        setSites(siteRows.filter((site) => site.status !== 'INACTIVE'));
       })
       .catch(() => setError('Unable to load preventive maintenance schedules.'))
       .finally(() => setLoading(false));
   }, []);
 
   React.useEffect(() => { loadData(); }, [loadData]);
+
+  React.useEffect(() => {
+    if (!form.siteId) {
+      setVendors([]);
+      return;
+    }
+    getVendorsBySite(form.siteId)
+      .then(setVendors)
+      .catch(() => setError('Unable to load vendors for selected site.'));
+  }, [form.siteId]);
 
   const updateField = (field) => (event) => {
     const value = event.target.value;
@@ -79,6 +92,14 @@ function PreventiveMaintenancePage() {
       ...(field === 'startDate' && !editingId ? { nextDueDate: value } : {}),
     }));
   };
+  const updateSite = (event) => {
+    const siteId = event.target.value;
+    setForm((current) => ({ ...current, siteId, equipmentId: '', vendorId: '' }));
+  };
+  const filteredEquipments = React.useMemo(
+    () => equipments.filter((equipment) => String(equipment.siteId || '') === String(form.siteId || '')),
+    [equipments, form.siteId]
+  );
 
   const resetForm = () => {
     setEditingId(null);
@@ -93,6 +114,7 @@ function PreventiveMaintenancePage() {
 
     const payload = {
       ...form,
+      siteId: Number(form.siteId),
       equipmentId: Number(form.equipmentId),
       vendorId: form.vendorId ? Number(form.vendorId) : null,
       active: form.active !== 'false',
@@ -118,6 +140,7 @@ function PreventiveMaintenancePage() {
   const editRow = (row) => {
     setEditingId(row.id);
     setForm({
+      siteId: row.siteId || '',
       equipmentId: row.equipmentId || '',
       vendorId: row.vendorId || '',
       title: row.title || '',
@@ -163,6 +186,7 @@ function PreventiveMaintenancePage() {
 
   const columns = [
     { field: 'scheduleCode', headerName: 'Schedule', minWidth: 190, flex: 0.9 },
+    { field: 'siteName', headerName: 'Site', minWidth: 170, flex: 0.8 },
     { field: 'equipmentName', headerName: 'Equipment', minWidth: 190, flex: 1 },
     { field: 'title', headerName: 'PM Task', minWidth: 220, flex: 1.2 },
     { field: 'frequency', headerName: 'Frequency', minWidth: 130, flex: 0.6 },
@@ -214,12 +238,17 @@ function PreventiveMaintenancePage() {
         <CardContent sx={{ p: 2.5 }}>
           <Grid container spacing={2}>
             <Grid item xs={12} md={4}>
-              <TextField required select fullWidth label="Equipment" value={form.equipmentId} onChange={updateField('equipmentId')}>
-                {equipments.map((item) => <MenuItem key={item.id} value={item.id}>{item.equipmentCode} - {item.equipmentName}</MenuItem>)}
+              <TextField required select fullWidth label="Site" value={form.siteId} onChange={updateSite}>
+                {sites.map((site) => <MenuItem key={site.id} value={site.id}>{site.siteName} ({site.siteCode})</MenuItem>)}
               </TextField>
             </Grid>
             <Grid item xs={12} md={4}>
-              <TextField select fullWidth label="Assigned Vendor" value={form.vendorId} onChange={updateField('vendorId')}>
+              <TextField required select fullWidth disabled={!form.siteId} label="Equipment" value={form.equipmentId} onChange={updateField('equipmentId')} helperText={form.siteId && filteredEquipments.length === 0 ? 'No equipment found for this site.' : ''}>
+                {filteredEquipments.map((item) => <MenuItem key={item.id} value={item.id}>{item.equipmentCode} - {item.equipmentName}</MenuItem>)}
+              </TextField>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <TextField select fullWidth disabled={!form.siteId} label="Assigned Vendor" value={form.vendorId} onChange={updateField('vendorId')} helperText={form.siteId && vendors.length === 0 ? 'No vendors assigned to this site.' : ''}>
                 <MenuItem value="">Internal team</MenuItem>
                 {vendors.map((item) => <MenuItem key={item.id} value={item.id}>{item.vendorName}</MenuItem>)}
               </TextField>

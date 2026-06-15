@@ -20,13 +20,17 @@ import java.util.stream.Collectors;
 public class VendorService {
     private final VendorDAO vendorDAO;
     private final SiteService siteService;
+    private final AccessControlService accessControlService;
 
-    public VendorService(VendorDAO vendorDAO, SiteService siteService) {
+    public VendorService(VendorDAO vendorDAO, SiteService siteService, AccessControlService accessControlService) {
         this.vendorDAO = vendorDAO;
         this.siteService = siteService;
+        this.accessControlService = accessControlService;
     }
 
     public VendorDTO create(VendorDTO dto) {
+        accessControlService.validatePermission("VENDOR_CREATE");
+        accessControlService.validateAnySiteAccess(assignmentSiteIds(dto.getSiteAssignments()));
         if (vendorDAO.existsByVendorCode(dto.getVendorCode())) {
             throw new InvalidOperationException("Vendor code already exists: " + dto.getVendorCode());
         }
@@ -37,6 +41,8 @@ public class VendorService {
     }
 
     public VendorDTO update(Long id, VendorDTO dto) {
+        accessControlService.validatePermission("VENDOR_UPDATE");
+        accessControlService.validateAnySiteAccess(assignmentSiteIds(dto.getSiteAssignments()));
         Vendor vendor = getEntity(id);
         if (vendorDAO.existsByVendorCodeAndIdNot(dto.getVendorCode(), id)) {
             throw new InvalidOperationException("Vendor code already exists: " + dto.getVendorCode());
@@ -49,25 +55,35 @@ public class VendorService {
 
     @Transactional(readOnly = true)
     public VendorDTO getById(Long id) {
-        return toDTO(getEntityWithAssignments(id));
+        accessControlService.validatePermission("VENDOR_VIEW");
+        Vendor vendor = getEntityWithAssignments(id);
+        accessControlService.validateAnySiteAccess(vendor.getSiteAssignments().stream()
+                .filter((assignment) -> !"INACTIVE".equalsIgnoreCase(assignment.getStatus()))
+                .map((assignment) -> assignment.getSite().getId())
+                .collect(Collectors.toList()));
+        return toDTO(vendor);
     }
 
     @Transactional(readOnly = true)
     public List<VendorDTO> getAll(Long siteId, Boolean active) {
+        accessControlService.validatePermission("VENDOR_VIEW");
         List<Vendor> vendors;
         if (siteId != null && active != null) {
+            accessControlService.validateSiteAccess(siteId);
             vendors = vendorDAO.findBySiteIdAndActive(siteId, active);
         } else if (siteId != null) {
+            accessControlService.validateSiteAccess(siteId);
             vendors = vendorDAO.findBySiteId(siteId);
         } else if (active != null) {
-            vendors = vendorDAO.findByActive(active);
+            vendors = accessControlService.isAdmin() ? vendorDAO.findByActive(active) : vendorDAO.findBySiteIdsAndActive(accessControlService.getAllowedSiteIds(), active);
         } else {
-            vendors = vendorDAO.findAll();
+            vendors = accessControlService.isAdmin() ? vendorDAO.findAll() : vendorDAO.findBySiteIds(accessControlService.getAllowedSiteIds());
         }
         return vendors.stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     public void delete(Long id) {
+        accessControlService.validatePermission("VENDOR_DELETE");
         getEntity(id);
         vendorDAO.deleteById(id);
     }
@@ -182,5 +198,9 @@ public class VendorService {
 
     private boolean isBlank(String value) {
         return value == null || value.trim().isEmpty();
+    }
+
+    private List<Long> assignmentSiteIds(List<VendorSiteAssignmentDTO> assignments) {
+        return assignments == null ? List.of() : assignments.stream().map(VendorSiteAssignmentDTO::getSiteId).collect(Collectors.toList());
     }
 }

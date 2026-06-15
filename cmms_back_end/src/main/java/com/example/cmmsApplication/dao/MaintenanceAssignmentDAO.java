@@ -3,6 +3,7 @@ package com.example.cmmsApplication.dao;
 import com.example.cmmsApplication.entity.MaintenanceAssignment;
 import com.example.cmmsApplication.repository.MaintenanceAssignmentRepository;
 import org.springframework.stereotype.Component;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,5 +19,6 @@ public class MaintenanceAssignmentDAO {
     public Optional<MaintenanceAssignment> findById(Long id) { return repository.findById(id); }
     public List<MaintenanceAssignment> findAll() { return repository.findAll(); }
     public List<MaintenanceAssignment> findBySiteId(Long siteId) { return repository.findByRequestSiteId(siteId); }
+    public List<MaintenanceAssignment> findBySiteIds(Collection<Long> siteIds) { return repository.findByRequestSiteIdIn(siteIds); }
     public void deleteById(Long id) { repository.deleteById(id); }
 }

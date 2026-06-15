@@ -27,15 +27,19 @@ public class EmployeeService {
     private final SiteDAO siteDAO;
     private final EmployeeSiteAssignmentDAO assignmentDAO;
     private final UserService userService;
+    private final AccessControlService accessControlService;
 
-    public EmployeeService(EmployeeDAO employeeDAO, SiteDAO siteDAO, EmployeeSiteAssignmentDAO assignmentDAO, UserService userService) {
+    public EmployeeService(EmployeeDAO employeeDAO, SiteDAO siteDAO, EmployeeSiteAssignmentDAO assignmentDAO, UserService userService, AccessControlService accessControlService) {
         this.employeeDAO = employeeDAO;
         this.siteDAO = siteDAO;
         this.assignmentDAO = assignmentDAO;
         this.userService = userService;
+        this.accessControlService = accessControlService;
     }
 
     public EmployeeDTO create(EmployeeDTO dto) {
+        accessControlService.validatePermission("EMPLOYEE_CREATE");
+        accessControlService.validateAnySiteAccess(assignmentSiteIds(dto.getSiteAssignments()));
         validateRequired(dto);
         if (employeeDAO.existsByEmployeeCode(dto.getEmployeeCode())) {
             throw new InvalidOperationException("Employee code already exists: " + dto.getEmployeeCode());
@@ -49,6 +53,8 @@ public class EmployeeService {
     }
 
     public EmployeeDTO update(Long id, EmployeeDTO dto) {
+        accessControlService.validatePermission("EMPLOYEE_UPDATE");
+        accessControlService.validateAnySiteAccess(assignmentSiteIds(dto.getSiteAssignments()));
         validateRequired(dto);
         Employee employee = getEntityWithAssignments(id);
         if (employeeDAO.existsByEmployeeCodeAndIdNot(dto.getEmployeeCode(), id)) {
@@ -64,16 +70,31 @@ public class EmployeeService {
 
     @Transactional(readOnly = true)
     public EmployeeDTO getById(Long id) {
-        return toDTO(getEntityWithAssignments(id), true);
+        accessControlService.validatePermission("EMPLOYEE_VIEW");
+        Employee employee = getEntityWithAssignments(id);
+        accessControlService.validateAnySiteAccess(employee.getSiteAssignments().stream()
+                .map((assignment) -> assignment.getSite().getId())
+                .collect(Collectors.toList()));
+        return toDTO(employee, true);
     }
 
     @Transactional(readOnly = true)
     public List<EmployeeDTO> getAll() {
-        return employeeDAO.findAll().stream().map((employee) -> toDTO(employee, false)).collect(Collectors.toList());
+        accessControlService.validatePermission("EMPLOYEE_VIEW");
+        List<Long> allowedSiteIds = accessControlService.getAllowedSiteIds();
+        return employeeDAO.findAll().stream()
+                .filter((employee) -> accessControlService.isAdmin() || assignmentDAO.findByEmployeeId(employee.getId()).stream()
+                        .anyMatch((assignment) -> assignment.getSite() != null && allowedSiteIds.contains(assignment.getSite().getId())))
+                .map((employee) -> toDTO(employee, false))
+                .collect(Collectors.toList());
     }
 
     public void delete(Long id) {
+        accessControlService.validatePermission("EMPLOYEE_DELETE");
         Employee employee = getEntityWithAssignments(id);
+        accessControlService.validateAnySiteAccess(employee.getSiteAssignments().stream()
+                .map((assignment) -> assignment.getSite().getId())
+                .collect(Collectors.toList()));
         employee.setStatus("INACTIVE");
         employee.getSiteAssignments().forEach((assignment) -> assignment.setStatus("INACTIVE"));
         employeeDAO.save(employee);
@@ -214,5 +235,9 @@ public class EmployeeService {
 
     private boolean isBlank(String value) {
         return value == null || value.trim().isEmpty();
+    }
+
+    private List<Long> assignmentSiteIds(List<EmployeeSiteAssignmentDTO> assignments) {
+        return assignments == null ? List.of() : assignments.stream().map(EmployeeSiteAssignmentDTO::getSiteId).collect(Collectors.toList());
     }
 }

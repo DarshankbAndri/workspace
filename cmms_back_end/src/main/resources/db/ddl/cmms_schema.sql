@@ -167,9 +167,11 @@ ALTER TABLE users ADD CONSTRAINT uk_users_employee_id UNIQUE (employee_id);
 ALTER TABLE equipment_master ADD COLUMN IF NOT EXISTS site_id BIGINT;
 ALTER TABLE maintenance_request ADD COLUMN IF NOT EXISTS site_id BIGINT;
 ALTER TABLE equipment_downtime ADD COLUMN IF NOT EXISTS site_id BIGINT;
+ALTER TABLE preventive_maintenance_schedule ADD COLUMN IF NOT EXISTS site_id BIGINT;
 ALTER TABLE equipment_master ADD CONSTRAINT fk_equipment_site FOREIGN KEY (site_id) REFERENCES site_master(site_id);
 ALTER TABLE maintenance_request ADD CONSTRAINT fk_request_site FOREIGN KEY (site_id) REFERENCES site_master(site_id);
 ALTER TABLE equipment_downtime ADD CONSTRAINT fk_downtime_site FOREIGN KEY (site_id) REFERENCES site_master(site_id);
+ALTER TABLE preventive_maintenance_schedule ADD CONSTRAINT fk_pm_schedule_site FOREIGN KEY (site_id) REFERENCES site_master(site_id);
 
 CREATE INDEX IF NOT EXISTS idx_equipment_master_code ON equipment_master(equipment_code);
 CREATE INDEX IF NOT EXISTS idx_equipment_master_status ON equipment_master(status);
@@ -197,3 +199,4 @@ CREATE INDEX IF NOT EXISTS idx_downtime_site_id ON equipment_downtime(site_id);
 CREATE INDEX IF NOT EXISTS idx_vendor_site_vendor_id ON vendor_site_assignment(vendor_id);
 CREATE INDEX IF NOT EXISTS idx_vendor_site_site_id ON vendor_site_assignment(site_id);
 CREATE INDEX IF NOT EXISTS idx_vendor_site_status ON vendor_site_assignment(status);
+CREATE INDEX IF NOT EXISTS idx_pm_schedule_site ON preventive_maintenance_schedule(site_id);

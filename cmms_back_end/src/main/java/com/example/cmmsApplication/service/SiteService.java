@@ -15,12 +15,15 @@ import java.util.stream.Collectors;
 @Transactional
 public class SiteService {
     private final SiteDAO siteDAO;
+    private final AccessControlService accessControlService;
 
-    public SiteService(SiteDAO siteDAO) {
+    public SiteService(SiteDAO siteDAO, AccessControlService accessControlService) {
         this.siteDAO = siteDAO;
+        this.accessControlService = accessControlService;
     }
 
     public SiteDTO create(SiteDTO dto) {
+        accessControlService.validatePermission("SITE_CREATE");
         validateRequired(dto);
         if (siteDAO.existsBySiteCode(dto.getSiteCode())) {
             throw new InvalidOperationException("Site code already exists: " + dto.getSiteCode());
@@ -31,6 +34,8 @@ public class SiteService {
     }
 
     public SiteDTO update(Long id, SiteDTO dto) {
+        accessControlService.validatePermission("SITE_UPDATE");
+        accessControlService.validateSiteAccess(id);
         validateRequired(dto);
         Site site = getEntity(id);
         if (siteDAO.existsBySiteCodeAndIdNot(dto.getSiteCode(), id)) {
@@ -42,15 +47,25 @@ public class SiteService {
 
     @Transactional(readOnly = true)
     public SiteDTO getById(Long id) {
+        accessControlService.validatePermission("SITE_VIEW");
+        accessControlService.validateSiteAccess(id);
         return toDTO(getEntity(id));
     }
 
     @Transactional(readOnly = true)
     public List<SiteDTO> getAll() {
-        return siteDAO.findAll().stream().map(this::toDTO).collect(Collectors.toList());
+        accessControlService.validatePermission("SITE_VIEW");
+        List<Site> sites = accessControlService.isAdmin()
+                ? siteDAO.findAll()
+                : siteDAO.findAll().stream()
+                        .filter((site) -> accessControlService.getAllowedSiteIds().contains(site.getId()))
+                        .collect(Collectors.toList());
+        return sites.stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     public void delete(Long id) {
+        accessControlService.validatePermission("SITE_DELETE");
+        accessControlService.validateSiteAccess(id);
         Site site = getEntity(id);
         site.setStatus("INACTIVE");
         siteDAO.save(site);

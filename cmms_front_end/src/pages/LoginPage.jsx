@@ -48,7 +48,7 @@ function LoginPage() {
         return;
       }
       
-      const { token, user } = response.data;
+      const { token, user, roles, permissions, allowedSites } = response.data;
       
       if (!token || !user) {
         setApiError('Token or user data missing from response');
@@ -57,7 +57,7 @@ function LoginPage() {
       }
       
       // Store token and user data in AuthContext and localStorage
-      login(user, token);
+      login(user, token, { roles, permissions, allowedSites });
       navigate('/dashboard');
     } catch (err) {
       console.error('Login error:', err);

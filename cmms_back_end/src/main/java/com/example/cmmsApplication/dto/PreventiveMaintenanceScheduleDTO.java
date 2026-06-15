@@ -10,6 +10,10 @@ import java.time.LocalDateTime;
 public class PreventiveMaintenanceScheduleDTO {
     private Long id;
     private String scheduleCode;
+    @NotNull(message = "Site is required")
+    private Long siteId;
+    private String siteCode;
+    private String siteName;
     @NotNull(message = "Equipment is required")
     private Long equipmentId;
     private String equipmentCode;
@@ -44,6 +48,12 @@ public class PreventiveMaintenanceScheduleDTO {
     public void setId(Long id) { this.id = id; }
     public String getScheduleCode() { return scheduleCode; }
     public void setScheduleCode(String scheduleCode) { this.scheduleCode = scheduleCode; }
+    public Long getSiteId() { return siteId; }
+    public void setSiteId(Long siteId) { this.siteId = siteId; }
+    public String getSiteCode() { return siteCode; }
+    public void setSiteCode(String siteCode) { this.siteCode = siteCode; }
+    public String getSiteName() { return siteName; }
+    public void setSiteName(String siteName) { this.siteName = siteName; }
     public Long getEquipmentId() { return equipmentId; }
     public void setEquipmentId(Long equipmentId) { this.equipmentId = equipmentId; }
     public String getEquipmentCode() { return equipmentCode; }

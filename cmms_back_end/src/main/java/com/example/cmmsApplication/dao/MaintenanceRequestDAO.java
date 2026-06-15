@@ -4,6 +4,7 @@ import com.example.cmmsApplication.entity.MaintenanceRequest;
 import com.example.cmmsApplication.repository.MaintenanceRequestRepository;
 import org.springframework.stereotype.Component;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +20,9 @@ public class MaintenanceRequestDAO {
     public Optional<MaintenanceRequest> findById(Long id) { return repository.findById(id); }
     public List<MaintenanceRequest> findAll() { return repository.findAll(); }
     public List<MaintenanceRequest> findBySiteId(Long siteId) { return repository.findBySiteId(siteId); }
+    public List<MaintenanceRequest> findBySiteIds(Collection<Long> siteIds) { return repository.findBySiteIdIn(siteIds); }
     public List<MaintenanceRequest> findByStatus(String status) { return repository.findByStatus(status); }
+    public List<MaintenanceRequest> findBySiteIdsAndStatus(Collection<Long> siteIds, String status) { return repository.findBySiteIdInAndStatus(siteIds, status); }
     public List<MaintenanceRequest> findBySiteIdAndStatus(Long siteId, String status) { return repository.findBySiteIdAndStatus(siteId, status); }
     public void deleteById(Long id) { repository.deleteById(id); }
     public long countOpenRequests() { return repository.countByStatusIn(Arrays.asList("OPEN", "IN_PROGRESS", "ON_HOLD")); }

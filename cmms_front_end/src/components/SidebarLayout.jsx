@@ -22,6 +22,7 @@ import {
 } from '@mui/material';
 import {
   Assignment,
+  AdminPanelSettings,
   Build,
   Business,
   ChevronLeft,
@@ -38,6 +39,7 @@ import {
   People,
   Place,
   PrecisionManufacturing,
+  Security,
   Timeline,
 } from '@mui/icons-material';
 import { useAuth } from '../context/AuthContext';
@@ -52,8 +54,8 @@ const operationGroups = [
     icon: <Business />,
     paths: ['/equipment', '/vendors'],
     items: [
-      { label: 'Equipment', path: '/equipment', icon: <PrecisionManufacturing /> },
-      { label: 'Vendors', path: '/vendors', icon: <People /> },
+      { label: 'Equipment', path: '/equipment', icon: <PrecisionManufacturing />, permission: 'EQUIPMENT_VIEW' },
+      { label: 'Vendors', path: '/vendors', icon: <People />, permission: 'VENDOR_VIEW' },
     ],
   },
   {
@@ -62,10 +64,10 @@ const operationGroups = [
     icon: <Build />,
     paths: ['/maintenance'],
     items: [
-      { label: 'Requests', path: '/maintenance/requests', icon: <Assignment /> },
-      { label: 'Assignments', path: '/maintenance/assignments', icon: <Build /> },
-      { label: 'Downtime', path: '/maintenance/downtime', icon: <Timeline /> },
-      { label: 'Preventive Maintenance', path: '/maintenance/preventive', icon: <EventRepeat /> },
+      { label: 'Requests', path: '/maintenance/requests', icon: <Assignment />, permission: 'REQUEST_VIEW' },
+      { label: 'Assignments', path: '/maintenance/assignments', icon: <Build />, permission: 'ASSIGNMENT_VIEW' },
+      { label: 'Downtime', path: '/maintenance/downtime', icon: <Timeline />, permission: 'DOWNTIME_VIEW' },
+      { label: 'Preventive Maintenance', path: '/maintenance/preventive', icon: <EventRepeat />, permission: 'REQUEST_VIEW' },
     ]
   },
   {
@@ -74,8 +76,8 @@ const operationGroups = [
     icon: <Timeline />,
     paths: ['/reports'],
     items: [
-      { label: 'Equipment History', path: '/reports/equipment-history', icon: <History /> },
-      { label: 'Downtime Analysis', path: '/reports/downtime-analysis', icon: <Timeline /> },
+      { label: 'Equipment History', path: '/reports/equipment-history', icon: <History />, permission: 'REPORT_VIEW' },
+      { label: 'Downtime Analysis', path: '/reports/downtime-analysis', icon: <Timeline />, permission: 'REPORT_VIEW' },
     ],
   },
 ];
@@ -87,8 +89,22 @@ const hrGroups = [
     icon: <People />,
     paths: ['/hr'],
     items: [
-      { label: 'Sites', path: '/hr/sites', icon: <Place /> },
-      { label: 'Employees', path: '/hr/employees', icon: <People /> },
+      { label: 'Sites', path: '/hr/sites', icon: <Place />, permission: 'SITE_VIEW' },
+      { label: 'Employees', path: '/hr/employees', icon: <People />, permission: 'EMPLOYEE_VIEW' },
+    ],
+  },
+];
+
+const adminGroups = [
+  {
+    key: 'adminAccess',
+    label: 'Access Control',
+    icon: <AdminPanelSettings />,
+    paths: ['/admin'],
+    items: [
+      { label: 'Roles', path: '/admin/roles', icon: <Security />, permission: 'ROLE_VIEW' },
+      { label: 'Permissions', path: '/admin/permissions', icon: <Security />, permission: 'PERMISSION_VIEW' },
+      { label: 'User Roles', path: '/admin/user-roles', icon: <People />, permission: 'USER_ROLE_VIEW' },
     ],
   },
 ];
@@ -175,7 +191,7 @@ function SidebarLayout({ children, mode, onToggleMode }) {
   const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
   const location = useLocation();
   const navigate = useNavigate();
-  const { user, logout } = useAuth();
+  const { user, logout, hasPermission, hasAnyPermission } = useAuth();
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [collapsed, setCollapsed] = React.useState(() => localStorage.getItem('cmmsSidebarCollapsed') === 'true');
   const [selectedCategory, setSelectedCategory] = React.useState('operation');
@@ -184,19 +200,38 @@ function SidebarLayout({ children, mode, onToggleMode }) {
     maintenance: true,
     reports: true,
     creation: true,
+    adminAccess: true,
   });
 
   React.useEffect(() => {
-    setSelectedCategory(location.pathname.startsWith('/hr') ? 'hr' : 'operation');
+    if (location.pathname.startsWith('/admin')) {
+      setSelectedCategory('admin');
+    } else {
+      setSelectedCategory(location.pathname.startsWith('/hr') ? 'hr' : 'operation');
+    }
   }, [location.pathname]);
 
+  const filterGroups = React.useCallback((groups) => groups
+    .map((group) => ({
+      ...group,
+      items: group.items.filter((item) => hasPermission(item.permission)),
+    }))
+    .filter((group) => group.items.length > 0), [hasPermission]);
+
+  const visibleOperationGroups = React.useMemo(() => filterGroups(operationGroups), [filterGroups]);
+  const visibleHrGroups = React.useMemo(() => filterGroups(hrGroups), [filterGroups]);
+  const visibleAdminGroups = React.useMemo(() => filterGroups(adminGroups), [filterGroups]);
+  const canShowOperation = hasAnyPermission(['DASHBOARD_VIEW', 'EQUIPMENT_VIEW', 'VENDOR_VIEW', 'REQUEST_VIEW', 'ASSIGNMENT_VIEW', 'DOWNTIME_VIEW', 'REPORT_VIEW']);
+  const canShowHr = hasAnyPermission(['SITE_VIEW', 'EMPLOYEE_VIEW']);
+  const canShowAdmin = hasAnyPermission(['ROLE_VIEW', 'PERMISSION_VIEW', 'USER_ROLE_VIEW']);
+
   React.useEffect(() => {
-    const currentGroups = selectedCategory === 'hr' ? hrGroups : operationGroups;
+    const currentGroups = selectedCategory === 'admin' ? visibleAdminGroups : selectedCategory === 'hr' ? visibleHrGroups : visibleOperationGroups;
     const activeGroup = currentGroups.find((group) => group.paths.some((path) => location.pathname.startsWith(path)));
     if (activeGroup) {
       setOpenGroups((current) => ({ ...current, [activeGroup.key]: true }));
     }
-  }, [location.pathname, selectedCategory]);
+  }, [location.pathname, selectedCategory, visibleAdminGroups, visibleHrGroups, visibleOperationGroups]);
 
   const closeMobile = () => setMobileOpen(false);
   const drawerIsCollapsed = isDesktop && collapsed;
@@ -228,7 +263,7 @@ function SidebarLayout({ children, mode, onToggleMode }) {
     setSelectedCategory(category);
   };
 
-  const visibleGroups = selectedCategory === 'hr' ? hrGroups : operationGroups;
+  const visibleGroups = selectedCategory === 'admin' ? visibleAdminGroups : selectedCategory === 'hr' ? visibleHrGroups : visibleOperationGroups;
 
   const drawer = (
     <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', bgcolor: 'background.paper' }}>
@@ -254,22 +289,34 @@ function SidebarLayout({ children, mode, onToggleMode }) {
         )}
       </Box>
       <Box sx={{ px: drawerIsCollapsed ? 1 : 1.5, pb: 1.5, display: 'flex', gap: 1 }}>
-        <CategoryButton
-          selected={selectedCategory === 'operation'}
-          label="Operation"
-          collapsed={drawerIsCollapsed}
-          onClick={() => showCategory('operation')}
-        />
-        <CategoryButton
-          selected={selectedCategory === 'hr'}
-          label="HR"
-          collapsed={drawerIsCollapsed}
-          onClick={() => showCategory('hr')}
-        />
+        {canShowOperation && (
+          <CategoryButton
+            selected={selectedCategory === 'operation'}
+            label="Operation"
+            collapsed={drawerIsCollapsed}
+            onClick={() => showCategory('operation')}
+          />
+        )}
+        {canShowHr && (
+          <CategoryButton
+            selected={selectedCategory === 'hr'}
+            label="HR"
+            collapsed={drawerIsCollapsed}
+            onClick={() => showCategory('hr')}
+          />
+        )}
+        {canShowAdmin && (
+          <CategoryButton
+            selected={selectedCategory === 'admin'}
+            label="Admin"
+            collapsed={drawerIsCollapsed}
+            onClick={() => showCategory('admin')}
+          />
+        )}
       </Box>
       <Divider />
       <List sx={{ flex: 1, py: 1 }}>
-        {selectedCategory === 'operation' && (
+        {selectedCategory === 'operation' && hasPermission('DASHBOARD_VIEW') && (
           <SidebarLink to="/dashboard" icon={<Dashboard />} label="Dashboard" collapsed={drawerIsCollapsed} onClick={closeMobile} />
         )}
         {visibleGroups.map((group) => {

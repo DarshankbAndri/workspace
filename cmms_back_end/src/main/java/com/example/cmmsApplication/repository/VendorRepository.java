@@ -4,6 +4,7 @@ import com.example.cmmsApplication.entity.Vendor;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,5 +22,11 @@ public interface VendorRepository extends JpaRepository<Vendor, Long> {
     List<Vendor> findDistinctBySiteAssignmentsSiteIdAndSiteAssignmentsStatusIgnoreCase(Long siteId, String status);
 
     @EntityGraph(attributePaths = {"siteAssignments", "siteAssignments.site"})
+    List<Vendor> findDistinctBySiteAssignmentsSiteIdInAndSiteAssignmentsStatusIgnoreCase(Collection<Long> siteIds, String status);
+
+    @EntityGraph(attributePaths = {"siteAssignments", "siteAssignments.site"})
     List<Vendor> findDistinctBySiteAssignmentsSiteIdAndSiteAssignmentsStatusIgnoreCaseAndActive(Long siteId, String status, Boolean active);
+
+    @EntityGraph(attributePaths = {"siteAssignments", "siteAssignments.site"})
+    List<Vendor> findDistinctBySiteAssignmentsSiteIdInAndSiteAssignmentsStatusIgnoreCaseAndActive(Collection<Long> siteIds, String status, Boolean active);
 }

@@ -1,0 +1,68 @@
+# Graphify output and VCS metadata
+graphify-out/
+.git/
+.github/java-upgrade/
+.github/modernize/
+
+# Frontend dependencies and build output
+cmms_front_end/node_modules/
+cmms_front_end/dist/
+cmms_front_end/build/
+cmms_front_end/.vite/
+cmms_front_end/coverage/
+cmms_front_end/package-lock.json
+
+# Backend build output
+cmms_back_end/target/
+cmms_back_end/build/
+cmms_back_end/.mvn/wrapper/maven-wrapper.jar
+
+# Logs, uploads, reports, and temporary output
+logs/
+log/
+*.log
+**/logs/
+**/log/
+uploads/
+uploaded/
+uploaded-files/
+**/uploads/
+**/uploaded/
+reports/
+generated-reports/
+**/reports/
+**/generated-reports/
+tmp/
+temp/
+**/tmp/
+**/temp/
+
+# Local secrets and machine-specific files
+.env
+*.local
+*.secret
+
+# Large/generated/binary artifacts
+*.class
+*.jar
+*.war
+*.ear
+*.zip
+*.tar
+*.tar.gz
+*.7z
+*.rar
+*.pdf
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+*.ico
+*.mp4
+*.mov
+*.avi
+*.mp3
+*.wav
+*.xlsx
+*.docx

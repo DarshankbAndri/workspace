@@ -20,42 +20,57 @@ public class EquipmentDowntimeService {
     private final EquipmentService equipmentService;
     private final MaintenanceRequestService requestService;
     private final SiteService siteService;
+    private final AccessControlService accessControlService;
 
-    public EquipmentDowntimeService(EquipmentDowntimeDAO downtimeDAO, EquipmentService equipmentService, MaintenanceRequestService requestService, SiteService siteService) {
+    public EquipmentDowntimeService(EquipmentDowntimeDAO downtimeDAO, EquipmentService equipmentService, MaintenanceRequestService requestService, SiteService siteService, AccessControlService accessControlService) {
         this.downtimeDAO = downtimeDAO;
         this.equipmentService = equipmentService;
         this.requestService = requestService;
         this.siteService = siteService;
+        this.accessControlService = accessControlService;
     }
 
     public EquipmentDowntimeDTO create(EquipmentDowntimeDTO dto) {
+        accessControlService.validatePermission("DOWNTIME_CREATE");
+        accessControlService.validateSiteAccess(dto.getSiteId());
         EquipmentDowntime downtime = new EquipmentDowntime();
         apply(downtime, dto);
         return toDTO(downtimeDAO.save(downtime));
     }
 
     public EquipmentDowntimeDTO update(Long id, EquipmentDowntimeDTO dto) {
+        accessControlService.validatePermission("DOWNTIME_UPDATE");
         EquipmentDowntime downtime = getEntity(id);
+        accessControlService.validateSiteAccess(downtime.getSite() == null ? null : downtime.getSite().getId());
+        accessControlService.validateSiteAccess(dto.getSiteId());
         apply(downtime, dto);
         return toDTO(downtimeDAO.save(downtime));
     }
 
     @Transactional(readOnly = true)
     public EquipmentDowntimeDTO getById(Long id) {
-        return toDTO(getEntity(id));
+        accessControlService.validatePermission("DOWNTIME_VIEW");
+        EquipmentDowntime downtime = getEntity(id);
+        accessControlService.validateSiteAccess(downtime.getSite() == null ? null : downtime.getSite().getId());
+        return toDTO(downtime);
     }
 
     @Transactional(readOnly = true)
     public List<EquipmentDowntimeDTO> getAll(Long siteId, Long equipmentId) {
+        accessControlService.validatePermission("DOWNTIME_VIEW");
         List<EquipmentDowntime> entries;
         if (siteId != null && equipmentId != null) {
+            accessControlService.validateSiteAccess(siteId);
             entries = downtimeDAO.findBySiteIdAndEquipmentId(siteId, equipmentId);
         } else if (siteId != null) {
+            accessControlService.validateSiteAccess(siteId);
             entries = downtimeDAO.findBySiteId(siteId);
         } else if (equipmentId != null) {
-            entries = downtimeDAO.findByEquipmentId(equipmentId);
+            entries = accessControlService.isAdmin()
+                    ? downtimeDAO.findByEquipmentId(equipmentId)
+                    : downtimeDAO.findBySiteIdsAndEquipmentId(accessControlService.getAllowedSiteIds(), equipmentId);
         } else {
-            entries = downtimeDAO.findAll();
+            entries = accessControlService.isAdmin() ? downtimeDAO.findAll() : downtimeDAO.findBySiteIds(accessControlService.getAllowedSiteIds());
         }
         return entries.stream().map(this::toDTO).collect(Collectors.toList());
     }
@@ -67,7 +82,9 @@ public class EquipmentDowntimeService {
     }
 
     public void delete(Long id) {
-        getEntity(id);
+        accessControlService.validatePermission("DOWNTIME_DELETE");
+        EquipmentDowntime downtime = getEntity(id);
+        accessControlService.validateSiteAccess(downtime.getSite() == null ? null : downtime.getSite().getId());
         downtimeDAO.deleteById(id);
     }
 

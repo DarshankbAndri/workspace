@@ -18,38 +18,57 @@ public class MaintenanceAssignmentService {
     private final MaintenanceAssignmentDAO assignmentDAO;
     private final MaintenanceRequestService requestService;
     private final VendorService vendorService;
+    private final AccessControlService accessControlService;
 
-    public MaintenanceAssignmentService(MaintenanceAssignmentDAO assignmentDAO, MaintenanceRequestService requestService, VendorService vendorService) {
+    public MaintenanceAssignmentService(MaintenanceAssignmentDAO assignmentDAO, MaintenanceRequestService requestService, VendorService vendorService, AccessControlService accessControlService) {
         this.assignmentDAO = assignmentDAO;
         this.requestService = requestService;
         this.vendorService = vendorService;
+        this.accessControlService = accessControlService;
     }
 
     public MaintenanceAssignmentDTO create(MaintenanceAssignmentDTO dto) {
+        accessControlService.validatePermission("ASSIGNMENT_CREATE");
+        accessControlService.validateSiteAccess(dto.getSiteId());
         MaintenanceAssignment assignment = new MaintenanceAssignment();
         apply(assignment, dto);
         return toDTO(assignmentDAO.save(assignment));
     }
 
     public MaintenanceAssignmentDTO update(Long id, MaintenanceAssignmentDTO dto) {
+        accessControlService.validatePermission("ASSIGNMENT_UPDATE");
         MaintenanceAssignment assignment = getEntity(id);
+        Long currentSiteId = assignment.getRequest().getSite() == null ? null : assignment.getRequest().getSite().getId();
+        accessControlService.validateSiteAccess(currentSiteId);
+        accessControlService.validateSiteAccess(dto.getSiteId());
         apply(assignment, dto);
         return toDTO(assignmentDAO.save(assignment));
     }
 
     @Transactional(readOnly = true)
     public MaintenanceAssignmentDTO getById(Long id) {
-        return toDTO(getEntity(id));
+        accessControlService.validatePermission("ASSIGNMENT_VIEW");
+        MaintenanceAssignment assignment = getEntity(id);
+        accessControlService.validateSiteAccess(assignment.getRequest().getSite() == null ? null : assignment.getRequest().getSite().getId());
+        return toDTO(assignment);
     }
 
     @Transactional(readOnly = true)
     public List<MaintenanceAssignmentDTO> getAll(Long siteId) {
-        List<MaintenanceAssignment> assignments = siteId == null ? assignmentDAO.findAll() : assignmentDAO.findBySiteId(siteId);
+        accessControlService.validatePermission("ASSIGNMENT_VIEW");
+        if (siteId != null) {
+            accessControlService.validateSiteAccess(siteId);
+        }
+        List<MaintenanceAssignment> assignments = siteId != null
+                ? assignmentDAO.findBySiteId(siteId)
+                : accessControlService.isAdmin() ? assignmentDAO.findAll() : assignmentDAO.findBySiteIds(accessControlService.getAllowedSiteIds());
         return assignments.stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     public void delete(Long id) {
-        getEntity(id);
+        accessControlService.validatePermission("ASSIGNMENT_DELETE");
+        MaintenanceAssignment assignment = getEntity(id);
+        accessControlService.validateSiteAccess(assignment.getRequest().getSite() == null ? null : assignment.getRequest().getSite().getId());
         assignmentDAO.deleteById(id);
     }
 

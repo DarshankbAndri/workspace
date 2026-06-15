@@ -8,6 +8,7 @@ import com.example.cmmsApplication.entity.Equipment;
 import com.example.cmmsApplication.entity.MaintenanceAssignment;
 import com.example.cmmsApplication.entity.MaintenanceRequest;
 import com.example.cmmsApplication.entity.PreventiveMaintenanceSchedule;
+import com.example.cmmsApplication.entity.Site;
 import com.example.cmmsApplication.entity.Vendor;
 import com.example.cmmsApplication.exception.InvalidOperationException;
 import com.example.cmmsApplication.exception.ResourceNotFoundException;
@@ -34,18 +35,21 @@ public class PreventiveMaintenanceScheduleService {
     private final MaintenanceAssignmentDAO assignmentDAO;
     private final EquipmentService equipmentService;
     private final VendorService vendorService;
+    private final SiteService siteService;
 
     public PreventiveMaintenanceScheduleService(
             PreventiveMaintenanceScheduleDAO scheduleDAO,
             MaintenanceRequestDAO requestDAO,
             MaintenanceAssignmentDAO assignmentDAO,
             EquipmentService equipmentService,
-            VendorService vendorService) {
+            VendorService vendorService,
+            SiteService siteService) {
         this.scheduleDAO = scheduleDAO;
         this.requestDAO = requestDAO;
         this.assignmentDAO = assignmentDAO;
         this.equipmentService = equipmentService;
         this.vendorService = vendorService;
+        this.siteService = siteService;
     }
 
     public PreventiveMaintenanceScheduleDTO create(PreventiveMaintenanceScheduleDTO dto) {
@@ -113,6 +117,7 @@ public class PreventiveMaintenanceScheduleService {
     private PreventiveMaintenanceScheduleDTO generateWorkOrder(PreventiveMaintenanceSchedule schedule) {
         MaintenanceRequest request = new MaintenanceRequest();
         request.setRequestNumber(generateRequestNumber(schedule));
+        request.setSite(schedule.getSite());
         request.setEquipment(schedule.getEquipment());
         request.setPmSchedule(schedule);
         request.setRequestType("PREVENTIVE");
@@ -145,10 +150,19 @@ public class PreventiveMaintenanceScheduleService {
     }
 
     private void apply(PreventiveMaintenanceSchedule schedule, PreventiveMaintenanceScheduleDTO dto) {
+        Site site = validateActiveSite(dto.getSiteId());
         Equipment equipment = equipmentService.getEntity(dto.getEquipmentId());
         Vendor vendor = dto.getVendorId() == null ? null : vendorService.getEntity(dto.getVendorId());
         String frequency = normalizeFrequency(dto.getFrequency());
 
+        if (equipment.getSite() == null || !site.getId().equals(equipment.getSite().getId())) {
+            throw new InvalidOperationException("Selected equipment does not belong to selected site");
+        }
+        if (vendor != null && !vendorService.isVendorAssignedToSite(vendor.getId(), site.getId())) {
+            throw new InvalidOperationException("Selected vendor is not assigned to selected site");
+        }
+
+        schedule.setSite(site);
         schedule.setEquipment(equipment);
         schedule.setVendor(vendor);
         if (dto.getScheduleCode() != null && !dto.getScheduleCode().isBlank()) {
@@ -162,6 +176,17 @@ public class PreventiveMaintenanceScheduleService {
         schedule.setStartDate(dto.getStartDate());
         schedule.setNextDueDate(dto.getNextDueDate() == null ? dto.getStartDate() : dto.getNextDueDate());
         schedule.setActive(dto.getActive() == null || dto.getActive());
+    }
+
+    private Site validateActiveSite(Long siteId) {
+        if (siteId == null) {
+            throw new InvalidOperationException("Site is required");
+        }
+        Site site = siteService.getEntity(siteId);
+        if (!"ACTIVE".equalsIgnoreCase(site.getStatus())) {
+            throw new InvalidOperationException("Selected site is inactive");
+        }
+        return site;
     }
 
     private String normalizeFrequency(String frequency) {
@@ -224,6 +249,9 @@ public class PreventiveMaintenanceScheduleService {
         PreventiveMaintenanceScheduleDTO dto = new PreventiveMaintenanceScheduleDTO();
         dto.setId(schedule.getId());
         dto.setScheduleCode(schedule.getScheduleCode());
+        dto.setSiteId(schedule.getSite() == null ? null : schedule.getSite().getId());
+        dto.setSiteCode(schedule.getSite() == null ? null : schedule.getSite().getSiteCode());
+        dto.setSiteName(schedule.getSite() == null ? null : schedule.getSite().getSiteName());
         dto.setEquipmentId(schedule.getEquipment().getId());
         dto.setEquipmentCode(schedule.getEquipment().getEquipmentCode());
         dto.setEquipmentName(schedule.getEquipment().getEquipmentName());

@@ -20,14 +20,18 @@ public class MaintenanceRequestService {
     private final MaintenanceRequestDAO requestDAO;
     private final EquipmentService equipmentService;
     private final SiteService siteService;
+    private final AccessControlService accessControlService;
 
-    public MaintenanceRequestService(MaintenanceRequestDAO requestDAO, EquipmentService equipmentService, SiteService siteService) {
+    public MaintenanceRequestService(MaintenanceRequestDAO requestDAO, EquipmentService equipmentService, SiteService siteService, AccessControlService accessControlService) {
         this.requestDAO = requestDAO;
         this.equipmentService = equipmentService;
         this.siteService = siteService;
+        this.accessControlService = accessControlService;
     }
 
     public MaintenanceRequestDTO create(MaintenanceRequestDTO dto) {
+        accessControlService.validatePermission("REQUEST_CREATE");
+        accessControlService.validateSiteAccess(dto.getSiteId());
         MaintenanceRequest request = new MaintenanceRequest();
         apply(request, dto);
         if (request.getRequestNumber() == null || request.getRequestNumber().isBlank()) {
@@ -40,7 +44,10 @@ public class MaintenanceRequestService {
     }
 
     public MaintenanceRequestDTO update(Long id, MaintenanceRequestDTO dto) {
+        accessControlService.validatePermission("REQUEST_UPDATE");
         MaintenanceRequest request = getEntity(id);
+        accessControlService.validateSiteAccess(request.getSite() == null ? null : request.getSite().getId());
+        accessControlService.validateSiteAccess(dto.getSiteId());
         apply(request, dto);
         if (requestDAO.existsByRequestNumberAndIdNot(request.getRequestNumber(), id)) {
             throw new InvalidOperationException("Request number already exists: " + request.getRequestNumber());
@@ -50,26 +57,34 @@ public class MaintenanceRequestService {
 
     @Transactional(readOnly = true)
     public MaintenanceRequestDTO getById(Long id) {
-        return toDTO(getEntity(id));
+        accessControlService.validatePermission("REQUEST_VIEW");
+        MaintenanceRequest request = getEntity(id);
+        accessControlService.validateSiteAccess(request.getSite() == null ? null : request.getSite().getId());
+        return toDTO(request);
     }
 
     @Transactional(readOnly = true)
     public List<MaintenanceRequestDTO> getAll(Long siteId, String status) {
+        accessControlService.validatePermission("REQUEST_VIEW");
         List<MaintenanceRequest> requests;
         if (siteId != null && status != null && !status.isBlank()) {
+            accessControlService.validateSiteAccess(siteId);
             requests = requestDAO.findBySiteIdAndStatus(siteId, status);
         } else if (siteId != null) {
+            accessControlService.validateSiteAccess(siteId);
             requests = requestDAO.findBySiteId(siteId);
         } else if (status != null && !status.isBlank()) {
-            requests = requestDAO.findByStatus(status);
+            requests = accessControlService.isAdmin() ? requestDAO.findByStatus(status) : requestDAO.findBySiteIdsAndStatus(accessControlService.getAllowedSiteIds(), status);
         } else {
-            requests = requestDAO.findAll();
+            requests = accessControlService.isAdmin() ? requestDAO.findAll() : requestDAO.findBySiteIds(accessControlService.getAllowedSiteIds());
         }
         return requests.stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     public void delete(Long id) {
-        getEntity(id);
+        accessControlService.validatePermission("REQUEST_DELETE");
+        MaintenanceRequest request = getEntity(id);
+        accessControlService.validateSiteAccess(request.getSite() == null ? null : request.getSite().getId());
         requestDAO.deleteById(id);
     }
 

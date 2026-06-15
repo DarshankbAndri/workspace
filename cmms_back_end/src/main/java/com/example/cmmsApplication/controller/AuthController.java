@@ -3,9 +3,11 @@ package com.example.cmmsApplication.controller;
 import com.example.cmmsApplication.dto.LoginRequest;
 import com.example.cmmsApplication.dto.LoginResponse;
 import com.example.cmmsApplication.dto.ChangePasswordRequest;
+import com.example.cmmsApplication.dto.AuthAccessDTO;
 import com.example.cmmsApplication.entity.User;
 import com.example.cmmsApplication.exception.ResourceNotFoundException;
 import com.example.cmmsApplication.repository.UserRepository;
+import com.example.cmmsApplication.service.AccessControlService;
 import com.example.cmmsApplication.util.JwtUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -28,11 +30,13 @@ public class AuthController {
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
+    private final AccessControlService accessControlService;
     
-    public AuthController(UserRepository userRepository, JwtUtil jwtUtil, PasswordEncoder passwordEncoder) {
+    public AuthController(UserRepository userRepository, JwtUtil jwtUtil, PasswordEncoder passwordEncoder, AccessControlService accessControlService) {
         this.userRepository = userRepository;
         this.jwtUtil = jwtUtil;
         this.passwordEncoder = passwordEncoder;
+        this.accessControlService = accessControlService;
     }
     
     @PostMapping("/login")
@@ -62,29 +66,24 @@ public class AuthController {
             // Generate JWT token
             String token = jwtUtil.generateToken(user.getUsername());
             
-            // Convert to DTO (excluding password)
-            com.example.cmmsApplication.dto.UserDTO userDTO = new com.example.cmmsApplication.dto.UserDTO(
-                    user.getId(),
-                    user.getUsername(),
-                    user.getEmail(),
-                    user.getFirstName(),
-                    user.getLastName(),
-                    user.getRole(),
-                    user.getDepartment(),
-                    user.getManager() != null ? user.getManager().getId() : null,
-                    user.getCreatedAt(),
-                    user.getUpdatedAt(),
-                    user.getActive()
-            );
-            userDTO.setEmployeeId(user.getEmployee() != null ? user.getEmployee().getId() : null);
-            
-            LoginResponse response = new LoginResponse(token, userDTO, "Login successful");
+            AuthAccessDTO access = accessControlService.buildAccessPayload(user);
+            LoginResponse response = new LoginResponse(token, access.getUser(), "Login successful");
+            response.setRoles(access.getRoles());
+            response.setPermissions(access.getPermissions());
+            response.setAllowedSites(access.getAllowedSites());
             return ResponseEntity.ok(response);
             
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(new ErrorResponse("Invalid username or password", HttpStatus.UNAUTHORIZED.value()));
         }
+    }
+
+    @GetMapping("/me")
+    @Operation(summary = "Current user access", description = "Returns current user, roles, permissions and allowed sites")
+    public ResponseEntity<AuthAccessDTO> me() {
+        User user = accessControlService.getCurrentUser();
+        return ResponseEntity.ok(accessControlService.buildAccessPayload(user));
     }
     
     @PostMapping("/change-password")
