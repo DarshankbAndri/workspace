@@ -19,4 +19,5 @@ public class RolePermissionDAO {
     public List<RolePermission> findByRoleCodes(Collection<String> roleCodes) { return repository.findByRoleRoleCodeIn(roleCodes); }
     public List<RolePermission> findByRoleId(Long roleId) { return repository.findByRoleId(roleId); }
     public void deleteByRoleId(Long roleId) { repository.deleteByRoleId(roleId); }
+    public void flush() { repository.flush(); }
 }

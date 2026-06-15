@@ -725,8 +725,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/dao/RolePermissionDAO.java": {
-    "mtime": 1781500405.8154407,
-    "ast_hash": "4da9e7f24320e25c3f64f932b9bd2df4",
+    "mtime": 1781514010.3054874,
+    "ast_hash": "0215f0c484fa40ca6efb31f70a1314cf",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/dao/UserRoleAssignmentDAO.java": {
@@ -785,8 +785,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/repository/RolePermissionRepository.java": {
-    "mtime": 1781500405.8034422,
-    "ast_hash": "64dcb589acc3a0b0e691ce1933a6798a",
+    "mtime": 1781514010.2975175,
+    "ast_hash": "c5c08d8c2a3826095a38f22b4b33e514",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/repository/RoleRepository.java": {
@@ -800,8 +800,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/service/AccessControlService.java": {
-    "mtime": 1781506091.0598392,
-    "ast_hash": "7836361acd8823ebfe6f0bef84b1804b",
+    "mtime": 1781513165.9085574,
+    "ast_hash": "cd3fd8a1dde0c7e52125d2264efbef4f",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/service/PermissionService.java": {
@@ -810,8 +810,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/service/RoleService.java": {
-    "mtime": 1781506044.351388,
-    "ast_hash": "0c84c649fdef5c35ba78e178aff13b53",
+    "mtime": 1781514010.3115306,
+    "ast_hash": "28d046655616b86bd7bd515d5e530496",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/service/UserRoleAssignmentService.java": {
@@ -857,6 +857,11 @@
   "cmms_front_end/src/pages/admin/roles/RoleViewPage.jsx": {
     "mtime": 1781506126.068499,
     "ast_hash": "7efa94398455a01033614aba51caa28d",
+    "semantic_hash": ""
+  },
+  "cmms_back_end/src/main/java/com/example/cmmsApplication/config/CmmsSecurityProperties.java": {
+    "mtime": 1781513165.9010415,
+    "ast_hash": "93224d211b3ec3c19a659bc0869aeb1d",
     "semantic_hash": ""
   }
 }

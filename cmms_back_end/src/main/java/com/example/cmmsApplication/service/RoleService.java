@@ -16,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -100,14 +102,20 @@ public class RoleService {
 
     private void replacePermissions(RoleMaster role, RoleDTO dto) {
         rolePermissionDAO.deleteByRoleId(role.getId());
+        rolePermissionDAO.flush();
         List<PermissionMaster> selected = new ArrayList<>();
         if (dto.getPermissionIds() != null && !dto.getPermissionIds().isEmpty()) {
-            for (Long permissionId : dto.getPermissionIds()) {
+            Set<Long> permissionIds = new LinkedHashSet<>(dto.getPermissionIds());
+            for (Long permissionId : permissionIds) {
                 selected.add(permissionDAO.findById(permissionId)
                         .orElseThrow(() -> new ResourceNotFoundException("Permission not found with id: " + permissionId)));
             }
         } else if (dto.getPermissionCodes() != null && !dto.getPermissionCodes().isEmpty()) {
-            for (String code : dto.getPermissionCodes()) {
+            Set<String> permissionCodes = dto.getPermissionCodes().stream()
+                    .filter((code) -> code != null && !code.isBlank())
+                    .map((code) -> code.trim().toUpperCase())
+                    .collect(Collectors.toCollection(LinkedHashSet::new));
+            for (String code : permissionCodes) {
                 selected.add(permissionDAO.findByPermissionCode(code)
                         .orElseThrow(() -> new ResourceNotFoundException("Permission not found: " + code)));
             }

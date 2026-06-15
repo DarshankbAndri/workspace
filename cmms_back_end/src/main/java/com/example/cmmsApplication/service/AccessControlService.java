@@ -2,6 +2,7 @@ package com.example.cmmsApplication.service;
 
 import com.example.cmmsApplication.dao.RolePermissionDAO;
 import com.example.cmmsApplication.dao.UserRoleAssignmentDAO;
+import com.example.cmmsApplication.config.CmmsSecurityProperties;
 import com.example.cmmsApplication.dto.AllowedSiteDTO;
 import com.example.cmmsApplication.dto.AuthAccessDTO;
 import com.example.cmmsApplication.dto.UserDTO;
@@ -44,17 +45,20 @@ public class AccessControlService {
     private final EmployeeSiteAssignmentRepository employeeSiteAssignmentRepository;
     private final UserRoleAssignmentDAO userRoleAssignmentDAO;
     private final RolePermissionDAO rolePermissionDAO;
+    private final CmmsSecurityProperties cmmsSecurityProperties;
 
     public AccessControlService(UserRepository userRepository,
                                 SiteRepository siteRepository,
                                 EmployeeSiteAssignmentRepository employeeSiteAssignmentRepository,
                                 UserRoleAssignmentDAO userRoleAssignmentDAO,
-                                RolePermissionDAO rolePermissionDAO) {
+                                RolePermissionDAO rolePermissionDAO,
+                                CmmsSecurityProperties cmmsSecurityProperties) {
         this.userRepository = userRepository;
         this.siteRepository = siteRepository;
         this.employeeSiteAssignmentRepository = employeeSiteAssignmentRepository;
         this.userRoleAssignmentDAO = userRoleAssignmentDAO;
         this.rolePermissionDAO = rolePermissionDAO;
+        this.cmmsSecurityProperties = cmmsSecurityProperties;
     }
 
     public User getCurrentUser() {
@@ -111,10 +115,16 @@ public class AccessControlService {
     }
 
     public boolean hasPermission(String permissionCode) {
+        if (!cmmsSecurityProperties.isApiPermissionRestrictionEnabled()) {
+            return true;
+        }
         return getPermissions().contains(permissionCode);
     }
 
     public boolean hasAnyPermission(Collection<String> permissionCodes) {
+        if (!cmmsSecurityProperties.isApiPermissionRestrictionEnabled()) {
+            return true;
+        }
         Set<String> current = getPermissions();
         return permissionCodes.stream().anyMatch(current::contains);
     }

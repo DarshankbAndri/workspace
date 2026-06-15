@@ -44,6 +44,66 @@
       "norm_label": "string"
     },
     {
+      "label": "CmmsSecurityProperties.java",
+      "file_type": "code",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/config/CmmsSecurityProperties.java",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "config_cmmssecurityproperties",
+      "community": 176,
+      "norm_label": "cmmssecurityproperties.java"
+    },
+    {
+      "label": "CmmsSecurityProperties",
+      "file_type": "code",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/config/CmmsSecurityProperties.java",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "config_cmmssecurityproperties_cmmssecurityproperties",
+      "community": 176,
+      "norm_label": "cmmssecurityproperties"
+    },
+    {
+      "label": ".isApiPermissionRestrictionEnabled()",
+      "file_type": "code",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/config/CmmsSecurityProperties.java",
+      "source_location": "L16",
+      "_origin": "ast",
+      "id": "config_cmmssecurityproperties_cmmssecurityproperties_isapipermissionrestrictionenabled",
+      "community": 33,
+      "norm_label": ".isapipermissionrestrictionenabled()"
+    },
+    {
+      "label": ".setApiPermissionRestrictionEnabled()",
+      "file_type": "code",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/config/CmmsSecurityProperties.java",
+      "source_location": "L20",
+      "_origin": "ast",
+      "id": "config_cmmssecurityproperties_cmmssecurityproperties_setapipermissionrestrictionenabled",
+      "community": 176,
+      "norm_label": ".setapipermissionrestrictionenabled()"
+    },
+    {
+      "label": ".logConfiguration()",
+      "file_type": "code",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/config/CmmsSecurityProperties.java",
+      "source_location": "L24",
+      "_origin": "ast",
+      "id": "config_cmmssecurityproperties_cmmssecurityproperties_logconfiguration",
+      "community": 176,
+      "norm_label": ".logconfiguration()"
+    },
+    {
+      "label": "PostConstruct",
+      "file_type": "code",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/config/CmmsSecurityProperties.java",
+      "source_location": "L24",
+      "_origin": "ast",
+      "id": "postconstruct",
+      "community": 176,
+      "norm_label": "postconstruct"
+    },
+    {
       "label": "FileStorageConfig.java",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/config/FileStorageConfig.java",
@@ -2960,7 +3020,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dao_equipmentdao",
-      "community": 167,
+      "community": 4,
       "norm_label": "equipmentdao.java"
     },
     {
@@ -2970,7 +3030,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "dao_equipmentdao_equipmentdao",
-      "community": 167,
+      "community": 4,
       "norm_label": "equipmentdao"
     },
     {
@@ -2980,7 +3040,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "dao_equipmentdao_equipmentdao_equipmentdao",
-      "community": 167,
+      "community": 4,
       "norm_label": ".equipmentdao()"
     },
     {
@@ -2990,7 +3050,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "equipmentrepository",
-      "community": 167,
+      "community": 4,
       "norm_label": "equipmentrepository"
     },
     {
@@ -3000,7 +3060,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "dao_equipmentdao_equipmentdao_save",
-      "community": 167,
+      "community": 4,
       "norm_label": ".save()"
     },
     {
@@ -3010,7 +3070,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dao_equipmentdao_java_equipment",
-      "community": 167,
+      "community": 4,
       "norm_label": "equipment"
     },
     {
@@ -3020,7 +3080,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "dao_equipmentdao_equipmentdao_findbyid",
-      "community": 167,
+      "community": 4,
       "norm_label": ".findbyid()"
     },
     {
@@ -3030,7 +3090,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dao_equipmentdao_java_long",
-      "community": 167,
+      "community": 4,
       "norm_label": "long"
     },
     {
@@ -3040,7 +3100,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dao_equipmentdao_java_optional",
-      "community": 167,
+      "community": 4,
       "norm_label": "optional"
     },
     {
@@ -3050,7 +3110,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "dao_equipmentdao_equipmentdao_findall",
-      "community": 167,
+      "community": 4,
       "norm_label": ".findall()"
     },
     {
@@ -3060,7 +3120,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dao_equipmentdao_java_list",
-      "community": 167,
+      "community": 4,
       "norm_label": "list"
     },
     {
@@ -3070,7 +3130,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "dao_equipmentdao_equipmentdao_findbysiteid",
-      "community": 167,
+      "community": 4,
       "norm_label": ".findbysiteid()"
     },
     {
@@ -3080,7 +3140,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "dao_equipmentdao_equipmentdao_findbysiteids",
-      "community": 167,
+      "community": 4,
       "norm_label": ".findbysiteids()"
     },
     {
@@ -3090,7 +3150,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dao_equipmentdao_java_collection",
-      "community": 167,
+      "community": 4,
       "norm_label": "collection"
     },
     {
@@ -3100,7 +3160,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "dao_equipmentdao_equipmentdao_deletebyid",
-      "community": 167,
+      "community": 4,
       "norm_label": ".deletebyid()"
     },
     {
@@ -3110,7 +3170,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "dao_equipmentdao_equipmentdao_count",
-      "community": 167,
+      "community": 4,
       "norm_label": ".count()"
     },
     {
@@ -3120,7 +3180,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "dao_equipmentdao_equipmentdao_countbysiteid",
-      "community": 167,
+      "community": 4,
       "norm_label": ".countbysiteid()"
     },
     {
@@ -3130,7 +3190,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "dao_equipmentdao_equipmentdao_existsbyequipmentcode",
-      "community": 167,
+      "community": 4,
       "norm_label": ".existsbyequipmentcode()"
     },
     {
@@ -3140,7 +3200,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dao_equipmentdao_java_string",
-      "community": 167,
+      "community": 4,
       "norm_label": "string"
     },
     {
@@ -3150,7 +3210,7 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "dao_equipmentdao_equipmentdao_existsbyequipmentcodeandidnot",
-      "community": 167,
+      "community": 4,
       "norm_label": ".existsbyequipmentcodeandidnot()"
     },
     {
@@ -3900,7 +3960,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dao_preventivemaintenancescheduledao",
-      "community": 20,
+      "community": 51,
       "norm_label": "preventivemaintenancescheduledao.java"
     },
     {
@@ -3910,7 +3970,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "dao_preventivemaintenancescheduledao_preventivemaintenancescheduledao",
-      "community": 20,
+      "community": 51,
       "norm_label": "preventivemaintenancescheduledao"
     },
     {
@@ -3920,7 +3980,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "dao_preventivemaintenancescheduledao_preventivemaintenancescheduledao_preventivemaintenancescheduledao",
-      "community": 20,
+      "community": 51,
       "norm_label": ".preventivemaintenancescheduledao()"
     },
     {
@@ -3930,7 +3990,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "preventivemaintenanceschedulerepository",
-      "community": 20,
+      "community": 51,
       "norm_label": "preventivemaintenanceschedulerepository"
     },
     {
@@ -3940,7 +4000,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "dao_preventivemaintenancescheduledao_preventivemaintenancescheduledao_save",
-      "community": 20,
+      "community": 51,
       "norm_label": ".save()"
     },
     {
@@ -3950,7 +4010,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dao_preventivemaintenancescheduledao_java_preventivemaintenanceschedule",
-      "community": 20,
+      "community": 51,
       "norm_label": "preventivemaintenanceschedule"
     },
     {
@@ -3960,7 +4020,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "dao_preventivemaintenancescheduledao_preventivemaintenancescheduledao_findbyid",
-      "community": 20,
+      "community": 51,
       "norm_label": ".findbyid()"
     },
     {
@@ -3970,7 +4030,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dao_preventivemaintenancescheduledao_java_long",
-      "community": 20,
+      "community": 51,
       "norm_label": "long"
     },
     {
@@ -3980,7 +4040,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dao_preventivemaintenancescheduledao_java_optional",
-      "community": 20,
+      "community": 51,
       "norm_label": "optional"
     },
     {
@@ -3990,7 +4050,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "dao_preventivemaintenancescheduledao_preventivemaintenancescheduledao_findall",
-      "community": 20,
+      "community": 51,
       "norm_label": ".findall()"
     },
     {
@@ -4000,7 +4060,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dao_preventivemaintenancescheduledao_java_list",
-      "community": 20,
+      "community": 51,
       "norm_label": "list"
     },
     {
@@ -4010,7 +4070,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "dao_preventivemaintenancescheduledao_preventivemaintenancescheduledao_deletebyid",
-      "community": 20,
+      "community": 51,
       "norm_label": ".deletebyid()"
     },
     {
@@ -4020,7 +4080,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "dao_preventivemaintenancescheduledao_preventivemaintenancescheduledao_existsbyschedulecode",
-      "community": 20,
+      "community": 51,
       "norm_label": ".existsbyschedulecode()"
     },
     {
@@ -4030,7 +4090,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dao_preventivemaintenancescheduledao_java_string",
-      "community": 20,
+      "community": 51,
       "norm_label": "string"
     },
     {
@@ -4040,7 +4100,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "dao_preventivemaintenancescheduledao_preventivemaintenancescheduledao_existsbyschedulecodeandidnot",
-      "community": 20,
+      "community": 51,
       "norm_label": ".existsbyschedulecodeandidnot()"
     },
     {
@@ -4050,7 +4110,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "dao_preventivemaintenancescheduledao_preventivemaintenancescheduledao_finddue",
-      "community": 20,
+      "community": 51,
       "norm_label": ".finddue()"
     },
     {
@@ -4060,7 +4120,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dao_preventivemaintenancescheduledao_java_localdate",
-      "community": 20,
+      "community": 51,
       "norm_label": "localdate"
     },
     {
@@ -4070,7 +4130,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "dao_preventivemaintenancescheduledao_preventivemaintenancescheduledao_findupcoming",
-      "community": 20,
+      "community": 51,
       "norm_label": ".findupcoming()"
     },
     {
@@ -4354,6 +4414,16 @@
       "norm_label": ".deletebyroleid()"
     },
     {
+      "label": ".flush()",
+      "file_type": "code",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dao/RolePermissionDAO.java",
+      "source_location": "L22",
+      "_origin": "ast",
+      "id": "dao_rolepermissiondao_rolepermissiondao_flush",
+      "community": 105,
+      "norm_label": ".flush()"
+    },
+    {
       "label": "SiteDAO.java",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dao/SiteDAO.java",
@@ -4510,7 +4580,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dao_userroleassignmentdao",
-      "community": 51,
+      "community": 77,
       "norm_label": "userroleassignmentdao.java"
     },
     {
@@ -4520,7 +4590,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "dao_userroleassignmentdao_userroleassignmentdao",
-      "community": 51,
+      "community": 77,
       "norm_label": "userroleassignmentdao"
     },
     {
@@ -4530,7 +4600,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "dao_userroleassignmentdao_userroleassignmentdao_userroleassignmentdao",
-      "community": 51,
+      "community": 77,
       "norm_label": ".userroleassignmentdao()"
     },
     {
@@ -4540,7 +4610,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "userroleassignmentrepository",
-      "community": 51,
+      "community": 77,
       "norm_label": "userroleassignmentrepository"
     },
     {
@@ -4550,7 +4620,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "dao_userroleassignmentdao_userroleassignmentdao_save",
-      "community": 51,
+      "community": 77,
       "norm_label": ".save()"
     },
     {
@@ -4560,7 +4630,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dao_userroleassignmentdao_java_userroleassignment",
-      "community": 51,
+      "community": 77,
       "norm_label": "userroleassignment"
     },
     {
@@ -4570,7 +4640,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "dao_userroleassignmentdao_userroleassignmentdao_findactivebyuserid",
-      "community": 51,
+      "community": 77,
       "norm_label": ".findactivebyuserid()"
     },
     {
@@ -4580,7 +4650,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dao_userroleassignmentdao_java_long",
-      "community": 51,
+      "community": 77,
       "norm_label": "long"
     },
     {
@@ -4590,7 +4660,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dao_userroleassignmentdao_java_list",
-      "community": 51,
+      "community": 77,
       "norm_label": "list"
     },
     {
@@ -4600,7 +4670,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "dao_userroleassignmentdao_userroleassignmentdao_findbyuserid",
-      "community": 51,
+      "community": 77,
       "norm_label": ".findbyuserid()"
     },
     {
@@ -4610,7 +4680,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "dao_userroleassignmentdao_userroleassignmentdao_existsactivebyuseridandroleid",
-      "community": 51,
+      "community": 77,
       "norm_label": ".existsactivebyuseridandroleid()"
     },
     {
@@ -4620,7 +4690,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "dao_userroleassignmentdao_userroleassignmentdao_deletebyuserid",
-      "community": 51,
+      "community": 77,
       "norm_label": ".deletebyuserid()"
     },
     {
@@ -10340,7 +10410,7 @@
       "source_location": "L142",
       "_origin": "ast",
       "id": "dto_userdto_userdto_setemployeeid",
-      "community": 51,
+      "community": 33,
       "norm_label": ".setemployeeid()"
     },
     {
@@ -14630,7 +14700,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "entity_rolepermission",
-      "community": 51,
+      "community": 135,
       "norm_label": "rolepermission.java"
     },
     {
@@ -14640,7 +14710,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "entity_rolepermission_rolepermission",
-      "community": 51,
+      "community": 135,
       "norm_label": "rolepermission"
     },
     {
@@ -14650,7 +14720,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "entity_rolepermission_rolepermission_oncreate",
-      "community": 51,
+      "community": 135,
       "norm_label": ".oncreate()"
     },
     {
@@ -14660,7 +14730,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_entity_rolepermission_java_prepersist",
-      "community": 51,
+      "community": 135,
       "norm_label": "prepersist"
     },
     {
@@ -14670,7 +14740,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "entity_rolepermission_rolepermission_getid",
-      "community": 51,
+      "community": 135,
       "norm_label": ".getid()"
     },
     {
@@ -14680,7 +14750,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_entity_rolepermission_java_long",
-      "community": 51,
+      "community": 135,
       "norm_label": "long"
     },
     {
@@ -14690,7 +14760,7 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "entity_rolepermission_rolepermission_setid",
-      "community": 51,
+      "community": 135,
       "norm_label": ".setid()"
     },
     {
@@ -14700,7 +14770,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "entity_rolepermission_rolepermission_getrole",
-      "community": 51,
+      "community": 135,
       "norm_label": ".getrole()"
     },
     {
@@ -14710,7 +14780,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_entity_rolepermission_java_rolemaster",
-      "community": 51,
+      "community": 135,
       "norm_label": "rolemaster"
     },
     {
@@ -14720,7 +14790,7 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "entity_rolepermission_rolepermission_setrole",
-      "community": 51,
+      "community": 135,
       "norm_label": ".setrole()"
     },
     {
@@ -14730,7 +14800,7 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "entity_rolepermission_rolepermission_getpermission",
-      "community": 51,
+      "community": 135,
       "norm_label": ".getpermission()"
     },
     {
@@ -14740,7 +14810,7 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_entity_rolepermission_java_permissionmaster",
-      "community": 51,
+      "community": 135,
       "norm_label": "permissionmaster"
     },
     {
@@ -14750,7 +14820,7 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "entity_rolepermission_rolepermission_setpermission",
-      "community": 51,
+      "community": 135,
       "norm_label": ".setpermission()"
     },
     {
@@ -14760,7 +14830,7 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "entity_rolepermission_rolepermission_getcreatedat",
-      "community": 51,
+      "community": 135,
       "norm_label": ".getcreatedat()"
     },
     {
@@ -14770,7 +14840,7 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_entity_rolepermission_java_localdatetime",
-      "community": 51,
+      "community": 135,
       "norm_label": "localdatetime"
     },
     {
@@ -14780,7 +14850,7 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "entity_rolepermission_rolepermission_setcreatedat",
-      "community": 51,
+      "community": 135,
       "norm_label": ".setcreatedat()"
     },
     {
@@ -15550,7 +15620,7 @@
       "source_location": "L153",
       "_origin": "ast",
       "id": "entity_user_user_getmanager",
-      "community": 51,
+      "community": 33,
       "norm_label": ".getmanager()"
     },
     {
@@ -16760,7 +16830,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "resourcenotfoundexception",
-      "community": 26,
+      "community": 20,
       "norm_label": "resourcenotfoundexception"
     },
     {
@@ -16830,7 +16900,7 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "unauthorizedaccessexception",
-      "community": 51,
+      "community": 174,
       "norm_label": "unauthorizedaccessexception"
     },
     {
@@ -16850,7 +16920,7 @@
       "source_location": "L53",
       "_origin": "ast",
       "id": "invalidoperationexception",
-      "community": 135,
+      "community": 1,
       "norm_label": "invalidoperationexception"
     },
     {
@@ -17459,7 +17529,7 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/repository/EquipmentDowntimeRepository.java",
       "source_location": "L18",
       "_origin": "ast",
-      "id": "query",
+      "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_equipmentdowntimerepository_java_query",
       "community": 61,
       "norm_label": "query"
     },
@@ -17950,7 +18020,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "repository_preventivemaintenanceschedulerepository",
-      "community": 20,
+      "community": 51,
       "norm_label": "preventivemaintenanceschedulerepository.java"
     },
     {
@@ -17960,7 +18030,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "repository_preventivemaintenanceschedulerepository_preventivemaintenanceschedulerepository",
-      "community": 20,
+      "community": 51,
       "norm_label": "preventivemaintenanceschedulerepository"
     },
     {
@@ -17970,7 +18040,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "repository_preventivemaintenanceschedulerepository_preventivemaintenanceschedulerepository_existsbyschedulecode",
-      "community": 20,
+      "community": 51,
       "norm_label": ".existsbyschedulecode()"
     },
     {
@@ -17980,7 +18050,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_preventivemaintenanceschedulerepository_java_string",
-      "community": 20,
+      "community": 51,
       "norm_label": "string"
     },
     {
@@ -17990,7 +18060,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "repository_preventivemaintenanceschedulerepository_preventivemaintenanceschedulerepository_existsbyschedulecodeandidnot",
-      "community": 20,
+      "community": 51,
       "norm_label": ".existsbyschedulecodeandidnot()"
     },
     {
@@ -18000,7 +18070,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_preventivemaintenanceschedulerepository_java_long",
-      "community": 20,
+      "community": 51,
       "norm_label": "long"
     },
     {
@@ -18010,7 +18080,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "repository_preventivemaintenanceschedulerepository_preventivemaintenanceschedulerepository_findbyactivetrueandnextduedatelessthanequalorderbynextduedateasc",
-      "community": 20,
+      "community": 51,
       "norm_label": ".findbyactivetrueandnextduedatelessthanequalorderbynextduedateasc()"
     },
     {
@@ -18020,7 +18090,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_preventivemaintenanceschedulerepository_java_localdate",
-      "community": 20,
+      "community": 51,
       "norm_label": "localdate"
     },
     {
@@ -18030,7 +18100,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_preventivemaintenanceschedulerepository_java_list",
-      "community": 20,
+      "community": 51,
       "norm_label": "list"
     },
     {
@@ -18040,7 +18110,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_preventivemaintenanceschedulerepository_java_preventivemaintenanceschedule",
-      "community": 20,
+      "community": 51,
       "norm_label": "preventivemaintenanceschedule"
     },
     {
@@ -18050,7 +18120,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "repository_preventivemaintenanceschedulerepository_preventivemaintenanceschedulerepository_findbyactivetrueandnextduedatebetweenorderbynextduedateasc",
-      "community": 20,
+      "community": 51,
       "norm_label": ".findbyactivetrueandnextduedatebetweenorderbynextduedateasc()"
     },
     {
@@ -18067,7 +18137,7 @@
       "label": "RolePermissionRepository",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/repository/RolePermissionRepository.java",
-      "source_location": "L11",
+      "source_location": "L14",
       "_origin": "ast",
       "id": "repository_rolepermissionrepository_rolepermissionrepository",
       "community": 105,
@@ -18077,7 +18147,7 @@
       "label": ".findByRoleRoleCodeIn()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/repository/RolePermissionRepository.java",
-      "source_location": "L13",
+      "source_location": "L16",
       "_origin": "ast",
       "id": "repository_rolepermissionrepository_rolepermissionrepository_findbyrolerolecodein",
       "community": 105,
@@ -18087,7 +18157,7 @@
       "label": "Collection",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/repository/RolePermissionRepository.java",
-      "source_location": "L13",
+      "source_location": "L16",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_rolepermissionrepository_java_collection",
       "community": 105,
@@ -18097,7 +18167,7 @@
       "label": "String",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/repository/RolePermissionRepository.java",
-      "source_location": "L13",
+      "source_location": "L16",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_rolepermissionrepository_java_string",
       "community": 105,
@@ -18107,7 +18177,7 @@
       "label": "List",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/repository/RolePermissionRepository.java",
-      "source_location": "L13",
+      "source_location": "L16",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_rolepermissionrepository_java_list",
       "community": 105,
@@ -18117,7 +18187,7 @@
       "label": "RolePermission",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/repository/RolePermissionRepository.java",
-      "source_location": "L13",
+      "source_location": "L16",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_rolepermissionrepository_java_rolepermission",
       "community": 105,
@@ -18127,7 +18197,7 @@
       "label": "EntityGraph",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/repository/RolePermissionRepository.java",
-      "source_location": "L13",
+      "source_location": "L16",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_rolepermissionrepository_java_entitygraph",
       "community": 105,
@@ -18137,7 +18207,7 @@
       "label": ".findByRoleId()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/repository/RolePermissionRepository.java",
-      "source_location": "L16",
+      "source_location": "L19",
       "_origin": "ast",
       "id": "repository_rolepermissionrepository_rolepermissionrepository_findbyroleid",
       "community": 105,
@@ -18147,7 +18217,7 @@
       "label": "Long",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/repository/RolePermissionRepository.java",
-      "source_location": "L16",
+      "source_location": "L19",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_rolepermissionrepository_java_long",
       "community": 105,
@@ -18157,11 +18227,31 @@
       "label": ".deleteByRoleId()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/repository/RolePermissionRepository.java",
-      "source_location": "L19",
+      "source_location": "L22",
       "_origin": "ast",
       "id": "repository_rolepermissionrepository_rolepermissionrepository_deletebyroleid",
       "community": 105,
       "norm_label": ".deletebyroleid()"
+    },
+    {
+      "label": "Modifying",
+      "file_type": "code",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/repository/RolePermissionRepository.java",
+      "source_location": "L22",
+      "_origin": "ast",
+      "id": "modifying",
+      "community": 105,
+      "norm_label": "modifying"
+    },
+    {
+      "label": "Query",
+      "file_type": "code",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/repository/RolePermissionRepository.java",
+      "source_location": "L22",
+      "_origin": "ast",
+      "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_rolepermissionrepository_java_query",
+      "community": 105,
+      "norm_label": "query"
     },
     {
       "label": "RoleRepository.java",
@@ -18490,7 +18580,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "repository_userroleassignmentrepository",
-      "community": 51,
+      "community": 173,
       "norm_label": "userroleassignmentrepository.java"
     },
     {
@@ -18500,7 +18590,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "repository_userroleassignmentrepository_userroleassignmentrepository",
-      "community": 51,
+      "community": 173,
       "norm_label": "userroleassignmentrepository"
     },
     {
@@ -18510,7 +18600,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "repository_userroleassignmentrepository_userroleassignmentrepository_findbyuseridandstatusignorecase",
-      "community": 51,
+      "community": 173,
       "norm_label": ".findbyuseridandstatusignorecase()"
     },
     {
@@ -18520,7 +18610,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_userroleassignmentrepository_java_long",
-      "community": 51,
+      "community": 173,
       "norm_label": "long"
     },
     {
@@ -18530,7 +18620,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_userroleassignmentrepository_java_string",
-      "community": 51,
+      "community": 173,
       "norm_label": "string"
     },
     {
@@ -18540,7 +18630,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_userroleassignmentrepository_java_list",
-      "community": 51,
+      "community": 173,
       "norm_label": "list"
     },
     {
@@ -18550,7 +18640,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_userroleassignmentrepository_java_userroleassignment",
-      "community": 51,
+      "community": 173,
       "norm_label": "userroleassignment"
     },
     {
@@ -18560,7 +18650,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_userroleassignmentrepository_java_entitygraph",
-      "community": 51,
+      "community": 173,
       "norm_label": "entitygraph"
     },
     {
@@ -18570,7 +18660,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "repository_userroleassignmentrepository_userroleassignmentrepository_findbyuserid",
-      "community": 51,
+      "community": 173,
       "norm_label": ".findbyuserid()"
     },
     {
@@ -18580,7 +18670,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "repository_userroleassignmentrepository_userroleassignmentrepository_existsbyuseridandroleidandstatusignorecase",
-      "community": 51,
+      "community": 173,
       "norm_label": ".existsbyuseridandroleidandstatusignorecase()"
     },
     {
@@ -18590,7 +18680,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "repository_userroleassignmentrepository_userroleassignmentrepository_deletebyuserid",
-      "community": 51,
+      "community": 173,
       "norm_label": ".deletebyuserid()"
     },
     {
@@ -18880,214 +18970,224 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "service_accesscontrolservice",
-      "community": 51,
+      "community": 174,
       "norm_label": "accesscontrolservice.java"
     },
     {
       "label": "AccessControlService",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/AccessControlService.java",
-      "source_location": "L25",
+      "source_location": "L26",
       "_origin": "ast",
       "id": "service_accesscontrolservice_accesscontrolservice",
-      "community": 51,
+      "community": 33,
       "norm_label": "accesscontrolservice"
     },
     {
       "label": ".AccessControlService()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/AccessControlService.java",
-      "source_location": "L48",
+      "source_location": "L50",
       "_origin": "ast",
       "id": "service_accesscontrolservice_accesscontrolservice_accesscontrolservice",
-      "community": 51,
+      "community": 174,
       "norm_label": ".accesscontrolservice()"
     },
     {
       "label": "UserRepository",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/AccessControlService.java",
-      "source_location": "L48",
+      "source_location": "L50",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_accesscontrolservice_java_userrepository",
-      "community": 51,
+      "community": 174,
       "norm_label": "userrepository"
     },
     {
       "label": "SiteRepository",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/AccessControlService.java",
-      "source_location": "L48",
+      "source_location": "L50",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_accesscontrolservice_java_siterepository",
-      "community": 51,
+      "community": 174,
       "norm_label": "siterepository"
     },
     {
       "label": "EmployeeSiteAssignmentRepository",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/AccessControlService.java",
-      "source_location": "L48",
+      "source_location": "L50",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_accesscontrolservice_java_employeesiteassignmentrepository",
-      "community": 51,
+      "community": 174,
       "norm_label": "employeesiteassignmentrepository"
     },
     {
       "label": "UserRoleAssignmentDAO",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/AccessControlService.java",
-      "source_location": "L48",
+      "source_location": "L50",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_accesscontrolservice_java_userroleassignmentdao",
-      "community": 51,
+      "community": 174,
       "norm_label": "userroleassignmentdao"
     },
     {
       "label": "RolePermissionDAO",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/AccessControlService.java",
-      "source_location": "L48",
+      "source_location": "L50",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_accesscontrolservice_java_rolepermissiondao",
-      "community": 51,
+      "community": 174,
       "norm_label": "rolepermissiondao"
+    },
+    {
+      "label": "CmmsSecurityProperties",
+      "file_type": "code",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/AccessControlService.java",
+      "source_location": "L50",
+      "_origin": "ast",
+      "id": "cmmssecurityproperties",
+      "community": 174,
+      "norm_label": "cmmssecurityproperties"
     },
     {
       "label": ".getCurrentUser()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/AccessControlService.java",
-      "source_location": "L60",
+      "source_location": "L64",
       "_origin": "ast",
       "id": "service_accesscontrolservice_accesscontrolservice_getcurrentuser",
-      "community": 51,
+      "community": 175,
       "norm_label": ".getcurrentuser()"
     },
     {
       "label": "User",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/AccessControlService.java",
-      "source_location": "L60",
+      "source_location": "L64",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_accesscontrolservice_java_user",
-      "community": 51,
+      "community": 33,
       "norm_label": "user"
     },
     {
       "label": ".getCurrentUserId()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/AccessControlService.java",
-      "source_location": "L69",
+      "source_location": "L73",
       "_origin": "ast",
       "id": "service_accesscontrolservice_accesscontrolservice_getcurrentuserid",
-      "community": 51,
+      "community": 175,
       "norm_label": ".getcurrentuserid()"
     },
     {
       "label": "Long",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/AccessControlService.java",
-      "source_location": "L69",
+      "source_location": "L73",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_accesscontrolservice_java_long",
-      "community": 51,
+      "community": 175,
       "norm_label": "long"
     },
     {
       "label": ".getCurrentEmployeeId()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/AccessControlService.java",
-      "source_location": "L73",
+      "source_location": "L77",
       "_origin": "ast",
       "id": "service_accesscontrolservice_accesscontrolservice_getcurrentemployeeid",
-      "community": 51,
+      "community": 175,
       "norm_label": ".getcurrentemployeeid()"
     },
     {
       "label": ".getAllowedSiteIds()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/AccessControlService.java",
-      "source_location": "L78",
+      "source_location": "L82",
       "_origin": "ast",
       "id": "service_accesscontrolservice_accesscontrolservice_getallowedsiteids",
-      "community": 51,
+      "community": 175,
       "norm_label": ".getallowedsiteids()"
     },
     {
       "label": "List",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/AccessControlService.java",
-      "source_location": "L78",
+      "source_location": "L82",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_accesscontrolservice_java_list",
-      "community": 51,
+      "community": 175,
       "norm_label": "list"
     },
     {
       "label": ".getAllowedSites()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/AccessControlService.java",
-      "source_location": "L103",
+      "source_location": "L107",
       "_origin": "ast",
       "id": "service_accesscontrolservice_accesscontrolservice_getallowedsites",
-      "community": 51,
+      "community": 175,
       "norm_label": ".getallowedsites()"
     },
     {
       "label": "AllowedSiteDTO",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/AccessControlService.java",
-      "source_location": "L103",
+      "source_location": "L107",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_accesscontrolservice_java_allowedsitedto",
-      "community": 51,
+      "community": 175,
       "norm_label": "allowedsitedto"
     },
     {
       "label": ".hasPermission()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/AccessControlService.java",
-      "source_location": "L113",
+      "source_location": "L117",
       "_origin": "ast",
       "id": "service_accesscontrolservice_accesscontrolservice_haspermission",
-      "community": 51,
+      "community": 33,
       "norm_label": ".haspermission()"
     },
     {
       "label": "String",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/AccessControlService.java",
-      "source_location": "L113",
+      "source_location": "L117",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_accesscontrolservice_java_string",
-      "community": 51,
+      "community": 33,
       "norm_label": "string"
     },
     {
       "label": ".hasAnyPermission()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/AccessControlService.java",
-      "source_location": "L117",
+      "source_location": "L124",
       "_origin": "ast",
       "id": "service_accesscontrolservice_accesscontrolservice_hasanypermission",
-      "community": 51,
+      "community": 33,
       "norm_label": ".hasanypermission()"
     },
     {
       "label": "Collection",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/AccessControlService.java",
-      "source_location": "L117",
+      "source_location": "L124",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_accesscontrolservice_java_collection",
-      "community": 51,
+      "community": 175,
       "norm_label": "collection"
     },
     {
       "label": ".validatePermission()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/AccessControlService.java",
-      "source_location": "L122",
+      "source_location": "L132",
       "_origin": "ast",
       "id": "service_accesscontrolservice_accesscontrolservice_validatepermission",
       "community": 45,
@@ -19097,7 +19197,7 @@
       "label": ".validateSiteAccess()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/AccessControlService.java",
-      "source_location": "L128",
+      "source_location": "L138",
       "_origin": "ast",
       "id": "service_accesscontrolservice_accesscontrolservice_validatesiteaccess",
       "community": 52,
@@ -19107,160 +19207,160 @@
       "label": ".validateAnySiteAccess()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/AccessControlService.java",
-      "source_location": "L137",
+      "source_location": "L147",
       "_origin": "ast",
       "id": "service_accesscontrolservice_accesscontrolservice_validateanysiteaccess",
-      "community": 51,
+      "community": 175,
       "norm_label": ".validateanysiteaccess()"
     },
     {
       "label": ".isSuperAdmin()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/AccessControlService.java",
-      "source_location": "L149",
+      "source_location": "L159",
       "_origin": "ast",
       "id": "service_accesscontrolservice_accesscontrolservice_issuperadmin",
-      "community": 51,
+      "community": 33,
       "norm_label": ".issuperadmin()"
     },
     {
       "label": ".isAdmin()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/AccessControlService.java",
-      "source_location": "L153",
+      "source_location": "L163",
       "_origin": "ast",
       "id": "service_accesscontrolservice_accesscontrolservice_isadmin",
-      "community": 51,
+      "community": 175,
       "norm_label": ".isadmin()"
     },
     {
       "label": ".getRoles()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/AccessControlService.java",
-      "source_location": "L159",
+      "source_location": "L169",
       "_origin": "ast",
       "id": "service_accesscontrolservice_accesscontrolservice_getroles",
-      "community": 51,
+      "community": 33,
       "norm_label": ".getroles()"
     },
     {
       "label": "Set",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/AccessControlService.java",
-      "source_location": "L159",
+      "source_location": "L169",
       "_origin": "ast",
       "id": "set",
-      "community": 51,
+      "community": 33,
       "norm_label": "set"
     },
     {
       "label": ".getPermissions()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/AccessControlService.java",
-      "source_location": "L171",
+      "source_location": "L181",
       "_origin": "ast",
       "id": "service_accesscontrolservice_accesscontrolservice_getpermissions",
-      "community": 51,
+      "community": 33,
       "norm_label": ".getpermissions()"
     },
     {
       "label": ".buildAccessPayload()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/AccessControlService.java",
-      "source_location": "L186",
+      "source_location": "L196",
       "_origin": "ast",
       "id": "service_accesscontrolservice_accesscontrolservice_buildaccesspayload",
-      "community": 51,
+      "community": 33,
       "norm_label": ".buildaccesspayload()"
     },
     {
       "label": "AuthAccessDTO",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/AccessControlService.java",
-      "source_location": "L186",
+      "source_location": "L196",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_accesscontrolservice_java_authaccessdto",
-      "community": 51,
+      "community": 33,
       "norm_label": "authaccessdto"
     },
     {
       "label": ".getRolesFor()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/AccessControlService.java",
-      "source_location": "L195",
+      "source_location": "L205",
       "_origin": "ast",
       "id": "service_accesscontrolservice_accesscontrolservice_getrolesfor",
-      "community": 51,
+      "community": 33,
       "norm_label": ".getrolesfor()"
     },
     {
       "label": ".getPermissionsFor()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/AccessControlService.java",
-      "source_location": "L206",
+      "source_location": "L216",
       "_origin": "ast",
       "id": "service_accesscontrolservice_accesscontrolservice_getpermissionsfor",
-      "community": 51,
+      "community": 33,
       "norm_label": ".getpermissionsfor()"
     },
     {
       "label": ".getAllowedSitesFor()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/AccessControlService.java",
-      "source_location": "L221",
+      "source_location": "L231",
       "_origin": "ast",
       "id": "service_accesscontrolservice_accesscontrolservice_getallowedsitesfor",
-      "community": 51,
+      "community": 33,
       "norm_label": ".getallowedsitesfor()"
     },
     {
       "label": ".legacyRoles()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/AccessControlService.java",
-      "source_location": "L251",
+      "source_location": "L261",
       "_origin": "ast",
       "id": "service_accesscontrolservice_accesscontrolservice_legacyroles",
-      "community": 51,
+      "community": 33,
       "norm_label": ".legacyroles()"
     },
     {
       "label": "UserRole",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/AccessControlService.java",
-      "source_location": "L251",
+      "source_location": "L261",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_accesscontrolservice_java_userrole",
-      "community": 51,
+      "community": 33,
       "norm_label": "userrole"
     },
     {
       "label": ".legacyPermissions()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/AccessControlService.java",
-      "source_location": "L264",
+      "source_location": "L274",
       "_origin": "ast",
       "id": "service_accesscontrolservice_accesscontrolservice_legacypermissions",
-      "community": 51,
+      "community": 33,
       "norm_label": ".legacypermissions()"
     },
     {
       "label": ".toUserDTO()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/AccessControlService.java",
-      "source_location": "L275",
+      "source_location": "L285",
       "_origin": "ast",
       "id": "service_accesscontrolservice_accesscontrolservice_touserdto",
-      "community": 51,
+      "community": 33,
       "norm_label": ".touserdto()"
     },
     {
       "label": "UserDTO",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/AccessControlService.java",
-      "source_location": "L275",
+      "source_location": "L285",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_accesscontrolservice_java_userdto",
-      "community": 51,
+      "community": 33,
       "norm_label": "userdto"
     },
     {
@@ -19800,7 +19900,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "service_equipmentdowntimeservice_equipmentdowntimeservice_equipmentdowntimeservice",
-      "community": 175,
+      "community": 167,
       "norm_label": ".equipmentdowntimeservice()"
     },
     {
@@ -19810,7 +19910,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_equipmentdowntimeservice_java_equipmentdowntimedao",
-      "community": 175,
+      "community": 167,
       "norm_label": "equipmentdowntimedao"
     },
     {
@@ -19820,7 +19920,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_equipmentdowntimeservice_java_equipmentservice",
-      "community": 175,
+      "community": 167,
       "norm_label": "equipmentservice"
     },
     {
@@ -19830,7 +19930,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_equipmentdowntimeservice_java_maintenancerequestservice",
-      "community": 175,
+      "community": 167,
       "norm_label": "maintenancerequestservice"
     },
     {
@@ -19840,7 +19940,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_equipmentdowntimeservice_java_siteservice",
-      "community": 175,
+      "community": 167,
       "norm_label": "siteservice"
     },
     {
@@ -19850,7 +19950,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_equipmentdowntimeservice_java_accesscontrolservice",
-      "community": 175,
+      "community": 167,
       "norm_label": "accesscontrolservice"
     },
     {
@@ -21187,7 +21287,7 @@
       "label": "RoleService",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/RoleService.java",
-      "source_location": "L21",
+      "source_location": "L23",
       "_origin": "ast",
       "id": "service_roleservice_roleservice",
       "community": 135,
@@ -21197,7 +21297,7 @@
       "label": ".RoleService()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/RoleService.java",
-      "source_location": "L30",
+      "source_location": "L32",
       "_origin": "ast",
       "id": "service_roleservice_roleservice_roleservice",
       "community": 135,
@@ -21207,7 +21307,7 @@
       "label": "RoleDAO",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/RoleService.java",
-      "source_location": "L30",
+      "source_location": "L32",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_roleservice_java_roledao",
       "community": 135,
@@ -21217,7 +21317,7 @@
       "label": "PermissionDAO",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/RoleService.java",
-      "source_location": "L30",
+      "source_location": "L32",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_roleservice_java_permissiondao",
       "community": 135,
@@ -21227,7 +21327,7 @@
       "label": "RolePermissionDAO",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/RoleService.java",
-      "source_location": "L30",
+      "source_location": "L32",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_roleservice_java_rolepermissiondao",
       "community": 135,
@@ -21237,7 +21337,7 @@
       "label": "UserRoleAssignmentDAO",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/RoleService.java",
-      "source_location": "L30",
+      "source_location": "L32",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_roleservice_java_userroleassignmentdao",
       "community": 135,
@@ -21247,7 +21347,7 @@
       "label": "AccessControlService",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/RoleService.java",
-      "source_location": "L30",
+      "source_location": "L32",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_roleservice_java_accesscontrolservice",
       "community": 135,
@@ -21257,7 +21357,7 @@
       "label": ".getAll()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/RoleService.java",
-      "source_location": "L38",
+      "source_location": "L40",
       "_origin": "ast",
       "id": "service_roleservice_roleservice_getall",
       "community": 135,
@@ -21267,7 +21367,7 @@
       "label": "List",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/RoleService.java",
-      "source_location": "L38",
+      "source_location": "L40",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_roleservice_java_list",
       "community": 135,
@@ -21277,7 +21377,7 @@
       "label": "RoleDTO",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/RoleService.java",
-      "source_location": "L38",
+      "source_location": "L40",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_roleservice_java_roledto",
       "community": 135,
@@ -21287,7 +21387,7 @@
       "label": "Transactional",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/RoleService.java",
-      "source_location": "L38",
+      "source_location": "L40",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_roleservice_java_transactional",
       "community": 135,
@@ -21297,7 +21397,7 @@
       "label": ".getById()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/RoleService.java",
-      "source_location": "L44",
+      "source_location": "L46",
       "_origin": "ast",
       "id": "service_roleservice_roleservice_getbyid",
       "community": 135,
@@ -21307,7 +21407,7 @@
       "label": "Long",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/RoleService.java",
-      "source_location": "L44",
+      "source_location": "L46",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_roleservice_java_long",
       "community": 135,
@@ -21317,7 +21417,7 @@
       "label": ".create()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/RoleService.java",
-      "source_location": "L50",
+      "source_location": "L52",
       "_origin": "ast",
       "id": "service_roleservice_roleservice_create",
       "community": 135,
@@ -21327,7 +21427,7 @@
       "label": ".update()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/RoleService.java",
-      "source_location": "L63",
+      "source_location": "L65",
       "_origin": "ast",
       "id": "service_roleservice_roleservice_update",
       "community": 135,
@@ -21337,7 +21437,7 @@
       "label": ".delete()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/RoleService.java",
-      "source_location": "L76",
+      "source_location": "L78",
       "_origin": "ast",
       "id": "service_roleservice_roleservice_delete",
       "community": 135,
@@ -21347,7 +21447,7 @@
       "label": ".getEntity()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/RoleService.java",
-      "source_location": "L90",
+      "source_location": "L92",
       "_origin": "ast",
       "id": "service_roleservice_roleservice_getentity",
       "community": 135,
@@ -21357,7 +21457,7 @@
       "label": "RoleMaster",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/RoleService.java",
-      "source_location": "L90",
+      "source_location": "L92",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_roleservice_java_rolemaster",
       "community": 135,
@@ -21367,7 +21467,7 @@
       "label": ".apply()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/RoleService.java",
-      "source_location": "L94",
+      "source_location": "L96",
       "_origin": "ast",
       "id": "service_roleservice_roleservice_apply",
       "community": 135,
@@ -21377,7 +21477,7 @@
       "label": ".replacePermissions()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/RoleService.java",
-      "source_location": "L101",
+      "source_location": "L103",
       "_origin": "ast",
       "id": "service_roleservice_roleservice_replacepermissions",
       "community": 135,
@@ -21387,7 +21487,7 @@
       "label": ".validateRequired()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/RoleService.java",
-      "source_location": "L123",
+      "source_location": "L131",
       "_origin": "ast",
       "id": "service_roleservice_roleservice_validaterequired",
       "community": 135,
@@ -21397,7 +21497,7 @@
       "label": ".toDTO()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/RoleService.java",
-      "source_location": "L135",
+      "source_location": "L143",
       "_origin": "ast",
       "id": "service_roleservice_roleservice_todto",
       "community": 135,
@@ -21407,7 +21507,7 @@
       "label": ".toPermissionDTO()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/RoleService.java",
-      "source_location": "L154",
+      "source_location": "L162",
       "_origin": "ast",
       "id": "service_roleservice_roleservice_topermissiondto",
       "community": 135,
@@ -21417,7 +21517,7 @@
       "label": "PermissionMaster",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/RoleService.java",
-      "source_location": "L154",
+      "source_location": "L162",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_roleservice_java_permissionmaster",
       "community": 135,
@@ -21427,7 +21527,7 @@
       "label": "PermissionDTO",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/RoleService.java",
-      "source_location": "L154",
+      "source_location": "L162",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_roleservice_java_permissiondto",
       "community": 135,
@@ -22070,7 +22170,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "service_vendorservice_vendorservice_vendorservice",
-      "community": 162,
+      "community": 170,
       "norm_label": ".vendorservice()"
     },
     {
@@ -22080,7 +22180,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_vendorservice_java_vendordao",
-      "community": 162,
+      "community": 170,
       "norm_label": "vendordao"
     },
     {
@@ -22090,7 +22190,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_vendorservice_java_siteservice",
-      "community": 162,
+      "community": 170,
       "norm_label": "siteservice"
     },
     {
@@ -22100,7 +22200,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_vendorservice_java_accesscontrolservice",
-      "community": 162,
+      "community": 170,
       "norm_label": "accesscontrolservice"
     },
     {
@@ -31159,6 +31259,90 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/config/CmmsSecurityProperties.java",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "config_cmmssecurityproperties",
+      "target": "config_cmmssecurityproperties_cmmssecurityproperties"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/config/CmmsSecurityProperties.java",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "config_cmmssecurityproperties",
+      "target": "postconstruct"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/config/CmmsSecurityProperties.java",
+      "source_location": "L16",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "config_cmmssecurityproperties_cmmssecurityproperties",
+      "target": "config_cmmssecurityproperties_cmmssecurityproperties_isapipermissionrestrictionenabled"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/config/CmmsSecurityProperties.java",
+      "source_location": "L24",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "config_cmmssecurityproperties_cmmssecurityproperties",
+      "target": "config_cmmssecurityproperties_cmmssecurityproperties_logconfiguration"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/config/CmmsSecurityProperties.java",
+      "source_location": "L20",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "config_cmmssecurityproperties_cmmssecurityproperties",
+      "target": "config_cmmssecurityproperties_cmmssecurityproperties_setapipermissionrestrictionenabled"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/AccessControlService.java",
+      "source_location": "L125",
+      "weight": 1.0,
+      "source": "service_accesscontrolservice_accesscontrolservice_hasanypermission",
+      "target": "config_cmmssecurityproperties_cmmssecurityproperties_isapipermissionrestrictionenabled"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/AccessControlService.java",
+      "source_location": "L118",
+      "weight": 1.0,
+      "source": "service_accesscontrolservice_accesscontrolservice_haspermission",
+      "target": "config_cmmssecurityproperties_cmmssecurityproperties_isapipermissionrestrictionenabled"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/config/CmmsSecurityProperties.java",
+      "source_location": "L24",
+      "weight": 1.0,
+      "context": "attribute",
+      "confidence_score": 1.0,
+      "source": "config_cmmssecurityproperties_cmmssecurityproperties_logconfiguration",
+      "target": "postconstruct"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/config/FileStorageConfig.java",
       "source_location": "L6",
       "weight": 1.0,
@@ -39695,6 +39879,16 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dao/RolePermissionDAO.java",
+      "source_location": "L22",
+      "weight": 1.0,
+      "source": "dao_rolepermissiondao_rolepermissiondao",
+      "target": "dao_rolepermissiondao_rolepermissiondao_flush",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dao/RolePermissionDAO.java",
       "source_location": "L14",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -39853,6 +40047,17 @@
       "confidence_score": 1.0,
       "source": "dao_rolepermissiondao_rolepermissiondao_deletebyroleid",
       "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_dao_rolepermissiondao_java_long"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/RoleService.java",
+      "source_location": "L105",
+      "weight": 1.0,
+      "source": "service_roleservice_roleservice_replacepermissions",
+      "target": "dao_rolepermissiondao_rolepermissiondao_flush"
     },
     {
       "relation": "imports",
@@ -63181,9 +63386,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/repository/EquipmentDowntimeRepository.java",
       "source_location": "L5",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "repository_equipmentdowntimerepository",
-      "target": "query"
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_equipmentdowntimerepository_java_query",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -63478,23 +63683,23 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/repository/EquipmentDowntimeRepository.java",
-      "source_location": "L15",
+      "source_location": "L18",
       "weight": 1.0,
       "context": "attribute",
-      "confidence_score": 1.0,
       "source": "repository_equipmentdowntimerepository_equipmentdowntimerepository_sumdowntimeminutes",
-      "target": "query"
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_equipmentdowntimerepository_java_query",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/repository/EquipmentDowntimeRepository.java",
-      "source_location": "L18",
+      "source_location": "L21",
       "weight": 1.0,
       "context": "attribute",
-      "confidence_score": 1.0,
       "source": "repository_equipmentdowntimerepository_equipmentdowntimerepository_sumdowntimeminutesbysiteid",
-      "target": "query"
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_equipmentdowntimerepository_java_query",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports",
@@ -64714,11 +64919,33 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/repository/RolePermissionRepository.java",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "repository_rolepermissionrepository",
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_rolepermissionrepository_java_query",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/repository/RolePermissionRepository.java",
       "source_location": "L3",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "repository_rolepermissionrepository",
       "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_rolepermissionrepository_java_rolepermission"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/repository/RolePermissionRepository.java",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "repository_rolepermissionrepository",
+      "target": "modifying",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -64869,6 +65096,28 @@
       "confidence_score": 1.0,
       "source": "repository_rolepermissionrepository_rolepermissionrepository_deletebyroleid",
       "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_rolepermissionrepository_java_long"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/repository/RolePermissionRepository.java",
+      "source_location": "L22",
+      "weight": 1.0,
+      "context": "attribute",
+      "source": "repository_rolepermissionrepository_rolepermissionrepository_deletebyroleid",
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_rolepermissionrepository_java_query",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/repository/RolePermissionRepository.java",
+      "source_location": "L22",
+      "weight": 1.0,
+      "context": "attribute",
+      "source": "repository_rolepermissionrepository_rolepermissionrepository_deletebyroleid",
+      "target": "modifying",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports",
@@ -66509,6 +66758,17 @@
       "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_accesscontrolservice_java_userroleassignmentdao"
     },
     {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/AccessControlService.java",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "service_accesscontrolservice",
+      "target": "cmmssecurityproperties"
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/AccessControlService.java",
@@ -66792,6 +67052,17 @@
       "confidence_score": 1.0,
       "source": "service_accesscontrolservice_accesscontrolservice_accesscontrolservice",
       "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_accesscontrolservice_java_userroleassignmentdao"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/AccessControlService.java",
+      "source_location": "L50",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "confidence_score": 1.0,
+      "source": "service_accesscontrolservice_accesscontrolservice_accesscontrolservice",
+      "target": "cmmssecurityproperties"
     },
     {
       "relation": "calls",
@@ -68409,6 +68680,17 @@
       "confidence_score": 1.0,
       "source": "service_employeeservice",
       "target": "set"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/RoleService.java",
+      "source_location": "L20",
+      "weight": 1.0,
+      "source": "service_roleservice",
+      "target": "set",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports",
@@ -77941,9 +78223,9 @@
       "source_file": "cmms_front_end/src/pages/admin/roles/RoleFormPage.jsx",
       "source_location": "L38",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "roles_roleformpage",
-      "target": "roles_roleformpage_categorygrouporder",
-      "confidence_score": 1.0
+      "target": "roles_roleformpage_categorygrouporder"
     },
     {
       "relation": "contains",
@@ -77961,9 +78243,9 @@
       "source_file": "cmms_front_end/src/pages/admin/roles/RoleFormPage.jsx",
       "source_location": "L117",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "roles_roleformpage",
-      "target": "roles_roleformpage_getpermissiongrouplabel",
-      "confidence_score": 1.0
+      "target": "roles_roleformpage_getpermissiongrouplabel"
     },
     {
       "relation": "contains",
@@ -77971,9 +78253,9 @@
       "source_file": "cmms_front_end/src/pages/admin/roles/RoleFormPage.jsx",
       "source_location": "L134",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "roles_roleformpage",
-      "target": "roles_roleformpage_getpermissionsubgrouplabel",
-      "confidence_score": 1.0
+      "target": "roles_roleformpage_getpermissionsubgrouplabel"
     },
     {
       "relation": "contains",
@@ -77981,9 +78263,9 @@
       "source_file": "cmms_front_end/src/pages/admin/roles/RoleFormPage.jsx",
       "source_location": "L157",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "roles_roleformpage",
-      "target": "roles_roleformpage_grouppermissionsbysubgroup",
-      "confidence_score": 1.0
+      "target": "roles_roleformpage_grouppermissionsbysubgroup"
     },
     {
       "relation": "contains",
@@ -78011,9 +78293,9 @@
       "source_file": "cmms_front_end/src/pages/admin/roles/RoleFormPage.jsx",
       "source_location": "L53",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "roles_roleformpage",
-      "target": "roles_roleformpage_permissioncodeorder",
-      "confidence_score": 1.0
+      "target": "roles_roleformpage_permissioncodeorder"
     },
     {
       "relation": "contains",
@@ -78031,9 +78313,9 @@
       "source_file": "cmms_front_end/src/pages/admin/roles/RoleFormPage.jsx",
       "source_location": "L173",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "roles_roleformpage",
-      "target": "roles_roleformpage_sortpermissions",
-      "confidence_score": 1.0
+      "target": "roles_roleformpage_sortpermissions"
     },
     {
       "relation": "contains",
@@ -78041,9 +78323,9 @@
       "source_file": "cmms_front_end/src/pages/admin/roles/RoleFormPage.jsx",
       "source_location": "L44",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "roles_roleformpage",
-      "target": "roles_roleformpage_subgrouporder",
-      "confidence_score": 1.0
+      "target": "roles_roleformpage_subgrouporder"
     },
     {
       "relation": "imports_from",
@@ -78118,9 +78400,9 @@
       "source_file": "cmms_front_end/src/pages/admin/roles/RoleFormPage.jsx",
       "source_location": "L167",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "roles_roleformpage_grouppermissionsbysubgroup",
-      "target": "roles_roleformpage_sortpermissions",
-      "confidence_score": 1.0
+      "target": "roles_roleformpage_sortpermissions"
     },
     {
       "relation": "calls",
@@ -87630,5 +87912,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "ba28b5ddc8cab959b80e7ea420fd48941270f7eb"
+  "built_at_commit": "aba33c892f49cd8ff81d33a8c27b1d33b5d795ac"
 }
