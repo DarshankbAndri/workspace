@@ -1,7 +1,5 @@
 Important Current Limitations
 These are not fully implemented yet:
-Site selection in Preventive Maintenance
-Vendor filtering by equipment/site
 Real email/WhatsApp notification
 Duplicate work order prevention for same due date
 PM calendar view

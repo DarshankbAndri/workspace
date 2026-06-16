@@ -1,215 +1,282 @@
-Update Maintenance Request, Maintenance Assignment, and Downtime pages to follow the same list + add form flow as Vendor module.
+Implement Equipment backend pagination/filter/sort using existing common SearchServiceImp pattern.
 
-Current issue:
-Requests, Assignments, and Downtime pages currently show creation form directly or mixed with list.
+Current project already has common search implementation:
 
-Required behavior:
-Each module should have a landing list page first.
-The list page should have filters, table, and Add button.
-Only when user clicks Add, the creation page/form should open.
-After successful save, navigate back to list page.
+- SearchService
+- SearchServiceImp
+- SearchDTO
+- PageProperties
+- SearchOperation
+- JpaSpecificationExecutor based dynamic filtering
 
-Apply this to:
+Requirement:
+Do not create a new search framework.
+Reuse existing SearchServiceImp common method.
 
-1. Maintenance Requests
-2. Maintenance Assignments
-3. Downtime
+Implement backend search/list API for Equipment using the same pattern as existing VendorList @Subselect approach.
+
+Reference pattern:
+- VendorList entity uses @Subselect for list view
+- Repository extends JpaSpecificationExecutor
+- Controller/service calls common SearchService.getFilteredResults()
+
+Required API:
+POST /api/equipment/search
+
+Request body:
+SearchDTO format already used in project.
+
+Example:
+{
+  "searchCriteriaList": [
+    {
+      "filterKey": "equipmentName",
+      "dataType": "VARCHAR",
+      "value": "INV",
+      "operation": "contains"
+    }
+  ],
+  "dataOption": "all",
+  "pagination": {
+    "status": "ON",
+    "recordsPerPage": 10,
+    "sortBy": "equipmentName",
+    "sortMode": "ASC",
+    "pageNumber": 0,
+    "pageSize": 0
+  }
+}
 
 IMPORTANT:
-Frontend changes only unless route/API mismatch requires small service adjustment.
-Do not change backend logic.
-Do not change database.
-Do not change authentication.
-Do not change permission logic.
-Do not break existing Vendor page.
+Use operation names supported by current SearchOperation.
+If frontend sends "like", map it to existing CONTAINS operation or add alias support.
 
-Analyze existing Vendor module UI flow and copy the same pattern.
+BACKEND TASKS
 
-REQUEST MODULE
+1. Create EquipmentList entity using @Subselect.
 
-Create/update pages:
+Example fields should match current equipment table/entity:
 
-src/pages/maintenance/requests/MaintenanceRequestListPage.jsx
-src/pages/maintenance/requests/MaintenanceRequestFormPage.jsx
+- id
+- equipmentCode
+- equipmentName
+- equipmentType
+- status/equipmentStatus
+- siteId
+- siteCode
+- siteName
+- vendorId if available
+- vendorName if available
+- make
+- model
+- serialNumber
+- createdAt/createdDate if available
+- lastModifiedOn if available
 
-Routes:
+Use actual table names and column names from current schema.
 
-/maintenance/requests
-/maintenance/requests/new
-/maintenance/requests/:id/edit
-/maintenance/requests/:id/view
+Example:
 
-Landing page:
-- Show filters
-- Show request list DataGrid
-- Add Request button
-- Edit/View/Delete actions based on existing permission helper if available
+@Entity
+@Subselect("""
+    SELECT
+        e.id,
+        e.equipment_code AS equipment_code,
+        e.equipment_name AS equipment_name,
+        e.equipment_type AS equipment_type,
+        e.status AS equipment_status,
+        s.site_id AS site_id,
+        s.site_code AS site_code,
+        s.site_name AS site_name,
+        e.make,
+        e.model,
+        e.serial_number,
+        e.created_at
+    FROM equipment_master e
+    LEFT JOIN site_master s ON s.site_id = e.site_id
+""")
+public class EquipmentList extends CommonEntity {
+   ...
+}
 
-Filters:
-- Site filter
-- Status filter
-- Priority filter
-- Search by request title/equipment/site
+Adapt column aliases so Java field mapping works correctly.
 
-Add button:
-- Navigate to /maintenance/requests/new
+2. Create EquipmentListRepository:
 
-After save:
-- Navigate back to /maintenance/requests
+public interface EquipmentListRepository
+    extends JpaRepository<EquipmentList, Long>,
+            JpaSpecificationExecutor<EquipmentList> {
+}
 
-ASSIGNMENT MODULE
+3. Add Equipment search service method.
 
-Create/update pages:
+Use existing common search service:
 
-src/pages/maintenance/assignments/MaintenanceAssignmentListPage.jsx
-src/pages/maintenance/assignments/MaintenanceAssignmentFormPage.jsx
+PageProperties searchEquipment(SearchDTO searchDTO) {
+    validateEquipmentSearchKeys(searchDTO);
+    normalizeOperations(searchDTO);
+    applySiteAccessFilter(searchDTO);
+    return searchService.getFilteredResults(
+        searchDTO,
+        equipmentListRepository,
+        EquipmentList.class
+    );
+}
 
-Routes:
+4. Add validation for allowed filter keys.
 
-/maintenance/assignments
-/maintenance/assignments/new
-/maintenance/assignments/:id/edit
-/maintenance/assignments/:id/view
+Allowed:
+- equipmentName
+- equipmentCode
+- equipmentType
+- equipmentStatus
+- status
+- siteId
+- siteCode
+- siteName
+- vendorId
+- vendorName
+- make
+- model
+- serialNumber
+- commonSearch
 
-Landing page:
-- Show filters
-- Show assignment list DataGrid
-- Add Assignment button
+Reject unknown filter keys.
 
-Filters:
-- Site filter
-- Request status filter
-- Vendor filter
-- Assignment status filter
-- Search by request title/vendor/equipment/site
+5. Operation mapping.
 
-Add button:
-- Navigate to /maintenance/assignments/new
+Current SearchServiceImp supports:
+- equal
+- contains
+- in
+- between
+- not_equal
 
-Form behavior:
-- Site first
-- Then show related requests for selected site
-- Then show vendors assigned to selected site
+If frontend sends:
+- eq -> map to EQUAL
+- like -> map to CONTAINS
+- in -> IN
 
-After save:
-- Navigate back to /maintenance/assignments
+Add support for:
+- gt
+- lt
+- gte
+- lte
 
-DOWNTIME MODULE
+Only if needed by existing SearchOperation enum.
+Update SearchOperation and SearchServiceImp carefully.
 
-Create/update pages:
+6. Fix common SearchServiceImp if needed.
 
-src/pages/maintenance/downtime/DowntimeListPage.jsx
-src/pages/maintenance/downtime/DowntimeFormPage.jsx
+Current SearchServiceImp ignores searchDTO.dataOption and always uses AND.
 
-Routes:
+Update it:
+- dataOption = "all" => cb.and(...)
+- dataOption = "any" => cb.or(...)
 
-/maintenance/downtime
-/maintenance/downtime/new
-/maintenance/downtime/:id/edit
-/maintenance/downtime/:id/view
+Keep existing behavior default as AND.
 
-Landing page:
-- Show filters
-- Show downtime list DataGrid
-- Add Downtime button
+7. Sorting.
 
-Filters:
-- Site filter
-- Equipment filter
-- Request filter
-- Date from
-- Date to
-- Search by equipment/request/site
+Use existing pagination.sortBy and sortMode.
 
-Add button:
-- Navigate to /maintenance/downtime/new
+Validate sortBy against allowed keys before calling SearchServiceImp.
 
-Form behavior:
-- Site first
-- Equipment filtered by selected site
-- Request filtered by selected site/equipment
-- Calculate downtime as existing logic
+If sortBy is null:
+- use createdAt DESC if EquipmentList has createdAt
+- else id DESC
 
-After save:
-- Navigate back to /maintenance/downtime
+If existing SearchServiceImp defaults to id ASC, update only if safe or handle before calling it.
 
-COMMON UI RULES
+8. Site access filtering.
 
-Use same style as Vendor module:
-- Page header
-- Filter card
-- DataGrid/list card
-- Add button at top right
-- Snackbar success/error
-- Confirmation dialog before delete/inactive
-- Loading state
-- Empty state
-- Responsive layout
+Keep backend site access restriction active.
 
-PERMISSION RULES
+Before calling SearchServiceImp:
+- Get allowed site IDs from existing AccessControlService if available.
+- If user is not admin/super admin, add siteId IN allowedSiteIds to SearchDTO.
+- If request already has siteId filter, validate user has access to that site.
+- Do not return equipment from unauthorized sites.
 
-Use existing frontend permission helpers if available.
+9. Controller.
 
-Add button visible only if:
-- REQUEST_CREATE for request
-- ASSIGNMENT_CREATE for assignment
-- DOWNTIME_CREATE for downtime
+Add endpoint:
 
-Edit button visible only if:
-- REQUEST_UPDATE
-- ASSIGNMENT_UPDATE
-- DOWNTIME_UPDATE
+@PostMapping("/search")
+public ResponseEntity<?> searchEquipment(@RequestBody SearchDTO searchDTO)
 
-Delete button visible only if:
-- REQUEST_DELETE
-- ASSIGNMENT_DELETE
-- DOWNTIME_DELETE
+Reuse existing response wrapper if project uses it.
 
-View button visible if:
-- REQUEST_VIEW
-- ASSIGNMENT_VIEW
-- DOWNTIME_VIEW
+10. Do not break existing Equipment APIs:
+- create
+- update
+- getById
+- delete
+- getAll if already used
 
-ROUTE UPDATE
+FRONTEND TASKS
 
-Update App.jsx/routes:
-- Sidebar menu should point to list routes only:
-  Requests -> /maintenance/requests
-  Assignments -> /maintenance/assignments
-  Downtime -> /maintenance/downtime
+Update Equipment List page to call POST /api/equipment/search.
 
-Do not point sidebar directly to form pages.
+Use existing SearchDTO structure.
 
-SERVICE REQUIREMENT
+Initial load payload:
 
-Reuse existing services:
-- maintenanceService.js
-- assignmentService.js
-- downtimeService.js
-or existing project service names.
+{
+  "searchCriteriaList": [],
+  "dataOption": "all",
+  "pagination": {
+    "status": "ON",
+    "recordsPerPage": 10,
+    "sortBy": null,
+    "sortMode": null,
+    "pageNumber": 0,
+    "pageSize": 0
+  }
+}
 
-Do not create duplicate Axios config.
-Do not hardcode API base URL.
+For search text:
+Use commonSearch if UI has one search box:
 
-If existing APIs already support list/create/update/getById/delete, reuse them.
+{
+  "filterKey": "commonSearch",
+  "dataType": "VARCHAR",
+  "value": "<search>",
+  "operation": "contains"
+}
 
-If existing page has combined form/list logic:
-- Split into ListPage and FormPage.
-- Keep existing form validation and service calls.
-- Move only UI flow, not backend logic.
+For specific filters:
+- siteId => equal
+- equipmentType => equal
+- equipmentStatus/status => equal
+- equipmentName => contains
+
+Pagination:
+- pageNumber zero based
+- recordsPerPage from table page size
+
+Sorting:
+- sortBy should match EquipmentList field name
+- sortMode ASC/DESC
+
+After add/edit/delete:
+Reload current backend page.
 
 IMPORTANT CODING RULES
 
-1. Analyze Vendor page flow first.
-2. Match Vendor page structure and style.
-3. Do not change backend unless absolutely required.
-4. Do not change database.
-5. Do not change JWT/auth.
-6. Do not remove site-first filtering logic.
-7. Ensure frontend builds successfully.
+1. Analyze VendorList @Subselect and existing search usage first.
+2. Reuse common SearchServiceImp.
+3. Do not create duplicate pagination code.
+4. Do not use raw SQL string concatenation for filters.
+5. Do not break existing APIs.
+6. Do not change frontend UI design.
+7. Ensure backend compiles.
+8. Ensure frontend builds.
 
 After implementation, summarize:
-- Pages created/modified
-- Routes updated
-- Sidebar routes updated
-- Confirm backend was not changed
+- EquipmentList entity created
+- Repository created
+- API added
+- SearchServiceImp changes if any
+- Frontend files updated
+- How to test

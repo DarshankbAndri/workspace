@@ -1,6 +1,8 @@
 package com.example.cmmsApplication.controller;
 
 import com.example.cmmsApplication.dto.EquipmentDTO;
+import com.example.cmmsApplication.dto.PageProperties;
+import com.example.cmmsApplication.dto.SearchDTO;
 import com.example.cmmsApplication.service.EquipmentService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -20,6 +22,11 @@ public class EquipmentController {
     @PostMapping
     public ResponseEntity<EquipmentDTO> create(@Valid @RequestBody EquipmentDTO dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(equipmentService.create(dto));
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity<PageProperties> search(@RequestBody SearchDTO searchDTO) {
+        return ResponseEntity.ok(equipmentService.searchEquipment(searchDTO));
     }
 
     @PutMapping("/{id}")

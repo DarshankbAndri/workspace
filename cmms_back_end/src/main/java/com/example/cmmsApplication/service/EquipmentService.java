@@ -2,24 +2,80 @@ package com.example.cmmsApplication.service;
 
 import com.example.cmmsApplication.dao.EquipmentDAO;
 import com.example.cmmsApplication.dto.EquipmentDTO;
+import com.example.cmmsApplication.dto.PageProperties;
+import com.example.cmmsApplication.dto.SearchCriteriaDTO;
+import com.example.cmmsApplication.dto.SearchDTO;
 import com.example.cmmsApplication.entity.Equipment;
 import com.example.cmmsApplication.entity.Site;
 import com.example.cmmsApplication.exception.InvalidOperationException;
 import com.example.cmmsApplication.exception.ResourceNotFoundException;
+import com.example.cmmsApplication.repository.EquipmentListRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
 @Transactional
 public class EquipmentService {
+    private static final Set<String> ALLOWED_SEARCH_KEYS = Set.of(
+            "commonSearch",
+            "equipmentName",
+            "equipmentCode",
+            "equipmentType",
+            "equipmentStatus",
+            "status",
+            "siteId",
+            "siteCode",
+            "siteName",
+            "vendorId",
+            "vendorName",
+            "make",
+            "model",
+            "serialNumber"
+    );
+    private static final Set<String> ALLOWED_SORT_KEYS = Set.of(
+            "id",
+            "equipmentName",
+            "equipmentCode",
+            "equipmentType",
+            "equipmentStatus",
+            "status",
+            "siteId",
+            "siteCode",
+            "siteName",
+            "vendorId",
+            "vendorName",
+            "make",
+            "model",
+            "serialNumber",
+            "createdAt",
+            "lastModifiedOn",
+            "category",
+            "location",
+            "criticality",
+            "manufacturer",
+            "modelNumber"
+    );
+
     private final EquipmentDAO equipmentDAO;
+    private final EquipmentListRepository equipmentListRepository;
+    private final SearchService searchService;
     private final SiteService siteService;
     private final AccessControlService accessControlService;
 
-    public EquipmentService(EquipmentDAO equipmentDAO, SiteService siteService, AccessControlService accessControlService) {
+    public EquipmentService(EquipmentDAO equipmentDAO,
+                            EquipmentListRepository equipmentListRepository,
+                            SearchService searchService,
+                            SiteService siteService,
+                            AccessControlService accessControlService) {
         this.equipmentDAO = equipmentDAO;
+        this.equipmentListRepository = equipmentListRepository;
+        this.searchService = searchService;
         this.siteService = siteService;
         this.accessControlService = accessControlService;
     }
@@ -67,6 +123,17 @@ public class EquipmentService {
         return equipment.stream().map(this::toDTO).collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
+    public PageProperties searchEquipment(SearchDTO searchDTO) {
+        accessControlService.validatePermission("EQUIPMENT_VIEW");
+        SearchDTO effectiveSearch = searchDTO == null ? new SearchDTO() : searchDTO;
+        validateEquipmentSearchKeys(effectiveSearch);
+        normalizeOperations(effectiveSearch);
+        applyDefaultSort(effectiveSearch);
+        applySiteAccessFilter(effectiveSearch);
+        return searchService.getFilteredResults(effectiveSearch, equipmentListRepository, com.example.cmmsApplication.entity.EquipmentList.class);
+    }
+
     public void delete(Long id) {
         accessControlService.validatePermission("EQUIPMENT_DELETE");
         Equipment equipment = getEntity(id);
@@ -105,6 +172,86 @@ public class EquipmentService {
             throw new InvalidOperationException("Selected site is inactive");
         }
         return site;
+    }
+
+    private void validateEquipmentSearchKeys(SearchDTO searchDTO) {
+        if (searchDTO.getSearchCriteriaList() != null) {
+            for (SearchCriteriaDTO criteria : searchDTO.getSearchCriteriaList()) {
+                if (criteria != null && !isBlank(criteria.getFilterKey()) && !ALLOWED_SEARCH_KEYS.contains(criteria.getFilterKey())) {
+                    throw new InvalidOperationException("Unsupported equipment filter key: " + criteria.getFilterKey());
+                }
+            }
+        }
+        if (searchDTO.getPagination() != null && !isBlank(searchDTO.getPagination().getSortBy())
+                && !ALLOWED_SORT_KEYS.contains(searchDTO.getPagination().getSortBy())) {
+            throw new InvalidOperationException("Unsupported equipment sort key: " + searchDTO.getPagination().getSortBy());
+        }
+    }
+
+    private void normalizeOperations(SearchDTO searchDTO) {
+        if (searchDTO.getSearchCriteriaList() == null) {
+            searchDTO.setSearchCriteriaList(new ArrayList<>());
+            return;
+        }
+        for (SearchCriteriaDTO criteria : searchDTO.getSearchCriteriaList()) {
+            if (criteria == null || isBlank(criteria.getOperation())) {
+                continue;
+            }
+            String operation = criteria.getOperation().trim().toLowerCase(Locale.ROOT);
+            if ("eq".equals(operation)) {
+                criteria.setOperation("equal");
+            } else if ("like".equals(operation)) {
+                criteria.setOperation("contains");
+            } else {
+                criteria.setOperation(operation);
+            }
+        }
+    }
+
+    private void applyDefaultSort(SearchDTO searchDTO) {
+        if (searchDTO.getPagination() != null && isBlank(searchDTO.getPagination().getSortBy())) {
+            searchDTO.getPagination().setSortBy("createdAt");
+            searchDTO.getPagination().setSortMode("DESC");
+        }
+    }
+
+    private void applySiteAccessFilter(SearchDTO searchDTO) {
+        if (searchDTO.getSearchCriteriaList() == null) {
+            searchDTO.setSearchCriteriaList(new ArrayList<>());
+        }
+        SearchCriteriaDTO requestedSiteFilter = searchDTO.getSearchCriteriaList().stream()
+                .filter((criteria) -> criteria != null && "siteId".equals(criteria.getFilterKey()) && !isEmptyValue(criteria.getValue()))
+                .findFirst()
+                .orElse(null);
+        if (requestedSiteFilter != null) {
+            accessControlService.validateSiteAccess(Long.valueOf(requestedSiteFilter.getValue().toString()));
+        }
+        if (!accessControlService.isAdmin()) {
+            SearchCriteriaDTO accessCriteria = new SearchCriteriaDTO();
+            accessCriteria.setFilterKey("siteId");
+            accessCriteria.setDataType("LONG");
+            accessCriteria.setValue(accessControlService.getAllowedSiteIds());
+            accessCriteria.setOperation("in");
+            searchDTO.getSearchCriteriaList().add(accessCriteria);
+            searchDTO.setDataOption("all");
+        }
+    }
+
+    private boolean isBlank(String value) {
+        return value == null || value.trim().isEmpty();
+    }
+
+    private boolean isEmptyValue(Object value) {
+        if (value == null) {
+            return true;
+        }
+        if (value instanceof String) {
+            return ((String) value).trim().isEmpty();
+        }
+        if (value instanceof Collection<?>) {
+            return ((Collection<?>) value).isEmpty();
+        }
+        return false;
     }
 
     private EquipmentDTO toDTO(Equipment equipment) {

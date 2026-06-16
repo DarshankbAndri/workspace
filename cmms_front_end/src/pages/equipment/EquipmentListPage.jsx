@@ -3,24 +3,61 @@ import { Box, Button, IconButton, MenuItem, Paper, Stack, TextField, Typography,
 import { Add, Delete, Edit } from '@mui/icons-material';
 import { DataGrid } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
-import { deleteEquipment, getEquipments } from '../../services/equipmentService';
+import { deleteEquipment, searchEquipments } from '../../services/equipmentService';
 import { getSites } from '../../services/siteService';
 
 function EquipmentListPage() {
   const navigate = useNavigate();
   const [rows, setRows] = React.useState([]);
+  const [rowCount, setRowCount] = React.useState(0);
   const [sites, setSites] = React.useState([]);
   const [siteFilter, setSiteFilter] = React.useState('');
+  const [equipmentNameFilter, setEquipmentNameFilter] = React.useState('');
+  const [paginationModel, setPaginationModel] = React.useState({ page: 0, pageSize: 10 });
+  const [sortModel, setSortModel] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState('');
 
   const loadRows = React.useCallback(() => {
     setLoading(true);
-    getEquipments(siteFilter || undefined)
-      .then(setRows)
+    setError('');
+    const searchCriteriaList = [];
+    if (siteFilter) {
+      searchCriteriaList.push({
+        filterKey: 'siteId',
+        dataType: 'LONG',
+        value: siteFilter,
+        operation: 'equal',
+      });
+    }
+    if (equipmentNameFilter.trim()) {
+      searchCriteriaList.push({
+        filterKey: 'commonSearch',
+        dataType: 'VARCHAR',
+        value: equipmentNameFilter.trim(),
+        operation: 'contains',
+      });
+    }
+    const activeSort = sortModel[0];
+    searchEquipments({
+      searchCriteriaList,
+      dataOption: 'all',
+      pagination: {
+        status: 'ON',
+        recordsPerPage: paginationModel.pageSize,
+        sortBy: activeSort?.field || null,
+        sortMode: activeSort?.sort ? activeSort.sort.toUpperCase() : null,
+        pageNumber: paginationModel.page,
+        pageSize: 0,
+      },
+    })
+      .then((response) => {
+        setRows(response.data || []);
+        setRowCount(response.totalRecords || 0);
+      })
       .catch(() => setError('Unable to load equipment.'))
       .finally(() => setLoading(false));
-  }, [siteFilter]);
+  }, [equipmentNameFilter, paginationModel.page, paginationModel.pageSize, siteFilter, sortModel]);
 
   React.useEffect(() => { loadRows(); }, [loadRows]);
   React.useEffect(() => {
@@ -29,8 +66,29 @@ function EquipmentListPage() {
 
   const handleDelete = async (id) => {
     if (!window.confirm('Delete this equipment?')) return;
-    await deleteEquipment(id);
-    loadRows();
+    try {
+      await deleteEquipment(id);
+      loadRows();
+    } catch {
+      setError('Unable to delete equipment.');
+    }
+  };
+
+  const updateSiteFilter = (event) => {
+    setSiteFilter(event.target.value);
+    setPaginationModel((current) => ({ ...current, page: 0 }));
+  };
+
+  const updateEquipmentNameFilter = (event) => {
+    setEquipmentNameFilter(event.target.value);
+    setPaginationModel((current) => ({ ...current, page: 0 }));
+  };
+
+  const updatePaginationModel = (model) => {
+    setPaginationModel((current) => ({
+      page: model.pageSize !== current.pageSize ? 0 : model.page,
+      pageSize: model.pageSize,
+    }));
   };
 
   const columns = [
@@ -66,13 +124,32 @@ function EquipmentListPage() {
       </Stack>
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
       <Paper sx={{ p: 2, mb: 2, borderRadius: 1 }}>
-        <TextField select label="Site" value={siteFilter} onChange={(event) => setSiteFilter(event.target.value)} sx={{ minWidth: { xs: '100%', sm: 280 } }}>
-          <MenuItem value="">All Sites</MenuItem>
-          {sites.map((site) => <MenuItem key={site.id} value={site.id}>{site.siteName} ({site.siteCode})</MenuItem>)}
-        </TextField>
+        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+          <TextField label="Equipment" value={equipmentNameFilter} onChange={updateEquipmentNameFilter} sx={{ minWidth: { xs: '100%', sm: 280 } }} />
+          <TextField select label="Site" value={siteFilter} onChange={updateSiteFilter} sx={{ minWidth: { xs: '100%', sm: 280 } }}>
+            <MenuItem value="">All Sites</MenuItem>
+            {sites.map((site) => <MenuItem key={site.id} value={site.id}>{site.siteName} ({site.siteCode})</MenuItem>)}
+          </TextField>
+        </Stack>
       </Paper>
       <Paper sx={{ height: 560, borderRadius: 1 }}>
-        <DataGrid rows={rows} columns={columns} loading={loading} disableRowSelectionOnClick pageSizeOptions={[10, 25, 50]} initialState={{ pagination: { paginationModel: { pageSize: 10 } } }} />
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          loading={loading}
+          disableRowSelectionOnClick
+          pageSizeOptions={[10, 25, 50]}
+          paginationMode="server"
+          sortingMode="server"
+          rowCount={rowCount}
+          paginationModel={paginationModel}
+          onPaginationModelChange={updatePaginationModel}
+          sortModel={sortModel}
+          onSortModelChange={(model) => {
+            setSortModel(model);
+            setPaginationModel((current) => ({ ...current, page: 0 }));
+          }}
+        />
       </Paper>
     </Box>
   );
