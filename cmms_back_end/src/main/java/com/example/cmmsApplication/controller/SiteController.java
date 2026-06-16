@@ -1,6 +1,9 @@
 package com.example.cmmsApplication.controller;
 
+import com.example.cmmsApplication.dto.PageProperties;
+import com.example.cmmsApplication.dto.SearchDTO;
 import com.example.cmmsApplication.dto.SiteDTO;
+import com.example.cmmsApplication.service.ListSearchService;
 import com.example.cmmsApplication.service.SiteService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -13,9 +16,11 @@ import java.util.List;
 @RequestMapping("/hr/sites")
 public class SiteController {
     private final SiteService siteService;
+    private final ListSearchService listSearchService;
 
-    public SiteController(SiteService siteService) {
+    public SiteController(SiteService siteService, ListSearchService listSearchService) {
         this.siteService = siteService;
+        this.listSearchService = listSearchService;
     }
 
     @PostMapping
@@ -42,5 +47,10 @@ public class SiteController {
     @GetMapping
     public ResponseEntity<List<SiteDTO>> getAll() {
         return ResponseEntity.ok(siteService.getAll());
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity<PageProperties> search(@RequestBody SearchDTO searchDTO) {
+        return ResponseEntity.ok(listSearchService.searchSites(searchDTO));
     }
 }

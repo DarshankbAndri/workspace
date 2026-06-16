@@ -3,10 +3,11 @@ import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogContent
 import { Add, Delete, Edit, Visibility } from '@mui/icons-material';
 import { DataGrid } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
-import { deleteMaintenanceAssignment, getMaintenanceAssignments } from '../../../services/maintenanceService';
+import { deleteMaintenanceAssignment, searchMaintenanceAssignments } from '../../../services/maintenanceService';
 import { getSites } from '../../../services/siteService';
 import { getVendors } from '../../../services/vendorService';
 import { useAuth } from '../../../context/AuthContext';
+import { commonSearchFilter, createSearchPayload, equalFilter } from '../../../utils/searchPayload';
 
 function MaintenanceAssignmentListPage() {
   const navigate = useNavigate();
@@ -19,14 +20,31 @@ function MaintenanceAssignmentListPage() {
   const [error, setError] = React.useState('');
   const [success, setSuccess] = React.useState('');
   const [deleteRow, setDeleteRow] = React.useState(null);
+  const [rowCount, setRowCount] = React.useState(0);
+  const [paginationModel, setPaginationModel] = React.useState({ page: 0, pageSize: 10 });
+  const [sortModel, setSortModel] = React.useState([]);
 
   const loadRows = React.useCallback(() => {
     setLoading(true);
-    getMaintenanceAssignments(filters.siteId || undefined)
-      .then((data) => setRows(data || []))
+    const payload = createSearchPayload({
+      filters: [
+        equalFilter('siteId', filters.siteId, 'NUMBER'),
+        equalFilter('requestStatus', filters.requestStatus),
+        equalFilter('vendorId', filters.vendorId, 'NUMBER'),
+        equalFilter('status', filters.status),
+        commonSearchFilter(filters.search),
+      ],
+      paginationModel,
+      sortModel,
+    });
+    searchMaintenanceAssignments(payload)
+      .then((response) => {
+        setRows(response.data || []);
+        setRowCount(response.totalRecords || 0);
+      })
       .catch((err) => setError(err.response?.data?.message || 'Unable to load assignments.'))
       .finally(() => setLoading(false));
-  }, [filters.siteId]);
+  }, [filters, paginationModel, sortModel]);
 
   React.useEffect(() => { loadRows(); }, [loadRows]);
   React.useEffect(() => {
@@ -38,17 +56,12 @@ function MaintenanceAssignmentListPage() {
       .catch(() => setError('Unable to load filters.'));
   }, []);
 
-  const visibleRows = React.useMemo(() => rows.filter((row) => {
-    const query = filters.search.trim().toLowerCase();
-    const searchable = `${row.requestTitle || ''} ${row.requestNumber || ''} ${row.vendorName || ''} ${row.assignedTo || ''} ${row.siteName || ''}`.toLowerCase();
-    const matchesRequestStatus = !filters.requestStatus || row.requestStatus === filters.requestStatus || row.maintenanceRequestStatus === filters.requestStatus;
-    return matchesRequestStatus
-      && (!filters.vendorId || String(row.vendorId || '') === String(filters.vendorId))
-      && (!filters.status || row.status === filters.status)
-      && (!query || searchable.includes(query));
-  }), [rows, filters]);
+  const resetPage = () => setPaginationModel((current) => ({ ...current, page: 0 }));
 
-  const updateFilter = (field) => (event) => setFilters((current) => ({ ...current, [field]: event.target.value }));
+  const updateFilter = (field) => (event) => {
+    setFilters((current) => ({ ...current, [field]: event.target.value }));
+    resetPage();
+  };
 
   const confirmDelete = async () => {
     if (!deleteRow) return;
@@ -125,7 +138,20 @@ function MaintenanceAssignmentListPage() {
         </Stack>
       </Paper>
       <Paper sx={{ height: 560, borderRadius: 1 }}>
-        <DataGrid rows={visibleRows} columns={columns} loading={loading} disableRowSelectionOnClick pageSizeOptions={[10, 25, 50]} initialState={{ pagination: { paginationModel: { pageSize: 10 } } }} />
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          loading={loading}
+          disableRowSelectionOnClick
+          pageSizeOptions={[10, 25, 50]}
+          paginationMode="server"
+          sortingMode="server"
+          rowCount={rowCount}
+          paginationModel={paginationModel}
+          onPaginationModelChange={(model) => setPaginationModel((current) => (model.pageSize !== current.pageSize ? { ...model, page: 0 } : model))}
+          sortModel={sortModel}
+          onSortModelChange={(model) => { setSortModel(model); resetPage(); }}
+        />
       </Paper>
       <Dialog open={Boolean(deleteRow)} onClose={() => setDeleteRow(null)}>
         <DialogTitle>Delete assignment?</DialogTitle>

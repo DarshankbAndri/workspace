@@ -3,8 +3,9 @@ import { Box, Button, IconButton, MenuItem, Paper, Stack, TextField, Typography,
 import { Add, Delete, Edit } from '@mui/icons-material';
 import { DataGrid } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
-import { deleteVendor, getVendors } from '../../services/vendorService';
+import { deleteVendor, getVendors, searchVendors } from '../../services/vendorService';
 import { getSites } from '../../services/siteService';
+import { createSearchPayload, equalFilter } from '../../utils/searchPayload';
 
 function VendorListPage() {
   const navigate = useNavigate();
@@ -14,14 +15,28 @@ function VendorListPage() {
   const [statusFilter, setStatusFilter] = React.useState('ACTIVE');
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState('');
+  const [rowCount, setRowCount] = React.useState(0);
+  const [paginationModel, setPaginationModel] = React.useState({ page: 0, pageSize: 10 });
+  const [sortModel, setSortModel] = React.useState([]);
 
   const loadRows = React.useCallback(() => {
     setLoading(true);
-    getVendors({ ...(siteFilter ? { siteId: siteFilter } : {}), ...(statusFilter ? { status: statusFilter } : {}) })
-      .then(setRows)
+    const payload = createSearchPayload({
+      filters: [
+        equalFilter('siteId', siteFilter, 'NUMBER'),
+        equalFilter('active', statusFilter ? statusFilter === 'ACTIVE' : '', 'BOOLEAN'),
+      ],
+      paginationModel,
+      sortModel,
+    });
+    searchVendors(payload)
+      .then((response) => {
+        setRows(response.data || []);
+        setRowCount(response.totalRecords || 0);
+      })
       .catch(() => setError('Unable to load vendors.'))
       .finally(() => setLoading(false));
-  }, [siteFilter, statusFilter]);
+  }, [paginationModel, siteFilter, sortModel, statusFilter]);
 
   React.useEffect(() => { loadRows(); }, [loadRows]);
   React.useEffect(() => {
@@ -33,6 +48,8 @@ function VendorListPage() {
     await deleteVendor(id);
     loadRows();
   };
+
+  const resetPage = () => setPaginationModel((current) => ({ ...current, page: 0 }));
 
   const columns = [
     { field: 'vendorCode', headerName: 'Code', minWidth: 120, flex: 0.7 },
@@ -71,11 +88,11 @@ function VendorListPage() {
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
       <Paper sx={{ p: 2, mb: 2, borderRadius: 1 }}>
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-          <TextField select label="Site" value={siteFilter} onChange={(event) => setSiteFilter(event.target.value)} sx={{ minWidth: 240 }}>
+          <TextField select label="Site" value={siteFilter} onChange={(event) => { setSiteFilter(event.target.value); resetPage(); }} sx={{ minWidth: 240 }}>
             <MenuItem value="">All Sites</MenuItem>
             {sites.map((site) => <MenuItem key={site.id} value={site.id}>{site.siteName} ({site.siteCode})</MenuItem>)}
           </TextField>
-          <TextField select label="Status" value={statusFilter} onChange={(event) => setStatusFilter(event.target.value)} sx={{ minWidth: 180 }}>
+          <TextField select label="Status" value={statusFilter} onChange={(event) => { setStatusFilter(event.target.value); resetPage(); }} sx={{ minWidth: 180 }}>
             <MenuItem value="">All</MenuItem>
             <MenuItem value="ACTIVE">ACTIVE</MenuItem>
             <MenuItem value="INACTIVE">INACTIVE</MenuItem>
@@ -83,7 +100,20 @@ function VendorListPage() {
         </Stack>
       </Paper>
       <Paper sx={{ height: 560, borderRadius: 1 }}>
-        <DataGrid rows={rows} columns={columns} loading={loading} disableRowSelectionOnClick pageSizeOptions={[10, 25, 50]} initialState={{ pagination: { paginationModel: { pageSize: 10 } } }} />
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          loading={loading}
+          disableRowSelectionOnClick
+          pageSizeOptions={[10, 25, 50]}
+          paginationMode="server"
+          sortingMode="server"
+          rowCount={rowCount}
+          paginationModel={paginationModel}
+          onPaginationModelChange={(model) => setPaginationModel((current) => (model.pageSize !== current.pageSize ? { ...model, page: 0 } : model))}
+          sortModel={sortModel}
+          onSortModelChange={(model) => { setSortModel(model); resetPage(); }}
+        />
       </Paper>
     </Box>
   );

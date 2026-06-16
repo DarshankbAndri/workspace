@@ -16,6 +16,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -179,6 +180,9 @@ public class SearchServiceImp implements SearchService {
         }
         if (Integer.class.equals(javaType)) {
             return Integer.valueOf(stringValue);
+        }
+        if (BigDecimal.class.equals(javaType)) {
+            return new BigDecimal(stringValue);
         }
         if (Boolean.class.equals(javaType)) {
             return Boolean.valueOf(stringValue);

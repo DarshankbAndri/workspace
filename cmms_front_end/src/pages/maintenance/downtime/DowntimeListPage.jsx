@@ -3,10 +3,11 @@ import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogContent
 import { Add, Delete, Edit, Visibility } from '@mui/icons-material';
 import { DataGrid } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
-import { deleteDowntimeEntry, getDowntimeEntries, getMaintenanceRequests } from '../../../services/maintenanceService';
+import { deleteDowntimeEntry, getMaintenanceRequests, searchDowntimeEntries } from '../../../services/maintenanceService';
 import { getEquipments } from '../../../services/equipmentService';
 import { getSites } from '../../../services/siteService';
 import { useAuth } from '../../../context/AuthContext';
+import { commonSearchFilter, createSearchPayload, equalFilter, rangeFilter } from '../../../utils/searchPayload';
 
 const formatDuration = (value) => value ?? '-';
 
@@ -22,14 +23,32 @@ function DowntimeListPage() {
   const [error, setError] = React.useState('');
   const [success, setSuccess] = React.useState('');
   const [deleteRow, setDeleteRow] = React.useState(null);
+  const [rowCount, setRowCount] = React.useState(0);
+  const [paginationModel, setPaginationModel] = React.useState({ page: 0, pageSize: 10 });
+  const [sortModel, setSortModel] = React.useState([]);
 
   const loadRows = React.useCallback(() => {
     setLoading(true);
-    getDowntimeEntries({ ...(filters.siteId ? { siteId: filters.siteId } : {}), ...(filters.equipmentId ? { equipmentId: filters.equipmentId } : {}) })
-      .then((data) => setRows(data || []))
+    const payload = createSearchPayload({
+      filters: [
+        equalFilter('siteId', filters.siteId, 'NUMBER'),
+        equalFilter('equipmentId', filters.equipmentId, 'NUMBER'),
+        equalFilter('requestId', filters.requestId, 'NUMBER'),
+        rangeFilter('downtimeStart', filters.dateFrom ? `${filters.dateFrom}T00:00:00` : '', 'gte', 'DATETIME'),
+        rangeFilter('downtimeStart', filters.dateTo ? `${filters.dateTo}T23:59:59` : '', 'lte', 'DATETIME'),
+        commonSearchFilter(filters.search),
+      ],
+      paginationModel,
+      sortModel,
+    });
+    searchDowntimeEntries(payload)
+      .then((response) => {
+        setRows(response.data || []);
+        setRowCount(response.totalRecords || 0);
+      })
       .catch((err) => setError(err.response?.data?.message || 'Unable to load downtime.'))
       .finally(() => setLoading(false));
-  }, [filters.siteId, filters.equipmentId]);
+  }, [filters, paginationModel, sortModel]);
 
   React.useEffect(() => { loadRows(); }, [loadRows]);
   React.useEffect(() => {
@@ -48,16 +67,6 @@ function DowntimeListPage() {
     (!filters.equipmentId || String(request.equipmentId || '') === String(filters.equipmentId))
   ));
 
-  const visibleRows = React.useMemo(() => rows.filter((row) => {
-    const query = filters.search.trim().toLowerCase();
-    const searchable = `${row.equipmentName || ''} ${row.equipmentCode || ''} ${row.requestNumber || ''} ${row.requestTitle || ''} ${row.siteName || ''}`.toLowerCase();
-    const startDate = row.downtimeStart ? row.downtimeStart.slice(0, 10) : '';
-    return (!filters.requestId || String(row.requestId || '') === String(filters.requestId))
-      && (!filters.dateFrom || startDate >= filters.dateFrom)
-      && (!filters.dateTo || startDate <= filters.dateTo)
-      && (!query || searchable.includes(query));
-  }), [rows, filters]);
-
   const updateFilter = (field) => (event) => {
     const value = event.target.value;
     setFilters((current) => ({
@@ -66,6 +75,7 @@ function DowntimeListPage() {
       ...(field === 'siteId' ? { equipmentId: '', requestId: '' } : {}),
       ...(field === 'equipmentId' ? { requestId: '' } : {}),
     }));
+    setPaginationModel((current) => ({ ...current, page: 0 }));
   };
 
   const confirmDelete = async () => {
@@ -135,7 +145,23 @@ function DowntimeListPage() {
         </Stack>
       </Paper>
       <Paper sx={{ height: 560, borderRadius: 1 }}>
-        <DataGrid rows={visibleRows} columns={columns} loading={loading} disableRowSelectionOnClick pageSizeOptions={[10, 25, 50]} initialState={{ pagination: { paginationModel: { pageSize: 10 } } }} />
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          loading={loading}
+          disableRowSelectionOnClick
+          pageSizeOptions={[10, 25, 50]}
+          paginationMode="server"
+          sortingMode="server"
+          rowCount={rowCount}
+          paginationModel={paginationModel}
+          onPaginationModelChange={(model) => setPaginationModel((current) => (model.pageSize !== current.pageSize ? { ...model, page: 0 } : model))}
+          sortModel={sortModel}
+          onSortModelChange={(model) => {
+            setSortModel(model);
+            setPaginationModel((current) => ({ ...current, page: 0 }));
+          }}
+        />
       </Paper>
       <Dialog open={Boolean(deleteRow)} onClose={() => setDeleteRow(null)}>
         <DialogTitle>Delete downtime entry?</DialogTitle>

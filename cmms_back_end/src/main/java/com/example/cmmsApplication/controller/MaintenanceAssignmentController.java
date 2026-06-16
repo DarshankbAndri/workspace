@@ -1,6 +1,9 @@
 package com.example.cmmsApplication.controller;
 
 import com.example.cmmsApplication.dto.MaintenanceAssignmentDTO;
+import com.example.cmmsApplication.dto.PageProperties;
+import com.example.cmmsApplication.dto.SearchDTO;
+import com.example.cmmsApplication.service.ListSearchService;
 import com.example.cmmsApplication.service.MaintenanceAssignmentService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -12,9 +15,11 @@ import java.util.List;
 @RequestMapping("/maintenance/assignments")
 public class MaintenanceAssignmentController {
     private final MaintenanceAssignmentService assignmentService;
+    private final ListSearchService listSearchService;
 
-    public MaintenanceAssignmentController(MaintenanceAssignmentService assignmentService) {
+    public MaintenanceAssignmentController(MaintenanceAssignmentService assignmentService, ListSearchService listSearchService) {
         this.assignmentService = assignmentService;
+        this.listSearchService = listSearchService;
     }
 
     @PostMapping
@@ -41,5 +46,10 @@ public class MaintenanceAssignmentController {
     @GetMapping
     public ResponseEntity<List<MaintenanceAssignmentDTO>> getAll(@RequestParam(required = false) Long siteId) {
         return ResponseEntity.ok(assignmentService.getAll(siteId));
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity<PageProperties> search(@RequestBody SearchDTO searchDTO) {
+        return ResponseEntity.ok(listSearchService.searchMaintenanceAssignments(searchDTO));
     }
 }

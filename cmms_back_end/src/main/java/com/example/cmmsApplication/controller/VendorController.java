@@ -1,6 +1,9 @@
 package com.example.cmmsApplication.controller;
 
+import com.example.cmmsApplication.dto.PageProperties;
+import com.example.cmmsApplication.dto.SearchDTO;
 import com.example.cmmsApplication.dto.VendorDTO;
+import com.example.cmmsApplication.service.ListSearchService;
 import com.example.cmmsApplication.service.VendorService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -12,9 +15,11 @@ import java.util.List;
 @RequestMapping("/vendors")
 public class VendorController {
     private final VendorService vendorService;
+    private final ListSearchService listSearchService;
 
-    public VendorController(VendorService vendorService) {
+    public VendorController(VendorService vendorService, ListSearchService listSearchService) {
         this.vendorService = vendorService;
+        this.listSearchService = listSearchService;
     }
 
     @PostMapping
@@ -48,5 +53,10 @@ public class VendorController {
             active = false;
         }
         return ResponseEntity.ok(vendorService.getAll(siteId, active));
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity<PageProperties> search(@RequestBody SearchDTO searchDTO) {
+        return ResponseEntity.ok(listSearchService.searchVendors(searchDTO));
     }
 }

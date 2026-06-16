@@ -5,8 +5,9 @@ import { DataGrid } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
 import { getEquipments } from '../../../services/equipmentService';
 import { getSites } from '../../../services/siteService';
-import { deletePMSchedule, generateDuePMWorkOrders, generatePMWorkOrder, getPMSchedules } from '../../../services/preventiveMaintenanceService';
+import { deletePMSchedule, generateDuePMWorkOrders, generatePMWorkOrder, searchPMSchedules } from '../../../services/preventiveMaintenanceService';
 import { useAuth } from '../../../context/AuthContext';
+import { commonSearchFilter, createSearchPayload, equalFilter } from '../../../utils/searchPayload';
 
 const frequencies = ['DAILY', 'WEEKLY', 'MONTHLY', 'QUARTERLY', 'YEARLY'];
 const priorities = ['LOW', 'MEDIUM', 'HIGH', 'CRITICAL'];
@@ -23,14 +24,32 @@ function PreventiveMaintenanceListPage() {
   const [error, setError] = React.useState('');
   const [success, setSuccess] = React.useState('');
   const [deleteRow, setDeleteRow] = React.useState(null);
+  const [rowCount, setRowCount] = React.useState(0);
+  const [paginationModel, setPaginationModel] = React.useState({ page: 0, pageSize: 10 });
+  const [sortModel, setSortModel] = React.useState([]);
 
   const loadRows = React.useCallback(() => {
     setLoading(true);
-    getPMSchedules()
-      .then((data) => setRows(data || []))
+    const payload = createSearchPayload({
+      filters: [
+        equalFilter('siteId', filters.siteId, 'NUMBER'),
+        equalFilter('equipmentId', filters.equipmentId, 'NUMBER'),
+        equalFilter('frequency', filters.frequency),
+        equalFilter('priority', filters.priority),
+        equalFilter('active', filters.active, 'BOOLEAN'),
+        commonSearchFilter(filters.search),
+      ],
+      paginationModel,
+      sortModel,
+    });
+    searchPMSchedules(payload)
+      .then((response) => {
+        setRows(response.data || []);
+        setRowCount(response.totalRecords || 0);
+      })
       .catch((err) => setError(err.response?.data?.message || 'Unable to load preventive maintenance schedules.'))
       .finally(() => setLoading(false));
-  }, []);
+  }, [filters, paginationModel, sortModel]);
 
   React.useEffect(() => { loadRows(); }, [loadRows]);
   React.useEffect(() => {
@@ -43,17 +62,6 @@ function PreventiveMaintenanceListPage() {
   }, []);
 
   const filteredEquipments = equipments.filter((equipment) => !filters.siteId || String(equipment.siteId || '') === String(filters.siteId));
-  const visibleRows = React.useMemo(() => rows.filter((row) => {
-    const query = filters.search.trim().toLowerCase();
-    const searchable = `${row.scheduleCode || ''} ${row.title || ''} ${row.equipmentName || ''} ${row.equipmentCode || ''} ${row.siteName || ''} ${row.vendorName || ''}`.toLowerCase();
-    return (!filters.siteId || String(row.siteId || '') === String(filters.siteId))
-      && (!filters.equipmentId || String(row.equipmentId || '') === String(filters.equipmentId))
-      && (!filters.frequency || row.frequency === filters.frequency)
-      && (!filters.priority || row.priority === filters.priority)
-      && (!filters.active || String(row.active !== false) === filters.active)
-      && (!query || searchable.includes(query));
-  }), [rows, filters]);
-
   const updateFilter = (field) => (event) => {
     const value = event.target.value;
     setFilters((current) => ({
@@ -61,6 +69,7 @@ function PreventiveMaintenanceListPage() {
       [field]: value,
       ...(field === 'siteId' ? { equipmentId: '' } : {}),
     }));
+    setPaginationModel((current) => ({ ...current, page: 0 }));
   };
 
   const confirmDelete = async () => {
@@ -178,7 +187,23 @@ function PreventiveMaintenanceListPage() {
         </Stack>
       </Paper>
       <Paper sx={{ height: 560, borderRadius: 1 }}>
-        <DataGrid rows={visibleRows} columns={columns} loading={loading} disableRowSelectionOnClick pageSizeOptions={[10, 25, 50]} initialState={{ pagination: { paginationModel: { pageSize: 10 } } }} />
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          loading={loading}
+          disableRowSelectionOnClick
+          pageSizeOptions={[10, 25, 50]}
+          paginationMode="server"
+          sortingMode="server"
+          rowCount={rowCount}
+          paginationModel={paginationModel}
+          onPaginationModelChange={(model) => setPaginationModel((current) => (model.pageSize !== current.pageSize ? { ...model, page: 0 } : model))}
+          sortModel={sortModel}
+          onSortModelChange={(model) => {
+            setSortModel(model);
+            setPaginationModel((current) => ({ ...current, page: 0 }));
+          }}
+        />
       </Paper>
       <Dialog open={Boolean(deleteRow)} onClose={() => setDeleteRow(null)}>
         <DialogTitle>Delete PM schedule?</DialogTitle>

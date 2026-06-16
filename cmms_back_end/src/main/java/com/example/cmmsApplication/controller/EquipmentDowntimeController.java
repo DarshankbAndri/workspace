@@ -1,7 +1,10 @@
 package com.example.cmmsApplication.controller;
 
 import com.example.cmmsApplication.dto.EquipmentDowntimeDTO;
+import com.example.cmmsApplication.dto.PageProperties;
+import com.example.cmmsApplication.dto.SearchDTO;
 import com.example.cmmsApplication.service.EquipmentDowntimeService;
+import com.example.cmmsApplication.service.ListSearchService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,9 +15,11 @@ import java.util.List;
 @RequestMapping("/maintenance/downtime")
 public class EquipmentDowntimeController {
     private final EquipmentDowntimeService downtimeService;
+    private final ListSearchService listSearchService;
 
-    public EquipmentDowntimeController(EquipmentDowntimeService downtimeService) {
+    public EquipmentDowntimeController(EquipmentDowntimeService downtimeService, ListSearchService listSearchService) {
         this.downtimeService = downtimeService;
+        this.listSearchService = listSearchService;
     }
 
     @PostMapping
@@ -42,5 +47,10 @@ public class EquipmentDowntimeController {
     public ResponseEntity<List<EquipmentDowntimeDTO>> getAll(@RequestParam(required = false) Long siteId,
                                                              @RequestParam(required = false) Long equipmentId) {
         return ResponseEntity.ok(downtimeService.getAll(siteId, equipmentId));
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity<PageProperties> search(@RequestBody SearchDTO searchDTO) {
+        return ResponseEntity.ok(listSearchService.searchDowntime(searchDTO));
     }
 }

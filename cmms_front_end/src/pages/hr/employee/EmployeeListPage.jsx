@@ -4,7 +4,8 @@ import { Add, Delete, Edit, Visibility } from '@mui/icons-material';
 import { DataGrid } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
 import ConfirmDialog from '../../../components/common/ConfirmDialog';
-import { deleteEmployee, getEmployees } from '../../../services/employeeService';
+import { deleteEmployee, searchEmployees } from '../../../services/employeeService';
+import { commonSearchFilter, createSearchPayload, equalFilter } from '../../../utils/searchPayload';
 
 function EmployeeListPage() {
   const navigate = useNavigate();
@@ -13,26 +14,34 @@ function EmployeeListPage() {
   const [error, setError] = React.useState('');
   const [search, setSearch] = React.useState('');
   const [status, setStatus] = React.useState('ACTIVE');
+  const [rowCount, setRowCount] = React.useState(0);
+  const [paginationModel, setPaginationModel] = React.useState({ page: 0, pageSize: 10 });
+  const [sortModel, setSortModel] = React.useState([]);
   const [deleteId, setDeleteId] = React.useState(null);
   const [snackbar, setSnackbar] = React.useState('');
 
   const loadRows = React.useCallback(() => {
     setLoading(true);
-    getEmployees()
-      .then(setRows)
+    const payload = createSearchPayload({
+      filters: [
+        commonSearchFilter(search),
+        equalFilter('status', status),
+      ],
+      paginationModel,
+      sortModel,
+    });
+    searchEmployees(payload)
+      .then((response) => {
+        setRows(response.data || []);
+        setRowCount(response.totalRecords || 0);
+      })
       .catch(() => setError('Unable to load employees.'))
       .finally(() => setLoading(false));
-  }, []);
+  }, [paginationModel, search, sortModel, status]);
 
   React.useEffect(() => { loadRows(); }, [loadRows]);
 
-  const filteredRows = rows.filter((row) => {
-    const query = search.trim().toLowerCase();
-    const name = `${row.firstName || ''} ${row.lastName || ''}`;
-    const matchesSearch = !query || [name, row.employeeCode, row.mobileNumber, row.email].some((value) => (value || '').toLowerCase().includes(query));
-    const matchesStatus = !status || row.status === status;
-    return matchesSearch && matchesStatus;
-  });
+  const resetPage = () => setPaginationModel((current) => ({ ...current, page: 0 }));
 
   const handleDelete = async () => {
     try {
@@ -89,8 +98,8 @@ function EmployeeListPage() {
       {error && <Alert severity="error" sx={{ mb: 2 }} onClose={() => setError('')}>{error}</Alert>}
       <Paper sx={{ p: 2, mb: 2, borderRadius: 1 }}>
         <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
-          <TextField fullWidth label="Search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Name, code, mobile, or email" />
-          <TextField select label="Status" value={status} onChange={(event) => setStatus(event.target.value)} sx={{ minWidth: 180 }}>
+          <TextField fullWidth label="Search" value={search} onChange={(event) => { setSearch(event.target.value); resetPage(); }} placeholder="Name, code, mobile, or email" />
+          <TextField select label="Status" value={status} onChange={(event) => { setStatus(event.target.value); resetPage(); }} sx={{ minWidth: 180 }}>
             <MenuItem value="">All</MenuItem>
             <MenuItem value="ACTIVE">ACTIVE</MenuItem>
             <MenuItem value="INACTIVE">INACTIVE</MenuItem>
@@ -98,7 +107,20 @@ function EmployeeListPage() {
         </Stack>
       </Paper>
       <Paper sx={{ height: 560, borderRadius: 1 }}>
-        <DataGrid rows={filteredRows} columns={columns} loading={loading} disableRowSelectionOnClick pageSizeOptions={[10, 25, 50]} initialState={{ pagination: { paginationModel: { pageSize: 10 } } }} />
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          loading={loading}
+          disableRowSelectionOnClick
+          pageSizeOptions={[10, 25, 50]}
+          paginationMode="server"
+          sortingMode="server"
+          rowCount={rowCount}
+          paginationModel={paginationModel}
+          onPaginationModelChange={(model) => setPaginationModel((current) => (model.pageSize !== current.pageSize ? { ...model, page: 0 } : model))}
+          sortModel={sortModel}
+          onSortModelChange={(model) => { setSortModel(model); resetPage(); }}
+        />
       </Paper>
       <ConfirmDialog open={Boolean(deleteId)} handleClose={() => setDeleteId(null)} title="Mark employee inactive?" message="This employee and active assignments will be marked inactive." handleAgree={handleDelete} closebtn="Cancel" agreebtn="Mark inactive" />
       <Snackbar open={Boolean(snackbar)} autoHideDuration={3000} message={snackbar} onClose={() => setSnackbar('')} />

@@ -3,9 +3,10 @@ import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogContent
 import { Add, Delete, Edit, Visibility } from '@mui/icons-material';
 import { DataGrid } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
-import { deleteMaintenanceRequest, getMaintenanceRequests } from '../../../services/maintenanceService';
+import { deleteMaintenanceRequest, searchMaintenanceRequests } from '../../../services/maintenanceService';
 import { getSites } from '../../../services/siteService';
 import { useAuth } from '../../../context/AuthContext';
+import { commonSearchFilter, createSearchPayload, equalFilter } from '../../../utils/searchPayload';
 
 function MaintenanceRequestListPage() {
   const navigate = useNavigate();
@@ -17,27 +18,42 @@ function MaintenanceRequestListPage() {
   const [error, setError] = React.useState('');
   const [success, setSuccess] = React.useState('');
   const [deleteRow, setDeleteRow] = React.useState(null);
+  const [rowCount, setRowCount] = React.useState(0);
+  const [paginationModel, setPaginationModel] = React.useState({ page: 0, pageSize: 10 });
+  const [sortModel, setSortModel] = React.useState([]);
 
   const loadRows = React.useCallback(() => {
     setLoading(true);
-    getMaintenanceRequests(filters.siteId || undefined, filters.status || undefined)
-      .then((data) => setRows(data || []))
+    const payload = createSearchPayload({
+      filters: [
+        equalFilter('siteId', filters.siteId, 'NUMBER'),
+        equalFilter('status', filters.status),
+        equalFilter('priority', filters.priority),
+        commonSearchFilter(filters.search),
+      ],
+      paginationModel,
+      sortModel,
+    });
+    searchMaintenanceRequests(payload)
+      .then((response) => {
+        setRows(response.data || []);
+        setRowCount(response.totalRecords || 0);
+      })
       .catch((err) => setError(err.response?.data?.message || 'Unable to load maintenance requests.'))
       .finally(() => setLoading(false));
-  }, [filters.siteId, filters.status]);
+  }, [filters, paginationModel, sortModel]);
 
   React.useEffect(() => { loadRows(); }, [loadRows]);
   React.useEffect(() => {
     getSites().then((data) => setSites((data || []).filter((site) => site.status !== 'INACTIVE'))).catch(() => setError('Unable to load sites.'));
   }, []);
 
-  const visibleRows = React.useMemo(() => rows.filter((row) => {
-    const query = filters.search.trim().toLowerCase();
-    const searchable = `${row.title || ''} ${row.equipmentName || ''} ${row.equipmentCode || ''} ${row.siteName || ''} ${row.requestNumber || ''}`.toLowerCase();
-    return (!filters.priority || row.priority === filters.priority) && (!query || searchable.includes(query));
-  }), [rows, filters.priority, filters.search]);
+  const resetPage = () => setPaginationModel((current) => ({ ...current, page: 0 }));
 
-  const updateFilter = (field) => (event) => setFilters((current) => ({ ...current, [field]: event.target.value }));
+  const updateFilter = (field) => (event) => {
+    setFilters((current) => ({ ...current, [field]: event.target.value }));
+    resetPage();
+  };
 
   const confirmDelete = async () => {
     if (!deleteRow) return;
@@ -110,7 +126,20 @@ function MaintenanceRequestListPage() {
         </Stack>
       </Paper>
       <Paper sx={{ height: 560, borderRadius: 1 }}>
-        <DataGrid rows={visibleRows} columns={columns} loading={loading} disableRowSelectionOnClick pageSizeOptions={[10, 25, 50]} initialState={{ pagination: { paginationModel: { pageSize: 10 } } }} />
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          loading={loading}
+          disableRowSelectionOnClick
+          pageSizeOptions={[10, 25, 50]}
+          paginationMode="server"
+          sortingMode="server"
+          rowCount={rowCount}
+          paginationModel={paginationModel}
+          onPaginationModelChange={(model) => setPaginationModel((current) => (model.pageSize !== current.pageSize ? { ...model, page: 0 } : model))}
+          sortModel={sortModel}
+          onSortModelChange={(model) => { setSortModel(model); resetPage(); }}
+        />
       </Paper>
       <Dialog open={Boolean(deleteRow)} onClose={() => setDeleteRow(null)}>
         <DialogTitle>Delete maintenance request?</DialogTitle>

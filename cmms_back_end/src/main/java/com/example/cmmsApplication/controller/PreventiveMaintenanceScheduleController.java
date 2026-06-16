@@ -1,6 +1,9 @@
 package com.example.cmmsApplication.controller;
 
+import com.example.cmmsApplication.dto.PageProperties;
 import com.example.cmmsApplication.dto.PreventiveMaintenanceScheduleDTO;
+import com.example.cmmsApplication.dto.SearchDTO;
+import com.example.cmmsApplication.service.ListSearchService;
 import com.example.cmmsApplication.service.PreventiveMaintenanceScheduleService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -12,9 +15,11 @@ import java.util.List;
 @RequestMapping("/preventive-maintenance/schedules")
 public class PreventiveMaintenanceScheduleController {
     private final PreventiveMaintenanceScheduleService scheduleService;
+    private final ListSearchService listSearchService;
 
-    public PreventiveMaintenanceScheduleController(PreventiveMaintenanceScheduleService scheduleService) {
+    public PreventiveMaintenanceScheduleController(PreventiveMaintenanceScheduleService scheduleService, ListSearchService listSearchService) {
         this.scheduleService = scheduleService;
+        this.listSearchService = listSearchService;
     }
 
     @PostMapping
@@ -41,6 +46,11 @@ public class PreventiveMaintenanceScheduleController {
     @GetMapping
     public ResponseEntity<List<PreventiveMaintenanceScheduleDTO>> getAll() {
         return ResponseEntity.ok(scheduleService.getAll());
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity<PageProperties> search(@RequestBody SearchDTO searchDTO) {
+        return ResponseEntity.ok(listSearchService.searchPreventiveSchedules(searchDTO));
     }
 
     @GetMapping("/upcoming")
