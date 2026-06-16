@@ -53,6 +53,9 @@ public class PreventiveMaintenanceSchedule {
     @Column(nullable = false)
     private Boolean active = true;
 
+    @Column(nullable = false, length = 30)
+    private String status = "ACTIVE";
+
     @Column(name = "last_notification_status", length = 120)
     private String lastNotificationStatus;
 
@@ -107,6 +110,8 @@ public class PreventiveMaintenanceSchedule {
     public void setLastGeneratedDate(LocalDate lastGeneratedDate) { this.lastGeneratedDate = lastGeneratedDate; }
     public Boolean getActive() { return active; }
     public void setActive(Boolean active) { this.active = active; }
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
     public String getLastNotificationStatus() { return lastNotificationStatus; }
     public void setLastNotificationStatus(String lastNotificationStatus) { this.lastNotificationStatus = lastNotificationStatus; }
     public LocalDateTime getLastNotificationAt() { return lastNotificationAt; }

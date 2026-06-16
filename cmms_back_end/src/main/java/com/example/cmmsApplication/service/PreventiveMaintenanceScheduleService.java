@@ -3,6 +3,7 @@ package com.example.cmmsApplication.service;
 import com.example.cmmsApplication.dao.MaintenanceAssignmentDAO;
 import com.example.cmmsApplication.dao.MaintenanceRequestDAO;
 import com.example.cmmsApplication.dao.PreventiveMaintenanceScheduleDAO;
+import com.example.cmmsApplication.dto.ApprovalRequestDTO;
 import com.example.cmmsApplication.dto.PreventiveMaintenanceScheduleDTO;
 import com.example.cmmsApplication.entity.Equipment;
 import com.example.cmmsApplication.entity.MaintenanceAssignment;
@@ -23,6 +24,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,6 +38,8 @@ public class PreventiveMaintenanceScheduleService {
     private final EquipmentService equipmentService;
     private final VendorService vendorService;
     private final SiteService siteService;
+    private final AccessControlService accessControlService;
+    private final ApprovalWorkflowService approvalWorkflowService;
 
     public PreventiveMaintenanceScheduleService(
             PreventiveMaintenanceScheduleDAO scheduleDAO,
@@ -43,16 +47,22 @@ public class PreventiveMaintenanceScheduleService {
             MaintenanceAssignmentDAO assignmentDAO,
             EquipmentService equipmentService,
             VendorService vendorService,
-            SiteService siteService) {
+            SiteService siteService,
+            AccessControlService accessControlService,
+            ApprovalWorkflowService approvalWorkflowService) {
         this.scheduleDAO = scheduleDAO;
         this.requestDAO = requestDAO;
         this.assignmentDAO = assignmentDAO;
         this.equipmentService = equipmentService;
         this.vendorService = vendorService;
         this.siteService = siteService;
+        this.accessControlService = accessControlService;
+        this.approvalWorkflowService = approvalWorkflowService;
     }
 
     public PreventiveMaintenanceScheduleDTO create(PreventiveMaintenanceScheduleDTO dto) {
+        accessControlService.validatePermission("REQUEST_CREATE");
+        accessControlService.validateSiteAccess(dto.getSiteId());
         PreventiveMaintenanceSchedule schedule = new PreventiveMaintenanceSchedule();
         apply(schedule, dto);
         if (schedule.getScheduleCode() == null || schedule.getScheduleCode().isBlank()) {
@@ -61,35 +71,90 @@ public class PreventiveMaintenanceScheduleService {
         if (scheduleDAO.existsByScheduleCode(schedule.getScheduleCode())) {
             throw new InvalidOperationException("PM schedule code already exists: " + schedule.getScheduleCode());
         }
-        return toDTO(scheduleDAO.save(schedule));
+        boolean approvalRequired = approvalWorkflowService.isApprovalEnabled(ApprovalWorkflowService.PM_SCHEDULE, ApprovalWorkflowService.CREATE);
+        if (approvalRequired) {
+            schedule.setActive(false);
+            schedule.setStatus("PENDING_APPROVAL");
+        }
+        PreventiveMaintenanceSchedule saved = scheduleDAO.save(schedule);
+        PreventiveMaintenanceScheduleDTO result = toDTO(saved);
+        if (approvalRequired) {
+            ApprovalRequestDTO approval = approvalWorkflowService.createApprovalRequest(
+                    ApprovalWorkflowService.PM_SCHEDULE,
+                    ApprovalWorkflowService.CREATE,
+                    saved.getId(),
+                    saved.getScheduleCode(),
+                    saved.getSite(),
+                    Map.of("targetStatus", "APPROVED"),
+                    "PM schedule creation pending approval"
+            );
+            applyApproval(result, approval);
+        }
+        return result;
     }
 
     public PreventiveMaintenanceScheduleDTO update(Long id, PreventiveMaintenanceScheduleDTO dto) {
+        accessControlService.validatePermission("REQUEST_UPDATE");
         PreventiveMaintenanceSchedule schedule = getEntity(id);
+        accessControlService.validateSiteAccess(schedule.getSite() == null ? null : schedule.getSite().getId());
+        accessControlService.validateSiteAccess(dto.getSiteId());
         apply(schedule, dto);
         if (scheduleDAO.existsByScheduleCodeAndIdNot(schedule.getScheduleCode(), id)) {
             throw new InvalidOperationException("PM schedule code already exists: " + schedule.getScheduleCode());
         }
-        return toDTO(scheduleDAO.save(schedule));
+        boolean approvalRequired = approvalWorkflowService.isApprovalEnabled(ApprovalWorkflowService.PM_SCHEDULE, ApprovalWorkflowService.UPDATE);
+        if (approvalRequired) {
+            schedule.setActive(false);
+            schedule.setStatus("PENDING_APPROVAL");
+        }
+        PreventiveMaintenanceSchedule saved = scheduleDAO.save(schedule);
+        PreventiveMaintenanceScheduleDTO result = toDTO(saved);
+        if (approvalRequired) {
+            ApprovalRequestDTO approval = approvalWorkflowService.createApprovalRequest(
+                    ApprovalWorkflowService.PM_SCHEDULE,
+                    ApprovalWorkflowService.UPDATE,
+                    saved.getId(),
+                    saved.getScheduleCode(),
+                    saved.getSite(),
+                    Map.of("targetStatus", "APPROVED"),
+                    "PM schedule update pending approval"
+            );
+            applyApproval(result, approval);
+        }
+        return result;
     }
 
     @Transactional(readOnly = true)
     public PreventiveMaintenanceScheduleDTO getById(Long id) {
-        return toDTO(getEntity(id));
+        accessControlService.validatePermission("REQUEST_VIEW");
+        PreventiveMaintenanceSchedule schedule = getEntity(id);
+        accessControlService.validateSiteAccess(schedule.getSite() == null ? null : schedule.getSite().getId());
+        return toDTO(schedule);
     }
 
     @Transactional(readOnly = true)
     public List<PreventiveMaintenanceScheduleDTO> getAll() {
-        return scheduleDAO.findAll().stream().map(this::toDTO).collect(Collectors.toList());
+        accessControlService.validatePermission("REQUEST_VIEW");
+        return scheduleDAO.findAll().stream()
+                .filter((schedule) -> accessControlService.isAdmin()
+                        || (schedule.getSite() != null && accessControlService.getAllowedSiteIds().contains(schedule.getSite().getId())))
+                .map(this::toDTO)
+                .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
     public List<PreventiveMaintenanceScheduleDTO> getUpcoming(int days) {
+        accessControlService.validatePermission("REQUEST_VIEW");
         LocalDate today = LocalDate.now();
-        return scheduleDAO.findUpcoming(today, today.plusDays(days)).stream().map(this::toDTO).collect(Collectors.toList());
+        return scheduleDAO.findUpcoming(today, today.plusDays(days)).stream()
+                .filter((schedule) -> accessControlService.isAdmin()
+                        || (schedule.getSite() != null && accessControlService.getAllowedSiteIds().contains(schedule.getSite().getId())))
+                .map(this::toDTO)
+                .collect(Collectors.toList());
     }
 
     public List<PreventiveMaintenanceScheduleDTO> generateDueWorkOrders() {
+        accessControlService.validatePermission("REQUEST_CREATE");
         return scheduleDAO.findDue(LocalDate.now()).stream()
                 .map(this::generateWorkOrder)
                 .collect(Collectors.toList());
@@ -97,15 +162,22 @@ public class PreventiveMaintenanceScheduleService {
 
     @Scheduled(cron = "0 0 6 * * *")
     public void generateDueWorkOrdersDaily() {
-        generateDueWorkOrders();
+        try {
+            scheduleDAO.findDue(LocalDate.now()).forEach(this::generateWorkOrderNow);
+        } catch (RuntimeException ex) {
+            // Keep the scheduler from failing the application if business data blocks one run.
+        }
     }
 
     public PreventiveMaintenanceScheduleDTO generateWorkOrder(Long id) {
+        accessControlService.validatePermission("REQUEST_CREATE");
         return generateWorkOrder(getEntity(id));
     }
 
     public void delete(Long id) {
-        getEntity(id);
+        accessControlService.validatePermission("REQUEST_DELETE");
+        PreventiveMaintenanceSchedule schedule = getEntity(id);
+        accessControlService.validateSiteAccess(schedule.getSite() == null ? null : schedule.getSite().getId());
         scheduleDAO.deleteById(id);
     }
 
@@ -114,7 +186,36 @@ public class PreventiveMaintenanceScheduleService {
                 .orElseThrow(() -> new ResourceNotFoundException("PM schedule not found with id: " + id));
     }
 
+    public PreventiveMaintenanceScheduleDTO generateWorkOrderImmediately(Long id) {
+        return toDTO(generateWorkOrderNow(getEntity(id)));
+    }
+
     private PreventiveMaintenanceScheduleDTO generateWorkOrder(PreventiveMaintenanceSchedule schedule) {
+        accessControlService.validateSiteAccess(schedule.getSite() == null ? null : schedule.getSite().getId());
+        if (!Boolean.TRUE.equals(schedule.getActive()) || "PENDING_APPROVAL".equalsIgnoreCase(schedule.getStatus()) || "REJECTED".equalsIgnoreCase(schedule.getStatus())) {
+            throw new InvalidOperationException("PM schedule must be active and approved before work order generation");
+        }
+        boolean approvalRequired = approvalWorkflowService.isApprovalEnabled(ApprovalWorkflowService.PM_WORK_ORDER, ApprovalWorkflowService.GENERATE);
+        if (approvalRequired) {
+            schedule.setLastNotificationStatus("WORK_ORDER_GENERATION_PENDING_APPROVAL");
+            PreventiveMaintenanceSchedule saved = scheduleDAO.save(schedule);
+            PreventiveMaintenanceScheduleDTO result = toDTO(saved);
+            ApprovalRequestDTO approval = approvalWorkflowService.createApprovalRequest(
+                    ApprovalWorkflowService.PM_WORK_ORDER,
+                    ApprovalWorkflowService.GENERATE,
+                    saved.getId(),
+                    saved.getScheduleCode(),
+                    saved.getSite(),
+                    Map.of("dueDate", saved.getNextDueDate() == null ? "" : saved.getNextDueDate().toString()),
+                    "PM work order generation pending approval"
+            );
+            applyApproval(result, approval);
+            return result;
+        }
+        return toDTO(generateWorkOrderNow(schedule));
+    }
+
+    private PreventiveMaintenanceSchedule generateWorkOrderNow(PreventiveMaintenanceSchedule schedule) {
         MaintenanceRequest request = new MaintenanceRequest();
         request.setRequestNumber(generateRequestNumber(schedule));
         request.setSite(schedule.getSite());
@@ -146,7 +247,7 @@ public class PreventiveMaintenanceScheduleService {
         notifyVendor(schedule, savedRequest);
         schedule.setLastGeneratedDate(schedule.getNextDueDate());
         schedule.setNextDueDate(nextDate(schedule.getNextDueDate(), schedule.getFrequency()));
-        return toDTO(scheduleDAO.save(schedule));
+        return scheduleDAO.save(schedule);
     }
 
     private void apply(PreventiveMaintenanceSchedule schedule, PreventiveMaintenanceScheduleDTO dto) {
@@ -176,6 +277,7 @@ public class PreventiveMaintenanceScheduleService {
         schedule.setStartDate(dto.getStartDate());
         schedule.setNextDueDate(dto.getNextDueDate() == null ? dto.getStartDate() : dto.getNextDueDate());
         schedule.setActive(dto.getActive() == null || dto.getActive());
+        schedule.setStatus(dto.getStatus() == null || dto.getStatus().isBlank() ? "ACTIVE" : dto.getStatus());
     }
 
     private Site validateActiveSite(Long siteId) {
@@ -266,6 +368,7 @@ public class PreventiveMaintenanceScheduleService {
         dto.setNextDueDate(schedule.getNextDueDate());
         dto.setLastGeneratedDate(schedule.getLastGeneratedDate());
         dto.setActive(schedule.getActive());
+        dto.setStatus(schedule.getStatus());
         dto.setLastNotificationStatus(schedule.getLastNotificationStatus());
         dto.setLastNotificationAt(schedule.getLastNotificationAt());
         dto.setGeneratedWorkOrders(generated);
@@ -274,5 +377,13 @@ public class PreventiveMaintenanceScheduleService {
         dto.setCreatedAt(schedule.getCreatedAt());
         dto.setUpdatedAt(schedule.getUpdatedAt());
         return dto;
+    }
+
+    private void applyApproval(PreventiveMaintenanceScheduleDTO dto, ApprovalRequestDTO approval) {
+        if (approval == null) {
+            return;
+        }
+        dto.setApprovalRequestId(approval.getId());
+        dto.setApprovalStatus(approval.getApprovalStatus());
     }
 }

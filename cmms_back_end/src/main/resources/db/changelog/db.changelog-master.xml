@@ -21,5 +21,8 @@
     <include file="db/changelog/cmms/maintenance_request.xml"/>
     <include file="db/changelog/cmms/maintenance_assignment.xml"/>
     <include file="db/changelog/cmms/equipment_downtime.xml"/>
+    <include file="db/changelog/cmms/approval_config.xml"/>
+    <include file="db/changelog/cmms/approval_request.xml"/>
+    <include file="db/changelog/cmms/approval_action.xml"/>
 
 </databaseChangeLog>

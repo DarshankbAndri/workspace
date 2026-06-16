@@ -105,6 +105,9 @@ public class EquipmentDowntimeService {
         downtime.setSite(site);
         downtime.setEquipment(equipment);
         MaintenanceRequest request = dto.getRequestId() == null ? null : requestService.getEntity(dto.getRequestId());
+        if (request != null) {
+            requestService.validateWorkAllowed(request);
+        }
         if (request != null && (request.getSite() == null || !site.getId().equals(request.getSite().getId()))) {
             throw new InvalidOperationException("Selected request does not belong to selected site");
         }

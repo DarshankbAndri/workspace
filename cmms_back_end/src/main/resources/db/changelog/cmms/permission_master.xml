@@ -66,4 +66,16 @@
             ON CONFLICT (permission_code) DO NOTHING;
         </sql>
     </changeSet>
+
+    <changeSet id="cmms-permission-master-seed-approval" author="codex">
+        <sql>
+            INSERT INTO permission_master (permission_code, permission_name, module_name, action_name, status, created_at, updated_at) VALUES
+            ('APPROVAL_VIEW', 'View Approvals', 'Approval', 'VIEW', 'ACTIVE', NOW(), NOW()),
+            ('APPROVAL_APPROVE', 'Approve Approval Requests', 'Approval', 'APPROVE', 'ACTIVE', NOW(), NOW()),
+            ('APPROVAL_REJECT', 'Reject Approval Requests', 'Approval', 'REJECT', 'ACTIVE', NOW(), NOW()),
+            ('APPROVAL_CONFIG_VIEW', 'View Approval Config', 'Approval Config', 'VIEW', 'ACTIVE', NOW(), NOW()),
+            ('APPROVAL_CONFIG_UPDATE', 'Update Approval Config', 'Approval Config', 'UPDATE', 'ACTIVE', NOW(), NOW())
+            ON CONFLICT (permission_code) DO NOTHING;
+        </sql>
+    </changeSet>
 </databaseChangeLog>

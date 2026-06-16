@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="cmms-approval-config-create" author="codex">
+        <preConditions onFail="MARK_RAN">
+            <not><tableExists tableName="approval_config"/></not>
+        </preConditions>
+        <createTable tableName="approval_config">
+            <column name="config_id" type="BIGSERIAL"><constraints primaryKey="true"/></column>
+            <column name="module_code" type="VARCHAR(100)"><constraints nullable="false"/></column>
+            <column name="action_code" type="VARCHAR(100)"><constraints nullable="false"/></column>
+            <column name="approval_required" type="BOOLEAN" defaultValueBoolean="false"><constraints nullable="false"/></column>
+            <column name="approver_role_code" type="VARCHAR(100)"/>
+            <column name="min_approval_count" type="INTEGER" defaultValueNumeric="1"><constraints nullable="false"/></column>
+            <column name="status" type="VARCHAR(20)" defaultValue="ACTIVE"/>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
+            <column name="updated_at" type="TIMESTAMP"/>
+        </createTable>
+        <addUniqueConstraint tableName="approval_config" columnNames="module_code, action_code" constraintName="uk_approval_config_module_action"/>
+    </changeSet>
+
+    <changeSet id="cmms-approval-config-indexes" author="codex">
+        <preConditions onFail="MARK_RAN">
+            <not><indexExists indexName="idx_approval_config_module_action"/></not>
+        </preConditions>
+        <createIndex indexName="idx_approval_config_module_action" tableName="approval_config">
+            <column name="module_code"/>
+            <column name="action_code"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="cmms-approval-config-seed-defaults" author="codex">
+        <sql>
+            INSERT INTO approval_config (module_code, action_code, approval_required, approver_role_code, min_approval_count, status, created_at, updated_at) VALUES
+            ('PM_SCHEDULE', 'CREATE', false, 'MAINTENANCE_MANAGER', 1, 'ACTIVE', NOW(), NOW()),
+            ('PM_SCHEDULE', 'UPDATE', false, 'MAINTENANCE_MANAGER', 1, 'ACTIVE', NOW(), NOW()),
+            ('PM_WORK_ORDER', 'GENERATE', false, 'MAINTENANCE_MANAGER', 1, 'ACTIVE', NOW(), NOW()),
+            ('MAINTENANCE_REQUEST', 'CREATE', false, 'MAINTENANCE_MANAGER', 1, 'ACTIVE', NOW(), NOW()),
+            ('MAINTENANCE_REQUEST', 'CLOSE', false, 'MAINTENANCE_MANAGER', 1, 'ACTIVE', NOW(), NOW())
+            ON CONFLICT (module_code, action_code) DO NOTHING;
+        </sql>
+    </changeSet>
+</databaseChangeLog>

@@ -32,6 +32,7 @@ import {
   EventRepeat,
   ExpandLess,
   ExpandMore,
+  FactCheck,
   History,
   LightMode,
   Logout,
@@ -40,6 +41,7 @@ import {
   Place,
   PrecisionManufacturing,
   Security,
+  Rule,
   Timeline,
 } from '@mui/icons-material';
 import { useAuth } from '../context/AuthContext';
@@ -69,6 +71,16 @@ const operationGroups = [
       { label: 'Downtime', path: '/maintenance/downtime', icon: <Timeline />, permission: 'DOWNTIME_VIEW' },
       { label: 'Preventive Maintenance', path: '/maintenance/preventive', icon: <EventRepeat />, permission: 'REQUEST_VIEW' },
     ]
+  },
+  {
+    key: 'approvals',
+    label: 'Approvals',
+    icon: <FactCheck />,
+    paths: ['/approvals'],
+    items: [
+      { label: 'Pending Approvals', path: '/approvals/pending', icon: <FactCheck />, permission: 'APPROVAL_VIEW' },
+      { label: 'Approval History', path: '/approvals/history', icon: <History />, permission: 'APPROVAL_VIEW' },
+    ],
   },
   {
     key: 'reports',
@@ -105,6 +117,7 @@ const adminGroups = [
       { label: 'Roles', path: '/admin/roles', icon: <Security />, permission: 'ROLE_VIEW' },
       { label: 'Permissions', path: '/admin/permissions', icon: <Security />, permission: 'PERMISSION_VIEW' },
       { label: 'User Roles', path: '/admin/user-roles', icon: <People />, permission: 'USER_ROLE_VIEW' },
+      { label: 'Approval Config', path: '/admin/approval-config', icon: <Rule />, permission: 'APPROVAL_CONFIG_VIEW' },
     ],
   },
 ];
@@ -198,6 +211,7 @@ function SidebarLayout({ children, mode, onToggleMode }) {
   const [openGroups, setOpenGroups] = React.useState({
     masters: true,
     maintenance: true,
+    approvals: true,
     reports: true,
     creation: true,
     adminAccess: true,
@@ -221,9 +235,9 @@ function SidebarLayout({ children, mode, onToggleMode }) {
   const visibleOperationGroups = React.useMemo(() => filterGroups(operationGroups), [filterGroups]);
   const visibleHrGroups = React.useMemo(() => filterGroups(hrGroups), [filterGroups]);
   const visibleAdminGroups = React.useMemo(() => filterGroups(adminGroups), [filterGroups]);
-  const canShowOperation = hasAnyPermission(['DASHBOARD_VIEW', 'EQUIPMENT_VIEW', 'VENDOR_VIEW', 'REQUEST_VIEW', 'ASSIGNMENT_VIEW', 'DOWNTIME_VIEW', 'REPORT_VIEW']);
+  const canShowOperation = hasAnyPermission(['DASHBOARD_VIEW', 'EQUIPMENT_VIEW', 'VENDOR_VIEW', 'REQUEST_VIEW', 'ASSIGNMENT_VIEW', 'DOWNTIME_VIEW', 'REPORT_VIEW', 'APPROVAL_VIEW']);
   const canShowHr = hasAnyPermission(['SITE_VIEW', 'EMPLOYEE_VIEW']);
-  const canShowAdmin = hasAnyPermission(['ROLE_VIEW', 'PERMISSION_VIEW', 'USER_ROLE_VIEW']);
+  const canShowAdmin = hasAnyPermission(['ROLE_VIEW', 'PERMISSION_VIEW', 'USER_ROLE_VIEW', 'APPROVAL_CONFIG_VIEW']);
 
   React.useEffect(() => {
     const currentGroups = selectedCategory === 'admin' ? visibleAdminGroups : selectedCategory === 'hr' ? visibleHrGroups : visibleOperationGroups;

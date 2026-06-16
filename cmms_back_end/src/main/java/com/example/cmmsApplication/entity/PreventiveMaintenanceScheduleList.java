@@ -33,6 +33,7 @@ import java.time.LocalDateTime;
             p.next_due_date AS next_due_date,
             p.last_generated_date AS last_generated_date,
             p.active AS active,
+            p.status AS status,
             p.last_notification_status AS last_notification_status,
             p.last_notification_at AS last_notification_at,
             COALESCE(work_orders.generated_work_orders, 0) AS generated_work_orders,
@@ -90,6 +91,7 @@ public class PreventiveMaintenanceScheduleList {
     @Column(name = "last_generated_date")
     private LocalDate lastGeneratedDate;
     private Boolean active;
+    private String status;
     @Column(name = "last_notification_status")
     private String lastNotificationStatus;
     @Column(name = "last_notification_at")
@@ -124,6 +126,7 @@ public class PreventiveMaintenanceScheduleList {
     public LocalDate getNextDueDate() { return nextDueDate; }
     public LocalDate getLastGeneratedDate() { return lastGeneratedDate; }
     public Boolean getActive() { return active; }
+    public String getStatus() { return status; }
     public String getLastNotificationStatus() { return lastNotificationStatus; }
     public LocalDateTime getLastNotificationAt() { return lastNotificationAt; }
     public Long getGeneratedWorkOrders() { return generatedWorkOrders; }

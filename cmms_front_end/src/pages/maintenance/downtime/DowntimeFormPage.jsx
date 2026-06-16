@@ -44,7 +44,7 @@ function DowntimeFormPage() {
       .then(([siteRows, equipmentRows, requestRows]) => {
         setSites((siteRows || []).filter((site) => site.status !== 'INACTIVE'));
         setEquipments(equipmentRows || []);
-        setRequests(requestRows || []);
+        setRequests((requestRows || []).filter((request) => !['PENDING_APPROVAL', 'CLOSE_PENDING_APPROVAL', 'REJECTED'].includes(request.status)));
       })
       .catch(() => setError('Unable to load form data.'));
   }, []);

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, Box, Button, Grid, MenuItem, Paper, Stack, TextField, Typography } from '@mui/material';
+import { Alert, Box, Button, Chip, Grid, MenuItem, Paper, Stack, TextField, Typography } from '@mui/material';
 import { Save } from '@mui/icons-material';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { getEquipments } from '../../../services/equipmentService';
@@ -21,6 +21,7 @@ const initialForm = {
   startDate: today(),
   nextDueDate: today(),
   active: 'true',
+  status: 'ACTIVE',
 };
 
 const frequencies = ['DAILY', 'WEEKLY', 'MONTHLY', 'QUARTERLY', 'YEARLY'];
@@ -60,6 +61,7 @@ function PreventiveMaintenanceFormPage() {
           startDate: data.startDate || today(),
           nextDueDate: data.nextDueDate || data.startDate || today(),
           active: data.active === false ? 'false' : 'true',
+          status: data.status || 'ACTIVE',
         }))
         .catch((err) => setError(err.response?.data?.message || 'Unable to load PM schedule.'));
     }
@@ -97,6 +99,7 @@ function PreventiveMaintenanceFormPage() {
         equipmentId: Number(form.equipmentId),
         vendorId: form.vendorId ? Number(form.vendorId) : null,
         active: form.active !== 'false',
+        status: form.status || 'ACTIVE',
       };
       if (isEdit) {
         await updatePMSchedule(id, payload);
@@ -113,7 +116,10 @@ function PreventiveMaintenanceFormPage() {
 
   return (
     <Box>
-      <Typography variant="h4" fontWeight={800} gutterBottom>{isView ? 'View PM Schedule' : isEdit ? 'Edit PM Schedule' : 'Add PM Schedule'}</Typography>
+      <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.5} alignItems={{ xs: 'flex-start', sm: 'center' }} sx={{ mb: 1 }}>
+        <Typography variant="h4" fontWeight={800}>{isView ? 'View PM Schedule' : isEdit ? 'Edit PM Schedule' : 'Add PM Schedule'}</Typography>
+        {form.status && <Chip size="small" label={form.status} color={form.status.includes('PENDING') ? 'warning' : form.status === 'REJECTED' ? 'error' : 'default'} />}
+      </Stack>
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
       <Box component="form" onSubmit={handleSubmit}>
         <Paper sx={{ p: 3, borderRadius: 1 }}>
@@ -126,6 +132,7 @@ function PreventiveMaintenanceFormPage() {
             <Grid item xs={12} md={3}><TextField required select fullWidth disabled={isView} label="Frequency" value={form.frequency || 'MONTHLY'} onChange={updateField('frequency')}>{frequencies.map((item) => <MenuItem key={item} value={item}>{item}</MenuItem>)}</TextField></Grid>
             <Grid item xs={12} md={2}><TextField select fullWidth disabled={isView} label="Priority" value={form.priority || 'MEDIUM'} onChange={updateField('priority')}>{priorities.map((item) => <MenuItem key={item} value={item}>{item}</MenuItem>)}</TextField></Grid>
             <Grid item xs={12} md={2}><TextField select fullWidth disabled={isView} label="Status" value={String(form.active)} onChange={updateField('active')}><MenuItem value="true">Active</MenuItem><MenuItem value="false">Inactive</MenuItem></TextField></Grid>
+            <Grid item xs={12} md={2}><TextField select fullWidth disabled={isView} label="Approval Status" value={form.status || 'ACTIVE'} onChange={updateField('status')}><MenuItem value="ACTIVE">Active</MenuItem><MenuItem value="APPROVED">Approved</MenuItem><MenuItem value="PENDING_APPROVAL">Pending Approval</MenuItem><MenuItem value="REJECTED">Rejected</MenuItem></TextField></Grid>
             <Grid item xs={12} md={3}><TextField required type="date" fullWidth disabled={isView} label="Start Date" value={form.startDate || ''} onChange={updateField('startDate')} InputLabelProps={{ shrink: true }} /></Grid>
             <Grid item xs={12} md={3}><TextField required type="date" fullWidth disabled={isView} label="Next Due Date" value={form.nextDueDate || ''} onChange={updateField('nextDueDate')} InputLabelProps={{ shrink: true }} /></Grid>
             <Grid item xs={12} md={6}><TextField required fullWidth disabled={isView} multiline minRows={2} label="Description" value={form.description || ''} onChange={updateField('description')} /></Grid>

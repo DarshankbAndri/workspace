@@ -1,282 +1,386 @@
-Implement Equipment backend pagination/filter/sort using existing common SearchServiceImp pattern.
+Implement configurable Approval Workflow for Preventive Maintenance and Maintenance Request flow.
 
-Current project already has common search implementation:
-
-- SearchService
-- SearchServiceImp
-- SearchDTO
-- PageProperties
-- SearchOperation
-- JpaSpecificationExecutor based dynamic filtering
+Current project already has:
+- React Vite frontend
+- Spring Boot backend
+- PostgreSQL
+- Liquibase XML table-wise changelog structure
+- JWT authentication
+- Role and permission system
+- Site-wise backend access filtering
+- Site module
+- Equipment module with siteId
+- Vendor module with vendor_site_assignment
+- Maintenance Request / Work Order module
+- Preventive Maintenance module
+- PM generated maintenance requests linked with pm_schedule_id and pm_due_date if already implemented
 
 Requirement:
-Do not create a new search framework.
-Reuse existing SearchServiceImp common method.
+Implement Approval Workflow in such a way that approval process is configurable:
+- Approval required = ON
+- Approval required = OFF
 
-Implement backend search/list API for Equipment using the same pattern as existing VendorList @Subselect approach.
+When approval is OFF:
+- Existing PM/request flow should work directly without approval.
+- Request/work order can move to existing normal status directly.
 
-Reference pattern:
-- VendorList entity uses @Subselect for list view
-- Repository extends JpaSpecificationExecutor
-- Controller/service calls common SearchService.getFilteredResults()
-
-Required API:
-POST /api/equipment/search
-
-Request body:
-SearchDTO format already used in project.
-
-Example:
-{
-  "searchCriteriaList": [
-    {
-      "filterKey": "equipmentName",
-      "dataType": "VARCHAR",
-      "value": "INV",
-      "operation": "contains"
-    }
-  ],
-  "dataOption": "all",
-  "pagination": {
-    "status": "ON",
-    "recordsPerPage": 10,
-    "sortBy": "equipmentName",
-    "sortMode": "ASC",
-    "pageNumber": 0,
-    "pageSize": 0
-  }
-}
+When approval is ON:
+- Selected actions should create approval request.
+- Actual request/work order should remain pending until approved.
+- Approver can approve or reject.
+- Approval history should be tracked.
 
 IMPORTANT:
-Use operation names supported by current SearchOperation.
-If frontend sends "like", map it to existing CONTAINS operation or add alias support.
+Analyze existing PM and Maintenance Request code first.
+Do not recreate completed modules.
+Do not break existing request creation/assignment/downtime flow.
+Do not break JWT/login.
+Do not remove existing statuses unless needed.
+Do not implement email/WhatsApp now.
+Do not implement attachments now.
 
-BACKEND TASKS
+CONFIGURATION
 
-1. Create EquipmentList entity using @Subselect.
+Add backend property:
 
-Example fields should match current equipment table/entity:
+cmms.approval.enabled=true
 
-- id
-- equipmentCode
-- equipmentName
-- equipmentType
-- status/equipmentStatus
-- siteId
-- siteCode
-- siteName
-- vendorId if available
-- vendorName if available
-- make
-- model
-- serialNumber
-- createdAt/createdDate if available
-- lastModifiedOn if available
+Default should be false if safer for current system, or true only if explicitly enabled.
 
-Use actual table names and column names from current schema.
+Also support module-level approval config table so admin can configure approval per process.
 
-Example:
+Create table:
 
-@Entity
-@Subselect("""
-    SELECT
-        e.id,
-        e.equipment_code AS equipment_code,
-        e.equipment_name AS equipment_name,
-        e.equipment_type AS equipment_type,
-        e.status AS equipment_status,
-        s.site_id AS site_id,
-        s.site_code AS site_code,
-        s.site_name AS site_name,
-        e.make,
-        e.model,
-        e.serial_number,
-        e.created_at
-    FROM equipment_master e
-    LEFT JOIN site_master s ON s.site_id = e.site_id
-""")
-public class EquipmentList extends CommonEntity {
-   ...
-}
+approval_config
+- config_id BIGSERIAL PRIMARY KEY
+- module_code VARCHAR(100) NOT NULL
+- action_code VARCHAR(100) NOT NULL
+- approval_required BOOLEAN DEFAULT FALSE
+- approver_role_code VARCHAR(100)
+- min_approval_count INTEGER DEFAULT 1
+- status VARCHAR(20) DEFAULT 'ACTIVE'
+- created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+- updated_at TIMESTAMP
+- UNIQUE(module_code, action_code)
 
-Adapt column aliases so Java field mapping works correctly.
+Initial module/action configs:
+- PM_SCHEDULE / CREATE
+- PM_SCHEDULE / UPDATE
+- PM_WORK_ORDER / GENERATE
+- MAINTENANCE_REQUEST / CREATE
+- MAINTENANCE_REQUEST / CLOSE
 
-2. Create EquipmentListRepository:
+Meaning:
+If global cmms.approval.enabled=false:
+- skip all approval logic.
 
-public interface EquipmentListRepository
-    extends JpaRepository<EquipmentList, Long>,
-            JpaSpecificationExecutor<EquipmentList> {
-}
+If global cmms.approval.enabled=true:
+- check approval_config.
+- if approval_required=false for that module/action, skip approval.
+- if approval_required=true, create approval request.
 
-3. Add Equipment search service method.
+APPROVAL TABLES
 
-Use existing common search service:
+Create:
 
-PageProperties searchEquipment(SearchDTO searchDTO) {
-    validateEquipmentSearchKeys(searchDTO);
-    normalizeOperations(searchDTO);
-    applySiteAccessFilter(searchDTO);
-    return searchService.getFilteredResults(
-        searchDTO,
-        equipmentListRepository,
-        EquipmentList.class
-    );
-}
+approval_request
+- approval_request_id BIGSERIAL PRIMARY KEY
+- module_code VARCHAR(100) NOT NULL
+- action_code VARCHAR(100) NOT NULL
+- reference_id BIGINT
+- reference_code VARCHAR(100)
+- site_id BIGINT
+- requested_by BIGINT
+- requested_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+- approval_status VARCHAR(30) DEFAULT 'PENDING'
+- approver_role_code VARCHAR(100)
+- min_approval_count INTEGER DEFAULT 1
+- approved_count INTEGER DEFAULT 0
+- rejected_count INTEGER DEFAULT 0
+- remarks TEXT
+- payload_json TEXT
+- created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+- updated_at TIMESTAMP
 
-4. Add validation for allowed filter keys.
+approval_action
+- approval_action_id BIGSERIAL PRIMARY KEY
+- approval_request_id BIGINT NOT NULL
+- approver_user_id BIGINT NOT NULL
+- action_status VARCHAR(30) NOT NULL
+- comments TEXT
+- action_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+- FOREIGN KEY approval_request_id REFERENCES approval_request(approval_request_id)
 
-Allowed:
-- equipmentName
-- equipmentCode
-- equipmentType
-- equipmentStatus
-- status
-- siteId
-- siteCode
-- siteName
-- vendorId
-- vendorName
-- make
-- model
-- serialNumber
-- commonSearch
+approval_status values:
+- PENDING
+- APPROVED
+- REJECTED
+- CANCELLED
 
-Reject unknown filter keys.
+action_status values:
+- APPROVED
+- REJECTED
 
-5. Operation mapping.
+Use actual existing user table FK if available.
 
-Current SearchServiceImp supports:
-- equal
-- contains
-- in
-- between
-- not_equal
+LIQUIBASE
 
-If frontend sends:
-- eq -> map to EQUAL
-- like -> map to CONTAINS
-- in -> IN
+Create table-wise Liquibase XML files:
+- approval_config.xml
+- approval_request.xml
+- approval_action.xml
 
-Add support for:
-- gt
-- lt
-- gte
-- lte
+Include indexes:
+- approval_config(module_code, action_code)
+- approval_request(module_code, action_code)
+- approval_request(reference_id)
+- approval_request(site_id)
+- approval_request(approval_status)
+- approval_action(approval_request_id)
+- approval_action(approver_user_id)
 
-Only if needed by existing SearchOperation enum.
-Update SearchOperation and SearchServiceImp carefully.
+BACKEND STRUCTURE
 
-6. Fix common SearchServiceImp if needed.
+Follow existing architecture:
+- Entity
+- DTO
+- Repository
+- DAO
+- Service
+- Controller
 
-Current SearchServiceImp ignores searchDTO.dataOption and always uses AND.
+Create:
+- ApprovalConfig Entity/DTO/Repository/DAO/Service/Controller
+- ApprovalRequest Entity/DTO/Repository/DAO/Service/Controller
+- ApprovalAction Entity/DTO/Repository/DAO if required
+- ApprovalWorkflowService
 
-Update it:
-- dataOption = "all" => cb.and(...)
-- dataOption = "any" => cb.or(...)
+ApprovalWorkflowService methods:
+- isApprovalEnabled(moduleCode, actionCode)
+- createApprovalRequest(moduleCode, actionCode, referenceId, referenceCode, siteId, payload, remarks)
+- approve(approvalRequestId, comments)
+- reject(approvalRequestId, comments)
+- getPendingApprovalsForCurrentUser()
+- getApprovalHistory(moduleCode, referenceId)
+- validateApproverPermission(approvalRequest)
 
-Keep existing behavior default as AND.
+PERMISSION CODES
 
-7. Sorting.
+Add permissions if missing:
+- APPROVAL_VIEW
+- APPROVAL_APPROVE
+- APPROVAL_REJECT
+- APPROVAL_CONFIG_VIEW
+- APPROVAL_CONFIG_UPDATE
 
-Use existing pagination.sortBy and sortMode.
+Backend must enforce permissions.
 
-Validate sortBy against allowed keys before calling SearchServiceImp.
+APPROVAL CONFIG API
 
-If sortBy is null:
-- use createdAt DESC if EquipmentList has createdAt
-- else id DESC
+Create APIs:
 
-If existing SearchServiceImp defaults to id ASC, update only if safe or handle before calling it.
+GET /api/admin/approval-config
+PUT /api/admin/approval-config/{id}
 
-8. Site access filtering.
+Optional:
+POST /api/admin/approval-config
 
-Keep backend site access restriction active.
+Only admin users can update approval config.
 
-Before calling SearchServiceImp:
-- Get allowed site IDs from existing AccessControlService if available.
-- If user is not admin/super admin, add siteId IN allowedSiteIds to SearchDTO.
-- If request already has siteId filter, validate user has access to that site.
-- Do not return equipment from unauthorized sites.
+APPROVAL API
 
-9. Controller.
+GET /api/approvals/pending
+GET /api/approvals/history?moduleCode=&referenceId=
+POST /api/approvals/{approvalRequestId}/approve
+POST /api/approvals/{approvalRequestId}/reject
 
-Add endpoint:
-
-@PostMapping("/search")
-public ResponseEntity<?> searchEquipment(@RequestBody SearchDTO searchDTO)
-
-Reuse existing response wrapper if project uses it.
-
-10. Do not break existing Equipment APIs:
-- create
-- update
-- getById
-- delete
-- getAll if already used
-
-FRONTEND TASKS
-
-Update Equipment List page to call POST /api/equipment/search.
-
-Use existing SearchDTO structure.
-
-Initial load payload:
-
+Request body for approve/reject:
 {
-  "searchCriteriaList": [],
-  "dataOption": "all",
-  "pagination": {
-    "status": "ON",
-    "recordsPerPage": 10,
-    "sortBy": null,
-    "sortMode": null,
-    "pageNumber": 0,
-    "pageSize": 0
-  }
+  "comments": "Approved"
 }
 
-For search text:
-Use commonSearch if UI has one search box:
+APPROVER LOGIC
 
-{
-  "filterKey": "commonSearch",
-  "dataType": "VARCHAR",
-  "value": "<search>",
-  "operation": "contains"
-}
+Approver can approve if:
+- User has APPROVAL_APPROVE permission for approve
+- User has APPROVAL_REJECT permission for reject
+- User has role matching approver_role_code from approval_request OR is ADMIN/SUPER_ADMIN
+- User has access to approval_request.site_id based on existing site access logic
 
-For specific filters:
-- siteId => equal
-- equipmentType => equal
-- equipmentStatus/status => equal
-- equipmentName => contains
+Prevent:
+- Same user approving same approval_request multiple times
+- Request creator approving own request if avoid_self_approval config is needed. If not needed now, skip.
 
-Pagination:
-- pageNumber zero based
-- recordsPerPage from table page size
+MAINTENANCE REQUEST / PM INTEGRATION
 
-Sorting:
-- sortBy should match EquipmentList field name
-- sortMode ASC/DESC
+Integrate approval workflow into:
 
-After add/edit/delete:
-Reload current backend page.
+1. PM Schedule Create/Update
+2. PM Work Order Generate
+3. Maintenance Request Create
+4. Maintenance Request Close
+
+Behavior example:
+
+Maintenance Request Create:
+- If approval not required:
+  - Save request normally with status OPEN or existing default.
+- If approval required:
+  - Save request with status PENDING_APPROVAL or DRAFT_PENDING_APPROVAL.
+  - Create approval_request with moduleCode=MAINTENANCE_REQUEST, actionCode=CREATE.
+  - Return response saying approval pending.
+
+When approved:
+- Update maintenance request status from PENDING_APPROVAL to OPEN.
+- Mark approval_request APPROVED.
+
+When rejected:
+- Update maintenance request status to REJECTED or keep existing request as REJECTED.
+- Mark approval_request REJECTED.
+
+Maintenance Request Close:
+- If approval not required:
+  - close normally.
+- If approval required:
+  - keep status CLOSE_PENDING_APPROVAL.
+  - create approval request.
+- On approval:
+  - change status to CLOSED/COMPLETED.
+- On reject:
+  - return to previous status or IN_PROGRESS.
+
+PM Work Order Generate:
+- If approval not required:
+  - generate work orders normally.
+- If approval required:
+  - create approval request for generation.
+  - Do not generate work order until approved.
+  - Store generation parameters in payload_json.
+- On approval:
+  - generate work orders using payload_json.
+  - apply duplicate prevention.
+- On reject:
+  - do not generate.
+
+PM Schedule Create/Update:
+- If approval not required:
+  - save normally.
+- If approval required:
+  - Option A preferred: save as PENDING_APPROVAL.
+  - On approval, activate schedule.
+  - On reject, mark REJECTED.
+- Keep implementation simple and safe.
+
+STATUS ADDITIONS
+
+Use existing status fields if available.
+
+Add/support statuses:
+- PENDING_APPROVAL
+- APPROVED
+- REJECTED
+- CLOSE_PENDING_APPROVAL
+
+Do not break existing statuses.
+
+FRONTEND REQUIREMENTS
+
+Create pages:
+
+src/pages/approvals/ApprovalInboxPage.jsx
+src/pages/approvals/ApprovalHistoryPage.jsx
+src/pages/admin/approvalConfig/ApprovalConfigPage.jsx
+
+Services:
+src/services/approvalService.js
+src/services/approvalConfigService.js
+
+Sidebar:
+Add under Admin or Operation depending on existing layout:
+
+Operation:
+  Approvals
+    Pending Approvals
+    Approval History
+
+Admin:
+  Approval Config
+
+Show menus based on permissions:
+- APPROVAL_VIEW
+- APPROVAL_CONFIG_VIEW
+
+Approval Inbox UI:
+- DataGrid
+- Filters:
+  - Module
+  - Action
+  - Site
+  - Status
+  - Requested From/To
+- Columns:
+  - Module
+  - Action
+  - Reference Code
+  - Site
+  - Requested By
+  - Requested At
+  - Status
+  - Actions
+- Actions:
+  - View
+  - Approve
+  - Reject
+
+Approve/Reject:
+- Open dialog
+- Comments textbox
+- Submit
+
+Approval History:
+- Show approval actions and comments.
+
+Approval Config UI:
+- List module/action configs
+- Toggle approval_required ON/OFF
+- Select approver role
+- Min approval count
+- Status
+
+Form/page integration:
+- In Maintenance Request/PM pages, if saved item is pending approval, show status badge "Pending Approval".
+- Do not allow assignment/downtime for request until it is approved/open.
+
+SECURITY AND SITE FILTERING
+
+Use existing JWT.
+Use existing role/permission checks.
+Use existing site access filtering.
+
+Backend must enforce:
+- User can only view/approve approvals for assigned sites.
+- Admin/Super admin can view all if existing rules allow.
+- Frontend hiding is not enough.
 
 IMPORTANT CODING RULES
 
-1. Analyze VendorList @Subselect and existing search usage first.
-2. Reuse common SearchServiceImp.
-3. Do not create duplicate pagination code.
-4. Do not use raw SQL string concatenation for filters.
-5. Do not break existing APIs.
-6. Do not change frontend UI design.
-7. Ensure backend compiles.
-8. Ensure frontend builds.
+1. Analyze existing request and PM status flow first.
+2. Keep global config cmms.approval.enabled.
+3. Keep module-level approval_config table.
+4. Do not implement notifications now.
+5. Do not implement attachments now.
+6. Do not break existing workflow when approval is disabled.
+7. Use transactions when approval changes business record status.
+8. Store enough payload_json for deferred PM generation.
+9. Use table-wise Liquibase XML.
+10. Ensure frontend builds.
+11. Ensure backend compiles.
 
 After implementation, summarize:
-- EquipmentList entity created
-- Repository created
-- API added
-- SearchServiceImp changes if any
-- Frontend files updated
-- How to test
+- Tables added
+- Liquibase XML files added
+- APIs added
+- Backend modules changed
+- Frontend pages added
+- How approval behaves when enabled
+- How approval behaves when disable

@@ -1,6 +1,7 @@
 package com.example.cmmsApplication.service;
 
 import com.example.cmmsApplication.dao.MaintenanceRequestDAO;
+import com.example.cmmsApplication.dto.ApprovalRequestDTO;
 import com.example.cmmsApplication.dto.MaintenanceRequestDTO;
 import com.example.cmmsApplication.entity.Equipment;
 import com.example.cmmsApplication.entity.MaintenanceRequest;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,12 +23,18 @@ public class MaintenanceRequestService {
     private final EquipmentService equipmentService;
     private final SiteService siteService;
     private final AccessControlService accessControlService;
+    private final ApprovalWorkflowService approvalWorkflowService;
 
-    public MaintenanceRequestService(MaintenanceRequestDAO requestDAO, EquipmentService equipmentService, SiteService siteService, AccessControlService accessControlService) {
+    public MaintenanceRequestService(MaintenanceRequestDAO requestDAO,
+                                     EquipmentService equipmentService,
+                                     SiteService siteService,
+                                     AccessControlService accessControlService,
+                                     ApprovalWorkflowService approvalWorkflowService) {
         this.requestDAO = requestDAO;
         this.equipmentService = equipmentService;
         this.siteService = siteService;
         this.accessControlService = accessControlService;
+        this.approvalWorkflowService = approvalWorkflowService;
     }
 
     public MaintenanceRequestDTO create(MaintenanceRequestDTO dto) {
@@ -40,7 +48,25 @@ public class MaintenanceRequestService {
         if (requestDAO.existsByRequestNumber(request.getRequestNumber())) {
             throw new InvalidOperationException("Request number already exists: " + request.getRequestNumber());
         }
-        return toDTO(requestDAO.save(request));
+        boolean approvalRequired = approvalWorkflowService.isApprovalEnabled(ApprovalWorkflowService.MAINTENANCE_REQUEST, ApprovalWorkflowService.CREATE);
+        if (approvalRequired) {
+            request.setStatus("PENDING_APPROVAL");
+        }
+        MaintenanceRequest saved = requestDAO.save(request);
+        MaintenanceRequestDTO result = toDTO(saved);
+        if (approvalRequired) {
+            ApprovalRequestDTO approval = approvalWorkflowService.createApprovalRequest(
+                    ApprovalWorkflowService.MAINTENANCE_REQUEST,
+                    ApprovalWorkflowService.CREATE,
+                    saved.getId(),
+                    saved.getRequestNumber(),
+                    saved.getSite(),
+                    Map.of("targetStatus", "OPEN"),
+                    "Maintenance request creation pending approval"
+            );
+            applyApproval(result, approval);
+        }
+        return result;
     }
 
     public MaintenanceRequestDTO update(Long id, MaintenanceRequestDTO dto) {
@@ -48,11 +74,32 @@ public class MaintenanceRequestService {
         MaintenanceRequest request = getEntity(id);
         accessControlService.validateSiteAccess(request.getSite() == null ? null : request.getSite().getId());
         accessControlService.validateSiteAccess(dto.getSiteId());
+        String previousStatus = request.getStatus();
         apply(request, dto);
         if (requestDAO.existsByRequestNumberAndIdNot(request.getRequestNumber(), id)) {
             throw new InvalidOperationException("Request number already exists: " + request.getRequestNumber());
         }
-        return toDTO(requestDAO.save(request));
+        boolean closeRequested = isCloseRequested(previousStatus, request.getStatus());
+        boolean approvalRequired = closeRequested && approvalWorkflowService.isApprovalEnabled(ApprovalWorkflowService.MAINTENANCE_REQUEST, ApprovalWorkflowService.CLOSE);
+        String requestedStatus = request.getStatus();
+        if (approvalRequired) {
+            request.setStatus("CLOSE_PENDING_APPROVAL");
+        }
+        MaintenanceRequest saved = requestDAO.save(request);
+        MaintenanceRequestDTO result = toDTO(saved);
+        if (approvalRequired) {
+            ApprovalRequestDTO approval = approvalWorkflowService.createApprovalRequest(
+                    ApprovalWorkflowService.MAINTENANCE_REQUEST,
+                    ApprovalWorkflowService.CLOSE,
+                    saved.getId(),
+                    saved.getRequestNumber(),
+                    saved.getSite(),
+                    Map.of("previousStatus", previousStatus == null ? "IN_PROGRESS" : previousStatus, "targetStatus", requestedStatus),
+                    "Maintenance request closure pending approval"
+            );
+            applyApproval(result, approval);
+        }
+        return result;
     }
 
     @Transactional(readOnly = true)
@@ -92,6 +139,18 @@ public class MaintenanceRequestService {
     public MaintenanceRequest getEntity(Long id) {
         return requestDAO.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Maintenance request not found with id: " + id));
+    }
+
+    public void validateWorkAllowed(MaintenanceRequest request) {
+        if (request == null || request.getStatus() == null) {
+            return;
+        }
+        String status = request.getStatus();
+        if ("PENDING_APPROVAL".equalsIgnoreCase(status)
+                || "CLOSE_PENDING_APPROVAL".equalsIgnoreCase(status)
+                || "REJECTED".equalsIgnoreCase(status)) {
+            throw new InvalidOperationException("Request must be approved/open before assignment or downtime can be created");
+        }
     }
 
     private void apply(MaintenanceRequest request, MaintenanceRequestDTO dto) {
@@ -151,5 +210,22 @@ public class MaintenanceRequestService {
         dto.setCreatedAt(request.getCreatedAt());
         dto.setUpdatedAt(request.getUpdatedAt());
         return dto;
+    }
+
+    private boolean isCloseRequested(String previousStatus, String requestedStatus) {
+        if (requestedStatus == null) {
+            return false;
+        }
+        boolean targetClosed = "CLOSED".equalsIgnoreCase(requestedStatus) || "COMPLETED".equalsIgnoreCase(requestedStatus);
+        boolean alreadyClosed = "CLOSED".equalsIgnoreCase(previousStatus) || "COMPLETED".equalsIgnoreCase(previousStatus);
+        return targetClosed && !alreadyClosed;
+    }
+
+    private void applyApproval(MaintenanceRequestDTO dto, ApprovalRequestDTO approval) {
+        if (approval == null) {
+            return;
+        }
+        dto.setApprovalRequestId(approval.getId());
+        dto.setApprovalStatus(approval.getApprovalStatus());
     }
 }

@@ -36,6 +36,7 @@ public class PreventiveMaintenanceScheduleDTO {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate lastGeneratedDate;
     private Boolean active;
+    private String status;
     private String lastNotificationStatus;
     private LocalDateTime lastNotificationAt;
     private long generatedWorkOrders;
@@ -43,6 +44,8 @@ public class PreventiveMaintenanceScheduleDTO {
     private BigDecimal completionPercentage;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private Long approvalRequestId;
+    private String approvalStatus;
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -82,6 +85,8 @@ public class PreventiveMaintenanceScheduleDTO {
     public void setLastGeneratedDate(LocalDate lastGeneratedDate) { this.lastGeneratedDate = lastGeneratedDate; }
     public Boolean getActive() { return active; }
     public void setActive(Boolean active) { this.active = active; }
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
     public String getLastNotificationStatus() { return lastNotificationStatus; }
     public void setLastNotificationStatus(String lastNotificationStatus) { this.lastNotificationStatus = lastNotificationStatus; }
     public LocalDateTime getLastNotificationAt() { return lastNotificationAt; }
@@ -96,4 +101,8 @@ public class PreventiveMaintenanceScheduleDTO {
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+    public Long getApprovalRequestId() { return approvalRequestId; }
+    public void setApprovalRequestId(Long approvalRequestId) { this.approvalRequestId = approvalRequestId; }
+    public String getApprovalStatus() { return approvalStatus; }
+    public void setApprovalStatus(String approvalStatus) { this.approvalStatus = approvalStatus; }
 }

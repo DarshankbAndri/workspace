@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="cmms-approval-request-create" author="codex">
+        <preConditions onFail="MARK_RAN">
+            <not><tableExists tableName="approval_request"/></not>
+        </preConditions>
+        <createTable tableName="approval_request">
+            <column name="approval_request_id" type="BIGSERIAL"><constraints primaryKey="true"/></column>
+            <column name="module_code" type="VARCHAR(100)"><constraints nullable="false"/></column>
+            <column name="action_code" type="VARCHAR(100)"><constraints nullable="false"/></column>
+            <column name="reference_id" type="BIGINT"/>
+            <column name="reference_code" type="VARCHAR(100)"/>
+            <column name="site_id" type="BIGINT"/>
+            <column name="requested_by" type="BIGINT"/>
+            <column name="requested_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
+            <column name="approval_status" type="VARCHAR(30)" defaultValue="PENDING"><constraints nullable="false"/></column>
+            <column name="approver_role_code" type="VARCHAR(100)"/>
+            <column name="min_approval_count" type="INTEGER" defaultValueNumeric="1"><constraints nullable="false"/></column>
+            <column name="approved_count" type="INTEGER" defaultValueNumeric="0"><constraints nullable="false"/></column>
+            <column name="rejected_count" type="INTEGER" defaultValueNumeric="0"><constraints nullable="false"/></column>
+            <column name="remarks" type="TEXT"/>
+            <column name="payload_json" type="TEXT"/>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
+            <column name="updated_at" type="TIMESTAMP"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="cmms-approval-request-fks" author="codex">
+        <preConditions onFail="MARK_RAN">
+            <not><foreignKeyConstraintExists foreignKeyName="fk_approval_request_site" foreignKeyTableName="approval_request"/></not>
+        </preConditions>
+        <addForeignKeyConstraint constraintName="fk_approval_request_site" baseTableName="approval_request" baseColumnNames="site_id" referencedTableName="site_master" referencedColumnNames="site_id"/>
+        <addForeignKeyConstraint constraintName="fk_approval_request_user" baseTableName="approval_request" baseColumnNames="requested_by" referencedTableName="users" referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="cmms-approval-request-indexes" author="codex">
+        <preConditions onFail="MARK_RAN">
+            <not><indexExists indexName="idx_approval_request_module_action"/></not>
+        </preConditions>
+        <createIndex indexName="idx_approval_request_module_action" tableName="approval_request">
+            <column name="module_code"/>
+            <column name="action_code"/>
+        </createIndex>
+        <createIndex indexName="idx_approval_request_reference" tableName="approval_request"><column name="reference_id"/></createIndex>
+        <createIndex indexName="idx_approval_request_site" tableName="approval_request"><column name="site_id"/></createIndex>
+        <createIndex indexName="idx_approval_request_status" tableName="approval_request"><column name="approval_status"/></createIndex>
+    </changeSet>
+</databaseChangeLog>

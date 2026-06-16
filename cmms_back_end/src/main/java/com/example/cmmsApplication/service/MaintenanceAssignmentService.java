@@ -79,6 +79,7 @@ public class MaintenanceAssignmentService {
 
     private void apply(MaintenanceAssignment assignment, MaintenanceAssignmentDTO dto) {
         MaintenanceRequest request = requestService.getEntity(dto.getRequestId());
+        requestService.validateWorkAllowed(request);
         Long requestSiteId = request.getSite() == null ? null : request.getSite().getId();
         if (dto.getSiteId() == null) {
             throw new InvalidOperationException("Site is required");

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, Box, Button, Grid, MenuItem, Paper, Stack, TextField, Typography } from '@mui/material';
+import { Alert, Box, Button, Chip, Grid, MenuItem, Paper, Stack, TextField, Typography } from '@mui/material';
 import { Save } from '@mui/icons-material';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { createMaintenanceRequest, getMaintenanceRequestById, updateMaintenanceRequest } from '../../../services/maintenanceService';
@@ -73,7 +73,10 @@ function MaintenanceRequestFormPage() {
 
   return (
     <Box>
-      <Typography variant="h4" fontWeight={800} gutterBottom>{isView ? 'View Request' : isEdit ? 'Edit Request' : 'Add Request'}</Typography>
+      <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.5} alignItems={{ xs: 'flex-start', sm: 'center' }} sx={{ mb: 1 }}>
+        <Typography variant="h4" fontWeight={800}>{isView ? 'View Request' : isEdit ? 'Edit Request' : 'Add Request'}</Typography>
+        {form.status && <Chip size="small" label={form.status} color={form.status.includes('PENDING') ? 'warning' : form.status === 'REJECTED' ? 'error' : 'default'} />}
+      </Stack>
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
       <Box component="form" onSubmit={handleSubmit}>
         <Paper sx={{ p: 3, borderRadius: 1 }}>

@@ -31,6 +31,8 @@ public class MaintenanceRequestDTO {
     private LocalDate targetCompletionDate;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private Long approvalRequestId;
+    private String approvalStatus;
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -68,4 +70,8 @@ public class MaintenanceRequestDTO {
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+    public Long getApprovalRequestId() { return approvalRequestId; }
+    public void setApprovalRequestId(Long approvalRequestId) { this.approvalRequestId = approvalRequestId; }
+    public String getApprovalStatus() { return approvalStatus; }
+    public void setApprovalStatus(String approvalStatus) { this.approvalStatus = approvalStatus; }
 }

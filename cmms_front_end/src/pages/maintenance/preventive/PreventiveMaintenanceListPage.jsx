@@ -115,6 +115,7 @@ function PreventiveMaintenanceListPage() {
     { field: 'title', headerName: 'PM Task', minWidth: 220, flex: 1.2 },
     { field: 'frequency', headerName: 'Frequency', minWidth: 130, flex: 0.6 },
     { field: 'priority', headerName: 'Priority', minWidth: 120, flex: 0.6 },
+    { field: 'status', headerName: 'Approval Status', minWidth: 150, flex: 0.7, valueFormatter: ({ value }) => value || 'ACTIVE' },
     { field: 'nextDueDate', headerName: 'Next Due', minWidth: 130, flex: 0.6 },
     { field: 'vendorName', headerName: 'Vendor', minWidth: 180, flex: 0.9, valueFormatter: ({ value }) => value || '-' },
     {

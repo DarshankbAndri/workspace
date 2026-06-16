@@ -55,7 +55,7 @@ function MaintenanceAssignmentFormPage() {
     }
     Promise.all([getRequestsBySite(form.siteId), getVendorsBySite(form.siteId)])
       .then(([requestRows, vendorRows]) => {
-        setRequests(requestRows || []);
+        setRequests((requestRows || []).filter((request) => !['PENDING_APPROVAL', 'CLOSE_PENDING_APPROVAL', 'REJECTED'].includes(request.status)));
         setVendors(vendorRows || []);
       })
       .catch(() => setError('Unable to load requests or vendors for selected site.'));

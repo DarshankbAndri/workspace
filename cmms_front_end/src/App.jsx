@@ -18,6 +18,8 @@ import DowntimeListPage from './pages/maintenance/downtime/DowntimeListPage';
 import DowntimeFormPage from './pages/maintenance/downtime/DowntimeFormPage';
 import PreventiveMaintenanceListPage from './pages/maintenance/preventive/PreventiveMaintenanceListPage';
 import PreventiveMaintenanceFormPage from './pages/maintenance/preventive/PreventiveMaintenanceFormPage';
+import ApprovalInboxPage from './pages/approvals/ApprovalInboxPage';
+import ApprovalHistoryPage from './pages/approvals/ApprovalHistoryPage';
 import EquipmentHistoryPage from './pages/reports/EquipmentHistoryPage';
 import DowntimeAnalysisPage from './pages/reports/DowntimeAnalysisPage';
 import SiteListPage from './pages/hr/site/SiteListPage';
@@ -29,6 +31,7 @@ import RoleFormPage from './pages/admin/roles/RoleFormPage';
 import RoleViewPage from './pages/admin/roles/RoleViewPage';
 import PermissionListPage from './pages/admin/permissions/PermissionListPage';
 import UserRoleAssignmentPage from './pages/admin/userRoles/UserRoleAssignmentPage';
+import ApprovalConfigPage from './pages/admin/approvalConfig/ApprovalConfigPage';
 
 const createAppTheme = (mode) => createTheme({
   palette: {
@@ -173,6 +176,8 @@ function App() {
           <Route path="/maintenance/preventive/new" element={protectedPage(<PreventiveMaintenanceFormPage />, 'REQUEST_CREATE')} />
           <Route path="/maintenance/preventive/:id/edit" element={protectedPage(<PreventiveMaintenanceFormPage />, 'REQUEST_UPDATE')} />
           <Route path="/maintenance/preventive/:id/view" element={protectedPage(<PreventiveMaintenanceFormPage />, 'REQUEST_VIEW')} />
+          <Route path="/approvals/pending" element={protectedPage(<ApprovalInboxPage />, 'APPROVAL_VIEW')} />
+          <Route path="/approvals/history" element={protectedPage(<ApprovalHistoryPage />, 'APPROVAL_VIEW')} />
           <Route path="/reports/equipment-history" element={protectedPage(<EquipmentHistoryPage />, 'REPORT_VIEW')} />
           <Route path="/reports/downtime-analysis" element={protectedPage(<DowntimeAnalysisPage />, 'REPORT_VIEW')} />
           <Route path="/hr/sites" element={protectedPage(<SiteListPage />, 'SITE_VIEW')} />
@@ -187,6 +192,7 @@ function App() {
           <Route path="/admin/roles/:id/view" element={protectedPage(<RoleViewPage />, 'ROLE_VIEW')} />
           <Route path="/admin/permissions" element={protectedPage(<PermissionListPage />, 'PERMISSION_VIEW')} />
           <Route path="/admin/user-roles" element={protectedPage(<UserRoleAssignmentPage />, 'USER_ROLE_VIEW')} />
+          <Route path="/admin/approval-config" element={protectedPage(<ApprovalConfigPage />, 'APPROVAL_CONFIG_VIEW')} />
           <Route path="/create-user" element={protectedPage(<UserManagementPage />)} />
           <Route path="*" element={<Navigate to={isAuthenticated ? '/dashboard' : '/login'} replace />} />
         </Routes>

@@ -1,0 +1,6 @@
+import api from './api';
+
+export const getPendingApprovals = () => api.get('/approvals/pending').then((response) => response.data);
+export const getApprovalHistory = (params = {}) => api.get('/approvals/history', { params }).then((response) => response.data);
+export const approveApproval = (id, comments) => api.post(`/approvals/${id}/approve`, { comments }).then((response) => response.data);
+export const rejectApproval = (id, comments) => api.post(`/approvals/${id}/reject`, { comments }).then((response) => response.data);

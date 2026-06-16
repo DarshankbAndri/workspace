@@ -70,7 +70,7 @@ public class ListSearchService {
             "commonSearch", "id", "scheduleCode", "siteId", "siteCode", "siteName",
             "equipmentId", "equipmentCode", "equipmentName", "vendorId", "vendorName",
             "title", "description", "frequency", "priority", "assignedTo", "startDate",
-            "nextDueDate", "lastGeneratedDate", "active", "lastNotificationStatus",
+            "nextDueDate", "lastGeneratedDate", "active", "status", "lastNotificationStatus",
             "lastNotificationAt", "generatedWorkOrders", "completedWorkOrders",
             "completionPercentage", "createdAt", "updatedAt"
     );
