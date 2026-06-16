@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="cmms-role-master-create" author="codex">
+        <preConditions onFail="MARK_RAN">
+            <not><tableExists tableName="role_master"/></not>
+        </preConditions>
+        <sql>
+            CREATE TABLE IF NOT EXISTS role_master (
+                role_id BIGSERIAL PRIMARY KEY,
+                role_code VARCHAR(50) UNIQUE NOT NULL,
+                role_name VARCHAR(100) NOT NULL,
+                description TEXT,
+                status VARCHAR(20) DEFAULT 'ACTIVE',
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP
+            );
+        </sql>
+    </changeSet>
+
+    <changeSet id="cmms-role-master-seed-defaults" author="codex">
+        <sql>
+            INSERT INTO role_master (role_code, role_name, description, status, created_at, updated_at) VALUES
+            ('SUPER_ADMIN', 'Super Admin', 'Full system access across all sites', 'ACTIVE', NOW(), NOW()),
+            ('ADMIN', 'Admin', 'Administrative access across all operation sites', 'ACTIVE', NOW(), NOW()),
+            ('HR_ADMIN', 'HR Admin', 'HR site and employee administration access', 'ACTIVE', NOW(), NOW()),
+            ('SITE_MANAGER', 'Site Manager', 'Operation management access for assigned sites', 'ACTIVE', NOW(), NOW()),
+            ('MAINTENANCE_MANAGER', 'Maintenance Manager', 'Maintenance access for assigned sites', 'ACTIVE', NOW(), NOW()),
+            ('TECHNICIAN', 'Technician', 'Technician access for assigned sites', 'ACTIVE', NOW(), NOW()),
+            ('VIEWER', 'Viewer', 'Read-only access for assigned sites', 'ACTIVE', NOW(), NOW())
+            ON CONFLICT (role_code) DO NOTHING;
+        </sql>
+    </changeSet>
+</databaseChangeLog>

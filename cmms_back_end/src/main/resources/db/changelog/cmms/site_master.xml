@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="cmms-site-master-create" author="codex">
+        <preConditions onFail="MARK_RAN">
+            <not><tableExists tableName="site_master"/></not>
+        </preConditions>
+        <createTable tableName="site_master">
+            <column name="site_id" type="BIGSERIAL"><constraints primaryKey="true"/></column>
+            <column name="site_code" type="VARCHAR(50)"><constraints nullable="false" unique="true"/></column>
+            <column name="site_name" type="VARCHAR(200)"><constraints nullable="false"/></column>
+            <column name="organization_name" type="VARCHAR(200)"/>
+            <column name="site_type" type="VARCHAR(100)"/>
+            <column name="address_line1" type="VARCHAR(300)"/>
+            <column name="address_line2" type="VARCHAR(300)"/>
+            <column name="city" type="VARCHAR(100)"/>
+            <column name="state" type="VARCHAR(100)"/>
+            <column name="country" type="VARCHAR(100)"/>
+            <column name="pincode" type="VARCHAR(20)"/>
+            <column name="contact_person" type="VARCHAR(100)"/>
+            <column name="contact_mobile" type="VARCHAR(20)"/>
+            <column name="contact_email" type="VARCHAR(150)"/>
+            <column name="latitude" type="NUMERIC(12,8)"/>
+            <column name="longitude" type="NUMERIC(12,8)"/>
+            <column name="status" type="VARCHAR(20)" defaultValue="ACTIVE"/>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
+            <column name="updated_at" type="TIMESTAMP"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="cmms-site-master-indexes" author="codex">
+        <preConditions onFail="MARK_RAN">
+            <not><indexExists indexName="idx_site_master_code"/></not>
+        </preConditions>
+        <createIndex indexName="idx_site_master_code" tableName="site_master"><column name="site_code"/></createIndex>
+        <createIndex indexName="idx_site_master_status" tableName="site_master"><column name="status"/></createIndex>
+    </changeSet>
+</databaseChangeLog>

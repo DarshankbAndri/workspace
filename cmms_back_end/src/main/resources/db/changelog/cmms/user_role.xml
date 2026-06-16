@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="cmms-user-role-create" author="codex">
+        <preConditions onFail="MARK_RAN">
+            <not><tableExists tableName="user_role"/></not>
+        </preConditions>
+        <sql>
+            CREATE TABLE IF NOT EXISTS user_role (
+                user_role_id BIGSERIAL PRIMARY KEY,
+                user_id BIGINT NOT NULL REFERENCES users(id),
+                role_id BIGINT NOT NULL REFERENCES role_master(role_id),
+                site_id BIGINT NULL REFERENCES site_master(site_id),
+                status VARCHAR(20) DEFAULT 'ACTIVE',
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP
+            );
+        </sql>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="cmms-employee-master-create" author="codex">
+        <preConditions onFail="MARK_RAN">
+            <not><tableExists tableName="employee_master"/></not>
+        </preConditions>
+        <createTable tableName="employee_master">
+            <column name="employee_id" type="BIGSERIAL"><constraints primaryKey="true"/></column>
+            <column name="employee_code" type="VARCHAR(50)"><constraints nullable="false" unique="true"/></column>
+            <column name="first_name" type="VARCHAR(100)"><constraints nullable="false"/></column>
+            <column name="last_name" type="VARCHAR(100)"/>
+            <column name="mobile_number" type="VARCHAR(20)"><constraints nullable="false"/></column>
+            <column name="email" type="VARCHAR(150)"/>
+            <column name="gender" type="VARCHAR(20)"/>
+            <column name="date_of_birth" type="DATE"/>
+            <column name="date_of_joining" type="DATE"/>
+            <column name="designation" type="VARCHAR(100)"/>
+            <column name="department" type="VARCHAR(100)"/>
+            <column name="status" type="VARCHAR(20)" defaultValue="ACTIVE"/>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
+            <column name="updated_at" type="TIMESTAMP"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="cmms-employee-master-indexes" author="codex">
+        <preConditions onFail="MARK_RAN">
+            <not><indexExists indexName="idx_employee_master_code"/></not>
+        </preConditions>
+        <createIndex indexName="idx_employee_master_code" tableName="employee_master"><column name="employee_code"/></createIndex>
+        <createIndex indexName="idx_employee_master_status" tableName="employee_master"><column name="status"/></createIndex>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="cmms-vendor-master-create" author="codex">
+        <preConditions onFail="MARK_RAN">
+            <not><tableExists tableName="vendor_master"/></not>
+        </preConditions>
+        <createTable tableName="vendor_master">
+            <column name="id" type="BIGSERIAL"><constraints primaryKey="true"/></column>
+            <column name="vendor_code" type="VARCHAR(50)"><constraints nullable="false" unique="true"/></column>
+            <column name="vendor_name" type="VARCHAR(150)"><constraints nullable="false"/></column>
+            <column name="contact_person" type="VARCHAR(120)"/>
+            <column name="email" type="VARCHAR(150)"/>
+            <column name="phone" type="VARCHAR(30)"/>
+            <column name="address" type="VARCHAR(500)"/>
+            <column name="service_category" type="VARCHAR(120)"/>
+            <column name="active" type="BOOLEAN" defaultValueBoolean="true"><constraints nullable="false"/></column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"><constraints nullable="false"/></column>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"><constraints nullable="false"/></column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="cmms-vendor-master-indexes" author="codex">
+        <preConditions onFail="MARK_RAN">
+            <not><indexExists indexName="idx_vendor_master_code"/></not>
+        </preConditions>
+        <createIndex indexName="idx_vendor_master_code" tableName="vendor_master"><column name="vendor_code"/></createIndex>
+        <createIndex indexName="idx_vendor_master_active" tableName="vendor_master"><column name="active"/></createIndex>
+    </changeSet>
+</databaseChangeLog>

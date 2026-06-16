@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="cmms-role-permission-create" author="codex">
+        <preConditions onFail="MARK_RAN">
+            <not><tableExists tableName="role_permission"/></not>
+        </preConditions>
+        <sql>
+            CREATE TABLE IF NOT EXISTS role_permission (
+                role_permission_id BIGSERIAL PRIMARY KEY,
+                role_id BIGINT NOT NULL REFERENCES role_master(role_id),
+                permission_id BIGINT NOT NULL REFERENCES permission_master(permission_id),
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                CONSTRAINT uk_role_permission UNIQUE (role_id, permission_id)
+            );
+        </sql>
+    </changeSet>
+
+    <changeSet id="cmms-role-permission-seed-admin" author="codex">
+        <sql>
+            INSERT INTO role_permission (role_id, permission_id)
+            SELECT r.role_id, p.permission_id
+            FROM role_master r
+            CROSS JOIN permission_master p
+            WHERE r.role_code IN ('SUPER_ADMIN', 'ADMIN')
+            ON CONFLICT (role_id, permission_id) DO NOTHING;
+        </sql>
+    </changeSet>
+
+    <changeSet id="cmms-role-permission-seed-hr" author="codex">
+        <sql>
+            INSERT INTO role_permission (role_id, permission_id)
+            SELECT r.role_id, p.permission_id
+            FROM role_master r
+            JOIN permission_master p ON p.permission_code IN ('DASHBOARD_VIEW', 'SITE_VIEW', 'SITE_CREATE', 'SITE_UPDATE', 'SITE_DELETE', 'EMPLOYEE_VIEW', 'EMPLOYEE_CREATE', 'EMPLOYEE_UPDATE', 'EMPLOYEE_DELETE', 'USER_ROLE_ASSIGN')
+            WHERE r.role_code = 'HR_ADMIN'
+            ON CONFLICT (role_id, permission_id) DO NOTHING;
+        </sql>
+    </changeSet>
+
+    <changeSet id="cmms-role-permission-seed-operation" author="codex">
+        <sql>
+            INSERT INTO role_permission (role_id, permission_id)
+            SELECT r.role_id, p.permission_id
+            FROM role_master r
+            JOIN permission_master p ON p.permission_code IN ('DASHBOARD_VIEW', 'EQUIPMENT_VIEW', 'EQUIPMENT_CREATE', 'EQUIPMENT_UPDATE', 'VENDOR_VIEW', 'REQUEST_VIEW', 'REQUEST_CREATE', 'REQUEST_UPDATE', 'ASSIGNMENT_VIEW', 'ASSIGNMENT_CREATE', 'ASSIGNMENT_UPDATE', 'DOWNTIME_VIEW', 'DOWNTIME_CREATE', 'DOWNTIME_UPDATE', 'REPORT_VIEW')
+            WHERE r.role_code = 'SITE_MANAGER'
+            ON CONFLICT (role_id, permission_id) DO NOTHING;
+
+            INSERT INTO role_permission (role_id, permission_id)
+            SELECT r.role_id, p.permission_id
+            FROM role_master r
+            JOIN permission_master p ON p.permission_code IN ('DASHBOARD_VIEW', 'EQUIPMENT_VIEW', 'VENDOR_VIEW', 'REQUEST_VIEW', 'REQUEST_CREATE', 'REQUEST_UPDATE', 'ASSIGNMENT_VIEW', 'ASSIGNMENT_CREATE', 'ASSIGNMENT_UPDATE', 'DOWNTIME_VIEW', 'DOWNTIME_CREATE', 'DOWNTIME_UPDATE', 'REPORT_VIEW')
+            WHERE r.role_code = 'MAINTENANCE_MANAGER'
+            ON CONFLICT (role_id, permission_id) DO NOTHING;
+        </sql>
+    </changeSet>
+
+    <changeSet id="cmms-role-permission-seed-technician-viewer" author="codex">
+        <sql>
+            INSERT INTO role_permission (role_id, permission_id)
+            SELECT r.role_id, p.permission_id
+            FROM role_master r
+            JOIN permission_master p ON p.permission_code IN ('DASHBOARD_VIEW', 'EQUIPMENT_VIEW', 'REQUEST_VIEW', 'REQUEST_UPDATE', 'DOWNTIME_VIEW', 'DOWNTIME_CREATE')
+            WHERE r.role_code = 'TECHNICIAN'
+            ON CONFLICT (role_id, permission_id) DO NOTHING;
+
+            INSERT INTO role_permission (role_id, permission_id)
+            SELECT r.role_id, p.permission_id
+            FROM role_master r
+            JOIN permission_master p ON p.permission_code IN ('DASHBOARD_VIEW', 'SITE_VIEW', 'EMPLOYEE_VIEW', 'EQUIPMENT_VIEW', 'VENDOR_VIEW', 'REQUEST_VIEW', 'ASSIGNMENT_VIEW', 'DOWNTIME_VIEW', 'REPORT_VIEW')
+            WHERE r.role_code = 'VIEWER'
+            ON CONFLICT (role_id, permission_id) DO NOTHING;
+        </sql>
+    </changeSet>
+</databaseChangeLog>
