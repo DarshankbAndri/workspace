@@ -3,6 +3,7 @@ import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import {
   AppBar,
   Avatar,
+  Badge,
   Box,
   ButtonBase,
   Collapse,
@@ -13,6 +14,8 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  Popover,
+  Stack,
   Toolbar,
   Tooltip,
   Typography,
@@ -37,6 +40,7 @@ import {
   LightMode,
   Logout,
   Menu,
+  Notifications,
   People,
   Place,
   PrecisionManufacturing,
@@ -45,6 +49,7 @@ import {
   Timeline,
 } from '@mui/icons-material';
 import { useAuth } from '../context/AuthContext';
+import { getNotifications, getUnreadNotificationCount, markAllNotificationsRead, markNotificationRead } from '../services/notificationService';
 
 const drawerWidth = 280;
 const collapsedWidth = 76;
@@ -216,6 +221,9 @@ function SidebarLayout({ children, mode, onToggleMode }) {
     creation: true,
     adminAccess: true,
   });
+  const [notificationAnchor, setNotificationAnchor] = React.useState(null);
+  const [notifications, setNotifications] = React.useState([]);
+  const [unreadCount, setUnreadCount] = React.useState(0);
 
   React.useEffect(() => {
     if (location.pathname.startsWith('/admin')) {
@@ -224,6 +232,24 @@ function SidebarLayout({ children, mode, onToggleMode }) {
       setSelectedCategory(location.pathname.startsWith('/hr') ? 'hr' : 'operation');
     }
   }, [location.pathname]);
+
+  const loadNotifications = React.useCallback(() => {
+    Promise.all([getNotifications(), getUnreadNotificationCount()])
+      .then(([items, count]) => {
+        setNotifications((items || []).slice(0, 6));
+        setUnreadCount(count || 0);
+      })
+      .catch(() => {
+        setNotifications([]);
+        setUnreadCount(0);
+      });
+  }, []);
+
+  React.useEffect(() => {
+    loadNotifications();
+    const timer = window.setInterval(loadNotifications, 60000);
+    return () => window.clearInterval(timer);
+  }, [loadNotifications]);
 
   const filterGroups = React.useCallback((groups) => groups
     .map((group) => ({
@@ -262,6 +288,29 @@ function SidebarLayout({ children, mode, onToggleMode }) {
   const handleLogout = () => {
     logout();
     navigate('/login');
+  };
+
+  const openNotifications = (event) => {
+    setNotificationAnchor(event.currentTarget);
+    loadNotifications();
+  };
+
+  const closeNotifications = () => setNotificationAnchor(null);
+
+  const openNotification = async (notification) => {
+    if (notification.status === 'UNREAD') {
+      await markNotificationRead(notification.id);
+    }
+    closeNotifications();
+    loadNotifications();
+    if (notification.targetUrl) {
+      navigate(notification.targetUrl);
+    }
+  };
+
+  const markNotificationsRead = async () => {
+    await markAllNotificationsRead();
+    loadNotifications();
   };
 
   const toggleGroup = (groupKey) => {
@@ -382,6 +431,13 @@ function SidebarLayout({ children, mode, onToggleMode }) {
             {mode === 'dark' ? <LightMode /> : <DarkMode />}
           </IconButton>
         </Tooltip>
+        <Tooltip title="Notifications">
+          <IconButton aria-label="Notifications" onClick={openNotifications}>
+            <Badge badgeContent={unreadCount} color="error" max={99}>
+              <Notifications />
+            </Badge>
+          </IconButton>
+        </Tooltip>
         {!drawerIsCollapsed && (
           <>
             <Avatar sx={{ width: 36, height: 36, bgcolor: 'secondary.main', color: 'primary.main', fontWeight: 800 }}>
@@ -396,6 +452,42 @@ function SidebarLayout({ children, mode, onToggleMode }) {
         <Tooltip title="Logout">
           <IconButton aria-label="Logout" onClick={handleLogout}><Logout /></IconButton>
         </Tooltip>
+        <Popover
+          open={Boolean(notificationAnchor)}
+          anchorEl={notificationAnchor}
+          onClose={closeNotifications}
+          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+          transformOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        >
+          <Box sx={{ width: 360, maxWidth: '90vw', p: 1 }}>
+            <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ px: 1, py: 0.75 }}>
+              <Typography variant="subtitle2" fontWeight={800}>Notifications</Typography>
+              <ButtonBase onClick={markNotificationsRead} sx={{ px: 1, py: 0.5, borderRadius: 1, color: 'primary.main', fontSize: 13, fontWeight: 700 }}>
+                Mark read
+              </ButtonBase>
+            </Stack>
+            <Divider />
+            <List dense sx={{ py: 0.5, maxHeight: 360, overflowY: 'auto' }}>
+              {notifications.length === 0 && (
+                <Typography variant="body2" color="text.secondary" sx={{ p: 2 }}>No notifications.</Typography>
+              )}
+              {notifications.map((notification) => (
+                <ListItemButton key={notification.id} onClick={() => openNotification(notification)} sx={{ alignItems: 'flex-start', borderRadius: 1 }}>
+                  <ListItemText
+                    primary={notification.title}
+                    secondary={`${notification.message}${notification.createdAt ? ` • ${new Date(notification.createdAt).toLocaleString()}` : ''}`}
+                    primaryTypographyProps={{ fontSize: 14, fontWeight: notification.status === 'UNREAD' ? 800 : 600 }}
+                    secondaryTypographyProps={{ fontSize: 12 }}
+                  />
+                </ListItemButton>
+              ))}
+            </List>
+            <Divider />
+            <ButtonBase onClick={() => { closeNotifications(); navigate('/notifications'); }} sx={{ width: '100%', p: 1, borderRadius: 1, color: 'primary.main', fontSize: 14, fontWeight: 800 }}>
+              View All
+            </ButtonBase>
+          </Box>
+        </Popover>
       </Box>
     </Box>
   );

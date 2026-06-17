@@ -50,6 +50,7 @@ public class ApprovalWorkflowService {
     private final AccessControlService accessControlService;
     private final ObjectProvider<PreventiveMaintenanceScheduleService> scheduleServiceProvider;
     private final ObjectMapper objectMapper;
+    private final NotificationService notificationService;
 
     public ApprovalWorkflowService(@Value("${cmms.approval.enabled:false}") boolean globalApprovalEnabled,
                                    ApprovalConfigDAO approvalConfigDAO,
@@ -59,7 +60,8 @@ public class ApprovalWorkflowService {
                                    PreventiveMaintenanceScheduleDAO scheduleDAO,
                                    AccessControlService accessControlService,
                                    ObjectProvider<PreventiveMaintenanceScheduleService> scheduleServiceProvider,
-                                   ObjectMapper objectMapper) {
+                                   ObjectMapper objectMapper,
+                                   NotificationService notificationService) {
         this.globalApprovalEnabled = globalApprovalEnabled;
         this.approvalConfigDAO = approvalConfigDAO;
         this.approvalRequestDAO = approvalRequestDAO;
@@ -69,6 +71,7 @@ public class ApprovalWorkflowService {
         this.accessControlService = accessControlService;
         this.scheduleServiceProvider = scheduleServiceProvider;
         this.objectMapper = objectMapper;
+        this.notificationService = notificationService;
     }
 
     @Transactional(readOnly = true)
@@ -105,7 +108,9 @@ public class ApprovalWorkflowService {
         request.setMinApprovalCount(config.getMinApprovalCount() == null || config.getMinApprovalCount() < 1 ? 1 : config.getMinApprovalCount());
         request.setRemarks(remarks);
         request.setPayloadJson(toJson(payload));
-        return toDTO(approvalRequestDAO.save(request), true);
+        ApprovalRequest saved = approvalRequestDAO.save(request);
+        notificationService.createApprovalPendingAlert(saved);
+        return toDTO(saved, true);
     }
 
     public ApprovalRequestDTO approve(Long approvalRequestId, String comments) {

@@ -24,5 +24,6 @@
     <include file="db/changelog/cmms/approval_config.xml"/>
     <include file="db/changelog/cmms/approval_request.xml"/>
     <include file="db/changelog/cmms/approval_action.xml"/>
+    <include file="db/changelog/cmms/notification.xml"/>
 
 </databaseChangeLog>

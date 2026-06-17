@@ -3,6 +3,7 @@ package com.example.cmmsApplication.dao;
 import com.example.cmmsApplication.entity.MaintenanceRequest;
 import com.example.cmmsApplication.repository.MaintenanceRequestRepository;
 import org.springframework.stereotype.Component;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -24,6 +25,7 @@ public class MaintenanceRequestDAO {
     public List<MaintenanceRequest> findByStatus(String status) { return repository.findByStatus(status); }
     public List<MaintenanceRequest> findBySiteIdsAndStatus(Collection<Long> siteIds, String status) { return repository.findBySiteIdInAndStatus(siteIds, status); }
     public List<MaintenanceRequest> findBySiteIdAndStatus(Long siteId, String status) { return repository.findBySiteIdAndStatus(siteId, status); }
+    public List<MaintenanceRequest> findOverdue(LocalDate date) { return repository.findByTargetCompletionDateBeforeAndStatusNotInOrderByTargetCompletionDateAsc(date, Arrays.asList("CLOSED", "COMPLETED", "CANCELLED", "REJECTED")); }
     public void deleteById(Long id) { repository.deleteById(id); }
     public long countOpenRequests() { return repository.countByStatusIn(Arrays.asList("OPEN", "IN_PROGRESS", "ON_HOLD")); }
     public long countOpenRequestsBySiteId(Long siteId) { return repository.countBySiteIdAndStatusIn(siteId, Arrays.asList("OPEN", "IN_PROGRESS", "ON_HOLD")); }

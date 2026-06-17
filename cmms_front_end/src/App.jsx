@@ -20,6 +20,7 @@ import PreventiveMaintenanceListPage from './pages/maintenance/preventive/Preven
 import PreventiveMaintenanceFormPage from './pages/maintenance/preventive/PreventiveMaintenanceFormPage';
 import ApprovalInboxPage from './pages/approvals/ApprovalInboxPage';
 import ApprovalHistoryPage from './pages/approvals/ApprovalHistoryPage';
+import NotificationCenterPage from './pages/notifications/NotificationCenterPage';
 import EquipmentHistoryPage from './pages/reports/EquipmentHistoryPage';
 import DowntimeAnalysisPage from './pages/reports/DowntimeAnalysisPage';
 import SiteListPage from './pages/hr/site/SiteListPage';
@@ -178,6 +179,7 @@ function App() {
           <Route path="/maintenance/preventive/:id/view" element={protectedPage(<PreventiveMaintenanceFormPage />, 'REQUEST_VIEW')} />
           <Route path="/approvals/pending" element={protectedPage(<ApprovalInboxPage />, 'APPROVAL_VIEW')} />
           <Route path="/approvals/history" element={protectedPage(<ApprovalHistoryPage />, 'APPROVAL_VIEW')} />
+          <Route path="/notifications" element={protectedPage(<NotificationCenterPage />)} />
           <Route path="/reports/equipment-history" element={protectedPage(<EquipmentHistoryPage />, 'REPORT_VIEW')} />
           <Route path="/reports/downtime-analysis" element={protectedPage(<DowntimeAnalysisPage />, 'REPORT_VIEW')} />
           <Route path="/hr/sites" element={protectedPage(<SiteListPage />, 'SITE_VIEW')} />
