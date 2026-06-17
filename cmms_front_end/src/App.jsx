@@ -33,6 +33,7 @@ import RoleViewPage from './pages/admin/roles/RoleViewPage';
 import PermissionListPage from './pages/admin/permissions/PermissionListPage';
 import UserRoleAssignmentPage from './pages/admin/userRoles/UserRoleAssignmentPage';
 import ApprovalConfigPage from './pages/admin/approvalConfig/ApprovalConfigPage';
+import NotificationSettingsPage from './pages/admin/notificationSettings/NotificationSettingsPage';
 
 const createAppTheme = (mode) => createTheme({
   palette: {
@@ -195,6 +196,7 @@ function App() {
           <Route path="/admin/permissions" element={protectedPage(<PermissionListPage />, 'PERMISSION_VIEW')} />
           <Route path="/admin/user-roles" element={protectedPage(<UserRoleAssignmentPage />, 'USER_ROLE_VIEW')} />
           <Route path="/admin/approval-config" element={protectedPage(<ApprovalConfigPage />, 'APPROVAL_CONFIG_VIEW')} />
+          <Route path="/admin/notification-settings" element={protectedPage(<NotificationSettingsPage />, 'NOTIFICATION_CONFIG_VIEW')} />
           <Route path="/create-user" element={protectedPage(<UserManagementPage />)} />
           <Route path="*" element={<Navigate to={isAuthenticated ? '/dashboard' : '/login'} replace />} />
         </Routes>

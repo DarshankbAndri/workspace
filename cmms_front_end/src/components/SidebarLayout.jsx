@@ -123,6 +123,7 @@ const adminGroups = [
       { label: 'Permissions', path: '/admin/permissions', icon: <Security />, permission: 'PERMISSION_VIEW' },
       { label: 'User Roles', path: '/admin/user-roles', icon: <People />, permission: 'USER_ROLE_VIEW' },
       { label: 'Approval Config', path: '/admin/approval-config', icon: <Rule />, permission: 'APPROVAL_CONFIG_VIEW' },
+      { label: 'Notification Settings', path: '/admin/notification-settings', icon: <Notifications />, permission: 'NOTIFICATION_CONFIG_VIEW' },
     ],
   },
 ];
@@ -263,7 +264,7 @@ function SidebarLayout({ children, mode, onToggleMode }) {
   const visibleAdminGroups = React.useMemo(() => filterGroups(adminGroups), [filterGroups]);
   const canShowOperation = hasAnyPermission(['DASHBOARD_VIEW', 'EQUIPMENT_VIEW', 'VENDOR_VIEW', 'REQUEST_VIEW', 'ASSIGNMENT_VIEW', 'DOWNTIME_VIEW', 'REPORT_VIEW', 'APPROVAL_VIEW']);
   const canShowHr = hasAnyPermission(['SITE_VIEW', 'EMPLOYEE_VIEW']);
-  const canShowAdmin = hasAnyPermission(['ROLE_VIEW', 'PERMISSION_VIEW', 'USER_ROLE_VIEW', 'APPROVAL_CONFIG_VIEW']);
+  const canShowAdmin = hasAnyPermission(['ROLE_VIEW', 'PERMISSION_VIEW', 'USER_ROLE_VIEW', 'APPROVAL_CONFIG_VIEW', 'NOTIFICATION_CONFIG_VIEW']);
 
   React.useEffect(() => {
     const currentGroups = selectedCategory === 'admin' ? visibleAdminGroups : selectedCategory === 'hr' ? visibleHrGroups : visibleOperationGroups;

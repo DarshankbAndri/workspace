@@ -1,54 +1,34 @@
 package com.example.cmmsApplication.service;
 
-import com.example.cmmsApplication.config.NotificationProperties;
-import com.example.cmmsApplication.dao.MaintenanceRequestDAO;
-import com.example.cmmsApplication.dao.PreventiveMaintenanceScheduleDAO;
-import com.example.cmmsApplication.entity.PreventiveMaintenanceSchedule;
-import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.scheduling.Trigger;
+import org.springframework.scheduling.annotation.SchedulingConfigurer;
+import org.springframework.scheduling.config.ScheduledTaskRegistrar;
+import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDate;
 
 @Service
-public class NotificationSchedulerService {
-    private final NotificationProperties properties;
-    private final PreventiveMaintenanceScheduleDAO scheduleDAO;
-    private final MaintenanceRequestDAO requestDAO;
-    private final NotificationService notificationService;
+public class NotificationSchedulerService implements SchedulingConfigurer {
+    private static final String DEFAULT_CRON = "0 0 7 * * *";
 
-    public NotificationSchedulerService(NotificationProperties properties,
-                                        PreventiveMaintenanceScheduleDAO scheduleDAO,
-                                        MaintenanceRequestDAO requestDAO,
-                                        NotificationService notificationService) {
-        this.properties = properties;
-        this.scheduleDAO = scheduleDAO;
-        this.requestDAO = requestDAO;
-        this.notificationService = notificationService;
+    private final NotificationSettingsService notificationSettingsService;
+    private final NotificationScanService notificationScanService;
+
+    public NotificationSchedulerService(NotificationSettingsService notificationSettingsService,
+                                        NotificationScanService notificationScanService) {
+        this.notificationSettingsService = notificationSettingsService;
+        this.notificationScanService = notificationScanService;
     }
 
-    @Scheduled(cron = "${cmms.notification.scan-cron:0 0 7 * * *}")
-    @Transactional
-    public void scanDailyNotifications() {
-        if (!properties.isEnabled()) {
-            return;
-        }
-        LocalDate today = LocalDate.now();
-        if (properties.isPmDueReminderEnabled()) {
-            LocalDate end = today.plusDays(Math.max(properties.getPmReminderDays(), 0));
-            scheduleDAO.findUpcoming(today, end).stream()
-                    .filter(this::canNotifyPmSchedule)
-                    .forEach((schedule) -> notificationService.createPmDueReminder(schedule, today));
-        }
-        if (properties.isOverdueRequestEnabled()) {
-            requestDAO.findOverdue(today).forEach((request) -> notificationService.createOverdueRequestAlert(request, today));
-        }
+    @Override
+    public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
+        taskRegistrar.addTriggerTask(notificationScanService::scanDailyNotifications, notificationTrigger());
     }
 
-    private boolean canNotifyPmSchedule(PreventiveMaintenanceSchedule schedule) {
-        return schedule != null
-                && Boolean.TRUE.equals(schedule.getActive())
-                && !"PENDING_APPROVAL".equalsIgnoreCase(schedule.getStatus())
-                && !"REJECTED".equalsIgnoreCase(schedule.getStatus());
+    private Trigger notificationTrigger() {
+        return (triggerContext) -> {
+            String cron = notificationSettingsService.getRuntimeSettings().getScanCron();
+            CronTrigger cronTrigger = new CronTrigger(cron == null || cron.isBlank() ? DEFAULT_CRON : cron);
+            return cronTrigger.nextExecution(triggerContext);
+        };
     }
 }

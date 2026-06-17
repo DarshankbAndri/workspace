@@ -425,8 +425,8 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/App.jsx": {
-    "mtime": 1781680429.9830282,
-    "ast_hash": "63bff43f2476a1f262bb8663749922e7",
+    "mtime": 1781688310.9033396,
+    "ast_hash": "337cf6c7ffe1ec9dca42013ea5daefb3",
     "semantic_hash": ""
   },
   "cmms_front_end/src/components/DocumentPreview.jsx": {
@@ -440,8 +440,8 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/components/SidebarLayout.jsx": {
-    "mtime": 1781680429.9877687,
-    "ast_hash": "30c6d3168a54835786d96d42f45ad15a",
+    "mtime": 1781688310.9087994,
+    "ast_hash": "d40578acc8e532effe72d78ddd67dd58",
     "semantic_hash": ""
   },
   "cmms_front_end/src/components/common/ConfirmDialog.jsx": {
@@ -800,8 +800,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/service/AccessControlService.java": {
-    "mtime": 1781680350.2875156,
-    "ast_hash": "c9102c2076b27d9abe95cf1b743cb0c5",
+    "mtime": 1781688230.1139765,
+    "ast_hash": "ac814690d658f91afbc344745e95cad1",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/service/PermissionService.java": {
@@ -1160,8 +1160,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/config/NotificationProperties.java": {
-    "mtime": 1781680117.6535242,
-    "ast_hash": "5d7bae6582c2add726d53bc728650c75",
+    "mtime": 1781688186.4102638,
+    "ast_hash": "985bcf2006f62cb7a2ea8db12c49c7bc",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/controller/NotificationController.java": {
@@ -1190,18 +1190,18 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/service/EmailNotificationService.java": {
-    "mtime": 1781680192.70788,
-    "ast_hash": "409cbd61aa3f48ae740a11add7ec2f5d",
+    "mtime": 1781688244.2743402,
+    "ast_hash": "2a68c5087f41bcc4f9589304ed6780fe",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSchedulerService.java": {
-    "mtime": 1781680286.98019,
-    "ast_hash": "4fe666a6442ae267038d78812b1905d9",
+    "mtime": 1781688352.1774008,
+    "ast_hash": "d595f6f817bfd25306a7999ae2145bc9",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationService.java": {
-    "mtime": 1781680192.710341,
-    "ast_hash": "8fefd075d81c1aabff6bd7a4b6b9da8c",
+    "mtime": 1781688186.4197233,
+    "ast_hash": "6d316426ffc21e0aa121cdf80250b76f",
     "semantic_hash": ""
   },
   "cmms_front_end/src/pages/notifications/NotificationCenterPage.jsx": {
@@ -1217,6 +1217,56 @@
   "cmms_back_end/src/main/resources/improvment.md": {
     "mtime": 1781679457.537704,
     "ast_hash": "d91e8adca011fdb2d6bf07b6948bde09",
+    "semantic_hash": ""
+  },
+  "cmms_back_end/src/main/java/com/example/cmmsApplication/controller/NotificationSettingsController.java": {
+    "mtime": 1781688125.4081762,
+    "ast_hash": "e2b87690fd9a17ee9d1dd9eab0bdae0a",
+    "semantic_hash": ""
+  },
+  "cmms_back_end/src/main/java/com/example/cmmsApplication/dao/NotificationSettingDAO.java": {
+    "mtime": 1781688071.1369984,
+    "ast_hash": "29b6022a8a11d8c48bb7396f0b82436c",
+    "semantic_hash": ""
+  },
+  "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/NotificationSettingDTO.java": {
+    "mtime": 1781691161.240417,
+    "ast_hash": "69717efc8d86a3094cf2e738cd5beaa6",
+    "semantic_hash": ""
+  },
+  "cmms_back_end/src/main/java/com/example/cmmsApplication/entity/NotificationSetting.java": {
+    "mtime": 1781688071.1234612,
+    "ast_hash": "970d0f5b047993c9d5e864717010cfd6",
+    "semantic_hash": ""
+  },
+  "cmms_back_end/src/main/java/com/example/cmmsApplication/repository/NotificationSettingRepository.java": {
+    "mtime": 1781688071.131999,
+    "ast_hash": "e7f37844c378d0f4b4ac13bda162f329",
+    "semantic_hash": ""
+  },
+  "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationScanService.java": {
+    "mtime": 1781688352.1700404,
+    "ast_hash": "3219626dbe35a334598398203d2a0509",
+    "semantic_hash": ""
+  },
+  "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java": {
+    "mtime": 1781691161.2492275,
+    "ast_hash": "48225339d7793993ede2e78e845eead0",
+    "semantic_hash": ""
+  },
+  "cmms_front_end/src/pages/admin/notificationSettings/NotificationSettingsPage.jsx": {
+    "mtime": 1781691176.232197,
+    "ast_hash": "e3db51f0f972950c81c526574ed07c4e",
+    "semantic_hash": ""
+  },
+  "cmms_front_end/src/services/notificationSettingsService.js": {
+    "mtime": 1781688294.7770858,
+    "ast_hash": "fd18619512120826015c8bf55207f9e9",
+    "semantic_hash": ""
+  },
+  "cmms_back_end/src/main/resources/NOTIFICATION_CONFIGURATION.md": {
+    "mtime": 1781691194.6780012,
+    "ast_hash": "04e209e172447d57578d999d7cb066a5",
     "semantic_hash": ""
   }
 }

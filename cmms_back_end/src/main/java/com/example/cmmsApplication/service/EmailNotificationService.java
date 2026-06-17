@@ -19,7 +19,7 @@ public class EmailNotificationService {
     }
 
     public boolean send(Notification notification) {
-        if (!properties.isEnabled() || !properties.isEmailEnabled()) {
+        if (!properties.isEmailEnabled()) {
             return false;
         }
         User recipient = notification.getRecipientUser();

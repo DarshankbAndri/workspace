@@ -3,6 +3,7 @@ package com.example.cmmsApplication.service;
 import com.example.cmmsApplication.config.NotificationProperties;
 import com.example.cmmsApplication.dao.NotificationDAO;
 import com.example.cmmsApplication.dto.NotificationDTO;
+import com.example.cmmsApplication.dto.NotificationSettingDTO;
 import com.example.cmmsApplication.entity.ApprovalRequest;
 import com.example.cmmsApplication.entity.MaintenanceRequest;
 import com.example.cmmsApplication.entity.Notification;
@@ -35,6 +36,7 @@ public class NotificationService {
     private final UserRoleAssignmentRepository userRoleAssignmentRepository;
     private final UserRepository userRepository;
     private final NotificationProperties properties;
+    private final NotificationSettingsService notificationSettingsService;
     private final EmailNotificationService emailNotificationService;
 
     public NotificationService(NotificationDAO notificationDAO,
@@ -42,12 +44,14 @@ public class NotificationService {
                                UserRoleAssignmentRepository userRoleAssignmentRepository,
                                UserRepository userRepository,
                                NotificationProperties properties,
+                               NotificationSettingsService notificationSettingsService,
                                EmailNotificationService emailNotificationService) {
         this.notificationDAO = notificationDAO;
         this.accessControlService = accessControlService;
         this.userRoleAssignmentRepository = userRoleAssignmentRepository;
         this.userRepository = userRepository;
         this.properties = properties;
+        this.notificationSettingsService = notificationSettingsService;
         this.emailNotificationService = emailNotificationService;
     }
 
@@ -89,13 +93,14 @@ public class NotificationService {
     }
 
     public void createPmDueReminder(PreventiveMaintenanceSchedule schedule, LocalDate runDate) {
-        if (!isEnabled() || !properties.isPmDueReminderEnabled() || schedule == null) {
+        NotificationSettingDTO settings = notificationSettingsService.getRuntimeSettings();
+        if (!isEnabled(settings) || !Boolean.TRUE.equals(settings.getPmDueReminderEnabled()) || schedule == null) {
             return;
         }
         String equipmentName = schedule.getEquipment() == null ? "equipment" : schedule.getEquipment().getEquipmentName();
         String title = "Preventive maintenance due";
         String message = equipmentName + " PM " + schedule.getScheduleCode() + " is due on " + schedule.getNextDueDate() + ".";
-        notifyRoleRecipients(properties.getPmRecipientRoleCodes(), schedule.getSite(), "PM_DUE_REMINDER", title, message,
+        notifyRoleRecipients(settings, settings.getPmRecipientRoleCodes(), schedule.getSite(), "PM_DUE_REMINDER", title, message,
                 "PM_SCHEDULE", schedule.getId(), schedule.getScheduleCode(),
                 "/maintenance/preventive/" + schedule.getId() + "/view", schedule.getPriority(), "PM_DUE:" + schedule.getId() + ":" + runDate);
         schedule.setLastNotificationStatus("IN_APP_QUEUED for " + schedule.getScheduleCode());
@@ -103,39 +108,41 @@ public class NotificationService {
     }
 
     public void createOverdueRequestAlert(MaintenanceRequest request, LocalDate runDate) {
-        if (!isEnabled() || !properties.isOverdueRequestEnabled() || request == null) {
+        NotificationSettingDTO settings = notificationSettingsService.getRuntimeSettings();
+        if (!isEnabled(settings) || !Boolean.TRUE.equals(settings.getOverdueRequestEnabled()) || request == null) {
             return;
         }
         String title = "Maintenance request overdue";
         String message = request.getRequestNumber() + " is overdue. Target completion date was " + request.getTargetCompletionDate() + ".";
-        notifyRoleRecipients(properties.getOverdueRecipientRoleCodes(), request.getSite(), "OVERDUE_REQUEST", title, message,
+        notifyRoleRecipients(settings, settings.getOverdueRecipientRoleCodes(), request.getSite(), "OVERDUE_REQUEST", title, message,
                 "MAINTENANCE_REQUEST", request.getId(), request.getRequestNumber(),
                 "/maintenance/requests/" + request.getId() + "/view", request.getPriority(), "OVERDUE_REQUEST:" + request.getId() + ":" + runDate);
     }
 
     public void createApprovalPendingAlert(ApprovalRequest approvalRequest) {
-        if (!isEnabled() || !properties.isApprovalPendingEnabled() || approvalRequest == null) {
+        NotificationSettingDTO settings = notificationSettingsService.getRuntimeSettings();
+        if (!isEnabled(settings) || !Boolean.TRUE.equals(settings.getApprovalPendingEnabled()) || approvalRequest == null) {
             return;
         }
         List<String> roleCodes = approvalRequest.getApproverRoleCode() == null || approvalRequest.getApproverRoleCode().isBlank()
-                ? properties.getApprovalFallbackRoleCodes()
+                ? settings.getApprovalFallbackRoleCodes()
                 : List.of(approvalRequest.getApproverRoleCode());
         String title = "Approval pending";
         String message = approvalRequest.getModuleCode() + " " + approvalRequest.getActionCode()
                 + " is waiting for approval for " + (approvalRequest.getReferenceCode() == null ? approvalRequest.getReferenceId() : approvalRequest.getReferenceCode()) + ".";
-        notifyRoleRecipients(roleCodes, approvalRequest.getSite(), "APPROVAL_PENDING", title, message,
+        notifyRoleRecipients(settings, roleCodes, approvalRequest.getSite(), "APPROVAL_PENDING", title, message,
                 approvalRequest.getModuleCode(), approvalRequest.getReferenceId(), approvalRequest.getReferenceCode(),
                 "/approvals/pending", "HIGH", "APPROVAL_PENDING:" + approvalRequest.getId());
     }
 
-    private void notifyRoleRecipients(Collection<String> roleCodes, Site site, String type, String title, String message,
+    private void notifyRoleRecipients(NotificationSettingDTO settings, Collection<String> roleCodes, Site site, String type, String title, String message,
                                       String moduleCode, Long referenceId, String referenceCode, String targetUrl,
                                       String priority, String dedupeBase) {
-        if (!properties.isInAppEnabled() && !properties.isEmailEnabled()) {
+        if (!Boolean.TRUE.equals(settings.getInAppEnabled()) && !properties.isEmailEnabled()) {
             return;
         }
         resolveRecipients(roleCodes, site == null ? null : site.getId()).forEach((user) -> createForUser(user, site, type, title, message,
-                moduleCode, referenceId, referenceCode, targetUrl, priority, dedupeBase + ":USER:" + user.getId()));
+                moduleCode, referenceId, referenceCode, targetUrl, priority, dedupeBase + ":USER:" + user.getId(), Boolean.TRUE.equals(settings.getInAppEnabled())));
     }
 
     private List<User> resolveRecipients(Collection<String> roleCodes, Long siteId) {
@@ -159,7 +166,7 @@ public class NotificationService {
     }
 
     private void createForUser(User user, Site site, String type, String title, String message, String moduleCode,
-                               Long referenceId, String referenceCode, String targetUrl, String priority, String dedupeKey) {
+                               Long referenceId, String referenceCode, String targetUrl, String priority, String dedupeKey, boolean inAppEnabled) {
         if (user == null || notificationDAO.existsByDedupeKey(dedupeKey)) {
             return;
         }
@@ -175,6 +182,7 @@ public class NotificationService {
         notification.setTargetUrl(targetUrl);
         notification.setPriority(priority == null || priority.isBlank() ? "MEDIUM" : priority);
         notification.setDedupeKey(dedupeKey);
+        notification.setStatus(inAppEnabled ? "UNREAD" : "ARCHIVED");
         notification.setEmailStatus(properties.isEmailEnabled() ? "PENDING" : "NOT_REQUIRED");
         Notification saved = notificationDAO.save(notification);
         if (properties.isEmailEnabled()) {
@@ -201,8 +209,8 @@ public class NotificationService {
         return notification;
     }
 
-    private boolean isEnabled() {
-        return properties.isEnabled() && (properties.isInAppEnabled() || properties.isEmailEnabled());
+    private boolean isEnabled(NotificationSettingDTO settings) {
+        return Boolean.TRUE.equals(settings.getEnabled()) && (Boolean.TRUE.equals(settings.getInAppEnabled()) || properties.isEmailEnabled());
     }
 
     private NotificationDTO toDTO(Notification notification) {

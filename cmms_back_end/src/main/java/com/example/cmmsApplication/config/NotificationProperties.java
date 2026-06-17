@@ -17,6 +17,7 @@ public class NotificationProperties {
     private boolean overdueRequestEnabled = true;
     private boolean approvalPendingEnabled = true;
     private int pmReminderDays = 3;
+    private String scanCron = "0 0 7 * * *";
     private List<String> pmRecipientRoleCodes = new ArrayList<>(Arrays.asList("ADMIN", "SUPER_ADMIN", "MAINTENANCE_MANAGER"));
     private List<String> overdueRecipientRoleCodes = new ArrayList<>(Arrays.asList("ADMIN", "SUPER_ADMIN", "MAINTENANCE_MANAGER"));
     private List<String> approvalFallbackRoleCodes = new ArrayList<>(Arrays.asList("ADMIN", "SUPER_ADMIN"));
@@ -36,6 +37,8 @@ public class NotificationProperties {
     public void setApprovalPendingEnabled(boolean approvalPendingEnabled) { this.approvalPendingEnabled = approvalPendingEnabled; }
     public int getPmReminderDays() { return pmReminderDays; }
     public void setPmReminderDays(int pmReminderDays) { this.pmReminderDays = pmReminderDays; }
+    public String getScanCron() { return scanCron; }
+    public void setScanCron(String scanCron) { this.scanCron = scanCron; }
     public List<String> getPmRecipientRoleCodes() { return pmRecipientRoleCodes; }
     public void setPmRecipientRoleCodes(List<String> pmRecipientRoleCodes) { this.pmRecipientRoleCodes = pmRecipientRoleCodes; }
     public List<String> getOverdueRecipientRoleCodes() { return overdueRecipientRoleCodes; }

@@ -40,7 +40,8 @@ public class AccessControlService {
             "PERMISSION_VIEW", "USER_ROLE_VIEW", "USER_ROLE_UPDATE", "USER_ROLE_ASSIGN",
             "APPROVAL_VIEW", "APPROVAL_APPROVE", "APPROVAL_REJECT",
             "APPROVAL_CONFIG_VIEW", "APPROVAL_CONFIG_UPDATE",
-            "NOTIFICATION_VIEW", "NOTIFICATION_UPDATE"
+            "NOTIFICATION_VIEW", "NOTIFICATION_UPDATE",
+            "NOTIFICATION_CONFIG_VIEW", "NOTIFICATION_CONFIG_UPDATE"
     );
 
     private final UserRepository userRepository;
