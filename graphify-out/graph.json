@@ -200,7 +200,7 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "config_notificationproperties_notificationproperties_isinappenabled",
-      "community": 214,
+      "community": 228,
       "norm_label": ".isinappenabled()"
     },
     {
@@ -220,7 +220,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "config_notificationproperties_notificationproperties_isemailenabled",
-      "community": 214,
+      "community": 228,
       "norm_label": ".isemailenabled()"
     },
     {
@@ -240,7 +240,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "config_notificationproperties_notificationproperties_ispmduereminderenabled",
-      "community": 185,
+      "community": 228,
       "norm_label": ".ispmduereminderenabled()"
     },
     {
@@ -260,7 +260,7 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "config_notificationproperties_notificationproperties_isoverduerequestenabled",
-      "community": 177,
+      "community": 228,
       "norm_label": ".isoverduerequestenabled()"
     },
     {
@@ -280,7 +280,7 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "config_notificationproperties_notificationproperties_isapprovalpendingenabled",
-      "community": 177,
+      "community": 228,
       "norm_label": ".isapprovalpendingenabled()"
     },
     {
@@ -420,7 +420,7 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "config_notificationproperties_notificationproperties_getfromaddress",
-      "community": 177,
+      "community": 226,
       "norm_label": ".getfromaddress()"
     },
     {
@@ -1070,7 +1070,7 @@
       "source_location": "L133",
       "_origin": "ast",
       "id": "controller_authcontroller_errorresponse",
-      "community": 193,
+      "community": 229,
       "norm_label": "errorresponse"
     },
     {
@@ -1080,7 +1080,7 @@
       "source_location": "L137",
       "_origin": "ast",
       "id": "controller_authcontroller_errorresponse_errorresponse",
-      "community": 193,
+      "community": 229,
       "norm_label": ".errorresponse()"
     },
     {
@@ -1090,7 +1090,7 @@
       "source_location": "L137",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_controller_authcontroller_java_string",
-      "community": 193,
+      "community": 229,
       "norm_label": "string"
     },
     {
@@ -1100,7 +1100,7 @@
       "source_location": "L142",
       "_origin": "ast",
       "id": "controller_authcontroller_errorresponse_getmessage",
-      "community": 193,
+      "community": 229,
       "norm_label": ".getmessage()"
     },
     {
@@ -1110,7 +1110,7 @@
       "source_location": "L146",
       "_origin": "ast",
       "id": "controller_authcontroller_errorresponse_setmessage",
-      "community": 193,
+      "community": 229,
       "norm_label": ".setmessage()"
     },
     {
@@ -1120,7 +1120,7 @@
       "source_location": "L150",
       "_origin": "ast",
       "id": "controller_authcontroller_errorresponse_getstatus",
-      "community": 193,
+      "community": 229,
       "norm_label": ".getstatus()"
     },
     {
@@ -1130,7 +1130,7 @@
       "source_location": "L154",
       "_origin": "ast",
       "id": "controller_authcontroller_errorresponse_setstatus",
-      "community": 193,
+      "community": 229,
       "norm_label": ".setstatus()"
     },
     {
@@ -1140,7 +1140,7 @@
       "source_location": "L162",
       "_origin": "ast",
       "id": "controller_authcontroller_successresponse",
-      "community": 193,
+      "community": 229,
       "norm_label": "successresponse"
     },
     {
@@ -1150,7 +1150,7 @@
       "source_location": "L165",
       "_origin": "ast",
       "id": "controller_authcontroller_successresponse_successresponse",
-      "community": 193,
+      "community": 229,
       "norm_label": ".successresponse()"
     },
     {
@@ -1160,7 +1160,7 @@
       "source_location": "L169",
       "_origin": "ast",
       "id": "controller_authcontroller_successresponse_getmessage",
-      "community": 193,
+      "community": 229,
       "norm_label": ".getmessage()"
     },
     {
@@ -1170,7 +1170,7 @@
       "source_location": "L173",
       "_origin": "ast",
       "id": "controller_authcontroller_successresponse_setmessage",
-      "community": 193,
+      "community": 229,
       "norm_label": ".setmessage()"
     },
     {
@@ -3650,7 +3650,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "controller_userroleassignmentcontroller",
-      "community": 26,
+      "community": 174,
       "norm_label": "userroleassignmentcontroller.java"
     },
     {
@@ -3660,7 +3660,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "controller_userroleassignmentcontroller_userroleassignmentcontroller",
-      "community": 26,
+      "community": 174,
       "norm_label": "userroleassignmentcontroller"
     },
     {
@@ -3670,7 +3670,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "controller_userroleassignmentcontroller_userroleassignmentcontroller_userroleassignmentcontroller",
-      "community": 26,
+      "community": 174,
       "norm_label": ".userroleassignmentcontroller()"
     },
     {
@@ -3680,7 +3680,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "userroleassignmentservice",
-      "community": 26,
+      "community": 174,
       "norm_label": "userroleassignmentservice"
     },
     {
@@ -3690,7 +3690,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "controller_userroleassignmentcontroller_userroleassignmentcontroller_getbyuserid",
-      "community": 26,
+      "community": 174,
       "norm_label": ".getbyuserid()"
     },
     {
@@ -3700,7 +3700,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_controller_userroleassignmentcontroller_java_long",
-      "community": 26,
+      "community": 174,
       "norm_label": "long"
     },
     {
@@ -3710,7 +3710,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_controller_userroleassignmentcontroller_java_list",
-      "community": 26,
+      "community": 174,
       "norm_label": "list"
     },
     {
@@ -3720,7 +3720,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_controller_userroleassignmentcontroller_java_userroleassignmentdto",
-      "community": 26,
+      "community": 174,
       "norm_label": "userroleassignmentdto"
     },
     {
@@ -3730,7 +3730,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_controller_userroleassignmentcontroller_java_getmapping",
-      "community": 26,
+      "community": 174,
       "norm_label": "getmapping"
     },
     {
@@ -3740,7 +3740,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "controller_userroleassignmentcontroller_userroleassignmentcontroller_replace",
-      "community": 26,
+      "community": 174,
       "norm_label": ".replace()"
     },
     {
@@ -3750,7 +3750,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_controller_userroleassignmentcontroller_java_putmapping",
-      "community": 26,
+      "community": 174,
       "norm_label": "putmapping"
     },
     {
@@ -5680,7 +5680,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "dao_notificationsettingdao_notificationsettingdao_findcurrent",
-      "community": 224,
+      "community": 228,
       "norm_label": ".findcurrent()"
     },
     {
@@ -5850,7 +5850,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dao_preventivemaintenancescheduledao",
-      "community": 211,
+      "community": 20,
       "norm_label": "preventivemaintenancescheduledao.java"
     },
     {
@@ -5860,7 +5860,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "dao_preventivemaintenancescheduledao_preventivemaintenancescheduledao",
-      "community": 211,
+      "community": 20,
       "norm_label": "preventivemaintenancescheduledao"
     },
     {
@@ -5870,7 +5870,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "dao_preventivemaintenancescheduledao_preventivemaintenancescheduledao_preventivemaintenancescheduledao",
-      "community": 211,
+      "community": 20,
       "norm_label": ".preventivemaintenancescheduledao()"
     },
     {
@@ -5880,7 +5880,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "preventivemaintenanceschedulerepository",
-      "community": 211,
+      "community": 20,
       "norm_label": "preventivemaintenanceschedulerepository"
     },
     {
@@ -5890,7 +5890,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "dao_preventivemaintenancescheduledao_preventivemaintenancescheduledao_save",
-      "community": 211,
+      "community": 20,
       "norm_label": ".save()"
     },
     {
@@ -5900,7 +5900,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dao_preventivemaintenancescheduledao_java_preventivemaintenanceschedule",
-      "community": 211,
+      "community": 20,
       "norm_label": "preventivemaintenanceschedule"
     },
     {
@@ -5910,7 +5910,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "dao_preventivemaintenancescheduledao_preventivemaintenancescheduledao_findbyid",
-      "community": 211,
+      "community": 20,
       "norm_label": ".findbyid()"
     },
     {
@@ -5920,7 +5920,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dao_preventivemaintenancescheduledao_java_long",
-      "community": 211,
+      "community": 20,
       "norm_label": "long"
     },
     {
@@ -5930,7 +5930,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dao_preventivemaintenancescheduledao_java_optional",
-      "community": 211,
+      "community": 20,
       "norm_label": "optional"
     },
     {
@@ -5940,7 +5940,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "dao_preventivemaintenancescheduledao_preventivemaintenancescheduledao_findall",
-      "community": 211,
+      "community": 20,
       "norm_label": ".findall()"
     },
     {
@@ -5950,7 +5950,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dao_preventivemaintenancescheduledao_java_list",
-      "community": 211,
+      "community": 20,
       "norm_label": "list"
     },
     {
@@ -5960,7 +5960,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "dao_preventivemaintenancescheduledao_preventivemaintenancescheduledao_deletebyid",
-      "community": 211,
+      "community": 20,
       "norm_label": ".deletebyid()"
     },
     {
@@ -5970,7 +5970,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "dao_preventivemaintenancescheduledao_preventivemaintenancescheduledao_existsbyschedulecode",
-      "community": 211,
+      "community": 20,
       "norm_label": ".existsbyschedulecode()"
     },
     {
@@ -5980,7 +5980,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dao_preventivemaintenancescheduledao_java_string",
-      "community": 211,
+      "community": 20,
       "norm_label": "string"
     },
     {
@@ -5990,7 +5990,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "dao_preventivemaintenancescheduledao_preventivemaintenancescheduledao_existsbyschedulecodeandidnot",
-      "community": 211,
+      "community": 20,
       "norm_label": ".existsbyschedulecodeandidnot()"
     },
     {
@@ -6010,7 +6010,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dao_preventivemaintenancescheduledao_java_localdate",
-      "community": 211,
+      "community": 20,
       "norm_label": "localdate"
     },
     {
@@ -6020,7 +6020,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "dao_preventivemaintenancescheduledao_preventivemaintenancescheduledao_findupcoming",
-      "community": 211,
+      "community": 20,
       "norm_label": ".findupcoming()"
     },
     {
@@ -6240,7 +6240,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "dao_rolepermissiondao_rolepermissiondao_findbyrolecodes",
-      "community": 170,
+      "community": 182,
       "norm_label": ".findbyrolecodes()"
     },
     {
@@ -6260,7 +6260,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dao_rolepermissiondao_java_string",
-      "community": 170,
+      "community": 182,
       "norm_label": "string"
     },
     {
@@ -7110,7 +7110,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "dto_approvalactiondto_approvalactiondto_setapproveruserid",
-      "community": 168,
+      "community": 197,
       "norm_label": ".setapproveruserid()"
     },
     {
@@ -8140,7 +8140,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dto_changepasswordrequest",
-      "community": 193,
+      "community": 233,
       "norm_label": "changepasswordrequest.java"
     },
     {
@@ -8150,7 +8150,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "dto_changepasswordrequest_changepasswordrequest",
-      "community": 193,
+      "community": 233,
       "norm_label": "changepasswordrequest"
     },
     {
@@ -8160,7 +8160,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "dto_changepasswordrequest_changepasswordrequest_getcurrentpassword",
-      "community": 193,
+      "community": 233,
       "norm_label": ".getcurrentpassword()"
     },
     {
@@ -8170,7 +8170,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dto_changepasswordrequest_java_string",
-      "community": 193,
+      "community": 233,
       "norm_label": "string"
     },
     {
@@ -8180,7 +8180,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "dto_changepasswordrequest_changepasswordrequest_setcurrentpassword",
-      "community": 193,
+      "community": 233,
       "norm_label": ".setcurrentpassword()"
     },
     {
@@ -8190,7 +8190,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "dto_changepasswordrequest_changepasswordrequest_getnewpassword",
-      "community": 193,
+      "community": 233,
       "norm_label": ".getnewpassword()"
     },
     {
@@ -8200,7 +8200,7 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "dto_changepasswordrequest_changepasswordrequest_setnewpassword",
-      "community": 193,
+      "community": 233,
       "norm_label": ".setnewpassword()"
     },
     {
@@ -8210,7 +8210,7 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "dto_changepasswordrequest_changepasswordrequest_getconfirmpassword",
-      "community": 193,
+      "community": 233,
       "norm_label": ".getconfirmpassword()"
     },
     {
@@ -8220,7 +8220,7 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "dto_changepasswordrequest_changepasswordrequest_setconfirmpassword",
-      "community": 193,
+      "community": 233,
       "norm_label": ".setconfirmpassword()"
     },
     {
@@ -8350,7 +8350,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dto_employeedto",
-      "community": 32,
+      "community": 225,
       "norm_label": "employeedto.java"
     },
     {
@@ -8530,7 +8530,7 @@
       "source_location": "L61",
       "_origin": "ast",
       "id": "dto_employeedto_employeedto_getdateofbirth",
-      "community": 32,
+      "community": 225,
       "norm_label": ".getdateofbirth()"
     },
     {
@@ -8540,7 +8540,7 @@
       "source_location": "L61",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dto_employeedto_java_localdate",
-      "community": 32,
+      "community": 225,
       "norm_label": "localdate"
     },
     {
@@ -8550,7 +8550,7 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "dto_employeedto_employeedto_setdateofbirth",
-      "community": 32,
+      "community": 225,
       "norm_label": ".setdateofbirth()"
     },
     {
@@ -8560,7 +8560,7 @@
       "source_location": "L63",
       "_origin": "ast",
       "id": "dto_employeedto_employeedto_getdateofjoining",
-      "community": 32,
+      "community": 225,
       "norm_label": ".getdateofjoining()"
     },
     {
@@ -8570,7 +8570,7 @@
       "source_location": "L64",
       "_origin": "ast",
       "id": "dto_employeedto_employeedto_setdateofjoining",
-      "community": 32,
+      "community": 225,
       "norm_label": ".setdateofjoining()"
     },
     {
@@ -8780,7 +8780,7 @@
       "source_location": "L83",
       "_origin": "ast",
       "id": "dto_employeedto_employeedto_getauthrole",
-      "community": 32,
+      "community": 225,
       "norm_label": ".getauthrole()"
     },
     {
@@ -8790,7 +8790,7 @@
       "source_location": "L83",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dto_employeedto_java_userrole",
-      "community": 32,
+      "community": 225,
       "norm_label": "userrole"
     },
     {
@@ -8800,7 +8800,7 @@
       "source_location": "L84",
       "_origin": "ast",
       "id": "dto_employeedto_employeedto_setauthrole",
-      "community": 32,
+      "community": 225,
       "norm_label": ".setauthrole()"
     },
     {
@@ -8830,7 +8830,7 @@
       "source_location": "L87",
       "_origin": "ast",
       "id": "dto_employeedto_employeedto_getcreatedat",
-      "community": 32,
+      "community": 225,
       "norm_label": ".getcreatedat()"
     },
     {
@@ -8840,7 +8840,7 @@
       "source_location": "L87",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dto_employeedto_java_localdatetime",
-      "community": 32,
+      "community": 225,
       "norm_label": "localdatetime"
     },
     {
@@ -8850,7 +8850,7 @@
       "source_location": "L88",
       "_origin": "ast",
       "id": "dto_employeedto_employeedto_setcreatedat",
-      "community": 32,
+      "community": 225,
       "norm_label": ".setcreatedat()"
     },
     {
@@ -8860,7 +8860,7 @@
       "source_location": "L89",
       "_origin": "ast",
       "id": "dto_employeedto_employeedto_getupdatedat",
-      "community": 32,
+      "community": 225,
       "norm_label": ".getupdatedat()"
     },
     {
@@ -8870,7 +8870,7 @@
       "source_location": "L90",
       "_origin": "ast",
       "id": "dto_employeedto_employeedto_setupdatedat",
-      "community": 32,
+      "community": 225,
       "norm_label": ".setupdatedat()"
     },
     {
@@ -11530,7 +11530,7 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "dto_notificationdto_notificationdto_setrecipientuserid",
-      "community": 214,
+      "community": 63,
       "norm_label": ".setrecipientuserid()"
     },
     {
@@ -11897,7 +11897,7 @@
       "label": ".getId()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/NotificationSettingDTO.java",
-      "source_location": "L25",
+      "source_location": "L26",
       "_origin": "ast",
       "id": "dto_notificationsettingdto_notificationsettingdto_getid",
       "community": 33,
@@ -11907,7 +11907,7 @@
       "label": "Long",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/NotificationSettingDTO.java",
-      "source_location": "L25",
+      "source_location": "L26",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dto_notificationsettingdto_java_long",
       "community": 33,
@@ -11917,7 +11917,7 @@
       "label": ".setId()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/NotificationSettingDTO.java",
-      "source_location": "L26",
+      "source_location": "L27",
       "_origin": "ast",
       "id": "dto_notificationsettingdto_notificationsettingdto_setid",
       "community": 33,
@@ -11927,7 +11927,7 @@
       "label": ".getEnabled()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/NotificationSettingDTO.java",
-      "source_location": "L27",
+      "source_location": "L28",
       "_origin": "ast",
       "id": "dto_notificationsettingdto_notificationsettingdto_getenabled",
       "community": 33,
@@ -11937,7 +11937,7 @@
       "label": "Boolean",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/NotificationSettingDTO.java",
-      "source_location": "L27",
+      "source_location": "L28",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dto_notificationsettingdto_java_boolean",
       "community": 33,
@@ -11947,7 +11947,7 @@
       "label": ".setEnabled()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/NotificationSettingDTO.java",
-      "source_location": "L28",
+      "source_location": "L29",
       "_origin": "ast",
       "id": "dto_notificationsettingdto_notificationsettingdto_setenabled",
       "community": 33,
@@ -11957,7 +11957,7 @@
       "label": ".getInAppEnabled()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/NotificationSettingDTO.java",
-      "source_location": "L29",
+      "source_location": "L30",
       "_origin": "ast",
       "id": "dto_notificationsettingdto_notificationsettingdto_getinappenabled",
       "community": 33,
@@ -11967,17 +11967,37 @@
       "label": ".setInAppEnabled()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/NotificationSettingDTO.java",
-      "source_location": "L30",
+      "source_location": "L31",
       "_origin": "ast",
       "id": "dto_notificationsettingdto_notificationsettingdto_setinappenabled",
       "community": 33,
       "norm_label": ".setinappenabled()"
     },
     {
+      "label": ".getEmailEnabled()",
+      "file_type": "code",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/NotificationSettingDTO.java",
+      "source_location": "L32",
+      "_origin": "ast",
+      "id": "dto_notificationsettingdto_notificationsettingdto_getemailenabled",
+      "community": 33,
+      "norm_label": ".getemailenabled()"
+    },
+    {
+      "label": ".setEmailEnabled()",
+      "file_type": "code",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/NotificationSettingDTO.java",
+      "source_location": "L33",
+      "_origin": "ast",
+      "id": "dto_notificationsettingdto_notificationsettingdto_setemailenabled",
+      "community": 33,
+      "norm_label": ".setemailenabled()"
+    },
+    {
       "label": ".getPmDueReminderEnabled()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/NotificationSettingDTO.java",
-      "source_location": "L31",
+      "source_location": "L34",
       "_origin": "ast",
       "id": "dto_notificationsettingdto_notificationsettingdto_getpmduereminderenabled",
       "community": 33,
@@ -11987,7 +12007,7 @@
       "label": ".setPmDueReminderEnabled()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/NotificationSettingDTO.java",
-      "source_location": "L32",
+      "source_location": "L35",
       "_origin": "ast",
       "id": "dto_notificationsettingdto_notificationsettingdto_setpmduereminderenabled",
       "community": 33,
@@ -11997,7 +12017,7 @@
       "label": ".getOverdueRequestEnabled()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/NotificationSettingDTO.java",
-      "source_location": "L33",
+      "source_location": "L36",
       "_origin": "ast",
       "id": "dto_notificationsettingdto_notificationsettingdto_getoverduerequestenabled",
       "community": 33,
@@ -12007,7 +12027,7 @@
       "label": ".setOverdueRequestEnabled()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/NotificationSettingDTO.java",
-      "source_location": "L34",
+      "source_location": "L37",
       "_origin": "ast",
       "id": "dto_notificationsettingdto_notificationsettingdto_setoverduerequestenabled",
       "community": 33,
@@ -12017,7 +12037,7 @@
       "label": ".getApprovalPendingEnabled()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/NotificationSettingDTO.java",
-      "source_location": "L35",
+      "source_location": "L38",
       "_origin": "ast",
       "id": "dto_notificationsettingdto_notificationsettingdto_getapprovalpendingenabled",
       "community": 33,
@@ -12027,7 +12047,7 @@
       "label": ".setApprovalPendingEnabled()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/NotificationSettingDTO.java",
-      "source_location": "L36",
+      "source_location": "L39",
       "_origin": "ast",
       "id": "dto_notificationsettingdto_notificationsettingdto_setapprovalpendingenabled",
       "community": 33,
@@ -12037,7 +12057,7 @@
       "label": ".getPmReminderDays()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/NotificationSettingDTO.java",
-      "source_location": "L37",
+      "source_location": "L40",
       "_origin": "ast",
       "id": "dto_notificationsettingdto_notificationsettingdto_getpmreminderdays",
       "community": 33,
@@ -12047,7 +12067,7 @@
       "label": "Integer",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/NotificationSettingDTO.java",
-      "source_location": "L37",
+      "source_location": "L40",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dto_notificationsettingdto_java_integer",
       "community": 33,
@@ -12057,7 +12077,7 @@
       "label": ".setPmReminderDays()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/NotificationSettingDTO.java",
-      "source_location": "L38",
+      "source_location": "L41",
       "_origin": "ast",
       "id": "dto_notificationsettingdto_notificationsettingdto_setpmreminderdays",
       "community": 33,
@@ -12067,7 +12087,7 @@
       "label": ".getScanCron()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/NotificationSettingDTO.java",
-      "source_location": "L39",
+      "source_location": "L42",
       "_origin": "ast",
       "id": "dto_notificationsettingdto_notificationsettingdto_getscancron",
       "community": 33,
@@ -12077,7 +12097,7 @@
       "label": "String",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/NotificationSettingDTO.java",
-      "source_location": "L39",
+      "source_location": "L42",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dto_notificationsettingdto_java_string",
       "community": 33,
@@ -12087,7 +12107,7 @@
       "label": ".setScanCron()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/NotificationSettingDTO.java",
-      "source_location": "L40",
+      "source_location": "L43",
       "_origin": "ast",
       "id": "dto_notificationsettingdto_notificationsettingdto_setscancron",
       "community": 33,
@@ -12097,17 +12117,17 @@
       "label": ".getScanTime()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/NotificationSettingDTO.java",
-      "source_location": "L41",
+      "source_location": "L44",
       "_origin": "ast",
       "id": "dto_notificationsettingdto_notificationsettingdto_getscantime",
-      "community": 33,
+      "community": 185,
       "norm_label": ".getscantime()"
     },
     {
       "label": ".setScanTime()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/NotificationSettingDTO.java",
-      "source_location": "L42",
+      "source_location": "L45",
       "_origin": "ast",
       "id": "dto_notificationsettingdto_notificationsettingdto_setscantime",
       "community": 33,
@@ -12117,7 +12137,7 @@
       "label": ".getPmRecipientRoleCodes()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/NotificationSettingDTO.java",
-      "source_location": "L43",
+      "source_location": "L46",
       "_origin": "ast",
       "id": "dto_notificationsettingdto_notificationsettingdto_getpmrecipientrolecodes",
       "community": 33,
@@ -12127,7 +12147,7 @@
       "label": "List",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/NotificationSettingDTO.java",
-      "source_location": "L43",
+      "source_location": "L46",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dto_notificationsettingdto_java_list",
       "community": 33,
@@ -12137,7 +12157,7 @@
       "label": ".setPmRecipientRoleCodes()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/NotificationSettingDTO.java",
-      "source_location": "L44",
+      "source_location": "L47",
       "_origin": "ast",
       "id": "dto_notificationsettingdto_notificationsettingdto_setpmrecipientrolecodes",
       "community": 33,
@@ -12147,7 +12167,7 @@
       "label": ".getOverdueRecipientRoleCodes()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/NotificationSettingDTO.java",
-      "source_location": "L45",
+      "source_location": "L48",
       "_origin": "ast",
       "id": "dto_notificationsettingdto_notificationsettingdto_getoverduerecipientrolecodes",
       "community": 33,
@@ -12157,7 +12177,7 @@
       "label": ".setOverdueRecipientRoleCodes()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/NotificationSettingDTO.java",
-      "source_location": "L46",
+      "source_location": "L49",
       "_origin": "ast",
       "id": "dto_notificationsettingdto_notificationsettingdto_setoverduerecipientrolecodes",
       "community": 33,
@@ -12167,7 +12187,7 @@
       "label": ".getApprovalFallbackRoleCodes()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/NotificationSettingDTO.java",
-      "source_location": "L47",
+      "source_location": "L50",
       "_origin": "ast",
       "id": "dto_notificationsettingdto_notificationsettingdto_getapprovalfallbackrolecodes",
       "community": 33,
@@ -12177,7 +12197,7 @@
       "label": ".setApprovalFallbackRoleCodes()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/NotificationSettingDTO.java",
-      "source_location": "L48",
+      "source_location": "L51",
       "_origin": "ast",
       "id": "dto_notificationsettingdto_notificationsettingdto_setapprovalfallbackrolecodes",
       "community": 33,
@@ -12187,7 +12207,7 @@
       "label": ".getUpdatedById()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/NotificationSettingDTO.java",
-      "source_location": "L49",
+      "source_location": "L52",
       "_origin": "ast",
       "id": "dto_notificationsettingdto_notificationsettingdto_getupdatedbyid",
       "community": 33,
@@ -12197,7 +12217,7 @@
       "label": ".setUpdatedById()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/NotificationSettingDTO.java",
-      "source_location": "L50",
+      "source_location": "L53",
       "_origin": "ast",
       "id": "dto_notificationsettingdto_notificationsettingdto_setupdatedbyid",
       "community": 33,
@@ -12207,7 +12227,7 @@
       "label": ".getUpdatedByName()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/NotificationSettingDTO.java",
-      "source_location": "L51",
+      "source_location": "L54",
       "_origin": "ast",
       "id": "dto_notificationsettingdto_notificationsettingdto_getupdatedbyname",
       "community": 33,
@@ -12217,7 +12237,7 @@
       "label": ".setUpdatedByName()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/NotificationSettingDTO.java",
-      "source_location": "L52",
+      "source_location": "L55",
       "_origin": "ast",
       "id": "dto_notificationsettingdto_notificationsettingdto_setupdatedbyname",
       "community": 33,
@@ -12227,7 +12247,7 @@
       "label": ".getCreatedAt()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/NotificationSettingDTO.java",
-      "source_location": "L53",
+      "source_location": "L56",
       "_origin": "ast",
       "id": "dto_notificationsettingdto_notificationsettingdto_getcreatedat",
       "community": 33,
@@ -12237,7 +12257,7 @@
       "label": "LocalDateTime",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/NotificationSettingDTO.java",
-      "source_location": "L53",
+      "source_location": "L56",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dto_notificationsettingdto_java_localdatetime",
       "community": 33,
@@ -12247,7 +12267,7 @@
       "label": ".setCreatedAt()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/NotificationSettingDTO.java",
-      "source_location": "L54",
+      "source_location": "L57",
       "_origin": "ast",
       "id": "dto_notificationsettingdto_notificationsettingdto_setcreatedat",
       "community": 33,
@@ -12257,7 +12277,7 @@
       "label": ".getUpdatedAt()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/NotificationSettingDTO.java",
-      "source_location": "L55",
+      "source_location": "L58",
       "_origin": "ast",
       "id": "dto_notificationsettingdto_notificationsettingdto_getupdatedat",
       "community": 33,
@@ -12267,7 +12287,7 @@
       "label": ".setUpdatedAt()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/NotificationSettingDTO.java",
-      "source_location": "L56",
+      "source_location": "L59",
       "_origin": "ast",
       "id": "dto_notificationsettingdto_notificationsettingdto_setupdatedat",
       "community": 33,
@@ -12280,7 +12300,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dto_pageproperties",
-      "community": 229,
+      "community": 45,
       "norm_label": "pageproperties.java"
     },
     {
@@ -12290,7 +12310,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "dto_pageproperties_pageproperties",
-      "community": 229,
+      "community": 45,
       "norm_label": "pageproperties"
     },
     {
@@ -12300,7 +12320,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "dto_pageproperties_pageproperties_pageproperties",
-      "community": 229,
+      "community": 45,
       "norm_label": ".pageproperties()"
     },
     {
@@ -12310,7 +12330,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dto_pageproperties_java_list",
-      "community": 229,
+      "community": 45,
       "norm_label": "list"
     },
     {
@@ -12320,7 +12340,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "dto_pageproperties_pageproperties_getdata",
-      "community": 229,
+      "community": 45,
       "norm_label": ".getdata()"
     },
     {
@@ -12330,7 +12350,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "dto_pageproperties_pageproperties_setdata",
-      "community": 229,
+      "community": 45,
       "norm_label": ".setdata()"
     },
     {
@@ -12340,7 +12360,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "dto_pageproperties_pageproperties_gettotalrecords",
-      "community": 229,
+      "community": 45,
       "norm_label": ".gettotalrecords()"
     },
     {
@@ -12350,7 +12370,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "dto_pageproperties_pageproperties_settotalrecords",
-      "community": 229,
+      "community": 45,
       "norm_label": ".settotalrecords()"
     },
     {
@@ -12360,7 +12380,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "dto_pageproperties_pageproperties_getpagenumber",
-      "community": 229,
+      "community": 45,
       "norm_label": ".getpagenumber()"
     },
     {
@@ -12370,7 +12390,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "dto_pageproperties_pageproperties_setpagenumber",
-      "community": 229,
+      "community": 45,
       "norm_label": ".setpagenumber()"
     },
     {
@@ -12380,7 +12400,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "dto_pageproperties_pageproperties_getpagesize",
-      "community": 229,
+      "community": 45,
       "norm_label": ".getpagesize()"
     },
     {
@@ -12390,7 +12410,7 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "dto_pageproperties_pageproperties_setpagesize",
-      "community": 229,
+      "community": 45,
       "norm_label": ".setpagesize()"
     },
     {
@@ -12400,7 +12420,7 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "dto_pageproperties_pageproperties_gettotalpages",
-      "community": 229,
+      "community": 45,
       "norm_label": ".gettotalpages()"
     },
     {
@@ -12410,7 +12430,7 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "dto_pageproperties_pageproperties_settotalpages",
-      "community": 229,
+      "community": 45,
       "norm_label": ".settotalpages()"
     },
     {
@@ -12500,7 +12520,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "dto_pagepropertiesdto_pagepropertiesdto_getsortby",
-      "community": 167,
+      "community": 179,
       "norm_label": ".getsortby()"
     },
     {
@@ -13790,7 +13810,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dto_searchcriteriadto",
-      "community": 228,
+      "community": 167,
       "norm_label": "searchcriteriadto.java"
     },
     {
@@ -13800,7 +13820,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "dto_searchcriteriadto_searchcriteriadto",
-      "community": 228,
+      "community": 167,
       "norm_label": "searchcriteriadto"
     },
     {
@@ -13810,7 +13830,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "dto_searchcriteriadto_searchcriteriadto_getfilterkey",
-      "community": 228,
+      "community": 167,
       "norm_label": ".getfilterkey()"
     },
     {
@@ -13820,7 +13840,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dto_searchcriteriadto_java_string",
-      "community": 228,
+      "community": 167,
       "norm_label": "string"
     },
     {
@@ -13830,7 +13850,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "dto_searchcriteriadto_searchcriteriadto_setfilterkey",
-      "community": 228,
+      "community": 167,
       "norm_label": ".setfilterkey()"
     },
     {
@@ -13840,7 +13860,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "dto_searchcriteriadto_searchcriteriadto_getdatatype",
-      "community": 228,
+      "community": 167,
       "norm_label": ".getdatatype()"
     },
     {
@@ -13850,7 +13870,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "dto_searchcriteriadto_searchcriteriadto_setdatatype",
-      "community": 228,
+      "community": 167,
       "norm_label": ".setdatatype()"
     },
     {
@@ -13860,7 +13880,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "dto_searchcriteriadto_searchcriteriadto_getvalue",
-      "community": 228,
+      "community": 167,
       "norm_label": ".getvalue()"
     },
     {
@@ -13870,7 +13890,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_dto_searchcriteriadto_java_object",
-      "community": 228,
+      "community": 167,
       "norm_label": "object"
     },
     {
@@ -13880,7 +13900,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "dto_searchcriteriadto_searchcriteriadto_setvalue",
-      "community": 228,
+      "community": 167,
       "norm_label": ".setvalue()"
     },
     {
@@ -13890,7 +13910,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "dto_searchcriteriadto_searchcriteriadto_getoperation",
-      "community": 228,
+      "community": 167,
       "norm_label": ".getoperation()"
     },
     {
@@ -13900,7 +13920,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "dto_searchcriteriadto_searchcriteriadto_setoperation",
-      "community": 228,
+      "community": 167,
       "norm_label": ".setoperation()"
     },
     {
@@ -14720,7 +14740,7 @@
       "source_location": "L142",
       "_origin": "ast",
       "id": "dto_userdto_userdto_setemployeeid",
-      "community": 182,
+      "community": 105,
       "norm_label": ".setemployeeid()"
     },
     {
@@ -15670,7 +15690,7 @@
       "source_location": "L40",
       "_origin": "ast",
       "id": "entity_approvalaction_approvalaction_getapprovalrequest",
-      "community": 168,
+      "community": 199,
       "norm_label": ".getapprovalrequest()"
     },
     {
@@ -15680,7 +15700,7 @@
       "source_location": "L40",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_entity_approvalaction_java_approvalrequest",
-      "community": 168,
+      "community": 199,
       "norm_label": "approvalrequest"
     },
     {
@@ -15690,7 +15710,7 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "entity_approvalaction_approvalaction_setapprovalrequest",
-      "community": 168,
+      "community": 199,
       "norm_label": ".setapprovalrequest()"
     },
     {
@@ -20787,7 +20807,7 @@
       "label": ".onCreate()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/entity/NotificationSetting.java",
-      "source_location": "L54",
+      "source_location": "L57",
       "_origin": "ast",
       "id": "entity_notificationsetting_notificationsetting_oncreate",
       "community": 1,
@@ -20797,7 +20817,7 @@
       "label": "PrePersist",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/entity/NotificationSetting.java",
-      "source_location": "L54",
+      "source_location": "L57",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_entity_notificationsetting_java_prepersist",
       "community": 1,
@@ -20807,7 +20827,7 @@
       "label": ".onUpdate()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/entity/NotificationSetting.java",
-      "source_location": "L60",
+      "source_location": "L63",
       "_origin": "ast",
       "id": "entity_notificationsetting_notificationsetting_onupdate",
       "community": 1,
@@ -20817,7 +20837,7 @@
       "label": "PreUpdate",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/entity/NotificationSetting.java",
-      "source_location": "L60",
+      "source_location": "L63",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_entity_notificationsetting_java_preupdate",
       "community": 1,
@@ -20827,7 +20847,7 @@
       "label": ".getId()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/entity/NotificationSetting.java",
-      "source_location": "L65",
+      "source_location": "L68",
       "_origin": "ast",
       "id": "entity_notificationsetting_notificationsetting_getid",
       "community": 1,
@@ -20837,7 +20857,7 @@
       "label": "Long",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/entity/NotificationSetting.java",
-      "source_location": "L65",
+      "source_location": "L68",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_entity_notificationsetting_java_long",
       "community": 1,
@@ -20847,7 +20867,7 @@
       "label": ".setId()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/entity/NotificationSetting.java",
-      "source_location": "L66",
+      "source_location": "L69",
       "_origin": "ast",
       "id": "entity_notificationsetting_notificationsetting_setid",
       "community": 1,
@@ -20857,7 +20877,7 @@
       "label": ".getEnabled()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/entity/NotificationSetting.java",
-      "source_location": "L67",
+      "source_location": "L70",
       "_origin": "ast",
       "id": "entity_notificationsetting_notificationsetting_getenabled",
       "community": 1,
@@ -20867,7 +20887,7 @@
       "label": "Boolean",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/entity/NotificationSetting.java",
-      "source_location": "L67",
+      "source_location": "L70",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_entity_notificationsetting_java_boolean",
       "community": 1,
@@ -20877,7 +20897,7 @@
       "label": ".setEnabled()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/entity/NotificationSetting.java",
-      "source_location": "L68",
+      "source_location": "L71",
       "_origin": "ast",
       "id": "entity_notificationsetting_notificationsetting_setenabled",
       "community": 1,
@@ -20887,7 +20907,7 @@
       "label": ".getInAppEnabled()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/entity/NotificationSetting.java",
-      "source_location": "L69",
+      "source_location": "L72",
       "_origin": "ast",
       "id": "entity_notificationsetting_notificationsetting_getinappenabled",
       "community": 1,
@@ -20897,17 +20917,37 @@
       "label": ".setInAppEnabled()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/entity/NotificationSetting.java",
-      "source_location": "L70",
+      "source_location": "L73",
       "_origin": "ast",
       "id": "entity_notificationsetting_notificationsetting_setinappenabled",
       "community": 1,
       "norm_label": ".setinappenabled()"
     },
     {
+      "label": ".getEmailEnabled()",
+      "file_type": "code",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/entity/NotificationSetting.java",
+      "source_location": "L74",
+      "_origin": "ast",
+      "id": "entity_notificationsetting_notificationsetting_getemailenabled",
+      "community": 1,
+      "norm_label": ".getemailenabled()"
+    },
+    {
+      "label": ".setEmailEnabled()",
+      "file_type": "code",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/entity/NotificationSetting.java",
+      "source_location": "L75",
+      "_origin": "ast",
+      "id": "entity_notificationsetting_notificationsetting_setemailenabled",
+      "community": 1,
+      "norm_label": ".setemailenabled()"
+    },
+    {
       "label": ".getPmDueReminderEnabled()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/entity/NotificationSetting.java",
-      "source_location": "L71",
+      "source_location": "L76",
       "_origin": "ast",
       "id": "entity_notificationsetting_notificationsetting_getpmduereminderenabled",
       "community": 1,
@@ -20917,7 +20957,7 @@
       "label": ".setPmDueReminderEnabled()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/entity/NotificationSetting.java",
-      "source_location": "L72",
+      "source_location": "L77",
       "_origin": "ast",
       "id": "entity_notificationsetting_notificationsetting_setpmduereminderenabled",
       "community": 1,
@@ -20927,7 +20967,7 @@
       "label": ".getOverdueRequestEnabled()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/entity/NotificationSetting.java",
-      "source_location": "L73",
+      "source_location": "L78",
       "_origin": "ast",
       "id": "entity_notificationsetting_notificationsetting_getoverduerequestenabled",
       "community": 1,
@@ -20937,7 +20977,7 @@
       "label": ".setOverdueRequestEnabled()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/entity/NotificationSetting.java",
-      "source_location": "L74",
+      "source_location": "L79",
       "_origin": "ast",
       "id": "entity_notificationsetting_notificationsetting_setoverduerequestenabled",
       "community": 1,
@@ -20947,7 +20987,7 @@
       "label": ".getApprovalPendingEnabled()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/entity/NotificationSetting.java",
-      "source_location": "L75",
+      "source_location": "L80",
       "_origin": "ast",
       "id": "entity_notificationsetting_notificationsetting_getapprovalpendingenabled",
       "community": 1,
@@ -20957,7 +20997,7 @@
       "label": ".setApprovalPendingEnabled()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/entity/NotificationSetting.java",
-      "source_location": "L76",
+      "source_location": "L81",
       "_origin": "ast",
       "id": "entity_notificationsetting_notificationsetting_setapprovalpendingenabled",
       "community": 1,
@@ -20967,7 +21007,7 @@
       "label": ".getPmReminderDays()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/entity/NotificationSetting.java",
-      "source_location": "L77",
+      "source_location": "L82",
       "_origin": "ast",
       "id": "entity_notificationsetting_notificationsetting_getpmreminderdays",
       "community": 1,
@@ -20977,7 +21017,7 @@
       "label": "Integer",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/entity/NotificationSetting.java",
-      "source_location": "L77",
+      "source_location": "L82",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_entity_notificationsetting_java_integer",
       "community": 1,
@@ -20987,7 +21027,7 @@
       "label": ".setPmReminderDays()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/entity/NotificationSetting.java",
-      "source_location": "L78",
+      "source_location": "L83",
       "_origin": "ast",
       "id": "entity_notificationsetting_notificationsetting_setpmreminderdays",
       "community": 1,
@@ -20997,7 +21037,7 @@
       "label": ".getScanCron()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/entity/NotificationSetting.java",
-      "source_location": "L79",
+      "source_location": "L84",
       "_origin": "ast",
       "id": "entity_notificationsetting_notificationsetting_getscancron",
       "community": 1,
@@ -21007,7 +21047,7 @@
       "label": "String",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/entity/NotificationSetting.java",
-      "source_location": "L79",
+      "source_location": "L84",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_entity_notificationsetting_java_string",
       "community": 1,
@@ -21017,7 +21057,7 @@
       "label": ".setScanCron()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/entity/NotificationSetting.java",
-      "source_location": "L80",
+      "source_location": "L85",
       "_origin": "ast",
       "id": "entity_notificationsetting_notificationsetting_setscancron",
       "community": 1,
@@ -21027,7 +21067,7 @@
       "label": ".getPmRecipientRoleCodes()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/entity/NotificationSetting.java",
-      "source_location": "L81",
+      "source_location": "L86",
       "_origin": "ast",
       "id": "entity_notificationsetting_notificationsetting_getpmrecipientrolecodes",
       "community": 1,
@@ -21037,7 +21077,7 @@
       "label": ".setPmRecipientRoleCodes()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/entity/NotificationSetting.java",
-      "source_location": "L82",
+      "source_location": "L87",
       "_origin": "ast",
       "id": "entity_notificationsetting_notificationsetting_setpmrecipientrolecodes",
       "community": 1,
@@ -21047,7 +21087,7 @@
       "label": ".getOverdueRecipientRoleCodes()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/entity/NotificationSetting.java",
-      "source_location": "L83",
+      "source_location": "L88",
       "_origin": "ast",
       "id": "entity_notificationsetting_notificationsetting_getoverduerecipientrolecodes",
       "community": 1,
@@ -21057,7 +21097,7 @@
       "label": ".setOverdueRecipientRoleCodes()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/entity/NotificationSetting.java",
-      "source_location": "L84",
+      "source_location": "L89",
       "_origin": "ast",
       "id": "entity_notificationsetting_notificationsetting_setoverduerecipientrolecodes",
       "community": 1,
@@ -21067,7 +21107,7 @@
       "label": ".getApprovalFallbackRoleCodes()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/entity/NotificationSetting.java",
-      "source_location": "L85",
+      "source_location": "L90",
       "_origin": "ast",
       "id": "entity_notificationsetting_notificationsetting_getapprovalfallbackrolecodes",
       "community": 1,
@@ -21077,7 +21117,7 @@
       "label": ".setApprovalFallbackRoleCodes()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/entity/NotificationSetting.java",
-      "source_location": "L86",
+      "source_location": "L91",
       "_origin": "ast",
       "id": "entity_notificationsetting_notificationsetting_setapprovalfallbackrolecodes",
       "community": 1,
@@ -21087,7 +21127,7 @@
       "label": ".getUpdatedBy()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/entity/NotificationSetting.java",
-      "source_location": "L87",
+      "source_location": "L92",
       "_origin": "ast",
       "id": "entity_notificationsetting_notificationsetting_getupdatedby",
       "community": 1,
@@ -21097,7 +21137,7 @@
       "label": "User",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/entity/NotificationSetting.java",
-      "source_location": "L87",
+      "source_location": "L92",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_entity_notificationsetting_java_user",
       "community": 1,
@@ -21107,7 +21147,7 @@
       "label": ".setUpdatedBy()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/entity/NotificationSetting.java",
-      "source_location": "L88",
+      "source_location": "L93",
       "_origin": "ast",
       "id": "entity_notificationsetting_notificationsetting_setupdatedby",
       "community": 1,
@@ -21117,7 +21157,7 @@
       "label": ".getCreatedAt()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/entity/NotificationSetting.java",
-      "source_location": "L89",
+      "source_location": "L94",
       "_origin": "ast",
       "id": "entity_notificationsetting_notificationsetting_getcreatedat",
       "community": 1,
@@ -21127,7 +21167,7 @@
       "label": "LocalDateTime",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/entity/NotificationSetting.java",
-      "source_location": "L89",
+      "source_location": "L94",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_entity_notificationsetting_java_localdatetime",
       "community": 1,
@@ -21137,7 +21177,7 @@
       "label": ".setCreatedAt()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/entity/NotificationSetting.java",
-      "source_location": "L90",
+      "source_location": "L95",
       "_origin": "ast",
       "id": "entity_notificationsetting_notificationsetting_setcreatedat",
       "community": 1,
@@ -21147,7 +21187,7 @@
       "label": ".getUpdatedAt()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/entity/NotificationSetting.java",
-      "source_location": "L91",
+      "source_location": "L96",
       "_origin": "ast",
       "id": "entity_notificationsetting_notificationsetting_getupdatedat",
       "community": 1,
@@ -21157,7 +21197,7 @@
       "label": ".setUpdatedAt()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/entity/NotificationSetting.java",
-      "source_location": "L92",
+      "source_location": "L97",
       "_origin": "ast",
       "id": "entity_notificationsetting_notificationsetting_setupdatedat",
       "community": 1,
@@ -23830,7 +23870,7 @@
       "source_location": "L153",
       "_origin": "ast",
       "id": "entity_user_user_getmanager",
-      "community": 182,
+      "community": 193,
       "norm_label": ".getmanager()"
     },
     {
@@ -25080,7 +25120,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "enums_searchoperation",
-      "community": 237,
+      "community": 45,
       "norm_label": "searchoperation.java"
     },
     {
@@ -25090,7 +25130,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "enums_searchoperation_searchoperation",
-      "community": 237,
+      "community": 45,
       "norm_label": "searchoperation()"
     },
     {
@@ -25100,7 +25140,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_enums_searchoperation_java_string",
-      "community": 237,
+      "community": 45,
       "norm_label": "string"
     },
     {
@@ -25110,7 +25150,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "enums_searchoperation_getvalue",
-      "community": 237,
+      "community": 45,
       "norm_label": "getvalue()"
     },
     {
@@ -25120,7 +25160,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "enums_searchoperation_fromvalue",
-      "community": 237,
+      "community": 45,
       "norm_label": "fromvalue()"
     },
     {
@@ -25280,7 +25320,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "exception_globalexceptionhandler",
-      "community": 26,
+      "community": 174,
       "norm_label": "globalexceptionhandler.java"
     },
     {
@@ -25290,7 +25330,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "exception_globalexceptionhandler_globalexceptionhandler",
-      "community": 26,
+      "community": 174,
       "norm_label": "globalexceptionhandler"
     },
     {
@@ -25300,7 +25340,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "exception_globalexceptionhandler_globalexceptionhandler_handleresourcenotfoundexception",
-      "community": 26,
+      "community": 174,
       "norm_label": ".handleresourcenotfoundexception()"
     },
     {
@@ -25320,7 +25360,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "webrequest",
-      "community": 26,
+      "community": 174,
       "norm_label": "webrequest"
     },
     {
@@ -25330,7 +25370,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_exception_globalexceptionhandler_java_responseentity",
-      "community": 26,
+      "community": 174,
       "norm_label": "responseentity"
     },
     {
@@ -25340,7 +25380,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "errorresponse",
-      "community": 26,
+      "community": 174,
       "norm_label": "errorresponse"
     },
     {
@@ -25350,7 +25390,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "exceptionhandler",
-      "community": 26,
+      "community": 174,
       "norm_label": "exceptionhandler"
     },
     {
@@ -25360,7 +25400,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "responsestatus",
-      "community": 26,
+      "community": 174,
       "norm_label": "responsestatus"
     },
     {
@@ -25370,7 +25410,7 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "exception_globalexceptionhandler_globalexceptionhandler_handleunauthorizedaccessexception",
-      "community": 26,
+      "community": 174,
       "norm_label": ".handleunauthorizedaccessexception()"
     },
     {
@@ -25390,7 +25430,7 @@
       "source_location": "L53",
       "_origin": "ast",
       "id": "exception_globalexceptionhandler_globalexceptionhandler_handleinvalidoperationexception",
-      "community": 26,
+      "community": 174,
       "norm_label": ".handleinvalidoperationexception()"
     },
     {
@@ -25400,7 +25440,7 @@
       "source_location": "L53",
       "_origin": "ast",
       "id": "invalidoperationexception",
-      "community": 135,
+      "community": 38,
       "norm_label": "invalidoperationexception"
     },
     {
@@ -25410,7 +25450,7 @@
       "source_location": "L70",
       "_origin": "ast",
       "id": "exception_globalexceptionhandler_globalexceptionhandler_handlevalidationexceptions",
-      "community": 26,
+      "community": 174,
       "norm_label": ".handlevalidationexceptions()"
     },
     {
@@ -25420,7 +25460,7 @@
       "source_location": "L70",
       "_origin": "ast",
       "id": "methodargumentnotvalidexception",
-      "community": 26,
+      "community": 174,
       "norm_label": "methodargumentnotvalidexception"
     },
     {
@@ -25430,7 +25470,7 @@
       "source_location": "L70",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_exception_globalexceptionhandler_java_map",
-      "community": 26,
+      "community": 174,
       "norm_label": "map"
     },
     {
@@ -25440,7 +25480,7 @@
       "source_location": "L70",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_exception_globalexceptionhandler_java_string",
-      "community": 26,
+      "community": 174,
       "norm_label": "string"
     },
     {
@@ -25450,7 +25490,7 @@
       "source_location": "L70",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_exception_globalexceptionhandler_java_object",
-      "community": 26,
+      "community": 174,
       "norm_label": "object"
     },
     {
@@ -25460,7 +25500,7 @@
       "source_location": "L93",
       "_origin": "ast",
       "id": "exception_globalexceptionhandler_globalexceptionhandler_handleglobalexception",
-      "community": 26,
+      "community": 174,
       "norm_label": ".handleglobalexception()"
     },
     {
@@ -25470,7 +25510,7 @@
       "source_location": "L93",
       "_origin": "ast",
       "id": "exception",
-      "community": 26,
+      "community": 174,
       "norm_label": "exception"
     },
     {
@@ -25640,7 +25680,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "filter_jwtfilter",
-      "community": 193,
+      "community": 236,
       "norm_label": "jwtfilter.java"
     },
     {
@@ -25650,7 +25690,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "filter_jwtfilter_jwtfilter",
-      "community": 193,
+      "community": 236,
       "norm_label": "jwtfilter"
     },
     {
@@ -25660,7 +25700,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "onceperrequestfilter",
-      "community": 193,
+      "community": 236,
       "norm_label": "onceperrequestfilter"
     },
     {
@@ -25670,7 +25710,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "filter_jwtfilter_jwtfilter_dofilterinternal",
-      "community": 193,
+      "community": 236,
       "norm_label": ".dofilterinternal()"
     },
     {
@@ -25680,7 +25720,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "httpservletrequest",
-      "community": 193,
+      "community": 236,
       "norm_label": "httpservletrequest"
     },
     {
@@ -25690,7 +25730,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "httpservletresponse",
-      "community": 193,
+      "community": 236,
       "norm_label": "httpservletresponse"
     },
     {
@@ -25700,7 +25740,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "filterchain",
-      "community": 193,
+      "community": 236,
       "norm_label": "filterchain"
     },
     {
@@ -25710,7 +25750,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_filter_jwtfilter_java_override",
-      "community": 193,
+      "community": 236,
       "norm_label": "override"
     },
     {
@@ -25900,7 +25940,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "repository_approvalrequestrepository",
-      "community": 210,
+      "community": 231,
       "norm_label": "approvalrequestrepository.java"
     },
     {
@@ -25910,7 +25950,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "repository_approvalrequestrepository_approvalrequestrepository",
-      "community": 210,
+      "community": 231,
       "norm_label": "approvalrequestrepository"
     },
     {
@@ -25920,7 +25960,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "repository_approvalrequestrepository_approvalrequestrepository_findbyapprovalstatusorderbyrequestedatdesc",
-      "community": 210,
+      "community": 231,
       "norm_label": ".findbyapprovalstatusorderbyrequestedatdesc()"
     },
     {
@@ -25930,7 +25970,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_approvalrequestrepository_java_string",
-      "community": 210,
+      "community": 231,
       "norm_label": "string"
     },
     {
@@ -25940,7 +25980,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_approvalrequestrepository_java_list",
-      "community": 210,
+      "community": 231,
       "norm_label": "list"
     },
     {
@@ -25950,7 +25990,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_approvalrequestrepository_java_approvalrequest",
-      "community": 210,
+      "community": 231,
       "norm_label": "approvalrequest"
     },
     {
@@ -25960,7 +26000,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "repository_approvalrequestrepository_approvalrequestrepository_findbysiteidinandapprovalstatusorderbyrequestedatdesc",
-      "community": 210,
+      "community": 231,
       "norm_label": ".findbysiteidinandapprovalstatusorderbyrequestedatdesc()"
     },
     {
@@ -25970,7 +26010,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_approvalrequestrepository_java_collection",
-      "community": 210,
+      "community": 231,
       "norm_label": "collection"
     },
     {
@@ -25980,7 +26020,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_approvalrequestrepository_java_long",
-      "community": 210,
+      "community": 231,
       "norm_label": "long"
     },
     {
@@ -25990,7 +26030,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "repository_approvalrequestrepository_approvalrequestrepository_findbymodulecodeandreferenceidorderbyrequestedatdesc",
-      "community": 210,
+      "community": 231,
       "norm_label": ".findbymodulecodeandreferenceidorderbyrequestedatdesc()"
     },
     {
@@ -26000,7 +26040,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "repository_approvalrequestrepository_approvalrequestrepository_findbysiteidinandmodulecodeandreferenceidorderbyrequestedatdesc",
-      "community": 210,
+      "community": 231,
       "norm_label": ".findbysiteidinandmodulecodeandreferenceidorderbyrequestedatdesc()"
     },
     {
@@ -26620,7 +26660,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "repository_maintenancerequestrepository",
-      "community": 174,
+      "community": 4,
       "norm_label": "maintenancerequestrepository.java"
     },
     {
@@ -26630,7 +26670,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "repository_maintenancerequestrepository_maintenancerequestrepository",
-      "community": 174,
+      "community": 4,
       "norm_label": "maintenancerequestrepository"
     },
     {
@@ -26640,7 +26680,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "repository_maintenancerequestrepository_maintenancerequestrepository_existsbyrequestnumber",
-      "community": 174,
+      "community": 4,
       "norm_label": ".existsbyrequestnumber()"
     },
     {
@@ -26650,7 +26690,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_maintenancerequestrepository_java_string",
-      "community": 174,
+      "community": 4,
       "norm_label": "string"
     },
     {
@@ -26660,7 +26700,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "repository_maintenancerequestrepository_maintenancerequestrepository_existsbyrequestnumberandidnot",
-      "community": 174,
+      "community": 4,
       "norm_label": ".existsbyrequestnumberandidnot()"
     },
     {
@@ -26670,7 +26710,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_maintenancerequestrepository_java_long",
-      "community": 174,
+      "community": 4,
       "norm_label": "long"
     },
     {
@@ -26680,7 +26720,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "repository_maintenancerequestrepository_maintenancerequestrepository_countbystatusin",
-      "community": 174,
+      "community": 4,
       "norm_label": ".countbystatusin()"
     },
     {
@@ -26690,7 +26730,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_maintenancerequestrepository_java_collection",
-      "community": 174,
+      "community": 4,
       "norm_label": "collection"
     },
     {
@@ -26700,7 +26740,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "repository_maintenancerequestrepository_maintenancerequestrepository_countbysiteidandstatusin",
-      "community": 174,
+      "community": 4,
       "norm_label": ".countbysiteidandstatusin()"
     },
     {
@@ -26710,7 +26750,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "repository_maintenancerequestrepository_maintenancerequestrepository_findbysiteid",
-      "community": 174,
+      "community": 4,
       "norm_label": ".findbysiteid()"
     },
     {
@@ -26720,7 +26760,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_maintenancerequestrepository_java_list",
-      "community": 174,
+      "community": 4,
       "norm_label": "list"
     },
     {
@@ -26730,7 +26770,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_maintenancerequestrepository_java_maintenancerequest",
-      "community": 174,
+      "community": 4,
       "norm_label": "maintenancerequest"
     },
     {
@@ -26740,7 +26780,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "repository_maintenancerequestrepository_maintenancerequestrepository_findbysiteidin",
-      "community": 174,
+      "community": 4,
       "norm_label": ".findbysiteidin()"
     },
     {
@@ -26750,7 +26790,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "repository_maintenancerequestrepository_maintenancerequestrepository_findbystatus",
-      "community": 174,
+      "community": 4,
       "norm_label": ".findbystatus()"
     },
     {
@@ -26760,7 +26800,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "repository_maintenancerequestrepository_maintenancerequestrepository_findbysiteidinandstatus",
-      "community": 174,
+      "community": 4,
       "norm_label": ".findbysiteidinandstatus()"
     },
     {
@@ -26770,7 +26810,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "repository_maintenancerequestrepository_maintenancerequestrepository_findbysiteidandstatus",
-      "community": 174,
+      "community": 4,
       "norm_label": ".findbysiteidandstatus()"
     },
     {
@@ -26780,7 +26820,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "repository_maintenancerequestrepository_maintenancerequestrepository_findbytargetcompletiondatebeforeandstatusnotinorderbytargetcompletiondateasc",
-      "community": 174,
+      "community": 4,
       "norm_label": ".findbytargetcompletiondatebeforeandstatusnotinorderbytargetcompletiondateasc()"
     },
     {
@@ -26790,7 +26830,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_maintenancerequestrepository_java_localdate",
-      "community": 174,
+      "community": 4,
       "norm_label": "localdate"
     },
     {
@@ -26800,7 +26840,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "repository_maintenancerequestrepository_maintenancerequestrepository_countbypmscheduleid",
-      "community": 174,
+      "community": 4,
       "norm_label": ".countbypmscheduleid()"
     },
     {
@@ -26810,7 +26850,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "repository_maintenancerequestrepository_maintenancerequestrepository_countbypmscheduleidandstatusin",
-      "community": 174,
+      "community": 4,
       "norm_label": ".countbypmscheduleidandstatusin()"
     },
     {
@@ -26820,7 +26860,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "repository_notificationrepository",
-      "community": 225,
+      "community": 219,
       "norm_label": "notificationrepository.java"
     },
     {
@@ -26830,7 +26870,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "repository_notificationrepository_notificationrepository",
-      "community": 225,
+      "community": 219,
       "norm_label": "notificationrepository"
     },
     {
@@ -26840,7 +26880,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "repository_notificationrepository_notificationrepository_findbyrecipientuseridandstatusnotorderbycreatedatdesc",
-      "community": 225,
+      "community": 219,
       "norm_label": ".findbyrecipientuseridandstatusnotorderbycreatedatdesc()"
     },
     {
@@ -26850,7 +26890,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_notificationrepository_java_long",
-      "community": 225,
+      "community": 219,
       "norm_label": "long"
     },
     {
@@ -26860,7 +26900,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_notificationrepository_java_string",
-      "community": 225,
+      "community": 219,
       "norm_label": "string"
     },
     {
@@ -26870,7 +26910,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_notificationrepository_java_list",
-      "community": 225,
+      "community": 219,
       "norm_label": "list"
     },
     {
@@ -26880,7 +26920,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_notificationrepository_java_notification",
-      "community": 225,
+      "community": 219,
       "norm_label": "notification"
     },
     {
@@ -26890,7 +26930,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "repository_notificationrepository_notificationrepository_countbyrecipientuseridandstatus",
-      "community": 225,
+      "community": 219,
       "norm_label": ".countbyrecipientuseridandstatus()"
     },
     {
@@ -26900,7 +26940,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "repository_notificationrepository_notificationrepository_existsbydedupekey",
-      "community": 225,
+      "community": 219,
       "norm_label": ".existsbydedupekey()"
     },
     {
@@ -26910,7 +26950,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "repository_notificationsettingrepository",
-      "community": 224,
+      "community": 237,
       "norm_label": "notificationsettingrepository.java"
     },
     {
@@ -26920,7 +26960,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "repository_notificationsettingrepository_notificationsettingrepository",
-      "community": 224,
+      "community": 237,
       "norm_label": "notificationsettingrepository"
     },
     {
@@ -26930,7 +26970,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "repository_notificationsettingrepository_notificationsettingrepository_findfirstbyorderbyidasc",
-      "community": 224,
+      "community": 237,
       "norm_label": ".findfirstbyorderbyidasc()"
     },
     {
@@ -26940,7 +26980,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_notificationsettingrepository_java_optional",
-      "community": 224,
+      "community": 237,
       "norm_label": "optional"
     },
     {
@@ -26950,7 +26990,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_notificationsettingrepository_java_notificationsetting",
-      "community": 224,
+      "community": 237,
       "norm_label": "notificationsetting"
     },
     {
@@ -27070,7 +27110,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "repository_preventivemaintenanceschedulerepository",
-      "community": 233,
+      "community": 20,
       "norm_label": "preventivemaintenanceschedulerepository.java"
     },
     {
@@ -27080,7 +27120,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "repository_preventivemaintenanceschedulerepository_preventivemaintenanceschedulerepository",
-      "community": 233,
+      "community": 20,
       "norm_label": "preventivemaintenanceschedulerepository"
     },
     {
@@ -27090,7 +27130,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "repository_preventivemaintenanceschedulerepository_preventivemaintenanceschedulerepository_existsbyschedulecode",
-      "community": 233,
+      "community": 20,
       "norm_label": ".existsbyschedulecode()"
     },
     {
@@ -27100,7 +27140,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_preventivemaintenanceschedulerepository_java_string",
-      "community": 233,
+      "community": 20,
       "norm_label": "string"
     },
     {
@@ -27110,7 +27150,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "repository_preventivemaintenanceschedulerepository_preventivemaintenanceschedulerepository_existsbyschedulecodeandidnot",
-      "community": 233,
+      "community": 20,
       "norm_label": ".existsbyschedulecodeandidnot()"
     },
     {
@@ -27120,7 +27160,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_preventivemaintenanceschedulerepository_java_long",
-      "community": 233,
+      "community": 20,
       "norm_label": "long"
     },
     {
@@ -27130,7 +27170,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "repository_preventivemaintenanceschedulerepository_preventivemaintenanceschedulerepository_findbyactivetrueandnextduedatelessthanequalorderbynextduedateasc",
-      "community": 233,
+      "community": 20,
       "norm_label": ".findbyactivetrueandnextduedatelessthanequalorderbynextduedateasc()"
     },
     {
@@ -27140,7 +27180,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_preventivemaintenanceschedulerepository_java_localdate",
-      "community": 233,
+      "community": 20,
       "norm_label": "localdate"
     },
     {
@@ -27150,7 +27190,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_preventivemaintenanceschedulerepository_java_list",
-      "community": 233,
+      "community": 20,
       "norm_label": "list"
     },
     {
@@ -27160,7 +27200,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_repository_preventivemaintenanceschedulerepository_java_preventivemaintenanceschedule",
-      "community": 233,
+      "community": 20,
       "norm_label": "preventivemaintenanceschedule"
     },
     {
@@ -27170,7 +27210,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "repository_preventivemaintenanceschedulerepository_preventivemaintenanceschedulerepository_findbyactivetrueandnextduedatebetweenorderbynextduedateasc",
-      "community": 233,
+      "community": 20,
       "norm_label": ".findbyactivetrueandnextduedatebetweenorderbynextduedateasc()"
     },
     {
@@ -27670,7 +27710,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "repository_userrepository_userrepository_existsbyusername",
-      "community": 175,
+      "community": 77,
       "norm_label": ".existsbyusername()"
     },
     {
@@ -27690,7 +27730,7 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "repository_userrepository_userrepository_existsbyemail",
-      "community": 175,
+      "community": 77,
       "norm_label": ".existsbyemail()"
     },
     {
@@ -28270,7 +28310,7 @@
       "source_location": "L77",
       "_origin": "ast",
       "id": "service_accesscontrolservice_accesscontrolservice_getcurrentuserid",
-      "community": 182,
+      "community": 214,
       "norm_label": ".getcurrentuserid()"
     },
     {
@@ -28400,7 +28440,7 @@
       "source_location": "L151",
       "_origin": "ast",
       "id": "service_accesscontrolservice_accesscontrolservice_validateanysiteaccess",
-      "community": 72,
+      "community": 182,
       "norm_label": ".validateanysiteaccess()"
     },
     {
@@ -28740,7 +28780,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "service_approvalworkflowservice",
-      "community": 168,
+      "community": 211,
       "norm_label": "approvalworkflowservice.java"
     },
     {
@@ -28760,7 +28800,7 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "service_approvalworkflowservice_approvalworkflowservice_approvalworkflowservice",
-      "community": 168,
+      "community": 211,
       "norm_label": ".approvalworkflowservice()"
     },
     {
@@ -28770,7 +28810,7 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_approvalworkflowservice_java_approvalconfigdao",
-      "community": 168,
+      "community": 211,
       "norm_label": "approvalconfigdao"
     },
     {
@@ -28780,7 +28820,7 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "approvalrequestdao",
-      "community": 168,
+      "community": 211,
       "norm_label": "approvalrequestdao"
     },
     {
@@ -28790,7 +28830,7 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "approvalactiondao",
-      "community": 168,
+      "community": 211,
       "norm_label": "approvalactiondao"
     },
     {
@@ -28800,7 +28840,7 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_approvalworkflowservice_java_maintenancerequestdao",
-      "community": 168,
+      "community": 211,
       "norm_label": "maintenancerequestdao"
     },
     {
@@ -28810,7 +28850,7 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_approvalworkflowservice_java_preventivemaintenancescheduledao",
-      "community": 168,
+      "community": 211,
       "norm_label": "preventivemaintenancescheduledao"
     },
     {
@@ -28820,7 +28860,7 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_approvalworkflowservice_java_accesscontrolservice",
-      "community": 168,
+      "community": 211,
       "norm_label": "accesscontrolservice"
     },
     {
@@ -28830,7 +28870,7 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_approvalworkflowservice_java_objectprovider",
-      "community": 168,
+      "community": 211,
       "norm_label": "objectprovider"
     },
     {
@@ -28840,7 +28880,7 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_approvalworkflowservice_java_preventivemaintenancescheduleservice",
-      "community": 168,
+      "community": 211,
       "norm_label": "preventivemaintenancescheduleservice"
     },
     {
@@ -28850,7 +28890,7 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "objectmapper",
-      "community": 168,
+      "community": 211,
       "norm_label": "objectmapper"
     },
     {
@@ -28860,7 +28900,7 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_approvalworkflowservice_java_notificationservice",
-      "community": 168,
+      "community": 211,
       "norm_label": "notificationservice"
     },
     {
@@ -29080,7 +29120,7 @@
       "source_location": "L259",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_approvalworkflowservice_java_maintenancerequest",
-      "community": 168,
+      "community": 211,
       "norm_label": "maintenancerequest"
     },
     {
@@ -29100,7 +29140,7 @@
       "source_location": "L264",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_approvalworkflowservice_java_preventivemaintenanceschedule",
-      "community": 168,
+      "community": 211,
       "norm_label": "preventivemaintenanceschedule"
     },
     {
@@ -29140,7 +29180,7 @@
       "source_location": "L317",
       "_origin": "ast",
       "id": "service_approvalworkflowservice_approvalworkflowservice_toactiondto",
-      "community": 168,
+      "community": 197,
       "norm_label": ".toactiondto()"
     },
     {
@@ -29150,7 +29190,7 @@
       "source_location": "L317",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_approvalworkflowservice_java_approvalaction",
-      "community": 168,
+      "community": 197,
       "norm_label": "approvalaction"
     },
     {
@@ -29160,7 +29200,7 @@
       "source_location": "L317",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_approvalworkflowservice_java_approvalactiondto",
-      "community": 168,
+      "community": 197,
       "norm_label": "approvalactiondto"
     },
     {
@@ -29180,7 +29220,7 @@
       "source_location": "L329",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_approvalworkflowservice_java_user",
-      "community": 168,
+      "community": 211,
       "norm_label": "user"
     },
     {
@@ -29200,7 +29240,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "service_dashboardservice",
-      "community": 232,
+      "community": 4,
       "norm_label": "dashboardservice.java"
     },
     {
@@ -29210,7 +29250,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "service_dashboardservice_dashboardservice",
-      "community": 232,
+      "community": 4,
       "norm_label": "dashboardservice"
     },
     {
@@ -29220,7 +29260,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "service_dashboardservice_dashboardservice_dashboardservice",
-      "community": 232,
+      "community": 4,
       "norm_label": ".dashboardservice()"
     },
     {
@@ -29230,7 +29270,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_dashboardservice_java_equipmentdao",
-      "community": 232,
+      "community": 4,
       "norm_label": "equipmentdao"
     },
     {
@@ -29240,7 +29280,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_dashboardservice_java_vendordao",
-      "community": 232,
+      "community": 4,
       "norm_label": "vendordao"
     },
     {
@@ -29250,7 +29290,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_dashboardservice_java_maintenancerequestdao",
-      "community": 232,
+      "community": 4,
       "norm_label": "maintenancerequestdao"
     },
     {
@@ -29260,7 +29300,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_dashboardservice_java_equipmentdowntimedao",
-      "community": 232,
+      "community": 4,
       "norm_label": "equipmentdowntimedao"
     },
     {
@@ -29270,7 +29310,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_dashboardservice_java_accesscontrolservice",
-      "community": 232,
+      "community": 4,
       "norm_label": "accesscontrolservice"
     },
     {
@@ -29280,7 +29320,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "service_dashboardservice_dashboardservice_getsummary",
-      "community": 232,
+      "community": 4,
       "norm_label": ".getsummary()"
     },
     {
@@ -29290,7 +29330,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_dashboardservice_java_long",
-      "community": 232,
+      "community": 4,
       "norm_label": "long"
     },
     {
@@ -29300,7 +29340,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_dashboardservice_java_dashboarddto",
-      "community": 232,
+      "community": 4,
       "norm_label": "dashboarddto"
     },
     {
@@ -29310,7 +29350,7 @@
       "source_location": "L49",
       "_origin": "ast",
       "id": "service_dashboardservice_dashboardservice_getallowedsitessummary",
-      "community": 232,
+      "community": 4,
       "norm_label": ".getallowedsitessummary()"
     },
     {
@@ -29380,7 +29420,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "service_emailnotificationservice_emailnotificationservice_send",
-      "community": 214,
+      "community": 226,
       "norm_label": ".send()"
     },
     {
@@ -29660,7 +29700,7 @@
       "source_location": "L177",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_employeeservice_java_employeesiteassignmentdto",
-      "community": 72,
+      "community": 169,
       "norm_label": "employeesiteassignmentdto"
     },
     {
@@ -29680,7 +29720,7 @@
       "source_location": "L240",
       "_origin": "ast",
       "id": "service_employeeservice_employeeservice_toassignmentdto",
-      "community": 72,
+      "community": 169,
       "norm_label": ".toassignmentdto()"
     },
     {
@@ -30040,7 +30080,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "service_equipmentservice_equipmentservice",
-      "community": 167,
+      "community": 180,
       "norm_label": "equipmentservice"
     },
     {
@@ -30210,7 +30250,7 @@
       "source_location": "L126",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_equipmentservice_java_pageproperties",
-      "community": 180,
+      "community": 167,
       "norm_label": "pageproperties"
     },
     {
@@ -30300,7 +30340,7 @@
       "source_location": "L211",
       "_origin": "ast",
       "id": "service_equipmentservice_equipmentservice_applydefaultsort",
-      "community": 167,
+      "community": 179,
       "norm_label": ".applydefaultsort()"
     },
     {
@@ -30340,7 +30380,7 @@
       "source_location": "L244",
       "_origin": "ast",
       "id": "service_equipmentservice_equipmentservice_isemptyvalue",
-      "community": 167,
+      "community": 180,
       "norm_label": ".isemptyvalue()"
     },
     {
@@ -30350,7 +30390,7 @@
       "source_location": "L244",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_equipmentservice_java_object",
-      "community": 167,
+      "community": 180,
       "norm_label": "object"
     },
     {
@@ -30370,7 +30410,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "service_listsearchservice",
-      "community": 231,
+      "community": 191,
       "norm_label": "listsearchservice.java"
     },
     {
@@ -30390,7 +30430,7 @@
       "source_location": "L93",
       "_origin": "ast",
       "id": "service_listsearchservice_listsearchservice_listsearchservice",
-      "community": 231,
+      "community": 191,
       "norm_label": ".listsearchservice()"
     },
     {
@@ -30400,7 +30440,7 @@
       "source_location": "L93",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_listsearchservice_java_searchservice",
-      "community": 231,
+      "community": 191,
       "norm_label": "searchservice"
     },
     {
@@ -30410,7 +30450,7 @@
       "source_location": "L93",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_listsearchservice_java_accesscontrolservice",
-      "community": 231,
+      "community": 191,
       "norm_label": "accesscontrolservice"
     },
     {
@@ -30420,7 +30460,7 @@
       "source_location": "L93",
       "_origin": "ast",
       "id": "sitelistrepository",
-      "community": 231,
+      "community": 191,
       "norm_label": "sitelistrepository"
     },
     {
@@ -30430,7 +30470,7 @@
       "source_location": "L93",
       "_origin": "ast",
       "id": "employeelistrepository",
-      "community": 231,
+      "community": 191,
       "norm_label": "employeelistrepository"
     },
     {
@@ -30440,7 +30480,7 @@
       "source_location": "L93",
       "_origin": "ast",
       "id": "vendorlistrepository",
-      "community": 231,
+      "community": 191,
       "norm_label": "vendorlistrepository"
     },
     {
@@ -30450,7 +30490,7 @@
       "source_location": "L93",
       "_origin": "ast",
       "id": "maintenancerequestlistrepository",
-      "community": 231,
+      "community": 191,
       "norm_label": "maintenancerequestlistrepository"
     },
     {
@@ -30460,7 +30500,7 @@
       "source_location": "L93",
       "_origin": "ast",
       "id": "maintenanceassignmentlistrepository",
-      "community": 231,
+      "community": 191,
       "norm_label": "maintenanceassignmentlistrepository"
     },
     {
@@ -30470,7 +30510,7 @@
       "source_location": "L93",
       "_origin": "ast",
       "id": "equipmentdowntimelistrepository",
-      "community": 231,
+      "community": 191,
       "norm_label": "equipmentdowntimelistrepository"
     },
     {
@@ -30480,7 +30520,7 @@
       "source_location": "L93",
       "_origin": "ast",
       "id": "preventivemaintenanceschedulelistrepository",
-      "community": 231,
+      "community": 191,
       "norm_label": "preventivemaintenanceschedulelistrepository"
     },
     {
@@ -30490,7 +30530,7 @@
       "source_location": "L93",
       "_origin": "ast",
       "id": "rolelistrepository",
-      "community": 231,
+      "community": 191,
       "norm_label": "rolelistrepository"
     },
     {
@@ -30610,7 +30650,7 @@
       "source_location": "L170",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_listsearchservice_java_set",
-      "community": 231,
+      "community": 191,
       "norm_label": "set"
     },
     {
@@ -30620,7 +30660,7 @@
       "source_location": "L170",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_listsearchservice_java_string",
-      "community": 179,
+      "community": 191,
       "norm_label": "string"
     },
     {
@@ -30640,7 +30680,7 @@
       "source_location": "L178",
       "_origin": "ast",
       "id": "service_listsearchservice_listsearchservice_normalizecriteria",
-      "community": 228,
+      "community": 167,
       "norm_label": ".normalizecriteria()"
     },
     {
@@ -30650,7 +30690,7 @@
       "source_location": "L178",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_listsearchservice_java_list",
-      "community": 228,
+      "community": 191,
       "norm_label": "list"
     },
     {
@@ -30660,7 +30700,7 @@
       "source_location": "L178",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_listsearchservice_java_searchcriteriadto",
-      "community": 228,
+      "community": 191,
       "norm_label": "searchcriteriadto"
     },
     {
@@ -30700,7 +30740,7 @@
       "source_location": "L232",
       "_origin": "ast",
       "id": "service_listsearchservice_listsearchservice_findcriterion",
-      "community": 228,
+      "community": 191,
       "norm_label": ".findcriterion()"
     },
     {
@@ -30740,7 +30780,7 @@
       "source_location": "L252",
       "_origin": "ast",
       "id": "service_listsearchservice_listsearchservice_normalizeoperation",
-      "community": 179,
+      "community": 191,
       "norm_label": ".normalizeoperation()"
     },
     {
@@ -30750,7 +30790,7 @@
       "source_location": "L278",
       "_origin": "ast",
       "id": "service_listsearchservice_listsearchservice_hasfield",
-      "community": 179,
+      "community": 191,
       "norm_label": ".hasfield()"
     },
     {
@@ -30760,7 +30800,7 @@
       "source_location": "L290",
       "_origin": "ast",
       "id": "service_listsearchservice_listsearchservice_isblank",
-      "community": 179,
+      "community": 191,
       "norm_label": ".isblank()"
     },
     {
@@ -31487,7 +31527,7 @@
       "label": "NotificationService",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationService.java",
-      "source_location": "L31",
+      "source_location": "L30",
       "_origin": "ast",
       "id": "service_notificationservice_notificationservice",
       "community": 214,
@@ -31497,7 +31537,7 @@
       "label": ".NotificationService()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationService.java",
-      "source_location": "L42",
+      "source_location": "L40",
       "_origin": "ast",
       "id": "service_notificationservice_notificationservice_notificationservice",
       "community": 214,
@@ -31507,7 +31547,7 @@
       "label": "NotificationDAO",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationService.java",
-      "source_location": "L42",
+      "source_location": "L40",
       "_origin": "ast",
       "id": "notificationdao",
       "community": 214,
@@ -31517,7 +31557,7 @@
       "label": "AccessControlService",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationService.java",
-      "source_location": "L42",
+      "source_location": "L40",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_notificationservice_java_accesscontrolservice",
       "community": 214,
@@ -31527,7 +31567,7 @@
       "label": "UserRoleAssignmentRepository",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationService.java",
-      "source_location": "L42",
+      "source_location": "L40",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_notificationservice_java_userroleassignmentrepository",
       "community": 214,
@@ -31537,27 +31577,17 @@
       "label": "UserRepository",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationService.java",
-      "source_location": "L42",
+      "source_location": "L40",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_notificationservice_java_userrepository",
       "community": 214,
       "norm_label": "userrepository"
     },
     {
-      "label": "NotificationProperties",
-      "file_type": "code",
-      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationService.java",
-      "source_location": "L42",
-      "_origin": "ast",
-      "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_notificationservice_java_notificationproperties",
-      "community": 214,
-      "norm_label": "notificationproperties"
-    },
-    {
       "label": "NotificationSettingsService",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationService.java",
-      "source_location": "L42",
+      "source_location": "L40",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_notificationservice_java_notificationsettingsservice",
       "community": 214,
@@ -31567,7 +31597,7 @@
       "label": "EmailNotificationService",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationService.java",
-      "source_location": "L42",
+      "source_location": "L40",
       "_origin": "ast",
       "id": "emailnotificationservice",
       "community": 214,
@@ -31577,7 +31607,7 @@
       "label": ".getMine()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationService.java",
-      "source_location": "L58",
+      "source_location": "L54",
       "_origin": "ast",
       "id": "service_notificationservice_notificationservice_getmine",
       "community": 214,
@@ -31587,7 +31617,7 @@
       "label": "List",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationService.java",
-      "source_location": "L58",
+      "source_location": "L54",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_notificationservice_java_list",
       "community": 214,
@@ -31597,7 +31627,7 @@
       "label": "NotificationDTO",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationService.java",
-      "source_location": "L58",
+      "source_location": "L54",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_notificationservice_java_notificationdto",
       "community": 214,
@@ -31607,7 +31637,7 @@
       "label": "Transactional",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationService.java",
-      "source_location": "L58",
+      "source_location": "L54",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_notificationservice_java_transactional",
       "community": 214,
@@ -31617,7 +31647,7 @@
       "label": ".getUnreadCount()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationService.java",
-      "source_location": "L64",
+      "source_location": "L60",
       "_origin": "ast",
       "id": "service_notificationservice_notificationservice_getunreadcount",
       "community": 214,
@@ -31627,7 +31657,7 @@
       "label": ".markRead()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationService.java",
-      "source_location": "L69",
+      "source_location": "L65",
       "_origin": "ast",
       "id": "service_notificationservice_notificationservice_markread",
       "community": 214,
@@ -31637,7 +31667,7 @@
       "label": "Long",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationService.java",
-      "source_location": "L69",
+      "source_location": "L65",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_notificationservice_java_long",
       "community": 214,
@@ -31647,17 +31677,17 @@
       "label": ".markAllRead()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationService.java",
-      "source_location": "L78",
+      "source_location": "L74",
       "_origin": "ast",
       "id": "service_notificationservice_notificationservice_markallread",
-      "community": 219,
+      "community": 214,
       "norm_label": ".markallread()"
     },
     {
       "label": ".archive()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationService.java",
-      "source_location": "L89",
+      "source_location": "L85",
       "_origin": "ast",
       "id": "service_notificationservice_notificationservice_archive",
       "community": 214,
@@ -31667,7 +31697,7 @@
       "label": ".createPmDueReminder()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationService.java",
-      "source_location": "L95",
+      "source_location": "L91",
       "_origin": "ast",
       "id": "service_notificationservice_notificationservice_createpmduereminder",
       "community": 177,
@@ -31677,7 +31707,7 @@
       "label": "PreventiveMaintenanceSchedule",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationService.java",
-      "source_location": "L95",
+      "source_location": "L91",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_notificationservice_java_preventivemaintenanceschedule",
       "community": 177,
@@ -31687,7 +31717,7 @@
       "label": "LocalDate",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationService.java",
-      "source_location": "L95",
+      "source_location": "L91",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_notificationservice_java_localdate",
       "community": 177,
@@ -31697,7 +31727,7 @@
       "label": ".createOverdueRequestAlert()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationService.java",
-      "source_location": "L110",
+      "source_location": "L106",
       "_origin": "ast",
       "id": "service_notificationservice_notificationservice_createoverduerequestalert",
       "community": 177,
@@ -31707,7 +31737,7 @@
       "label": "MaintenanceRequest",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationService.java",
-      "source_location": "L110",
+      "source_location": "L106",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_notificationservice_java_maintenancerequest",
       "community": 177,
@@ -31717,7 +31747,7 @@
       "label": ".createApprovalPendingAlert()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationService.java",
-      "source_location": "L122",
+      "source_location": "L118",
       "_origin": "ast",
       "id": "service_notificationservice_notificationservice_createapprovalpendingalert",
       "community": 177,
@@ -31727,7 +31757,7 @@
       "label": "ApprovalRequest",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationService.java",
-      "source_location": "L122",
+      "source_location": "L118",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_notificationservice_java_approvalrequest",
       "community": 177,
@@ -31737,7 +31767,7 @@
       "label": ".notifyRoleRecipients()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationService.java",
-      "source_location": "L138",
+      "source_location": "L134",
       "_origin": "ast",
       "id": "service_notificationservice_notificationservice_notifyrolerecipients",
       "community": 214,
@@ -31747,7 +31777,7 @@
       "label": "NotificationSettingDTO",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationService.java",
-      "source_location": "L138",
+      "source_location": "L134",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_notificationservice_java_notificationsettingdto",
       "community": 214,
@@ -31757,7 +31787,7 @@
       "label": "Collection",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationService.java",
-      "source_location": "L138",
+      "source_location": "L134",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_notificationservice_java_collection",
       "community": 214,
@@ -31767,7 +31797,7 @@
       "label": "String",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationService.java",
-      "source_location": "L138",
+      "source_location": "L134",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_notificationservice_java_string",
       "community": 214,
@@ -31777,7 +31807,7 @@
       "label": "Site",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationService.java",
-      "source_location": "L138",
+      "source_location": "L134",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_notificationservice_java_site",
       "community": 214,
@@ -31787,7 +31817,7 @@
       "label": ".resolveRecipients()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationService.java",
-      "source_location": "L148",
+      "source_location": "L146",
       "_origin": "ast",
       "id": "service_notificationservice_notificationservice_resolverecipients",
       "community": 214,
@@ -31797,7 +31827,7 @@
       "label": "User",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationService.java",
-      "source_location": "L148",
+      "source_location": "L146",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_notificationservice_java_user",
       "community": 214,
@@ -31807,7 +31837,7 @@
       "label": ".createForUser()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationService.java",
-      "source_location": "L168",
+      "source_location": "L166",
       "_origin": "ast",
       "id": "service_notificationservice_notificationservice_createforuser",
       "community": 214,
@@ -31817,7 +31847,7 @@
       "label": ".getOwnedNotification()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationService.java",
-      "source_location": "L203",
+      "source_location": "L202",
       "_origin": "ast",
       "id": "service_notificationservice_notificationservice_getownednotification",
       "community": 214,
@@ -31827,7 +31857,7 @@
       "label": "Notification",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationService.java",
-      "source_location": "L203",
+      "source_location": "L202",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_notificationservice_java_notification",
       "community": 214,
@@ -31837,10 +31867,10 @@
       "label": ".isEnabled()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationService.java",
-      "source_location": "L212",
+      "source_location": "L211",
       "_origin": "ast",
       "id": "service_notificationservice_notificationservice_isenabled",
-      "community": 214,
+      "community": 228,
       "norm_label": ".isenabled()"
     },
     {
@@ -31930,7 +31960,7 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "service_notificationsettingsservice_notificationsettingsservice_seeddefaultsifmissing",
-      "community": 185,
+      "community": 228,
       "norm_label": ".seeddefaultsifmissing()"
     },
     {
@@ -31944,10 +31974,30 @@
       "norm_label": "eventlistener"
     },
     {
+      "label": ".createDefaultSetting()",
+      "file_type": "code",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
+      "source_location": "L57",
+      "_origin": "ast",
+      "id": "service_notificationsettingsservice_notificationsettingsservice_createdefaultsetting",
+      "community": 228,
+      "norm_label": ".createdefaultsetting()"
+    },
+    {
+      "label": "NotificationSetting",
+      "file_type": "code",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
+      "source_location": "L57",
+      "_origin": "ast",
+      "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_notificationsettingsservice_java_notificationsetting",
+      "community": 228,
+      "norm_label": "notificationsetting"
+    },
+    {
       "label": ".getForAdmin()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
-      "source_location": "L62",
+      "source_location": "L73",
       "_origin": "ast",
       "id": "service_notificationsettingsservice_notificationsettingsservice_getforadmin",
       "community": 185,
@@ -31957,7 +32007,7 @@
       "label": "NotificationSettingDTO",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
-      "source_location": "L62",
+      "source_location": "L73",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_notificationsettingsservice_java_notificationsettingdto",
       "community": 185,
@@ -31967,7 +32017,7 @@
       "label": ".getRuntimeSettings()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
-      "source_location": "L67",
+      "source_location": "L78",
       "_origin": "ast",
       "id": "service_notificationsettingsservice_notificationsettingsservice_getruntimesettings",
       "community": 185,
@@ -31977,7 +32027,7 @@
       "label": ".update()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
-      "source_location": "L71",
+      "source_location": "L82",
       "_origin": "ast",
       "id": "service_notificationsettingsservice_notificationsettingsservice_update",
       "community": 185,
@@ -31987,27 +32037,17 @@
       "label": ".getCurrentEntity()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
-      "source_location": "L80",
+      "source_location": "L91",
       "_origin": "ast",
       "id": "service_notificationsettingsservice_notificationsettingsservice_getcurrententity",
-      "community": 185,
+      "community": 228,
       "norm_label": ".getcurrententity()"
-    },
-    {
-      "label": "NotificationSetting",
-      "file_type": "code",
-      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
-      "source_location": "L80",
-      "_origin": "ast",
-      "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_notificationsettingsservice_java_notificationsetting",
-      "community": 185,
-      "norm_label": "notificationsetting"
     },
     {
       "label": ".apply()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
-      "source_location": "L97",
+      "source_location": "L100",
       "_origin": "ast",
       "id": "service_notificationsettingsservice_notificationsettingsservice_apply",
       "community": 185,
@@ -32017,7 +32057,7 @@
       "label": ".validate()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
-      "source_location": "L110",
+      "source_location": "L114",
       "_origin": "ast",
       "id": "service_notificationsettingsservice_notificationsettingsservice_validate",
       "community": 185,
@@ -32027,17 +32067,17 @@
       "label": ".validCronOrDefault()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
-      "source_location": "L120",
+      "source_location": "L124",
       "_origin": "ast",
       "id": "service_notificationsettingsservice_notificationsettingsservice_validcronordefault",
-      "community": 185,
+      "community": 228,
       "norm_label": ".validcronordefault()"
     },
     {
       "label": "String",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
-      "source_location": "L120",
+      "source_location": "L124",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_notificationsettingsservice_java_string",
       "community": 185,
@@ -32047,7 +32087,7 @@
       "label": ".parseScanTime()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
-      "source_location": "L125",
+      "source_location": "L129",
       "_origin": "ast",
       "id": "service_notificationsettingsservice_notificationsettingsservice_parsescantime",
       "community": 185,
@@ -32057,7 +32097,7 @@
       "label": "LocalTime",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
-      "source_location": "L125",
+      "source_location": "L129",
       "_origin": "ast",
       "id": "localtime",
       "community": 185,
@@ -32067,7 +32107,7 @@
       "label": ".toDailyCron()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
-      "source_location": "L136",
+      "source_location": "L140",
       "_origin": "ast",
       "id": "service_notificationsettingsservice_notificationsettingsservice_todailycron",
       "community": 185,
@@ -32077,7 +32117,7 @@
       "label": ".toScanTime()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
-      "source_location": "L141",
+      "source_location": "L145",
       "_origin": "ast",
       "id": "service_notificationsettingsservice_notificationsettingsservice_toscantime",
       "community": 185,
@@ -32087,17 +32127,17 @@
       "label": ".joinRoles()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
-      "source_location": "L158",
+      "source_location": "L162",
       "_origin": "ast",
       "id": "service_notificationsettingsservice_notificationsettingsservice_joinroles",
-      "community": 185,
+      "community": 228,
       "norm_label": ".joinroles()"
     },
     {
       "label": "List",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
-      "source_location": "L158",
+      "source_location": "L162",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_notificationsettingsservice_java_list",
       "community": 185,
@@ -32107,7 +32147,7 @@
       "label": ".splitRoles()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
-      "source_location": "L169",
+      "source_location": "L173",
       "_origin": "ast",
       "id": "service_notificationsettingsservice_notificationsettingsservice_splitroles",
       "community": 185,
@@ -32117,7 +32157,7 @@
       "label": ".toDTO()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
-      "source_location": "L179",
+      "source_location": "L183",
       "_origin": "ast",
       "id": "service_notificationsettingsservice_notificationsettingsservice_todto",
       "community": 185,
@@ -32127,7 +32167,7 @@
       "label": ".userName()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
-      "source_location": "L200",
+      "source_location": "L205",
       "_origin": "ast",
       "id": "service_notificationsettingsservice_notificationsettingsservice_username",
       "community": 185,
@@ -32137,7 +32177,7 @@
       "label": "User",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
-      "source_location": "L200",
+      "source_location": "L205",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_notificationsettingsservice_java_user",
       "community": 185,
@@ -32440,7 +32480,7 @@
       "source_location": "L127",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_preventivemaintenancescheduleservice_java_transactional",
-      "community": 182,
+      "community": 20,
       "norm_label": "transactional"
     },
     {
@@ -32450,7 +32490,7 @@
       "source_location": "L135",
       "_origin": "ast",
       "id": "service_preventivemaintenancescheduleservice_preventivemaintenancescheduleservice_getall",
-      "community": 182,
+      "community": 20,
       "norm_label": ".getall()"
     },
     {
@@ -32460,7 +32500,7 @@
       "source_location": "L135",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_preventivemaintenancescheduleservice_java_list",
-      "community": 182,
+      "community": 20,
       "norm_label": "list"
     },
     {
@@ -32470,7 +32510,7 @@
       "source_location": "L145",
       "_origin": "ast",
       "id": "service_preventivemaintenancescheduleservice_preventivemaintenancescheduleservice_getupcoming",
-      "community": 182,
+      "community": 20,
       "norm_label": ".getupcoming()"
     },
     {
@@ -33290,7 +33330,7 @@
       "source_location": "L157",
       "_origin": "ast",
       "id": "sort",
-      "community": 180,
+      "community": 45,
       "norm_label": "sort"
     },
     {
@@ -33890,7 +33930,7 @@
       "source_location": "L138",
       "_origin": "ast",
       "id": "service_userservice_userservice_syncemployeelogin",
-      "community": 175,
+      "community": 77,
       "norm_label": ".syncemployeelogin()"
     },
     {
@@ -34280,7 +34320,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "util_jwtutil",
-      "community": 193,
+      "community": 232,
       "norm_label": "jwtutil.java"
     },
     {
@@ -34290,7 +34330,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "util_jwtutil_jwtutil",
-      "community": 193,
+      "community": 232,
       "norm_label": "jwtutil"
     },
     {
@@ -34300,7 +34340,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "util_jwtutil_jwtutil_generatetoken",
-      "community": 193,
+      "community": 232,
       "norm_label": ".generatetoken()"
     },
     {
@@ -34310,7 +34350,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_util_jwtutil_java_string",
-      "community": 193,
+      "community": 232,
       "norm_label": "string"
     },
     {
@@ -34320,7 +34360,7 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "util_jwtutil_jwtutil_extractusername",
-      "community": 193,
+      "community": 232,
       "norm_label": ".extractusername()"
     },
     {
@@ -34330,7 +34370,7 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "util_jwtutil_jwtutil_validatetoken",
-      "community": 193,
+      "community": 232,
       "norm_label": ".validatetoken()"
     },
     {
@@ -34340,7 +34380,7 @@
       "source_location": "L57",
       "_origin": "ast",
       "id": "util_jwtutil_jwtutil_getclaims",
-      "community": 193,
+      "community": 232,
       "norm_label": ".getclaims()"
     },
     {
@@ -34350,7 +34390,7 @@
       "source_location": "L57",
       "_origin": "ast",
       "id": "claims",
-      "community": 193,
+      "community": 232,
       "norm_label": "claims"
     },
     {
@@ -34360,7 +34400,7 @@
       "source_location": "L69",
       "_origin": "ast",
       "id": "util_jwtutil_jwtutil_getsigningkey",
-      "community": 193,
+      "community": 232,
       "norm_label": ".getsigningkey()"
     },
     {
@@ -34370,7 +34410,7 @@
       "source_location": "L69",
       "_origin": "ast",
       "id": "secretkey",
-      "community": 193,
+      "community": 232,
       "norm_label": "secretkey"
     },
     {
@@ -35017,7 +35057,7 @@
       "label": "RoleSelect()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/pages/admin/notificationSettings/NotificationSettingsPage.jsx",
-      "source_location": "L35",
+      "source_location": "L36",
       "_origin": "ast",
       "id": "notificationsettings_notificationsettingspage_roleselect",
       "community": 172,
@@ -35027,7 +35067,7 @@
       "label": "NotificationSettingsPage()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/pages/admin/notificationSettings/NotificationSettingsPage.jsx",
-      "source_location": "L62",
+      "source_location": "L63",
       "_origin": "ast",
       "id": "notificationsettings_notificationsettingspage_notificationsettingspage",
       "community": 172,
@@ -40837,7 +40877,7 @@
       "label": "How Each Notification Type Works",
       "file_type": "document",
       "source_file": "cmms_back_end/src/main/resources/NOTIFICATION_CONFIGURATION.md",
-      "source_location": "L98",
+      "source_location": "L99",
       "_origin": "ast",
       "id": "resources_notification_configuration_how_each_notification_type_works",
       "community": 220,
@@ -40847,7 +40887,7 @@
       "label": "PM Due Reminder",
       "file_type": "document",
       "source_file": "cmms_back_end/src/main/resources/NOTIFICATION_CONFIGURATION.md",
-      "source_location": "L100",
+      "source_location": "L101",
       "_origin": "ast",
       "id": "resources_notification_configuration_pm_due_reminder",
       "community": 220,
@@ -40857,7 +40897,7 @@
       "label": "Overdue Request Alert",
       "file_type": "document",
       "source_file": "cmms_back_end/src/main/resources/NOTIFICATION_CONFIGURATION.md",
-      "source_location": "L129",
+      "source_location": "L130",
       "_origin": "ast",
       "id": "resources_notification_configuration_overdue_request_alert",
       "community": 220,
@@ -40867,7 +40907,7 @@
       "label": "Approval Pending Alert",
       "file_type": "document",
       "source_file": "cmms_back_end/src/main/resources/NOTIFICATION_CONFIGURATION.md",
-      "source_location": "L157",
+      "source_location": "L158",
       "_origin": "ast",
       "id": "resources_notification_configuration_approval_pending_alert",
       "community": 220,
@@ -40877,7 +40917,7 @@
       "label": "In-App Notifications",
       "file_type": "document",
       "source_file": "cmms_back_end/src/main/resources/NOTIFICATION_CONFIGURATION.md",
-      "source_location": "L183",
+      "source_location": "L184",
       "_origin": "ast",
       "id": "resources_notification_configuration_in_app_notifications",
       "community": 220,
@@ -40887,7 +40927,7 @@
       "label": "Email Notifications",
       "file_type": "document",
       "source_file": "cmms_back_end/src/main/resources/NOTIFICATION_CONFIGURATION.md",
-      "source_location": "L204",
+      "source_location": "L205",
       "_origin": "ast",
       "id": "resources_notification_configuration_email_notifications",
       "community": 220,
@@ -40897,7 +40937,7 @@
       "label": "Recipient Role-Code Lists",
       "file_type": "document",
       "source_file": "cmms_back_end/src/main/resources/NOTIFICATION_CONFIGURATION.md",
-      "source_location": "L237",
+      "source_location": "L238",
       "_origin": "ast",
       "id": "resources_notification_configuration_recipient_role_code_lists",
       "community": 220,
@@ -40907,7 +40947,7 @@
       "label": "Daily Scan Time Examples",
       "file_type": "document",
       "source_file": "cmms_back_end/src/main/resources/NOTIFICATION_CONFIGURATION.md",
-      "source_location": "L263",
+      "source_location": "L264",
       "_origin": "ast",
       "id": "resources_notification_configuration_daily_scan_time_examples",
       "community": 220,
@@ -40917,7 +40957,7 @@
       "label": "Common Configuration Scenarios",
       "file_type": "document",
       "source_file": "cmms_back_end/src/main/resources/NOTIFICATION_CONFIGURATION.md",
-      "source_location": "L293",
+      "source_location": "L294",
       "_origin": "ast",
       "id": "resources_notification_configuration_common_configuration_scenarios",
       "community": 220,
@@ -40927,7 +40967,7 @@
       "label": "Important Notes",
       "file_type": "document",
       "source_file": "cmms_back_end/src/main/resources/NOTIFICATION_CONFIGURATION.md",
-      "source_location": "L341",
+      "source_location": "L342",
       "_origin": "ast",
       "id": "resources_notification_configuration_important_notes",
       "community": 220,
@@ -44421,6 +44461,17 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
+      "source_location": "L60",
+      "weight": 1.0,
+      "source": "service_notificationsettingsservice_notificationsettingsservice_createdefaultsetting",
+      "target": "config_notificationproperties_notificationproperties_isinappenabled"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
       "source_location": "L79",
       "weight": 1.0,
       "source": "service_notificationsettingsservice_notificationsettingsservice_getcurrententity",
@@ -44486,10 +44537,54 @@
       "context": "call",
       "confidence": "INFERRED",
       "confidence_score": 0.8,
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
+      "source_location": "L61",
+      "weight": 1.0,
+      "source": "service_notificationsettingsservice_notificationsettingsservice_createdefaultsetting",
+      "target": "config_notificationproperties_notificationproperties_isemailenabled"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
+      "source_location": "L94",
+      "weight": 1.0,
+      "source": "service_notificationsettingsservice_notificationsettingsservice_getcurrententity",
+      "target": "config_notificationproperties_notificationproperties_isemailenabled"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
+      "source_location": "L49",
+      "weight": 1.0,
+      "source": "service_notificationsettingsservice_notificationsettingsservice_seeddefaultsifmissing",
+      "target": "config_notificationproperties_notificationproperties_isemailenabled"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationService.java",
       "source_location": "L92",
       "weight": 1.0,
       "source": "service_notificationservice_notificationservice_createpmduereminder",
+      "target": "config_notificationproperties_notificationproperties_ispmduereminderenabled"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
+      "source_location": "L62",
+      "weight": 1.0,
+      "source": "service_notificationsettingsservice_notificationsettingsservice_createdefaultsetting",
       "target": "config_notificationproperties_notificationproperties_ispmduereminderenabled"
     },
     {
@@ -44531,6 +44626,17 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
+      "source_location": "L63",
+      "weight": 1.0,
+      "source": "service_notificationsettingsservice_notificationsettingsservice_createdefaultsetting",
+      "target": "config_notificationproperties_notificationproperties_isoverduerequestenabled"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
       "source_location": "L81",
       "weight": 1.0,
       "source": "service_notificationsettingsservice_notificationsettingsservice_getcurrententity",
@@ -44556,6 +44662,17 @@
       "source_location": "L117",
       "weight": 1.0,
       "source": "service_notificationservice_notificationservice_createapprovalpendingalert",
+      "target": "config_notificationproperties_notificationproperties_isapprovalpendingenabled"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
+      "source_location": "L64",
+      "weight": 1.0,
+      "source": "service_notificationsettingsservice_notificationsettingsservice_createdefaultsetting",
       "target": "config_notificationproperties_notificationproperties_isapprovalpendingenabled"
     },
     {
@@ -55697,6 +55814,17 @@
       "source_location": "L76",
       "weight": 1.0,
       "source": "service_notificationsettingsservice_notificationsettingsservice_getcurrententity",
+      "target": "dao_notificationsettingdao_notificationsettingdao_findcurrent"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
+      "source_location": "L46",
+      "weight": 1.0,
+      "source": "service_notificationsettingsservice_notificationsettingsservice_seeddefaultsifmissing",
       "target": "dao_notificationsettingdao_notificationsettingdao_findcurrent"
     },
     {
@@ -67441,6 +67569,16 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/NotificationSettingDTO.java",
+      "source_location": "L32",
+      "weight": 1.0,
+      "source": "dto_notificationsettingdto_notificationsettingdto",
+      "target": "dto_notificationsettingdto_notificationsettingdto_getemailenabled",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/NotificationSettingDTO.java",
       "source_location": "L26",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -67533,9 +67671,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/NotificationSettingDTO.java",
       "source_location": "L41",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "dto_notificationsettingdto_notificationsettingdto",
-      "target": "dto_notificationsettingdto_notificationsettingdto_getscantime",
-      "confidence_score": 1.0
+      "target": "dto_notificationsettingdto_notificationsettingdto_getscantime"
     },
     {
       "relation": "method",
@@ -67596,6 +67734,16 @@
       "confidence_score": 1.0,
       "source": "dto_notificationsettingdto_notificationsettingdto",
       "target": "dto_notificationsettingdto_notificationsettingdto_setcreatedat"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/NotificationSettingDTO.java",
+      "source_location": "L33",
+      "weight": 1.0,
+      "source": "dto_notificationsettingdto_notificationsettingdto",
+      "target": "dto_notificationsettingdto_notificationsettingdto_setemailenabled",
+      "confidence_score": 1.0
     },
     {
       "relation": "method",
@@ -67693,9 +67841,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/NotificationSettingDTO.java",
       "source_location": "L42",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "dto_notificationsettingdto_notificationsettingdto",
-      "target": "dto_notificationsettingdto_notificationsettingdto_setscantime",
-      "confidence_score": 1.0
+      "target": "dto_notificationsettingdto_notificationsettingdto_setscantime"
     },
     {
       "relation": "method",
@@ -67797,6 +67945,17 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/NotificationSettingDTO.java",
+      "source_location": "L32",
+      "weight": 1.0,
+      "context": "return_type",
+      "source": "dto_notificationsettingdto_notificationsettingdto_getemailenabled",
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_dto_notificationsettingdto_java_boolean",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/NotificationSettingDTO.java",
       "source_location": "L28",
       "weight": 1.0,
       "context": "return_type",
@@ -67836,6 +67995,17 @@
       "confidence_score": 1.0,
       "source": "dto_notificationsettingdto_notificationsettingdto_setapprovalpendingenabled",
       "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_dto_notificationsettingdto_java_boolean"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/NotificationSettingDTO.java",
+      "source_location": "L33",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "source": "dto_notificationsettingdto_notificationsettingdto_setemailenabled",
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_dto_notificationsettingdto_java_boolean",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
@@ -67954,9 +68124,9 @@
       "source_location": "L41",
       "weight": 1.0,
       "context": "return_type",
+      "confidence_score": 1.0,
       "source": "dto_notificationsettingdto_notificationsettingdto_getscantime",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_dto_notificationsettingdto_java_string",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_dto_notificationsettingdto_java_string"
     },
     {
       "relation": "references",
@@ -68020,9 +68190,9 @@
       "source_location": "L42",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "dto_notificationsettingdto_notificationsettingdto_setscantime",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_dto_notificationsettingdto_java_string",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_dto_notificationsettingdto_java_string"
     },
     {
       "relation": "references",
@@ -83575,6 +83745,16 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/entity/NotificationSetting.java",
+      "source_location": "L74",
+      "weight": 1.0,
+      "source": "entity_notificationsetting_notificationsetting",
+      "target": "entity_notificationsetting_notificationsetting_getemailenabled",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/entity/NotificationSetting.java",
       "source_location": "L67",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -83730,6 +83910,16 @@
       "confidence_score": 1.0,
       "source": "entity_notificationsetting_notificationsetting",
       "target": "entity_notificationsetting_notificationsetting_setcreatedat"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/entity/NotificationSetting.java",
+      "source_location": "L75",
+      "weight": 1.0,
+      "source": "entity_notificationsetting_notificationsetting",
+      "target": "entity_notificationsetting_notificationsetting_setemailenabled",
+      "confidence_score": 1.0
     },
     {
       "relation": "method",
@@ -83911,6 +84101,17 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/entity/NotificationSetting.java",
+      "source_location": "L74",
+      "weight": 1.0,
+      "context": "return_type",
+      "source": "entity_notificationsetting_notificationsetting_getemailenabled",
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_entity_notificationsetting_java_boolean",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/entity/NotificationSetting.java",
       "source_location": "L69",
       "weight": 1.0,
       "context": "return_type",
@@ -83950,6 +84151,17 @@
       "confidence_score": 1.0,
       "source": "entity_notificationsetting_notificationsetting_setapprovalpendingenabled",
       "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_entity_notificationsetting_java_boolean"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/entity/NotificationSetting.java",
+      "source_location": "L75",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "source": "entity_notificationsetting_notificationsetting_setemailenabled",
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_entity_notificationsetting_java_boolean",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
@@ -107094,17 +107306,6 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationService.java",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "service_notificationservice",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_notificationservice_java_notificationproperties"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationService.java",
       "source_location": "L6",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -107368,17 +107569,6 @@
       "confidence_score": 1.0,
       "source": "service_notificationservice_notificationservice_notificationservice",
       "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_notificationservice_java_accesscontrolservice"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationService.java",
-      "source_location": "L40",
-      "weight": 1.0,
-      "context": "parameter_type",
-      "confidence_score": 1.0,
-      "source": "service_notificationservice_notificationservice_notificationservice",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_notificationservice_java_notificationproperties"
     },
     {
       "relation": "references",
@@ -108036,9 +108226,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
       "source_location": "L15",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_notificationsettingsservice",
-      "target": "localtime",
-      "confidence_score": 1.0
+      "target": "localtime"
     },
     {
       "relation": "imports",
@@ -108070,6 +108260,16 @@
       "confidence_score": 1.0,
       "source": "service_notificationsettingsservice_notificationsettingsservice",
       "target": "service_notificationsettingsservice_notificationsettingsservice_apply"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
+      "source_location": "L57",
+      "weight": 1.0,
+      "source": "service_notificationsettingsservice_notificationsettingsservice",
+      "target": "service_notificationsettingsservice_notificationsettingsservice_createdefaultsetting",
+      "confidence_score": 1.0
     },
     {
       "relation": "method",
@@ -108127,9 +108327,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
       "source_location": "L125",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_notificationsettingsservice_notificationsettingsservice",
-      "target": "service_notificationsettingsservice_notificationsettingsservice_parsescantime",
-      "confidence_score": 1.0
+      "target": "service_notificationsettingsservice_notificationsettingsservice_parsescantime"
     },
     {
       "relation": "method",
@@ -108157,9 +108357,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
       "source_location": "L136",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_notificationsettingsservice_notificationsettingsservice",
-      "target": "service_notificationsettingsservice_notificationsettingsservice_todailycron",
-      "confidence_score": 1.0
+      "target": "service_notificationsettingsservice_notificationsettingsservice_todailycron"
     },
     {
       "relation": "method",
@@ -108177,9 +108377,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
       "source_location": "L141",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_notificationsettingsservice_notificationsettingsservice",
-      "target": "service_notificationsettingsservice_notificationsettingsservice_toscantime",
-      "confidence_score": 1.0
+      "target": "service_notificationsettingsservice_notificationsettingsservice_toscantime"
     },
     {
       "relation": "method",
@@ -108270,6 +108470,17 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
+      "source_location": "L54",
+      "weight": 1.0,
+      "source": "service_notificationsettingsservice_notificationsettingsservice_seeddefaultsifmissing",
+      "target": "service_notificationsettingsservice_notificationsettingsservice_createdefaultsetting",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
       "source_location": "L51",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -108286,6 +108497,83 @@
       "confidence_score": 1.0,
       "source": "service_notificationsettingsservice_notificationsettingsservice_seeddefaultsifmissing",
       "target": "service_notificationsettingsservice_notificationsettingsservice_validcronordefault"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
+      "source_location": "L57",
+      "weight": 1.0,
+      "context": "return_type",
+      "source": "service_notificationsettingsservice_notificationsettingsservice_createdefaultsetting",
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_notificationsettingsservice_java_notificationsetting",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
+      "source_location": "L67",
+      "weight": 1.0,
+      "source": "service_notificationsettingsservice_notificationsettingsservice_createdefaultsetting",
+      "target": "service_notificationsettingsservice_notificationsettingsservice_joinroles",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
+      "source_location": "L66",
+      "weight": 1.0,
+      "source": "service_notificationsettingsservice_notificationsettingsservice_createdefaultsetting",
+      "target": "service_notificationsettingsservice_notificationsettingsservice_validcronordefault",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
+      "source_location": "L92",
+      "weight": 1.0,
+      "source": "service_notificationsettingsservice_notificationsettingsservice_getcurrententity",
+      "target": "service_notificationsettingsservice_notificationsettingsservice_createdefaultsetting",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
+      "source_location": "L92",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "confidence_score": 1.0,
+      "source": "service_notificationsettingsservice_notificationsettingsservice_apply",
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_notificationsettingsservice_java_notificationsetting"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
+      "source_location": "L75",
+      "weight": 1.0,
+      "context": "return_type",
+      "confidence_score": 1.0,
+      "source": "service_notificationsettingsservice_notificationsettingsservice_getcurrententity",
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_notificationsettingsservice_java_notificationsetting"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
+      "source_location": "L143",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "confidence_score": 1.0,
+      "source": "service_notificationsettingsservice_notificationsettingsservice_todto",
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_notificationsettingsservice_java_notificationsetting"
     },
     {
       "relation": "references",
@@ -108442,17 +108730,6 @@
       "target": "service_notificationsettingsservice_notificationsettingsservice_validate"
     },
     {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
-      "source_location": "L75",
-      "weight": 1.0,
-      "context": "return_type",
-      "confidence_score": 1.0,
-      "source": "service_notificationsettingsservice_notificationsettingsservice_getcurrententity",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_notificationsettingsservice_java_notificationsetting"
-    },
-    {
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
@@ -108475,28 +108752,6 @@
       "target": "service_notificationsettingsservice_notificationsettingsservice_validcronordefault"
     },
     {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
-      "source_location": "L92",
-      "weight": 1.0,
-      "context": "parameter_type",
-      "confidence_score": 1.0,
-      "source": "service_notificationsettingsservice_notificationsettingsservice_apply",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_notificationsettingsservice_java_notificationsetting"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
-      "source_location": "L143",
-      "weight": 1.0,
-      "context": "parameter_type",
-      "confidence_score": 1.0,
-      "source": "service_notificationsettingsservice_notificationsettingsservice_todto",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_notificationsettingsservice_java_notificationsetting"
-    },
-    {
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
@@ -108514,9 +108769,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
       "source_location": "L104",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_notificationsettingsservice_notificationsettingsservice_apply",
-      "target": "service_notificationsettingsservice_notificationsettingsservice_todailycron",
-      "confidence_score": 1.0
+      "target": "service_notificationsettingsservice_notificationsettingsservice_todailycron"
     },
     {
       "relation": "calls",
@@ -108525,9 +108780,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
       "source_location": "L117",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_notificationsettingsservice_notificationsettingsservice_validate",
-      "target": "service_notificationsettingsservice_notificationsettingsservice_parsescantime",
-      "confidence_score": 1.0
+      "target": "service_notificationsettingsservice_notificationsettingsservice_parsescantime"
     },
     {
       "relation": "calls",
@@ -108536,9 +108791,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
       "source_location": "L142",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_notificationsettingsservice_notificationsettingsservice_toscantime",
-      "target": "service_notificationsettingsservice_notificationsettingsservice_validcronordefault",
-      "confidence_score": 1.0
+      "target": "service_notificationsettingsservice_notificationsettingsservice_validcronordefault"
     },
     {
       "relation": "references",
@@ -108569,9 +108824,9 @@
       "source_location": "L125",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "service_notificationsettingsservice_notificationsettingsservice_parsescantime",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_notificationsettingsservice_java_string",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_notificationsettingsservice_java_string"
     },
     {
       "relation": "references",
@@ -108591,9 +108846,9 @@
       "source_location": "L136",
       "weight": 1.0,
       "context": "return_type",
+      "confidence_score": 1.0,
       "source": "service_notificationsettingsservice_notificationsettingsservice_todailycron",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_notificationsettingsservice_java_string",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_notificationsettingsservice_java_string"
     },
     {
       "relation": "references",
@@ -108602,9 +108857,9 @@
       "source_location": "L141",
       "weight": 1.0,
       "context": "return_type",
+      "confidence_score": 1.0,
       "source": "service_notificationsettingsservice_notificationsettingsservice_toscantime",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_notificationsettingsservice_java_string",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_service_notificationsettingsservice_java_string"
     },
     {
       "relation": "references",
@@ -108624,9 +108879,9 @@
       "source_location": "L125",
       "weight": 1.0,
       "context": "return_type",
+      "confidence_score": 1.0,
       "source": "service_notificationsettingsservice_notificationsettingsservice_parsescantime",
-      "target": "localtime",
-      "confidence_score": 1.0
+      "target": "localtime"
     },
     {
       "relation": "calls",
@@ -108635,9 +108890,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
       "source_location": "L137",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_notificationsettingsservice_notificationsettingsservice_todailycron",
-      "target": "service_notificationsettingsservice_notificationsettingsservice_parsescantime",
-      "confidence_score": 1.0
+      "target": "service_notificationsettingsservice_notificationsettingsservice_parsescantime"
     },
     {
       "relation": "calls",
@@ -108646,9 +108901,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java",
       "source_location": "L189",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_notificationsettingsservice_notificationsettingsservice_todto",
-      "target": "service_notificationsettingsservice_notificationsettingsservice_toscantime",
-      "confidence_score": 1.0
+      "target": "service_notificationsettingsservice_notificationsettingsservice_toscantime"
     },
     {
       "relation": "references",
@@ -126000,9 +126255,9 @@
       "source_file": "cmms_back_end/src/main/resources/NOTIFICATION_CONFIGURATION.md",
       "source_location": "L263",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "resources_notification_configuration_notification_configuration",
-      "target": "resources_notification_configuration_daily_scan_time_examples",
-      "confidence_score": 1.0
+      "target": "resources_notification_configuration_daily_scan_time_examples"
     },
     {
       "relation": "contains",
@@ -129016,5 +129271,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "d286f7d8fb346f7e6c2a82954015efcdbf2cfe28"
+  "built_at_commit": "b69f1953b0cd698420732c3aa43d8e59d1be900a"
 }

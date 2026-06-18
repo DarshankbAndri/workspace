@@ -8,6 +8,7 @@ public class NotificationSettingDTO {
     private Long id;
     private Boolean enabled;
     private Boolean inAppEnabled;
+    private Boolean emailEnabled;
     private Boolean pmDueReminderEnabled;
     private Boolean overdueRequestEnabled;
     private Boolean approvalPendingEnabled;
@@ -28,6 +29,8 @@ public class NotificationSettingDTO {
     public void setEnabled(Boolean enabled) { this.enabled = enabled; }
     public Boolean getInAppEnabled() { return inAppEnabled; }
     public void setInAppEnabled(Boolean inAppEnabled) { this.inAppEnabled = inAppEnabled; }
+    public Boolean getEmailEnabled() { return emailEnabled; }
+    public void setEmailEnabled(Boolean emailEnabled) { this.emailEnabled = emailEnabled; }
     public Boolean getPmDueReminderEnabled() { return pmDueReminderEnabled; }
     public void setPmDueReminderEnabled(Boolean pmDueReminderEnabled) { this.pmDueReminderEnabled = pmDueReminderEnabled; }
     public Boolean getOverdueRequestEnabled() { return overdueRequestEnabled; }

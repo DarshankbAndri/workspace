@@ -43,11 +43,22 @@ public class NotificationSettingsService {
     @EventListener(ApplicationReadyEvent.class)
     public void seedDefaultsIfMissing() {
         if (settingDAO.count() > 0) {
+            settingDAO.findCurrent()
+                    .filter((setting) -> setting.getEmailEnabled() == null)
+                    .ifPresent((setting) -> {
+                        setting.setEmailEnabled(properties.isEmailEnabled());
+                        settingDAO.save(setting);
+                    });
             return;
         }
+        settingDAO.save(createDefaultSetting());
+    }
+
+    private NotificationSetting createDefaultSetting() {
         NotificationSetting setting = new NotificationSetting();
         setting.setEnabled(properties.isEnabled());
         setting.setInAppEnabled(properties.isInAppEnabled());
+        setting.setEmailEnabled(properties.isEmailEnabled());
         setting.setPmDueReminderEnabled(properties.isPmDueReminderEnabled());
         setting.setOverdueRequestEnabled(properties.isOverdueRequestEnabled());
         setting.setApprovalPendingEnabled(properties.isApprovalPendingEnabled());
@@ -56,7 +67,7 @@ public class NotificationSettingsService {
         setting.setPmRecipientRoleCodes(joinRoles(properties.getPmRecipientRoleCodes()));
         setting.setOverdueRecipientRoleCodes(joinRoles(properties.getOverdueRecipientRoleCodes()));
         setting.setApprovalFallbackRoleCodes(joinRoles(properties.getApprovalFallbackRoleCodes()));
-        settingDAO.save(setting);
+        return setting;
     }
 
     public NotificationSettingDTO getForAdmin() {
@@ -78,25 +89,18 @@ public class NotificationSettingsService {
     }
 
     private NotificationSetting getCurrentEntity() {
-        return settingDAO.findCurrent().orElseGet(() -> {
-            NotificationSetting setting = new NotificationSetting();
-            setting.setEnabled(properties.isEnabled());
-            setting.setInAppEnabled(properties.isInAppEnabled());
-            setting.setPmDueReminderEnabled(properties.isPmDueReminderEnabled());
-            setting.setOverdueRequestEnabled(properties.isOverdueRequestEnabled());
-            setting.setApprovalPendingEnabled(properties.isApprovalPendingEnabled());
-            setting.setPmReminderDays(Math.max(properties.getPmReminderDays(), 0));
-            setting.setScanCron(validCronOrDefault(properties.getScanCron()));
-            setting.setPmRecipientRoleCodes(joinRoles(properties.getPmRecipientRoleCodes()));
-            setting.setOverdueRecipientRoleCodes(joinRoles(properties.getOverdueRecipientRoleCodes()));
-            setting.setApprovalFallbackRoleCodes(joinRoles(properties.getApprovalFallbackRoleCodes()));
+        NotificationSetting setting = settingDAO.findCurrent().orElseGet(() -> settingDAO.save(createDefaultSetting()));
+        if (setting.getEmailEnabled() == null) {
+            setting.setEmailEnabled(properties.isEmailEnabled());
             return settingDAO.save(setting);
-        });
+        }
+        return setting;
     }
 
     private void apply(NotificationSetting setting, NotificationSettingDTO dto) {
         setting.setEnabled(Boolean.TRUE.equals(dto.getEnabled()));
         setting.setInAppEnabled(Boolean.TRUE.equals(dto.getInAppEnabled()));
+        setting.setEmailEnabled(Boolean.TRUE.equals(dto.getEmailEnabled()));
         setting.setPmDueReminderEnabled(Boolean.TRUE.equals(dto.getPmDueReminderEnabled()));
         setting.setOverdueRequestEnabled(Boolean.TRUE.equals(dto.getOverdueRequestEnabled()));
         setting.setApprovalPendingEnabled(Boolean.TRUE.equals(dto.getApprovalPendingEnabled()));
@@ -181,6 +185,7 @@ public class NotificationSettingsService {
         dto.setId(setting.getId());
         dto.setEnabled(setting.getEnabled());
         dto.setInAppEnabled(setting.getInAppEnabled());
+        dto.setEmailEnabled(Boolean.TRUE.equals(setting.getEmailEnabled()));
         dto.setPmDueReminderEnabled(setting.getPmDueReminderEnabled());
         dto.setOverdueRequestEnabled(setting.getOverdueRequestEnabled());
         dto.setApprovalPendingEnabled(setting.getApprovalPendingEnabled());

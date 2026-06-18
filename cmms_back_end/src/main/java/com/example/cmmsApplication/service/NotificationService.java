@@ -1,6 +1,5 @@
 package com.example.cmmsApplication.service;
 
-import com.example.cmmsApplication.config.NotificationProperties;
 import com.example.cmmsApplication.dao.NotificationDAO;
 import com.example.cmmsApplication.dto.NotificationDTO;
 import com.example.cmmsApplication.dto.NotificationSettingDTO;
@@ -35,7 +34,6 @@ public class NotificationService {
     private final AccessControlService accessControlService;
     private final UserRoleAssignmentRepository userRoleAssignmentRepository;
     private final UserRepository userRepository;
-    private final NotificationProperties properties;
     private final NotificationSettingsService notificationSettingsService;
     private final EmailNotificationService emailNotificationService;
 
@@ -43,14 +41,12 @@ public class NotificationService {
                                AccessControlService accessControlService,
                                UserRoleAssignmentRepository userRoleAssignmentRepository,
                                UserRepository userRepository,
-                               NotificationProperties properties,
                                NotificationSettingsService notificationSettingsService,
                                EmailNotificationService emailNotificationService) {
         this.notificationDAO = notificationDAO;
         this.accessControlService = accessControlService;
         this.userRoleAssignmentRepository = userRoleAssignmentRepository;
         this.userRepository = userRepository;
-        this.properties = properties;
         this.notificationSettingsService = notificationSettingsService;
         this.emailNotificationService = emailNotificationService;
     }
@@ -138,11 +134,13 @@ public class NotificationService {
     private void notifyRoleRecipients(NotificationSettingDTO settings, Collection<String> roleCodes, Site site, String type, String title, String message,
                                       String moduleCode, Long referenceId, String referenceCode, String targetUrl,
                                       String priority, String dedupeBase) {
-        if (!Boolean.TRUE.equals(settings.getInAppEnabled()) && !properties.isEmailEnabled()) {
+        boolean inAppEnabled = Boolean.TRUE.equals(settings.getInAppEnabled());
+        boolean emailEnabled = Boolean.TRUE.equals(settings.getEmailEnabled());
+        if (!inAppEnabled && !emailEnabled) {
             return;
         }
         resolveRecipients(roleCodes, site == null ? null : site.getId()).forEach((user) -> createForUser(user, site, type, title, message,
-                moduleCode, referenceId, referenceCode, targetUrl, priority, dedupeBase + ":USER:" + user.getId(), Boolean.TRUE.equals(settings.getInAppEnabled())));
+                moduleCode, referenceId, referenceCode, targetUrl, priority, dedupeBase + ":USER:" + user.getId(), inAppEnabled, emailEnabled));
     }
 
     private List<User> resolveRecipients(Collection<String> roleCodes, Long siteId) {
@@ -166,7 +164,8 @@ public class NotificationService {
     }
 
     private void createForUser(User user, Site site, String type, String title, String message, String moduleCode,
-                               Long referenceId, String referenceCode, String targetUrl, String priority, String dedupeKey, boolean inAppEnabled) {
+                               Long referenceId, String referenceCode, String targetUrl, String priority, String dedupeKey,
+                               boolean inAppEnabled, boolean emailEnabled) {
         if (user == null || notificationDAO.existsByDedupeKey(dedupeKey)) {
             return;
         }
@@ -183,9 +182,9 @@ public class NotificationService {
         notification.setPriority(priority == null || priority.isBlank() ? "MEDIUM" : priority);
         notification.setDedupeKey(dedupeKey);
         notification.setStatus(inAppEnabled ? "UNREAD" : "ARCHIVED");
-        notification.setEmailStatus(properties.isEmailEnabled() ? "PENDING" : "NOT_REQUIRED");
+        notification.setEmailStatus(emailEnabled ? "PENDING" : "NOT_REQUIRED");
         Notification saved = notificationDAO.save(notification);
-        if (properties.isEmailEnabled()) {
+        if (emailEnabled) {
             try {
                 if (emailNotificationService.send(saved)) {
                     saved.setEmailStatus("SENT");
@@ -210,7 +209,8 @@ public class NotificationService {
     }
 
     private boolean isEnabled(NotificationSettingDTO settings) {
-        return Boolean.TRUE.equals(settings.getEnabled()) && (Boolean.TRUE.equals(settings.getInAppEnabled()) || properties.isEmailEnabled());
+        return Boolean.TRUE.equals(settings.getEnabled())
+                && (Boolean.TRUE.equals(settings.getInAppEnabled()) || Boolean.TRUE.equals(settings.getEmailEnabled()));
     }
 
     private NotificationDTO toDTO(Notification notification) {

@@ -19,9 +19,6 @@ public class EmailNotificationService {
     }
 
     public boolean send(Notification notification) {
-        if (!properties.isEmailEnabled()) {
-            return false;
-        }
         User recipient = notification.getRecipientUser();
         if (recipient == null || recipient.getEmail() == null || recipient.getEmail().isBlank()) {
             return false;

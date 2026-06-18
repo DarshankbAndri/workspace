@@ -101,4 +101,13 @@
         </preConditions>
         <addForeignKeyConstraint constraintName="fk_notification_setting_updated_by" baseTableName="notification_setting" baseColumnNames="updated_by" referencedTableName="users" referencedColumnNames="id"/>
     </changeSet>
+
+    <changeSet id="cmms-notification-setting-email-enabled" author="codex">
+        <preConditions onFail="MARK_RAN">
+            <not><columnExists tableName="notification_setting" columnName="email_enabled"/></not>
+        </preConditions>
+        <addColumn tableName="notification_setting">
+            <column name="email_enabled" type="BOOLEAN"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

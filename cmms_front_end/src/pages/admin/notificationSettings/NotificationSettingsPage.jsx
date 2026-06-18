@@ -22,6 +22,7 @@ import { getNotificationSettings, updateNotificationSettings } from '../../../se
 const initialForm = {
   enabled: true,
   inAppEnabled: true,
+  emailEnabled: false,
   pmDueReminderEnabled: true,
   overdueRequestEnabled: true,
   approvalPendingEnabled: true,
@@ -126,6 +127,7 @@ function NotificationSettingsPage() {
             <Stack spacing={1}>
               <FormControlLabel control={<Switch checked={Boolean(form.enabled)} onChange={updateSwitch('enabled')} />} label="Notifications Enabled" />
               <FormControlLabel control={<Switch checked={Boolean(form.inAppEnabled)} onChange={updateSwitch('inAppEnabled')} />} label="In-App Notifications" />
+              <FormControlLabel control={<Switch checked={Boolean(form.emailEnabled)} onChange={updateSwitch('emailEnabled')} />} label="Email Notifications" />
               <FormControlLabel control={<Switch checked={Boolean(form.pmDueReminderEnabled)} onChange={updateSwitch('pmDueReminderEnabled')} />} label="PM Due Reminders" />
               <FormControlLabel control={<Switch checked={Boolean(form.overdueRequestEnabled)} onChange={updateSwitch('overdueRequestEnabled')} />} label="Overdue Request Alerts" />
               <FormControlLabel control={<Switch checked={Boolean(form.approvalPendingEnabled)} onChange={updateSwitch('approvalPendingEnabled')} />} label="Approval Pending Alerts" />

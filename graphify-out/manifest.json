@@ -1190,8 +1190,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/service/EmailNotificationService.java": {
-    "mtime": 1781688244.2743402,
-    "ast_hash": "2a68c5087f41bcc4f9589304ed6780fe",
+    "mtime": 1781691944.0786202,
+    "ast_hash": "1f6add69fcefe220ef56f164c518e60e",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSchedulerService.java": {
@@ -1200,8 +1200,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationService.java": {
-    "mtime": 1781688186.4197233,
-    "ast_hash": "6d316426ffc21e0aa121cdf80250b76f",
+    "mtime": 1781691938.8027518,
+    "ast_hash": "f8cd2433156a030fc2c8e28ed9fa14a2",
     "semantic_hash": ""
   },
   "cmms_front_end/src/pages/notifications/NotificationCenterPage.jsx": {
@@ -1230,13 +1230,13 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/NotificationSettingDTO.java": {
-    "mtime": 1781691161.240417,
-    "ast_hash": "69717efc8d86a3094cf2e738cd5beaa6",
+    "mtime": 1781691904.6196804,
+    "ast_hash": "b348202ac7c5cd3655035d308defcda8",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/entity/NotificationSetting.java": {
-    "mtime": 1781688071.1234612,
-    "ast_hash": "970d0f5b047993c9d5e864717010cfd6",
+    "mtime": 1781691897.5617468,
+    "ast_hash": "8b878f421904d984cf9602c575672f6f",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/repository/NotificationSettingRepository.java": {
@@ -1250,13 +1250,13 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/service/NotificationSettingsService.java": {
-    "mtime": 1781691161.2492275,
-    "ast_hash": "48225339d7793993ede2e78e845eead0",
+    "mtime": 1781691921.4767315,
+    "ast_hash": "41991627658b6bf9fbebc064bf1ebf71",
     "semantic_hash": ""
   },
   "cmms_front_end/src/pages/admin/notificationSettings/NotificationSettingsPage.jsx": {
-    "mtime": 1781691176.232197,
-    "ast_hash": "e3db51f0f972950c81c526574ed07c4e",
+    "mtime": 1781691960.3531542,
+    "ast_hash": "8c262014c30ab2269a7c7a633a0a043f",
     "semantic_hash": ""
   },
   "cmms_front_end/src/services/notificationSettingsService.js": {
@@ -1265,8 +1265,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/resources/NOTIFICATION_CONFIGURATION.md": {
-    "mtime": 1781691194.6780012,
-    "ast_hash": "04e209e172447d57578d999d7cb066a5",
+    "mtime": 1781692044.8285086,
+    "ast_hash": "c0ec250247d2f4f0f34cb6aaaa7b8b15",
     "semantic_hash": ""
   }
 }

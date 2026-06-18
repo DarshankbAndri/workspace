@@ -20,7 +20,7 @@ The backend also keeps startup defaults in:
 cmms_back_end/src/main/resources/application.properties
 ```
 
-Those properties are used only when the `notification_setting` database table is empty. On first startup, the application seeds one settings row from `application.properties`. After that, UI/database values are the source of truth for notification behavior.
+Those properties are used only when the `notification_setting` database table is empty, or when a new setting column needs a first startup value. On startup, the application seeds/backfills settings from `application.properties` only when needed. After that, UI/database values are the source of truth for notification behavior.
 
 ## Current Configuration
 
@@ -41,7 +41,7 @@ cmms.notification.approval-fallback-role-codes=ADMIN,SUPER_ADMIN
 cmms.notification.from-address=cmms@localhost
 ```
 
-The UI does not edit SMTP/server email settings. Email delivery stays controlled by `cmms.notification.email-enabled`, `cmms.notification.from-address`, and the `spring.mail.*` properties in `application.properties`.
+The UI can enable or disable email notification delivery. The UI does not edit SMTP/server email settings. `cmms.notification.from-address` and the `spring.mail.*` properties stay in `application.properties`.
 
 ## Property Details
 
@@ -49,7 +49,7 @@ The UI does not edit SMTP/server email settings. Email delivery stays controlled
 | --- | --- | --- |
 | `cmms.notification.enabled` | `true` | Startup default for the master switch. Runtime value is editable in the UI. |
 | `cmms.notification.in-app-enabled` | `true` | Startup default for notification records in the bell and `/notifications`. Runtime value is editable in the UI. |
-| `cmms.notification.email-enabled` | `false` | Server-side email delivery switch. Not editable in the UI. |
+| `cmms.notification.email-enabled` | `false` | Startup default for email notification delivery. Runtime value is editable in the UI. |
 | `cmms.notification.pm-due-reminder-enabled` | `true` | Startup default for scheduled PM due reminders. Runtime value is editable in the UI. |
 | `cmms.notification.overdue-request-enabled` | `true` | Startup default for overdue request alerts. Runtime value is editable in the UI. |
 | `cmms.notification.approval-pending-enabled` | `true` | Startup default for approval pending alerts. Runtime value is editable in the UI. |
@@ -86,6 +86,7 @@ The page supports:
 
 - Global notification enable/disable
 - In-app notification enable/disable
+- Email notification enable/disable
 - PM due reminder enable/disable
 - Overdue request alert enable/disable
 - Approval pending alert enable/disable
@@ -199,23 +200,22 @@ When enabled:
 When disabled:
 
 - New in-app notification records are not created.
-- Email can still be used only if `email-enabled=true`.
+- Email can still be used only if **Email Notifications** is enabled in the UI.
 
 ## Email Notifications
 
-Controlled by:
+Startup/server values:
 
 ```properties
 cmms.notification.email-enabled=false
 cmms.notification.from-address=cmms@localhost
 ```
 
-Email is disabled by default. To enable it, configure SMTP properties and then set email enabled to `true`.
+Email is disabled by default. To enable it, configure SMTP properties and then turn on **Email Notifications** in `Admin > Notification Settings`. The `cmms.notification.email-enabled` property is only the startup/default value.
 
 Example SMTP configuration:
 
 ```properties
-cmms.notification.email-enabled=true
 cmms.notification.from-address=cmms@example.com
 
 spring.mail.host=smtp.example.com
@@ -233,6 +233,7 @@ Behavior:
 - If sending succeeds, `emailStatus` becomes `SENT`.
 - If sending fails or SMTP is unavailable, `emailStatus` becomes `FAILED`.
 - The in-app notification still exists even if email fails.
+- SMTP host, port, username, password, and sender address are not editable in the UI.
 
 ## Recipient Role-Code Lists
 
@@ -294,48 +295,48 @@ Example:
 
 Disable all notifications:
 
-```properties
-cmms.notification.enabled=false
+```text
+Notifications Enabled = off
 ```
 
 Use only in-app notifications:
 
-```properties
-cmms.notification.enabled=true
-cmms.notification.in-app-enabled=true
-cmms.notification.email-enabled=false
+```text
+Notifications Enabled = on
+In-App Notifications = on
+Email Notifications = off
 ```
 
 Use in-app and email notifications:
 
-```properties
-cmms.notification.enabled=true
-cmms.notification.in-app-enabled=true
-cmms.notification.email-enabled=true
+```text
+Notifications Enabled = on
+In-App Notifications = on
+Email Notifications = on
 ```
 
 Disable only PM due reminders:
 
-```properties
-cmms.notification.pm-due-reminder-enabled=false
+```text
+PM Due Reminders = off
 ```
 
 Disable only overdue request alerts:
 
-```properties
-cmms.notification.overdue-request-enabled=false
+```text
+Overdue Request Alerts = off
 ```
 
 Disable only approval pending alerts:
 
-```properties
-cmms.notification.approval-pending-enabled=false
+```text
+Approval Pending Alerts = off
 ```
 
 Increase PM reminder window to 7 days:
 
-```properties
-cmms.notification.pm-reminder-days=7
+```text
+PM Reminder Days = 7
 ```
 
 ## Important Notes

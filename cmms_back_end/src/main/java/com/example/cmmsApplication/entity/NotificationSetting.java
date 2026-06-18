@@ -17,6 +17,9 @@ public class NotificationSetting {
     @Column(name = "in_app_enabled", nullable = false)
     private Boolean inAppEnabled = true;
 
+    @Column(name = "email_enabled")
+    private Boolean emailEnabled = false;
+
     @Column(name = "pm_due_reminder_enabled", nullable = false)
     private Boolean pmDueReminderEnabled = true;
 
@@ -68,6 +71,8 @@ public class NotificationSetting {
     public void setEnabled(Boolean enabled) { this.enabled = enabled; }
     public Boolean getInAppEnabled() { return inAppEnabled; }
     public void setInAppEnabled(Boolean inAppEnabled) { this.inAppEnabled = inAppEnabled; }
+    public Boolean getEmailEnabled() { return emailEnabled; }
+    public void setEmailEnabled(Boolean emailEnabled) { this.emailEnabled = emailEnabled; }
     public Boolean getPmDueReminderEnabled() { return pmDueReminderEnabled; }
     public void setPmDueReminderEnabled(Boolean pmDueReminderEnabled) { this.pmDueReminderEnabled = pmDueReminderEnabled; }
     public Boolean getOverdueRequestEnabled() { return overdueRequestEnabled; }
