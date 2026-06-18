@@ -2,6 +2,7 @@ package com.example.cmmsApplication.service;
 
 import com.example.cmmsApplication.dao.NotificationDAO;
 import com.example.cmmsApplication.dto.NotificationDTO;
+import com.example.cmmsApplication.dto.NotificationPageDTO;
 import com.example.cmmsApplication.dto.NotificationSettingDTO;
 import com.example.cmmsApplication.entity.ApprovalRequest;
 import com.example.cmmsApplication.entity.MaintenanceRequest;
@@ -14,8 +15,12 @@ import com.example.cmmsApplication.exception.ResourceNotFoundException;
 import com.example.cmmsApplication.exception.UnauthorizedAccessException;
 import com.example.cmmsApplication.repository.UserRepository;
 import com.example.cmmsApplication.repository.UserRoleAssignmentRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -36,19 +41,22 @@ public class NotificationService {
     private final UserRepository userRepository;
     private final NotificationSettingsService notificationSettingsService;
     private final EmailNotificationService emailNotificationService;
+    private final NotificationStreamService notificationStreamService;
 
     public NotificationService(NotificationDAO notificationDAO,
                                AccessControlService accessControlService,
                                UserRoleAssignmentRepository userRoleAssignmentRepository,
                                UserRepository userRepository,
                                NotificationSettingsService notificationSettingsService,
-                               EmailNotificationService emailNotificationService) {
+                               EmailNotificationService emailNotificationService,
+                               NotificationStreamService notificationStreamService) {
         this.notificationDAO = notificationDAO;
         this.accessControlService = accessControlService;
         this.userRoleAssignmentRepository = userRoleAssignmentRepository;
         this.userRepository = userRepository;
         this.notificationSettingsService = notificationSettingsService;
         this.emailNotificationService = emailNotificationService;
+        this.notificationStreamService = notificationStreamService;
     }
 
     @Transactional(readOnly = true)
@@ -58,8 +66,30 @@ public class NotificationService {
     }
 
     @Transactional(readOnly = true)
+    public NotificationPageDTO searchMine(String status, String type, String priority, String search, Integer page, Integer size) {
+        Long userId = accessControlService.getCurrentUserId();
+        int pageNumber = Math.max(page == null ? 0 : page, 0);
+        int pageSize = Math.min(Math.max(size == null ? 20 : size, 1), 100);
+        Page<NotificationDTO> result = notificationDAO.searchMine(
+                        userId,
+                        emptyToNull(status),
+                        emptyToNull(type),
+                        emptyToNull(priority),
+                        emptyToNull(search),
+                        PageRequest.of(pageNumber, pageSize, Sort.by(Sort.Direction.DESC, "createdAt")))
+                .map(this::toDTO);
+        return new NotificationPageDTO(result.getContent(), result.getTotalElements(), result.getTotalPages(), result.getNumber(), result.getSize());
+    }
+
+    @Transactional(readOnly = true)
     public long getUnreadCount() {
         return notificationDAO.countUnreadByRecipientUserId(accessControlService.getCurrentUserId());
+    }
+
+    @Transactional(readOnly = true)
+    public SseEmitter subscribeMine() {
+        Long userId = accessControlService.getCurrentUserId();
+        return notificationStreamService.subscribe(userId, notificationDAO.countUnreadByRecipientUserId(userId));
     }
 
     public NotificationDTO markRead(Long id) {
@@ -68,7 +98,12 @@ public class NotificationService {
             notification.setStatus("READ");
             notification.setReadAt(LocalDateTime.now());
         }
-        return toDTO(notificationDAO.save(notification));
+        Notification saved = notificationDAO.save(notification);
+        NotificationDTO dto = toDTO(saved);
+        Long userId = saved.getRecipientUser().getId();
+        notificationStreamService.publishUpdated(userId, dto);
+        notificationStreamService.publishUnreadCount(userId, notificationDAO.countUnreadByRecipientUserId(userId));
+        return dto;
     }
 
     public void markAllRead() {
@@ -80,12 +115,16 @@ public class NotificationService {
                 notificationDAO.save(notification);
             }
         });
+        notificationStreamService.publishUnreadCount(userId, notificationDAO.countUnreadByRecipientUserId(userId));
     }
 
     public void archive(Long id) {
         Notification notification = getOwnedNotification(id);
         notification.setStatus("ARCHIVED");
-        notificationDAO.save(notification);
+        Notification saved = notificationDAO.save(notification);
+        Long userId = saved.getRecipientUser().getId();
+        notificationStreamService.publishUpdated(userId, toDTO(saved));
+        notificationStreamService.publishUnreadCount(userId, notificationDAO.countUnreadByRecipientUserId(userId));
     }
 
     public void createPmDueReminder(PreventiveMaintenanceSchedule schedule, LocalDate runDate) {
@@ -184,6 +223,10 @@ public class NotificationService {
         notification.setStatus(inAppEnabled ? "UNREAD" : "ARCHIVED");
         notification.setEmailStatus(emailEnabled ? "PENDING" : "NOT_REQUIRED");
         Notification saved = notificationDAO.save(notification);
+        if (inAppEnabled) {
+            notificationStreamService.publishCreated(user.getId(), toDTO(saved));
+            notificationStreamService.publishUnreadCount(user.getId(), notificationDAO.countUnreadByRecipientUserId(user.getId()));
+        }
         if (emailEnabled) {
             try {
                 if (emailNotificationService.send(saved)) {
@@ -211,6 +254,10 @@ public class NotificationService {
     private boolean isEnabled(NotificationSettingDTO settings) {
         return Boolean.TRUE.equals(settings.getEnabled())
                 && (Boolean.TRUE.equals(settings.getInAppEnabled()) || Boolean.TRUE.equals(settings.getEmailEnabled()));
+    }
+
+    private String emptyToNull(String value) {
+        return value == null || value.trim().isEmpty() ? null : value.trim();
     }
 
     private NotificationDTO toDTO(Notification notification) {

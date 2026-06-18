@@ -21,7 +21,13 @@ import {
 } from '@mui/material';
 import { Logout, Menu as MenuIcon, Notifications, PrecisionManufacturing } from '@mui/icons-material';
 import { useAuth } from '../context/AuthContext';
-import { getNotifications, getUnreadNotificationCount, markAllNotificationsRead, markNotificationRead } from '../services/notificationService';
+import {
+  getNotificationList,
+  getUnreadNotificationCount,
+  markAllNotificationsRead,
+  markNotificationRead,
+  subscribeToNotificationStream,
+} from '../services/notificationService';
 import { getCurrentCompany, resolveCompanyLogoUrl } from '../services/companyService';
 
 function TopNavbar({ onMenuClick }) {
@@ -34,7 +40,7 @@ function TopNavbar({ onMenuClick }) {
   const [unreadCount, setUnreadCount] = React.useState(0);
 
   const loadNotifications = React.useCallback(() => {
-    Promise.all([getNotifications(), getUnreadNotificationCount()])
+    Promise.all([getNotificationList({ page: 0, size: 6 }), getUnreadNotificationCount()])
       .then(([items, count]) => {
         setNotifications((items || []).slice(0, 6));
         setUnreadCount(count || 0);
@@ -51,8 +57,23 @@ function TopNavbar({ onMenuClick }) {
 
   React.useEffect(() => {
     loadNotifications();
-    const timer = window.setInterval(loadNotifications, 60000);
-    return () => window.clearInterval(timer);
+    return subscribeToNotificationStream({
+      onCreated: (notification) => {
+        if (notification.status === 'ARCHIVED') {
+          return;
+        }
+        setNotifications((current) => [notification, ...current.filter((item) => item.id !== notification.id)].slice(0, 6));
+      },
+      onUpdated: (notification) => {
+        setNotifications((current) => {
+          if (notification.status === 'ARCHIVED') {
+            return current.filter((item) => item.id !== notification.id);
+          }
+          return current.map((item) => (item.id === notification.id ? notification : item));
+        });
+      },
+      onCount: setUnreadCount,
+    });
   }, [loadNotifications]);
 
   const openNotifications = (event) => {
