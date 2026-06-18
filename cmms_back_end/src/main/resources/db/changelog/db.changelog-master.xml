@@ -11,6 +11,7 @@
     <include file="db/changelog/changes/005-link-users-to-employees.xml"/>
     <include file="db/changelog/cmms/role_master.xml"/>
     <include file="db/changelog/cmms/permission_master.xml"/>
+    <include file="db/changelog/cmms/company_master.xml"/>
     <include file="db/changelog/cmms/vendor_master.xml"/>
     <include file="db/changelog/cmms/equipment_master.xml"/>
     <include file="db/changelog/cmms/employee_site_assignment.xml"/>

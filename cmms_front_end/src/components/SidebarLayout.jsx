@@ -1,9 +1,6 @@
 import React from 'react';
-import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import {
-  AppBar,
-  Avatar,
-  Badge,
   Box,
   ButtonBase,
   Collapse,
@@ -14,9 +11,7 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  Popover,
   Stack,
-  Toolbar,
   Tooltip,
   Typography,
   alpha,
@@ -38,8 +33,6 @@ import {
   FactCheck,
   History,
   LightMode,
-  Logout,
-  Menu,
   Notifications,
   People,
   Place,
@@ -49,7 +42,7 @@ import {
   Timeline,
 } from '@mui/icons-material';
 import { useAuth } from '../context/AuthContext';
-import { getNotifications, getUnreadNotificationCount, markAllNotificationsRead, markNotificationRead } from '../services/notificationService';
+import TopNavbar from './TopNavbar';
 
 const drawerWidth = 280;
 const collapsedWidth = 76;
@@ -124,6 +117,7 @@ const adminGroups = [
       { label: 'User Roles', path: '/admin/user-roles', icon: <People />, permission: 'USER_ROLE_VIEW' },
       { label: 'Approval Config', path: '/admin/approval-config', icon: <Rule />, permission: 'APPROVAL_CONFIG_VIEW' },
       { label: 'Notification Settings', path: '/admin/notification-settings', icon: <Notifications />, permission: 'NOTIFICATION_CONFIG_VIEW' },
+      { label: 'Company Master', path: '/admin/company', icon: <Business />, permission: 'COMPANY_VIEW' },
     ],
   },
 ];
@@ -209,8 +203,7 @@ function SidebarLayout({ children, mode, onToggleMode }) {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
   const location = useLocation();
-  const navigate = useNavigate();
-  const { user, logout, hasPermission, hasAnyPermission } = useAuth();
+  const { hasPermission, hasAnyPermission } = useAuth();
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [collapsed, setCollapsed] = React.useState(() => localStorage.getItem('cmmsSidebarCollapsed') === 'true');
   const [selectedCategory, setSelectedCategory] = React.useState('operation');
@@ -222,9 +215,6 @@ function SidebarLayout({ children, mode, onToggleMode }) {
     creation: true,
     adminAccess: true,
   });
-  const [notificationAnchor, setNotificationAnchor] = React.useState(null);
-  const [notifications, setNotifications] = React.useState([]);
-  const [unreadCount, setUnreadCount] = React.useState(0);
 
   React.useEffect(() => {
     if (location.pathname.startsWith('/admin')) {
@@ -233,24 +223,6 @@ function SidebarLayout({ children, mode, onToggleMode }) {
       setSelectedCategory(location.pathname.startsWith('/hr') ? 'hr' : 'operation');
     }
   }, [location.pathname]);
-
-  const loadNotifications = React.useCallback(() => {
-    Promise.all([getNotifications(), getUnreadNotificationCount()])
-      .then(([items, count]) => {
-        setNotifications((items || []).slice(0, 6));
-        setUnreadCount(count || 0);
-      })
-      .catch(() => {
-        setNotifications([]);
-        setUnreadCount(0);
-      });
-  }, []);
-
-  React.useEffect(() => {
-    loadNotifications();
-    const timer = window.setInterval(loadNotifications, 60000);
-    return () => window.clearInterval(timer);
-  }, [loadNotifications]);
 
   const filterGroups = React.useCallback((groups) => groups
     .map((group) => ({
@@ -264,7 +236,7 @@ function SidebarLayout({ children, mode, onToggleMode }) {
   const visibleAdminGroups = React.useMemo(() => filterGroups(adminGroups), [filterGroups]);
   const canShowOperation = hasAnyPermission(['DASHBOARD_VIEW', 'EQUIPMENT_VIEW', 'VENDOR_VIEW', 'REQUEST_VIEW', 'ASSIGNMENT_VIEW', 'DOWNTIME_VIEW', 'REPORT_VIEW', 'APPROVAL_VIEW']);
   const canShowHr = hasAnyPermission(['SITE_VIEW', 'EMPLOYEE_VIEW']);
-  const canShowAdmin = hasAnyPermission(['ROLE_VIEW', 'PERMISSION_VIEW', 'USER_ROLE_VIEW', 'APPROVAL_CONFIG_VIEW', 'NOTIFICATION_CONFIG_VIEW']);
+  const canShowAdmin = hasAnyPermission(['ROLE_VIEW', 'PERMISSION_VIEW', 'USER_ROLE_VIEW', 'APPROVAL_CONFIG_VIEW', 'NOTIFICATION_CONFIG_VIEW', 'COMPANY_VIEW']);
 
   React.useEffect(() => {
     const currentGroups = selectedCategory === 'admin' ? visibleAdminGroups : selectedCategory === 'hr' ? visibleHrGroups : visibleOperationGroups;
@@ -284,34 +256,6 @@ function SidebarLayout({ children, mode, onToggleMode }) {
       localStorage.setItem('cmmsSidebarCollapsed', String(next));
       return next;
     });
-  };
-
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
-  };
-
-  const openNotifications = (event) => {
-    setNotificationAnchor(event.currentTarget);
-    loadNotifications();
-  };
-
-  const closeNotifications = () => setNotificationAnchor(null);
-
-  const openNotification = async (notification) => {
-    if (notification.status === 'UNREAD') {
-      await markNotificationRead(notification.id);
-    }
-    closeNotifications();
-    loadNotifications();
-    if (notification.targetUrl) {
-      navigate(notification.targetUrl);
-    }
-  };
-
-  const markNotificationsRead = async () => {
-    await markAllNotificationsRead();
-    loadNotifications();
   };
 
   const toggleGroup = (groupKey) => {
@@ -432,50 +376,7 @@ function SidebarLayout({ children, mode, onToggleMode }) {
             {mode === 'dark' ? <LightMode /> : <DarkMode />}
           </IconButton>
         </Tooltip>
-        <Tooltip title="Notifications">
-          <IconButton aria-label="Notifications" onClick={openNotifications}>
-            <Badge badgeContent={unreadCount} color="error" max={99}>
-              <Notifications />
-            </Badge>
-          </IconButton>
-        </Tooltip>
-        {!drawerIsCollapsed && (
-          <>
-            <Avatar sx={{ width: 36, height: 36, bgcolor: 'secondary.main', color: 'primary.main', fontWeight: 800 }}>
-              {user?.firstName?.[0]}{user?.lastName?.[0]}
-            </Avatar>
-            <Box sx={{ minWidth: 0, flex: 1 }}>
-              <Typography variant="body2" fontWeight={700} noWrap>{user?.firstName} {user?.lastName}</Typography>
-              <Typography variant="caption" color="text.secondary" noWrap>{user?.role}</Typography>
-            </Box>
-          </>
-        )}
-        <Tooltip title="Logout">
-          <IconButton aria-label="Logout" onClick={handleLogout}><Logout /></IconButton>
-        </Tooltip>
-        <Popover
-          open={Boolean(notificationAnchor)}
-          anchorEl={notificationAnchor}
-          onClose={closeNotifications}
-          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-          transformOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-        >
-          <Box sx={{ width: 360, maxWidth: '90vw', p: 1 }}>
-            <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ px: 1, py: 0.75 }}>
-              <Typography variant="subtitle2" fontWeight={800}>Notifications</Typography>
-              <ButtonBase onClick={markNotificationsRead} sx={{ px: 1, py: 0.5, borderRadius: 1, color: 'primary.main', fontSize: 13, fontWeight: 700 }}>
-                Mark read
-              </ButtonBase>
-            </Stack>
-            <Divider />
-            <List dense sx={{ py: 0.5, maxHeight: 360, overflowY: 'auto' }}>
-              {notifications.length === 0 && (
-                <Typography variant="body2" color="text.secondary" sx={{ p: 2 }}>No notifications.</Typography>
-              )}
-              {notifications.map((notification) => (
-                <ListItemButton key={notification.id} onClick={() => openNotification(notification)} sx={{ alignItems: 'flex-start', borderRadius: 1 }}>
-                  <ListItemText
-                    primary={notification.title}
+        {/*
                     secondary={`${notification.message}${notification.createdAt ? ` • ${new Date(notification.createdAt).toLocaleString()}` : ''}`}
                     primaryTypographyProps={{ fontSize: 14, fontWeight: notification.status === 'UNREAD' ? 800 : 600 }}
                     secondaryTypographyProps={{ fontSize: 12 }}
@@ -489,24 +390,13 @@ function SidebarLayout({ children, mode, onToggleMode }) {
             </ButtonBase>
           </Box>
         </Popover>
+        */}
       </Box>
     </Box>
   );
 
   return (
     <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: 'background.default' }}>
-      <AppBar position="fixed" color="primary" sx={{ display: { md: 'none' } }}>
-        <Toolbar>
-          <IconButton color="inherit" edge="start" onClick={() => setMobileOpen(true)} aria-label="Open sidebar">
-            <Menu />
-          </IconButton>
-          <Typography variant="h6" sx={{ ml: 1, fontWeight: 800 }}>CMMS</Typography>
-          <Box sx={{ flex: 1 }} />
-          <IconButton color="inherit" aria-label="Toggle theme" onClick={onToggleMode}>
-            {mode === 'dark' ? <LightMode /> : <DarkMode />}
-          </IconButton>
-        </Toolbar>
-      </AppBar>
       <Box component="nav" sx={{ width: { md: currentDrawerWidth }, flexShrink: { md: 0 }, transition: theme.transitions.create('width') }}>
         <Drawer
           variant={isDesktop ? 'permanent' : 'temporary'}
@@ -548,8 +438,11 @@ function SidebarLayout({ children, mode, onToggleMode }) {
           {collapsed ? <ChevronRight fontSize="small" /> : <ChevronLeft fontSize="small" />}
         </IconButton>
       )}
-      <Box component="main" sx={{ flex: 1, minWidth: 0, p: { xs: 2, md: 3 }, pt: { xs: 9, md: 3 } }}>
-        {children}
+      <Box component="main" sx={{ flex: 1, minWidth: 0 }}>
+        <TopNavbar onMenuClick={() => setMobileOpen(true)} />
+        <Box sx={{ p: { xs: 2, md: 3 } }}>
+          {children}
+        </Box>
       </Box>
     </Box>
   );
