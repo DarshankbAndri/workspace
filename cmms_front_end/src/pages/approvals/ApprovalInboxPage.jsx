@@ -93,6 +93,7 @@ function ApprovalInboxPage() {
             <MenuItem value="PM_SCHEDULE">PM Schedule</MenuItem>
             <MenuItem value="PM_WORK_ORDER">PM Work Order</MenuItem>
             <MenuItem value="MAINTENANCE_REQUEST">Maintenance Request</MenuItem>
+            <MenuItem value="SPARE_ISSUE">Spare Issue</MenuItem>
           </TextField>
           <TextField select label="Action" value={filters.actionCode} onChange={updateFilter('actionCode')} sx={{ minWidth: 160 }}>
             <MenuItem value="">All Actions</MenuItem>
@@ -100,6 +101,8 @@ function ApprovalInboxPage() {
             <MenuItem value="UPDATE">Update</MenuItem>
             <MenuItem value="GENERATE">Generate</MenuItem>
             <MenuItem value="CLOSE">Close</MenuItem>
+            <MenuItem value="RESERVE">Reserve</MenuItem>
+            <MenuItem value="ISSUE">Issue</MenuItem>
           </TextField>
           <TextField select label="Site" value={filters.siteId} onChange={updateFilter('siteId')} sx={{ minWidth: 220 }}>
             <MenuItem value="">All Sites</MenuItem>

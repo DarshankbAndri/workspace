@@ -133,7 +133,8 @@ function SparePartListPage() {
   };
 
   const openReorderDialog = (row) => {
-    const shortage = Math.max(Number(row.minimumStock || 0) - Number(row.currentStock || 0), 0);
+    const availableStock = row.availableStock ?? row.currentStock ?? 0;
+    const shortage = Math.max(Number(row.minimumStock || 0) - Number(availableStock), 0);
     setReorderDialog({
       open: true,
       row,
@@ -251,7 +252,9 @@ function SparePartListPage() {
     { field: 'partName', headerName: 'Part Name', minWidth: 220, flex: 1.3 },
     { field: 'siteName', headerName: 'Site', minWidth: 170, flex: 0.9 },
     { field: 'category', headerName: 'Category', minWidth: 130, flex: 0.8 },
-    { field: 'currentStock', headerName: 'Stock', minWidth: 110, flex: 0.5 },
+    { field: 'currentStock', headerName: 'Current', minWidth: 110, flex: 0.5 },
+    { field: 'reservedStock', headerName: 'Reserved', minWidth: 110, flex: 0.5 },
+    { field: 'availableStock', headerName: 'Available', minWidth: 120, flex: 0.55 },
     { field: 'minimumStock', headerName: 'Min', minWidth: 100, flex: 0.5 },
     { field: 'unit', headerName: 'Unit', minWidth: 90, flex: 0.4 },
     { field: 'unitCost', headerName: 'Unit Cost', minWidth: 120, flex: 0.6 },
@@ -360,7 +363,7 @@ function SparePartListPage() {
       <Dialog open={transferDialog.open} onClose={closeTransferDialog} maxWidth="sm" fullWidth>
         <DialogTitle>Site-to-Site Stock Transfer</DialogTitle>
         <DialogContent sx={{ display: 'grid', gap: 2, pt: 2 }}>
-          <Typography variant="body2" color="text.secondary">{transferDialog.row?.siteName} stock: {transferDialog.row?.currentStock} {transferDialog.row?.unit}</Typography>
+          <Typography variant="body2" color="text.secondary">{transferDialog.row?.siteName} available: {transferDialog.row?.availableStock ?? transferDialog.row?.currentStock} {transferDialog.row?.unit}</Typography>
           <TextField select required label="Target Site" value={transferDialog.targetSiteId} onChange={(event) => setTransferDialog((current) => ({ ...current, targetSiteId: event.target.value }))}>
             {sites.filter((site) => String(site.id) !== String(transferDialog.row?.siteId)).map((site) => <MenuItem key={site.id} value={site.id}>{site.siteName} ({site.siteCode})</MenuItem>)}
           </TextField>

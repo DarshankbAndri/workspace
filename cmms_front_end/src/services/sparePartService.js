@@ -24,3 +24,9 @@ export const getAssignmentSpares = (assignmentId) => api.get(`/maintenance/assig
 export const addAssignmentSpare = (assignmentId, data) => api.post(`/maintenance/assignments/${assignmentId}/spares`, data).then((response) => response.data);
 export const updateAssignmentSpare = (assignmentId, usageId, data) => api.put(`/maintenance/assignments/${assignmentId}/spares/${usageId}`, data).then((response) => response.data);
 export const deleteAssignmentSpare = (assignmentId, usageId) => api.delete(`/maintenance/assignments/${assignmentId}/spares/${usageId}`);
+export const reserveAssignmentSpare = (assignmentId, usageId, data = {}) => api.post(`/maintenance/assignments/${assignmentId}/spares/${usageId}/reserve`, data).then((response) => response.data);
+export const issueAssignmentSpare = (assignmentId, usageId, data = {}) => api.post(`/maintenance/assignments/${assignmentId}/spares/${usageId}/issue`, data).then((response) => response.data);
+export const consumeAssignmentSpare = (assignmentId, usageId, data = {}) => api.post(`/maintenance/assignments/${assignmentId}/spares/${usageId}/consume`, data).then((response) => response.data);
+export const rejectAssignmentSpare = (assignmentId, usageId, data = {}) => api.post(`/maintenance/assignments/${assignmentId}/spares/${usageId}/reject`, data).then((response) => response.data);
+export const cancelAssignmentSpare = (assignmentId, usageId, data = {}) => api.post(`/maintenance/assignments/${assignmentId}/spares/${usageId}/cancel`, data).then((response) => response.data);
+export const returnAssignmentSpare = (assignmentId, usageId, data = {}) => api.post(`/maintenance/assignments/${assignmentId}/spares/${usageId}/return`, data).then((response) => response.data);

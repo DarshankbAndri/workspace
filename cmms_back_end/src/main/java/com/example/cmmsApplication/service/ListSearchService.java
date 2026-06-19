@@ -83,7 +83,7 @@ public class ListSearchService {
     private static final Set<String> SPARE_PART_FILTERS = Set.of(
             "commonSearch", "id", "sparePartId", "partCode", "partName", "description",
             "category", "unit", "preferredVendorId", "preferredVendorName", "siteId",
-            "siteCode", "siteName", "currentStock", "minimumStock", "unitCost",
+            "siteCode", "siteName", "currentStock", "reservedStock", "availableStock", "minimumStock", "unitCost",
             "storageLocation", "status", "lowStock", "createdAt", "updatedAt"
     );
 

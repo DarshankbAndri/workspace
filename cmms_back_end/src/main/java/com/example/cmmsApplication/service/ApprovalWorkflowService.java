@@ -51,10 +51,13 @@ public class ApprovalWorkflowService {
     public static final String PM_SCHEDULE = "PM_SCHEDULE";
     public static final String PM_WORK_ORDER = "PM_WORK_ORDER";
     public static final String MAINTENANCE_REQUEST = "MAINTENANCE_REQUEST";
+    public static final String SPARE_ISSUE = "SPARE_ISSUE";
     public static final String CREATE = "CREATE";
     public static final String UPDATE = "UPDATE";
     public static final String GENERATE = "GENERATE";
     public static final String CLOSE = "CLOSE";
+    public static final String RESERVE = "RESERVE";
+    public static final String ISSUE = "ISSUE";
 
     private final boolean globalApprovalEnabled;
     private final ApprovalConfigDAO approvalConfigDAO;
@@ -64,6 +67,7 @@ public class ApprovalWorkflowService {
     private final PreventiveMaintenanceScheduleDAO scheduleDAO;
     private final AccessControlService accessControlService;
     private final ObjectProvider<PreventiveMaintenanceScheduleService> scheduleServiceProvider;
+    private final ObjectProvider<MaintenanceSpareUsageService> spareUsageServiceProvider;
     private final ObjectMapper objectMapper;
     private final NotificationService notificationService;
     private static final Set<String> APPROVAL_HISTORY_FILTERS = Set.of(
@@ -84,6 +88,7 @@ public class ApprovalWorkflowService {
                                    PreventiveMaintenanceScheduleDAO scheduleDAO,
                                    AccessControlService accessControlService,
                                    ObjectProvider<PreventiveMaintenanceScheduleService> scheduleServiceProvider,
+                                   ObjectProvider<MaintenanceSpareUsageService> spareUsageServiceProvider,
                                    ObjectMapper objectMapper,
                                    NotificationService notificationService) {
         this.globalApprovalEnabled = globalApprovalEnabled;
@@ -94,6 +99,7 @@ public class ApprovalWorkflowService {
         this.scheduleDAO = scheduleDAO;
         this.accessControlService = accessControlService;
         this.scheduleServiceProvider = scheduleServiceProvider;
+        this.spareUsageServiceProvider = spareUsageServiceProvider;
         this.objectMapper = objectMapper;
         this.notificationService = notificationService;
     }
@@ -536,6 +542,10 @@ public class ApprovalWorkflowService {
         }
         if (PM_WORK_ORDER.equals(request.getModuleCode()) && GENERATE.equals(request.getActionCode())) {
             scheduleServiceProvider.getObject().generateWorkOrderImmediately(request.getReferenceId());
+            return;
+        }
+        if (SPARE_ISSUE.equals(request.getModuleCode()) && (RESERVE.equals(request.getActionCode()) || ISSUE.equals(request.getActionCode()))) {
+            spareUsageServiceProvider.getObject().completeApprovedTransition(request.getReferenceId(), request.getActionCode());
         }
     }
 
@@ -563,6 +573,10 @@ public class ApprovalWorkflowService {
             PreventiveMaintenanceSchedule schedule = getSchedule(request.getReferenceId());
             schedule.setLastNotificationStatus("WORK_ORDER_GENERATION_REJECTED");
             scheduleDAO.save(schedule);
+            return;
+        }
+        if (SPARE_ISSUE.equals(request.getModuleCode()) && (RESERVE.equals(request.getActionCode()) || ISSUE.equals(request.getActionCode()))) {
+            spareUsageServiceProvider.getObject().completeRejectedTransition(request.getReferenceId(), request.getActionCode());
         }
     }
 

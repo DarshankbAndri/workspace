@@ -36,6 +36,48 @@ public class MaintenanceSpareUsageController {
         return ResponseEntity.ok(spareUsageService.update(assignmentId, usageId, dto));
     }
 
+    @PostMapping("/{usageId}/reserve")
+    public ResponseEntity<MaintenanceSpareUsageDTO> reserve(@PathVariable Long assignmentId,
+                                                            @PathVariable Long usageId,
+                                                            @RequestBody(required = false) MaintenanceSpareUsageDTO dto) {
+        return ResponseEntity.ok(spareUsageService.reserve(assignmentId, usageId, dto));
+    }
+
+    @PostMapping("/{usageId}/issue")
+    public ResponseEntity<MaintenanceSpareUsageDTO> issue(@PathVariable Long assignmentId,
+                                                          @PathVariable Long usageId,
+                                                          @RequestBody(required = false) MaintenanceSpareUsageDTO dto) {
+        return ResponseEntity.ok(spareUsageService.issue(assignmentId, usageId, dto));
+    }
+
+    @PostMapping("/{usageId}/consume")
+    public ResponseEntity<MaintenanceSpareUsageDTO> consume(@PathVariable Long assignmentId,
+                                                            @PathVariable Long usageId,
+                                                            @RequestBody(required = false) MaintenanceSpareUsageDTO dto) {
+        return ResponseEntity.ok(spareUsageService.consume(assignmentId, usageId, dto));
+    }
+
+    @PostMapping("/{usageId}/reject")
+    public ResponseEntity<MaintenanceSpareUsageDTO> reject(@PathVariable Long assignmentId,
+                                                           @PathVariable Long usageId,
+                                                           @RequestBody(required = false) MaintenanceSpareUsageDTO dto) {
+        return ResponseEntity.ok(spareUsageService.reject(assignmentId, usageId, dto));
+    }
+
+    @PostMapping("/{usageId}/cancel")
+    public ResponseEntity<MaintenanceSpareUsageDTO> cancel(@PathVariable Long assignmentId,
+                                                           @PathVariable Long usageId,
+                                                           @RequestBody(required = false) MaintenanceSpareUsageDTO dto) {
+        return ResponseEntity.ok(spareUsageService.cancel(assignmentId, usageId, dto));
+    }
+
+    @PostMapping("/{usageId}/return")
+    public ResponseEntity<MaintenanceSpareUsageDTO> returnIssued(@PathVariable Long assignmentId,
+                                                                 @PathVariable Long usageId,
+                                                                 @RequestBody(required = false) MaintenanceSpareUsageDTO dto) {
+        return ResponseEntity.ok(spareUsageService.returnIssued(assignmentId, usageId, dto));
+    }
+
     @DeleteMapping("/{usageId}")
     public ResponseEntity<Void> delete(@PathVariable Long assignmentId, @PathVariable Long usageId) {
         spareUsageService.delete(assignmentId, usageId);

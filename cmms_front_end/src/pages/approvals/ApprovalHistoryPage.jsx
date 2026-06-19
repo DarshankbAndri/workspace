@@ -146,6 +146,7 @@ function ApprovalHistoryPage() {
             <MenuItem value="MAINTENANCE_REQUEST">Maintenance Request</MenuItem>
             <MenuItem value="PM_SCHEDULE">PM Schedule</MenuItem>
             <MenuItem value="PM_WORK_ORDER">PM Work Order</MenuItem>
+            <MenuItem value="SPARE_ISSUE">Spare Issue</MenuItem>
           </TextField>
           <TextField select label="Action" value={filters.actionCode} onChange={updateFilter('actionCode')} sx={{ minWidth: 160 }}>
             <MenuItem value="">All Actions</MenuItem>
@@ -153,6 +154,8 @@ function ApprovalHistoryPage() {
             <MenuItem value="UPDATE">Update</MenuItem>
             <MenuItem value="GENERATE">Generate</MenuItem>
             <MenuItem value="CLOSE">Close</MenuItem>
+            <MenuItem value="RESERVE">Reserve</MenuItem>
+            <MenuItem value="ISSUE">Issue</MenuItem>
           </TextField>
           <TextField select label="Status" value={filters.approvalStatus} onChange={updateFilter('approvalStatus')} sx={{ minWidth: 160 }}>
             <MenuItem value="">All Status</MenuItem>

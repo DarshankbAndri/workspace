@@ -171,6 +171,9 @@ public class SparePartService {
         SparePartSiteStock stock = getStockForUpdate(stockId);
         accessControlService.validateSiteAccess(stock.getSite().getId());
         BigDecimal newStock = nonNegative(dto.getQuantity(), "Adjusted stock");
+        if (newStock.compareTo(stock.getReservedStock()) < 0) {
+            throw new InvalidOperationException("Adjusted stock cannot be lower than reserved stock. Reserved: " + stock.getReservedStock());
+        }
         BigDecimal before = stock.getCurrentStock();
         BigDecimal delta = newStock.subtract(before);
         stock.setCurrentStock(newStock);
@@ -194,9 +197,10 @@ public class SparePartService {
         }
         BigDecimal quantity = positive(dto.getQuantity(), "Transfer quantity");
         BigDecimal sourceBefore = source.getCurrentStock();
+        BigDecimal availableBefore = source.getAvailableStock();
         BigDecimal sourceAfter = sourceBefore.subtract(quantity);
-        if (sourceAfter.compareTo(BigDecimal.ZERO) < 0) {
-            throw new InvalidOperationException("Insufficient stock for transfer. Available: " + sourceBefore);
+        if (availableBefore.compareTo(quantity) < 0) {
+            throw new InvalidOperationException("Insufficient available stock for transfer. Available: " + availableBefore);
         }
 
         SparePartSiteStock target = stockDAO.findBySparePartIdAndSiteId(source.getSparePart().getId(), dto.getTargetSiteId())
@@ -205,6 +209,7 @@ public class SparePartService {
                     created.setSparePart(source.getSparePart());
                     created.setSite(siteService.getEntity(dto.getTargetSiteId()));
                     created.setCurrentStock(BigDecimal.ZERO);
+                    created.setReservedStock(BigDecimal.ZERO);
                     created.setMinimumStock(BigDecimal.ZERO);
                     created.setUnitCost(source.getUnitCost());
                     created.setStorageLocation(dto.getTargetStorageLocation());
@@ -259,13 +264,64 @@ public class SparePartService {
         SparePartSiteStock stock = getStockForUpdate(stockId);
         BigDecimal used = positive(quantity, "Quantity used");
         BigDecimal before = stock.getCurrentStock();
+        BigDecimal available = stock.getAvailableStock();
         BigDecimal after = before.subtract(used);
-        if (after.compareTo(BigDecimal.ZERO) < 0) {
-            throw new InvalidOperationException("Insufficient stock for " + stock.getSparePart().getPartCode() + ". Available: " + before);
+        if (available.compareTo(used) < 0) {
+            throw new InvalidOperationException("Insufficient available stock for " + stock.getSparePart().getPartCode() + ". Available: " + available);
         }
         stock.setCurrentStock(after);
         SparePartSiteStock saved = stockDAO.save(stock);
         createTransaction(saved, "USAGE", used.negate(), saved.getUnitCost(), before, after,
+                "MAINTENANCE_ASSIGNMENT", assignmentId, remarks);
+        notifyIfLowStock(saved);
+        return saved;
+    }
+
+    SparePartSiteStock reserveStock(Long stockId, BigDecimal quantity, Long assignmentId, String remarks) {
+        SparePartSiteStock stock = getStockForUpdate(stockId);
+        BigDecimal reserved = positive(quantity, "Reservation quantity");
+        BigDecimal available = stock.getAvailableStock();
+        if (available.compareTo(reserved) < 0) {
+            throw new InvalidOperationException("Insufficient available stock for " + stock.getSparePart().getPartCode() + ". Available: " + available);
+        }
+        BigDecimal before = stock.getCurrentStock();
+        stock.setReservedStock(stock.getReservedStock().add(reserved));
+        SparePartSiteStock saved = stockDAO.save(stock);
+        createTransaction(saved, "RESERVATION", reserved, saved.getUnitCost(), before, saved.getCurrentStock(),
+                "MAINTENANCE_ASSIGNMENT", assignmentId, remarks);
+        notifyIfLowStock(saved);
+        return saved;
+    }
+
+    SparePartSiteStock releaseReservedStock(Long stockId, BigDecimal quantity, Long assignmentId, String remarks) {
+        SparePartSiteStock stock = getStockForUpdate(stockId);
+        BigDecimal released = positive(quantity, "Reservation release quantity");
+        if (stock.getReservedStock().compareTo(released) < 0) {
+            throw new InvalidOperationException("Reserved stock is lower than release quantity. Reserved: " + stock.getReservedStock());
+        }
+        BigDecimal before = stock.getCurrentStock();
+        stock.setReservedStock(stock.getReservedStock().subtract(released));
+        SparePartSiteStock saved = stockDAO.save(stock);
+        createTransaction(saved, "RESERVATION_RELEASE", released.negate(), saved.getUnitCost(), before, saved.getCurrentStock(),
+                "MAINTENANCE_ASSIGNMENT", assignmentId, remarks);
+        return saved;
+    }
+
+    SparePartSiteStock issueReservedStock(Long stockId, BigDecimal quantity, Long assignmentId, String remarks) {
+        SparePartSiteStock stock = getStockForUpdate(stockId);
+        BigDecimal issued = positive(quantity, "Issue quantity");
+        if (stock.getReservedStock().compareTo(issued) < 0) {
+            throw new InvalidOperationException("Reserved stock is lower than issue quantity. Reserved: " + stock.getReservedStock());
+        }
+        BigDecimal before = stock.getCurrentStock();
+        BigDecimal after = before.subtract(issued);
+        if (after.compareTo(BigDecimal.ZERO) < 0) {
+            throw new InvalidOperationException("Insufficient stock for issue. Current stock: " + before);
+        }
+        stock.setReservedStock(stock.getReservedStock().subtract(issued));
+        stock.setCurrentStock(after);
+        SparePartSiteStock saved = stockDAO.save(stock);
+        createTransaction(saved, "ISSUE", issued.negate(), saved.getUnitCost(), before, after,
                 "MAINTENANCE_ASSIGNMENT", assignmentId, remarks);
         notifyIfLowStock(saved);
         return saved;
@@ -315,6 +371,7 @@ public class SparePartService {
         Site site = siteService.getEntity(dto.getSiteId());
         stock.setSite(site);
         stock.setCurrentStock(nonNegative(dto.getCurrentStock(), "Current stock"));
+        stock.setReservedStock(nonNegative(dto.getReservedStock(), "Reserved stock"));
         stock.setMinimumStock(nonNegative(dto.getMinimumStock(), "Minimum stock"));
         stock.setUnitCost(nonNegative(dto.getUnitCost(), "Unit cost"));
         stock.setStorageLocation(dto.getStorageLocation());
@@ -449,7 +506,7 @@ public class SparePartService {
     }
 
     private void notifyIfLowStock(SparePartSiteStock stock) {
-        if (stock.getCurrentStock().compareTo(stock.getMinimumStock()) <= 0) {
+        if (stock.getAvailableStock().compareTo(stock.getMinimumStock()) <= 0) {
             notificationService.createLowStockAlert(stock);
         }
     }
@@ -512,10 +569,12 @@ public class SparePartService {
         dto.setSiteCode(stock.getSite().getSiteCode());
         dto.setSiteName(stock.getSite().getSiteName());
         dto.setCurrentStock(stock.getCurrentStock());
+        dto.setReservedStock(stock.getReservedStock());
+        dto.setAvailableStock(stock.getAvailableStock());
         dto.setMinimumStock(stock.getMinimumStock());
         dto.setUnitCost(stock.getUnitCost());
         dto.setStorageLocation(stock.getStorageLocation());
-        dto.setLowStock(stock.getCurrentStock().compareTo(stock.getMinimumStock()) <= 0);
+        dto.setLowStock(stock.getAvailableStock().compareTo(stock.getMinimumStock()) <= 0);
         dto.setCreatedAt(stock.getCreatedAt());
         dto.setUpdatedAt(stock.getUpdatedAt());
         return dto;

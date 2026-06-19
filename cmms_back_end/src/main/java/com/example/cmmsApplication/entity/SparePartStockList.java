@@ -26,11 +26,13 @@ import java.time.LocalDateTime;
             site.site_code AS site_code,
             site.site_name AS site_name,
             stock.current_stock AS current_stock,
+            stock.reserved_stock AS reserved_stock,
+            (stock.current_stock - stock.reserved_stock) AS available_stock,
             stock.minimum_stock AS minimum_stock,
             stock.unit_cost AS unit_cost,
             stock.storage_location AS storage_location,
             stock.status AS status,
-            CASE WHEN stock.current_stock <= stock.minimum_stock THEN true ELSE false END AS low_stock,
+            CASE WHEN (stock.current_stock - stock.reserved_stock) <= stock.minimum_stock THEN true ELSE false END AS low_stock,
             stock.created_at AS created_at,
             stock.updated_at AS updated_at
         FROM spare_part_site_stock stock
@@ -62,6 +64,10 @@ public class SparePartStockList {
     private String siteName;
     @Column(name = "current_stock")
     private BigDecimal currentStock;
+    @Column(name = "reserved_stock")
+    private BigDecimal reservedStock;
+    @Column(name = "available_stock")
+    private BigDecimal availableStock;
     @Column(name = "minimum_stock")
     private BigDecimal minimumStock;
     @Column(name = "unit_cost")
@@ -89,6 +95,8 @@ public class SparePartStockList {
     public String getSiteCode() { return siteCode; }
     public String getSiteName() { return siteName; }
     public BigDecimal getCurrentStock() { return currentStock; }
+    public BigDecimal getReservedStock() { return reservedStock; }
+    public BigDecimal getAvailableStock() { return availableStock; }
     public BigDecimal getMinimumStock() { return minimumStock; }
     public BigDecimal getUnitCost() { return unitCost; }
     public String getStorageLocation() { return storageLocation; }

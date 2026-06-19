@@ -1,12 +1,25 @@
 import React from 'react';
-import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, MenuItem, Paper, Stack, TextField, Typography } from '@mui/material';
-import { Delete, Edit, Save } from '@mui/icons-material';
+import { Alert, Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, MenuItem, Paper, Stack, TextField, Tooltip, Typography } from '@mui/material';
+import { Cancel, CheckCircle, Delete, Edit, Inventory, Save, Undo } from '@mui/icons-material';
 import { DataGrid } from '@mui/x-data-grid';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useAuth } from '../../../context/AuthContext';
 import { getVendorsBySite } from '../../../services/vendorService';
 import { getSites } from '../../../services/siteService';
 import { createMaintenanceAssignment, getMaintenanceAssignmentById, getRequestsBySite, updateMaintenanceAssignment } from '../../../services/maintenanceService';
-import { addAssignmentSpare, deleteAssignmentSpare, getAssignmentSpares, getSparePartsBySite, updateAssignmentSpare } from '../../../services/sparePartService';
+import {
+  addAssignmentSpare,
+  cancelAssignmentSpare,
+  consumeAssignmentSpare,
+  deleteAssignmentSpare,
+  getAssignmentSpares,
+  getSparePartsBySite,
+  issueAssignmentSpare,
+  rejectAssignmentSpare,
+  reserveAssignmentSpare,
+  returnAssignmentSpare,
+  updateAssignmentSpare,
+} from '../../../services/sparePartService';
 
 const initialForm = {
   siteId: '',
@@ -25,11 +38,23 @@ const initialForm = {
 };
 
 const initialSpareEditDialog = { open: false, row: null, quantityUsed: '', remarks: '' };
+const statusColors = {
+  REQUESTED: 'default',
+  RESERVE_PENDING_APPROVAL: 'warning',
+  RESERVED: 'info',
+  ISSUE_PENDING_APPROVAL: 'warning',
+  ISSUED: 'primary',
+  CONSUMED: 'success',
+  REJECTED: 'error',
+  CANCELLED: 'default',
+  RETURNED: 'default',
+};
 
 function MaintenanceAssignmentFormPage() {
   const { id } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
+  const { hasPermission } = useAuth();
   const isEdit = Boolean(id) && !location.pathname.endsWith('/view');
   const isView = location.pathname.endsWith('/view');
   const [form, setForm] = React.useState(initialForm);
@@ -88,7 +113,9 @@ function MaintenanceAssignmentFormPage() {
   const updateRequest = (event) => setForm((current) => ({ ...current, requestId: event.target.value, vendorId: '' }));
   const updateSpareField = (field) => (event) => setSpareForm((current) => ({ ...current, [field]: event.target.value }));
 
-  const materialCost = spareRows.reduce((sum, item) => sum + Number(item.totalCost || 0), 0);
+  const materialCost = spareRows
+    .filter((item) => (item.status || 'CONSUMED') === 'CONSUMED')
+    .reduce((sum, item) => sum + Number(item.totalCost || 0), 0);
   const serviceCost = Number(form.actualCost || 0);
   const totalActualCost = serviceCost + materialCost;
 
@@ -109,20 +136,14 @@ function MaintenanceAssignmentFormPage() {
         remarks: spareForm.remarks,
       });
       setSpareForm({ stockId: '', quantityUsed: '', remarks: '' });
-      const selected = siteSpares.find((item) => String(item.id) === String(spareForm.stockId));
-      if (selected) {
-        setSiteSpares((current) => current.map((item) => String(item.id) === String(selected.id)
-          ? { ...item, currentStock: Number(item.currentStock || 0) - Number(spareForm.quantityUsed || 0) }
-          : item));
-      }
       loadSpares();
     } catch (err) {
-      setError(err.response?.data?.message || 'Unable to add spare part usage.');
+      setError(err.response?.data?.message || 'Unable to request spare part.');
     }
   };
 
   const handleDeleteSpare = async (usageId) => {
-    if (!window.confirm('Remove this spare usage and return stock?')) return;
+    if (!window.confirm('Remove this spare request?')) return;
     try {
       await deleteAssignmentSpare(id, usageId);
       loadSpares();
@@ -138,6 +159,12 @@ function MaintenanceAssignmentFormPage() {
     setSpareEditDialog({ open: true, row, quantityUsed: row.quantityUsed ?? '', remarks: row.remarks || '' });
   };
 
+  const refreshSiteSpares = React.useCallback(() => {
+    if (form.siteId) {
+      getSparePartsBySite(form.siteId).then((data) => setSiteSpares(data || []));
+    }
+  }, [form.siteId]);
+
   const handleUpdateSpare = async () => {
     setError('');
     try {
@@ -148,11 +175,35 @@ function MaintenanceAssignmentFormPage() {
       });
       setSpareEditDialog(initialSpareEditDialog);
       loadSpares();
-      if (form.siteId) {
-        getSparePartsBySite(form.siteId).then((data) => setSiteSpares(data || []));
-      }
+      refreshSiteSpares();
     } catch (err) {
-      setError(err.response?.data?.message || 'Unable to update spare usage.');
+      setError(err.response?.data?.message || 'Unable to update spare request.');
+    }
+  };
+
+  const handleSpareAction = async (row, action) => {
+    const labels = {
+      reserve: 'reserve this spare request',
+      issue: 'issue this spare',
+      consume: 'mark this spare as consumed',
+      reject: 'reject this spare request',
+      cancel: 'cancel this spare request',
+      return: 'return this issued spare',
+    };
+    if (!window.confirm(`Confirm ${labels[action]}?`)) return;
+    setError('');
+    try {
+      const payload = { remarks: row.remarks };
+      if (action === 'reserve') await reserveAssignmentSpare(id, row.id, payload);
+      if (action === 'issue') await issueAssignmentSpare(id, row.id, payload);
+      if (action === 'consume') await consumeAssignmentSpare(id, row.id, payload);
+      if (action === 'reject') await rejectAssignmentSpare(id, row.id, payload);
+      if (action === 'cancel') await cancelAssignmentSpare(id, row.id, payload);
+      if (action === 'return') await returnAssignmentSpare(id, row.id, payload);
+      loadSpares();
+      refreshSiteSpares();
+    } catch (err) {
+      setError(err.response?.data?.message || 'Unable to update spare request status.');
     }
   };
 
@@ -161,24 +212,57 @@ function MaintenanceAssignmentFormPage() {
     { field: 'partName', headerName: 'Part Name', minWidth: 220, flex: 1.2 },
     { field: 'quantityUsed', headerName: 'Qty', minWidth: 100, flex: 0.5 },
     { field: 'unit', headerName: 'Unit', minWidth: 90, flex: 0.4 },
+    { field: 'availableStock', headerName: 'Available', minWidth: 110, flex: 0.55 },
     { field: 'unitCost', headerName: 'Unit Cost', minWidth: 120, flex: 0.6 },
     { field: 'totalCost', headerName: 'Total Cost', minWidth: 130, flex: 0.7 },
+    {
+      field: 'status',
+      headerName: 'Status',
+      minWidth: 180,
+      flex: 0.85,
+      renderCell: ({ row }) => {
+        const status = row.status || 'CONSUMED';
+        return <Chip size="small" label={status.replaceAll('_', ' ')} color={statusColors[status] || 'default'} />;
+      },
+    },
     { field: 'remarks', headerName: 'Remarks', minWidth: 180, flex: 1 },
     {
       field: 'actions',
       headerName: '',
       sortable: false,
-      width: 110,
-      renderCell: ({ row }) => !isView && (
-        <Stack direction="row" spacing={0.5}>
-          <IconButton aria-label="Edit spare usage" onClick={() => handleOpenEditSpare(row)}>
-            <Edit fontSize="small" />
-          </IconButton>
-          <IconButton aria-label="Remove spare usage" color="error" onClick={() => handleDeleteSpare(row.id)}>
-            <Delete fontSize="small" />
-          </IconButton>
-        </Stack>
-      ),
+      width: 280,
+      renderCell: ({ row }) => {
+        if (isView) return null;
+        const status = row.status || 'CONSUMED';
+        return (
+          <Stack direction="row" spacing={0.25}>
+            {status === 'REQUESTED' && hasPermission('SPARE_USAGE_UPDATE') && (
+              <Tooltip title="Edit"><IconButton aria-label="Edit spare request" onClick={() => handleOpenEditSpare(row)}><Edit fontSize="small" /></IconButton></Tooltip>
+            )}
+            {status === 'REQUESTED' && hasPermission('SPARE_USAGE_RESERVE') && (
+              <Tooltip title="Reserve"><IconButton aria-label="Reserve spare" color="primary" onClick={() => handleSpareAction(row, 'reserve')}><CheckCircle fontSize="small" /></IconButton></Tooltip>
+            )}
+            {status === 'REQUESTED' && hasPermission('SPARE_USAGE_REJECT') && (
+              <Tooltip title="Reject"><IconButton aria-label="Reject spare" color="error" onClick={() => handleSpareAction(row, 'reject')}><Cancel fontSize="small" /></IconButton></Tooltip>
+            )}
+            {['REQUESTED', 'RESERVED'].includes(status) && hasPermission('SPARE_USAGE_CANCEL') && (
+              <Tooltip title="Cancel"><IconButton aria-label="Cancel spare request" onClick={() => handleSpareAction(row, 'cancel')}><Delete fontSize="small" /></IconButton></Tooltip>
+            )}
+            {status === 'RESERVED' && hasPermission('SPARE_USAGE_ISSUE') && (
+              <Tooltip title="Issue"><IconButton aria-label="Issue spare" color="primary" onClick={() => handleSpareAction(row, 'issue')}><Inventory fontSize="small" /></IconButton></Tooltip>
+            )}
+            {status === 'ISSUED' && hasPermission('SPARE_USAGE_CONSUME') && (
+              <Tooltip title="Consume"><IconButton aria-label="Consume spare" color="success" onClick={() => handleSpareAction(row, 'consume')}><CheckCircle fontSize="small" /></IconButton></Tooltip>
+            )}
+            {status === 'ISSUED' && hasPermission('SPARE_USAGE_RETURN') && (
+              <Tooltip title="Return"><IconButton aria-label="Return spare" onClick={() => handleSpareAction(row, 'return')}><Undo fontSize="small" /></IconButton></Tooltip>
+            )}
+            {['REQUESTED', 'REJECTED', 'CANCELLED', 'RETURNED'].includes(status) && hasPermission('SPARE_USAGE_DELETE') && (
+              <Tooltip title="Delete"><IconButton aria-label="Delete spare request" color="error" onClick={() => handleDeleteSpare(row.id)}><Delete fontSize="small" /></IconButton></Tooltip>
+            )}
+          </Stack>
+        );
+      },
     },
   ];
 
@@ -243,21 +327,21 @@ function MaintenanceAssignmentFormPage() {
       </Box>
       {id && (
         <Paper sx={{ p: 3, borderRadius: 1, mt: 2 }}>
-          <Typography variant="h6" fontWeight={800} sx={{ mb: 2 }}>Used Spare Parts</Typography>
+          <Typography variant="h6" fontWeight={800} sx={{ mb: 2 }}>Spare Part Requests</Typography>
           {!isView && (
             <Grid container spacing={2} sx={{ mb: 2 }}>
               <Grid item xs={12} md={5}>
                 <TextField select fullWidth label="Spare Part" value={spareForm.stockId} onChange={updateSpareField('stockId')}>
                   {siteSpares.map((item) => (
                     <MenuItem key={item.id} value={item.id}>
-                      {item.partCode} - {item.partName} | Available: {item.currentStock} {item.unit}
+                      {item.partCode} - {item.partName} | Available: {item.availableStock ?? item.currentStock} {item.unit}
                     </MenuItem>
                   ))}
                 </TextField>
               </Grid>
               <Grid item xs={12} md={2}><TextField type="number" fullWidth label="Quantity" value={spareForm.quantityUsed} onChange={updateSpareField('quantityUsed')} /></Grid>
               <Grid item xs={12} md={3}><TextField fullWidth label="Remarks" value={spareForm.remarks} onChange={updateSpareField('remarks')} /></Grid>
-              <Grid item xs={12} md={2}><Button fullWidth variant="contained" sx={{ height: '100%' }} onClick={handleAddSpare}>Add Spare</Button></Grid>
+              <Grid item xs={12} md={2}><Button fullWidth variant="contained" sx={{ height: '100%' }} onClick={handleAddSpare}>Request Spare</Button></Grid>
             </Grid>
           )}
           <Box sx={{ height: 320 }}>
@@ -266,7 +350,7 @@ function MaintenanceAssignmentFormPage() {
         </Paper>
       )}
       <Dialog open={spareEditDialog.open} onClose={() => setSpareEditDialog(initialSpareEditDialog)} maxWidth="sm" fullWidth>
-        <DialogTitle>Edit Spare Usage</DialogTitle>
+        <DialogTitle>Edit Spare Request</DialogTitle>
         <DialogContent sx={{ display: 'grid', gap: 2, pt: 2 }}>
           <Typography variant="body2" color="text.secondary">
             {spareEditDialog.row?.partCode} - {spareEditDialog.row?.partName}
@@ -274,7 +358,7 @@ function MaintenanceAssignmentFormPage() {
           <TextField
             required
             type="number"
-            label="Quantity Used"
+            label="Requested Quantity"
             value={spareEditDialog.quantityUsed}
             onChange={(event) => setSpareEditDialog((current) => ({ ...current, quantityUsed: event.target.value }))}
           />

@@ -2,9 +2,11 @@ package com.example.cmmsApplication.repository;
 
 import com.example.cmmsApplication.entity.SparePartSiteStock;
 import jakarta.persistence.LockModeType;
+import jakarta.persistence.QueryHint;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.QueryHints;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
@@ -19,15 +21,16 @@ public interface SparePartSiteStockRepository extends JpaRepository<SparePartSit
     List<SparePartSiteStock> findBySiteIdInAndStatus(Collection<Long> siteIds, String status);
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @QueryHints(@QueryHint(name = "jakarta.persistence.lock.timeout", value = "5000"))
     @Query("select stock from SparePartSiteStock stock where stock.id = :id")
     Optional<SparePartSiteStock> findByIdForUpdate(Long id);
 
-    @Query("select count(stock) from SparePartSiteStock stock where stock.status = 'ACTIVE' and stock.currentStock <= stock.minimumStock")
+    @Query("select count(stock) from SparePartSiteStock stock where stock.status = 'ACTIVE' and (stock.currentStock - stock.reservedStock) <= stock.minimumStock")
     long countLowStock();
 
-    @Query("select count(stock) from SparePartSiteStock stock where stock.status = 'ACTIVE' and stock.site.id = :siteId and stock.currentStock <= stock.minimumStock")
+    @Query("select count(stock) from SparePartSiteStock stock where stock.status = 'ACTIVE' and stock.site.id = :siteId and (stock.currentStock - stock.reservedStock) <= stock.minimumStock")
     long countLowStockBySiteId(Long siteId);
 
-    @Query("select count(stock) from SparePartSiteStock stock where stock.status = 'ACTIVE' and stock.site.id in :siteIds and stock.currentStock <= stock.minimumStock")
+    @Query("select count(stock) from SparePartSiteStock stock where stock.status = 'ACTIVE' and stock.site.id in :siteIds and (stock.currentStock - stock.reservedStock) <= stock.minimumStock")
     long countLowStockBySiteIdIn(Collection<Long> siteIds);
 }

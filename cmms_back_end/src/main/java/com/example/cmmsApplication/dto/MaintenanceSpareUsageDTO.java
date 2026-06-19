@@ -15,12 +15,35 @@ public class MaintenanceSpareUsageDTO {
     private String unit;
     private Long siteId;
     private String siteName;
+    private BigDecimal currentStock;
+    private BigDecimal reservedStock;
     private BigDecimal availableStock;
     @NotNull(message = "Quantity used is required")
     private BigDecimal quantityUsed;
     private BigDecimal unitCost;
     private BigDecimal totalCost;
+    private String status;
+    private Long approvalRequestId;
+    private String approvalStatus;
     private String remarks;
+    private Long requestedBy;
+    private String requestedByName;
+    private Long reservedBy;
+    private String reservedByName;
+    private Long issuedBy;
+    private String issuedByName;
+    private Long consumedBy;
+    private String consumedByName;
+    private Long rejectedBy;
+    private String rejectedByName;
+    private Long cancelledBy;
+    private String cancelledByName;
+    private LocalDateTime requestedAt;
+    private LocalDateTime reservedAt;
+    private LocalDateTime issuedAt;
+    private LocalDateTime consumedAt;
+    private LocalDateTime rejectedAt;
+    private LocalDateTime cancelledAt;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -42,6 +65,10 @@ public class MaintenanceSpareUsageDTO {
     public void setSiteId(Long siteId) { this.siteId = siteId; }
     public String getSiteName() { return siteName; }
     public void setSiteName(String siteName) { this.siteName = siteName; }
+    public BigDecimal getCurrentStock() { return currentStock; }
+    public void setCurrentStock(BigDecimal currentStock) { this.currentStock = currentStock; }
+    public BigDecimal getReservedStock() { return reservedStock; }
+    public void setReservedStock(BigDecimal reservedStock) { this.reservedStock = reservedStock; }
     public BigDecimal getAvailableStock() { return availableStock; }
     public void setAvailableStock(BigDecimal availableStock) { this.availableStock = availableStock; }
     public BigDecimal getQuantityUsed() { return quantityUsed; }
@@ -50,8 +77,50 @@ public class MaintenanceSpareUsageDTO {
     public void setUnitCost(BigDecimal unitCost) { this.unitCost = unitCost; }
     public BigDecimal getTotalCost() { return totalCost; }
     public void setTotalCost(BigDecimal totalCost) { this.totalCost = totalCost; }
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
+    public Long getApprovalRequestId() { return approvalRequestId; }
+    public void setApprovalRequestId(Long approvalRequestId) { this.approvalRequestId = approvalRequestId; }
+    public String getApprovalStatus() { return approvalStatus; }
+    public void setApprovalStatus(String approvalStatus) { this.approvalStatus = approvalStatus; }
     public String getRemarks() { return remarks; }
     public void setRemarks(String remarks) { this.remarks = remarks; }
+    public Long getRequestedBy() { return requestedBy; }
+    public void setRequestedBy(Long requestedBy) { this.requestedBy = requestedBy; }
+    public String getRequestedByName() { return requestedByName; }
+    public void setRequestedByName(String requestedByName) { this.requestedByName = requestedByName; }
+    public Long getReservedBy() { return reservedBy; }
+    public void setReservedBy(Long reservedBy) { this.reservedBy = reservedBy; }
+    public String getReservedByName() { return reservedByName; }
+    public void setReservedByName(String reservedByName) { this.reservedByName = reservedByName; }
+    public Long getIssuedBy() { return issuedBy; }
+    public void setIssuedBy(Long issuedBy) { this.issuedBy = issuedBy; }
+    public String getIssuedByName() { return issuedByName; }
+    public void setIssuedByName(String issuedByName) { this.issuedByName = issuedByName; }
+    public Long getConsumedBy() { return consumedBy; }
+    public void setConsumedBy(Long consumedBy) { this.consumedBy = consumedBy; }
+    public String getConsumedByName() { return consumedByName; }
+    public void setConsumedByName(String consumedByName) { this.consumedByName = consumedByName; }
+    public Long getRejectedBy() { return rejectedBy; }
+    public void setRejectedBy(Long rejectedBy) { this.rejectedBy = rejectedBy; }
+    public String getRejectedByName() { return rejectedByName; }
+    public void setRejectedByName(String rejectedByName) { this.rejectedByName = rejectedByName; }
+    public Long getCancelledBy() { return cancelledBy; }
+    public void setCancelledBy(Long cancelledBy) { this.cancelledBy = cancelledBy; }
+    public String getCancelledByName() { return cancelledByName; }
+    public void setCancelledByName(String cancelledByName) { this.cancelledByName = cancelledByName; }
+    public LocalDateTime getRequestedAt() { return requestedAt; }
+    public void setRequestedAt(LocalDateTime requestedAt) { this.requestedAt = requestedAt; }
+    public LocalDateTime getReservedAt() { return reservedAt; }
+    public void setReservedAt(LocalDateTime reservedAt) { this.reservedAt = reservedAt; }
+    public LocalDateTime getIssuedAt() { return issuedAt; }
+    public void setIssuedAt(LocalDateTime issuedAt) { this.issuedAt = issuedAt; }
+    public LocalDateTime getConsumedAt() { return consumedAt; }
+    public void setConsumedAt(LocalDateTime consumedAt) { this.consumedAt = consumedAt; }
+    public LocalDateTime getRejectedAt() { return rejectedAt; }
+    public void setRejectedAt(LocalDateTime rejectedAt) { this.rejectedAt = rejectedAt; }
+    public LocalDateTime getCancelledAt() { return cancelledAt; }
+    public void setCancelledAt(LocalDateTime cancelledAt) { this.cancelledAt = cancelledAt; }
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
     public LocalDateTime getUpdatedAt() { return updatedAt; }

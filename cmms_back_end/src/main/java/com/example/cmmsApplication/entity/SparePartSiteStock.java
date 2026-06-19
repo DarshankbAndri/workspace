@@ -23,6 +23,9 @@ public class SparePartSiteStock {
     @Column(name = "current_stock", nullable = false, precision = 14, scale = 3)
     private BigDecimal currentStock = BigDecimal.ZERO;
 
+    @Column(name = "reserved_stock", nullable = false, precision = 14, scale = 3)
+    private BigDecimal reservedStock = BigDecimal.ZERO;
+
     @Column(name = "minimum_stock", nullable = false, precision = 14, scale = 3)
     private BigDecimal minimumStock = BigDecimal.ZERO;
 
@@ -60,6 +63,13 @@ public class SparePartSiteStock {
     public void setSite(Site site) { this.site = site; }
     public BigDecimal getCurrentStock() { return currentStock; }
     public void setCurrentStock(BigDecimal currentStock) { this.currentStock = currentStock; }
+    public BigDecimal getReservedStock() { return reservedStock; }
+    public void setReservedStock(BigDecimal reservedStock) { this.reservedStock = reservedStock; }
+    public BigDecimal getAvailableStock() {
+        BigDecimal current = currentStock == null ? BigDecimal.ZERO : currentStock;
+        BigDecimal reserved = reservedStock == null ? BigDecimal.ZERO : reservedStock;
+        return current.subtract(reserved);
+    }
     public BigDecimal getMinimumStock() { return minimumStock; }
     public void setMinimumStock(BigDecimal minimumStock) { this.minimumStock = minimumStock; }
     public BigDecimal getUnitCost() { return unitCost; }

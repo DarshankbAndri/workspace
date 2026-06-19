@@ -193,4 +193,94 @@
             ON CONFLICT (role_id, permission_id) DO NOTHING;
         </sql>
     </changeSet>
+
+    <changeSet id="cmms-spare-reservation-workflow" author="codex">
+        <preConditions onFail="MARK_RAN">
+            <and>
+                <tableExists tableName="spare_part_site_stock"/>
+                <not><columnExists tableName="spare_part_site_stock" columnName="reserved_stock"/></not>
+            </and>
+        </preConditions>
+        <addColumn tableName="spare_part_site_stock">
+            <column name="reserved_stock" type="NUMERIC(14,3)" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <sql>
+            ALTER TABLE spare_part_site_stock
+            ADD CONSTRAINT ck_spare_part_reserved_non_negative CHECK (reserved_stock &gt;= 0);
+        </sql>
+    </changeSet>
+
+    <changeSet id="cmms-spare-usage-workflow-columns" author="codex">
+        <preConditions onFail="MARK_RAN">
+            <and>
+                <tableExists tableName="maintenance_spare_usage"/>
+                <not><columnExists tableName="maintenance_spare_usage" columnName="status"/></not>
+            </and>
+        </preConditions>
+        <addColumn tableName="maintenance_spare_usage">
+            <column name="status" type="VARCHAR(30)" defaultValue="CONSUMED">
+                <constraints nullable="false"/>
+            </column>
+            <column name="requested_by" type="BIGINT"/>
+            <column name="reserved_by" type="BIGINT"/>
+            <column name="issued_by" type="BIGINT"/>
+            <column name="consumed_by" type="BIGINT"/>
+            <column name="rejected_by" type="BIGINT"/>
+            <column name="cancelled_by" type="BIGINT"/>
+            <column name="requested_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
+            <column name="reserved_at" type="TIMESTAMP"/>
+            <column name="issued_at" type="TIMESTAMP"/>
+            <column name="consumed_at" type="TIMESTAMP"/>
+            <column name="rejected_at" type="TIMESTAMP"/>
+            <column name="cancelled_at" type="TIMESTAMP"/>
+        </addColumn>
+        <addForeignKeyConstraint baseTableName="maintenance_spare_usage" baseColumnNames="requested_by" referencedTableName="users" referencedColumnNames="id" constraintName="fk_spare_usage_requested_by"/>
+        <addForeignKeyConstraint baseTableName="maintenance_spare_usage" baseColumnNames="reserved_by" referencedTableName="users" referencedColumnNames="id" constraintName="fk_spare_usage_reserved_by"/>
+        <addForeignKeyConstraint baseTableName="maintenance_spare_usage" baseColumnNames="issued_by" referencedTableName="users" referencedColumnNames="id" constraintName="fk_spare_usage_issued_by"/>
+        <addForeignKeyConstraint baseTableName="maintenance_spare_usage" baseColumnNames="consumed_by" referencedTableName="users" referencedColumnNames="id" constraintName="fk_spare_usage_consumed_by"/>
+        <addForeignKeyConstraint baseTableName="maintenance_spare_usage" baseColumnNames="rejected_by" referencedTableName="users" referencedColumnNames="id" constraintName="fk_spare_usage_rejected_by"/>
+        <addForeignKeyConstraint baseTableName="maintenance_spare_usage" baseColumnNames="cancelled_by" referencedTableName="users" referencedColumnNames="id" constraintName="fk_spare_usage_cancelled_by"/>
+        <createIndex indexName="idx_maintenance_spare_status" tableName="maintenance_spare_usage"><column name="status"/></createIndex>
+    </changeSet>
+
+    <changeSet id="cmms-spare-usage-workflow-permissions" author="codex">
+        <sql>
+            INSERT INTO permission_master (permission_code, permission_name, module_name, action_name, status, created_at, updated_at) VALUES
+            ('SPARE_USAGE_RESERVE', 'Reserve Assignment Spare Usage', 'Spare Usage', 'RESERVE', 'ACTIVE', NOW(), NOW()),
+            ('SPARE_USAGE_ISSUE', 'Issue Assignment Spare Usage', 'Spare Usage', 'ISSUE', 'ACTIVE', NOW(), NOW()),
+            ('SPARE_USAGE_CONSUME', 'Consume Assignment Spare Usage', 'Spare Usage', 'CONSUME', 'ACTIVE', NOW(), NOW()),
+            ('SPARE_USAGE_REJECT', 'Reject Assignment Spare Usage', 'Spare Usage', 'REJECT', 'ACTIVE', NOW(), NOW()),
+            ('SPARE_USAGE_CANCEL', 'Cancel Assignment Spare Usage', 'Spare Usage', 'CANCEL', 'ACTIVE', NOW(), NOW()),
+            ('SPARE_USAGE_RETURN', 'Return Assignment Spare Usage', 'Spare Usage', 'RETURN', 'ACTIVE', NOW(), NOW())
+            ON CONFLICT (permission_code) DO NOTHING;
+
+            INSERT INTO role_permission (role_id, permission_id)
+            SELECT r.role_id, p.permission_id
+            FROM role_master r
+            JOIN permission_master p ON p.permission_code IN (
+                'SPARE_USAGE_RESERVE', 'SPARE_USAGE_ISSUE', 'SPARE_USAGE_CONSUME',
+                'SPARE_USAGE_REJECT', 'SPARE_USAGE_CANCEL', 'SPARE_USAGE_RETURN'
+            )
+            WHERE r.role_code IN ('SUPER_ADMIN', 'ADMIN', 'SITE_MANAGER', 'MAINTENANCE_MANAGER')
+            ON CONFLICT (role_id, permission_id) DO NOTHING;
+
+            INSERT INTO role_permission (role_id, permission_id)
+            SELECT r.role_id, p.permission_id
+            FROM role_master r
+            JOIN permission_master p ON p.permission_code = 'SPARE_USAGE_CONSUME'
+            WHERE r.role_code = 'TECHNICIAN'
+            ON CONFLICT (role_id, permission_id) DO NOTHING;
+        </sql>
+    </changeSet>
+
+    <changeSet id="cmms-spare-issue-approval-config" author="codex">
+        <sql>
+            INSERT INTO approval_config (module_code, action_code, approval_required, approver_role_code, min_approval_count, status, created_at, updated_at) VALUES
+            ('SPARE_ISSUE', 'RESERVE', false, 'MAINTENANCE_MANAGER', 1, 'ACTIVE', NOW(), NOW()),
+            ('SPARE_ISSUE', 'ISSUE', false, 'MAINTENANCE_MANAGER', 1, 'ACTIVE', NOW(), NOW())
+            ON CONFLICT (module_code, action_code) DO NOTHING;
+        </sql>
+    </changeSet>
 </databaseChangeLog>

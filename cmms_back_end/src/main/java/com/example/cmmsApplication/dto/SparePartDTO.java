@@ -25,6 +25,8 @@ public class SparePartDTO {
     private String siteCode;
     private String siteName;
     private BigDecimal currentStock;
+    private BigDecimal reservedStock;
+    private BigDecimal availableStock;
     private BigDecimal minimumStock;
     private BigDecimal unitCost;
     private String storageLocation;
@@ -62,6 +64,10 @@ public class SparePartDTO {
     public void setSiteName(String siteName) { this.siteName = siteName; }
     public BigDecimal getCurrentStock() { return currentStock; }
     public void setCurrentStock(BigDecimal currentStock) { this.currentStock = currentStock; }
+    public BigDecimal getReservedStock() { return reservedStock; }
+    public void setReservedStock(BigDecimal reservedStock) { this.reservedStock = reservedStock; }
+    public BigDecimal getAvailableStock() { return availableStock; }
+    public void setAvailableStock(BigDecimal availableStock) { this.availableStock = availableStock; }
     public BigDecimal getMinimumStock() { return minimumStock; }
     public void setMinimumStock(BigDecimal minimumStock) { this.minimumStock = minimumStock; }
     public BigDecimal getUnitCost() { return unitCost; }
