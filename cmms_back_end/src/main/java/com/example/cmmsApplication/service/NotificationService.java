@@ -9,6 +9,7 @@ import com.example.cmmsApplication.entity.MaintenanceRequest;
 import com.example.cmmsApplication.entity.Notification;
 import com.example.cmmsApplication.entity.PreventiveMaintenanceSchedule;
 import com.example.cmmsApplication.entity.Site;
+import com.example.cmmsApplication.entity.SparePartSiteStock;
 import com.example.cmmsApplication.entity.User;
 import com.example.cmmsApplication.entity.UserRole;
 import com.example.cmmsApplication.exception.ResourceNotFoundException;
@@ -168,6 +169,23 @@ public class NotificationService {
         notifyRoleRecipients(settings, roleCodes, approvalRequest.getSite(), "APPROVAL_PENDING", title, message,
                 approvalRequest.getModuleCode(), approvalRequest.getReferenceId(), approvalRequest.getReferenceCode(),
                 "/approvals/pending", "HIGH", "APPROVAL_PENDING:" + approvalRequest.getId());
+    }
+
+    public void createLowStockAlert(SparePartSiteStock stock) {
+        NotificationSettingDTO settings = notificationSettingsService.getRuntimeSettings();
+        if (!isEnabled(settings) || stock == null || stock.getSparePart() == null || stock.getSite() == null) {
+            return;
+        }
+        String partCode = stock.getSparePart().getPartCode();
+        String title = "Spare part low stock";
+        String message = partCode + " - " + stock.getSparePart().getPartName()
+                + " is at " + stock.getCurrentStock() + " " + stock.getSparePart().getUnit()
+                + " for " + stock.getSite().getSiteName()
+                + ". Minimum stock is " + stock.getMinimumStock() + ".";
+        notifyRoleRecipients(settings, List.of("ADMIN", "SUPER_ADMIN", "SITE_MANAGER", "MAINTENANCE_MANAGER"),
+                stock.getSite(), "LOW_STOCK", title, message,
+                "SPARE_PART", stock.getId(), partCode,
+                "/inventory/spare-parts", "HIGH", "LOW_STOCK:" + stock.getId() + ":" + stock.getCurrentStock());
     }
 
     private void notifyRoleRecipients(NotificationSettingDTO settings, Collection<String> roleCodes, Site site, String type, String title, String message,

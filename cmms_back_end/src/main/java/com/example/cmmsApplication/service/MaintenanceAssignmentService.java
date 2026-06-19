@@ -72,7 +72,7 @@ public class MaintenanceAssignmentService {
         assignmentDAO.deleteById(id);
     }
 
-    private MaintenanceAssignment getEntity(Long id) {
+    public MaintenanceAssignment getEntity(Long id) {
         return assignmentDAO.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Maintenance assignment not found with id: " + id));
     }

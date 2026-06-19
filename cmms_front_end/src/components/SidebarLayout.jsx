@@ -32,6 +32,7 @@ import {
   ExpandMore,
   FactCheck,
   History,
+  Inventory2,
   LightMode,
   Notifications,
   People,
@@ -69,6 +70,15 @@ const operationGroups = [
       { label: 'Downtime', path: '/maintenance/downtime', icon: <Timeline />, permission: 'DOWNTIME_VIEW' },
       { label: 'Preventive Maintenance', path: '/maintenance/preventive', icon: <EventRepeat />, permission: 'REQUEST_VIEW' },
     ]
+  },
+  {
+    key: 'inventory',
+    label: 'Inventory',
+    icon: <Inventory2 />,
+    paths: ['/inventory'],
+    items: [
+      { label: 'Spare Parts', path: '/inventory/spare-parts', icon: <Inventory2 />, permission: 'SPARE_PART_VIEW' },
+    ],
   },
   {
     key: 'approvals',
@@ -211,6 +221,7 @@ function SidebarLayout({ children, mode, onToggleMode }) {
     masters: true,
     maintenance: true,
     approvals: true,
+    inventory: true,
     reports: true,
     creation: true,
     adminAccess: true,
@@ -234,7 +245,7 @@ function SidebarLayout({ children, mode, onToggleMode }) {
   const visibleOperationGroups = React.useMemo(() => filterGroups(operationGroups), [filterGroups]);
   const visibleHrGroups = React.useMemo(() => filterGroups(hrGroups), [filterGroups]);
   const visibleAdminGroups = React.useMemo(() => filterGroups(adminGroups), [filterGroups]);
-  const canShowOperation = hasAnyPermission(['DASHBOARD_VIEW', 'EQUIPMENT_VIEW', 'VENDOR_VIEW', 'REQUEST_VIEW', 'ASSIGNMENT_VIEW', 'DOWNTIME_VIEW', 'REPORT_VIEW', 'APPROVAL_VIEW']);
+  const canShowOperation = hasAnyPermission(['DASHBOARD_VIEW', 'EQUIPMENT_VIEW', 'VENDOR_VIEW', 'REQUEST_VIEW', 'ASSIGNMENT_VIEW', 'DOWNTIME_VIEW', 'SPARE_PART_VIEW', 'REPORT_VIEW', 'APPROVAL_VIEW']);
   const canShowHr = hasAnyPermission(['SITE_VIEW', 'EMPLOYEE_VIEW']);
   const canShowAdmin = hasAnyPermission(['ROLE_VIEW', 'PERMISSION_VIEW', 'USER_ROLE_VIEW', 'APPROVAL_CONFIG_VIEW', 'NOTIFICATION_CONFIG_VIEW', 'COMPANY_VIEW']);
 

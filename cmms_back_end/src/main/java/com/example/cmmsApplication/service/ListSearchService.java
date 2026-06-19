@@ -11,6 +11,7 @@ import com.example.cmmsApplication.entity.MaintenanceRequestList;
 import com.example.cmmsApplication.entity.PreventiveMaintenanceScheduleList;
 import com.example.cmmsApplication.entity.RoleList;
 import com.example.cmmsApplication.entity.SiteList;
+import com.example.cmmsApplication.entity.SparePartStockList;
 import com.example.cmmsApplication.entity.VendorList;
 import com.example.cmmsApplication.repository.EmployeeListRepository;
 import com.example.cmmsApplication.repository.EquipmentDowntimeListRepository;
@@ -19,6 +20,7 @@ import com.example.cmmsApplication.repository.MaintenanceRequestListRepository;
 import com.example.cmmsApplication.repository.PreventiveMaintenanceScheduleListRepository;
 import com.example.cmmsApplication.repository.RoleListRepository;
 import com.example.cmmsApplication.repository.SiteListRepository;
+import com.example.cmmsApplication.repository.SparePartStockListRepository;
 import com.example.cmmsApplication.repository.VendorListRepository;
 import org.springframework.stereotype.Service;
 
@@ -78,6 +80,12 @@ public class ListSearchService {
             "commonSearch", "id", "roleCode", "roleName", "description", "status",
             "permissionCount", "createdAt", "updatedAt"
     );
+    private static final Set<String> SPARE_PART_FILTERS = Set.of(
+            "commonSearch", "id", "sparePartId", "partCode", "partName", "description",
+            "category", "unit", "preferredVendorId", "preferredVendorName", "siteId",
+            "siteCode", "siteName", "currentStock", "minimumStock", "unitCost",
+            "storageLocation", "status", "lowStock", "createdAt", "updatedAt"
+    );
 
     private final SearchService searchService;
     private final AccessControlService accessControlService;
@@ -89,6 +97,7 @@ public class ListSearchService {
     private final EquipmentDowntimeListRepository equipmentDowntimeListRepository;
     private final PreventiveMaintenanceScheduleListRepository preventiveMaintenanceScheduleListRepository;
     private final RoleListRepository roleListRepository;
+    private final SparePartStockListRepository sparePartStockListRepository;
 
     public ListSearchService(SearchService searchService,
                              AccessControlService accessControlService,
@@ -99,7 +108,8 @@ public class ListSearchService {
                              MaintenanceAssignmentListRepository maintenanceAssignmentListRepository,
                              EquipmentDowntimeListRepository equipmentDowntimeListRepository,
                              PreventiveMaintenanceScheduleListRepository preventiveMaintenanceScheduleListRepository,
-                             RoleListRepository roleListRepository) {
+                             RoleListRepository roleListRepository,
+                             SparePartStockListRepository sparePartStockListRepository) {
         this.searchService = searchService;
         this.accessControlService = accessControlService;
         this.siteListRepository = siteListRepository;
@@ -110,6 +120,7 @@ public class ListSearchService {
         this.equipmentDowntimeListRepository = equipmentDowntimeListRepository;
         this.preventiveMaintenanceScheduleListRepository = preventiveMaintenanceScheduleListRepository;
         this.roleListRepository = roleListRepository;
+        this.sparePartStockListRepository = sparePartStockListRepository;
     }
 
     public PageProperties searchSites(SearchDTO searchDTO) {
@@ -165,6 +176,13 @@ public class ListSearchService {
         accessControlService.validatePermission("ROLE_VIEW");
         SearchDTO effectiveSearch = prepare(searchDTO, ROLE_FILTERS, RoleList.class, "createdAt");
         return searchService.getFilteredResults(effectiveSearch, roleListRepository, RoleList.class);
+    }
+
+    public PageProperties searchSparePartStocks(SearchDTO searchDTO) {
+        accessControlService.validatePermission("SPARE_PART_VIEW");
+        SearchDTO effectiveSearch = prepare(searchDTO, SPARE_PART_FILTERS, SparePartStockList.class, "createdAt");
+        applySiteAccess(effectiveSearch, "siteId");
+        return searchService.getFilteredResults(effectiveSearch, sparePartStockListRepository, SparePartStockList.class);
     }
 
     private SearchDTO prepare(SearchDTO searchDTO, Set<String> allowedKeys, Class<?> entityClass, String defaultSortBy) {

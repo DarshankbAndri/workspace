@@ -23,6 +23,8 @@ import ApprovalHistoryPage from './pages/approvals/ApprovalHistoryPage';
 import NotificationCenterPage from './pages/notifications/NotificationCenterPage';
 import EquipmentHistoryPage from './pages/reports/EquipmentHistoryPage';
 import DowntimeAnalysisPage from './pages/reports/DowntimeAnalysisPage';
+import SparePartListPage from './pages/inventory/SparePartListPage';
+import SparePartFormPage from './pages/inventory/SparePartFormPage';
 import SiteListPage from './pages/hr/site/SiteListPage';
 import SiteFormPage from './pages/hr/site/SiteFormPage';
 import EmployeeListPage from './pages/hr/employee/EmployeeListPage';
@@ -184,6 +186,10 @@ function App() {
           <Route path="/notifications" element={protectedPage(<NotificationCenterPage />)} />
           <Route path="/reports/equipment-history" element={protectedPage(<EquipmentHistoryPage />, 'REPORT_VIEW')} />
           <Route path="/reports/downtime-analysis" element={protectedPage(<DowntimeAnalysisPage />, 'REPORT_VIEW')} />
+          <Route path="/inventory/spare-parts" element={protectedPage(<SparePartListPage />, 'SPARE_PART_VIEW')} />
+          <Route path="/inventory/spare-parts/new" element={protectedPage(<SparePartFormPage />, 'SPARE_PART_CREATE')} />
+          <Route path="/inventory/spare-parts/:id/edit" element={protectedPage(<SparePartFormPage />, 'SPARE_PART_UPDATE')} />
+          <Route path="/inventory/spare-parts/:id/view" element={protectedPage(<SparePartFormPage />, 'SPARE_PART_VIEW')} />
           <Route path="/hr/sites" element={protectedPage(<SiteListPage />, 'SITE_VIEW')} />
           <Route path="/hr/sites/new" element={protectedPage(<SiteFormPage />, 'SITE_CREATE')} />
           <Route path="/hr/sites/:id/edit" element={protectedPage(<SiteFormPage />, 'SITE_UPDATE')} />

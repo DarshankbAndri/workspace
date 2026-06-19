@@ -1,10 +1,12 @@
 import React from 'react';
-import { Alert, Box, Button, Grid, MenuItem, Paper, Stack, TextField, Typography } from '@mui/material';
-import { Save } from '@mui/icons-material';
+import { Alert, Box, Button, Grid, IconButton, MenuItem, Paper, Stack, TextField, Typography } from '@mui/material';
+import { Delete, Save } from '@mui/icons-material';
+import { DataGrid } from '@mui/x-data-grid';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { getVendorsBySite } from '../../../services/vendorService';
 import { getSites } from '../../../services/siteService';
 import { createMaintenanceAssignment, getMaintenanceAssignmentById, getRequestsBySite, updateMaintenanceAssignment } from '../../../services/maintenanceService';
+import { addAssignmentSpare, deleteAssignmentSpare, getAssignmentSpares, getSparePartsBySite } from '../../../services/sparePartService';
 
 const initialForm = {
   siteId: '',
@@ -32,6 +34,9 @@ function MaintenanceAssignmentFormPage() {
   const [sites, setSites] = React.useState([]);
   const [requests, setRequests] = React.useState([]);
   const [vendors, setVendors] = React.useState([]);
+  const [siteSpares, setSiteSpares] = React.useState([]);
+  const [spareRows, setSpareRows] = React.useState([]);
+  const [spareForm, setSpareForm] = React.useState({ stockId: '', quantityUsed: '', remarks: '' });
   const [error, setError] = React.useState('');
   const [saving, setSaving] = React.useState(false);
 
@@ -51,19 +56,101 @@ function MaintenanceAssignmentFormPage() {
     if (!form.siteId) {
       setRequests([]);
       setVendors([]);
+      setSiteSpares([]);
       return;
     }
-    Promise.all([getRequestsBySite(form.siteId), getVendorsBySite(form.siteId)])
-      .then(([requestRows, vendorRows]) => {
+    Promise.all([getRequestsBySite(form.siteId), getVendorsBySite(form.siteId), getSparePartsBySite(form.siteId)])
+      .then(([requestRows, vendorRows, spareRows]) => {
         setRequests((requestRows || []).filter((request) => !['PENDING_APPROVAL', 'CLOSE_PENDING_APPROVAL', 'REJECTED'].includes(request.status)));
         setVendors(vendorRows || []);
+        setSiteSpares(spareRows || []);
       })
-      .catch(() => setError('Unable to load requests or vendors for selected site.'));
+      .catch(() => setError('Unable to load requests, vendors, or spare parts for selected site.'));
   }, [form.siteId]);
+
+  const loadSpares = React.useCallback(() => {
+    if (!id) {
+      setSpareRows([]);
+      return;
+    }
+    getAssignmentSpares(id)
+      .then((data) => setSpareRows(data || []))
+      .catch(() => setError('Unable to load assignment spare usage.'));
+  }, [id]);
+
+  React.useEffect(() => { loadSpares(); }, [loadSpares]);
 
   const updateField = (field) => (event) => setForm((current) => ({ ...current, [field]: event.target.value }));
   const updateSite = (event) => setForm((current) => ({ ...current, siteId: event.target.value, requestId: '', vendorId: '' }));
   const updateRequest = (event) => setForm((current) => ({ ...current, requestId: event.target.value, vendorId: '' }));
+  const updateSpareField = (field) => (event) => setSpareForm((current) => ({ ...current, [field]: event.target.value }));
+
+  const materialCost = spareRows.reduce((sum, item) => sum + Number(item.totalCost || 0), 0);
+  const serviceCost = Number(form.actualCost || 0);
+  const totalActualCost = serviceCost + materialCost;
+
+  const handleAddSpare = async () => {
+    setError('');
+    if (!id) {
+      setError('Save the assignment before adding spare parts.');
+      return;
+    }
+    if (!spareForm.stockId || !spareForm.quantityUsed) {
+      setError('Spare part and quantity are required.');
+      return;
+    }
+    try {
+      await addAssignmentSpare(id, {
+        stockId: Number(spareForm.stockId),
+        quantityUsed: Number(spareForm.quantityUsed),
+        remarks: spareForm.remarks,
+      });
+      setSpareForm({ stockId: '', quantityUsed: '', remarks: '' });
+      const selected = siteSpares.find((item) => String(item.id) === String(spareForm.stockId));
+      if (selected) {
+        setSiteSpares((current) => current.map((item) => String(item.id) === String(selected.id)
+          ? { ...item, currentStock: Number(item.currentStock || 0) - Number(spareForm.quantityUsed || 0) }
+          : item));
+      }
+      loadSpares();
+    } catch (err) {
+      setError(err.response?.data?.message || 'Unable to add spare part usage.');
+    }
+  };
+
+  const handleDeleteSpare = async (usageId) => {
+    if (!window.confirm('Remove this spare usage and return stock?')) return;
+    try {
+      await deleteAssignmentSpare(id, usageId);
+      loadSpares();
+      if (form.siteId) {
+        getSparePartsBySite(form.siteId).then((data) => setSiteSpares(data || []));
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || 'Unable to remove spare usage.');
+    }
+  };
+
+  const spareColumns = [
+    { field: 'partCode', headerName: 'Part Code', minWidth: 140, flex: 0.8 },
+    { field: 'partName', headerName: 'Part Name', minWidth: 220, flex: 1.2 },
+    { field: 'quantityUsed', headerName: 'Qty', minWidth: 100, flex: 0.5 },
+    { field: 'unit', headerName: 'Unit', minWidth: 90, flex: 0.4 },
+    { field: 'unitCost', headerName: 'Unit Cost', minWidth: 120, flex: 0.6 },
+    { field: 'totalCost', headerName: 'Total Cost', minWidth: 130, flex: 0.7 },
+    { field: 'remarks', headerName: 'Remarks', minWidth: 180, flex: 1 },
+    {
+      field: 'actions',
+      headerName: '',
+      sortable: false,
+      width: 70,
+      renderCell: ({ row }) => !isView && (
+        <IconButton aria-label="Remove spare usage" color="error" onClick={() => handleDeleteSpare(row.id)}>
+          <Delete fontSize="small" />
+        </IconButton>
+      ),
+    },
+  ];
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -113,7 +200,9 @@ function MaintenanceAssignmentFormPage() {
             <Grid item xs={12} md={3}><TextField type="date" fullWidth disabled={isView} label="Actual Start" value={form.actualStartDate || ''} onChange={updateField('actualStartDate')} InputLabelProps={{ shrink: true }} /></Grid>
             <Grid item xs={12} md={3}><TextField type="date" fullWidth disabled={isView} label="Actual End" value={form.actualEndDate || ''} onChange={updateField('actualEndDate')} InputLabelProps={{ shrink: true }} /></Grid>
             <Grid item xs={12} md={3}><TextField type="number" fullWidth disabled={isView} label="Estimated Cost" value={form.estimatedCost} onChange={updateField('estimatedCost')} /></Grid>
-            <Grid item xs={12} md={3}><TextField type="number" fullWidth disabled={isView} label="Actual Cost" value={form.actualCost} onChange={updateField('actualCost')} /></Grid>
+            <Grid item xs={12} md={3}><TextField type="number" fullWidth disabled={isView} label="Service/Vendor Cost" value={form.actualCost} onChange={updateField('actualCost')} /></Grid>
+            <Grid item xs={12} md={3}><TextField fullWidth disabled label="Material Cost" value={materialCost.toFixed(2)} /></Grid>
+            <Grid item xs={12} md={3}><TextField fullWidth disabled label="Total Actual Cost" value={totalActualCost.toFixed(2)} /></Grid>
             <Grid item xs={12}><TextField fullWidth disabled={isView} multiline minRows={2} label="Remarks" value={form.remarks || ''} onChange={updateField('remarks')} /></Grid>
           </Grid>
           <Stack direction="row" spacing={1.5} sx={{ mt: 3 }}>
@@ -122,6 +211,30 @@ function MaintenanceAssignmentFormPage() {
           </Stack>
         </Paper>
       </Box>
+      {id && (
+        <Paper sx={{ p: 3, borderRadius: 1, mt: 2 }}>
+          <Typography variant="h6" fontWeight={800} sx={{ mb: 2 }}>Used Spare Parts</Typography>
+          {!isView && (
+            <Grid container spacing={2} sx={{ mb: 2 }}>
+              <Grid item xs={12} md={5}>
+                <TextField select fullWidth label="Spare Part" value={spareForm.stockId} onChange={updateSpareField('stockId')}>
+                  {siteSpares.map((item) => (
+                    <MenuItem key={item.id} value={item.id}>
+                      {item.partCode} - {item.partName} | Available: {item.currentStock} {item.unit}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </Grid>
+              <Grid item xs={12} md={2}><TextField type="number" fullWidth label="Quantity" value={spareForm.quantityUsed} onChange={updateSpareField('quantityUsed')} /></Grid>
+              <Grid item xs={12} md={3}><TextField fullWidth label="Remarks" value={spareForm.remarks} onChange={updateSpareField('remarks')} /></Grid>
+              <Grid item xs={12} md={2}><Button fullWidth variant="contained" sx={{ height: '100%' }} onClick={handleAddSpare}>Add Spare</Button></Grid>
+            </Grid>
+          )}
+          <Box sx={{ height: 320 }}>
+            <DataGrid rows={spareRows} columns={spareColumns} disableRowSelectionOnClick pageSizeOptions={[5, 10]} initialState={{ pagination: { paginationModel: { pageSize: 5 } } }} />
+          </Box>
+        </Paper>
+      )}
     </Box>
   );
 }
