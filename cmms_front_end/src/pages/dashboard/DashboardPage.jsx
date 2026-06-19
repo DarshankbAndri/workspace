@@ -20,6 +20,7 @@ import {
   EventRepeat,
   PrecisionManufacturing,
   Timeline,
+  WarningAmber,
 } from '@mui/icons-material';
 import {
   Bar,
@@ -58,6 +59,13 @@ const metricCards = [
     helper: 'Work orders needing action',
     icon: <Build />,
     color: '#ed6c02',
+  },
+  {
+    key: 'lowStockSpareParts',
+    label: 'Low Stock Spare Parts',
+    helper: 'Inventory items below minimum level',
+    icon: <WarningAmber />,
+    color: '#c62828',
   },
   {
     key: 'totalDowntimeHours',

@@ -5,8 +5,10 @@ import com.example.cmmsApplication.dao.SparePartSiteStockDAO;
 import com.example.cmmsApplication.dao.SparePartTransactionDAO;
 import com.example.cmmsApplication.dto.PageProperties;
 import com.example.cmmsApplication.dto.SearchDTO;
+import com.example.cmmsApplication.dto.SparePartImportResultDTO;
 import com.example.cmmsApplication.dto.SparePartDTO;
 import com.example.cmmsApplication.dto.SparePartTransactionDTO;
+import com.example.cmmsApplication.dto.StockTransferDTO;
 import com.example.cmmsApplication.entity.Site;
 import com.example.cmmsApplication.entity.SparePart;
 import com.example.cmmsApplication.entity.SparePartSiteStock;
@@ -15,14 +17,27 @@ import com.example.cmmsApplication.entity.User;
 import com.example.cmmsApplication.entity.Vendor;
 import com.example.cmmsApplication.exception.InvalidOperationException;
 import com.example.cmmsApplication.exception.ResourceNotFoundException;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DataFormatter;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -169,6 +184,69 @@ public class SparePartService {
         return toTransactionDTO(transaction);
     }
 
+    public List<SparePartTransactionDTO> transferStock(Long sourceStockId, StockTransferDTO dto) {
+        accessControlService.validatePermission("STOCK_TRANSACTION_CREATE");
+        SparePartSiteStock source = getStockForUpdate(sourceStockId);
+        accessControlService.validateSiteAccess(source.getSite().getId());
+        accessControlService.validateSiteAccess(dto.getTargetSiteId());
+        if (source.getSite().getId().equals(dto.getTargetSiteId())) {
+            throw new InvalidOperationException("Target site must be different from source site");
+        }
+        BigDecimal quantity = positive(dto.getQuantity(), "Transfer quantity");
+        BigDecimal sourceBefore = source.getCurrentStock();
+        BigDecimal sourceAfter = sourceBefore.subtract(quantity);
+        if (sourceAfter.compareTo(BigDecimal.ZERO) < 0) {
+            throw new InvalidOperationException("Insufficient stock for transfer. Available: " + sourceBefore);
+        }
+
+        SparePartSiteStock target = stockDAO.findBySparePartIdAndSiteId(source.getSparePart().getId(), dto.getTargetSiteId())
+                .orElseGet(() -> {
+                    SparePartSiteStock created = new SparePartSiteStock();
+                    created.setSparePart(source.getSparePart());
+                    created.setSite(siteService.getEntity(dto.getTargetSiteId()));
+                    created.setCurrentStock(BigDecimal.ZERO);
+                    created.setMinimumStock(BigDecimal.ZERO);
+                    created.setUnitCost(source.getUnitCost());
+                    created.setStorageLocation(dto.getTargetStorageLocation());
+                    created.setStatus("ACTIVE");
+                    return stockDAO.save(created);
+                });
+        target = getStockForUpdate(target.getId());
+
+        source.setCurrentStock(sourceAfter);
+        SparePartSiteStock savedSource = stockDAO.save(source);
+        BigDecimal targetBefore = target.getCurrentStock();
+        BigDecimal targetAfter = targetBefore.add(quantity);
+        target.setCurrentStock(targetAfter);
+        target.setUnitCost(source.getUnitCost());
+        if (dto.getTargetStorageLocation() != null && !dto.getTargetStorageLocation().isBlank()) {
+            target.setStorageLocation(dto.getTargetStorageLocation());
+        }
+        SparePartSiteStock savedTarget = stockDAO.save(target);
+
+        String remarks = dto.getRemarks() == null ? "Site transfer" : dto.getRemarks();
+        SparePartTransaction out = createTransaction(savedSource, "TRANSFER_OUT", quantity.negate(), savedSource.getUnitCost(), sourceBefore, sourceAfter,
+                "SPARE_STOCK_TRANSFER", savedTarget.getId(), remarks);
+        SparePartTransaction in = createTransaction(savedTarget, "TRANSFER_IN", quantity, savedTarget.getUnitCost(), targetBefore, targetAfter,
+                "SPARE_STOCK_TRANSFER", savedSource.getId(), remarks);
+        notifyIfLowStock(savedSource);
+        notifyIfLowStock(savedTarget);
+        return List.of(toTransactionDTO(out), toTransactionDTO(in));
+    }
+
+    public SparePartImportResultDTO importSpareParts(MultipartFile file) {
+        accessControlService.validatePermission("SPARE_PART_CREATE");
+        if (file == null || file.isEmpty()) {
+            throw new InvalidOperationException("Import file is required");
+        }
+        try {
+            List<List<String>> rows = readImportRows(file);
+            return importRows(rows);
+        } catch (IOException ex) {
+            throw new InvalidOperationException("Unable to read import file: " + ex.getMessage());
+        }
+    }
+
     @Transactional(readOnly = true)
     public List<SparePartTransactionDTO> getTransactions(Long stockId) {
         accessControlService.validatePermission("STOCK_TRANSACTION_VIEW");
@@ -241,6 +319,112 @@ public class SparePartService {
         stock.setUnitCost(nonNegative(dto.getUnitCost(), "Unit cost"));
         stock.setStorageLocation(dto.getStorageLocation());
         stock.setStatus(defaultStatus(dto.getStatus()));
+    }
+
+    private SparePartImportResultDTO importRows(List<List<String>> rows) {
+        SparePartImportResultDTO result = new SparePartImportResultDTO();
+        for (int index = 0; index < rows.size(); index++) {
+            List<String> row = rows.get(index);
+            if (row.stream().allMatch((value) -> value == null || value.isBlank())) {
+                continue;
+            }
+            if (index == 0 && row.get(0).toLowerCase(Locale.ROOT).contains("part")) {
+                continue;
+            }
+            try {
+                SparePartDTO dto = toImportDTO(row);
+                accessControlService.validateSiteAccess(dto.getSiteId());
+                String partCode = normalizeCode(dto.getPartCode());
+                SparePart part = sparePartDAO.findByPartCode(partCode).orElse(null);
+                if (part == null) {
+                    SparePartDTO created = create(dto);
+                    if (created.getId() != null) {
+                        result.incrementCreated();
+                    }
+                } else {
+                    SparePartSiteStock stock = stockDAO.findBySparePartIdAndSiteId(part.getId(), dto.getSiteId()).orElse(null);
+                    if (stock == null) {
+                        SparePartSiteStock newStock = new SparePartSiteStock();
+                        newStock.setSparePart(part);
+                        applyStock(newStock, dto);
+                        stockDAO.save(newStock);
+                        result.incrementCreated();
+                    } else {
+                        dto.setPartCode(part.getPartCode());
+                        update(stock.getId(), dto);
+                        if (dto.getCurrentStock() != null) {
+                            SparePartTransactionDTO adjustment = new SparePartTransactionDTO();
+                            adjustment.setQuantity(dto.getCurrentStock());
+                            adjustment.setUnitCost(dto.getUnitCost());
+                            adjustment.setRemarks("Import stock adjustment");
+                            adjustStock(stock.getId(), adjustment);
+                        }
+                        result.incrementUpdated();
+                    }
+                }
+            } catch (RuntimeException ex) {
+                result.addError("Row " + (index + 1) + ": " + ex.getMessage());
+            }
+        }
+        return result;
+    }
+
+    private SparePartDTO toImportDTO(List<String> row) {
+        SparePartDTO dto = new SparePartDTO();
+        dto.setPartCode(value(row, 0));
+        dto.setPartName(value(row, 1));
+        dto.setUnit(defaultValue(value(row, 2), "PCS"));
+        dto.setSiteId(toLong(value(row, 3)));
+        dto.setCurrentStock(toBigDecimal(value(row, 4)));
+        dto.setMinimumStock(toBigDecimal(value(row, 5)));
+        dto.setUnitCost(toBigDecimal(value(row, 6)));
+        dto.setCategory(value(row, 7));
+        dto.setDescription(value(row, 8));
+        dto.setStorageLocation(value(row, 9));
+        dto.setPreferredVendorId(toLong(value(row, 10)));
+        dto.setStatus(defaultValue(value(row, 11), "ACTIVE"));
+        return dto;
+    }
+
+    private List<List<String>> readImportRows(MultipartFile file) throws IOException {
+        String name = Objects.requireNonNullElse(file.getOriginalFilename(), "").toLowerCase(Locale.ROOT);
+        if (name.endsWith(".csv")) {
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8))) {
+                return reader.lines()
+                        .map((line) -> Arrays.stream(line.split(",", -1)).map(String::trim).collect(Collectors.toList()))
+                        .collect(Collectors.toList());
+            }
+        }
+        try (Workbook workbook = WorkbookFactory.create(file.getInputStream())) {
+            DataFormatter formatter = new DataFormatter();
+            List<List<String>> rows = new ArrayList<>();
+            for (Row row : workbook.getSheetAt(0)) {
+                List<String> values = new ArrayList<>();
+                int lastCell = Math.max(row.getLastCellNum(), 0);
+                for (int cellIndex = 0; cellIndex < lastCell; cellIndex++) {
+                    Cell cell = row.getCell(cellIndex);
+                    values.add(formatter.formatCellValue(cell).trim());
+                }
+                rows.add(values);
+            }
+            return rows;
+        }
+    }
+
+    private String value(List<String> row, int index) {
+        return index >= row.size() ? null : row.get(index);
+    }
+
+    private String defaultValue(String value, String defaultValue) {
+        return value == null || value.isBlank() ? defaultValue : value;
+    }
+
+    private Long toLong(String value) {
+        return value == null || value.isBlank() ? null : Long.valueOf(value.trim());
+    }
+
+    private BigDecimal toBigDecimal(String value) {
+        return value == null || value.isBlank() ? BigDecimal.ZERO : new BigDecimal(value.trim());
     }
 
     private SparePartTransaction createTransaction(SparePartSiteStock stock, String type, BigDecimal quantity, BigDecimal unitCost,

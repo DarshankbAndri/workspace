@@ -21,4 +21,13 @@ public interface SparePartSiteStockRepository extends JpaRepository<SparePartSit
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("select stock from SparePartSiteStock stock where stock.id = :id")
     Optional<SparePartSiteStock> findByIdForUpdate(Long id);
+
+    @Query("select count(stock) from SparePartSiteStock stock where stock.status = 'ACTIVE' and stock.currentStock <= stock.minimumStock")
+    long countLowStock();
+
+    @Query("select count(stock) from SparePartSiteStock stock where stock.status = 'ACTIVE' and stock.site.id = :siteId and stock.currentStock <= stock.minimumStock")
+    long countLowStockBySiteId(Long siteId);
+
+    @Query("select count(stock) from SparePartSiteStock stock where stock.status = 'ACTIVE' and stock.site.id in :siteIds and stock.currentStock <= stock.minimumStock")
+    long countLowStockBySiteIdIn(Collection<Long> siteIds);
 }

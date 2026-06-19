@@ -16,6 +16,7 @@ public class SparePartDAO {
 
     public SparePart save(SparePart sparePart) { return repository.save(sparePart); }
     public Optional<SparePart> findById(Long id) { return repository.findById(id); }
+    public Optional<SparePart> findByPartCode(String partCode) { return repository.findByPartCode(partCode); }
     public void deleteById(Long id) { repository.deleteById(id); }
     public boolean existsByPartCode(String partCode) { return repository.existsByPartCode(partCode); }
     public boolean existsByPartCodeAndIdNot(String partCode, Long id) { return repository.existsByPartCodeAndIdNot(partCode, id); }

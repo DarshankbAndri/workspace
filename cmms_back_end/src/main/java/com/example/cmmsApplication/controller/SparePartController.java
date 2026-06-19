@@ -2,13 +2,17 @@ package com.example.cmmsApplication.controller;
 
 import com.example.cmmsApplication.dto.PageProperties;
 import com.example.cmmsApplication.dto.SearchDTO;
+import com.example.cmmsApplication.dto.SparePartImportResultDTO;
 import com.example.cmmsApplication.dto.SparePartDTO;
 import com.example.cmmsApplication.dto.SparePartTransactionDTO;
+import com.example.cmmsApplication.dto.StockTransferDTO;
 import com.example.cmmsApplication.service.SparePartService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -67,5 +71,16 @@ public class SparePartController {
     public ResponseEntity<SparePartTransactionDTO> adjust(@PathVariable Long stockId,
                                                           @Valid @RequestBody SparePartTransactionDTO dto) {
         return ResponseEntity.ok(sparePartService.adjustStock(stockId, dto));
+    }
+
+    @PostMapping("/{stockId}/transfer")
+    public ResponseEntity<List<SparePartTransactionDTO>> transfer(@PathVariable Long stockId,
+                                                                  @Valid @RequestBody StockTransferDTO dto) {
+        return ResponseEntity.ok(sparePartService.transferStock(stockId, dto));
+    }
+
+    @PostMapping(value = "/import", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<SparePartImportResultDTO> importFile(@RequestPart("file") MultipartFile file) {
+        return ResponseEntity.ok(sparePartService.importSpareParts(file));
     }
 }

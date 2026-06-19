@@ -1,12 +1,12 @@
 import React from 'react';
-import { Alert, Box, Button, Grid, IconButton, MenuItem, Paper, Stack, TextField, Typography } from '@mui/material';
-import { Delete, Save } from '@mui/icons-material';
+import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, MenuItem, Paper, Stack, TextField, Typography } from '@mui/material';
+import { Delete, Edit, Save } from '@mui/icons-material';
 import { DataGrid } from '@mui/x-data-grid';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { getVendorsBySite } from '../../../services/vendorService';
 import { getSites } from '../../../services/siteService';
 import { createMaintenanceAssignment, getMaintenanceAssignmentById, getRequestsBySite, updateMaintenanceAssignment } from '../../../services/maintenanceService';
-import { addAssignmentSpare, deleteAssignmentSpare, getAssignmentSpares, getSparePartsBySite } from '../../../services/sparePartService';
+import { addAssignmentSpare, deleteAssignmentSpare, getAssignmentSpares, getSparePartsBySite, updateAssignmentSpare } from '../../../services/sparePartService';
 
 const initialForm = {
   siteId: '',
@@ -24,6 +24,8 @@ const initialForm = {
   remarks: '',
 };
 
+const initialSpareEditDialog = { open: false, row: null, quantityUsed: '', remarks: '' };
+
 function MaintenanceAssignmentFormPage() {
   const { id } = useParams();
   const location = useLocation();
@@ -37,6 +39,7 @@ function MaintenanceAssignmentFormPage() {
   const [siteSpares, setSiteSpares] = React.useState([]);
   const [spareRows, setSpareRows] = React.useState([]);
   const [spareForm, setSpareForm] = React.useState({ stockId: '', quantityUsed: '', remarks: '' });
+  const [spareEditDialog, setSpareEditDialog] = React.useState(initialSpareEditDialog);
   const [error, setError] = React.useState('');
   const [saving, setSaving] = React.useState(false);
 
@@ -131,6 +134,28 @@ function MaintenanceAssignmentFormPage() {
     }
   };
 
+  const handleOpenEditSpare = (row) => {
+    setSpareEditDialog({ open: true, row, quantityUsed: row.quantityUsed ?? '', remarks: row.remarks || '' });
+  };
+
+  const handleUpdateSpare = async () => {
+    setError('');
+    try {
+      await updateAssignmentSpare(id, spareEditDialog.row.id, {
+        stockId: spareEditDialog.row.stockId,
+        quantityUsed: Number(spareEditDialog.quantityUsed),
+        remarks: spareEditDialog.remarks,
+      });
+      setSpareEditDialog(initialSpareEditDialog);
+      loadSpares();
+      if (form.siteId) {
+        getSparePartsBySite(form.siteId).then((data) => setSiteSpares(data || []));
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || 'Unable to update spare usage.');
+    }
+  };
+
   const spareColumns = [
     { field: 'partCode', headerName: 'Part Code', minWidth: 140, flex: 0.8 },
     { field: 'partName', headerName: 'Part Name', minWidth: 220, flex: 1.2 },
@@ -143,11 +168,16 @@ function MaintenanceAssignmentFormPage() {
       field: 'actions',
       headerName: '',
       sortable: false,
-      width: 70,
+      width: 110,
       renderCell: ({ row }) => !isView && (
-        <IconButton aria-label="Remove spare usage" color="error" onClick={() => handleDeleteSpare(row.id)}>
-          <Delete fontSize="small" />
-        </IconButton>
+        <Stack direction="row" spacing={0.5}>
+          <IconButton aria-label="Edit spare usage" onClick={() => handleOpenEditSpare(row)}>
+            <Edit fontSize="small" />
+          </IconButton>
+          <IconButton aria-label="Remove spare usage" color="error" onClick={() => handleDeleteSpare(row.id)}>
+            <Delete fontSize="small" />
+          </IconButton>
+        </Stack>
       ),
     },
   ];
@@ -235,6 +265,32 @@ function MaintenanceAssignmentFormPage() {
           </Box>
         </Paper>
       )}
+      <Dialog open={spareEditDialog.open} onClose={() => setSpareEditDialog(initialSpareEditDialog)} maxWidth="sm" fullWidth>
+        <DialogTitle>Edit Spare Usage</DialogTitle>
+        <DialogContent sx={{ display: 'grid', gap: 2, pt: 2 }}>
+          <Typography variant="body2" color="text.secondary">
+            {spareEditDialog.row?.partCode} - {spareEditDialog.row?.partName}
+          </Typography>
+          <TextField
+            required
+            type="number"
+            label="Quantity Used"
+            value={spareEditDialog.quantityUsed}
+            onChange={(event) => setSpareEditDialog((current) => ({ ...current, quantityUsed: event.target.value }))}
+          />
+          <TextField
+            multiline
+            minRows={2}
+            label="Remarks"
+            value={spareEditDialog.remarks}
+            onChange={(event) => setSpareEditDialog((current) => ({ ...current, remarks: event.target.value }))}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setSpareEditDialog(initialSpareEditDialog)}>Cancel</Button>
+          <Button variant="contained" onClick={handleUpdateSpare}>Save</Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }

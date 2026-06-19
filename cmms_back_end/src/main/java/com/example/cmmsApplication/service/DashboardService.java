@@ -3,6 +3,7 @@ package com.example.cmmsApplication.service;
 import com.example.cmmsApplication.dao.EquipmentDAO;
 import com.example.cmmsApplication.dao.EquipmentDowntimeDAO;
 import com.example.cmmsApplication.dao.MaintenanceRequestDAO;
+import com.example.cmmsApplication.dao.SparePartSiteStockDAO;
 import com.example.cmmsApplication.dao.VendorDAO;
 import com.example.cmmsApplication.dto.DashboardDTO;
 import org.springframework.stereotype.Service;
@@ -17,13 +18,15 @@ public class DashboardService {
     private final VendorDAO vendorDAO;
     private final MaintenanceRequestDAO requestDAO;
     private final EquipmentDowntimeDAO downtimeDAO;
+    private final SparePartSiteStockDAO stockDAO;
     private final AccessControlService accessControlService;
 
-    public DashboardService(EquipmentDAO equipmentDAO, VendorDAO vendorDAO, MaintenanceRequestDAO requestDAO, EquipmentDowntimeDAO downtimeDAO, AccessControlService accessControlService) {
+    public DashboardService(EquipmentDAO equipmentDAO, VendorDAO vendorDAO, MaintenanceRequestDAO requestDAO, EquipmentDowntimeDAO downtimeDAO, SparePartSiteStockDAO stockDAO, AccessControlService accessControlService) {
         this.equipmentDAO = equipmentDAO;
         this.vendorDAO = vendorDAO;
         this.requestDAO = requestDAO;
         this.downtimeDAO = downtimeDAO;
+        this.stockDAO = stockDAO;
         this.accessControlService = accessControlService;
     }
 
@@ -42,6 +45,7 @@ public class DashboardService {
                 siteId == null ? equipmentDAO.count() : equipmentDAO.countBySiteId(siteId),
                 vendorDAO.countActive(),
                 siteId == null ? requestDAO.countOpenRequests() : requestDAO.countOpenRequestsBySiteId(siteId),
+                siteId == null ? stockDAO.countLowStock() : stockDAO.countLowStockBySiteId(siteId),
                 downtimeHours
         );
     }
@@ -56,6 +60,6 @@ public class DashboardService {
                 .mapToLong(Long::longValue)
                 .sum();
         BigDecimal downtimeHours = BigDecimal.valueOf(downtimeMinutes).divide(BigDecimal.valueOf(60), 2, RoundingMode.HALF_UP);
-        return new DashboardDTO(equipmentCount, vendorDAO.findBySiteIdsAndActive(siteIds, true).size(), openRequests, downtimeHours);
+        return new DashboardDTO(equipmentCount, vendorDAO.findBySiteIdsAndActive(siteIds, true).size(), openRequests, stockDAO.countLowStockBySiteIds(siteIds), downtimeHours);
     }
 }

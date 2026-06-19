@@ -9,6 +9,16 @@ export const deleteSparePart = (stockId) => api.delete(`/spare-parts/${stockId}`
 export const getSparePartTransactions = (stockId) => api.get(`/spare-parts/${stockId}/transactions`).then((response) => response.data);
 export const stockIn = (stockId, data) => api.post(`/spare-parts/${stockId}/stock-in`, data).then((response) => response.data);
 export const adjustStock = (stockId, data) => api.post(`/spare-parts/${stockId}/adjust`, data).then((response) => response.data);
+export const transferStock = (stockId, data) => api.post(`/spare-parts/${stockId}/transfer`, data).then((response) => response.data);
+export const importSpareParts = (file) => {
+  const formData = new FormData();
+  formData.append('file', file);
+  return api.post('/spare-parts/import', formData, { headers: { 'Content-Type': 'multipart/form-data' } }).then((response) => response.data);
+};
+
+export const getReorderRequests = (params = {}) => api.get('/spare-part-reorders', { params }).then((response) => response.data);
+export const createReorderRequest = (data) => api.post('/spare-part-reorders', data).then((response) => response.data);
+export const updateReorderRequest = (id, data) => api.put(`/spare-part-reorders/${id}`, data).then((response) => response.data);
 
 export const getAssignmentSpares = (assignmentId) => api.get(`/maintenance/assignments/${assignmentId}/spares`).then((response) => response.data);
 export const addAssignmentSpare = (assignmentId, data) => api.post(`/maintenance/assignments/${assignmentId}/spares`, data).then((response) => response.data);

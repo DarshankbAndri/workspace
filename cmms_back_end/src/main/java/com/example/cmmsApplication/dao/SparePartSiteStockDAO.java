@@ -23,4 +23,7 @@ public class SparePartSiteStockDAO {
     public boolean existsBySparePartIdAndSiteId(Long sparePartId, Long siteId) { return repository.existsBySparePartIdAndSiteId(sparePartId, siteId); }
     public List<SparePartSiteStock> findBySiteIdAndStatus(Long siteId, String status) { return repository.findBySiteIdAndStatus(siteId, status); }
     public List<SparePartSiteStock> findBySiteIdInAndStatus(Collection<Long> siteIds, String status) { return repository.findBySiteIdInAndStatus(siteIds, status); }
+    public long countLowStock() { return repository.countLowStock(); }
+    public long countLowStockBySiteId(Long siteId) { return repository.countLowStockBySiteId(siteId); }
+    public long countLowStockBySiteIds(Collection<Long> siteIds) { return repository.countLowStockBySiteIdIn(siteIds); }
 }

@@ -136,4 +136,61 @@
             ON CONFLICT (role_id, permission_id) DO NOTHING;
         </sql>
     </changeSet>
+
+    <changeSet id="cmms-spare-reorder-create" author="codex">
+        <preConditions onFail="MARK_RAN">
+            <not><tableExists tableName="spare_part_reorder_request"/></not>
+        </preConditions>
+        <sql>
+            CREATE TABLE IF NOT EXISTS spare_part_reorder_request (
+                reorder_id BIGSERIAL PRIMARY KEY,
+                stock_id BIGINT NOT NULL REFERENCES spare_part_site_stock(stock_id),
+                spare_part_id BIGINT NOT NULL REFERENCES spare_part_master(spare_part_id),
+                site_id BIGINT NOT NULL REFERENCES site_master(site_id),
+                vendor_id BIGINT REFERENCES vendor_master(id),
+                requested_quantity NUMERIC(14,3) NOT NULL,
+                estimated_unit_cost NUMERIC(12,2) DEFAULT 0 NOT NULL,
+                estimated_total_cost NUMERIC(14,2) DEFAULT 0 NOT NULL,
+                status VARCHAR(30) DEFAULT 'REQUESTED' NOT NULL,
+                expected_date DATE,
+                remarks VARCHAR(1000),
+                requested_by BIGINT REFERENCES users(id),
+                requested_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            );
+        </sql>
+    </changeSet>
+
+    <changeSet id="cmms-spare-reorder-indexes" author="codex">
+        <preConditions onFail="MARK_RAN">
+            <not><indexExists indexName="idx_spare_reorder_site_status"/></not>
+        </preConditions>
+        <createIndex indexName="idx_spare_reorder_site_status" tableName="spare_part_reorder_request"><column name="site_id"/><column name="status"/></createIndex>
+        <createIndex indexName="idx_spare_reorder_stock" tableName="spare_part_reorder_request"><column name="stock_id"/></createIndex>
+        <createIndex indexName="idx_spare_reorder_requested_at" tableName="spare_part_reorder_request"><column name="requested_at"/></createIndex>
+    </changeSet>
+
+    <changeSet id="cmms-spare-reorder-permissions" author="codex">
+        <sql>
+            INSERT INTO permission_master (permission_code, permission_name, module_name, action_name, status, created_at, updated_at) VALUES
+            ('REORDER_VIEW', 'View Reorder Requests', 'Reorder Requests', 'VIEW', 'ACTIVE', NOW(), NOW()),
+            ('REORDER_CREATE', 'Create Reorder Requests', 'Reorder Requests', 'CREATE', 'ACTIVE', NOW(), NOW()),
+            ('REORDER_UPDATE', 'Update Reorder Requests', 'Reorder Requests', 'UPDATE', 'ACTIVE', NOW(), NOW())
+            ON CONFLICT (permission_code) DO NOTHING;
+
+            INSERT INTO role_permission (role_id, permission_id)
+            SELECT r.role_id, p.permission_id
+            FROM role_master r
+            JOIN permission_master p ON p.module_name = 'Reorder Requests'
+            WHERE r.role_code IN ('SUPER_ADMIN', 'ADMIN', 'SITE_MANAGER', 'MAINTENANCE_MANAGER')
+            ON CONFLICT (role_id, permission_id) DO NOTHING;
+
+            INSERT INTO role_permission (role_id, permission_id)
+            SELECT r.role_id, p.permission_id
+            FROM role_master r
+            JOIN permission_master p ON p.permission_code = 'REORDER_VIEW'
+            WHERE r.role_code IN ('TECHNICIAN', 'VIEWER')
+            ON CONFLICT (role_id, permission_id) DO NOTHING;
+        </sql>
+    </changeSet>
 </databaseChangeLog>
