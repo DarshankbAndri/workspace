@@ -1055,8 +1055,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/controller/ApprovalController.java": {
-    "mtime": 1781601266.5243187,
-    "ast_hash": "15f75204961f1f14f2253ccba8dde3f5",
+    "mtime": 1781785076.9346042,
+    "ast_hash": "b4f24ad10af3be39ae1716211f60db1c",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/dao/ApprovalActionDAO.java": {
@@ -1070,8 +1070,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/dao/ApprovalRequestDAO.java": {
-    "mtime": 1781601133.731321,
-    "ast_hash": "0cda8049f82411431302003f92ff7088",
+    "mtime": 1781784988.024026,
+    "ast_hash": "c98f51c8ebf0ce2d04354cfc944423b5",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/ApprovalActionDTO.java": {
@@ -1120,8 +1120,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/repository/ApprovalRequestRepository.java": {
-    "mtime": 1781601133.71647,
-    "ast_hash": "980c0e6df9a562d98f4098c5b2791bfe",
+    "mtime": 1781784979.6249146,
+    "ast_hash": "ac030ee6fba952ab90602f04bd0e7279",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/service/ApprovalConfigService.java": {
@@ -1130,8 +1130,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/service/ApprovalWorkflowService.java": {
-    "mtime": 1781680330.84539,
-    "ast_hash": "b2cf05c0f683389f250cda8122e7530b",
+    "mtime": 1781785612.0147948,
+    "ast_hash": "0cb03ae434c08ed647a4457083568c2b",
     "semantic_hash": ""
   },
   "cmms_front_end/src/pages/admin/approvalConfig/ApprovalConfigPage.jsx": {
@@ -1140,8 +1140,8 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/pages/approvals/ApprovalHistoryPage.jsx": {
-    "mtime": 1781601678.828385,
-    "ast_hash": "b98d8f43acf776a64a9e51d5aabd622e",
+    "mtime": 1781785207.2027466,
+    "ast_hash": "450fa85742cb6d5a2c45411275ce065d",
     "semantic_hash": ""
   },
   "cmms_front_end/src/pages/approvals/ApprovalInboxPage.jsx": {
@@ -1155,8 +1155,8 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/services/approvalService.js": {
-    "mtime": 1781601678.7874222,
-    "ast_hash": "38bb8ef34c3450fbd1afcac441d93122",
+    "mtime": 1781785144.1138284,
+    "ast_hash": "937831b866d7a4eecb97f571bcd24f7e",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/config/NotificationProperties.java": {

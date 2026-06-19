@@ -2,6 +2,8 @@ package com.example.cmmsApplication.controller;
 
 import com.example.cmmsApplication.dto.ApprovalDecisionDTO;
 import com.example.cmmsApplication.dto.ApprovalRequestDTO;
+import com.example.cmmsApplication.dto.PageProperties;
+import com.example.cmmsApplication.dto.SearchDTO;
 import com.example.cmmsApplication.service.ApprovalWorkflowService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +28,16 @@ public class ApprovalController {
     public ResponseEntity<List<ApprovalRequestDTO>> getHistory(@RequestParam String moduleCode,
                                                                @RequestParam Long referenceId) {
         return ResponseEntity.ok(approvalWorkflowService.getApprovalHistory(moduleCode, referenceId));
+    }
+
+    @PostMapping("/history/search")
+    public ResponseEntity<PageProperties> searchHistory(@RequestBody(required = false) SearchDTO searchDTO) {
+        return ResponseEntity.ok(approvalWorkflowService.searchApprovalHistory(searchDTO));
+    }
+
+    @GetMapping("/{approvalRequestId}")
+    public ResponseEntity<ApprovalRequestDTO> getById(@PathVariable Long approvalRequestId) {
+        return ResponseEntity.ok(approvalWorkflowService.getApprovalRequest(approvalRequestId));
     }
 
     @PostMapping("/{approvalRequestId}/approve")

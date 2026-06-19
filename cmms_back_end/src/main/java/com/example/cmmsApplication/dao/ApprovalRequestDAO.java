@@ -2,6 +2,9 @@ package com.example.cmmsApplication.dao;
 
 import com.example.cmmsApplication.entity.ApprovalRequest;
 import com.example.cmmsApplication.repository.ApprovalRequestRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -27,5 +30,8 @@ public class ApprovalRequestDAO {
     }
     public List<ApprovalRequest> findHistoryBySiteIds(Collection<Long> siteIds, String moduleCode, Long referenceId) {
         return repository.findBySiteIdInAndModuleCodeAndReferenceIdOrderByRequestedAtDesc(siteIds, moduleCode, referenceId);
+    }
+    public Page<ApprovalRequest> search(Specification<ApprovalRequest> specification, Pageable pageable) {
+        return repository.findAll(specification, pageable);
     }
 }
