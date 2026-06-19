@@ -510,23 +510,23 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/pages/maintenance/DowntimePage.jsx": {
-    "mtime": 1781249064.0811696,
-    "ast_hash": "e320f5ba9a6598caea3ec658e958746f",
+    "mtime": 1781850443.6826203,
+    "ast_hash": "0363b1987f0add731515cc393a7adf0b",
     "semantic_hash": ""
   },
   "cmms_front_end/src/pages/maintenance/MaintenanceAssignmentPage.jsx": {
-    "mtime": 1781259319.050494,
-    "ast_hash": "f2ce850187425f1b4eed2913542f14ac",
+    "mtime": 1781850443.67561,
+    "ast_hash": "467d7c8b107a5c60874fe112f9b3492b",
     "semantic_hash": ""
   },
   "cmms_front_end/src/pages/maintenance/MaintenanceRequestPage.jsx": {
-    "mtime": 1781249035.6967428,
-    "ast_hash": "3c994104738b1791181b42f112a8467f",
+    "mtime": 1781850443.6686125,
+    "ast_hash": "5c0550955cc4dcb786205f6bb50c8a55",
     "semantic_hash": ""
   },
   "cmms_front_end/src/pages/maintenance/PreventiveMaintenancePage.jsx": {
-    "mtime": 1781264754.05689,
-    "ast_hash": "0b4d10a3ec148fc9788e16c908948281",
+    "mtime": 1781850443.6886928,
+    "ast_hash": "bdc592da6e0ae33b8c29f48b58f6f64e",
     "semantic_hash": ""
   },
   "cmms_front_end/src/pages/vendor/VendorFormPage.jsx": {
@@ -1322,6 +1322,41 @@
   "cmms_front_end/src/services/companyService.js": {
     "mtime": 1781766069.5644183,
     "ast_hash": "216fc6d2675e40e37fcd8e5101b10e5c",
+    "semantic_hash": ""
+  },
+  "cmms_back_end/src/main/java/com/example/cmmsApplication/controller/ReportController.java": {
+    "mtime": 1781850305.2900815,
+    "ast_hash": "3ffb042e1a9f7c09cd080d2512444261",
+    "semantic_hash": ""
+  },
+  "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/DowntimeAnalysisPageDTO.java": {
+    "mtime": 1781850223.7097192,
+    "ast_hash": "572f35b32d43732be4653e6ff0bb324c",
+    "semantic_hash": ""
+  },
+  "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/DowntimeAnalysisRowDTO.java": {
+    "mtime": 1781850223.7009673,
+    "ast_hash": "a02db7392d671cb9669d5bb1ffe632b9",
+    "semantic_hash": ""
+  },
+  "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/DowntimeAnalysisSummaryDTO.java": {
+    "mtime": 1781850223.7056558,
+    "ast_hash": "3673b2886f1c4bc9f6d635c580834f4a",
+    "semantic_hash": ""
+  },
+  "cmms_back_end/src/main/java/com/example/cmmsApplication/dto/EquipmentHistoryRowDTO.java": {
+    "mtime": 1781850223.6717818,
+    "ast_hash": "0fc1ab38d7883d43ddfb21c2b12b1fea",
+    "semantic_hash": ""
+  },
+  "cmms_back_end/src/main/java/com/example/cmmsApplication/service/ReportService.java": {
+    "mtime": 1781850305.2836163,
+    "ast_hash": "b3d7d22d9ba6a3a142d7b033124c61f8",
+    "semantic_hash": ""
+  },
+  "cmms_front_end/src/services/reportService.js": {
+    "mtime": 1781850375.7893932,
+    "ast_hash": "0ba9f475badaaf6a3046364efbf9a4d6",
     "semantic_hash": ""
   }
 }
