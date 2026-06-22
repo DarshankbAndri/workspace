@@ -3,10 +3,14 @@ package com.example.cmmsApplication.spareparts.service;
 
 import com.example.cmmsApplication.common.search.service.ListSearchService;
 import com.example.cmmsApplication.common.security.service.AccessControlService;
+import com.example.cmmsApplication.assignment.dao.MaintenanceAssignmentDAO;
+import com.example.cmmsApplication.equipment.entity.Equipment;
+import com.example.cmmsApplication.maintenancerequest.entity.MaintenanceRequest;
 import com.example.cmmsApplication.notification.service.NotificationService;
 import com.example.cmmsApplication.site.service.SiteService;
 import com.example.cmmsApplication.vendor.service.VendorService;
 import com.example.cmmsApplication.spareparts.dao.SparePartDAO;
+import com.example.cmmsApplication.spareparts.dao.SparePartReorderDAO;
 import com.example.cmmsApplication.spareparts.dao.SparePartSiteStockDAO;
 import com.example.cmmsApplication.spareparts.dao.SparePartTransactionDAO;
 import com.example.cmmsApplication.common.search.dto.PageProperties;
@@ -52,6 +56,8 @@ public class SparePartService {
     private final SparePartDAO sparePartDAO;
     private final SparePartSiteStockDAO stockDAO;
     private final SparePartTransactionDAO transactionDAO;
+    private final MaintenanceAssignmentDAO assignmentDAO;
+    private final SparePartReorderDAO reorderDAO;
     private final SiteService siteService;
     private final VendorService vendorService;
     private final AccessControlService accessControlService;
@@ -61,6 +67,8 @@ public class SparePartService {
     public SparePartService(SparePartDAO sparePartDAO,
                             SparePartSiteStockDAO stockDAO,
                             SparePartTransactionDAO transactionDAO,
+                            MaintenanceAssignmentDAO assignmentDAO,
+                            SparePartReorderDAO reorderDAO,
                             SiteService siteService,
                             VendorService vendorService,
                             AccessControlService accessControlService,
@@ -69,6 +77,8 @@ public class SparePartService {
         this.sparePartDAO = sparePartDAO;
         this.stockDAO = stockDAO;
         this.transactionDAO = transactionDAO;
+        this.assignmentDAO = assignmentDAO;
+        this.reorderDAO = reorderDAO;
         this.siteService = siteService;
         this.vendorService = vendorService;
         this.accessControlService = accessControlService;
@@ -626,7 +636,124 @@ public class SparePartService {
         dto.setCreatedBy(transaction.getCreatedBy() == null ? null : transaction.getCreatedBy().getId());
         dto.setCreatedByName(transaction.getCreatedBy() == null ? null : transaction.getCreatedBy().getUsername());
         dto.setCreatedAt(transaction.getCreatedAt());
+        enrichTransactionContext(transaction, dto);
+        dto.setBusinessDescription(buildBusinessDescription(transaction, dto));
         return dto;
+    }
+
+    private void enrichTransactionContext(SparePartTransaction transaction, SparePartTransactionDTO dto) {
+        if (transaction.getReferenceType() == null || transaction.getReferenceId() == null) {
+            return;
+        }
+        switch (transaction.getReferenceType()) {
+            case "MAINTENANCE_ASSIGNMENT":
+                enrichAssignmentContext(transaction.getReferenceId(), dto);
+                break;
+            case "SPARE_STOCK_TRANSFER":
+                enrichTransferContext(transaction, dto);
+                break;
+            case "PURCHASE_REQUEST":
+                enrichPurchaseRequestContext(transaction.getReferenceId(), dto);
+                break;
+            default:
+                dto.setReferenceCode(transaction.getReferenceType() + "-" + transaction.getReferenceId());
+                break;
+        }
+    }
+
+    private void enrichAssignmentContext(Long assignmentId, SparePartTransactionDTO dto) {
+        assignmentDAO.findById(assignmentId).ifPresent(assignment -> {
+            dto.setAssignmentId(assignment.getId());
+            dto.setAssignmentStatus(assignment.getStatus());
+            dto.setReferenceCode("ASSIGNMENT-" + assignment.getId());
+            if (assignment.getAssignedTo() != null) {
+                dto.setAssignedToName(assignment.getAssignedTo());
+            }
+            if (assignment.getRequest() != null) {
+                applyMaintenanceRequestContext(assignment.getRequest(), dto);
+            }
+        });
+    }
+
+    private void enrichTransferContext(SparePartTransaction transaction, SparePartTransactionDTO dto) {
+        stockDAO.findById(transaction.getReferenceId()).ifPresent(counterpart -> {
+            Site currentSite = transaction.getSite();
+            Site counterpartSite = counterpart.getSite();
+            if ("TRANSFER_OUT".equals(transaction.getTransactionType())) {
+                applySite(currentSite, true, dto);
+                applySite(counterpartSite, false, dto);
+            } else if ("TRANSFER_IN".equals(transaction.getTransactionType())) {
+                applySite(counterpartSite, true, dto);
+                applySite(currentSite, false, dto);
+            }
+            if (counterpartSite != null) {
+                dto.setReferenceCode(counterpartSite.getSiteCode());
+            }
+        });
+    }
+
+    private void enrichPurchaseRequestContext(Long purchaseRequestId, SparePartTransactionDTO dto) {
+        reorderDAO.findById(purchaseRequestId).ifPresent(request -> {
+            dto.setPurchaseRequestId(request.getId());
+            dto.setPurchaseRequestStatus(request.getStatus());
+            if (request.getAssignment() != null) {
+                enrichAssignmentContext(request.getAssignment().getId(), dto);
+            } else if (request.getSpareRequest() != null && request.getSpareRequest().getAssignment() != null) {
+                enrichAssignmentContext(request.getSpareRequest().getAssignment().getId(), dto);
+            }
+            dto.setReferenceCode("PR-" + request.getId());
+        });
+    }
+
+    private void applyMaintenanceRequestContext(MaintenanceRequest request, SparePartTransactionDTO dto) {
+        dto.setMaintenanceRequestId(request.getId());
+        dto.setMaintenanceRequestNumber(request.getRequestNumber());
+        dto.setMaintenanceRequestTitle(request.getTitle());
+        dto.setMaintenanceRequestStatus(request.getStatus());
+        if (request.getEquipment() != null) {
+            Equipment equipment = request.getEquipment();
+            dto.setEquipmentId(equipment.getId());
+            dto.setEquipmentCode(equipment.getEquipmentCode());
+            dto.setEquipmentName(equipment.getEquipmentName());
+        }
+    }
+
+    private void applySite(Site site, boolean source, SparePartTransactionDTO dto) {
+        if (site == null) {
+            return;
+        }
+        if (source) {
+            dto.setSourceSiteId(site.getId());
+            dto.setSourceSiteName(site.getSiteName());
+        } else {
+            dto.setTargetSiteId(site.getId());
+            dto.setTargetSiteName(site.getSiteName());
+        }
+    }
+
+    private String buildBusinessDescription(SparePartTransaction transaction, SparePartTransactionDTO dto) {
+        if (dto.getPurchaseRequestId() != null) {
+            String request = dto.getMaintenanceRequestNumber() == null ? "" : " for " + dto.getMaintenanceRequestNumber();
+            return "Purchase request PR-" + dto.getPurchaseRequestId() + " stock received" + request;
+        }
+        if (dto.getMaintenanceRequestNumber() != null) {
+            String equipment = dto.getEquipmentName() == null ? "" : " - " + dto.getEquipmentName();
+            return dto.getTransactionType() + " for " + dto.getMaintenanceRequestNumber() + equipment;
+        }
+        if (dto.getSourceSiteName() != null || dto.getTargetSiteName() != null) {
+            return "Transfer " + nullToDash(dto.getSourceSiteName()) + " to " + nullToDash(dto.getTargetSiteName());
+        }
+        if (transaction.getRemarks() != null && !transaction.getRemarks().isBlank()) {
+            return transaction.getRemarks();
+        }
+        if (transaction.getReferenceType() != null && transaction.getReferenceId() != null) {
+            return transaction.getTransactionType() + " - " + transaction.getReferenceType() + " " + transaction.getReferenceId();
+        }
+        return transaction.getTransactionType();
+    }
+
+    private String nullToDash(String value) {
+        return value == null || value.isBlank() ? "-" : value;
     }
 }
 

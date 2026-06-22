@@ -231,11 +231,50 @@ function SparePartListPage() {
 
   const transactionColumns = [
     { field: 'transactionType', headerName: 'Type', minWidth: 150, flex: 0.8 },
+    {
+      field: 'businessDescription',
+      headerName: 'Context',
+      minWidth: 300,
+      flex: 1.5,
+      renderCell: ({ row }) => (
+        <Stack spacing={0.25} sx={{ py: 0.5, minWidth: 0 }}>
+          <Typography variant="body2" noWrap>{row.businessDescription || row.remarks || '-'}</Typography>
+          <Typography variant="caption" color="text.secondary" noWrap>
+            {row.referenceCode || [row.referenceType, row.referenceId].filter(Boolean).join(' ') || ''}
+          </Typography>
+        </Stack>
+      ),
+    },
+    {
+      field: 'maintenanceRequestNumber',
+      headerName: 'Request',
+      minWidth: 160,
+      flex: 0.8,
+      renderCell: ({ row }) => (
+        <Stack spacing={0.25} sx={{ py: 0.5, minWidth: 0 }}>
+          <Typography variant="body2" noWrap>{row.maintenanceRequestNumber || '-'}</Typography>
+          <Typography variant="caption" color="text.secondary" noWrap>{row.maintenanceRequestTitle || ''}</Typography>
+        </Stack>
+      ),
+    },
+    {
+      field: 'equipmentName',
+      headerName: 'Equipment',
+      minWidth: 190,
+      flex: 1,
+      renderCell: ({ row }) => (
+        <Stack spacing={0.25} sx={{ py: 0.5, minWidth: 0 }}>
+          <Typography variant="body2" noWrap>{row.equipmentName || '-'}</Typography>
+          <Typography variant="caption" color="text.secondary" noWrap>{row.equipmentCode || ''}</Typography>
+        </Stack>
+      ),
+    },
     { field: 'quantity', headerName: 'Qty', minWidth: 100, flex: 0.5 },
     { field: 'stockBefore', headerName: 'Before', minWidth: 100, flex: 0.5 },
     { field: 'stockAfter', headerName: 'After', minWidth: 100, flex: 0.5 },
     { field: 'unitCost', headerName: 'Unit Cost', minWidth: 120, flex: 0.6 },
     { field: 'totalCost', headerName: 'Total Cost', minWidth: 130, flex: 0.7 },
+    { field: 'assignedToName', headerName: 'Assigned To', minWidth: 150, flex: 0.8 },
     { field: 'createdByName', headerName: 'By', minWidth: 140, flex: 0.7 },
     { field: 'remarks', headerName: 'Remarks', minWidth: 200, flex: 1 },
     {
@@ -352,7 +391,16 @@ function SparePartListPage() {
         <DialogContent>
           <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>{historyDialog.row?.partCode} - {historyDialog.row?.partName}</Typography>
           <Box sx={{ height: 430 }}>
-            <DataGrid rows={historyDialog.rows} columns={transactionColumns} loading={historyDialog.loading} disableRowSelectionOnClick pageSizeOptions={[5, 10, 25]} initialState={{ pagination: { paginationModel: { pageSize: 10 } } }} />
+            <DataGrid
+              rows={historyDialog.rows}
+              columns={transactionColumns}
+              loading={historyDialog.loading}
+              disableRowSelectionOnClick
+              getRowHeight={() => 'auto'}
+              pageSizeOptions={[5, 10, 25]}
+              initialState={{ pagination: { paginationModel: { pageSize: 10 } } }}
+              sx={{ '& .MuiDataGrid-cell': { py: 1 } }}
+            />
           </Box>
         </DialogContent>
         <DialogActions>
