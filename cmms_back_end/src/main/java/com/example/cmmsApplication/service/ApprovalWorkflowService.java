@@ -29,6 +29,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -79,6 +81,15 @@ public class ApprovalWorkflowService {
             "requestedByName", "requestedAt", "approvalStatus", "approverRoleCode",
             "createdAt", "updatedAt"
     );
+    private static final List<DefaultApprovalConfig> DEFAULT_APPROVAL_CONFIGS = List.of(
+            new DefaultApprovalConfig(PM_SCHEDULE, CREATE, "MAINTENANCE_MANAGER"),
+            new DefaultApprovalConfig(PM_SCHEDULE, UPDATE, "MAINTENANCE_MANAGER"),
+            new DefaultApprovalConfig(PM_WORK_ORDER, GENERATE, "MAINTENANCE_MANAGER"),
+            new DefaultApprovalConfig(MAINTENANCE_REQUEST, CREATE, "MAINTENANCE_MANAGER"),
+            new DefaultApprovalConfig(MAINTENANCE_REQUEST, CLOSE, "MAINTENANCE_MANAGER"),
+            new DefaultApprovalConfig(SPARE_ISSUE, RESERVE, "MAINTENANCE_MANAGER"),
+            new DefaultApprovalConfig(SPARE_ISSUE, ISSUE, "MAINTENANCE_MANAGER")
+    );
 
     public ApprovalWorkflowService(@Value("${cmms.approval.enabled:false}") boolean globalApprovalEnabled,
                                    ApprovalConfigDAO approvalConfigDAO,
@@ -102,6 +113,23 @@ public class ApprovalWorkflowService {
         this.spareUsageServiceProvider = spareUsageServiceProvider;
         this.objectMapper = objectMapper;
         this.notificationService = notificationService;
+    }
+
+    @EventListener(ApplicationReadyEvent.class)
+    public void ensureDefaultApprovalConfigs() {
+        for (DefaultApprovalConfig defaultConfig : DEFAULT_APPROVAL_CONFIGS) {
+            if (approvalConfigDAO.existsByModuleCodeAndActionCode(defaultConfig.moduleCode(), defaultConfig.actionCode())) {
+                continue;
+            }
+            ApprovalConfig config = new ApprovalConfig();
+            config.setModuleCode(defaultConfig.moduleCode());
+            config.setActionCode(defaultConfig.actionCode());
+            config.setApprovalRequired(false);
+            config.setApproverRoleCode(defaultConfig.approverRoleCode());
+            config.setMinApprovalCount(1);
+            config.setStatus("ACTIVE");
+            approvalConfigDAO.save(config);
+        }
     }
 
     @Transactional(readOnly = true)
@@ -660,4 +688,6 @@ public class ApprovalWorkflowService {
     private String normalize(String value) {
         return value == null ? null : value.trim().toUpperCase(Locale.ROOT);
     }
+
+    private record DefaultApprovalConfig(String moduleCode, String actionCode, String approverRoleCode) {}
 }

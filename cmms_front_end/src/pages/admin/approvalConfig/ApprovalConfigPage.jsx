@@ -2,8 +2,29 @@ import React from 'react';
 import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, Paper, Snackbar, Stack, Switch, TextField, Typography } from '@mui/material';
 import { Edit } from '@mui/icons-material';
 import { DataGrid } from '@mui/x-data-grid';
-import { getApprovalConfigs, updateApprovalConfig } from '../../../services/approvalConfigService';
+import { createApprovalConfig, getApprovalConfigs, updateApprovalConfig } from '../../../services/approvalConfigService';
 import { getRoles } from '../../../services/roleService';
+
+const defaultApprovalConfigs = [
+  { moduleCode: 'PM_SCHEDULE', actionCode: 'CREATE', approvalRequired: false, approverRoleCode: 'MAINTENANCE_MANAGER', minApprovalCount: 1, status: 'ACTIVE' },
+  { moduleCode: 'PM_SCHEDULE', actionCode: 'UPDATE', approvalRequired: false, approverRoleCode: 'MAINTENANCE_MANAGER', minApprovalCount: 1, status: 'ACTIVE' },
+  { moduleCode: 'PM_WORK_ORDER', actionCode: 'GENERATE', approvalRequired: false, approverRoleCode: 'MAINTENANCE_MANAGER', minApprovalCount: 1, status: 'ACTIVE' },
+  { moduleCode: 'MAINTENANCE_REQUEST', actionCode: 'CREATE', approvalRequired: false, approverRoleCode: 'MAINTENANCE_MANAGER', minApprovalCount: 1, status: 'ACTIVE' },
+  { moduleCode: 'MAINTENANCE_REQUEST', actionCode: 'CLOSE', approvalRequired: false, approverRoleCode: 'MAINTENANCE_MANAGER', minApprovalCount: 1, status: 'ACTIVE' },
+  { moduleCode: 'SPARE_ISSUE', actionCode: 'RESERVE', approvalRequired: false, approverRoleCode: 'MAINTENANCE_MANAGER', minApprovalCount: 1, status: 'ACTIVE' },
+  { moduleCode: 'SPARE_ISSUE', actionCode: 'ISSUE', approvalRequired: false, approverRoleCode: 'MAINTENANCE_MANAGER', minApprovalCount: 1, status: 'ACTIVE' },
+];
+
+function mergeDefaultConfigs(data = []) {
+  const keyed = new Map((data || []).map((item) => [`${item.moduleCode}:${item.actionCode}`, item]));
+  defaultApprovalConfigs.forEach((item) => {
+    const key = `${item.moduleCode}:${item.actionCode}`;
+    if (!keyed.has(key)) {
+      keyed.set(key, { ...item, pendingCreate: true });
+    }
+  });
+  return Array.from(keyed.values()).sort((a, b) => `${a.moduleCode}:${a.actionCode}`.localeCompare(`${b.moduleCode}:${b.actionCode}`));
+}
 
 function ApprovalConfigPage() {
   const [rows, setRows] = React.useState([]);
@@ -16,7 +37,7 @@ function ApprovalConfigPage() {
   const loadRows = React.useCallback(() => {
     setLoading(true);
     getApprovalConfigs()
-      .then((data) => setRows(data || []))
+      .then((data) => setRows(mergeDefaultConfigs(data)))
       .catch((err) => setError(err.response?.data?.message || 'Unable to load approval config.'))
       .finally(() => setLoading(false));
   }, []);
@@ -33,7 +54,12 @@ function ApprovalConfigPage() {
 
   const saveConfig = async () => {
     try {
-      await updateApprovalConfig(editRow.id, { ...editRow, minApprovalCount: Number(editRow.minApprovalCount || 1) });
+      const payload = { ...editRow, minApprovalCount: Number(editRow.minApprovalCount || 1) };
+      if (editRow.id) {
+        await updateApprovalConfig(editRow.id, payload);
+      } else {
+        await createApprovalConfig(payload);
+      }
       setSuccess('Approval config updated.');
       setEditRow(null);
       loadRows();
@@ -64,7 +90,15 @@ function ApprovalConfigPage() {
       <Typography variant="h4" fontWeight={800} sx={{ mb: 2 }}>Approval Config</Typography>
       {error && <Alert severity="error" sx={{ mb: 2 }} onClose={() => setError('')}>{error}</Alert>}
       <Paper sx={{ height: 560, borderRadius: 1 }}>
-        <DataGrid rows={rows} columns={columns} loading={loading} disableRowSelectionOnClick pageSizeOptions={[10, 25, 50]} initialState={{ pagination: { paginationModel: { pageSize: 10 } } }} />
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          loading={loading}
+          getRowId={(row) => row.id || `${row.moduleCode}:${row.actionCode}`}
+          disableRowSelectionOnClick
+          pageSizeOptions={[10, 25, 50]}
+          initialState={{ pagination: { paginationModel: { pageSize: 10 } } }}
+        />
       </Paper>
       <Dialog open={Boolean(editRow)} onClose={() => setEditRow(null)} maxWidth="sm" fullWidth>
         <DialogTitle>Edit Approval Config</DialogTitle>
