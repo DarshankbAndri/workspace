@@ -1,10 +1,27 @@
 import axios from 'axios';
 
-export const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:4200/api';
+export const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
+const API_TIMEOUT = Number(import.meta.env.VITE_API_TIMEOUT_MS || 30000);
+
+const buildRequestUrl = (config) => {
+  const baseURL = config.baseURL || API_BASE_URL;
+  const path = config.url || '';
+  if (/^https?:\/\//i.test(path)) {
+    return path;
+  }
+  const normalizedBase = baseURL.endsWith('/') ? baseURL.slice(0, -1) : baseURL;
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+  const requestPath = `${normalizedBase}${normalizedPath}`;
+  try {
+    return new URL(requestPath, window.location.origin).toString();
+  } catch {
+    return requestPath;
+  }
+};
 
 const api = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 5000,
+  timeout: API_TIMEOUT,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -28,6 +45,9 @@ api.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+    if (import.meta.env.DEV) {
+      console.debug('[API request]', (config.method || 'GET').toUpperCase(), buildRequestUrl(config));
+    }
     return config;
   },
   (error) => {
@@ -39,8 +59,14 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response && error.response.status === 401) {
-      clearAuthAndRedirect();
+    if (error.response) {
+      if (error.response.status === 401) {
+        clearAuthAndRedirect();
+      }
+    } else if (error.code === 'ECONNABORTED') {
+      console.error(`API request timed out: ${buildRequestUrl(error.config || {})}`);
+    } else {
+      console.error(`API network error (no response): ${buildRequestUrl(error.config || {})}`, error.message);
     }
     return Promise.reject(error);
   }
@@ -148,7 +174,7 @@ export const markClaimAsPaid = (claimId, hrId) => {
 // Document download API - Create separate axios instance for file downloads
 const fileApi = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 30000, // Longer timeout for file operations
+  timeout: Math.max(API_TIMEOUT, 30000),
 });
 
 // Add JWT token to file API requests
