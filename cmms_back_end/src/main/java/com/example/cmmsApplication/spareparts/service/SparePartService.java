@@ -27,6 +27,7 @@ import com.example.cmmsApplication.user.entity.User;
 import com.example.cmmsApplication.vendor.entity.Vendor;
 import com.example.cmmsApplication.common.exception.InvalidOperationException;
 import com.example.cmmsApplication.common.exception.ResourceNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
@@ -52,6 +53,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class SparePartService {
     private final SparePartDAO sparePartDAO;
     private final SparePartSiteStockDAO stockDAO;
@@ -63,28 +65,6 @@ public class SparePartService {
     private final AccessControlService accessControlService;
     private final ListSearchService listSearchService;
     private final NotificationService notificationService;
-
-    public SparePartService(SparePartDAO sparePartDAO,
-                            SparePartSiteStockDAO stockDAO,
-                            SparePartTransactionDAO transactionDAO,
-                            MaintenanceAssignmentDAO assignmentDAO,
-                            SparePartReorderDAO reorderDAO,
-                            SiteService siteService,
-                            VendorService vendorService,
-                            AccessControlService accessControlService,
-                            ListSearchService listSearchService,
-                            NotificationService notificationService) {
-        this.sparePartDAO = sparePartDAO;
-        this.stockDAO = stockDAO;
-        this.transactionDAO = transactionDAO;
-        this.assignmentDAO = assignmentDAO;
-        this.reorderDAO = reorderDAO;
-        this.siteService = siteService;
-        this.vendorService = vendorService;
-        this.accessControlService = accessControlService;
-        this.listSearchService = listSearchService;
-        this.notificationService = notificationService;
-    }
 
     public SparePartDTO create(SparePartDTO dto) {
         accessControlService.validatePermission("SPARE_PART_CREATE");

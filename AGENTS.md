@@ -105,3 +105,12 @@ Rules:
 10. Run backend compile and frontend build after structural changes.
 
 Current frontend feature folders include `admin`, `approval`, `assignment`, `auth`, `company`, `dashboard`, `downtime`, `employee`, `equipment`, `maintenance`, `maintenanceRequest`, `notification`, `preventiveMaintenance`, `report`, `site`, `spareParts`, `user`, and `vendor`.
+
+## Lombok Rules
+
+1. Use Lombok for DTO boilerplate when getters, setters, constructors, and builders have no custom logic.
+2. Use `@Getter` and `@Setter` for JPA entities, not `@Data`.
+3. Use `@RequiredArgsConstructor` for dependency injection.
+4. Do not use field injection for new code.
+5. Do not remove custom methods, custom constructors, lifecycle hooks, or getters/setters with business logic.
+6. Always run `mvn clean install` from `cmms_back_end` after Lombok changes.
