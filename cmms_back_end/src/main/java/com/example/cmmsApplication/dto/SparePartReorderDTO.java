@@ -14,6 +14,8 @@ public class SparePartReorderDTO {
     private String partName;
     private Long siteId;
     private String siteName;
+    private Long assignmentId;
+    private Long spareRequestId;
     private Long vendorId;
     private String vendorName;
     @NotNull(message = "Requested quantity is required")
@@ -42,6 +44,10 @@ public class SparePartReorderDTO {
     public void setSiteId(Long siteId) { this.siteId = siteId; }
     public String getSiteName() { return siteName; }
     public void setSiteName(String siteName) { this.siteName = siteName; }
+    public Long getAssignmentId() { return assignmentId; }
+    public void setAssignmentId(Long assignmentId) { this.assignmentId = assignmentId; }
+    public Long getSpareRequestId() { return spareRequestId; }
+    public void setSpareRequestId(Long spareRequestId) { this.spareRequestId = spareRequestId; }
     public Long getVendorId() { return vendorId; }
     public void setVendorId(Long vendorId) { this.vendorId = vendorId; }
     public String getVendorName() { return vendorName; }

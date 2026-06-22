@@ -327,6 +327,23 @@ public class SparePartService {
         return saved;
     }
 
+    SparePartSiteStock issueStock(Long stockId, BigDecimal quantity, Long assignmentId, String remarks) {
+        SparePartSiteStock stock = getStockForUpdate(stockId);
+        BigDecimal issued = positive(quantity, "Issue quantity");
+        BigDecimal available = stock.getAvailableStock();
+        if (available.compareTo(issued) < 0) {
+            throw new InvalidOperationException("Insufficient available stock for issue. Available: " + available);
+        }
+        BigDecimal before = stock.getCurrentStock();
+        BigDecimal after = before.subtract(issued);
+        stock.setCurrentStock(after);
+        SparePartSiteStock saved = stockDAO.save(stock);
+        createTransaction(saved, "ISSUE", issued.negate(), saved.getUnitCost(), before, after,
+                "MAINTENANCE_ASSIGNMENT", assignmentId, remarks);
+        notifyIfLowStock(saved);
+        return saved;
+    }
+
     SparePartSiteStock returnStock(Long stockId, BigDecimal quantity, Long assignmentId, String remarks) {
         SparePartSiteStock stock = getStockForUpdate(stockId);
         BigDecimal returned = positive(quantity, "Return quantity");

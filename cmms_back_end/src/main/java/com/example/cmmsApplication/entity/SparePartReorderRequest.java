@@ -26,6 +26,14 @@ public class SparePartReorderRequest {
     private Site site;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "assignment_id")
+    private MaintenanceAssignment assignment;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "spare_request_id")
+    private MaintenanceSpareUsage spareRequest;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vendor_id")
     private Vendor vendor;
 
@@ -76,6 +84,10 @@ public class SparePartReorderRequest {
     public void setSparePart(SparePart sparePart) { this.sparePart = sparePart; }
     public Site getSite() { return site; }
     public void setSite(Site site) { this.site = site; }
+    public MaintenanceAssignment getAssignment() { return assignment; }
+    public void setAssignment(MaintenanceAssignment assignment) { this.assignment = assignment; }
+    public MaintenanceSpareUsage getSpareRequest() { return spareRequest; }
+    public void setSpareRequest(MaintenanceSpareUsage spareRequest) { this.spareRequest = spareRequest; }
     public Vendor getVendor() { return vendor; }
     public void setVendor(Vendor vendor) { this.vendor = vendor; }
     public BigDecimal getRequestedQuantity() { return requestedQuantity; }

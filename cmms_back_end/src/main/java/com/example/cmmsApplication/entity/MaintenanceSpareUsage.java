@@ -27,6 +27,18 @@ public class MaintenanceSpareUsage {
     @Column(name = "quantity_used", nullable = false, precision = 14, scale = 3)
     private BigDecimal quantityUsed;
 
+    @Column(name = "approved_qty", precision = 14, scale = 3)
+    private BigDecimal approvedQty;
+
+    @Column(name = "issued_qty", nullable = false, precision = 14, scale = 3)
+    private BigDecimal issuedQty = BigDecimal.ZERO;
+
+    @Column(name = "consumed_qty", nullable = false, precision = 14, scale = 3)
+    private BigDecimal consumedQty = BigDecimal.ZERO;
+
+    @Column(name = "returned_qty", nullable = false, precision = 14, scale = 3)
+    private BigDecimal returnedQty = BigDecimal.ZERO;
+
     @Column(name = "unit_cost", nullable = false, precision = 12, scale = 2)
     private BigDecimal unitCost = BigDecimal.ZERO;
 
@@ -42,6 +54,14 @@ public class MaintenanceSpareUsage {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "requested_by")
     private User requestedBy;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "manager_approved_by")
+    private User managerApprovedBy;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_approved_by")
+    private User storeApprovedBy;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reserved_by")
@@ -81,6 +101,10 @@ public class MaintenanceSpareUsage {
     @Column(name = "cancelled_at")
     private LocalDateTime cancelledAt;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "purchase_request_id")
+    private SparePartReorderRequest purchaseRequest;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
@@ -111,6 +135,14 @@ public class MaintenanceSpareUsage {
     public void setSparePart(SparePart sparePart) { this.sparePart = sparePart; }
     public BigDecimal getQuantityUsed() { return quantityUsed; }
     public void setQuantityUsed(BigDecimal quantityUsed) { this.quantityUsed = quantityUsed; }
+    public BigDecimal getApprovedQty() { return approvedQty; }
+    public void setApprovedQty(BigDecimal approvedQty) { this.approvedQty = approvedQty; }
+    public BigDecimal getIssuedQty() { return issuedQty; }
+    public void setIssuedQty(BigDecimal issuedQty) { this.issuedQty = issuedQty; }
+    public BigDecimal getConsumedQty() { return consumedQty; }
+    public void setConsumedQty(BigDecimal consumedQty) { this.consumedQty = consumedQty; }
+    public BigDecimal getReturnedQty() { return returnedQty; }
+    public void setReturnedQty(BigDecimal returnedQty) { this.returnedQty = returnedQty; }
     public BigDecimal getUnitCost() { return unitCost; }
     public void setUnitCost(BigDecimal unitCost) { this.unitCost = unitCost; }
     public BigDecimal getTotalCost() { return totalCost; }
@@ -121,6 +153,10 @@ public class MaintenanceSpareUsage {
     public void setRemarks(String remarks) { this.remarks = remarks; }
     public User getRequestedBy() { return requestedBy; }
     public void setRequestedBy(User requestedBy) { this.requestedBy = requestedBy; }
+    public User getManagerApprovedBy() { return managerApprovedBy; }
+    public void setManagerApprovedBy(User managerApprovedBy) { this.managerApprovedBy = managerApprovedBy; }
+    public User getStoreApprovedBy() { return storeApprovedBy; }
+    public void setStoreApprovedBy(User storeApprovedBy) { this.storeApprovedBy = storeApprovedBy; }
     public User getReservedBy() { return reservedBy; }
     public void setReservedBy(User reservedBy) { this.reservedBy = reservedBy; }
     public User getIssuedBy() { return issuedBy; }
@@ -143,6 +179,8 @@ public class MaintenanceSpareUsage {
     public void setRejectedAt(LocalDateTime rejectedAt) { this.rejectedAt = rejectedAt; }
     public LocalDateTime getCancelledAt() { return cancelledAt; }
     public void setCancelledAt(LocalDateTime cancelledAt) { this.cancelledAt = cancelledAt; }
+    public SparePartReorderRequest getPurchaseRequest() { return purchaseRequest; }
+    public void setPurchaseRequest(SparePartReorderRequest purchaseRequest) { this.purchaseRequest = purchaseRequest; }
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
     public LocalDateTime getUpdatedAt() { return updatedAt; }

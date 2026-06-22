@@ -15,10 +15,11 @@ import {
 } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { getSites } from '../../services/siteService';
-import { getReorderRequests, updateReorderRequest } from '../../services/sparePartService';
+import { getReorderRequests, receivePurchaseRequestStock, updateReorderRequest } from '../../services/sparePartService';
 
 const statuses = ['REQUESTED', 'ORDERED', 'RECEIVED', 'CANCELLED'];
 const initialEditDialog = { open: false, row: null, status: '', requestedQuantity: '', estimatedUnitCost: '', expectedDate: '', remarks: '' };
+const initialReceiveDialog = { open: false, row: null, quantity: '', unitCost: '', remarks: '' };
 
 function SparePartReorderPage() {
   const [rows, setRows] = React.useState([]);
@@ -27,6 +28,7 @@ function SparePartReorderPage() {
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState('');
   const [editDialog, setEditDialog] = React.useState(initialEditDialog);
+  const [receiveDialog, setReceiveDialog] = React.useState(initialReceiveDialog);
 
   const loadRows = React.useCallback(() => {
     setLoading(true);
@@ -74,10 +76,37 @@ function SparePartReorderPage() {
     }
   };
 
+  const openReceiveDialog = (row) => {
+    setReceiveDialog({
+      open: true,
+      row,
+      quantity: row.requestedQuantity ?? '',
+      unitCost: row.estimatedUnitCost ?? '',
+      remarks: 'Purchase stock received',
+    });
+  };
+
+  const submitReceiveDialog = async () => {
+    setError('');
+    try {
+      await receivePurchaseRequestStock(receiveDialog.row.id, {
+        quantity: Number(receiveDialog.quantity),
+        unitCost: receiveDialog.unitCost === '' ? null : Number(receiveDialog.unitCost),
+        remarks: receiveDialog.remarks,
+      });
+      setReceiveDialog(initialReceiveDialog);
+      loadRows();
+    } catch (err) {
+      setError(err.response?.data?.message || 'Unable to receive purchase stock.');
+    }
+  };
+
   const columns = [
     { field: 'partCode', headerName: 'Part Code', minWidth: 140, flex: 0.8 },
     { field: 'partName', headerName: 'Part Name', minWidth: 220, flex: 1.2 },
     { field: 'siteName', headerName: 'Site', minWidth: 180, flex: 0.9 },
+    { field: 'assignmentId', headerName: 'Assignment', minWidth: 120, flex: 0.55, valueGetter: ({ row }) => row.assignmentId || '' },
+    { field: 'spareRequestId', headerName: 'Spare Request', minWidth: 130, flex: 0.6, valueGetter: ({ row }) => row.spareRequestId || '' },
     { field: 'vendorName', headerName: 'Vendor', minWidth: 180, flex: 0.9, valueGetter: ({ row }) => row.vendorName || 'Not selected' },
     { field: 'requestedQuantity', headerName: 'Qty', minWidth: 110, flex: 0.5 },
     { field: 'estimatedUnitCost', headerName: 'Unit Cost', minWidth: 120, flex: 0.6 },
@@ -95,8 +124,13 @@ function SparePartReorderPage() {
       field: 'actions',
       headerName: '',
       sortable: false,
-      width: 110,
-      renderCell: ({ row }) => <Button size="small" onClick={() => openEditDialog(row)}>Update</Button>,
+      width: 190,
+      renderCell: ({ row }) => (
+        <Stack direction="row" spacing={1}>
+          <Button size="small" onClick={() => openEditDialog(row)}>Update</Button>
+          {row.status !== 'RECEIVED' && <Button size="small" variant="contained" onClick={() => openReceiveDialog(row)}>Receive</Button>}
+        </Stack>
+      ),
     },
   ];
 
@@ -140,6 +174,20 @@ function SparePartReorderPage() {
         <DialogActions>
           <Button onClick={() => setEditDialog(initialEditDialog)}>Cancel</Button>
           <Button variant="contained" onClick={submitEditDialog}>Save</Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={receiveDialog.open} onClose={() => setReceiveDialog(initialReceiveDialog)} maxWidth="sm" fullWidth>
+        <DialogTitle>Receive Purchase Stock</DialogTitle>
+        <DialogContent sx={{ display: 'grid', gap: 2, pt: 2 }}>
+          <Typography variant="body2" color="text.secondary">{receiveDialog.row?.partCode} - {receiveDialog.row?.partName}</Typography>
+          <TextField type="number" label="Received Quantity" value={receiveDialog.quantity} onChange={(event) => setReceiveDialog((current) => ({ ...current, quantity: event.target.value }))} />
+          <TextField type="number" label="Unit Cost" value={receiveDialog.unitCost} onChange={(event) => setReceiveDialog((current) => ({ ...current, unitCost: event.target.value }))} />
+          <TextField multiline minRows={2} label="Remarks" value={receiveDialog.remarks} onChange={(event) => setReceiveDialog((current) => ({ ...current, remarks: event.target.value }))} />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setReceiveDialog(initialReceiveDialog)}>Cancel</Button>
+          <Button variant="contained" onClick={submitReceiveDialog}>Receive</Button>
         </DialogActions>
       </Dialog>
     </Box>

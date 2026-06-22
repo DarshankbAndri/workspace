@@ -40,10 +40,16 @@ const initialForm = {
 const initialSpareEditDialog = { open: false, row: null, quantityUsed: '', remarks: '' };
 const statusColors = {
   REQUESTED: 'default',
-  RESERVE_PENDING_APPROVAL: 'warning',
+  MANAGER_APPROVED: 'info',
+  MANAGER_REJECTED: 'error',
+  STORE_REVIEW: 'info',
+  STOCK_AVAILABLE: 'success',
+  STOCK_NOT_AVAILABLE: 'warning',
+  PURCHASE_REQUESTED: 'warning',
+  PURCHASE_RECEIVED: 'success',
   RESERVED: 'info',
-  ISSUE_PENDING_APPROVAL: 'warning',
   ISSUED: 'primary',
+  PARTIALLY_CONSUMED: 'warning',
   CONSUMED: 'success',
   REJECTED: 'error',
   CANCELLED: 'default',
@@ -114,8 +120,8 @@ function MaintenanceAssignmentFormPage() {
   const updateSpareField = (field) => (event) => setSpareForm((current) => ({ ...current, [field]: event.target.value }));
 
   const materialCost = spareRows
-    .filter((item) => (item.status || 'CONSUMED') === 'CONSUMED')
-    .reduce((sum, item) => sum + Number(item.totalCost || 0), 0);
+    .filter((item) => ['CONSUMED', 'RETURNED', 'PARTIALLY_CONSUMED'].includes(item.status || 'CONSUMED'))
+    .reduce((sum, item) => sum + (Number(item.consumedQty || item.quantityUsed || 0) * Number(item.unitCost || 0)), 0);
   const serviceCost = Number(form.actualCost || 0);
   const totalActualCost = serviceCost + materialCost;
 
@@ -132,6 +138,7 @@ function MaintenanceAssignmentFormPage() {
     try {
       await addAssignmentSpare(id, {
         stockId: Number(spareForm.stockId),
+        requestedQty: Number(spareForm.quantityUsed),
         quantityUsed: Number(spareForm.quantityUsed),
         remarks: spareForm.remarks,
       });
@@ -210,7 +217,11 @@ function MaintenanceAssignmentFormPage() {
   const spareColumns = [
     { field: 'partCode', headerName: 'Part Code', minWidth: 140, flex: 0.8 },
     { field: 'partName', headerName: 'Part Name', minWidth: 220, flex: 1.2 },
-    { field: 'quantityUsed', headerName: 'Qty', minWidth: 100, flex: 0.5 },
+    { field: 'requestedQty', headerName: 'Requested', minWidth: 110, flex: 0.5, valueGetter: ({ row }) => row.requestedQty ?? row.quantityUsed },
+    { field: 'approvedQty', headerName: 'Approved', minWidth: 110, flex: 0.5 },
+    { field: 'issuedQty', headerName: 'Issued', minWidth: 95, flex: 0.45 },
+    { field: 'consumedQty', headerName: 'Consumed', minWidth: 110, flex: 0.5 },
+    { field: 'returnedQty', headerName: 'Returned', minWidth: 110, flex: 0.5 },
     { field: 'unit', headerName: 'Unit', minWidth: 90, flex: 0.4 },
     { field: 'availableStock', headerName: 'Available', minWidth: 110, flex: 0.55 },
     { field: 'unitCost', headerName: 'Unit Cost', minWidth: 120, flex: 0.6 },
@@ -225,6 +236,7 @@ function MaintenanceAssignmentFormPage() {
         return <Chip size="small" label={status.replaceAll('_', ' ')} color={statusColors[status] || 'default'} />;
       },
     },
+    { field: 'purchaseRequestId', headerName: 'Purchase', minWidth: 120, flex: 0.55, valueGetter: ({ row }) => row.purchaseRequestId ? `#${row.purchaseRequestId}` : '' },
     { field: 'remarks', headerName: 'Remarks', minWidth: 180, flex: 1 },
     {
       field: 'actions',
@@ -239,19 +251,19 @@ function MaintenanceAssignmentFormPage() {
             {status === 'REQUESTED' && hasPermission('SPARE_USAGE_UPDATE') && (
               <Tooltip title="Edit"><IconButton aria-label="Edit spare request" onClick={() => handleOpenEditSpare(row)}><Edit fontSize="small" /></IconButton></Tooltip>
             )}
-            {status === 'REQUESTED' && hasPermission('SPARE_USAGE_RESERVE') && (
+            {['STOCK_AVAILABLE', 'PURCHASE_RECEIVED'].includes(status) && hasPermission('SPARE_USAGE_RESERVE') && (
               <Tooltip title="Reserve"><IconButton aria-label="Reserve spare" color="primary" onClick={() => handleSpareAction(row, 'reserve')}><CheckCircle fontSize="small" /></IconButton></Tooltip>
             )}
             {status === 'REQUESTED' && hasPermission('SPARE_USAGE_REJECT') && (
               <Tooltip title="Reject"><IconButton aria-label="Reject spare" color="error" onClick={() => handleSpareAction(row, 'reject')}><Cancel fontSize="small" /></IconButton></Tooltip>
             )}
-            {['REQUESTED', 'RESERVED'].includes(status) && hasPermission('SPARE_USAGE_CANCEL') && (
+            {['REQUESTED', 'MANAGER_APPROVED', 'STOCK_AVAILABLE', 'STOCK_NOT_AVAILABLE', 'PURCHASE_REQUESTED', 'RESERVED'].includes(status) && hasPermission('SPARE_USAGE_CANCEL') && (
               <Tooltip title="Cancel"><IconButton aria-label="Cancel spare request" onClick={() => handleSpareAction(row, 'cancel')}><Delete fontSize="small" /></IconButton></Tooltip>
             )}
-            {status === 'RESERVED' && hasPermission('SPARE_USAGE_ISSUE') && (
+            {['STOCK_AVAILABLE', 'PURCHASE_RECEIVED', 'RESERVED'].includes(status) && hasPermission('SPARE_USAGE_ISSUE') && (
               <Tooltip title="Issue"><IconButton aria-label="Issue spare" color="primary" onClick={() => handleSpareAction(row, 'issue')}><Inventory fontSize="small" /></IconButton></Tooltip>
             )}
-            {status === 'ISSUED' && hasPermission('SPARE_USAGE_CONSUME') && (
+            {['ISSUED', 'PARTIALLY_CONSUMED'].includes(status) && hasPermission('SPARE_USAGE_CONSUME') && (
               <Tooltip title="Consume"><IconButton aria-label="Consume spare" color="success" onClick={() => handleSpareAction(row, 'consume')}><CheckCircle fontSize="small" /></IconButton></Tooltip>
             )}
             {status === 'ISSUED' && hasPermission('SPARE_USAGE_RETURN') && (

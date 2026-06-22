@@ -9,6 +9,8 @@ import java.util.Optional;
 
 @Repository
 public interface MaintenanceSpareUsageRepository extends JpaRepository<MaintenanceSpareUsage, Long> {
+    List<MaintenanceSpareUsage> findAllByOrderByCreatedAtDesc();
+    List<MaintenanceSpareUsage> findByStatusOrderByCreatedAtDesc(String status);
     List<MaintenanceSpareUsage> findByAssignmentIdOrderByCreatedAtDesc(Long assignmentId);
     Optional<MaintenanceSpareUsage> findByIdAndAssignmentId(Long id, Long assignmentId);
     boolean existsByAssignmentIdAndStockId(Long assignmentId, Long stockId);

@@ -1,6 +1,7 @@
 package com.example.cmmsApplication.controller;
 
 import com.example.cmmsApplication.dto.SparePartReorderDTO;
+import com.example.cmmsApplication.dto.SparePartTransactionDTO;
 import com.example.cmmsApplication.service.SparePartReorderService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -32,5 +33,11 @@ public class SparePartReorderController {
     @PutMapping("/{id}")
     public ResponseEntity<SparePartReorderDTO> update(@PathVariable Long id, @RequestBody SparePartReorderDTO dto) {
         return ResponseEntity.ok(reorderService.update(id, dto));
+    }
+
+    @PostMapping("/{id}/receive-stock")
+    public ResponseEntity<SparePartReorderDTO> receiveStock(@PathVariable Long id,
+                                                            @RequestBody(required = false) SparePartTransactionDTO dto) {
+        return ResponseEntity.ok(reorderService.receiveStock(id, dto));
     }
 }

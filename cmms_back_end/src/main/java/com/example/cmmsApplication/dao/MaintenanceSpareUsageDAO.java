@@ -17,6 +17,8 @@ public class MaintenanceSpareUsageDAO {
 
     public MaintenanceSpareUsage save(MaintenanceSpareUsage usage) { return repository.save(usage); }
     public Optional<MaintenanceSpareUsage> findById(Long id) { return repository.findById(id); }
+    public List<MaintenanceSpareUsage> findAll() { return repository.findAllByOrderByCreatedAtDesc(); }
+    public List<MaintenanceSpareUsage> findByStatus(String status) { return repository.findByStatusOrderByCreatedAtDesc(status); }
     public Optional<MaintenanceSpareUsage> findByIdAndAssignmentId(Long id, Long assignmentId) { return repository.findByIdAndAssignmentId(id, assignmentId); }
     public List<MaintenanceSpareUsage> findByAssignmentId(Long assignmentId) { return repository.findByAssignmentIdOrderByCreatedAtDesc(assignmentId); }
     public boolean existsByAssignmentIdAndStockId(Long assignmentId, Long stockId) { return repository.existsByAssignmentIdAndStockId(assignmentId, stockId); }

@@ -283,4 +283,68 @@
             ON CONFLICT (module_code, action_code) DO NOTHING;
         </sql>
     </changeSet>
+
+    <changeSet id="cmms-spare-request-purchase-workflow" author="codex">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="maintenance_spare_usage"/>
+        </preConditions>
+        <sql>
+            ALTER TABLE maintenance_spare_usage
+                ADD COLUMN IF NOT EXISTS approved_qty NUMERIC(14,3),
+                ADD COLUMN IF NOT EXISTS issued_qty NUMERIC(14,3) DEFAULT 0 NOT NULL,
+                ADD COLUMN IF NOT EXISTS consumed_qty NUMERIC(14,3) DEFAULT 0 NOT NULL,
+                ADD COLUMN IF NOT EXISTS returned_qty NUMERIC(14,3) DEFAULT 0 NOT NULL,
+                ADD COLUMN IF NOT EXISTS manager_approved_by BIGINT REFERENCES users(id),
+                ADD COLUMN IF NOT EXISTS store_approved_by BIGINT REFERENCES users(id),
+                ADD COLUMN IF NOT EXISTS purchase_request_id BIGINT;
+
+            ALTER TABLE spare_part_reorder_request
+                ADD COLUMN IF NOT EXISTS assignment_id BIGINT REFERENCES maintenance_assignment(id),
+                ADD COLUMN IF NOT EXISTS spare_request_id BIGINT REFERENCES maintenance_spare_usage(usage_id);
+
+            CREATE INDEX IF NOT EXISTS idx_spare_usage_purchase_request ON maintenance_spare_usage(purchase_request_id);
+            CREATE INDEX IF NOT EXISTS idx_spare_reorder_assignment ON spare_part_reorder_request(assignment_id);
+            CREATE INDEX IF NOT EXISTS idx_spare_reorder_spare_request ON spare_part_reorder_request(spare_request_id);
+
+            INSERT INTO permission_master (permission_code, permission_name, module_name, action_name, status, created_at, updated_at) VALUES
+            ('SPARE_USAGE_MANAGER_APPROVE', 'Manager Approve Spare Requests', 'Spare Usage', 'MANAGER_APPROVE', 'ACTIVE', NOW(), NOW()),
+            ('SPARE_USAGE_STORE_PROCESS', 'Store Process Spare Requests', 'Spare Usage', 'STORE_PROCESS', 'ACTIVE', NOW(), NOW())
+            ON CONFLICT (permission_code) DO NOTHING;
+
+            INSERT INTO role_permission (role_id, permission_id)
+            SELECT r.role_id, p.permission_id
+            FROM role_master r
+            JOIN permission_master p ON p.permission_code IN ('SPARE_USAGE_MANAGER_APPROVE')
+            WHERE r.role_code IN ('SUPER_ADMIN', 'ADMIN', 'MAINTENANCE_MANAGER', 'SITE_MANAGER')
+            ON CONFLICT (role_id, permission_id) DO NOTHING;
+
+            INSERT INTO role_permission (role_id, permission_id)
+            SELECT r.role_id, p.permission_id
+            FROM role_master r
+            JOIN permission_master p ON p.permission_code IN (
+                'SPARE_USAGE_STORE_PROCESS', 'SPARE_USAGE_RESERVE', 'SPARE_USAGE_ISSUE',
+                'SPARE_USAGE_CONSUME', 'SPARE_USAGE_RETURN', 'REORDER_CREATE', 'REORDER_UPDATE',
+                'STOCK_TRANSACTION_CREATE', 'STOCK_TRANSACTION_VIEW'
+            )
+            WHERE r.role_code IN ('SUPER_ADMIN', 'ADMIN', 'SITE_MANAGER')
+            ON CONFLICT (role_id, permission_id) DO NOTHING;
+        </sql>
+    </changeSet>
+
+    <changeSet id="cmms-spare-request-purchase-workflow-fk" author="codex">
+        <preConditions onFail="MARK_RAN">
+            <and>
+                <tableExists tableName="maintenance_spare_usage"/>
+                <tableExists tableName="spare_part_reorder_request"/>
+                <columnExists tableName="maintenance_spare_usage" columnName="purchase_request_id"/>
+                <not><foreignKeyConstraintExists foreignKeyName="fk_spare_usage_purchase_request"/></not>
+            </and>
+        </preConditions>
+        <addForeignKeyConstraint
+                constraintName="fk_spare_usage_purchase_request"
+                baseTableName="maintenance_spare_usage"
+                baseColumnNames="purchase_request_id"
+                referencedTableName="spare_part_reorder_request"
+                referencedColumnNames="reorder_id"/>
+    </changeSet>
 </databaseChangeLog>

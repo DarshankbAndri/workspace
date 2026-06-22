@@ -19,6 +19,18 @@ export const importSpareParts = (file) => {
 export const getReorderRequests = (params = {}) => api.get('/spare-part-reorders', { params }).then((response) => response.data);
 export const createReorderRequest = (data) => api.post('/spare-part-reorders', data).then((response) => response.data);
 export const updateReorderRequest = (id, data) => api.put(`/spare-part-reorders/${id}`, data).then((response) => response.data);
+export const receivePurchaseRequestStock = (id, data = {}) => api.post(`/spare-part-reorders/${id}/receive-stock`, data).then((response) => response.data);
+
+export const createSpareRequest = (assignmentId, data) => api.post(`/assignments/${assignmentId}/spare-requests`, data).then((response) => response.data);
+export const getSpareRequests = (params = {}) => api.get('/spare-requests', { params }).then((response) => response.data);
+export const getSpareRequestById = (id) => api.get(`/spare-requests/${id}`).then((response) => response.data);
+export const managerApproveSpareRequest = (id, data = {}) => api.post(`/spare-requests/${id}/manager-approve`, data).then((response) => response.data);
+export const managerRejectSpareRequest = (id, data = {}) => api.post(`/spare-requests/${id}/manager-reject`, data).then((response) => response.data);
+export const checkSpareRequestStock = (id, data = {}) => api.post(`/spare-requests/${id}/check-stock`, data).then((response) => response.data);
+export const reserveSpareRequest = (id, data = {}) => api.post(`/spare-requests/${id}/reserve`, data).then((response) => response.data);
+export const issueSpareRequest = (id, data = {}) => api.post(`/spare-requests/${id}/issue`, data).then((response) => response.data);
+export const createPurchaseRequestFromSpare = (id, data = {}) => api.post(`/spare-requests/${id}/create-purchase-request`, data).then((response) => response.data);
+export const consumeReturnSpareRequest = (id, data = {}) => api.post(`/spare-requests/${id}/consume-return`, data).then((response) => response.data);
 
 export const getAssignmentSpares = (assignmentId) => api.get(`/maintenance/assignments/${assignmentId}/spares`).then((response) => response.data);
 export const addAssignmentSpare = (assignmentId, data) => api.post(`/maintenance/assignments/${assignmentId}/spares`, data).then((response) => response.data);

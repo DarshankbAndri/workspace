@@ -1,7 +1,10 @@
 package com.example.cmmsApplication.service;
 
 import com.example.cmmsApplication.dao.SparePartReorderDAO;
+import com.example.cmmsApplication.dao.MaintenanceSpareUsageDAO;
 import com.example.cmmsApplication.dto.SparePartReorderDTO;
+import com.example.cmmsApplication.dto.SparePartTransactionDTO;
+import com.example.cmmsApplication.entity.MaintenanceSpareUsage;
 import com.example.cmmsApplication.entity.SparePartReorderRequest;
 import com.example.cmmsApplication.entity.SparePartSiteStock;
 import com.example.cmmsApplication.entity.Vendor;
@@ -20,15 +23,18 @@ import java.util.stream.Collectors;
 @Transactional
 public class SparePartReorderService {
     private final SparePartReorderDAO reorderDAO;
+    private final MaintenanceSpareUsageDAO usageDAO;
     private final SparePartService sparePartService;
     private final VendorService vendorService;
     private final AccessControlService accessControlService;
 
     public SparePartReorderService(SparePartReorderDAO reorderDAO,
+                                   MaintenanceSpareUsageDAO usageDAO,
                                    SparePartService sparePartService,
                                    VendorService vendorService,
                                    AccessControlService accessControlService) {
         this.reorderDAO = reorderDAO;
+        this.usageDAO = usageDAO;
         this.sparePartService = sparePartService;
         this.vendorService = vendorService;
         this.accessControlService = accessControlService;
@@ -97,6 +103,30 @@ public class SparePartReorderService {
         return requests.stream().map(this::toDTO).collect(Collectors.toList());
     }
 
+    public SparePartReorderDTO receiveStock(Long id, SparePartTransactionDTO dto) {
+        accessControlService.validatePermission("REORDER_UPDATE");
+        SparePartReorderRequest request = getEntity(id);
+        accessControlService.validateSiteAccess(request.getSite().getId());
+        BigDecimal quantity = positive(dto == null || dto.getQuantity() == null ? request.getRequestedQuantity() : dto.getQuantity());
+
+        SparePartTransactionDTO transaction = new SparePartTransactionDTO();
+        transaction.setQuantity(quantity);
+        transaction.setUnitCost(dto == null || dto.getUnitCost() == null ? request.getEstimatedUnitCost() : dto.getUnitCost());
+        transaction.setReferenceType("PURCHASE_REQUEST");
+        transaction.setReferenceId(request.getId());
+        transaction.setRemarks(dto == null || dto.getRemarks() == null || dto.getRemarks().isBlank() ? "Purchase stock received" : dto.getRemarks());
+        sparePartService.stockIn(request.getStock().getId(), transaction);
+
+        request.setStatus("RECEIVED");
+        SparePartReorderRequest saved = reorderDAO.save(request);
+        if (saved.getSpareRequest() != null) {
+            MaintenanceSpareUsage usage = saved.getSpareRequest();
+            usage.setStatus("PURCHASE_RECEIVED");
+            usageDAO.save(usage);
+        }
+        return toDTO(saved);
+    }
+
     private SparePartReorderRequest getEntity(Long id) {
         return reorderDAO.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Reorder request not found with id: " + id));
@@ -144,6 +174,8 @@ public class SparePartReorderService {
         dto.setPartName(request.getSparePart().getPartName());
         dto.setSiteId(request.getSite().getId());
         dto.setSiteName(request.getSite().getSiteName());
+        dto.setAssignmentId(request.getAssignment() == null ? null : request.getAssignment().getId());
+        dto.setSpareRequestId(request.getSpareRequest() == null ? null : request.getSpareRequest().getId());
         dto.setVendorId(request.getVendor() == null ? null : request.getVendor().getId());
         dto.setVendorName(request.getVendor() == null ? null : request.getVendor().getVendorName());
         dto.setRequestedQuantity(request.getRequestedQuantity());

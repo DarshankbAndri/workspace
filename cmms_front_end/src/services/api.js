@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const API_BASE_URL = 'http://localhost:4200/api';
+export const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:4200/api';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -9,6 +9,17 @@ const api = axios.create({
     'Content-Type': 'application/json',
   },
 });
+
+const clearAuthAndRedirect = () => {
+  localStorage.removeItem('token');
+  localStorage.removeItem('user');
+  localStorage.removeItem('roles');
+  localStorage.removeItem('permissions');
+  localStorage.removeItem('allowedSites');
+  if (window.location.pathname !== '/login') {
+    window.location.href = '/login';
+  }
+};
 
 // Interceptor to add JWT token to all requests
 api.interceptors.request.use(
@@ -29,13 +40,7 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 401) {
-      // Clear auth data and redirect to login
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      localStorage.removeItem('roles');
-      localStorage.removeItem('permissions');
-      localStorage.removeItem('allowedSites');
-      window.location.href = '/login';
+      clearAuthAndRedirect();
     }
     return Promise.reject(error);
   }
@@ -165,12 +170,7 @@ fileApi.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 401) {
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      localStorage.removeItem('roles');
-      localStorage.removeItem('permissions');
-      localStorage.removeItem('allowedSites');
-      window.location.href = '/login';
+      clearAuthAndRedirect();
     }
     return Promise.reject(error);
   }
