@@ -118,11 +118,16 @@ Current frontend feature folders include `admin`, `approval`, `assignment`, `aut
 ## Liquibase Rules
 
 1. For new tables, always create Liquibase XML using `<createTable>`, not raw SQL.
-2. Use one table per file or one clear table-focused changeSet.
-3. Add foreign keys after base tables are created.
-4. Add indexes separately after tables and constraints.
-5. Do not use raw SQL for normal table, index, column, primary key, foreign key, or unique-constraint creation.
-6. Keep changelogs module-wise under the existing changelog structure.
-7. For a fresh first-time setup, keep the schema clean instead of preserving unnecessary incremental changes.
-8. Always test Liquibase changes by dropping or clearing the local database and running migrations from scratch.
-9. Always run `mvn clean install` from `cmms_back_end` after Liquibase changes.
+2. Always use one XML file per table.
+3. Do not create separate XML files for indexes.
+4. Do not create separate XML files for foreign keys.
+5. Keep each table's creation, indexes, unique constraints, and foreign keys in that table's XML file.
+6. One XML file must not create more than one table.
+7. One XML file can contain multiple changeSets, but only for the same table.
+8. Use Liquibase XML tags such as `<createTable>`, `<createIndex>`, `<addForeignKeyConstraint>`, `<addUniqueConstraint>`, and `<addNotNullConstraint>` for normal schema changes.
+9. Do not use raw SQL for normal table, index, column, primary key, foreign key, or unique-constraint creation.
+10. Include table XML files in dependency order in `db.changelog-master.xml`; if a foreign key references another table, include the referenced table XML before the table that owns the foreign key.
+11. Keep changelogs module-wise under the existing changelog structure.
+12. For a fresh first-time setup, keep the schema clean instead of preserving unnecessary incremental changes.
+13. Always test Liquibase changes by dropping or clearing the local database and running migrations from scratch.
+14. Always run `mvn clean install` from `cmms_back_end` after Liquibase changes.

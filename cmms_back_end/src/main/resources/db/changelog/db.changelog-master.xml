@@ -25,6 +25,12 @@
     <include file="db/changelog/cmms/approval_request.xml"/>
     <include file="db/changelog/cmms/approval_action.xml"/>
     <include file="db/changelog/cmms/notification.xml"/>
-    <include file="db/changelog/cmms/spare_parts_inventory.xml"/>
+    <include file="db/changelog/cmms/notification_setting.xml"/>
+    <include file="db/changelog/cmms/spare_part_master.xml"/>
+    <include file="db/changelog/cmms/spare_part_site_stock.xml"/>
+    <include file="db/changelog/cmms/spare_part_transaction.xml"/>
+    <include file="db/changelog/cmms/maintenance_spare_usage.xml"/>
+    <include file="db/changelog/cmms/spare_part_reorder_request.xml"/>
+    <include file="db/changelog/cmms/spare_parts_permissions.xml"/>
 
 </databaseChangeLog>
