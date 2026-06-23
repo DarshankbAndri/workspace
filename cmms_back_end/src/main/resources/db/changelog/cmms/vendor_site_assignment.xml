@@ -4,12 +4,9 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <changeSet id="cmms-vendor-site-assignment-create" author="codex">
-        <preConditions onFail="MARK_RAN">
-            <not><tableExists tableName="vendor_site_assignment"/></not>
-        </preConditions>
+    <changeSet id="cmms-vendor-site-assignment-create" author="DARSHAN">
         <createTable tableName="vendor_site_assignment">
-            <column name="assignment_id" type="BIGSERIAL"><constraints primaryKey="true"/></column>
+            <column name="assignment_id" type="BIGINT" autoIncrement="true"><constraints primaryKey="true"/></column>
             <column name="vendor_id" type="BIGINT"><constraints nullable="false"/></column>
             <column name="site_id" type="BIGINT"><constraints nullable="false"/></column>
             <column name="is_primary_site" type="BOOLEAN" defaultValueBoolean="false"/>
@@ -19,18 +16,12 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="cmms-vendor-site-assignment-fks" author="codex">
-        <preConditions onFail="MARK_RAN">
-            <not><foreignKeyConstraintExists foreignKeyName="fk_vendor_site_vendor" foreignKeyTableName="vendor_site_assignment"/></not>
-        </preConditions>
+    <changeSet id="cmms-vendor-site-assignment-fks" author="DARSHAN">
         <addForeignKeyConstraint constraintName="fk_vendor_site_vendor" baseTableName="vendor_site_assignment" baseColumnNames="vendor_id" referencedTableName="vendor_master" referencedColumnNames="id"/>
         <addForeignKeyConstraint constraintName="fk_vendor_site_site" baseTableName="vendor_site_assignment" baseColumnNames="site_id" referencedTableName="site_master" referencedColumnNames="site_id"/>
     </changeSet>
 
-    <changeSet id="cmms-vendor-site-assignment-indexes" author="codex">
-        <preConditions onFail="MARK_RAN">
-            <not><indexExists indexName="idx_vendor_site_vendor_id"/></not>
-        </preConditions>
+    <changeSet id="cmms-vendor-site-assignment-indexes" author="DARSHAN">
         <createIndex indexName="idx_vendor_site_vendor_id" tableName="vendor_site_assignment"><column name="vendor_id"/></createIndex>
         <createIndex indexName="idx_vendor_site_site_id" tableName="vendor_site_assignment"><column name="site_id"/></createIndex>
         <createIndex indexName="idx_vendor_site_status" tableName="vendor_site_assignment"><column name="status"/></createIndex>

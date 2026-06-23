@@ -4,12 +4,9 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <changeSet id="cmms-employee-site-assignment-create" author="codex">
-        <preConditions onFail="MARK_RAN">
-            <not><tableExists tableName="employee_site_assignment"/></not>
-        </preConditions>
+    <changeSet id="cmms-employee-site-assignment-create" author="DARSHAN">
         <createTable tableName="employee_site_assignment">
-            <column name="assignment_id" type="BIGSERIAL"><constraints primaryKey="true"/></column>
+            <column name="assignment_id" type="BIGINT" autoIncrement="true"><constraints primaryKey="true"/></column>
             <column name="employee_id" type="BIGINT"><constraints nullable="false"/></column>
             <column name="site_id" type="BIGINT"><constraints nullable="false"/></column>
             <column name="role_name" type="VARCHAR(100)"><constraints nullable="false"/></column>
@@ -22,18 +19,12 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="cmms-employee-site-assignment-fks" author="codex">
-        <preConditions onFail="MARK_RAN">
-            <not><foreignKeyConstraintExists foreignKeyName="fk_employee_assignment_employee" foreignKeyTableName="employee_site_assignment"/></not>
-        </preConditions>
+    <changeSet id="cmms-employee-site-assignment-fks" author="DARSHAN">
         <addForeignKeyConstraint constraintName="fk_employee_assignment_employee" baseTableName="employee_site_assignment" baseColumnNames="employee_id" referencedTableName="employee_master" referencedColumnNames="employee_id"/>
         <addForeignKeyConstraint constraintName="fk_employee_assignment_site" baseTableName="employee_site_assignment" baseColumnNames="site_id" referencedTableName="site_master" referencedColumnNames="site_id"/>
     </changeSet>
 
-    <changeSet id="cmms-employee-site-assignment-indexes" author="codex">
-        <preConditions onFail="MARK_RAN">
-            <not><indexExists indexName="idx_employee_assignment_employee"/></not>
-        </preConditions>
+    <changeSet id="cmms-employee-site-assignment-indexes" author="DARSHAN">
         <createIndex indexName="idx_employee_assignment_employee" tableName="employee_site_assignment"><column name="employee_id"/></createIndex>
         <createIndex indexName="idx_employee_assignment_site" tableName="employee_site_assignment"><column name="site_id"/></createIndex>
         <createIndex indexName="idx_employee_assignment_status" tableName="employee_site_assignment"><column name="status"/></createIndex>

@@ -4,58 +4,81 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <changeSet id="cmms-notification-create" author="codex">
-        <preConditions onFail="MARK_RAN">
-            <not><tableExists tableName="notification"/></not>
-        </preConditions>
+    <changeSet id="notification-001-create-table" author="DARSHAN">
         <createTable tableName="notification">
-            <column name="notification_id" type="BIGSERIAL"><constraints primaryKey="true"/></column>
-            <column name="recipient_user_id" type="BIGINT"><constraints nullable="false"/></column>
+            <column name="notification_id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="recipient_user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
             <column name="site_id" type="BIGINT"/>
-            <column name="type" type="VARCHAR(60)"><constraints nullable="false"/></column>
-            <column name="title" type="VARCHAR(200)"><constraints nullable="false"/></column>
-            <column name="message" type="VARCHAR(1000)"><constraints nullable="false"/></column>
+            <column name="type" type="VARCHAR(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="message" type="VARCHAR(1000)">
+                <constraints nullable="false"/>
+            </column>
             <column name="module_code" type="VARCHAR(100)"/>
             <column name="reference_id" type="BIGINT"/>
             <column name="reference_code" type="VARCHAR(100)"/>
             <column name="target_url" type="VARCHAR(300)"/>
-            <column name="priority" type="VARCHAR(30)" defaultValue="MEDIUM"><constraints nullable="false"/></column>
-            <column name="status" type="VARCHAR(30)" defaultValue="UNREAD"><constraints nullable="false"/></column>
+            <column name="priority" type="VARCHAR(30)" defaultValue="MEDIUM">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="VARCHAR(30)" defaultValue="UNREAD">
+                <constraints nullable="false"/>
+            </column>
             <column name="read_at" type="TIMESTAMP"/>
-            <column name="email_status" type="VARCHAR(30)" defaultValue="NOT_REQUIRED"><constraints nullable="false"/></column>
+            <column name="email_status" type="VARCHAR(30)" defaultValue="NOT_REQUIRED">
+                <constraints nullable="false"/>
+            </column>
             <column name="sent_email_at" type="TIMESTAMP"/>
             <column name="dedupe_key" type="VARCHAR(220)"/>
-            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"><constraints nullable="false"/></column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
             <column name="updated_at" type="TIMESTAMP"/>
         </createTable>
+        <addUniqueConstraint tableName="notification"
+                             columnNames="dedupe_key"
+                             constraintName="uk_notification_dedupe_key"/>
     </changeSet>
 
-    <changeSet id="cmms-notification-fks" author="codex">
-        <preConditions onFail="MARK_RAN">
-            <not><foreignKeyConstraintExists foreignKeyName="fk_notification_recipient_user" foreignKeyTableName="notification"/></not>
-        </preConditions>
-        <addForeignKeyConstraint constraintName="fk_notification_recipient_user" baseTableName="notification" baseColumnNames="recipient_user_id" referencedTableName="users" referencedColumnNames="id"/>
-        <addForeignKeyConstraint constraintName="fk_notification_site" baseTableName="notification" baseColumnNames="site_id" referencedTableName="site_master" referencedColumnNames="site_id"/>
+    <changeSet id="notification-002-add-foreign-keys" author="DARSHAN">
+        <addForeignKeyConstraint constraintName="fk_notification_recipient_user"
+                                 baseTableName="notification"
+                                 baseColumnNames="recipient_user_id"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_notification_site"
+                                 baseTableName="notification"
+                                 baseColumnNames="site_id"
+                                 referencedTableName="site_master"
+                                 referencedColumnNames="site_id"/>
     </changeSet>
 
-    <changeSet id="cmms-notification-indexes" author="codex">
-        <preConditions onFail="MARK_RAN">
-            <not><indexExists indexName="idx_notification_recipient_status"/></not>
-        </preConditions>
+    <changeSet id="notification-003-create-indexes" author="DARSHAN">
         <createIndex indexName="idx_notification_recipient_status" tableName="notification">
             <column name="recipient_user_id"/>
             <column name="status"/>
         </createIndex>
-        <createIndex indexName="idx_notification_created_at" tableName="notification"><column name="created_at"/></createIndex>
-        <createIndex indexName="idx_notification_type" tableName="notification"><column name="type"/></createIndex>
+        <createIndex indexName="idx_notification_created_at" tableName="notification">
+            <column name="created_at"/>
+        </createIndex>
+        <createIndex indexName="idx_notification_type" tableName="notification">
+            <column name="type"/>
+        </createIndex>
         <createIndex indexName="idx_notification_reference" tableName="notification">
             <column name="module_code"/>
             <column name="reference_id"/>
         </createIndex>
-        <createIndex indexName="uk_notification_dedupe_key" tableName="notification" unique="true"><column name="dedupe_key"/></createIndex>
     </changeSet>
 
-    <changeSet id="cmms-notification-permissions" author="codex">
+    <changeSet id="notification-004-seed-permissions" author="DARSHAN">
         <sql>
             INSERT INTO permission_master (permission_code, permission_name, module_name, action_name, status, created_at, updated_at) VALUES
             ('NOTIFICATION_VIEW', 'View Notifications', 'Notification', 'VIEW', 'ACTIVE', NOW(), NOW()),
@@ -64,50 +87,58 @@
         </sql>
     </changeSet>
 
-    <changeSet id="cmms-notification-config-permissions" author="codex">
+    <changeSet id="notification-setting-001-create-table" author="DARSHAN">
+        <createTable tableName="notification_setting">
+            <column name="setting_id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="enabled" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="in_app_enabled" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email_enabled" type="BOOLEAN" defaultValueBoolean="false"/>
+            <column name="pm_due_reminder_enabled" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="overdue_request_enabled" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="approval_pending_enabled" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pm_reminder_days" type="INTEGER" defaultValueNumeric="3">
+                <constraints nullable="false"/>
+            </column>
+            <column name="scan_cron" type="VARCHAR(120)" defaultValue="0 0 7 * * *">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pm_recipient_role_codes" type="VARCHAR(1000)"/>
+            <column name="overdue_recipient_role_codes" type="VARCHAR(1000)"/>
+            <column name="approval_fallback_role_codes" type="VARCHAR(1000)"/>
+            <column name="updated_by" type="BIGINT"/>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="notification-setting-002-add-foreign-keys" author="DARSHAN">
+        <addForeignKeyConstraint constraintName="fk_notification_setting_updated_by"
+                                 baseTableName="notification_setting"
+                                 baseColumnNames="updated_by"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="notification-setting-003-seed-permissions" author="DARSHAN">
         <sql>
             INSERT INTO permission_master (permission_code, permission_name, module_name, action_name, status, created_at, updated_at) VALUES
             ('NOTIFICATION_CONFIG_VIEW', 'View Notification Settings', 'Notification Settings', 'VIEW', 'ACTIVE', NOW(), NOW()),
             ('NOTIFICATION_CONFIG_UPDATE', 'Update Notification Settings', 'Notification Settings', 'UPDATE', 'ACTIVE', NOW(), NOW())
             ON CONFLICT (permission_code) DO NOTHING;
         </sql>
-    </changeSet>
-
-    <changeSet id="cmms-notification-setting-create" author="codex">
-        <preConditions onFail="MARK_RAN">
-            <not><tableExists tableName="notification_setting"/></not>
-        </preConditions>
-        <createTable tableName="notification_setting">
-            <column name="setting_id" type="BIGSERIAL"><constraints primaryKey="true"/></column>
-            <column name="enabled" type="BOOLEAN" defaultValueBoolean="true"><constraints nullable="false"/></column>
-            <column name="in_app_enabled" type="BOOLEAN" defaultValueBoolean="true"><constraints nullable="false"/></column>
-            <column name="pm_due_reminder_enabled" type="BOOLEAN" defaultValueBoolean="true"><constraints nullable="false"/></column>
-            <column name="overdue_request_enabled" type="BOOLEAN" defaultValueBoolean="true"><constraints nullable="false"/></column>
-            <column name="approval_pending_enabled" type="BOOLEAN" defaultValueBoolean="true"><constraints nullable="false"/></column>
-            <column name="pm_reminder_days" type="INTEGER" defaultValueNumeric="3"><constraints nullable="false"/></column>
-            <column name="scan_cron" type="VARCHAR(120)" defaultValue="0 0 7 * * *"><constraints nullable="false"/></column>
-            <column name="pm_recipient_role_codes" type="VARCHAR(1000)"/>
-            <column name="overdue_recipient_role_codes" type="VARCHAR(1000)"/>
-            <column name="approval_fallback_role_codes" type="VARCHAR(1000)"/>
-            <column name="updated_by" type="BIGINT"/>
-            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"><constraints nullable="false"/></column>
-            <column name="updated_at" type="TIMESTAMP"/>
-        </createTable>
-    </changeSet>
-
-    <changeSet id="cmms-notification-setting-fks" author="codex">
-        <preConditions onFail="MARK_RAN">
-            <not><foreignKeyConstraintExists foreignKeyName="fk_notification_setting_updated_by" foreignKeyTableName="notification_setting"/></not>
-        </preConditions>
-        <addForeignKeyConstraint constraintName="fk_notification_setting_updated_by" baseTableName="notification_setting" baseColumnNames="updated_by" referencedTableName="users" referencedColumnNames="id"/>
-    </changeSet>
-
-    <changeSet id="cmms-notification-setting-email-enabled" author="codex">
-        <preConditions onFail="MARK_RAN">
-            <not><columnExists tableName="notification_setting" columnName="email_enabled"/></not>
-        </preConditions>
-        <addColumn tableName="notification_setting">
-            <column name="email_enabled" type="BOOLEAN"/>
-        </addColumn>
     </changeSet>
 </databaseChangeLog>

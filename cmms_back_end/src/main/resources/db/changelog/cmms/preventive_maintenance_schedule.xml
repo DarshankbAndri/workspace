@@ -4,65 +4,83 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <changeSet id="cmms-preventive-maintenance-schedule-create" author="codex">
-        <preConditions onFail="MARK_RAN">
-            <not><tableExists tableName="preventive_maintenance_schedule"/></not>
-        </preConditions>
+    <changeSet id="preventive-maintenance-schedule-001-create-table" author="DARSHAN">
         <createTable tableName="preventive_maintenance_schedule">
-            <column name="id" type="BIGSERIAL"><constraints primaryKey="true"/></column>
-            <column name="equipment_id" type="BIGINT"><constraints nullable="false"/></column>
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="equipment_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="site_id" type="BIGINT"/>
             <column name="vendor_id" type="BIGINT"/>
-            <column name="schedule_code" type="VARCHAR(60)"><constraints nullable="false" unique="true"/></column>
-            <column name="title" type="VARCHAR(200)"><constraints nullable="false"/></column>
-            <column name="description" type="VARCHAR(1000)"><constraints nullable="false"/></column>
-            <column name="frequency" type="VARCHAR(20)"><constraints nullable="false"/></column>
-            <column name="priority" type="VARCHAR(30)" defaultValue="MEDIUM"><constraints nullable="false"/></column>
+            <column name="schedule_code" type="VARCHAR(60)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="title" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(1000)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="frequency" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="priority" type="VARCHAR(30)" defaultValue="MEDIUM">
+                <constraints nullable="false"/>
+            </column>
             <column name="assigned_to" type="VARCHAR(120)"/>
-            <column name="start_date" type="DATE"><constraints nullable="false"/></column>
-            <column name="next_due_date" type="DATE"><constraints nullable="false"/></column>
+            <column name="start_date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="next_due_date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
             <column name="last_generated_date" type="DATE"/>
-            <column name="active" type="BOOLEAN" defaultValueBoolean="true"><constraints nullable="false"/></column>
-            <column name="status" type="VARCHAR(30)" defaultValue="ACTIVE"><constraints nullable="false"/></column>
+            <column name="active" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="VARCHAR(30)" defaultValue="ACTIVE">
+                <constraints nullable="false"/>
+            </column>
             <column name="last_notification_status" type="VARCHAR(120)"/>
             <column name="last_notification_at" type="TIMESTAMP"/>
-            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"><constraints nullable="false"/></column>
-            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"><constraints nullable="false"/></column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 
-    <changeSet id="cmms-preventive-maintenance-schedule-add-site" author="codex">
-        <preConditions onFail="MARK_RAN">
-            <not><columnExists tableName="preventive_maintenance_schedule" columnName="site_id"/></not>
-        </preConditions>
-        <addColumn tableName="preventive_maintenance_schedule">
-            <column name="site_id" type="BIGINT"/>
-        </addColumn>
+    <changeSet id="preventive-maintenance-schedule-002-add-foreign-keys" author="DARSHAN">
+        <addForeignKeyConstraint constraintName="fk_pm_schedule_equipment"
+                                 baseTableName="preventive_maintenance_schedule"
+                                 baseColumnNames="equipment_id"
+                                 referencedTableName="equipment_master"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_pm_schedule_vendor"
+                                 baseTableName="preventive_maintenance_schedule"
+                                 baseColumnNames="vendor_id"
+                                 referencedTableName="vendor_master"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_pm_schedule_site"
+                                 baseTableName="preventive_maintenance_schedule"
+                                 baseColumnNames="site_id"
+                                 referencedTableName="site_master"
+                                 referencedColumnNames="site_id"/>
     </changeSet>
 
-    <changeSet id="cmms-preventive-maintenance-schedule-fks" author="codex">
-        <preConditions onFail="MARK_RAN">
-            <not><foreignKeyConstraintExists foreignKeyName="fk_pm_schedule_equipment" foreignKeyTableName="preventive_maintenance_schedule"/></not>
-        </preConditions>
-        <addForeignKeyConstraint constraintName="fk_pm_schedule_equipment" baseTableName="preventive_maintenance_schedule" baseColumnNames="equipment_id" referencedTableName="equipment_master" referencedColumnNames="id"/>
-        <addForeignKeyConstraint constraintName="fk_pm_schedule_vendor" baseTableName="preventive_maintenance_schedule" baseColumnNames="vendor_id" referencedTableName="vendor_master" referencedColumnNames="id"/>
-        <addForeignKeyConstraint constraintName="fk_pm_schedule_site" baseTableName="preventive_maintenance_schedule" baseColumnNames="site_id" referencedTableName="site_master" referencedColumnNames="site_id"/>
-    </changeSet>
-
-    <changeSet id="cmms-preventive-maintenance-schedule-indexes" author="codex">
-        <preConditions onFail="MARK_RAN">
-            <not><indexExists indexName="idx_pm_schedule_due"/></not>
-        </preConditions>
-        <createIndex indexName="idx_pm_schedule_due" tableName="preventive_maintenance_schedule"><column name="next_due_date"/></createIndex>
-        <createIndex indexName="idx_pm_schedule_active" tableName="preventive_maintenance_schedule"><column name="active"/></createIndex>
-        <createIndex indexName="idx_pm_schedule_site" tableName="preventive_maintenance_schedule"><column name="site_id"/></createIndex>
-    </changeSet>
-
-    <changeSet id="cmms-preventive-maintenance-schedule-add-status" author="codex">
-        <preConditions onFail="MARK_RAN">
-            <not><columnExists tableName="preventive_maintenance_schedule" columnName="status"/></not>
-        </preConditions>
-        <addColumn tableName="preventive_maintenance_schedule">
-            <column name="status" type="VARCHAR(30)" defaultValue="ACTIVE"><constraints nullable="false"/></column>
-        </addColumn>
+    <changeSet id="preventive-maintenance-schedule-003-create-indexes" author="DARSHAN">
+        <createIndex indexName="idx_pm_schedule_due" tableName="preventive_maintenance_schedule">
+            <column name="next_due_date"/>
+        </createIndex>
+        <createIndex indexName="idx_pm_schedule_active" tableName="preventive_maintenance_schedule">
+            <column name="active"/>
+        </createIndex>
+        <createIndex indexName="idx_pm_schedule_site" tableName="preventive_maintenance_schedule">
+            <column name="site_id"/>
+        </createIndex>
     </changeSet>
 </databaseChangeLog>

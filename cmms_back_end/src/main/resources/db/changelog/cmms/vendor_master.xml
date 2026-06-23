@@ -4,12 +4,9 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <changeSet id="cmms-vendor-master-create" author="codex">
-        <preConditions onFail="MARK_RAN">
-            <not><tableExists tableName="vendor_master"/></not>
-        </preConditions>
+    <changeSet id="cmms-vendor-master-create" author="DARSHAN">
         <createTable tableName="vendor_master">
-            <column name="id" type="BIGSERIAL"><constraints primaryKey="true"/></column>
+            <column name="id" type="BIGINT" autoIncrement="true"><constraints primaryKey="true"/></column>
             <column name="vendor_code" type="VARCHAR(50)"><constraints nullable="false" unique="true"/></column>
             <column name="vendor_name" type="VARCHAR(150)"><constraints nullable="false"/></column>
             <column name="contact_person" type="VARCHAR(120)"/>
@@ -23,11 +20,7 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="cmms-vendor-master-indexes" author="codex">
-        <preConditions onFail="MARK_RAN">
-            <not><indexExists indexName="idx_vendor_master_code"/></not>
-        </preConditions>
-        <createIndex indexName="idx_vendor_master_code" tableName="vendor_master"><column name="vendor_code"/></createIndex>
+    <changeSet id="cmms-vendor-master-indexes" author="DARSHAN">
         <createIndex indexName="idx_vendor_master_active" tableName="vendor_master"><column name="active"/></createIndex>
     </changeSet>
 </databaseChangeLog>

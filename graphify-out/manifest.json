@@ -50,8 +50,8 @@
     "semantic_hash": ""
   },
   "AGENTS.md": {
-    "mtime": 1782136628.8877594,
-    "ast_hash": "4d021aae3c6a714787df4ae5b144f730",
+    "mtime": 1782195690.2466958,
+    "ast_hash": "7e72baea6474de45c0869cda828f8e0e",
     "semantic_hash": ""
   },
   "CORS_FIX_GUIDE.md": {
@@ -1547,6 +1547,11 @@
   "cmms_front_end/src/shared/utils/searchPayload.js": {
     "mtime": 1782123060.7522101,
     "ast_hash": "214b047038242ea26506a463aa3c3f86",
+    "semantic_hash": ""
+  },
+  "cmms_back_end/src/main/resources/db/changelog/cmms/kb.js": {
+    "mtime": 1782195500.9870646,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
     "semantic_hash": ""
   }
 }

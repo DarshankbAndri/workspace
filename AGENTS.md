@@ -114,3 +114,15 @@ Current frontend feature folders include `admin`, `approval`, `assignment`, `aut
 4. Do not use field injection for new code.
 5. Do not remove custom methods, custom constructors, lifecycle hooks, or getters/setters with business logic.
 6. Always run `mvn clean install` from `cmms_back_end` after Lombok changes.
+
+## Liquibase Rules
+
+1. For new tables, always create Liquibase XML using `<createTable>`, not raw SQL.
+2. Use one table per file or one clear table-focused changeSet.
+3. Add foreign keys after base tables are created.
+4. Add indexes separately after tables and constraints.
+5. Do not use raw SQL for normal table, index, column, primary key, foreign key, or unique-constraint creation.
+6. Keep changelogs module-wise under the existing changelog structure.
+7. For a fresh first-time setup, keep the schema clean instead of preserving unnecessary incremental changes.
+8. Always test Liquibase changes by dropping or clearing the local database and running migrations from scratch.
+9. Always run `mvn clean install` from `cmms_back_end` after Liquibase changes.

@@ -5,10 +5,9 @@
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
     <include file="db/changelog/changes/001-create-enums.xml"/>
-    <include file="db/changelog/changes/002-create-users-table.xml"/>
     <include file="db/changelog/cmms/site_master.xml"/>
     <include file="db/changelog/cmms/employee_master.xml"/>
-    <include file="db/changelog/changes/005-link-users-to-employees.xml"/>
+    <include file="db/changelog/changes/002-create-users-table.xml"/>
     <include file="db/changelog/cmms/role_master.xml"/>
     <include file="db/changelog/cmms/permission_master.xml"/>
     <include file="db/changelog/cmms/company_master.xml"/>
