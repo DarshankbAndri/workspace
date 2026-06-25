@@ -54,7 +54,7 @@ public class SearchServiceImp implements SearchService {
             }
 
             for (SearchCriteriaDTO criteria : criteriaList) {
-                if (criteria == null || isBlank(criteria.getFilterKey()) || isEmptyValue(criteria.getValue())) {
+                if (criteria == null || isBlank(criteria.getFilterKey()) || shouldSkipCriteria(criteria)) {
                     continue;
                 }
                 if ("commonSearch".equals(criteria.getFilterKey())) {
@@ -99,11 +99,15 @@ public class SearchServiceImp implements SearchService {
         Class<?> javaType = fieldPath.getJavaType();
 
         if (SearchOperation.IN.equals(operation)) {
+            List<Object> values = toValueList(value).stream()
+                    .filter((item) -> !isEmptyValue(item))
+                    .collect(Collectors.toList());
+            if (values.isEmpty()) {
+                return criteriaBuilder.disjunction();
+            }
             jakarta.persistence.criteria.CriteriaBuilder.In<Object> inClause = criteriaBuilder.in(fieldPath);
-            for (Object item : toValueList(value)) {
-                if (!isEmptyValue(item)) {
-                    inClause.value(convertValue(item, javaType));
-                }
+            for (Object item : values) {
+                inClause.value(convertValue(item, javaType));
             }
             return inClause;
         }
@@ -207,6 +211,13 @@ public class SearchServiceImp implements SearchService {
 
     private boolean isBlank(String value) {
         return value == null || value.trim().isEmpty();
+    }
+
+    private boolean shouldSkipCriteria(SearchCriteriaDTO criteria) {
+        if (SearchOperation.IN.equals(SearchOperation.fromValue(criteria.getOperation()))) {
+            return criteria.getValue() == null;
+        }
+        return isEmptyValue(criteria.getValue());
     }
 
     private boolean isEmptyValue(Object value) {

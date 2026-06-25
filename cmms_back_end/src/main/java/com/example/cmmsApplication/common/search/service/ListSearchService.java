@@ -243,14 +243,12 @@ public class ListSearchService {
             return;
         }
         List<Long> allowedSiteIds = accessControlService.getAllowedSiteIds();
-        if (!allowedSiteIds.isEmpty()) {
-            SearchCriteriaDTO criteria = new SearchCriteriaDTO();
-            criteria.setFilterKey(siteField);
-            criteria.setDataType("NUMBER");
-            criteria.setValue(allowedSiteIds);
-            criteria.setOperation("in");
-            searchDTO.getSearchCriteriaList().add(criteria);
-        }
+        SearchCriteriaDTO criteria = new SearchCriteriaDTO();
+        criteria.setFilterKey(siteField);
+        criteria.setDataType("NUMBER");
+        criteria.setValue(allowedSiteIds);
+        criteria.setOperation("in");
+        searchDTO.getSearchCriteriaList().add(criteria);
     }
 
     private SearchCriteriaDTO findCriterion(List<SearchCriteriaDTO> criteriaList, String filterKey) {

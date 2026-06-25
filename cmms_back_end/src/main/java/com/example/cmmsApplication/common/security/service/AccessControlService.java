@@ -29,9 +29,11 @@ import java.util.stream.Collectors;
 @Service
 @Transactional(readOnly = true)
 public class AccessControlService {
+    private static final String SITE_GLOBAL_ACCESS_PERMISSION = "SITE_GLOBAL_ACCESS";
+
     private static final Set<String> ALL_PERMISSION_CODES = Set.of(
             "DASHBOARD_VIEW",
-            "SITE_VIEW", "SITE_CREATE", "SITE_UPDATE", "SITE_DELETE",
+            "SITE_VIEW", "SITE_CREATE", "SITE_UPDATE", "SITE_DELETE", SITE_GLOBAL_ACCESS_PERMISSION,
             "EMPLOYEE_VIEW", "EMPLOYEE_CREATE", "EMPLOYEE_UPDATE", "EMPLOYEE_DELETE",
             "EQUIPMENT_VIEW", "EQUIPMENT_CREATE", "EQUIPMENT_UPDATE", "EQUIPMENT_DELETE",
             "VENDOR_VIEW", "VENDOR_CREATE", "VENDOR_UPDATE", "VENDOR_DELETE",
@@ -95,8 +97,8 @@ public class AccessControlService {
     }
 
     public List<Long> getAllowedSiteIds() {
-        if (isAdmin()) {
-            return siteRepository.findAll().stream().map(Site::getId).collect(Collectors.toList());
+        if (hasAllSiteAccess()) {
+            return getAllSiteIds();
         }
         User user = getCurrentUser();
         Set<Long> siteIds = new LinkedHashSet<>();
@@ -112,9 +114,6 @@ public class AccessControlService {
                     .filter(Objects::nonNull)
                     .map(Site::getId)
                     .forEach(siteIds::add);
-        }
-        if (siteIds.isEmpty()) {
-            return siteRepository.findAll().stream().map(Site::getId).collect(Collectors.toList());
         }
         return new ArrayList<>(siteIds);
     }
@@ -181,6 +180,10 @@ public class AccessControlService {
         return roles.contains("SUPER_ADMIN") || roles.contains("ADMIN") || user.getRole() == UserRole.ADMIN;
     }
 
+    public boolean hasAllSiteAccess() {
+        return isAdmin() || getPermissions().contains(SITE_GLOBAL_ACCESS_PERMISSION);
+    }
+
     public Set<String> getRoles() {
         User user = getCurrentUser();
         Set<String> roles = userRoleAssignmentDAO.findActiveByUserId(user.getId()).stream()
@@ -244,10 +247,8 @@ public class AccessControlService {
     }
 
     private List<AllowedSiteDTO> getAllowedSitesFor(User user) {
-        if (user.getRole() == UserRole.ADMIN || getRolesFor(user).stream().anyMatch((role) -> role.equals("ADMIN") || role.equals("SUPER_ADMIN"))) {
-            return siteRepository.findAll().stream()
-                    .map((site) -> new AllowedSiteDTO(site.getId(), site.getSiteCode(), site.getSiteName()))
-                    .collect(Collectors.toList());
+        if (hasAllSiteAccessFor(user)) {
+            return getAllAllowedSites();
         }
         Set<Long> ids = new LinkedHashSet<>();
         userRoleAssignmentDAO.findActiveByUserId(user.getId()).stream()
@@ -264,11 +265,27 @@ public class AccessControlService {
                     .forEach(ids::add);
         }
         if (ids.isEmpty()) {
-            return siteRepository.findAll().stream()
-                    .map((site) -> new AllowedSiteDTO(site.getId(), site.getSiteCode(), site.getSiteName()))
-                    .collect(Collectors.toList());
+            return Collections.emptyList();
         }
         return siteRepository.findAllById(ids).stream()
+                .map((site) -> new AllowedSiteDTO(site.getId(), site.getSiteCode(), site.getSiteName()))
+                .collect(Collectors.toList());
+    }
+
+    private boolean hasAllSiteAccessFor(User user) {
+        Set<String> roles = getRolesFor(user);
+        return user.getRole() == UserRole.ADMIN
+                || roles.contains("ADMIN")
+                || roles.contains("SUPER_ADMIN")
+                || getPermissionsFor(user).contains(SITE_GLOBAL_ACCESS_PERMISSION);
+    }
+
+    private List<Long> getAllSiteIds() {
+        return siteRepository.findAll().stream().map(Site::getId).collect(Collectors.toList());
+    }
+
+    private List<AllowedSiteDTO> getAllAllowedSites() {
+        return siteRepository.findAll().stream()
                 .map((site) -> new AllowedSiteDTO(site.getId(), site.getSiteCode(), site.getSiteName()))
                 .collect(Collectors.toList());
     }

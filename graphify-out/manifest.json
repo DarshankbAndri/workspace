@@ -380,8 +380,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/approval/service/ApprovalWorkflowService.java": {
-    "mtime": 1782122835.1355236,
-    "ast_hash": "cf1bfa52c9aa694c075ab688aac18676",
+    "mtime": 1782364247.8831377,
+    "ast_hash": "85bfec4a8916ad6450d56656bcaf751a",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/controller/MaintenanceAssignmentController.java": {
@@ -500,8 +500,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/common/search/service/ListSearchService.java": {
-    "mtime": 1782122841.4486802,
-    "ast_hash": "60089ef3c35cab6247e6ba6b22628eb2",
+    "mtime": 1782364247.8618026,
+    "ast_hash": "6b8c7abd35749eb0b69d21deaedd1b0b",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/common/search/service/SearchService.java": {
@@ -510,8 +510,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/common/search/service/SearchServiceImp.java": {
-    "mtime": 1782122673.7143834,
-    "ast_hash": "a631c514140f18c04c1e93e92dc3c5dd",
+    "mtime": 1782364247.868097,
+    "ast_hash": "f345f2228bcf943e262bb33c90d9dc85",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/common/security/JwtFilter.java": {
@@ -555,8 +555,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/common/security/service/AccessControlService.java": {
-    "mtime": 1782122844.9215782,
-    "ast_hash": "fd598a8318170466b3870eea24c4264d",
+    "mtime": 1782364247.8496673,
+    "ast_hash": "9efc969d69232940c82f6ea9aafcc0f7",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/company/controller/CompanyController.java": {
@@ -1562,6 +1562,26 @@
   "docs/presentation/CMMS_Application_Demo_Report.json": {
     "mtime": 1782204313.2060258,
     "ast_hash": "f54d49c8faaefc36715c5eb41d622069",
+    "semantic_hash": ""
+  },
+  "cmms_back_end/src/test/java/com/example/cmmsApplication/common/security/service/AccessControlServiceTest.java": {
+    "mtime": 1782364247.8992279,
+    "ast_hash": "343027ae980314def50f386d108966d5",
+    "semantic_hash": ""
+  },
+  "docs/PRODUCTION_IMPROVEMENT_REPORT.md": {
+    "mtime": 1782363232.4848802,
+    "ast_hash": "a9c41fbc272800623f05b000d703cf9e",
+    "semantic_hash": ""
+  },
+  "docs/PRODUCTION_NEW_REQUIREMENTS.md": {
+    "mtime": 1782363232.4905772,
+    "ast_hash": "ed97efde64d19a364898d3cd62bcaada",
+    "semantic_hash": ""
+  },
+  "docs/screenshots/cmmc.html": {
+    "mtime": 1782209482.6343338,
+    "ast_hash": "55719f1037696a23771c5ee3dbea9e0c",
     "semantic_hash": ""
   }
 }

@@ -340,14 +340,12 @@ public class ApprovalWorkflowService {
             return;
         }
         List<Long> allowedSiteIds = accessControlService.getAllowedSiteIds();
-        if (!allowedSiteIds.isEmpty()) {
-            SearchCriteriaDTO criteria = new SearchCriteriaDTO();
-            criteria.setFilterKey("siteId");
-            criteria.setDataType("NUMBER");
-            criteria.setValue(allowedSiteIds);
-            criteria.setOperation("in");
-            searchDTO.getSearchCriteriaList().add(criteria);
-        }
+        SearchCriteriaDTO criteria = new SearchCriteriaDTO();
+        criteria.setFilterKey("siteId");
+        criteria.setDataType("NUMBER");
+        criteria.setValue(allowedSiteIds);
+        criteria.setOperation("in");
+        searchDTO.getSearchCriteriaList().add(criteria);
     }
 
     private Specification<ApprovalRequest> buildApprovalHistorySpecification(SearchDTO searchDTO) {
@@ -430,8 +428,12 @@ public class ApprovalWorkflowService {
                                     String operation,
                                     jakarta.persistence.criteria.CriteriaBuilder criteriaBuilder) {
         if ("in".equals(operation)) {
+            List<Long> values = toLongValues(value);
+            if (values.isEmpty()) {
+                return criteriaBuilder.disjunction();
+            }
             jakarta.persistence.criteria.CriteriaBuilder.In<Long> inClause = criteriaBuilder.in(path);
-            toLongValues(value).forEach(inClause::value);
+            values.forEach(inClause::value);
             return inClause;
         }
         return criteriaBuilder.equal(path, Long.valueOf(value.toString().trim()));
