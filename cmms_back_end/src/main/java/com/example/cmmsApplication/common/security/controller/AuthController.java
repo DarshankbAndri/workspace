@@ -4,6 +4,8 @@ import com.example.cmmsApplication.common.security.dto.LoginRequest;
 import com.example.cmmsApplication.common.security.dto.LoginResponse;
 import com.example.cmmsApplication.common.security.dto.ChangePasswordRequest;
 import com.example.cmmsApplication.common.security.dto.AuthAccessDTO;
+import com.example.cmmsApplication.common.response.ApiErrorCode;
+import com.example.cmmsApplication.common.response.ResponseFactory;
 import com.example.cmmsApplication.user.entity.User;
 import com.example.cmmsApplication.common.exception.ResourceNotFoundException;
 import com.example.cmmsApplication.user.repository.UserRepository;
@@ -11,7 +13,6 @@ import com.example.cmmsApplication.common.security.service.AccessControlService;
 import com.example.cmmsApplication.common.security.JwtUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,9 +43,9 @@ public class AuthController {
     @PostMapping("/login")
     @Operation(summary = "User login", description = "Login with username and password to get JWT token. Default password is 'andritz'")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Login successful, JWT token returned"),
-        @ApiResponse(responseCode = "401", description = "Invalid username or password"),
-        @ApiResponse(responseCode = "400", description = "Invalid request body")
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Login successful, JWT token returned"),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Invalid username or password"),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Invalid request body")
     })
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest) {
         try {
@@ -53,14 +54,14 @@ public class AuthController {
             
             // Verify password
             if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                        .body(new ErrorResponse("Invalid username or password", HttpStatus.UNAUTHORIZED.value()));
+                return ResponseFactory.error(HttpStatus.UNAUTHORIZED, ApiErrorCode.UNAUTHORIZED,
+                        "Invalid username or password");
             }
             
             // Check if user is active
             if (!user.getActive()) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                        .body(new ErrorResponse("User account is inactive", HttpStatus.UNAUTHORIZED.value()));
+                return ResponseFactory.error(HttpStatus.UNAUTHORIZED, ApiErrorCode.UNAUTHORIZED,
+                        "User account is inactive");
             }
             
             // Generate JWT token
@@ -71,28 +72,28 @@ public class AuthController {
             response.setRoles(access.getRoles());
             response.setPermissions(access.getPermissions());
             response.setAllowedSites(access.getAllowedSites());
-            return ResponseEntity.ok(response);
+            return ResponseFactory.ok(response, "Login successful");
             
         } catch (ResourceNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new ErrorResponse("Invalid username or password", HttpStatus.UNAUTHORIZED.value()));
+            return ResponseFactory.error(HttpStatus.UNAUTHORIZED, ApiErrorCode.UNAUTHORIZED,
+                    "Invalid username or password");
         }
     }
 
     @GetMapping("/me")
     @Operation(summary = "Current user access", description = "Returns current user, roles, permissions and allowed sites")
-    public ResponseEntity<AuthAccessDTO> me() {
+    public ResponseEntity<com.example.cmmsApplication.common.response.ApiResponse<?>> me() {
         User user = accessControlService.getCurrentUser();
-        return ResponseEntity.ok(accessControlService.buildAccessPayload(user));
+        return ResponseFactory.ok(accessControlService.buildAccessPayload(user));
     }
     
     @PostMapping("/change-password")
     @Operation(summary = "Change user password", description = "Change password for authenticated user")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Password changed successfully"),
-        @ApiResponse(responseCode = "400", description = "Invalid request or passwords don't match"),
-        @ApiResponse(responseCode = "401", description = "Current password is incorrect"),
-        @ApiResponse(responseCode = "403", description = "Unauthorized - JWT token required")
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Password changed successfully"),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Invalid request or passwords don't match"),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Current password is incorrect"),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "403", description = "Unauthorized - JWT token required")
     })
     public ResponseEntity<?> changePassword(@Valid @RequestBody ChangePasswordRequest request) {
         try {
@@ -102,8 +103,8 @@ public class AuthController {
             
             // Check if new password and confirm password match
             if (!request.getNewPassword().equals(request.getConfirmPassword())) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .body(new ErrorResponse("New password and confirm password do not match", HttpStatus.BAD_REQUEST.value()));
+                return ResponseFactory.error(HttpStatus.BAD_REQUEST, ApiErrorCode.BAD_REQUEST,
+                        "New password and confirm password do not match");
             }
             
             User user = userRepository.findByUsername(username)
@@ -111,67 +112,18 @@ public class AuthController {
             
             // Verify current password
             if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                        .body(new ErrorResponse("Current password is incorrect", HttpStatus.UNAUTHORIZED.value()));
+                return ResponseFactory.error(HttpStatus.UNAUTHORIZED, ApiErrorCode.UNAUTHORIZED,
+                        "Current password is incorrect");
             }
             
             // Update password
             user.setPassword(passwordEncoder.encode(request.getNewPassword()));
             userRepository.save(user);
             
-            return ResponseEntity.ok(new SuccessResponse("Password changed successfully"));
+            return ResponseFactory.ok(null, "Password changed successfully");
             
         } catch (ResourceNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new ErrorResponse(e.getMessage(), HttpStatus.NOT_FOUND.value()));
-        }
-    }
-    
-    /**
-     * Simple error response class
-     */
-    public static class ErrorResponse {
-        private String message;
-        private int status;
-        
-        public ErrorResponse(String message, int status) {
-            this.message = message;
-            this.status = status;
-        }
-        
-        public String getMessage() {
-            return message;
-        }
-        
-        public void setMessage(String message) {
-            this.message = message;
-        }
-        
-        public int getStatus() {
-            return status;
-        }
-        
-        public void setStatus(int status) {
-            this.status = status;
-        }
-    }
-    
-    /**
-     * Simple success response class
-     */
-    public static class SuccessResponse {
-        private String message;
-        
-        public SuccessResponse(String message) {
-            this.message = message;
-        }
-        
-        public String getMessage() {
-            return message;
-        }
-        
-        public void setMessage(String message) {
-            this.message = message;
+            return ResponseFactory.error(HttpStatus.NOT_FOUND, ApiErrorCode.RESOURCE_NOT_FOUND, e.getMessage());
         }
     }
 }

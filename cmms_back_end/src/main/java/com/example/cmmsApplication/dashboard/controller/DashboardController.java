@@ -1,5 +1,8 @@
 package com.example.cmmsApplication.dashboard.controller;
 
+import com.example.cmmsApplication.common.response.ApiResponse;
+import com.example.cmmsApplication.common.response.ResponseFactory;
+
 import com.example.cmmsApplication.dashboard.dto.DashboardDTO;
 import com.example.cmmsApplication.dashboard.service.DashboardService;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +21,8 @@ public class DashboardController {
     }
 
     @GetMapping("/summary")
-    public ResponseEntity<DashboardDTO> getSummary(@RequestParam(required = false) Long siteId) {
-        return ResponseEntity.ok(dashboardService.getSummary(siteId));
+    public ResponseEntity<ApiResponse<?>> getSummary(@RequestParam(required = false) Long siteId) {
+        return ResponseFactory.ok(dashboardService.getSummary(siteId));
     }
 }
 

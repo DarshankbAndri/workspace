@@ -1,5 +1,8 @@
 package com.example.cmmsApplication.report.controller;
 
+import com.example.cmmsApplication.common.response.ApiResponse;
+import com.example.cmmsApplication.common.response.ResponseFactory;
+
 
 import com.example.cmmsApplication.equipment.entity.Equipment;
 import com.example.cmmsApplication.report.dto.DowntimeAnalysisPageDTO;
@@ -21,19 +24,19 @@ public class ReportController {
     }
 
     @GetMapping("/equipment-history")
-    public ResponseEntity<PageProperties> getEquipmentHistory(@RequestParam(required = false) Long equipmentId,
+    public ResponseEntity<ApiResponse<?>> getEquipmentHistory(@RequestParam(required = false) Long equipmentId,
                                                               @RequestParam(required = false) Long siteId,
                                                               @RequestParam(required = false) Integer page,
                                                               @RequestParam(required = false) Integer size) {
-        return ResponseEntity.ok(reportService.getEquipmentHistory(equipmentId, siteId, page, size));
+        return ResponseFactory.ok(reportService.getEquipmentHistory(equipmentId, siteId, page, size));
     }
 
     @GetMapping("/downtime-analysis")
-    public ResponseEntity<DowntimeAnalysisPageDTO> getDowntimeAnalysis(@RequestParam(required = false) Long equipmentId,
+    public ResponseEntity<ApiResponse<?>> getDowntimeAnalysis(@RequestParam(required = false) Long equipmentId,
                                                                        @RequestParam(required = false) Long siteId,
                                                                        @RequestParam(required = false) Integer page,
                                                                        @RequestParam(required = false) Integer size) {
-        return ResponseEntity.ok(reportService.getDowntimeAnalysis(equipmentId, siteId, page, size));
+        return ResponseFactory.ok(reportService.getDowntimeAnalysis(equipmentId, siteId, page, size));
     }
 }
 

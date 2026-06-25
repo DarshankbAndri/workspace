@@ -1,9 +1,11 @@
 package com.example.cmmsApplication.spareparts.controller;
 
+import com.example.cmmsApplication.common.response.ApiResponse;
+import com.example.cmmsApplication.common.response.ResponseFactory;
+
 import com.example.cmmsApplication.spareparts.dto.MaintenanceSpareUsageDTO;
 import com.example.cmmsApplication.spareparts.service.MaintenanceSpareUsageService;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,69 +21,69 @@ public class MaintenanceSpareUsageController {
     }
 
     @GetMapping
-    public ResponseEntity<List<MaintenanceSpareUsageDTO>> getByAssignment(@PathVariable Long assignmentId) {
-        return ResponseEntity.ok(spareUsageService.getByAssignment(assignmentId));
+    public ResponseEntity<ApiResponse<?>> getByAssignment(@PathVariable Long assignmentId) {
+        return ResponseFactory.ok(spareUsageService.getByAssignment(assignmentId));
     }
 
     @PostMapping
-    public ResponseEntity<MaintenanceSpareUsageDTO> create(@PathVariable Long assignmentId,
+    public ResponseEntity<ApiResponse<?>> create(@PathVariable Long assignmentId,
                                                            @Valid @RequestBody MaintenanceSpareUsageDTO dto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(spareUsageService.create(assignmentId, dto));
+        return ResponseFactory.created(spareUsageService.create(assignmentId, dto));
     }
 
     @PutMapping("/{usageId}")
-    public ResponseEntity<MaintenanceSpareUsageDTO> update(@PathVariable Long assignmentId,
+    public ResponseEntity<ApiResponse<?>> update(@PathVariable Long assignmentId,
                                                            @PathVariable Long usageId,
                                                            @Valid @RequestBody MaintenanceSpareUsageDTO dto) {
-        return ResponseEntity.ok(spareUsageService.update(assignmentId, usageId, dto));
+        return ResponseFactory.ok(spareUsageService.update(assignmentId, usageId, dto));
     }
 
     @PostMapping("/{usageId}/reserve")
-    public ResponseEntity<MaintenanceSpareUsageDTO> reserve(@PathVariable Long assignmentId,
+    public ResponseEntity<ApiResponse<?>> reserve(@PathVariable Long assignmentId,
                                                             @PathVariable Long usageId,
                                                             @RequestBody(required = false) MaintenanceSpareUsageDTO dto) {
-        return ResponseEntity.ok(spareUsageService.reserve(assignmentId, usageId, dto));
+        return ResponseFactory.ok(spareUsageService.reserve(assignmentId, usageId, dto));
     }
 
     @PostMapping("/{usageId}/issue")
-    public ResponseEntity<MaintenanceSpareUsageDTO> issue(@PathVariable Long assignmentId,
+    public ResponseEntity<ApiResponse<?>> issue(@PathVariable Long assignmentId,
                                                           @PathVariable Long usageId,
                                                           @RequestBody(required = false) MaintenanceSpareUsageDTO dto) {
-        return ResponseEntity.ok(spareUsageService.issue(assignmentId, usageId, dto));
+        return ResponseFactory.ok(spareUsageService.issue(assignmentId, usageId, dto));
     }
 
     @PostMapping("/{usageId}/consume")
-    public ResponseEntity<MaintenanceSpareUsageDTO> consume(@PathVariable Long assignmentId,
+    public ResponseEntity<ApiResponse<?>> consume(@PathVariable Long assignmentId,
                                                             @PathVariable Long usageId,
                                                             @RequestBody(required = false) MaintenanceSpareUsageDTO dto) {
-        return ResponseEntity.ok(spareUsageService.consume(assignmentId, usageId, dto));
+        return ResponseFactory.ok(spareUsageService.consume(assignmentId, usageId, dto));
     }
 
     @PostMapping("/{usageId}/reject")
-    public ResponseEntity<MaintenanceSpareUsageDTO> reject(@PathVariable Long assignmentId,
+    public ResponseEntity<ApiResponse<?>> reject(@PathVariable Long assignmentId,
                                                            @PathVariable Long usageId,
                                                            @RequestBody(required = false) MaintenanceSpareUsageDTO dto) {
-        return ResponseEntity.ok(spareUsageService.reject(assignmentId, usageId, dto));
+        return ResponseFactory.ok(spareUsageService.reject(assignmentId, usageId, dto));
     }
 
     @PostMapping("/{usageId}/cancel")
-    public ResponseEntity<MaintenanceSpareUsageDTO> cancel(@PathVariable Long assignmentId,
+    public ResponseEntity<ApiResponse<?>> cancel(@PathVariable Long assignmentId,
                                                            @PathVariable Long usageId,
                                                            @RequestBody(required = false) MaintenanceSpareUsageDTO dto) {
-        return ResponseEntity.ok(spareUsageService.cancel(assignmentId, usageId, dto));
+        return ResponseFactory.ok(spareUsageService.cancel(assignmentId, usageId, dto));
     }
 
     @PostMapping("/{usageId}/return")
-    public ResponseEntity<MaintenanceSpareUsageDTO> returnIssued(@PathVariable Long assignmentId,
+    public ResponseEntity<ApiResponse<?>> returnIssued(@PathVariable Long assignmentId,
                                                                  @PathVariable Long usageId,
                                                                  @RequestBody(required = false) MaintenanceSpareUsageDTO dto) {
-        return ResponseEntity.ok(spareUsageService.returnIssued(assignmentId, usageId, dto));
+        return ResponseFactory.ok(spareUsageService.returnIssued(assignmentId, usageId, dto));
     }
 
     @DeleteMapping("/{usageId}")
-    public ResponseEntity<Void> delete(@PathVariable Long assignmentId, @PathVariable Long usageId) {
+    public ResponseEntity<ApiResponse<?>> delete(@PathVariable Long assignmentId, @PathVariable Long usageId) {
         spareUsageService.delete(assignmentId, usageId);
-        return ResponseEntity.noContent().build();
+        return ResponseFactory.ok(null);
     }
 }
 

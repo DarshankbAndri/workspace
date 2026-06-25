@@ -38,6 +38,46 @@ const clearAuthAndRedirect = () => {
   }
 };
 
+const isApiEnvelope = (payload) => (
+  payload
+  && typeof payload === 'object'
+  && typeof payload.success === 'boolean'
+  && Object.prototype.hasOwnProperty.call(payload, 'status')
+  && Object.prototype.hasOwnProperty.call(payload, 'code')
+);
+
+const normalizeApiError = (error) => {
+  const payload = error.response?.data;
+  if (isApiEnvelope(payload) || (payload && payload.success === false)) {
+    return {
+      status: payload.status ?? error.response?.status,
+      code: payload.code || 'INTERNAL_SERVER_ERROR',
+      message: payload.message || 'Request failed.',
+      details: Array.isArray(payload.details) ? payload.details : [],
+      path: payload.path,
+      correlationId: payload.correlationId || error.response?.headers?.['x-correlation-id'],
+    };
+  }
+  if (error.code === 'ECONNABORTED') {
+    return {
+      status: 0,
+      code: 'TIMEOUT',
+      message: 'Request timed out.',
+      details: [],
+      path: error.config?.url,
+      correlationId: error.response?.headers?.['x-correlation-id'],
+    };
+  }
+  return {
+    status: error.response?.status || 0,
+    code: error.response ? 'REQUEST_ERROR' : 'NETWORK_ERROR',
+    message: payload?.message || error.message || 'Network error.',
+    details: Array.isArray(payload?.details) ? payload.details : [],
+    path: payload?.path || error.config?.url,
+    correlationId: payload?.correlationId || error.response?.headers?.['x-correlation-id'],
+  };
+};
+
 // Interceptor to add JWT token to all requests
 api.interceptors.request.use(
   (config) => {
@@ -57,8 +97,21 @@ api.interceptors.request.use(
 
 // Interceptor to handle 401 responses (unauthorized)
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    if (isApiEnvelope(response.data)) {
+      response.apiResponse = response.data;
+      if (response.data.success) {
+        response.data = response.data.data;
+      }
+    }
+    return response;
+  },
   (error) => {
+    const normalizedError = normalizeApiError(error);
+    error.apiError = normalizedError;
+    if (error.response) {
+      error.response.data = normalizedError;
+    }
     if (error.response) {
       if (error.response.status === 401) {
         clearAuthAndRedirect();
@@ -195,6 +248,11 @@ fileApi.interceptors.request.use(
 fileApi.interceptors.response.use(
   (response) => response,
   (error) => {
+    const normalizedError = normalizeApiError(error);
+    error.apiError = normalizedError;
+    if (error.response && !(error.response.data instanceof Blob)) {
+      error.response.data = normalizedError;
+    }
     if (error.response && error.response.status === 401) {
       clearAuthAndRedirect();
     }

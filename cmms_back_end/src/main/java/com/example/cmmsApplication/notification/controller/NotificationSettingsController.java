@@ -1,5 +1,8 @@
 package com.example.cmmsApplication.notification.controller;
 
+import com.example.cmmsApplication.common.response.ApiResponse;
+import com.example.cmmsApplication.common.response.ResponseFactory;
+
 
 import com.example.cmmsApplication.notification.entity.Notification;
 import com.example.cmmsApplication.notification.dto.NotificationSettingDTO;
@@ -17,13 +20,13 @@ public class NotificationSettingsController {
     }
 
     @GetMapping
-    public ResponseEntity<NotificationSettingDTO> getSettings() {
-        return ResponseEntity.ok(notificationSettingsService.getForAdmin());
+    public ResponseEntity<ApiResponse<?>> getSettings() {
+        return ResponseFactory.ok(notificationSettingsService.getForAdmin());
     }
 
     @PutMapping
-    public ResponseEntity<NotificationSettingDTO> updateSettings(@RequestBody NotificationSettingDTO dto) {
-        return ResponseEntity.ok(notificationSettingsService.update(dto));
+    public ResponseEntity<ApiResponse<?>> updateSettings(@RequestBody NotificationSettingDTO dto) {
+        return ResponseFactory.ok(notificationSettingsService.update(dto));
     }
 }
 

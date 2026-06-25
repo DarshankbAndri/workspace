@@ -1,5 +1,8 @@
 package com.example.cmmsApplication.vendor.controller;
 
+import com.example.cmmsApplication.common.response.ApiResponse;
+import com.example.cmmsApplication.common.response.ResponseFactory;
+
 
 import com.example.cmmsApplication.vendor.entity.Vendor;
 import com.example.cmmsApplication.common.search.dto.PageProperties;
@@ -8,7 +11,6 @@ import com.example.cmmsApplication.vendor.dto.VendorDTO;
 import com.example.cmmsApplication.common.search.service.ListSearchService;
 import com.example.cmmsApplication.vendor.service.VendorService;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -25,28 +27,28 @@ public class VendorController {
     }
 
     @PostMapping
-    public ResponseEntity<VendorDTO> create(@Valid @RequestBody VendorDTO dto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(vendorService.create(dto));
+    public ResponseEntity<ApiResponse<?>> create(@Valid @RequestBody VendorDTO dto) {
+        return ResponseFactory.created(vendorService.create(dto));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<VendorDTO> update(@PathVariable Long id, @Valid @RequestBody VendorDTO dto) {
-        return ResponseEntity.ok(vendorService.update(id, dto));
+    public ResponseEntity<ApiResponse<?>> update(@PathVariable Long id, @Valid @RequestBody VendorDTO dto) {
+        return ResponseFactory.ok(vendorService.update(id, dto));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<?>> delete(@PathVariable Long id) {
         vendorService.delete(id);
-        return ResponseEntity.noContent().build();
+        return ResponseFactory.ok(null);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<VendorDTO> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(vendorService.getById(id));
+    public ResponseEntity<ApiResponse<?>> getById(@PathVariable Long id) {
+        return ResponseFactory.ok(vendorService.getById(id));
     }
 
     @GetMapping
-    public ResponseEntity<List<VendorDTO>> getAll(@RequestParam(required = false) Long siteId,
+    public ResponseEntity<ApiResponse<?>> getAll(@RequestParam(required = false) Long siteId,
                                                   @RequestParam(required = false) String status) {
         Boolean active = null;
         if ("ACTIVE".equalsIgnoreCase(status)) {
@@ -54,12 +56,12 @@ public class VendorController {
         } else if ("INACTIVE".equalsIgnoreCase(status)) {
             active = false;
         }
-        return ResponseEntity.ok(vendorService.getAll(siteId, active));
+        return ResponseFactory.ok(vendorService.getAll(siteId, active));
     }
 
     @PostMapping("/search")
-    public ResponseEntity<PageProperties> search(@RequestBody SearchDTO searchDTO) {
-        return ResponseEntity.ok(listSearchService.searchVendors(searchDTO));
+    public ResponseEntity<ApiResponse<?>> search(@RequestBody SearchDTO searchDTO) {
+        return ResponseFactory.ok(listSearchService.searchVendors(searchDTO));
     }
 }
 

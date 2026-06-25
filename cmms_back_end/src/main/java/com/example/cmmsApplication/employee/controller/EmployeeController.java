@@ -1,5 +1,8 @@
 package com.example.cmmsApplication.employee.controller;
 
+import com.example.cmmsApplication.common.response.ApiResponse;
+import com.example.cmmsApplication.common.response.ResponseFactory;
+
 
 import com.example.cmmsApplication.employee.entity.Employee;
 import com.example.cmmsApplication.employee.dto.EmployeeDTO;
@@ -8,7 +11,6 @@ import com.example.cmmsApplication.common.search.dto.SearchDTO;
 import com.example.cmmsApplication.employee.service.EmployeeService;
 import com.example.cmmsApplication.common.search.service.ListSearchService;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,34 +28,34 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public ResponseEntity<EmployeeDTO> create(@Valid @RequestBody EmployeeDTO dto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(employeeService.create(dto));
+    public ResponseEntity<ApiResponse<?>> create(@Valid @RequestBody EmployeeDTO dto) {
+        return ResponseFactory.created(employeeService.create(dto));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EmployeeDTO> update(@PathVariable Long id, @Valid @RequestBody EmployeeDTO dto) {
-        return ResponseEntity.ok(employeeService.update(id, dto));
+    public ResponseEntity<ApiResponse<?>> update(@PathVariable Long id, @Valid @RequestBody EmployeeDTO dto) {
+        return ResponseFactory.ok(employeeService.update(id, dto));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<?>> delete(@PathVariable Long id) {
         employeeService.delete(id);
-        return ResponseEntity.noContent().build();
+        return ResponseFactory.ok(null);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EmployeeDTO> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(employeeService.getById(id));
+    public ResponseEntity<ApiResponse<?>> getById(@PathVariable Long id) {
+        return ResponseFactory.ok(employeeService.getById(id));
     }
 
     @GetMapping
-    public ResponseEntity<List<EmployeeDTO>> getAll() {
-        return ResponseEntity.ok(employeeService.getAll());
+    public ResponseEntity<ApiResponse<?>> getAll() {
+        return ResponseFactory.ok(employeeService.getAll());
     }
 
     @PostMapping("/search")
-    public ResponseEntity<PageProperties> search(@RequestBody SearchDTO searchDTO) {
-        return ResponseEntity.ok(listSearchService.searchEmployees(searchDTO));
+    public ResponseEntity<ApiResponse<?>> search(@RequestBody SearchDTO searchDTO) {
+        return ResponseFactory.ok(listSearchService.searchEmployees(searchDTO));
     }
 }
 

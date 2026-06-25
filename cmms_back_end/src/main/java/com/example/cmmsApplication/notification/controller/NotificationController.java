@@ -1,5 +1,8 @@
 package com.example.cmmsApplication.notification.controller;
 
+import com.example.cmmsApplication.common.response.ApiResponse;
+import com.example.cmmsApplication.common.response.ResponseFactory;
+
 
 import com.example.cmmsApplication.notification.entity.Notification;
 import com.example.cmmsApplication.notification.dto.NotificationDTO;
@@ -22,13 +25,13 @@ public class NotificationController {
     }
 
     @GetMapping
-    public ResponseEntity<NotificationPageDTO> getMine(@RequestParam(required = false) String status,
+    public ResponseEntity<ApiResponse<?>> getMine(@RequestParam(required = false) String status,
                                                        @RequestParam(required = false) String type,
                                                        @RequestParam(required = false) String priority,
                                                        @RequestParam(required = false) String search,
                                                        @RequestParam(required = false) Integer page,
                                                        @RequestParam(required = false) Integer size) {
-        return ResponseEntity.ok(notificationService.searchMine(status, type, priority, search, page, size));
+        return ResponseFactory.ok(notificationService.searchMine(status, type, priority, search, page, size));
     }
 
     @GetMapping(value = "/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
@@ -37,25 +40,25 @@ public class NotificationController {
     }
 
     @GetMapping("/unread-count")
-    public ResponseEntity<Map<String, Long>> getUnreadCount() {
-        return ResponseEntity.ok(Map.of("count", notificationService.getUnreadCount()));
+    public ResponseEntity<ApiResponse<?>> getUnreadCount() {
+        return ResponseFactory.ok(Map.of("count", notificationService.getUnreadCount()));
     }
 
     @PutMapping("/{id}/read")
-    public ResponseEntity<NotificationDTO> markRead(@PathVariable Long id) {
-        return ResponseEntity.ok(notificationService.markRead(id));
+    public ResponseEntity<ApiResponse<?>> markRead(@PathVariable Long id) {
+        return ResponseFactory.ok(notificationService.markRead(id));
     }
 
     @PutMapping("/read-all")
-    public ResponseEntity<Void> markAllRead() {
+    public ResponseEntity<ApiResponse<?>> markAllRead() {
         notificationService.markAllRead();
-        return ResponseEntity.noContent().build();
+        return ResponseFactory.ok(null);
     }
 
     @PutMapping("/{id}/archive")
-    public ResponseEntity<Void> archive(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<?>> archive(@PathVariable Long id) {
         notificationService.archive(id);
-        return ResponseEntity.noContent().build();
+        return ResponseFactory.ok(null);
     }
 }
 

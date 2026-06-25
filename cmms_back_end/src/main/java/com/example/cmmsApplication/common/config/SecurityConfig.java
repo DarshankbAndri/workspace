@@ -1,14 +1,22 @@
 package com.example.cmmsApplication.common.config;
 
 
-import com.example.cmmsApplication.company.entity.Company;
+import com.example.cmmsApplication.common.response.ApiErrorCode;
+import com.example.cmmsApplication.common.response.ApiErrorResponse;
+import com.example.cmmsApplication.common.response.ResponseFactory;
 import com.example.cmmsApplication.common.security.JwtFilter;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -20,12 +28,15 @@ import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import jakarta.servlet.http.HttpServletResponse;
+
 import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+    private static final Logger LOGGER = LoggerFactory.getLogger(SecurityConfig.class);
+
     
     @Autowired
     private JwtFilter jwtFilter;
@@ -44,7 +55,7 @@ public class SecurityConfig {
         ));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
-        configuration.setExposedHeaders(Arrays.asList("Authorization", "Content-Type"));
+        configuration.setExposedHeaders(Arrays.asList("Authorization", "Content-Type", "X-Correlation-ID"));
         configuration.setAllowCredentials(true);
         configuration.setMaxAge(3600L);
         
@@ -61,14 +72,30 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, ObjectMapper objectMapper) throws Exception {
         http
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .csrf(csrf -> csrf.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .exceptionHandling(exceptions -> exceptions
-                .authenticationEntryPoint((request, response, authException) ->
-                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Authentication is required"))
+                .authenticationEntryPoint((request, response, authException) -> {
+                    logSecurityException(authException, request);
+                    writeErrorResponse(response, objectMapper, ResponseFactory.errorBody(
+                            HttpStatus.UNAUTHORIZED,
+                            ApiErrorCode.UNAUTHORIZED,
+                            "Authentication is required.",
+                            List.of(),
+                            request));
+                })
+                .accessDeniedHandler((request, response, accessDeniedException) -> {
+                    logSecurityException(accessDeniedException, request);
+                    writeErrorResponse(response, objectMapper, ResponseFactory.errorBody(
+                            HttpStatus.FORBIDDEN,
+                            ApiErrorCode.FORBIDDEN,
+                            "Access is denied.",
+                            List.of(),
+                            request));
+                })
             )
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
@@ -80,6 +107,23 @@ public class SecurityConfig {
                 .anyRequest().authenticated())
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
+    }
+
+    private void logSecurityException(Exception ex, jakarta.servlet.http.HttpServletRequest request) {
+        LOGGER.warn("API security exception correlationId={} path={} exceptionType={} message={}",
+                ResponseFactory.correlationId(request),
+                ResponseFactory.path(request),
+                ex.getClass().getName(),
+                ex.getMessage(),
+                ex);
+    }
+
+    private void writeErrorResponse(HttpServletResponse response, ObjectMapper objectMapper,
+                                    ApiErrorResponse errorResponse) throws java.io.IOException {
+        response.setStatus(errorResponse.getStatus());
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.setCharacterEncoding("UTF-8");
+        objectMapper.writeValue(response.getWriter(), errorResponse);
     }
 }
 

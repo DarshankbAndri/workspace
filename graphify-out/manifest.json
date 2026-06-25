@@ -50,8 +50,8 @@
     "semantic_hash": ""
   },
   "AGENTS.md": {
-    "mtime": 1782199015.2725475,
-    "ast_hash": "10f5f5f06748a79712519fd60dddc4fc",
+    "mtime": 1782366456.5311244,
+    "ast_hash": "c154e76d30fbffbed88635012cfd161e",
     "semantic_hash": ""
   },
   "CORS_FIX_GUIDE.md": {
@@ -185,18 +185,18 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/admin/controller/PermissionController.java": {
-    "mtime": 1782122668.2905343,
-    "ast_hash": "aa225f49043210a452760abfa1c3c25b",
+    "mtime": 1782366389.4183552,
+    "ast_hash": "f099bd0fa784d84e8a2bfd755dea9fdc",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/admin/controller/RoleController.java": {
-    "mtime": 1782122668.3331363,
-    "ast_hash": "c8bb4c7cbdc8a38d6fd4e650314e86c3",
+    "mtime": 1782366389.4133456,
+    "ast_hash": "0d44750a453f3bddcbb2f0e38a8fd787",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/admin/controller/UserRoleAssignmentController.java": {
-    "mtime": 1782122668.374364,
-    "ast_hash": "c52d802a2c83142a5dbe142c8dc76034",
+    "mtime": 1782366389.424356,
+    "ast_hash": "8fe1b5a1afa106280b834f3e3d918e0c",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/admin/dao/PermissionDAO.java": {
@@ -300,13 +300,13 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/approval/controller/ApprovalConfigController.java": {
-    "mtime": 1782122670.5837777,
-    "ast_hash": "1bd849a2eab9a66a4015a88ecdac6a76",
+    "mtime": 1782366349.0437996,
+    "ast_hash": "9650ee01cfeb68aa6a51958346bc0d54",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/approval/controller/ApprovalController.java": {
-    "mtime": 1782122670.6631734,
-    "ast_hash": "a34f4e3df6729cddcf5bb5b7ff18a550",
+    "mtime": 1782366349.054271,
+    "ast_hash": "919cef273491aa77e444bb33e46d0eaa",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/approval/dao/ApprovalActionDAO.java": {
@@ -385,8 +385,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/controller/MaintenanceAssignmentController.java": {
-    "mtime": 1782122671.4543362,
-    "ast_hash": "335405ac2312c84230dfaa7606302a67",
+    "mtime": 1782366349.0641959,
+    "ast_hash": "971157f175cd0ab5390bb965374d8003",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dao/MaintenanceAssignmentDAO.java": {
@@ -440,13 +440,13 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/common/config/OpenApiConfig.java": {
-    "mtime": 1782122838.7145329,
-    "ast_hash": "78db3ba2114d66e64c08f15317e885d8",
+    "mtime": 1782366421.7330005,
+    "ast_hash": "8a3264e26377cbd5e75b3290fca0392a",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/common/config/SecurityConfig.java": {
-    "mtime": 1782122838.9195223,
-    "ast_hash": "548958b1b4654449a9f2d1180cfafcfe",
+    "mtime": 1782366808.3828976,
+    "ast_hash": "bf258ed7a2b6b60a5e9f60230612bfdc",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/common/enums/SearchOperation.java": {
@@ -454,14 +454,9 @@
     "ast_hash": "7488dcbd23a914c03deef59b1a14cdbc",
     "semantic_hash": ""
   },
-  "cmms_back_end/src/main/java/com/example/cmmsApplication/common/exception/ErrorResponse.java": {
-    "mtime": 1782122672.8691602,
-    "ast_hash": "de2566b1b2baa9ec2104d979e1ad2bec",
-    "semantic_hash": ""
-  },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/common/exception/GlobalExceptionHandler.java": {
-    "mtime": 1782122673.0041175,
-    "ast_hash": "6bb2b9024aebe0febc3c29d34430cc57",
+    "mtime": 1782366274.2818775,
+    "ast_hash": "4a7a3520ceeb7095c1f705a25b1edbca",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/common/exception/InvalidOperationException.java": {
@@ -525,8 +520,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/common/security/controller/AuthController.java": {
-    "mtime": 1782122674.0791078,
-    "ast_hash": "258897dbcfaa0e5f58ffa9b9d08324a4",
+    "mtime": 1782366533.4267259,
+    "ast_hash": "feb6d035948b4c7c9d930ae26b856580",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/common/security/dto/AllowedSiteDTO.java": {
@@ -560,8 +555,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/company/controller/CompanyController.java": {
-    "mtime": 1782122845.209004,
-    "ast_hash": "4a021ebe560b78f5b79c24a9440d5437",
+    "mtime": 1782366349.0743659,
+    "ast_hash": "03ff0e99d08512bd7b39a31633dd019a",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/company/dao/CompanyDAO.java": {
@@ -590,8 +585,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/controller/DashboardController.java": {
-    "mtime": 1782122674.986308,
-    "ast_hash": "bbdba0531afb4c7c84f031e0a51934d3",
+    "mtime": 1782366349.0817509,
+    "ast_hash": "86f1d7986e1bc23166732b7d82190d5b",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/dto/DashboardDTO.java": {
@@ -605,8 +600,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/downtime/controller/EquipmentDowntimeController.java": {
-    "mtime": 1782122675.2363448,
-    "ast_hash": "f39e75f6f1fc7dc3c3265ea485b0e5b8",
+    "mtime": 1782366349.0923712,
+    "ast_hash": "bd38f3f58745e67c51b813b6f57ed4a2",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/downtime/dao/EquipmentDowntimeDAO.java": {
@@ -645,8 +640,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/employee/controller/EmployeeController.java": {
-    "mtime": 1782122849.4588737,
-    "ast_hash": "4579473b93d85475ea5ca0b50171aae1",
+    "mtime": 1782366349.1020865,
+    "ast_hash": "820fad5100681782949c6b6d5ef5a4b4",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/employee/dao/EmployeeDAO.java": {
@@ -710,8 +705,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/controller/EquipmentController.java": {
-    "mtime": 1782122854.9726076,
-    "ast_hash": "bb3ba2a1e9b069814d38ed4e39fd3872",
+    "mtime": 1782366349.1106362,
+    "ast_hash": "3901a0ffba8df726eba5e8cbce0e0fc1",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/dao/EquipmentDAO.java": {
@@ -750,8 +745,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/maintenancerequest/controller/MaintenanceRequestController.java": {
-    "mtime": 1782122856.7750504,
-    "ast_hash": "e9e286f27b09afad261767a5f13db223",
+    "mtime": 1782366349.1215422,
+    "ast_hash": "2f6f09bb39cb2569647100174418723f",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/maintenancerequest/dao/MaintenanceRequestDAO.java": {
@@ -790,13 +785,13 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/notification/controller/NotificationController.java": {
-    "mtime": 1782122858.9959493,
-    "ast_hash": "728ced58c843b9bed7068a4cc106f1c0",
+    "mtime": 1782366349.1302722,
+    "ast_hash": "902e4d3fbc63d4eec9430e129f1953cf",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/notification/controller/NotificationSettingsController.java": {
-    "mtime": 1782122859.0812516,
-    "ast_hash": "996849e5de754ad31eca26e4ce9adc0c",
+    "mtime": 1782366349.1399343,
+    "ast_hash": "331815f635aa225d1f25dc44ed0a4f4a",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/notification/dao/NotificationDAO.java": {
@@ -875,8 +870,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/preventivemaintenance/controller/PreventiveMaintenanceScheduleController.java": {
-    "mtime": 1782122678.4613829,
-    "ast_hash": "768979c5f4d106809d2070d1c8641b17",
+    "mtime": 1782366349.147945,
+    "ast_hash": "7136da53cf94f42ec7444aac7e1877a8",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/preventivemaintenance/dao/PreventiveMaintenanceScheduleDAO.java": {
@@ -915,8 +910,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/report/controller/ReportController.java": {
-    "mtime": 1782122865.9076526,
-    "ast_hash": "83e1c1118731432c28b4378aba4f0615",
+    "mtime": 1782366349.1569808,
+    "ast_hash": "41ab0eadc756c8b0dd821820775aac31",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/report/dto/DowntimeAnalysisPageDTO.java": {
@@ -945,8 +940,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/site/controller/SiteController.java": {
-    "mtime": 1782122867.3836133,
-    "ast_hash": "b3aa539abcb12ed730be80fed1286410",
+    "mtime": 1782366349.1665533,
+    "ast_hash": "5b01400c785f148dcca19f4ac3776c4b",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/site/dao/SiteDAO.java": {
@@ -985,23 +980,23 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/spareparts/controller/MaintenanceSpareUsageController.java": {
-    "mtime": 1782122679.856051,
-    "ast_hash": "7baf18428747bd84c126b9c979936b4b",
+    "mtime": 1782366349.176695,
+    "ast_hash": "2127b308a866cca80cb1aa2dc80347d3",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/spareparts/controller/SparePartController.java": {
-    "mtime": 1782122869.2916138,
-    "ast_hash": "bf2e877fc97ffb55903b2e2239ad59b2",
+    "mtime": 1782366349.1871145,
+    "ast_hash": "15024c987733f316a872944b35e3d1a0",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/spareparts/controller/SparePartReorderController.java": {
-    "mtime": 1782122679.981193,
-    "ast_hash": "fe1a27dc4b54f44cecf051ddc29d078f",
+    "mtime": 1782366349.198137,
+    "ast_hash": "af2dbf9a1c6e4fbb7dd457d7d33ff5cb",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/spareparts/controller/SpareRequestController.java": {
-    "mtime": 1782122680.0290942,
-    "ast_hash": "39882a3a59b2f11f8da233170f8ca75d",
+    "mtime": 1782366349.2096512,
+    "ast_hash": "c810f6dca0cbcffa96376cea1f64e960",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/spareparts/dao/MaintenanceSpareUsageDAO.java": {
@@ -1135,8 +1130,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/user/controller/UserController.java": {
-    "mtime": 1782122881.0807405,
-    "ast_hash": "09894e9683f1dd4c5f142e4b3e62cf1b",
+    "mtime": 1782366349.22315,
+    "ast_hash": "cf64b913ee26a0ad7fba41a660382a09",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/user/dto/UserDTO.java": {
@@ -1165,8 +1160,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/vendor/controller/VendorController.java": {
-    "mtime": 1782122882.6004183,
-    "ast_hash": "4f456b00ac54b927b647635c75456819",
+    "mtime": 1782366349.2345338,
+    "ast_hash": "20ab73d7f17c4e1a8be8d0787136cce3",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/vendor/dao/VendorDAO.java": {
@@ -1540,8 +1535,8 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/shared/services/api.js": {
-    "mtime": 1782123883.8517897,
-    "ast_hash": "b6a0127f274ba1db1dff9a1436d528d1",
+    "mtime": 1782366439.30765,
+    "ast_hash": "bea69f547f2528e22ff83dcba2d9e683",
     "semantic_hash": ""
   },
   "cmms_front_end/src/shared/utils/searchPayload.js": {
@@ -1570,8 +1565,8 @@
     "semantic_hash": ""
   },
   "docs/PRODUCTION_IMPROVEMENT_REPORT.md": {
-    "mtime": 1782363232.4848802,
-    "ast_hash": "a9c41fbc272800623f05b000d703cf9e",
+    "mtime": 1782366472.7998164,
+    "ast_hash": "d4fd0abfdf97619600309c5196bf5c83",
     "semantic_hash": ""
   },
   "docs/PRODUCTION_NEW_REQUIREMENTS.md": {
@@ -1582,6 +1577,41 @@
   "docs/screenshots/cmmc.html": {
     "mtime": 1782209482.6343338,
     "ast_hash": "55719f1037696a23771c5ee3dbea9e0c",
+    "semantic_hash": ""
+  },
+  "cmms_back_end/src/main/java/com/example/cmmsApplication/common/response/ApiErrorCode.java": {
+    "mtime": 1782366058.532605,
+    "ast_hash": "17d9af076e6169c88d1b83921efdaaf2",
+    "semantic_hash": ""
+  },
+  "cmms_back_end/src/main/java/com/example/cmmsApplication/common/response/ApiErrorResponse.java": {
+    "mtime": 1782366274.2738788,
+    "ast_hash": "da7d77e0cac5257ab9f9af6f416d9d0a",
+    "semantic_hash": ""
+  },
+  "cmms_back_end/src/main/java/com/example/cmmsApplication/common/response/ApiResponse.java": {
+    "mtime": 1782366274.2688806,
+    "ast_hash": "e568f11c2208046993541db3a33e96fd",
+    "semantic_hash": ""
+  },
+  "cmms_back_end/src/main/java/com/example/cmmsApplication/common/response/ApiValidationError.java": {
+    "mtime": 1782366058.5433245,
+    "ast_hash": "0c2a69db25f59de5543c60c10a113be7",
+    "semantic_hash": ""
+  },
+  "cmms_back_end/src/main/java/com/example/cmmsApplication/common/response/CorrelationIdFilter.java": {
+    "mtime": 1782366058.545802,
+    "ast_hash": "9feca3f6efeabe464278994c3c6af045",
+    "semantic_hash": ""
+  },
+  "cmms_back_end/src/main/java/com/example/cmmsApplication/common/response/ResponseFactory.java": {
+    "mtime": 1782366533.4196658,
+    "ast_hash": "f55f278cba594acec38ea07c9c95760b",
+    "semantic_hash": ""
+  },
+  "docs/PRODUCTION_IMPROVEMENT_REPORT_COMPLETED.md": {
+    "mtime": 1782365593.6580439,
+    "ast_hash": "2fbfbedb2b8a5ba794e81eb2e5294693",
     "semantic_hash": ""
   }
 }

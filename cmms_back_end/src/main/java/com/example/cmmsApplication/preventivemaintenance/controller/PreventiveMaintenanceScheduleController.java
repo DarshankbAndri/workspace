@@ -1,12 +1,14 @@
 package com.example.cmmsApplication.preventivemaintenance.controller;
 
+import com.example.cmmsApplication.common.response.ApiResponse;
+import com.example.cmmsApplication.common.response.ResponseFactory;
+
 import com.example.cmmsApplication.common.search.dto.PageProperties;
 import com.example.cmmsApplication.preventivemaintenance.dto.PreventiveMaintenanceScheduleDTO;
 import com.example.cmmsApplication.common.search.dto.SearchDTO;
 import com.example.cmmsApplication.common.search.service.ListSearchService;
 import com.example.cmmsApplication.preventivemaintenance.service.PreventiveMaintenanceScheduleService;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -23,49 +25,49 @@ public class PreventiveMaintenanceScheduleController {
     }
 
     @PostMapping
-    public ResponseEntity<PreventiveMaintenanceScheduleDTO> create(@Valid @RequestBody PreventiveMaintenanceScheduleDTO dto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(scheduleService.create(dto));
+    public ResponseEntity<ApiResponse<?>> create(@Valid @RequestBody PreventiveMaintenanceScheduleDTO dto) {
+        return ResponseFactory.created(scheduleService.create(dto));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PreventiveMaintenanceScheduleDTO> update(@PathVariable Long id, @Valid @RequestBody PreventiveMaintenanceScheduleDTO dto) {
-        return ResponseEntity.ok(scheduleService.update(id, dto));
+    public ResponseEntity<ApiResponse<?>> update(@PathVariable Long id, @Valid @RequestBody PreventiveMaintenanceScheduleDTO dto) {
+        return ResponseFactory.ok(scheduleService.update(id, dto));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<?>> delete(@PathVariable Long id) {
         scheduleService.delete(id);
-        return ResponseEntity.noContent().build();
+        return ResponseFactory.ok(null);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PreventiveMaintenanceScheduleDTO> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(scheduleService.getById(id));
+    public ResponseEntity<ApiResponse<?>> getById(@PathVariable Long id) {
+        return ResponseFactory.ok(scheduleService.getById(id));
     }
 
     @GetMapping
-    public ResponseEntity<List<PreventiveMaintenanceScheduleDTO>> getAll() {
-        return ResponseEntity.ok(scheduleService.getAll());
+    public ResponseEntity<ApiResponse<?>> getAll() {
+        return ResponseFactory.ok(scheduleService.getAll());
     }
 
     @PostMapping("/search")
-    public ResponseEntity<PageProperties> search(@RequestBody SearchDTO searchDTO) {
-        return ResponseEntity.ok(listSearchService.searchPreventiveSchedules(searchDTO));
+    public ResponseEntity<ApiResponse<?>> search(@RequestBody SearchDTO searchDTO) {
+        return ResponseFactory.ok(listSearchService.searchPreventiveSchedules(searchDTO));
     }
 
     @GetMapping("/upcoming")
-    public ResponseEntity<List<PreventiveMaintenanceScheduleDTO>> getUpcoming(@RequestParam(defaultValue = "30") int days) {
-        return ResponseEntity.ok(scheduleService.getUpcoming(days));
+    public ResponseEntity<ApiResponse<?>> getUpcoming(@RequestParam(defaultValue = "30") int days) {
+        return ResponseFactory.ok(scheduleService.getUpcoming(days));
     }
 
     @PostMapping("/{id}/generate-work-order")
-    public ResponseEntity<PreventiveMaintenanceScheduleDTO> generateWorkOrder(@PathVariable Long id) {
-        return ResponseEntity.ok(scheduleService.generateWorkOrder(id));
+    public ResponseEntity<ApiResponse<?>> generateWorkOrder(@PathVariable Long id) {
+        return ResponseFactory.ok(scheduleService.generateWorkOrder(id));
     }
 
     @PostMapping("/generate-due-work-orders")
-    public ResponseEntity<List<PreventiveMaintenanceScheduleDTO>> generateDueWorkOrders() {
-        return ResponseEntity.ok(scheduleService.generateDueWorkOrders());
+    public ResponseEntity<ApiResponse<?>> generateDueWorkOrders() {
+        return ResponseFactory.ok(scheduleService.generateDueWorkOrders());
     }
 }
 

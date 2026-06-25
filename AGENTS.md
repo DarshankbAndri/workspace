@@ -78,6 +78,19 @@ Rules:
 
 Current backend modules include `admin`, `approval`, `assignment`, `company`, `dashboard`, `downtime`, `employee`, `equipment`, `maintenancerequest`, `notification`, `preventivemaintenance`, `report`, `site`, `spareparts`, `user`, and `vendor`.
 
+## API Response Contract
+
+1. Every JSON REST endpoint must return `ApiResponse<T>` for successful responses.
+2. Never create controller-specific success or error envelope DTOs.
+3. Controllers must use `ResponseFactory` instead of manually constructing response envelopes.
+4. Exceptions must flow through `GlobalExceptionHandler` and return `ApiErrorResponse`.
+5. Use standard machine-readable error codes from `ApiErrorCode`.
+6. Include `correlationId` in API responses and exception logs.
+7. Validation errors must use the standard `details` array with `field` and `message`.
+8. Do not expose stack traces in API responses; log stack traces only on the server.
+9. Binary downloads and event streams may remain raw protocol responses, but all normal JSON APIs must follow the standard contract.
+10. Frontend API error handling must read `code`, `message`, `details`, and `correlationId`.
+
 ### Frontend
 
 For every new UI page/module, create or reuse a feature folder under:

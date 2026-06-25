@@ -394,6 +394,12 @@ Recommended action:
 - Use stable machine-readable error codes.
 - Update OpenAPI documentation and frontend error handling.
 
+Implementation status:
+
+- Implemented common response classes: `ApiResponse<T>`, `ApiErrorResponse`, `ApiValidationError`, `ApiErrorCode`, and `ResponseFactory`.
+- Updated JSON controllers, authentication responses, security 401/403 responses, validation errors, OpenAPI schemas, and frontend Axios error normalization.
+- Added correlation ID support through `X-Correlation-ID`, request attributes, MDC, and standard response payloads.
+
 ## Medium Priority Improvements
 
 ### 15. Replace free-form status strings with enums or constants

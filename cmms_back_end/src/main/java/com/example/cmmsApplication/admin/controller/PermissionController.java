@@ -1,11 +1,12 @@
 package com.example.cmmsApplication.admin.controller;
 
+import com.example.cmmsApplication.common.response.ApiResponse;
+import com.example.cmmsApplication.common.response.ResponseFactory;
+
 import com.example.cmmsApplication.admin.dto.PermissionDTO;
 import com.example.cmmsApplication.admin.service.PermissionService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/admin/permissions")
@@ -17,13 +18,13 @@ public class PermissionController {
     }
 
     @GetMapping
-    public List<PermissionDTO> getAll() {
-        return permissionService.getAll();
+    public ResponseEntity<ApiResponse<?>> getAll() {
+        return ResponseFactory.ok(permissionService.getAll());
     }
 
     @GetMapping("/grouped")
-    public Map<String, List<PermissionDTO>> getGrouped() {
-        return permissionService.getGrouped();
+    public ResponseEntity<ApiResponse<?>> getGrouped() {
+        return ResponseFactory.ok(permissionService.getGrouped());
     }
 }
 

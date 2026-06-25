@@ -1,7 +1,11 @@
 package com.example.cmmsApplication.admin.controller;
 
+import com.example.cmmsApplication.common.response.ApiResponse;
+import com.example.cmmsApplication.common.response.ResponseFactory;
+
 import com.example.cmmsApplication.admin.dto.UserRoleAssignmentDTO;
 import com.example.cmmsApplication.admin.service.UserRoleAssignmentService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,13 +20,13 @@ public class UserRoleAssignmentController {
     }
 
     @GetMapping
-    public List<UserRoleAssignmentDTO> getByUserId(@PathVariable Long userId) {
-        return userRoleAssignmentService.getByUserId(userId);
+    public ResponseEntity<ApiResponse<?>> getByUserId(@PathVariable Long userId) {
+        return ResponseFactory.ok(userRoleAssignmentService.getByUserId(userId));
     }
 
     @PutMapping
-    public List<UserRoleAssignmentDTO> replace(@PathVariable Long userId, @RequestBody List<UserRoleAssignmentDTO> assignments) {
-        return userRoleAssignmentService.replaceUserRoles(userId, assignments);
+    public ResponseEntity<ApiResponse<?>> replace(@PathVariable Long userId, @RequestBody List<UserRoleAssignmentDTO> assignments) {
+        return ResponseFactory.ok(userRoleAssignmentService.replaceUserRoles(userId, assignments));
     }
 }
 

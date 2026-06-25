@@ -1,5 +1,8 @@
 package com.example.cmmsApplication.site.controller;
 
+import com.example.cmmsApplication.common.response.ApiResponse;
+import com.example.cmmsApplication.common.response.ResponseFactory;
+
 
 import com.example.cmmsApplication.site.entity.Site;
 import com.example.cmmsApplication.common.search.dto.PageProperties;
@@ -8,7 +11,6 @@ import com.example.cmmsApplication.site.dto.SiteDTO;
 import com.example.cmmsApplication.common.search.service.ListSearchService;
 import com.example.cmmsApplication.site.service.SiteService;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,34 +28,34 @@ public class SiteController {
     }
 
     @PostMapping
-    public ResponseEntity<SiteDTO> create(@Valid @RequestBody SiteDTO dto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(siteService.create(dto));
+    public ResponseEntity<ApiResponse<?>> create(@Valid @RequestBody SiteDTO dto) {
+        return ResponseFactory.created(siteService.create(dto));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<SiteDTO> update(@PathVariable Long id, @Valid @RequestBody SiteDTO dto) {
-        return ResponseEntity.ok(siteService.update(id, dto));
+    public ResponseEntity<ApiResponse<?>> update(@PathVariable Long id, @Valid @RequestBody SiteDTO dto) {
+        return ResponseFactory.ok(siteService.update(id, dto));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<?>> delete(@PathVariable Long id) {
         siteService.delete(id);
-        return ResponseEntity.noContent().build();
+        return ResponseFactory.ok(null);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SiteDTO> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(siteService.getById(id));
+    public ResponseEntity<ApiResponse<?>> getById(@PathVariable Long id) {
+        return ResponseFactory.ok(siteService.getById(id));
     }
 
     @GetMapping
-    public ResponseEntity<List<SiteDTO>> getAll() {
-        return ResponseEntity.ok(siteService.getAll());
+    public ResponseEntity<ApiResponse<?>> getAll() {
+        return ResponseFactory.ok(siteService.getAll());
     }
 
     @PostMapping("/search")
-    public ResponseEntity<PageProperties> search(@RequestBody SearchDTO searchDTO) {
-        return ResponseEntity.ok(listSearchService.searchSites(searchDTO));
+    public ResponseEntity<ApiResponse<?>> search(@RequestBody SearchDTO searchDTO) {
+        return ResponseFactory.ok(listSearchService.searchSites(searchDTO));
     }
 }
 
