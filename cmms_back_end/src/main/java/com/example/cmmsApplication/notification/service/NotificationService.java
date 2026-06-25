@@ -1,6 +1,7 @@
 package com.example.cmmsApplication.notification.service;
 
 
+import com.example.cmmsApplication.common.observability.ObservabilityMetrics;
 import com.example.cmmsApplication.common.security.service.AccessControlService;
 import com.example.cmmsApplication.equipment.entity.Equipment;
 import com.example.cmmsApplication.notification.dao.NotificationDAO;
@@ -46,6 +47,7 @@ public class NotificationService {
     private final NotificationSettingsService notificationSettingsService;
     private final EmailNotificationService emailNotificationService;
     private final NotificationStreamService notificationStreamService;
+    private final ObservabilityMetrics observabilityMetrics;
 
     public NotificationService(NotificationDAO notificationDAO,
                                AccessControlService accessControlService,
@@ -53,7 +55,8 @@ public class NotificationService {
                                UserRepository userRepository,
                                NotificationSettingsService notificationSettingsService,
                                EmailNotificationService emailNotificationService,
-                               NotificationStreamService notificationStreamService) {
+                               NotificationStreamService notificationStreamService,
+                               ObservabilityMetrics observabilityMetrics) {
         this.notificationDAO = notificationDAO;
         this.accessControlService = accessControlService;
         this.userRoleAssignmentRepository = userRoleAssignmentRepository;
@@ -61,6 +64,7 @@ public class NotificationService {
         this.notificationSettingsService = notificationSettingsService;
         this.emailNotificationService = emailNotificationService;
         this.notificationStreamService = notificationStreamService;
+        this.observabilityMetrics = observabilityMetrics;
     }
 
     @Transactional(readOnly = true)
@@ -189,6 +193,7 @@ public class NotificationService {
                 stock.getSite(), "LOW_STOCK", title, message,
                 "SPARE_PART", stock.getId(), partCode,
                 "/inventory/spare-parts", "HIGH", "LOW_STOCK:" + stock.getId() + ":" + stock.getCurrentStock());
+        observabilityMetrics.recordStockoutAlert("low_stock");
     }
 
     private void notifyRoleRecipients(NotificationSettingDTO settings, Collection<String> roleCodes, Site site, String type, String title, String message,

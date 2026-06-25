@@ -91,6 +91,19 @@ Current backend modules include `admin`, `approval`, `assignment`, `company`, `d
 9. Binary downloads and event streams may remain raw protocol responses, but all normal JSON APIs must follow the standard contract.
 10. Frontend API error handling must read `code`, `message`, `details`, and `correlationId`.
 
+## Observability Rules
+
+1. Every request must have a correlation ID from `X-Correlation-Id` or a generated UUID.
+2. Logs must include `correlationId` and `userId` when authenticated.
+3. Do not log passwords, JWT tokens, authorization headers, refresh tokens, or sensitive request/response payloads.
+4. Request logging must emit one structured summary line per request with method, path, status, duration, and error code.
+5. Unexpected exceptions must be logged once at ERROR with stack trace and correlation ID.
+6. Expected business/client exceptions should be WARN without duplicate stack traces.
+7. Add Micrometer metrics for new scheduled jobs and critical workflows.
+8. Avoid high-cardinality metric tags such as raw username, email, entity id, or free-form path.
+9. Use standard API error codes in responses, metrics, and logs.
+10. Keep actuator sensitive endpoints protected; expose only health/liveness/readiness publicly unless explicitly approved.
+
 ### Frontend
 
 For every new UI page/module, create or reuse a feature folder under:

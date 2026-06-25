@@ -2,6 +2,7 @@ package com.example.cmmsApplication.preventivemaintenance.service;
 
 
 import com.example.cmmsApplication.approval.service.ApprovalWorkflowService;
+import com.example.cmmsApplication.common.observability.ObservabilityMetrics;
 import com.example.cmmsApplication.common.security.service.AccessControlService;
 import com.example.cmmsApplication.equipment.service.EquipmentService;
 import com.example.cmmsApplication.site.service.SiteService;
@@ -24,6 +25,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -46,6 +49,7 @@ public class PreventiveMaintenanceScheduleService {
     private final SiteService siteService;
     private final AccessControlService accessControlService;
     private final ApprovalWorkflowService approvalWorkflowService;
+    private final ObservabilityMetrics observabilityMetrics;
 
     public PreventiveMaintenanceScheduleService(
             PreventiveMaintenanceScheduleDAO scheduleDAO,
@@ -55,7 +59,8 @@ public class PreventiveMaintenanceScheduleService {
             VendorService vendorService,
             SiteService siteService,
             AccessControlService accessControlService,
-            ApprovalWorkflowService approvalWorkflowService) {
+            ApprovalWorkflowService approvalWorkflowService,
+            ObservabilityMetrics observabilityMetrics) {
         this.scheduleDAO = scheduleDAO;
         this.requestDAO = requestDAO;
         this.assignmentDAO = assignmentDAO;
@@ -64,6 +69,7 @@ public class PreventiveMaintenanceScheduleService {
         this.siteService = siteService;
         this.accessControlService = accessControlService;
         this.approvalWorkflowService = approvalWorkflowService;
+        this.observabilityMetrics = observabilityMetrics;
     }
 
     public PreventiveMaintenanceScheduleDTO create(PreventiveMaintenanceScheduleDTO dto) {
@@ -161,23 +167,47 @@ public class PreventiveMaintenanceScheduleService {
 
     public List<PreventiveMaintenanceScheduleDTO> generateDueWorkOrders() {
         accessControlService.validatePermission("REQUEST_CREATE");
-        return scheduleDAO.findDue(LocalDate.now()).stream()
-                .map(this::generateWorkOrder)
-                .collect(Collectors.toList());
+        Instant started = Instant.now();
+        try {
+            List<PreventiveMaintenanceScheduleDTO> generated = scheduleDAO.findDue(LocalDate.now()).stream()
+                    .map(this::generateWorkOrder)
+                    .collect(Collectors.toList());
+            observabilityMetrics.recordPmGeneration("success", generated.size(), Duration.between(started, Instant.now()));
+            return generated;
+        } catch (RuntimeException ex) {
+            observabilityMetrics.recordPmGeneration("failure", 0, Duration.between(started, Instant.now()));
+            throw ex;
+        }
     }
 
     @Scheduled(cron = "0 0 6 * * *")
     public void generateDueWorkOrdersDaily() {
+        Instant started = Instant.now();
+        int generated = 0;
         try {
-            scheduleDAO.findDue(LocalDate.now()).forEach(this::generateWorkOrderNow);
+            List<PreventiveMaintenanceSchedule> dueSchedules = scheduleDAO.findDue(LocalDate.now());
+            for (PreventiveMaintenanceSchedule schedule : dueSchedules) {
+                generateWorkOrderNow(schedule);
+                generated++;
+            }
+            observabilityMetrics.recordPmGeneration("success", generated, Duration.between(started, Instant.now()));
         } catch (RuntimeException ex) {
+            observabilityMetrics.recordPmGeneration("failure", generated, Duration.between(started, Instant.now()));
             // Keep the scheduler from failing the application if business data blocks one run.
         }
     }
 
     public PreventiveMaintenanceScheduleDTO generateWorkOrder(Long id) {
         accessControlService.validatePermission("REQUEST_CREATE");
-        return generateWorkOrder(getEntity(id));
+        Instant started = Instant.now();
+        try {
+            PreventiveMaintenanceScheduleDTO result = generateWorkOrder(getEntity(id));
+            observabilityMetrics.recordPmGeneration("success", 1, Duration.between(started, Instant.now()));
+            return result;
+        } catch (RuntimeException ex) {
+            observabilityMetrics.recordPmGeneration("failure", 0, Duration.between(started, Instant.now()));
+            throw ex;
+        }
     }
 
     public void delete(Long id) {

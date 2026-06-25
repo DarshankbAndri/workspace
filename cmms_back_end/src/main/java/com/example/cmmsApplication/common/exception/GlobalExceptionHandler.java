@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -139,12 +141,21 @@ public class GlobalExceptionHandler {
     private void logException(HttpStatus status, Exception ex, HttpServletRequest request) {
         String correlationId = ResponseFactory.correlationId(request);
         String path = ResponseFactory.path(request);
+        String userId = currentUser();
         if (status.is5xxServerError()) {
-            LOGGER.error("API exception correlationId={} path={} exceptionType={} message={}",
-                    correlationId, path, ex.getClass().getName(), ex.getMessage(), ex);
+            LOGGER.error("API exception correlationId={} userId={} path={} exceptionType={} message={}",
+                    correlationId, userId, path, ex.getClass().getName(), ex.getMessage(), ex);
             return;
         }
-        LOGGER.warn("API exception correlationId={} path={} exceptionType={} message={}",
-                correlationId, path, ex.getClass().getName(), ex.getMessage(), ex);
+        LOGGER.warn("API exception correlationId={} userId={} path={} exceptionType={} message={}",
+                correlationId, userId, path, ex.getClass().getName(), ex.getMessage());
+    }
+
+    private String currentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated() || "anonymousUser".equalsIgnoreCase(authentication.getName())) {
+            return null;
+        }
+        return authentication.getName();
     }
 }

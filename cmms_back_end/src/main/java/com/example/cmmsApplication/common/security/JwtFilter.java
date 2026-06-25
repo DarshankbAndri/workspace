@@ -1,8 +1,7 @@
 package com.example.cmmsApplication.common.security;
 
 
-import com.example.cmmsApplication.user.entity.User;
-import com.example.cmmsApplication.common.security.JwtUtil;
+import com.example.cmmsApplication.common.observability.ObservabilityMetrics;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,6 +21,9 @@ public class JwtFilter extends OncePerRequestFilter {
     
     @Autowired
     private JwtUtil jwtUtil;
+
+    @Autowired
+    private ObservabilityMetrics observabilityMetrics;
     
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -47,7 +49,8 @@ public class JwtFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             }
         } catch (Exception e) {
-            logger.error("Cannot set user authentication: ", e);
+            observabilityMetrics.recordLoginFailure("invalid_token", request.getRequestURI());
+            logger.warn("Cannot set user authentication: " + e.getMessage());
         }
         
         filterChain.doFilter(request, response);

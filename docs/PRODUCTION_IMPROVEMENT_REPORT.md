@@ -374,31 +374,7 @@ Recommended action:
 - Test migrations from an empty DB and from the previous production version.
 - Document backup, restore, rollback, and migration approval process.
 
-### 14. API response contracts are inconsistent
 
-Current state:
-
-- `GlobalExceptionHandler` returns `ErrorResponse` for most errors.
-- Validation returns a custom map.
-- `AuthController` defines nested error/success response classes.
-
-Production risk:
-
-- Frontend and integration clients must handle multiple error shapes.
-- Support teams cannot reliably trace failures.
-
-Recommended action:
-
-- Define one standard API envelope for success and error responses.
-- Include `timestamp`, `status`, `code`, `message`, `details`, `path`, and `correlationId`.
-- Use stable machine-readable error codes.
-- Update OpenAPI documentation and frontend error handling.
-
-Implementation status:
-
-- Implemented common response classes: `ApiResponse<T>`, `ApiErrorResponse`, `ApiValidationError`, `ApiErrorCode`, and `ResponseFactory`.
-- Updated JSON controllers, authentication responses, security 401/403 responses, validation errors, OpenAPI schemas, and frontend Axios error normalization.
-- Added correlation ID support through `X-Correlation-ID`, request attributes, MDC, and standard response payloads.
 
 ## Medium Priority Improvements
 

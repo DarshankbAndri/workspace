@@ -11,6 +11,7 @@ import java.util.List;
 
 public final class ResponseFactory {
     private static final String DEFAULT_SUCCESS_MESSAGE = "Operation completed successfully.";
+    public static final String ERROR_CODE_ATTRIBUTE = "apiErrorCode";
 
     private ResponseFactory() {
     }
@@ -39,6 +40,7 @@ public final class ResponseFactory {
                 path(request),
                 correlationId(request)
         );
+        setErrorCode(request, ApiErrorCode.SUCCESS.name());
         return ResponseEntity.status(status).body(response);
     }
 
@@ -53,6 +55,7 @@ public final class ResponseFactory {
 
     public static ApiErrorResponse errorBody(HttpStatus status, ApiErrorCode code, String message,
                                              List<ApiValidationError> details, HttpServletRequest request) {
+        setErrorCode(request, code.name());
         return new ApiErrorResponse(
                 Instant.now(),
                 status.value(),
@@ -72,6 +75,12 @@ public final class ResponseFactory {
     public static String correlationId(HttpServletRequest request) {
         Object requestValue = request == null ? null : request.getAttribute(CorrelationIdFilter.CORRELATION_ID_ATTRIBUTE);
         return requestValue == null ? "" : requestValue.toString();
+    }
+
+    private static void setErrorCode(HttpServletRequest request, String code) {
+        if (request != null) {
+            request.setAttribute(ERROR_CODE_ATTRIBUTE, code);
+        }
     }
 
     private static HttpServletRequest currentRequest() {

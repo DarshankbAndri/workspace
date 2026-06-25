@@ -55,7 +55,7 @@ public class SecurityConfig {
         ));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
-        configuration.setExposedHeaders(Arrays.asList("Authorization", "Content-Type", "X-Correlation-ID"));
+        configuration.setExposedHeaders(Arrays.asList("Authorization", "Content-Type", "X-Correlation-Id"));
         configuration.setAllowCredentials(true);
         configuration.setMaxAge(3600L);
         
@@ -102,6 +102,7 @@ public class SecurityConfig {
                 .requestMatchers("/", "/index.html").permitAll()
                 .requestMatchers("/auth/login", "/auth/test").permitAll()
                 .requestMatchers("/company/logo/**").permitAll()
+                .requestMatchers("/actuator/health", "/actuator/health/liveness", "/actuator/health/readiness").permitAll()
                 .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html", 
                                 "/swagger-ui/*", "/v3/api-docs/*", "/swagger-resources/**").permitAll()
                 .anyRequest().authenticated())
@@ -110,12 +111,12 @@ public class SecurityConfig {
     }
 
     private void logSecurityException(Exception ex, jakarta.servlet.http.HttpServletRequest request) {
-        LOGGER.warn("API security exception correlationId={} path={} exceptionType={} message={}",
+        LOGGER.warn("API security exception correlationId={} userId={} path={} exceptionType={} message={}",
                 ResponseFactory.correlationId(request),
+                null,
                 ResponseFactory.path(request),
                 ex.getClass().getName(),
-                ex.getMessage(),
-                ex);
+                ex.getMessage());
     }
 
     private void writeErrorResponse(HttpServletResponse response, ObjectMapper objectMapper,

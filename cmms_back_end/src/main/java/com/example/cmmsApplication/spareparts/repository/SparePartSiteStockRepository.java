@@ -30,6 +30,9 @@ public interface SparePartSiteStockRepository extends JpaRepository<SparePartSit
     @Query("select count(stock) from SparePartSiteStock stock where stock.status = 'ACTIVE' and (stock.currentStock - stock.reservedStock) <= stock.minimumStock")
     long countLowStock();
 
+    @Query("select count(stock) from SparePartSiteStock stock where stock.status = 'ACTIVE' and (stock.currentStock <= 0 or (stock.currentStock - stock.reservedStock) <= 0)")
+    long countStockOut();
+
     @Query("select count(stock) from SparePartSiteStock stock where stock.status = 'ACTIVE' and stock.site.id = :siteId and (stock.currentStock - stock.reservedStock) <= stock.minimumStock")
     long countLowStockBySiteId(Long siteId);
 

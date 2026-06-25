@@ -91,6 +91,40 @@ Acceptance criteria:
 - Unexpected exceptions are logged once with stack trace and correlation id.
 - Metrics exist for API latency, error rates, login failures, notification job status, PM generation, approval queues, and stock-out alerts.
 
+Implementation status:
+
+- Added Spring Boot Actuator and Prometheus metrics.
+- Public health endpoints:
+  - `GET /api/actuator/health`
+  - `GET /api/actuator/health/liveness`
+  - `GET /api/actuator/health/readiness`
+- Authenticated diagnostic endpoints:
+  - `GET /api/actuator/metrics`
+  - `GET /api/actuator/prometheus`
+- Correlation ID:
+  - Request header: `X-Correlation-Id`
+  - Response header: `X-Correlation-Id`
+  - MDC key: `correlationId`
+- Request summary logs include `correlationId`, `userId`, HTTP method, path, status, durationMs, and errorCode.
+- Standard metrics:
+  - `cmms.api.requests`
+  - `cmms.api.errors`
+  - `cmms.auth.login.failures`
+  - `cmms.notification.job.runs`
+  - `cmms.notification.job.failures`
+  - `cmms.notification.job.last_success_timestamp`
+  - `cmms.notification.job.last_failure_timestamp`
+  - `cmms.pm.generation.runs`
+  - `cmms.pm.generation.generated_work_orders`
+  - `cmms.pm.generation.failures`
+  - `cmms.pm.generation.duration`
+  - `cmms.approval.pending.count`
+  - `cmms.approval.overdue.count`
+  - `cmms.inventory.stockout.count`
+  - `cmms.inventory.low_stock.count`
+  - `cmms.inventory.stockout.alerts`
+- Metric tags avoid raw usernames, emails, entity ids, and unbounded free-form values.
+
 ### REQ-P0-006: Database migration runbook
 
 Requirement:

@@ -4,6 +4,7 @@ import com.example.cmmsApplication.common.security.dto.LoginRequest;
 import com.example.cmmsApplication.common.security.dto.LoginResponse;
 import com.example.cmmsApplication.common.security.dto.ChangePasswordRequest;
 import com.example.cmmsApplication.common.security.dto.AuthAccessDTO;
+import com.example.cmmsApplication.common.observability.ObservabilityMetrics;
 import com.example.cmmsApplication.common.response.ApiErrorCode;
 import com.example.cmmsApplication.common.response.ResponseFactory;
 import com.example.cmmsApplication.user.entity.User;
@@ -32,12 +33,15 @@ public class AuthController {
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
     private final AccessControlService accessControlService;
+    private final ObservabilityMetrics observabilityMetrics;
     
-    public AuthController(UserRepository userRepository, JwtUtil jwtUtil, PasswordEncoder passwordEncoder, AccessControlService accessControlService) {
+    public AuthController(UserRepository userRepository, JwtUtil jwtUtil, PasswordEncoder passwordEncoder,
+                          AccessControlService accessControlService, ObservabilityMetrics observabilityMetrics) {
         this.userRepository = userRepository;
         this.jwtUtil = jwtUtil;
         this.passwordEncoder = passwordEncoder;
         this.accessControlService = accessControlService;
+        this.observabilityMetrics = observabilityMetrics;
     }
     
     @PostMapping("/login")
@@ -54,12 +58,14 @@ public class AuthController {
             
             // Verify password
             if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
+                observabilityMetrics.recordLoginFailure("bad_credentials", "/auth/login");
                 return ResponseFactory.error(HttpStatus.UNAUTHORIZED, ApiErrorCode.UNAUTHORIZED,
                         "Invalid username or password");
             }
             
             // Check if user is active
             if (!user.getActive()) {
+                observabilityMetrics.recordLoginFailure("disabled_account", "/auth/login");
                 return ResponseFactory.error(HttpStatus.UNAUTHORIZED, ApiErrorCode.UNAUTHORIZED,
                         "User account is inactive");
             }
@@ -75,6 +81,7 @@ public class AuthController {
             return ResponseFactory.ok(response, "Login successful");
             
         } catch (ResourceNotFoundException e) {
+            observabilityMetrics.recordLoginFailure("bad_credentials", "/auth/login");
             return ResponseFactory.error(HttpStatus.UNAUTHORIZED, ApiErrorCode.UNAUTHORIZED,
                     "Invalid username or password");
         }

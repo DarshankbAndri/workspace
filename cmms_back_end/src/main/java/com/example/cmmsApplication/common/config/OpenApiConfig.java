@@ -30,7 +30,12 @@ public class OpenApiConfig {
             .info(new Info()
                 .title("CMMS API")
                 .version("1.0.0")
-                .description("API documentation for the CMMS application. JSON REST endpoints use ApiResponse<T> for successful responses and ApiErrorResponse for errors.")
+                .description("""
+                        API documentation for the CMMS application. JSON REST endpoints use ApiResponse<T> for successful responses and ApiErrorResponse for errors.
+                        Send X-Correlation-Id to trace a request; the same value is returned in the response header and response body.
+                        Operational endpoints are available under /actuator/health, /actuator/health/liveness, /actuator/health/readiness, /actuator/metrics, and /actuator/prometheus.
+                        Metrics include cmms.api.requests, cmms.api.errors, cmms.auth.login.failures, cmms.notification.job.*, cmms.pm.generation.*, cmms.approval.*.count, and cmms.inventory.*.
+                        """)
                 .contact(new Contact()
                     .name("CMMS Support")
                     .email("support@cmmsApplication.com")
