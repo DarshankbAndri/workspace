@@ -50,8 +50,8 @@
     "semantic_hash": ""
   },
   "AGENTS.md": {
-    "mtime": 1782195690.2466958,
-    "ast_hash": "7e72baea6474de45c0869cda828f8e0e",
+    "mtime": 1782199015.2725475,
+    "ast_hash": "10f5f5f06748a79712519fd60dddc4fc",
     "semantic_hash": ""
   },
   "CORS_FIX_GUIDE.md": {
@@ -1552,6 +1552,16 @@
   "cmms_back_end/src/main/resources/db/changelog/cmms/kb.js": {
     "mtime": 1782195500.9870646,
     "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": ""
+  },
+  "docs/generate_cmms_demo.js": {
+    "mtime": 1782204298.9522762,
+    "ast_hash": "990254b3ea4ebae47a0d680153568e50",
+    "semantic_hash": ""
+  },
+  "docs/presentation/CMMS_Application_Demo_Report.json": {
+    "mtime": 1782204313.2060258,
+    "ast_hash": "f54d49c8faaefc36715c5eb41d622069",
     "semantic_hash": ""
   }
 }
