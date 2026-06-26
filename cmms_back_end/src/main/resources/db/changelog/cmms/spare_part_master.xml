@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd" xmlns="http://www.liquibase.org/xml/ns/dbchangelog">
+    <changeSet id="spare-part-001-create-table" author="DARSHAN">
+        <createTable tableName="spare_part_master">
+            <column name="spare_part_id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="part_code" type="VARCHAR(80)">
+                <constraints nullable="false" unique="true" />
+            </column>
+            <column name="part_name" type="VARCHAR(180)">
+                <constraints nullable="false" />
+            </column>
+            <column name="description" type="TEXT" />
+            <column name="category" type="VARCHAR(100)" />
+            <column name="unit" type="VARCHAR(30)">
+                <constraints nullable="false" />
+            </column>
+            <column name="preferred_vendor_id" type="BIGINT" />
+            <column name="status" type="VARCHAR(30)" defaultValue="ACTIVE">
+                <constraints nullable="false" />
+            </column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
+            </column>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="spare-part-002-add-foreign-keys" author="DARSHAN">
+        <addForeignKeyConstraint constraintName="fk_spare_part_preferred_vendor" baseTableName="spare_part_master" baseColumnNames="preferred_vendor_id" referencedTableName="vendor_master" referencedColumnNames="id" />
+    </changeSet>
+    <changeSet id="spare-part-003-create-indexes" author="DARSHAN">
+        <createIndex indexName="idx_spare_part_status" tableName="spare_part_master">
+            <column name="status" />
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>

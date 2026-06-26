@@ -4,24 +4,27 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <changeSet id="cmms-role-master-create" author="codex">
-        <preConditions onFail="MARK_RAN">
-            <not><tableExists tableName="role_master"/></not>
-        </preConditions>
-        <sql>
-            CREATE TABLE IF NOT EXISTS role_master (
-                role_id BIGSERIAL PRIMARY KEY,
-                role_code VARCHAR(50) UNIQUE NOT NULL,
-                role_name VARCHAR(100) NOT NULL,
-                description TEXT,
-                status VARCHAR(20) DEFAULT 'ACTIVE',
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                updated_at TIMESTAMP
-            );
-        </sql>
+    <changeSet id="role-master-001-create-table" author="DARSHAN">
+        <createTable tableName="role_master">
+            <column name="role_id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="role_code" type="VARCHAR(50)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="role_name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="TEXT"/>
+            <column name="status" type="VARCHAR(20)" defaultValue="ACTIVE"/>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP"/>
+        </createTable>
     </changeSet>
 
-    <changeSet id="cmms-role-master-seed-defaults" author="codex">
+    <changeSet id="role-master-002-seed-defaults" author="DARSHAN">
         <sql>
             INSERT INTO role_master (role_code, role_name, description, status, created_at, updated_at) VALUES
             ('SUPER_ADMIN', 'Super Admin', 'Full system access across all sites', 'ACTIVE', NOW(), NOW()),
