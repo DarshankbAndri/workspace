@@ -1,7 +1,13 @@
 package com.example.cmmsApplication.approval.dto;
 
 import java.time.LocalDateTime;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ApprovalConfigDTO {
     private Long id;
     private String moduleCode;
@@ -32,7 +38,3 @@ public class ApprovalConfigDTO {
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 }
-
-
-
-

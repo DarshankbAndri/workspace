@@ -37,8 +37,10 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class ListSearchService {
     private static final Set<String> SITE_FILTERS = Set.of(
             "commonSearch", "id", "siteCode", "siteName", "organizationName", "siteType",
@@ -104,30 +106,6 @@ public class ListSearchService {
     private final PreventiveMaintenanceScheduleListRepository preventiveMaintenanceScheduleListRepository;
     private final RoleListRepository roleListRepository;
     private final SparePartStockListRepository sparePartStockListRepository;
-
-    public ListSearchService(SearchService searchService,
-                             AccessControlService accessControlService,
-                             SiteListRepository siteListRepository,
-                             EmployeeListRepository employeeListRepository,
-                             VendorListRepository vendorListRepository,
-                             MaintenanceRequestListRepository maintenanceRequestListRepository,
-                             MaintenanceAssignmentListRepository maintenanceAssignmentListRepository,
-                             EquipmentDowntimeListRepository equipmentDowntimeListRepository,
-                             PreventiveMaintenanceScheduleListRepository preventiveMaintenanceScheduleListRepository,
-                             RoleListRepository roleListRepository,
-                             SparePartStockListRepository sparePartStockListRepository) {
-        this.searchService = searchService;
-        this.accessControlService = accessControlService;
-        this.siteListRepository = siteListRepository;
-        this.employeeListRepository = employeeListRepository;
-        this.vendorListRepository = vendorListRepository;
-        this.maintenanceRequestListRepository = maintenanceRequestListRepository;
-        this.maintenanceAssignmentListRepository = maintenanceAssignmentListRepository;
-        this.equipmentDowntimeListRepository = equipmentDowntimeListRepository;
-        this.preventiveMaintenanceScheduleListRepository = preventiveMaintenanceScheduleListRepository;
-        this.roleListRepository = roleListRepository;
-        this.sparePartStockListRepository = sparePartStockListRepository;
-    }
 
     public PageProperties searchSites(SearchDTO searchDTO) {
         accessControlService.validatePermission("SITE_VIEW");
@@ -323,8 +301,3 @@ public class ListSearchService {
         return value instanceof Collection<?> collection && collection.isEmpty();
     }
 }
-
-
-
-
-

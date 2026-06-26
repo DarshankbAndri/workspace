@@ -1,5 +1,7 @@
 package com.example.cmmsApplication.spareparts.controller;
 
+
+import lombok.RequiredArgsConstructor;
 import com.example.cmmsApplication.common.response.ApiResponse;
 import com.example.cmmsApplication.common.response.ResponseFactory;
 
@@ -13,14 +15,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/maintenance/assignments/{assignmentId}/spares")
+@RequiredArgsConstructor
 public class MaintenanceSpareUsageController {
     private final MaintenanceSpareUsageService spareUsageService;
 
-    public MaintenanceSpareUsageController(MaintenanceSpareUsageService spareUsageService) {
-        this.spareUsageService = spareUsageService;
-    }
-
-    @GetMapping
+@GetMapping
     public ResponseEntity<ApiResponse<?>> getByAssignment(@PathVariable Long assignmentId) {
         return ResponseFactory.ok(spareUsageService.getByAssignment(assignmentId));
     }
@@ -86,7 +85,3 @@ public class MaintenanceSpareUsageController {
         return ResponseFactory.ok(null);
     }
 }
-
-
-
-

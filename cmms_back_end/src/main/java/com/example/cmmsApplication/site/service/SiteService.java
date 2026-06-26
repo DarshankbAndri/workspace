@@ -1,6 +1,7 @@
 package com.example.cmmsApplication.site.service;
 
 
+import lombok.RequiredArgsConstructor;
 import com.example.cmmsApplication.common.security.service.AccessControlService;
 import com.example.cmmsApplication.site.dao.SiteDAO;
 import com.example.cmmsApplication.site.dto.SiteDTO;
@@ -15,16 +16,12 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class SiteService {
     private final SiteDAO siteDAO;
     private final AccessControlService accessControlService;
 
-    public SiteService(SiteDAO siteDAO, AccessControlService accessControlService) {
-        this.siteDAO = siteDAO;
-        this.accessControlService = accessControlService;
-    }
-
-    public SiteDTO create(SiteDTO dto) {
+public SiteDTO create(SiteDTO dto) {
         accessControlService.validatePermission("SITE_CREATE");
         validateRequired(dto);
         if (siteDAO.existsBySiteCode(dto.getSiteCode())) {
@@ -135,8 +132,3 @@ public class SiteService {
         return value == null || value.trim().isEmpty();
     }
 }
-
-
-
-
-

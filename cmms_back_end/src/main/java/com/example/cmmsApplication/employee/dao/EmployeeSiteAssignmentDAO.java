@@ -20,8 +20,3 @@ public class EmployeeSiteAssignmentDAO {
         return repository.findByEmployeeId(employeeId);
     }
 }
-
-
-
-
-

@@ -27,8 +27,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 @Transactional
 public class EmployeeService {
     private final EmployeeDAO employeeDAO;
@@ -38,16 +40,6 @@ public class EmployeeService {
     private final AccessControlService accessControlService;
     private final UserRoleAssignmentDAO userRoleAssignmentDAO;
     private final RoleDAO roleDAO;
-
-    public EmployeeService(EmployeeDAO employeeDAO, SiteDAO siteDAO, EmployeeSiteAssignmentDAO assignmentDAO, UserService userService, AccessControlService accessControlService, UserRoleAssignmentDAO userRoleAssignmentDAO, RoleDAO roleDAO) {
-        this.employeeDAO = employeeDAO;
-        this.siteDAO = siteDAO;
-        this.assignmentDAO = assignmentDAO;
-        this.userService = userService;
-        this.accessControlService = accessControlService;
-        this.userRoleAssignmentDAO = userRoleAssignmentDAO;
-        this.roleDAO = roleDAO;
-    }
 
     public EmployeeDTO create(EmployeeDTO dto) {
         accessControlService.validatePermission("EMPLOYEE_CREATE");
@@ -332,8 +324,3 @@ public class EmployeeService {
         return dto;
     }
 }
-
-
-
-
-

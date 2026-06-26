@@ -9,15 +9,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/admin/users/{userId}/roles")
 public class UserRoleAssignmentController {
     private final UserRoleAssignmentService userRoleAssignmentService;
-
-    public UserRoleAssignmentController(UserRoleAssignmentService userRoleAssignmentService) {
-        this.userRoleAssignmentService = userRoleAssignmentService;
-    }
 
     @GetMapping
     public ResponseEntity<ApiResponse<?>> getByUserId(@PathVariable Long userId) {
@@ -29,7 +27,3 @@ public class UserRoleAssignmentController {
         return ResponseFactory.ok(userRoleAssignmentService.replaceUserRoles(userId, assignments));
     }
 }
-
-
-
-

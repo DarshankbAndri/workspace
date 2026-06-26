@@ -23,8 +23,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 @Transactional
 public class EquipmentService {
     private static final Set<String> ALLOWED_SEARCH_KEYS = Set.of(
@@ -72,18 +74,6 @@ public class EquipmentService {
     private final SearchService searchService;
     private final SiteService siteService;
     private final AccessControlService accessControlService;
-
-    public EquipmentService(EquipmentDAO equipmentDAO,
-                            EquipmentListRepository equipmentListRepository,
-                            SearchService searchService,
-                            SiteService siteService,
-                            AccessControlService accessControlService) {
-        this.equipmentDAO = equipmentDAO;
-        this.equipmentListRepository = equipmentListRepository;
-        this.searchService = searchService;
-        this.siteService = siteService;
-        this.accessControlService = accessControlService;
-    }
 
     public EquipmentDTO create(EquipmentDTO dto) {
         accessControlService.validatePermission("EQUIPMENT_CREATE");
@@ -281,8 +271,3 @@ public class EquipmentService {
         return dto;
     }
 }
-
-
-
-
-

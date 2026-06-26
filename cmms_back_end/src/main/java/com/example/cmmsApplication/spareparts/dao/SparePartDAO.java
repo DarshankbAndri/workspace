@@ -21,7 +21,3 @@ public class SparePartDAO {
     public boolean existsByPartCode(String partCode) { return repository.existsByPartCode(partCode); }
     public boolean existsByPartCodeAndIdNot(String partCode, Long id) { return repository.existsByPartCodeAndIdNot(partCode, id); }
 }
-
-
-
-

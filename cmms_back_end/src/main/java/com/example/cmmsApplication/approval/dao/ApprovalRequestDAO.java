@@ -35,7 +35,3 @@ public class ApprovalRequestDAO {
         return repository.findAll(specification, pageable);
     }
 }
-
-
-
-

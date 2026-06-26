@@ -12,7 +12,3 @@ public interface ApprovalActionRepository extends JpaRepository<ApprovalAction, 
     long countByApprovalRequestIdAndActionStatus(Long approvalRequestId, String actionStatus);
     List<ApprovalAction> findByApprovalRequestIdOrderByActionAtAsc(Long approvalRequestId);
 }
-
-
-
-

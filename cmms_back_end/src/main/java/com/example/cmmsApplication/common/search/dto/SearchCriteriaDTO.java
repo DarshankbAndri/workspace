@@ -1,6 +1,9 @@
 package com.example.cmmsApplication.common.search.dto;
 
-public class SearchCriteriaDTO {
+
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.Data;public class SearchCriteriaDTO {
     private String filterKey;
     private String dataType;
     private Object value;
@@ -15,7 +18,3 @@ public class SearchCriteriaDTO {
     public String getOperation() { return operation; }
     public void setOperation(String operation) { this.operation = operation; }
 }
-
-
-
-

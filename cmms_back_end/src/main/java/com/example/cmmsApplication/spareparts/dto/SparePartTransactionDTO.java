@@ -56,7 +56,3 @@ public class SparePartTransactionDTO {
     private String createdByName;
     private LocalDateTime createdAt;
 }
-
-
-
-

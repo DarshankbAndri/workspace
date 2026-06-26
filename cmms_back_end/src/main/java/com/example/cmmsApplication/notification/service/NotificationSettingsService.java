@@ -23,8 +23,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 @Transactional
 public class NotificationSettingsService {
     private static final String DEFAULT_CRON = "0 0 7 * * *";
@@ -34,14 +36,6 @@ public class NotificationSettingsService {
     private final NotificationSettingDAO settingDAO;
     private final NotificationProperties properties;
     private final AccessControlService accessControlService;
-
-    public NotificationSettingsService(NotificationSettingDAO settingDAO,
-                                       NotificationProperties properties,
-                                       AccessControlService accessControlService) {
-        this.settingDAO = settingDAO;
-        this.properties = properties;
-        this.accessControlService = accessControlService;
-    }
 
     @EventListener(ApplicationReadyEvent.class)
     public void seedDefaultsIfMissing() {
@@ -212,8 +206,3 @@ public class NotificationSettingsService {
         return (user.getFirstName() + " " + user.getLastName()).trim();
     }
 }
-
-
-
-
-

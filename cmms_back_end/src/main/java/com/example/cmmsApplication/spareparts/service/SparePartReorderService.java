@@ -1,6 +1,7 @@
 package com.example.cmmsApplication.spareparts.service;
 
 
+import lombok.RequiredArgsConstructor;
 import com.example.cmmsApplication.common.security.service.AccessControlService;
 import com.example.cmmsApplication.site.entity.Site;
 import com.example.cmmsApplication.vendor.service.VendorService;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class SparePartReorderService {
     private final SparePartReorderDAO reorderDAO;
     private final MaintenanceSpareUsageDAO usageDAO;
@@ -32,19 +34,7 @@ public class SparePartReorderService {
     private final VendorService vendorService;
     private final AccessControlService accessControlService;
 
-    public SparePartReorderService(SparePartReorderDAO reorderDAO,
-                                   MaintenanceSpareUsageDAO usageDAO,
-                                   SparePartService sparePartService,
-                                   VendorService vendorService,
-                                   AccessControlService accessControlService) {
-        this.reorderDAO = reorderDAO;
-        this.usageDAO = usageDAO;
-        this.sparePartService = sparePartService;
-        this.vendorService = vendorService;
-        this.accessControlService = accessControlService;
-    }
-
-    public SparePartReorderDTO create(SparePartReorderDTO dto) {
+public SparePartReorderDTO create(SparePartReorderDTO dto) {
         accessControlService.validatePermission("REORDER_CREATE");
         SparePartSiteStock stock = sparePartService.getStockEntity(dto.getStockId());
         accessControlService.validateSiteAccess(stock.getSite().getId());
@@ -195,8 +185,3 @@ public class SparePartReorderService {
         return dto;
     }
 }
-
-
-
-
-

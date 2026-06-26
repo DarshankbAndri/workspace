@@ -7,16 +7,13 @@ import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class EmailNotificationService {
     private final ObjectProvider<JavaMailSender> mailSenderProvider;
     private final NotificationProperties properties;
-
-    public EmailNotificationService(ObjectProvider<JavaMailSender> mailSenderProvider, NotificationProperties properties) {
-        this.mailSenderProvider = mailSenderProvider;
-        this.properties = properties;
-    }
 
     public boolean send(Notification notification) {
         User recipient = notification.getRecipientUser();
@@ -36,7 +33,3 @@ public class EmailNotificationService {
         return true;
     }
 }
-
-
-
-

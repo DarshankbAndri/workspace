@@ -134,12 +134,13 @@ Current frontend feature folders include `admin`, `approval`, `assignment`, `aut
 
 ## Lombok Rules
 
-1. Use Lombok for DTO boilerplate when getters, setters, constructors, and builders have no custom logic.
-2. Use `@Getter` and `@Setter` for JPA entities, not `@Data`.
-3. Use `@RequiredArgsConstructor` for dependency injection.
-4. Do not use field injection for new code.
-5. Do not remove custom methods, custom constructors, lifecycle hooks, or getters/setters with business logic.
-6. Always run `mvn clean install` from `cmms_back_end` after Lombok changes.
+1. Use Lombok for boilerplate in all future backend classes.
+2. DTOs should use `@Data`, `@NoArgsConstructor`, `@AllArgsConstructor`, and `@Builder` where useful and safe.
+3. JPA entities should use `@Getter` and `@Setter`, not `@Data`.
+4. Controllers and services should use `@RequiredArgsConstructor` with `private final` dependencies.
+5. Do not use field injection.
+6. Do not remove custom methods, custom constructors, lifecycle hooks, or custom getter/setter logic.
+7. Always run `mvn clean install` from `cmms_back_end` after Lombok changes.
 
 ## Liquibase Rules
 

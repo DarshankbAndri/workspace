@@ -32,8 +32,3 @@ public interface UserRoleAssignmentRepository extends JpaRepository<UserRoleAssi
 
     void deleteByUserId(Long userId);
 }
-
-
-
-
-

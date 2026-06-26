@@ -16,8 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 @Transactional
 public class UserRoleAssignmentService {
     private final UserRoleAssignmentDAO userRoleAssignmentDAO;
@@ -25,14 +27,6 @@ public class UserRoleAssignmentService {
     private final SiteRepository siteRepository;
     private final RoleService roleService;
     private final AccessControlService accessControlService;
-
-    public UserRoleAssignmentService(UserRoleAssignmentDAO userRoleAssignmentDAO, UserRepository userRepository, SiteRepository siteRepository, RoleService roleService, AccessControlService accessControlService) {
-        this.userRoleAssignmentDAO = userRoleAssignmentDAO;
-        this.userRepository = userRepository;
-        this.siteRepository = siteRepository;
-        this.roleService = roleService;
-        this.accessControlService = accessControlService;
-    }
 
     @Transactional(readOnly = true)
     public List<UserRoleAssignmentDTO> getByUserId(Long userId) {
@@ -75,8 +69,3 @@ public class UserRoleAssignmentService {
         return dto;
     }
 }
-
-
-
-
-

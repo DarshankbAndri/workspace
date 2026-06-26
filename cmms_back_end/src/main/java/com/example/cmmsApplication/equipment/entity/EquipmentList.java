@@ -7,6 +7,9 @@ import org.hibernate.annotations.Immutable;
 import org.hibernate.annotations.Subselect;
 
 import java.time.LocalDateTime;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Immutable
@@ -43,6 +46,9 @@ import java.time.LocalDateTime;
         ) vendor_summary ON vendor_summary.equipment_id = e.id
         LEFT JOIN vendor_master v ON v.id = vendor_summary.vendor_id
         """)
+@Getter
+@Setter
+@NoArgsConstructor
 public class EquipmentList {
     @Id
     private Long id;
@@ -118,7 +124,3 @@ public class EquipmentList {
     public LocalDateTime getCreatedAt() { return createdAt; }
     public LocalDateTime getLastModifiedOn() { return lastModifiedOn; }
 }
-
-
-
-

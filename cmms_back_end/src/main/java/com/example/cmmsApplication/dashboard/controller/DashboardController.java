@@ -10,22 +10,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import lombok.RequiredArgsConstructor;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/dashboard")
 public class DashboardController {
     private final DashboardService dashboardService;
-
-    public DashboardController(DashboardService dashboardService) {
-        this.dashboardService = dashboardService;
-    }
 
     @GetMapping("/summary")
     public ResponseEntity<ApiResponse<?>> getSummary(@RequestParam(required = false) Long siteId) {
         return ResponseFactory.ok(dashboardService.getSummary(siteId));
     }
 }
-
-
-
-

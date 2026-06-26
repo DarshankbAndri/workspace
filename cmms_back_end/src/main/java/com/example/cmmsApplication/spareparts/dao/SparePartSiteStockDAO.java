@@ -27,7 +27,3 @@ public class SparePartSiteStockDAO {
     public long countLowStockBySiteId(Long siteId) { return repository.countLowStockBySiteId(siteId); }
     public long countLowStockBySiteIds(Collection<Long> siteIds) { return repository.countLowStockBySiteIdIn(siteIds); }
 }
-
-
-
-

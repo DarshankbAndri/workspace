@@ -1,5 +1,9 @@
 package com.example.cmmsApplication.vendor.entity;
 
+
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.Getter;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -49,6 +53,9 @@ import java.time.LocalDateTime;
             GROUP BY vsa.vendor_id
         ) site_names ON site_names.vendor_id = v.id
         """)
+@Getter
+@Setter
+@NoArgsConstructor
 public class VendorList {
     @Id
     private Long id;
@@ -77,23 +84,4 @@ public class VendorList {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    public Long getId() { return id; }
-    public String getVendorCode() { return vendorCode; }
-    public String getVendorName() { return vendorName; }
-    public String getContactPerson() { return contactPerson; }
-    public String getEmail() { return email; }
-    public String getPhone() { return phone; }
-    public String getAddress() { return address; }
-    public String getServiceCategory() { return serviceCategory; }
-    public Boolean getActive() { return active; }
-    public Long getSiteId() { return siteId; }
-    public String getPrimarySiteName() { return primarySiteName; }
-    public Integer getAssignedSiteCount() { return assignedSiteCount; }
-    public String getSiteNames() { return siteNames; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
 }
-
-
-
-

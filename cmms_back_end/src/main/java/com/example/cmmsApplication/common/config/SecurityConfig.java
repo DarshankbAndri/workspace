@@ -7,9 +7,9 @@ import com.example.cmmsApplication.common.response.ResponseFactory;
 import com.example.cmmsApplication.common.security.JwtFilter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,12 +34,11 @@ import java.util.List;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(SecurityConfig.class);
 
-    
-    @Autowired
-    private JwtFilter jwtFilter;
+    private final JwtFilter jwtFilter;
     
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -127,8 +126,3 @@ public class SecurityConfig {
         objectMapper.writeValue(response.getWriter(), errorResponse);
     }
 }
-
-
-
-
-

@@ -1,7 +1,11 @@
 package com.example.cmmsApplication.common.search.dto;
 
 import java.util.List;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
 public class PageProperties {
     private List<?> data;
     private long totalRecords;
@@ -28,7 +32,3 @@ public class PageProperties {
     public int getTotalPages() { return totalPages; }
     public void setTotalPages(int totalPages) { this.totalPages = totalPages; }
 }
-
-
-
-

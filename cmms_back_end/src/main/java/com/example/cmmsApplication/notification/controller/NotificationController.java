@@ -14,15 +14,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.util.Map;
+import lombok.RequiredArgsConstructor;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/notifications")
 public class NotificationController {
     private final NotificationService notificationService;
-
-    public NotificationController(NotificationService notificationService) {
-        this.notificationService = notificationService;
-    }
 
     @GetMapping
     public ResponseEntity<ApiResponse<?>> getMine(@RequestParam(required = false) String status,
@@ -61,8 +59,3 @@ public class NotificationController {
         return ResponseFactory.ok(null);
     }
 }
-
-
-
-
-

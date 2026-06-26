@@ -1,12 +1,18 @@
 package com.example.cmmsApplication.spareparts.entity;
 
 
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.Getter;
 import com.example.cmmsApplication.vendor.entity.Vendor;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "spare_part_master")
+@Getter
+@Setter
+@NoArgsConstructor
 public class SparePart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,29 +57,4 @@ public class SparePart {
         updatedAt = LocalDateTime.now();
     }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    public String getPartCode() { return partCode; }
-    public void setPartCode(String partCode) { this.partCode = partCode; }
-    public String getPartName() { return partName; }
-    public void setPartName(String partName) { this.partName = partName; }
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
-    public String getCategory() { return category; }
-    public void setCategory(String category) { this.category = category; }
-    public String getUnit() { return unit; }
-    public void setUnit(String unit) { this.unit = unit; }
-    public Vendor getPreferredVendor() { return preferredVendor; }
-    public void setPreferredVendor(Vendor preferredVendor) { this.preferredVendor = preferredVendor; }
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
-    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 }
-
-
-
-
-

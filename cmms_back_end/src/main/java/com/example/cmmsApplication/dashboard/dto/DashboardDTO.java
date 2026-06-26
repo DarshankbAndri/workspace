@@ -1,7 +1,11 @@
 package com.example.cmmsApplication.dashboard.dto;
 
 import java.math.BigDecimal;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
 public class DashboardDTO {
     private long totalEquipments;
     private long activeVendors;
@@ -32,7 +36,3 @@ public class DashboardDTO {
     public BigDecimal getTotalDowntimeHours() { return totalDowntimeHours; }
     public void setTotalDowntimeHours(BigDecimal totalDowntimeHours) { this.totalDowntimeHours = totalDowntimeHours; }
 }
-
-
-
-

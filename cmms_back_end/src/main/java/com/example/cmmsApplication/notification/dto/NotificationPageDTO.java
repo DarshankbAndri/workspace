@@ -3,7 +3,11 @@ package com.example.cmmsApplication.notification.dto;
 
 import com.example.cmmsApplication.notification.entity.Notification;
 import java.util.List;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
 public class NotificationPageDTO {
     private List<NotificationDTO> content;
     private long totalElements;
@@ -30,8 +34,3 @@ public class NotificationPageDTO {
     public int getSize() { return size; }
     public void setSize(int size) { this.size = size; }
 }
-
-
-
-
-

@@ -14,7 +14,3 @@ public interface EquipmentRepository extends JpaRepository<Equipment, Long> {
     List<Equipment> findBySiteIdIn(Collection<Long> siteIds);
     long countBySiteId(Long siteId);
 }
-
-
-
-

@@ -23,8 +23,3 @@ public class FileStorageConfig {
         this.path = path;
     }
 }
-
-
-
-
-

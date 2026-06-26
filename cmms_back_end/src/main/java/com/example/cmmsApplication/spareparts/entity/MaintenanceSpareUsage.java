@@ -1,6 +1,9 @@
 package com.example.cmmsApplication.spareparts.entity;
 
 
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.Getter;
 import com.example.cmmsApplication.assignment.entity.MaintenanceAssignment;
 import com.example.cmmsApplication.user.entity.User;
 import jakarta.persistence.*;
@@ -9,6 +12,9 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "maintenance_spare_usage")
+@Getter
+@Setter
+@NoArgsConstructor
 public class MaintenanceSpareUsage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -128,69 +134,4 @@ public class MaintenanceSpareUsage {
         updatedAt = LocalDateTime.now();
     }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    public MaintenanceAssignment getAssignment() { return assignment; }
-    public void setAssignment(MaintenanceAssignment assignment) { this.assignment = assignment; }
-    public SparePartSiteStock getStock() { return stock; }
-    public void setStock(SparePartSiteStock stock) { this.stock = stock; }
-    public SparePart getSparePart() { return sparePart; }
-    public void setSparePart(SparePart sparePart) { this.sparePart = sparePart; }
-    public BigDecimal getQuantityUsed() { return quantityUsed; }
-    public void setQuantityUsed(BigDecimal quantityUsed) { this.quantityUsed = quantityUsed; }
-    public BigDecimal getApprovedQty() { return approvedQty; }
-    public void setApprovedQty(BigDecimal approvedQty) { this.approvedQty = approvedQty; }
-    public BigDecimal getIssuedQty() { return issuedQty; }
-    public void setIssuedQty(BigDecimal issuedQty) { this.issuedQty = issuedQty; }
-    public BigDecimal getConsumedQty() { return consumedQty; }
-    public void setConsumedQty(BigDecimal consumedQty) { this.consumedQty = consumedQty; }
-    public BigDecimal getReturnedQty() { return returnedQty; }
-    public void setReturnedQty(BigDecimal returnedQty) { this.returnedQty = returnedQty; }
-    public BigDecimal getUnitCost() { return unitCost; }
-    public void setUnitCost(BigDecimal unitCost) { this.unitCost = unitCost; }
-    public BigDecimal getTotalCost() { return totalCost; }
-    public void setTotalCost(BigDecimal totalCost) { this.totalCost = totalCost; }
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
-    public String getRemarks() { return remarks; }
-    public void setRemarks(String remarks) { this.remarks = remarks; }
-    public User getRequestedBy() { return requestedBy; }
-    public void setRequestedBy(User requestedBy) { this.requestedBy = requestedBy; }
-    public User getManagerApprovedBy() { return managerApprovedBy; }
-    public void setManagerApprovedBy(User managerApprovedBy) { this.managerApprovedBy = managerApprovedBy; }
-    public User getStoreApprovedBy() { return storeApprovedBy; }
-    public void setStoreApprovedBy(User storeApprovedBy) { this.storeApprovedBy = storeApprovedBy; }
-    public User getReservedBy() { return reservedBy; }
-    public void setReservedBy(User reservedBy) { this.reservedBy = reservedBy; }
-    public User getIssuedBy() { return issuedBy; }
-    public void setIssuedBy(User issuedBy) { this.issuedBy = issuedBy; }
-    public User getConsumedBy() { return consumedBy; }
-    public void setConsumedBy(User consumedBy) { this.consumedBy = consumedBy; }
-    public User getRejectedBy() { return rejectedBy; }
-    public void setRejectedBy(User rejectedBy) { this.rejectedBy = rejectedBy; }
-    public User getCancelledBy() { return cancelledBy; }
-    public void setCancelledBy(User cancelledBy) { this.cancelledBy = cancelledBy; }
-    public LocalDateTime getRequestedAt() { return requestedAt; }
-    public void setRequestedAt(LocalDateTime requestedAt) { this.requestedAt = requestedAt; }
-    public LocalDateTime getReservedAt() { return reservedAt; }
-    public void setReservedAt(LocalDateTime reservedAt) { this.reservedAt = reservedAt; }
-    public LocalDateTime getIssuedAt() { return issuedAt; }
-    public void setIssuedAt(LocalDateTime issuedAt) { this.issuedAt = issuedAt; }
-    public LocalDateTime getConsumedAt() { return consumedAt; }
-    public void setConsumedAt(LocalDateTime consumedAt) { this.consumedAt = consumedAt; }
-    public LocalDateTime getRejectedAt() { return rejectedAt; }
-    public void setRejectedAt(LocalDateTime rejectedAt) { this.rejectedAt = rejectedAt; }
-    public LocalDateTime getCancelledAt() { return cancelledAt; }
-    public void setCancelledAt(LocalDateTime cancelledAt) { this.cancelledAt = cancelledAt; }
-    public SparePartReorderRequest getPurchaseRequest() { return purchaseRequest; }
-    public void setPurchaseRequest(SparePartReorderRequest purchaseRequest) { this.purchaseRequest = purchaseRequest; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
-    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 }
-
-
-
-
-

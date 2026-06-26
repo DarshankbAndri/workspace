@@ -10,7 +10,3 @@ public class InvalidOperationException extends RuntimeException {
         super(message, cause);
     }
 }
-
-
-
-

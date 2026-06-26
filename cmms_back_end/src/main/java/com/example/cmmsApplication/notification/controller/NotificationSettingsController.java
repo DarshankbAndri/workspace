@@ -9,15 +9,13 @@ import com.example.cmmsApplication.notification.dto.NotificationSettingDTO;
 import com.example.cmmsApplication.notification.service.NotificationSettingsService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import lombok.RequiredArgsConstructor;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/admin/notification-settings")
 public class NotificationSettingsController {
     private final NotificationSettingsService notificationSettingsService;
-
-    public NotificationSettingsController(NotificationSettingsService notificationSettingsService) {
-        this.notificationSettingsService = notificationSettingsService;
-    }
 
     @GetMapping
     public ResponseEntity<ApiResponse<?>> getSettings() {
@@ -29,8 +27,3 @@ public class NotificationSettingsController {
         return ResponseFactory.ok(notificationSettingsService.update(dto));
     }
 }
-
-
-
-
-

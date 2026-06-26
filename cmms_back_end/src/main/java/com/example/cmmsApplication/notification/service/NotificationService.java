@@ -36,8 +36,10 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 @Transactional
 public class NotificationService {
     private final NotificationDAO notificationDAO;
@@ -48,24 +50,6 @@ public class NotificationService {
     private final EmailNotificationService emailNotificationService;
     private final NotificationStreamService notificationStreamService;
     private final ObservabilityMetrics observabilityMetrics;
-
-    public NotificationService(NotificationDAO notificationDAO,
-                               AccessControlService accessControlService,
-                               UserRoleAssignmentRepository userRoleAssignmentRepository,
-                               UserRepository userRepository,
-                               NotificationSettingsService notificationSettingsService,
-                               EmailNotificationService emailNotificationService,
-                               NotificationStreamService notificationStreamService,
-                               ObservabilityMetrics observabilityMetrics) {
-        this.notificationDAO = notificationDAO;
-        this.accessControlService = accessControlService;
-        this.userRoleAssignmentRepository = userRoleAssignmentRepository;
-        this.userRepository = userRepository;
-        this.notificationSettingsService = notificationSettingsService;
-        this.emailNotificationService = emailNotificationService;
-        this.notificationStreamService = notificationStreamService;
-        this.observabilityMetrics = observabilityMetrics;
-    }
 
     @Transactional(readOnly = true)
     public List<NotificationDTO> getMine() {
@@ -316,8 +300,3 @@ public class NotificationService {
         return (user.getFirstName() + " " + user.getLastName()).trim();
     }
 }
-
-
-
-
-

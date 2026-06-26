@@ -10,17 +10,14 @@ import com.example.cmmsApplication.common.search.service.ListSearchService;
 import com.example.cmmsApplication.admin.service.RoleService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import lombok.RequiredArgsConstructor;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/admin/roles")
 public class RoleController {
     private final RoleService roleService;
     private final ListSearchService listSearchService;
-
-    public RoleController(RoleService roleService, ListSearchService listSearchService) {
-        this.roleService = roleService;
-        this.listSearchService = listSearchService;
-    }
 
     @GetMapping
     public ResponseEntity<ApiResponse<?>> getAll() {
@@ -53,7 +50,3 @@ public class RoleController {
         return ResponseFactory.ok(null);
     }
 }
-
-
-
-

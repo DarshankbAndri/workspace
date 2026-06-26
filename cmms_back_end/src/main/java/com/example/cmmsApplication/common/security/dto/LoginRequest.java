@@ -1,7 +1,13 @@
 package com.example.cmmsApplication.common.security.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class LoginRequest {
     @NotBlank(message = "Username is required")
     private String username;
@@ -25,7 +31,3 @@ public class LoginRequest {
         this.password = password;
     }
 }
-
-
-
-

@@ -1,7 +1,13 @@
 package com.example.cmmsApplication.admin.dto;
 
 import java.time.LocalDateTime;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class PermissionDTO {
     private Long id;
     private String permissionCode;
@@ -31,7 +37,3 @@ public class PermissionDTO {
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 }
-
-
-
-

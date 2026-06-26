@@ -13,7 +13,3 @@ public interface PermissionRepository extends JpaRepository<PermissionMaster, Lo
     List<PermissionMaster> findByStatusIgnoreCase(String status);
     boolean existsByPermissionCode(String permissionCode);
 }
-
-
-
-

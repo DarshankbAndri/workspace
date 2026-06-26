@@ -2,9 +2,15 @@ package com.example.cmmsApplication.admin.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "role_permission", uniqueConstraints = @UniqueConstraint(columnNames = {"role_id", "permission_id"}))
+@Getter
+@Setter
+@NoArgsConstructor
 public class RolePermission {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +42,3 @@ public class RolePermission {
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 }
-
-
-
-

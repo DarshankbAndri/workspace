@@ -1,6 +1,9 @@
 package com.example.cmmsApplication.common.search.dto;
 
-public class PagePropertiesDTO {
+
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.Data;public class PagePropertiesDTO {
     private String status;
     private Integer recordsPerPage;
     private String sortBy;
@@ -21,7 +24,3 @@ public class PagePropertiesDTO {
     public Integer getPageSize() { return pageSize; }
     public void setPageSize(Integer pageSize) { this.pageSize = pageSize; }
 }
-
-
-
-

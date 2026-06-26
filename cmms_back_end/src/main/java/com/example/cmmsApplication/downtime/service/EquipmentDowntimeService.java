@@ -17,8 +17,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 @Transactional
 public class EquipmentDowntimeService {
     private final EquipmentDowntimeDAO downtimeDAO;
@@ -26,14 +28,6 @@ public class EquipmentDowntimeService {
     private final MaintenanceRequestService requestService;
     private final SiteService siteService;
     private final AccessControlService accessControlService;
-
-    public EquipmentDowntimeService(EquipmentDowntimeDAO downtimeDAO, EquipmentService equipmentService, MaintenanceRequestService requestService, SiteService siteService, AccessControlService accessControlService) {
-        this.downtimeDAO = downtimeDAO;
-        this.equipmentService = equipmentService;
-        this.requestService = requestService;
-        this.siteService = siteService;
-        this.accessControlService = accessControlService;
-    }
 
     public EquipmentDowntimeDTO create(EquipmentDowntimeDTO dto) {
         accessControlService.validatePermission("DOWNTIME_CREATE");
@@ -163,8 +157,3 @@ public class EquipmentDowntimeService {
         return dto;
     }
 }
-
-
-
-
-

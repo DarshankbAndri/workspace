@@ -28,7 +28,3 @@ public class ApprovalConfigDAO {
         return repository.existsByModuleCodeAndActionCodeAndIdNot(moduleCode, actionCode, id);
     }
 }
-
-
-
-

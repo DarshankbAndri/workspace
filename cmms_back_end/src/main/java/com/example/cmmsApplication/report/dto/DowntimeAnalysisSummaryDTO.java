@@ -1,7 +1,14 @@
 package com.example.cmmsApplication.report.dto;
 
+
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.Data;
 import java.math.BigDecimal;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class DowntimeAnalysisSummaryDTO {
     private Long events;
     private Long plannedEvents;
@@ -10,20 +17,4 @@ public class DowntimeAnalysisSummaryDTO {
     private BigDecimal totalHours;
     private BigDecimal totalDays;
 
-    public Long getEvents() { return events; }
-    public void setEvents(Long events) { this.events = events; }
-    public Long getPlannedEvents() { return plannedEvents; }
-    public void setPlannedEvents(Long plannedEvents) { this.plannedEvents = plannedEvents; }
-    public Long getUnplannedEvents() { return unplannedEvents; }
-    public void setUnplannedEvents(Long unplannedEvents) { this.unplannedEvents = unplannedEvents; }
-    public Long getTotalMinutes() { return totalMinutes; }
-    public void setTotalMinutes(Long totalMinutes) { this.totalMinutes = totalMinutes; }
-    public BigDecimal getTotalHours() { return totalHours; }
-    public void setTotalHours(BigDecimal totalHours) { this.totalHours = totalHours; }
-    public BigDecimal getTotalDays() { return totalDays; }
-    public void setTotalDays(BigDecimal totalDays) { this.totalDays = totalDays; }
 }
-
-
-
-

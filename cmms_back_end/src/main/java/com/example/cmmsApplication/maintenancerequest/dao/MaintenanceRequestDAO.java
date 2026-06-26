@@ -34,7 +34,3 @@ public class MaintenanceRequestDAO {
     public boolean existsByRequestNumber(String requestNumber) { return repository.existsByRequestNumber(requestNumber); }
     public boolean existsByRequestNumberAndIdNot(String requestNumber, Long id) { return repository.existsByRequestNumberAndIdNot(requestNumber, id); }
 }
-
-
-
-

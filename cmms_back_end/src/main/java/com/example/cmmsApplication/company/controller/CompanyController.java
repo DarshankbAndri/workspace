@@ -17,15 +17,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.concurrent.TimeUnit;
+import lombok.RequiredArgsConstructor;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/company")
 public class CompanyController {
     private final CompanyService companyService;
-
-    public CompanyController(CompanyService companyService) {
-        this.companyService = companyService;
-    }
 
     @PostMapping("/create")
     public ResponseEntity<ApiResponse<?>> create(@Valid @RequestBody CompanyDTO dto) {
@@ -63,8 +61,3 @@ public class CompanyController {
                 .body(resource);
     }
 }
-
-
-
-
-

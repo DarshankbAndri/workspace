@@ -22,8 +22,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/auth")
 @Validated
 @Tag(name = "Authentication", description = "Authentication and authorization endpoints")
@@ -34,15 +36,7 @@ public class AuthController {
     private final PasswordEncoder passwordEncoder;
     private final AccessControlService accessControlService;
     private final ObservabilityMetrics observabilityMetrics;
-    
-    public AuthController(UserRepository userRepository, JwtUtil jwtUtil, PasswordEncoder passwordEncoder,
-                          AccessControlService accessControlService, ObservabilityMetrics observabilityMetrics) {
-        this.userRepository = userRepository;
-        this.jwtUtil = jwtUtil;
-        this.passwordEncoder = passwordEncoder;
-        this.accessControlService = accessControlService;
-        this.observabilityMetrics = observabilityMetrics;
-    }
+
     
     @PostMapping("/login")
     @Operation(summary = "User login", description = "Login with username and password to get JWT token. Default password is 'andritz'")
@@ -134,7 +128,3 @@ public class AuthController {
         }
     }
 }
-
-
-
-

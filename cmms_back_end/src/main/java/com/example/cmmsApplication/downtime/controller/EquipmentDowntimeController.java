@@ -12,17 +12,14 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/maintenance/downtime")
 public class EquipmentDowntimeController {
     private final EquipmentDowntimeService downtimeService;
     private final ListSearchService listSearchService;
-
-    public EquipmentDowntimeController(EquipmentDowntimeService downtimeService, ListSearchService listSearchService) {
-        this.downtimeService = downtimeService;
-        this.listSearchService = listSearchService;
-    }
 
     @PostMapping
     public ResponseEntity<ApiResponse<?>> create(@Valid @RequestBody EquipmentDowntimeDTO dto) {
@@ -56,7 +53,3 @@ public class EquipmentDowntimeController {
         return ResponseFactory.ok(listSearchService.searchDowntime(searchDTO));
     }
 }
-
-
-
-

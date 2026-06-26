@@ -8,6 +8,9 @@ import org.hibernate.annotations.Subselect;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Immutable
@@ -35,6 +38,9 @@ import java.time.LocalDateTime;
         LEFT JOIN equipment_master e ON e.id = mr.equipment_id
         LEFT JOIN site_master s ON s.site_id = mr.site_id
         """)
+@Getter
+@Setter
+@NoArgsConstructor
 public class MaintenanceRequestList {
     @Id
     private Long id;
@@ -88,7 +94,3 @@ public class MaintenanceRequestList {
     public LocalDateTime getCreatedAt() { return createdAt; }
     public LocalDateTime getUpdatedAt() { return updatedAt; }
 }
-
-
-
-

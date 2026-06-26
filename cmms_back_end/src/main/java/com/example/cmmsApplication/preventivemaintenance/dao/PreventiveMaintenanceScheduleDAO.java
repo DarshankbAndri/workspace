@@ -24,7 +24,3 @@ public class PreventiveMaintenanceScheduleDAO {
     public List<PreventiveMaintenanceSchedule> findDue(LocalDate date) { return repository.findByActiveTrueAndNextDueDateLessThanEqualOrderByNextDueDateAsc(date); }
     public List<PreventiveMaintenanceSchedule> findUpcoming(LocalDate start, LocalDate end) { return repository.findByActiveTrueAndNextDueDateBetweenOrderByNextDueDateAsc(start, end); }
 }
-
-
-
-

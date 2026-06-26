@@ -1,6 +1,9 @@
 package com.example.cmmsApplication.preventivemaintenance.entity;
 
 
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.Getter;
 import com.example.cmmsApplication.equipment.entity.Equipment;
 import com.example.cmmsApplication.site.entity.Site;
 import com.example.cmmsApplication.vendor.entity.Vendor;
@@ -10,6 +13,9 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "preventive_maintenance_schedule")
+@Getter
+@Setter
+@NoArgsConstructor
 public class PreventiveMaintenanceSchedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -86,47 +92,4 @@ public class PreventiveMaintenanceSchedule {
         updatedAt = LocalDateTime.now();
     }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    public Equipment getEquipment() { return equipment; }
-    public void setEquipment(Equipment equipment) { this.equipment = equipment; }
-    public Site getSite() { return site; }
-    public void setSite(Site site) { this.site = site; }
-    public Vendor getVendor() { return vendor; }
-    public void setVendor(Vendor vendor) { this.vendor = vendor; }
-    public String getScheduleCode() { return scheduleCode; }
-    public void setScheduleCode(String scheduleCode) { this.scheduleCode = scheduleCode; }
-    public String getTitle() { return title; }
-    public void setTitle(String title) { this.title = title; }
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
-    public String getFrequency() { return frequency; }
-    public void setFrequency(String frequency) { this.frequency = frequency; }
-    public String getPriority() { return priority; }
-    public void setPriority(String priority) { this.priority = priority; }
-    public String getAssignedTo() { return assignedTo; }
-    public void setAssignedTo(String assignedTo) { this.assignedTo = assignedTo; }
-    public LocalDate getStartDate() { return startDate; }
-    public void setStartDate(LocalDate startDate) { this.startDate = startDate; }
-    public LocalDate getNextDueDate() { return nextDueDate; }
-    public void setNextDueDate(LocalDate nextDueDate) { this.nextDueDate = nextDueDate; }
-    public LocalDate getLastGeneratedDate() { return lastGeneratedDate; }
-    public void setLastGeneratedDate(LocalDate lastGeneratedDate) { this.lastGeneratedDate = lastGeneratedDate; }
-    public Boolean getActive() { return active; }
-    public void setActive(Boolean active) { this.active = active; }
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
-    public String getLastNotificationStatus() { return lastNotificationStatus; }
-    public void setLastNotificationStatus(String lastNotificationStatus) { this.lastNotificationStatus = lastNotificationStatus; }
-    public LocalDateTime getLastNotificationAt() { return lastNotificationAt; }
-    public void setLastNotificationAt(LocalDateTime lastNotificationAt) { this.lastNotificationAt = lastNotificationAt; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
-    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 }
-
-
-
-
-

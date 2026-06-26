@@ -10,8 +10,3 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MaintenanceRequestListRepository extends JpaRepository<MaintenanceRequestList, Long>, JpaSpecificationExecutor<MaintenanceRequestList> {
 }
-
-
-
-
-

@@ -10,7 +10,3 @@ import java.util.List;
 public interface SparePartTransactionRepository extends JpaRepository<SparePartTransaction, Long> {
     List<SparePartTransaction> findByStockIdOrderByTransactionDateDesc(Long stockId);
 }
-
-
-
-

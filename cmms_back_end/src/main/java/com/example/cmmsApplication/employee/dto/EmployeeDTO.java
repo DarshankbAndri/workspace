@@ -12,7 +12,13 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class EmployeeDTO {
     private Long id;
     @NotBlank(message = "Employee code is required")
@@ -96,8 +102,3 @@ public class EmployeeDTO {
     public List<EmployeeRoleAssignmentDTO> getRoleAssignments() { return roleAssignments; }
     public void setRoleAssignments(List<EmployeeRoleAssignmentDTO> roleAssignments) { this.roleAssignments = roleAssignments; }
 }
-
-
-
-
-

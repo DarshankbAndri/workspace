@@ -25,7 +25,3 @@ public class ApprovalActionDAO {
         return repository.findByApprovalRequestIdOrderByActionAtAsc(requestId);
     }
 }
-
-
-
-

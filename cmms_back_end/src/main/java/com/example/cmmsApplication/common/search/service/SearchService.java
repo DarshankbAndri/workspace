@@ -7,7 +7,3 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 public interface SearchService {
     <T> PageProperties getFilteredResults(SearchDTO searchDTO, JpaSpecificationExecutor<T> repository, Class<T> entityClass);
 }
-
-
-
-

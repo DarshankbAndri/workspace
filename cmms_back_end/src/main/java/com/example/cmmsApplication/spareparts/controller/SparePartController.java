@@ -1,5 +1,7 @@
 package com.example.cmmsApplication.spareparts.controller;
 
+
+import lombok.RequiredArgsConstructor;
 import com.example.cmmsApplication.common.response.ApiResponse;
 import com.example.cmmsApplication.common.response.ResponseFactory;
 
@@ -22,14 +24,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/spare-parts")
+@RequiredArgsConstructor
 public class SparePartController {
     private final SparePartService sparePartService;
 
-    public SparePartController(SparePartService sparePartService) {
-        this.sparePartService = sparePartService;
-    }
-
-    @PostMapping
+@PostMapping
     public ResponseEntity<ApiResponse<?>> create(@Valid @RequestBody SparePartDTO dto) {
         return ResponseFactory.created(sparePartService.create(dto));
     }
@@ -88,8 +87,3 @@ public class SparePartController {
         return ResponseFactory.ok(sparePartService.importSpareParts(file));
     }
 }
-
-
-
-
-

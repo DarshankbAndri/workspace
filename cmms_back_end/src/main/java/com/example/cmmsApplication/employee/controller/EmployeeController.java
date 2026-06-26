@@ -15,17 +15,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/hr/employees")
 public class EmployeeController {
     private final EmployeeService employeeService;
     private final ListSearchService listSearchService;
-
-    public EmployeeController(EmployeeService employeeService, ListSearchService listSearchService) {
-        this.employeeService = employeeService;
-        this.listSearchService = listSearchService;
-    }
 
     @PostMapping
     public ResponseEntity<ApiResponse<?>> create(@Valid @RequestBody EmployeeDTO dto) {
@@ -58,8 +55,3 @@ public class EmployeeController {
         return ResponseFactory.ok(listSearchService.searchEmployees(searchDTO));
     }
 }
-
-
-
-
-

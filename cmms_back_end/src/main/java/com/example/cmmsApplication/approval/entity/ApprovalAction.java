@@ -4,9 +4,15 @@ package com.example.cmmsApplication.approval.entity;
 import com.example.cmmsApplication.user.entity.User;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "approval_action")
+@Getter
+@Setter
+@NoArgsConstructor
 public class ApprovalAction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,8 +56,3 @@ public class ApprovalAction {
     public LocalDateTime getActionAt() { return actionAt; }
     public void setActionAt(LocalDateTime actionAt) { this.actionAt = actionAt; }
 }
-
-
-
-
-

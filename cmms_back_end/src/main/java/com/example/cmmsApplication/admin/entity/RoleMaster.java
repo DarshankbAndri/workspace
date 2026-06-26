@@ -2,9 +2,15 @@ package com.example.cmmsApplication.admin.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "role_master")
+@Getter
+@Setter
+@NoArgsConstructor
 public class RoleMaster {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,7 +61,3 @@ public class RoleMaster {
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 }
-
-
-
-

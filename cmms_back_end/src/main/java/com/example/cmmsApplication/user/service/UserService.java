@@ -1,5 +1,7 @@
 package com.example.cmmsApplication.user.service;
 
+
+import lombok.RequiredArgsConstructor;
 import com.example.cmmsApplication.user.dto.UserDTO;
 import com.example.cmmsApplication.employee.dto.EmployeeDTO;
 import com.example.cmmsApplication.employee.entity.Employee;
@@ -17,18 +19,14 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class UserService {
     
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private static final String DEFAULT_PASSWORD = "andritz";
-    
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
-    
-    public List<UserDTO> getAllUsers() {
+
+public List<UserDTO> getAllUsers() {
         return userRepository.findAll()
                 .stream()
                 .map(this::convertToDTO)
@@ -219,7 +217,3 @@ public class UserService {
         return isBlank(value) ? fallback : value;
     }
 }
-
-
-
-

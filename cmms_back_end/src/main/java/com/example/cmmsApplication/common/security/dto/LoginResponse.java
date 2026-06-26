@@ -3,6 +3,10 @@ package com.example.cmmsApplication.common.security.dto;
 
 import com.example.cmmsApplication.user.dto.UserDTO;
 import com.example.cmmsApplication.user.entity.User;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+@Data
+@NoArgsConstructor
 public class LoginResponse {
     private String token;
     private UserDTO user;
@@ -65,8 +69,3 @@ public class LoginResponse {
         this.allowedSites = allowedSites;
     }
 }
-
-
-
-
-

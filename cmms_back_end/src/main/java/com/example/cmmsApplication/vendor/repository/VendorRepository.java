@@ -32,8 +32,3 @@ public interface VendorRepository extends JpaRepository<Vendor, Long> {
     @EntityGraph(attributePaths = {"siteAssignments", "siteAssignments.site"})
     List<Vendor> findDistinctBySiteAssignmentsSiteIdInAndSiteAssignmentsStatusIgnoreCaseAndActive(Collection<Long> siteIds, String status, Boolean active);
 }
-
-
-
-
-

@@ -1,6 +1,7 @@
 package com.example.cmmsApplication.vendor.service;
 
 
+import lombok.RequiredArgsConstructor;
 import com.example.cmmsApplication.common.security.service.AccessControlService;
 import com.example.cmmsApplication.site.service.SiteService;
 import com.example.cmmsApplication.vendor.dao.VendorDAO;
@@ -20,18 +21,13 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class VendorService {
     private final VendorDAO vendorDAO;
     private final SiteService siteService;
     private final AccessControlService accessControlService;
 
-    public VendorService(VendorDAO vendorDAO, SiteService siteService, AccessControlService accessControlService) {
-        this.vendorDAO = vendorDAO;
-        this.siteService = siteService;
-        this.accessControlService = accessControlService;
-    }
-
-    public VendorDTO create(VendorDTO dto) {
+public VendorDTO create(VendorDTO dto) {
         accessControlService.validatePermission("VENDOR_CREATE");
         accessControlService.validateAnySiteAccess(assignmentSiteIds(dto.getSiteAssignments()));
         if (vendorDAO.existsByVendorCode(dto.getVendorCode())) {
@@ -207,8 +203,3 @@ public class VendorService {
         return assignments == null ? List.of() : assignments.stream().map(VendorSiteAssignmentDTO::getSiteId).collect(Collectors.toList());
     }
 }
-
-
-
-
-

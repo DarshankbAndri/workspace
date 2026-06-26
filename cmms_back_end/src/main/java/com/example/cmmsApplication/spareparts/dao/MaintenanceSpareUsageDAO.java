@@ -24,7 +24,3 @@ public class MaintenanceSpareUsageDAO {
     public boolean existsByAssignmentIdAndStockId(Long assignmentId, Long stockId) { return repository.existsByAssignmentIdAndStockId(assignmentId, stockId); }
     public void delete(MaintenanceSpareUsage usage) { repository.delete(usage); }
 }
-
-
-
-

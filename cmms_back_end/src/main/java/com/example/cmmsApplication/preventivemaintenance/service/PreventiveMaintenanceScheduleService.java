@@ -1,6 +1,7 @@
 package com.example.cmmsApplication.preventivemaintenance.service;
 
 
+import lombok.RequiredArgsConstructor;
 import com.example.cmmsApplication.approval.service.ApprovalWorkflowService;
 import com.example.cmmsApplication.common.observability.ObservabilityMetrics;
 import com.example.cmmsApplication.common.security.service.AccessControlService;
@@ -38,6 +39,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class PreventiveMaintenanceScheduleService {
     private static final List<String> FREQUENCIES = Arrays.asList("DAILY", "WEEKLY", "MONTHLY", "QUARTERLY", "YEARLY");
 
@@ -51,28 +53,7 @@ public class PreventiveMaintenanceScheduleService {
     private final ApprovalWorkflowService approvalWorkflowService;
     private final ObservabilityMetrics observabilityMetrics;
 
-    public PreventiveMaintenanceScheduleService(
-            PreventiveMaintenanceScheduleDAO scheduleDAO,
-            MaintenanceRequestDAO requestDAO,
-            MaintenanceAssignmentDAO assignmentDAO,
-            EquipmentService equipmentService,
-            VendorService vendorService,
-            SiteService siteService,
-            AccessControlService accessControlService,
-            ApprovalWorkflowService approvalWorkflowService,
-            ObservabilityMetrics observabilityMetrics) {
-        this.scheduleDAO = scheduleDAO;
-        this.requestDAO = requestDAO;
-        this.assignmentDAO = assignmentDAO;
-        this.equipmentService = equipmentService;
-        this.vendorService = vendorService;
-        this.siteService = siteService;
-        this.accessControlService = accessControlService;
-        this.approvalWorkflowService = approvalWorkflowService;
-        this.observabilityMetrics = observabilityMetrics;
-    }
-
-    public PreventiveMaintenanceScheduleDTO create(PreventiveMaintenanceScheduleDTO dto) {
+public PreventiveMaintenanceScheduleDTO create(PreventiveMaintenanceScheduleDTO dto) {
         accessControlService.validatePermission("REQUEST_CREATE");
         accessControlService.validateSiteAccess(dto.getSiteId());
         PreventiveMaintenanceSchedule schedule = new PreventiveMaintenanceSchedule();
@@ -423,8 +404,3 @@ public class PreventiveMaintenanceScheduleService {
         dto.setApprovalStatus(approval.getApprovalStatus());
     }
 }
-
-
-
-
-

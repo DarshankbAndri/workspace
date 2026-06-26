@@ -10,8 +10,3 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EquipmentListRepository extends JpaRepository<EquipmentList, Long>, JpaSpecificationExecutor<EquipmentList> {
 }
-
-
-
-
-

@@ -63,7 +63,3 @@ public class NotificationDAO {
         return value.trim().toUpperCase(Locale.ROOT);
     }
 }
-
-
-
-

@@ -1,5 +1,7 @@
 package com.example.cmmsApplication.report.controller;
 
+
+import lombok.RequiredArgsConstructor;
 import com.example.cmmsApplication.common.response.ApiResponse;
 import com.example.cmmsApplication.common.response.ResponseFactory;
 
@@ -16,14 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/reports")
+@RequiredArgsConstructor
 public class ReportController {
     private final ReportService reportService;
 
-    public ReportController(ReportService reportService) {
-        this.reportService = reportService;
-    }
-
-    @GetMapping("/equipment-history")
+@GetMapping("/equipment-history")
     public ResponseEntity<ApiResponse<?>> getEquipmentHistory(@RequestParam(required = false) Long equipmentId,
                                                               @RequestParam(required = false) Long siteId,
                                                               @RequestParam(required = false) Integer page,
@@ -39,8 +38,3 @@ public class ReportController {
         return ResponseFactory.ok(reportService.getDowntimeAnalysis(equipmentId, siteId, page, size));
     }
 }
-
-
-
-
-

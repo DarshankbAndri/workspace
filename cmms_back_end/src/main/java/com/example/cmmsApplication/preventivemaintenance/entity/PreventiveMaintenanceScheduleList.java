@@ -1,5 +1,9 @@
 package com.example.cmmsApplication.preventivemaintenance.entity;
 
+
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.Getter;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -57,6 +61,9 @@ import java.time.LocalDateTime;
             GROUP BY pm_schedule_id
         ) work_orders ON work_orders.pm_schedule_id = p.id
         """)
+@Getter
+@Setter
+@NoArgsConstructor
 public class PreventiveMaintenanceScheduleList {
     @Id
     private Long id;
@@ -107,35 +114,4 @@ public class PreventiveMaintenanceScheduleList {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    public Long getId() { return id; }
-    public String getScheduleCode() { return scheduleCode; }
-    public Long getSiteId() { return siteId; }
-    public String getSiteCode() { return siteCode; }
-    public String getSiteName() { return siteName; }
-    public Long getEquipmentId() { return equipmentId; }
-    public String getEquipmentCode() { return equipmentCode; }
-    public String getEquipmentName() { return equipmentName; }
-    public Long getVendorId() { return vendorId; }
-    public String getVendorName() { return vendorName; }
-    public String getTitle() { return title; }
-    public String getDescription() { return description; }
-    public String getFrequency() { return frequency; }
-    public String getPriority() { return priority; }
-    public String getAssignedTo() { return assignedTo; }
-    public LocalDate getStartDate() { return startDate; }
-    public LocalDate getNextDueDate() { return nextDueDate; }
-    public LocalDate getLastGeneratedDate() { return lastGeneratedDate; }
-    public Boolean getActive() { return active; }
-    public String getStatus() { return status; }
-    public String getLastNotificationStatus() { return lastNotificationStatus; }
-    public LocalDateTime getLastNotificationAt() { return lastNotificationAt; }
-    public Long getGeneratedWorkOrders() { return generatedWorkOrders; }
-    public Long getCompletedWorkOrders() { return completedWorkOrders; }
-    public BigDecimal getCompletionPercentage() { return completionPercentage; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
 }
-
-
-
-

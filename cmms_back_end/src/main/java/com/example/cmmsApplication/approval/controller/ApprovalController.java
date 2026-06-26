@@ -12,15 +12,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/approvals")
 public class ApprovalController {
     private final ApprovalWorkflowService approvalWorkflowService;
-
-    public ApprovalController(ApprovalWorkflowService approvalWorkflowService) {
-        this.approvalWorkflowService = approvalWorkflowService;
-    }
 
     @GetMapping("/pending")
     public ResponseEntity<ApiResponse<?>> getPending() {
@@ -55,7 +53,3 @@ public class ApprovalController {
         return ResponseFactory.ok(approvalWorkflowService.reject(approvalRequestId, dto == null ? null : dto.getComments()));
     }
 }
-
-
-
-

@@ -7,19 +7,15 @@ import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.stereotype.Service;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class NotificationSchedulerService implements SchedulingConfigurer {
     private static final String DEFAULT_CRON = "0 0 7 * * *";
 
     private final NotificationSettingsService notificationSettingsService;
     private final NotificationScanService notificationScanService;
-
-    public NotificationSchedulerService(NotificationSettingsService notificationSettingsService,
-                                        NotificationScanService notificationScanService) {
-        this.notificationSettingsService = notificationSettingsService;
-        this.notificationScanService = notificationScanService;
-    }
 
     @Override
     public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
@@ -34,8 +30,3 @@ public class NotificationSchedulerService implements SchedulingConfigurer {
         };
     }
 }
-
-
-
-
-

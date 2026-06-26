@@ -22,19 +22,15 @@ import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.UUID;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 @Transactional
 public class CompanyService {
     private final CompanyDAO companyDAO;
     private final AccessControlService accessControlService;
     private final FileStorageConfig fileStorageConfig;
-
-    public CompanyService(CompanyDAO companyDAO, AccessControlService accessControlService, FileStorageConfig fileStorageConfig) {
-        this.companyDAO = companyDAO;
-        this.accessControlService = accessControlService;
-        this.fileStorageConfig = fileStorageConfig;
-    }
 
     public CompanyDTO create(CompanyDTO dto) {
         accessControlService.validatePermission("COMPANY_CREATE");
@@ -170,8 +166,3 @@ public class CompanyService {
         return value == null || value.trim().isEmpty();
     }
 }
-
-
-
-
-

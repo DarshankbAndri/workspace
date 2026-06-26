@@ -21,7 +21,3 @@ public class PermissionDAO {
     public List<PermissionMaster> findAll() { return repository.findAll(); }
     public List<PermissionMaster> findActive() { return repository.findByStatusIgnoreCase("ACTIVE"); }
 }
-
-
-
-

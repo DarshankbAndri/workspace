@@ -8,6 +8,9 @@ import org.hibernate.annotations.Subselect;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Immutable
@@ -45,6 +48,9 @@ import java.time.LocalDateTime;
             GROUP BY employee_id
         ) site_counts ON site_counts.employee_id = e.employee_id
         """)
+@Getter
+@Setter
+@NoArgsConstructor
 public class EmployeeList {
     @Id
     private Long id;
@@ -94,7 +100,3 @@ public class EmployeeList {
     public LocalDateTime getCreatedAt() { return createdAt; }
     public LocalDateTime getUpdatedAt() { return updatedAt; }
 }
-
-
-
-

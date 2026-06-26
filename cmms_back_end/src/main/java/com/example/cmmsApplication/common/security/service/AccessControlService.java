@@ -25,8 +25,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class AccessControlService {
     private static final String SITE_GLOBAL_ACCESS_PERMISSION = "SITE_GLOBAL_ACCESS";
@@ -63,20 +65,6 @@ public class AccessControlService {
     private final UserRoleAssignmentDAO userRoleAssignmentDAO;
     private final RolePermissionDAO rolePermissionDAO;
     private final CmmsSecurityProperties cmmsSecurityProperties;
-
-    public AccessControlService(UserRepository userRepository,
-                                SiteRepository siteRepository,
-                                EmployeeSiteAssignmentRepository employeeSiteAssignmentRepository,
-                                UserRoleAssignmentDAO userRoleAssignmentDAO,
-                                RolePermissionDAO rolePermissionDAO,
-                                CmmsSecurityProperties cmmsSecurityProperties) {
-        this.userRepository = userRepository;
-        this.siteRepository = siteRepository;
-        this.employeeSiteAssignmentRepository = employeeSiteAssignmentRepository;
-        this.userRoleAssignmentDAO = userRoleAssignmentDAO;
-        this.rolePermissionDAO = rolePermissionDAO;
-        this.cmmsSecurityProperties = cmmsSecurityProperties;
-    }
 
     public User getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -337,8 +325,3 @@ public class AccessControlService {
         return dto;
     }
 }
-
-
-
-
-

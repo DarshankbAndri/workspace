@@ -12,8 +12,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 @Transactional
 public class NotificationScanService {
     private final NotificationSettingsService notificationSettingsService;
@@ -21,18 +23,6 @@ public class NotificationScanService {
     private final MaintenanceRequestDAO requestDAO;
     private final NotificationService notificationService;
     private final ObservabilityMetrics observabilityMetrics;
-
-    public NotificationScanService(NotificationSettingsService notificationSettingsService,
-                                   PreventiveMaintenanceScheduleDAO scheduleDAO,
-                                   MaintenanceRequestDAO requestDAO,
-                                   NotificationService notificationService,
-                                   ObservabilityMetrics observabilityMetrics) {
-        this.notificationSettingsService = notificationSettingsService;
-        this.scheduleDAO = scheduleDAO;
-        this.requestDAO = requestDAO;
-        this.notificationService = notificationService;
-        this.observabilityMetrics = observabilityMetrics;
-    }
 
     public void scanDailyNotifications() {
         try {
@@ -65,8 +55,3 @@ public class NotificationScanService {
                 && !"REJECTED".equalsIgnoreCase(schedule.getStatus());
     }
 }
-
-
-
-
-

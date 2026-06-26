@@ -1,10 +1,16 @@
 package com.example.cmmsApplication.vendor.dto;
 
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.Data;
 import com.example.cmmsApplication.site.entity.Site;
 import com.example.cmmsApplication.vendor.entity.Vendor;
 import jakarta.validation.constraints.NotNull;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class VendorSiteAssignmentDTO {
     private Long assignmentId;
     @NotNull(message = "Site is required")
@@ -14,21 +20,4 @@ public class VendorSiteAssignmentDTO {
     private Boolean primarySite;
     private String status;
 
-    public Long getAssignmentId() { return assignmentId; }
-    public void setAssignmentId(Long assignmentId) { this.assignmentId = assignmentId; }
-    public Long getSiteId() { return siteId; }
-    public void setSiteId(Long siteId) { this.siteId = siteId; }
-    public String getSiteCode() { return siteCode; }
-    public void setSiteCode(String siteCode) { this.siteCode = siteCode; }
-    public String getSiteName() { return siteName; }
-    public void setSiteName(String siteName) { this.siteName = siteName; }
-    public Boolean getPrimarySite() { return primarySite; }
-    public void setPrimarySite(Boolean primarySite) { this.primarySite = primarySite; }
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
 }
-
-
-
-
-

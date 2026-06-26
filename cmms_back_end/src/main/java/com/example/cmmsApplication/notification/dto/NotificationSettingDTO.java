@@ -5,7 +5,13 @@ import com.example.cmmsApplication.notification.entity.Notification;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class NotificationSettingDTO {
     private Long id;
     private Boolean enabled;
@@ -60,8 +66,3 @@ public class NotificationSettingDTO {
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 }
-
-
-
-
-

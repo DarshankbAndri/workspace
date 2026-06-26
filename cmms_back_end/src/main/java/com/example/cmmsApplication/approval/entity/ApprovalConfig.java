@@ -2,9 +2,15 @@ package com.example.cmmsApplication.approval.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "approval_config", uniqueConstraints = @UniqueConstraint(columnNames = {"module_code", "action_code"}))
+@Getter
+@Setter
+@NoArgsConstructor
 public class ApprovalConfig {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -65,7 +71,3 @@ public class ApprovalConfig {
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 }
-
-
-
-

@@ -20,8 +20,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 @Transactional
 public class MaintenanceRequestService {
     private final MaintenanceRequestDAO requestDAO;
@@ -29,18 +31,6 @@ public class MaintenanceRequestService {
     private final SiteService siteService;
     private final AccessControlService accessControlService;
     private final ApprovalWorkflowService approvalWorkflowService;
-
-    public MaintenanceRequestService(MaintenanceRequestDAO requestDAO,
-                                     EquipmentService equipmentService,
-                                     SiteService siteService,
-                                     AccessControlService accessControlService,
-                                     ApprovalWorkflowService approvalWorkflowService) {
-        this.requestDAO = requestDAO;
-        this.equipmentService = equipmentService;
-        this.siteService = siteService;
-        this.accessControlService = accessControlService;
-        this.approvalWorkflowService = approvalWorkflowService;
-    }
 
     public MaintenanceRequestDTO create(MaintenanceRequestDTO dto) {
         accessControlService.validatePermission("REQUEST_CREATE");
@@ -234,8 +224,3 @@ public class MaintenanceRequestService {
         dto.setApprovalStatus(approval.getApprovalStatus());
     }
 }
-
-
-
-
-

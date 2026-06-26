@@ -2,9 +2,15 @@ package com.example.cmmsApplication.company.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "company_master")
+@Getter
+@Setter
+@NoArgsConstructor
 public class Company {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -74,7 +80,3 @@ public class Company {
     public LocalDateTime getUpdatedDate() { return updatedDate; }
     public void setUpdatedDate(LocalDateTime updatedDate) { this.updatedDate = updatedDate; }
 }
-
-
-
-

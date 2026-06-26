@@ -10,8 +10,3 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SiteListRepository extends JpaRepository<SiteList, Long>, JpaSpecificationExecutor<SiteList> {
 }
-
-
-
-
-

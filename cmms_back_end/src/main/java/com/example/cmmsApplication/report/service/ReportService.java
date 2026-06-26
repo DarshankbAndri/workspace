@@ -24,8 +24,10 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class ReportService {
     private static final int DEFAULT_PAGE_SIZE = 10;
@@ -34,14 +36,6 @@ public class ReportService {
     private final EntityManager entityManager;
     private final AccessControlService accessControlService;
     private final EquipmentRepository equipmentRepository;
-
-    public ReportService(EntityManager entityManager,
-                         AccessControlService accessControlService,
-                         EquipmentRepository equipmentRepository) {
-        this.entityManager = entityManager;
-        this.accessControlService = accessControlService;
-        this.equipmentRepository = equipmentRepository;
-    }
 
     public PageProperties getEquipmentHistory(Long equipmentId, Long siteId, Integer page, Integer size) {
         accessControlService.validatePermission("REPORT_VIEW");
@@ -352,8 +346,3 @@ public class ReportService {
     private record ReportFilter(String siteCondition, String equipmentCondition, Map<String, Object> params) {
     }
 }
-
-
-
-
-

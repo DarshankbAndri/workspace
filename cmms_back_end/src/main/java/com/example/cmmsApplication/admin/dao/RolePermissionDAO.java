@@ -21,7 +21,3 @@ public class RolePermissionDAO {
     public void deleteByRoleId(Long roleId) { repository.deleteByRoleId(roleId); }
     public void flush() { repository.flush(); }
 }
-
-
-
-

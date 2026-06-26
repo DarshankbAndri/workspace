@@ -24,7 +24,3 @@ public class CompanyDAO {
                 .or(repository::findFirstByOrderByUpdatedDateDescIdDesc);
     }
 }
-
-
-
-

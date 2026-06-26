@@ -10,7 +10,3 @@ public class UnauthorizedAccessException extends RuntimeException {
         super(message, cause);
     }
 }
-
-
-
-

@@ -2,7 +2,13 @@ package com.example.cmmsApplication.common.security.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ChangePasswordRequest {
     @NotBlank(message = "Current password is required")
     private String currentPassword;
@@ -38,7 +44,3 @@ public class ChangePasswordRequest {
         this.confirmPassword = confirmPassword;
     }
 }
-
-
-
-

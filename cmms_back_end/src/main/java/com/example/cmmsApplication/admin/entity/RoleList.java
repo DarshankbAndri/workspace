@@ -7,6 +7,9 @@ import org.hibernate.annotations.Immutable;
 import org.hibernate.annotations.Subselect;
 
 import java.time.LocalDateTime;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Immutable
@@ -27,6 +30,9 @@ import java.time.LocalDateTime;
             GROUP BY role_id
         ) permission_counts ON permission_counts.role_id = r.role_id
         """)
+@Getter
+@Setter
+@NoArgsConstructor
 public class RoleList {
     @Id
     private Long id;
@@ -52,7 +58,3 @@ public class RoleList {
     public LocalDateTime getCreatedAt() { return createdAt; }
     public LocalDateTime getUpdatedAt() { return updatedAt; }
 }
-
-
-
-

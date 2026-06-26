@@ -21,7 +21,3 @@ public class MaintenanceAssignmentDAO {
     public List<MaintenanceAssignment> findBySiteIds(Collection<Long> siteIds) { return repository.findByRequestSiteIdIn(siteIds); }
     public void deleteById(Long id) { repository.deleteById(id); }
 }
-
-
-
-

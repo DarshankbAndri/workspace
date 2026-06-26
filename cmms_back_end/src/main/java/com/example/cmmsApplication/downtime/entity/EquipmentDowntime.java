@@ -9,9 +9,15 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "equipment_downtime")
+@Getter
+@Setter
+@NoArgsConstructor
 public class EquipmentDowntime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -113,8 +119,3 @@ public class EquipmentDowntime {
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 }
-
-
-
-
-

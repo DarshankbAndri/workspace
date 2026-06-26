@@ -13,7 +13,3 @@ public interface SiteRepository extends JpaRepository<Site, Long> {
     boolean existsBySiteCodeAndIdNot(String siteCode, Long id);
     List<Site> findByIdIn(Collection<Long> ids);
 }
-
-
-
-

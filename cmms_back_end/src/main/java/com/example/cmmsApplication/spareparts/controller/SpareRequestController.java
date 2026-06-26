@@ -1,5 +1,7 @@
 package com.example.cmmsApplication.spareparts.controller;
 
+
+import lombok.RequiredArgsConstructor;
 import com.example.cmmsApplication.common.response.ApiResponse;
 import com.example.cmmsApplication.common.response.ResponseFactory;
 
@@ -13,14 +15,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 public class SpareRequestController {
     private final MaintenanceSpareUsageService spareUsageService;
 
-    public SpareRequestController(MaintenanceSpareUsageService spareUsageService) {
-        this.spareUsageService = spareUsageService;
-    }
-
-    @PostMapping("/assignments/{assignmentId}/spare-requests")
+@PostMapping("/assignments/{assignmentId}/spare-requests")
     public ResponseEntity<ApiResponse<?>> create(@PathVariable Long assignmentId,
                                                            @Valid @RequestBody MaintenanceSpareUsageDTO dto) {
         return ResponseFactory.created(spareUsageService.create(assignmentId, dto));
@@ -78,7 +77,3 @@ public class SpareRequestController {
         return ResponseFactory.ok(spareUsageService.consumeReturnById(id, dto));
     }
 }
-
-
-
-

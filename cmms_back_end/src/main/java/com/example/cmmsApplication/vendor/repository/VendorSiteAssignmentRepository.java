@@ -16,8 +16,3 @@ public interface VendorSiteAssignmentRepository extends JpaRepository<VendorSite
     List<VendorSiteAssignment> findByVendorId(Long vendorId);
     boolean existsByVendorIdAndSiteIdAndStatusIgnoreCase(Long vendorId, Long siteId, String status);
 }
-
-
-
-
-

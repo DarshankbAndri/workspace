@@ -1,12 +1,18 @@
 package com.example.cmmsApplication.vendor.entity;
 
 
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.Getter;
 import com.example.cmmsApplication.site.entity.Site;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "vendor_site_assignment")
+@Getter
+@Setter
+@NoArgsConstructor
 public class VendorSiteAssignment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,23 +50,4 @@ public class VendorSiteAssignment {
         updatedAt = LocalDateTime.now();
     }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    public Vendor getVendor() { return vendor; }
-    public void setVendor(Vendor vendor) { this.vendor = vendor; }
-    public Site getSite() { return site; }
-    public void setSite(Site site) { this.site = site; }
-    public Boolean getPrimarySite() { return primarySite; }
-    public void setPrimarySite(Boolean primarySite) { this.primarySite = primarySite; }
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
-    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 }
-
-
-
-
-

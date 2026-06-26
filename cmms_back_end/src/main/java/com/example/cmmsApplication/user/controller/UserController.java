@@ -1,5 +1,7 @@
 package com.example.cmmsApplication.user.controller;
 
+
+import lombok.RequiredArgsConstructor;
 import com.example.cmmsApplication.common.response.ApiResponse;
 import com.example.cmmsApplication.common.response.ResponseFactory;
 
@@ -22,15 +24,12 @@ import java.util.List;
 @RequestMapping("/users")
 @Validated
 @Tag(name = "Users", description = "User management endpoints")
+@RequiredArgsConstructor
 public class UserController {
     
     private final UserService userService;
-    
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
-    
-    @GetMapping
+
+@GetMapping
     @Operation(summary = "Get all users", description = "Retrieve a list of all users in the system")
     @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Successfully retrieved list of users")
     public ResponseEntity<ApiResponse<?>> getAllUsers() {
@@ -96,8 +95,3 @@ public class UserController {
         return ResponseFactory.ok(updatedUser);
     }
 }
-
-
-
-
-

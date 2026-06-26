@@ -3,7 +3,13 @@ package com.example.cmmsApplication.notification.dto;
 
 import com.example.cmmsApplication.notification.entity.Notification;
 import java.time.LocalDateTime;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class NotificationDTO {
     private Long id;
     private Long recipientUserId;
@@ -61,8 +67,3 @@ public class NotificationDTO {
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 }
-
-
-
-
-

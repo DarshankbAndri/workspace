@@ -8,7 +8,3 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SparePartStockListRepository extends JpaRepository<SparePartStockList, Long>, JpaSpecificationExecutor<SparePartStockList> {
 }
-
-
-
-

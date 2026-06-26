@@ -1,6 +1,7 @@
 package com.example.cmmsApplication.spareparts.service;
 
 
+import lombok.RequiredArgsConstructor;
 import com.example.cmmsApplication.approval.service.ApprovalWorkflowService;
 import com.example.cmmsApplication.assignment.service.MaintenanceAssignmentService;
 import com.example.cmmsApplication.common.security.service.AccessControlService;
@@ -31,6 +32,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class MaintenanceSpareUsageService {
     private static final String REQUESTED = "REQUESTED";
     private static final String MANAGER_APPROVED = "MANAGER_APPROVED";
@@ -59,21 +61,7 @@ public class MaintenanceSpareUsageService {
     private final AccessControlService accessControlService;
     private final ApprovalWorkflowService approvalWorkflowService;
 
-    public MaintenanceSpareUsageService(MaintenanceSpareUsageDAO usageDAO,
-                                        SparePartReorderDAO reorderDAO,
-                                        MaintenanceAssignmentService assignmentService,
-                                        SparePartService sparePartService,
-                                        AccessControlService accessControlService,
-                                        ApprovalWorkflowService approvalWorkflowService) {
-        this.usageDAO = usageDAO;
-        this.reorderDAO = reorderDAO;
-        this.assignmentService = assignmentService;
-        this.sparePartService = sparePartService;
-        this.accessControlService = accessControlService;
-        this.approvalWorkflowService = approvalWorkflowService;
-    }
-
-    @Transactional(readOnly = true)
+@Transactional(readOnly = true)
     public List<MaintenanceSpareUsageDTO> getAll(String status) {
         accessControlService.validatePermission("SPARE_USAGE_VIEW");
         String normalizedStatus = status == null || status.isBlank() ? null : normalizeStatus(status);
@@ -659,8 +647,3 @@ public class MaintenanceSpareUsageService {
         return dto;
     }
 }
-
-
-
-
-

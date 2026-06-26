@@ -15,8 +15,3 @@ public interface EmployeeSiteAssignmentRepository extends JpaRepository<Employee
     @EntityGraph(attributePaths = {"site"})
     List<EmployeeSiteAssignment> findByEmployeeId(Long employeeId);
 }
-
-
-
-
-

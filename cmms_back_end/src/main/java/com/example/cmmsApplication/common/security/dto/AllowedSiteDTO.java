@@ -1,6 +1,7 @@
 package com.example.cmmsApplication.common.security.dto;
 
-public class AllowedSiteDTO {
+
+import lombok.Data;public class AllowedSiteDTO {
     private Long siteId;
     private String siteCode;
     private String siteName;
@@ -21,7 +22,3 @@ public class AllowedSiteDTO {
     public String getSiteName() { return siteName; }
     public void setSiteName(String siteName) { this.siteName = siteName; }
 }
-
-
-
-

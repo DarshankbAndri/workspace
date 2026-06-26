@@ -1,5 +1,7 @@
 package com.example.cmmsApplication.preventivemaintenance.controller;
 
+
+import lombok.RequiredArgsConstructor;
 import com.example.cmmsApplication.common.response.ApiResponse;
 import com.example.cmmsApplication.common.response.ResponseFactory;
 
@@ -15,16 +17,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/preventive-maintenance/schedules")
+@RequiredArgsConstructor
 public class PreventiveMaintenanceScheduleController {
     private final PreventiveMaintenanceScheduleService scheduleService;
     private final ListSearchService listSearchService;
 
-    public PreventiveMaintenanceScheduleController(PreventiveMaintenanceScheduleService scheduleService, ListSearchService listSearchService) {
-        this.scheduleService = scheduleService;
-        this.listSearchService = listSearchService;
-    }
-
-    @PostMapping
+@PostMapping
     public ResponseEntity<ApiResponse<?>> create(@Valid @RequestBody PreventiveMaintenanceScheduleDTO dto) {
         return ResponseFactory.created(scheduleService.create(dto));
     }
@@ -70,7 +68,3 @@ public class PreventiveMaintenanceScheduleController {
         return ResponseFactory.ok(scheduleService.generateDueWorkOrders());
     }
 }
-
-
-
-

@@ -1,6 +1,9 @@
 package com.example.cmmsApplication.preventivemaintenance.dto;
 
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.Data;
 import com.example.cmmsApplication.equipment.entity.Equipment;
 import com.example.cmmsApplication.site.entity.Site;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -10,6 +13,9 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class PreventiveMaintenanceScheduleDTO {
     private Long id;
     private String scheduleCode;
@@ -50,67 +56,4 @@ public class PreventiveMaintenanceScheduleDTO {
     private Long approvalRequestId;
     private String approvalStatus;
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    public String getScheduleCode() { return scheduleCode; }
-    public void setScheduleCode(String scheduleCode) { this.scheduleCode = scheduleCode; }
-    public Long getSiteId() { return siteId; }
-    public void setSiteId(Long siteId) { this.siteId = siteId; }
-    public String getSiteCode() { return siteCode; }
-    public void setSiteCode(String siteCode) { this.siteCode = siteCode; }
-    public String getSiteName() { return siteName; }
-    public void setSiteName(String siteName) { this.siteName = siteName; }
-    public Long getEquipmentId() { return equipmentId; }
-    public void setEquipmentId(Long equipmentId) { this.equipmentId = equipmentId; }
-    public String getEquipmentCode() { return equipmentCode; }
-    public void setEquipmentCode(String equipmentCode) { this.equipmentCode = equipmentCode; }
-    public String getEquipmentName() { return equipmentName; }
-    public void setEquipmentName(String equipmentName) { this.equipmentName = equipmentName; }
-    public Long getVendorId() { return vendorId; }
-    public void setVendorId(Long vendorId) { this.vendorId = vendorId; }
-    public String getVendorName() { return vendorName; }
-    public void setVendorName(String vendorName) { this.vendorName = vendorName; }
-    public String getTitle() { return title; }
-    public void setTitle(String title) { this.title = title; }
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
-    public String getFrequency() { return frequency; }
-    public void setFrequency(String frequency) { this.frequency = frequency; }
-    public String getPriority() { return priority; }
-    public void setPriority(String priority) { this.priority = priority; }
-    public String getAssignedTo() { return assignedTo; }
-    public void setAssignedTo(String assignedTo) { this.assignedTo = assignedTo; }
-    public LocalDate getStartDate() { return startDate; }
-    public void setStartDate(LocalDate startDate) { this.startDate = startDate; }
-    public LocalDate getNextDueDate() { return nextDueDate; }
-    public void setNextDueDate(LocalDate nextDueDate) { this.nextDueDate = nextDueDate; }
-    public LocalDate getLastGeneratedDate() { return lastGeneratedDate; }
-    public void setLastGeneratedDate(LocalDate lastGeneratedDate) { this.lastGeneratedDate = lastGeneratedDate; }
-    public Boolean getActive() { return active; }
-    public void setActive(Boolean active) { this.active = active; }
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
-    public String getLastNotificationStatus() { return lastNotificationStatus; }
-    public void setLastNotificationStatus(String lastNotificationStatus) { this.lastNotificationStatus = lastNotificationStatus; }
-    public LocalDateTime getLastNotificationAt() { return lastNotificationAt; }
-    public void setLastNotificationAt(LocalDateTime lastNotificationAt) { this.lastNotificationAt = lastNotificationAt; }
-    public long getGeneratedWorkOrders() { return generatedWorkOrders; }
-    public void setGeneratedWorkOrders(long generatedWorkOrders) { this.generatedWorkOrders = generatedWorkOrders; }
-    public long getCompletedWorkOrders() { return completedWorkOrders; }
-    public void setCompletedWorkOrders(long completedWorkOrders) { this.completedWorkOrders = completedWorkOrders; }
-    public BigDecimal getCompletionPercentage() { return completionPercentage; }
-    public void setCompletionPercentage(BigDecimal completionPercentage) { this.completionPercentage = completionPercentage; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
-    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
-    public Long getApprovalRequestId() { return approvalRequestId; }
-    public void setApprovalRequestId(Long approvalRequestId) { this.approvalRequestId = approvalRequestId; }
-    public String getApprovalStatus() { return approvalStatus; }
-    public void setApprovalStatus(String approvalStatus) { this.approvalStatus = approvalStatus; }
 }
-
-
-
-
-

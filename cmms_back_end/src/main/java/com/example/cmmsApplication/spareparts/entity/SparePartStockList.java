@@ -1,6 +1,9 @@
 package com.example.cmmsApplication.spareparts.entity;
 
 
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.Getter;
 import com.example.cmmsApplication.site.entity.Site;
 import com.example.cmmsApplication.vendor.entity.Vendor;
 import jakarta.persistence.Column;
@@ -43,6 +46,9 @@ import java.time.LocalDateTime;
         LEFT JOIN vendor_master vendor ON vendor.id = part.preferred_vendor_id
         LEFT JOIN site_master site ON site.site_id = stock.site_id
         """)
+@Getter
+@Setter
+@NoArgsConstructor
 public class SparePartStockList {
     @Id
     private Long id;
@@ -85,31 +91,4 @@ public class SparePartStockList {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    public Long getId() { return id; }
-    public Long getSparePartId() { return sparePartId; }
-    public String getPartCode() { return partCode; }
-    public String getPartName() { return partName; }
-    public String getDescription() { return description; }
-    public String getCategory() { return category; }
-    public String getUnit() { return unit; }
-    public Long getPreferredVendorId() { return preferredVendorId; }
-    public String getPreferredVendorName() { return preferredVendorName; }
-    public Long getSiteId() { return siteId; }
-    public String getSiteCode() { return siteCode; }
-    public String getSiteName() { return siteName; }
-    public BigDecimal getCurrentStock() { return currentStock; }
-    public BigDecimal getReservedStock() { return reservedStock; }
-    public BigDecimal getAvailableStock() { return availableStock; }
-    public BigDecimal getMinimumStock() { return minimumStock; }
-    public BigDecimal getUnitCost() { return unitCost; }
-    public String getStorageLocation() { return storageLocation; }
-    public String getStatus() { return status; }
-    public Boolean getLowStock() { return lowStock; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
 }
-
-
-
-
-

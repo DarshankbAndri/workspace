@@ -9,15 +9,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/admin/approval-config")
 public class ApprovalConfigController {
     private final ApprovalConfigService approvalConfigService;
-
-    public ApprovalConfigController(ApprovalConfigService approvalConfigService) {
-        this.approvalConfigService = approvalConfigService;
-    }
 
     @GetMapping
     public ResponseEntity<ApiResponse<?>> getAll() {
@@ -34,7 +32,3 @@ public class ApprovalConfigController {
         return ResponseFactory.ok(approvalConfigService.update(id, dto));
     }
 }
-
-
-
-

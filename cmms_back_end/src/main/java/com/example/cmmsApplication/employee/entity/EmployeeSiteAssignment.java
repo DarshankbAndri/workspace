@@ -5,9 +5,15 @@ import com.example.cmmsApplication.site.entity.Site;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "employee_site_assignment")
+@Getter
+@Setter
+@NoArgsConstructor
 public class EmployeeSiteAssignment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -75,8 +81,3 @@ public class EmployeeSiteAssignment {
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 }
-
-
-
-
-

@@ -2,6 +2,12 @@ package com.example.cmmsApplication.employee.dto;
 
 
 import com.example.cmmsApplication.employee.entity.Employee;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class EmployeeRoleAssignmentDTO {
     private Long userRoleId;
     private Long userId;
@@ -32,8 +38,3 @@ public class EmployeeRoleAssignmentDTO {
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
 }
-
-
-
-
-

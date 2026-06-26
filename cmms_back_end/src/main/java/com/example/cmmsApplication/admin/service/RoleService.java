@@ -21,8 +21,10 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 @Transactional
 public class RoleService {
     private final RoleDAO roleDAO;
@@ -30,14 +32,6 @@ public class RoleService {
     private final RolePermissionDAO rolePermissionDAO;
     private final UserRoleAssignmentDAO userRoleAssignmentDAO;
     private final AccessControlService accessControlService;
-
-    public RoleService(RoleDAO roleDAO, PermissionDAO permissionDAO, RolePermissionDAO rolePermissionDAO, UserRoleAssignmentDAO userRoleAssignmentDAO, AccessControlService accessControlService) {
-        this.roleDAO = roleDAO;
-        this.permissionDAO = permissionDAO;
-        this.rolePermissionDAO = rolePermissionDAO;
-        this.userRoleAssignmentDAO = userRoleAssignmentDAO;
-        this.accessControlService = accessControlService;
-    }
 
     @Transactional(readOnly = true)
     public List<RoleDTO> getAll() {
@@ -174,8 +168,3 @@ public class RoleService {
         return dto;
     }
 }
-
-
-
-
-

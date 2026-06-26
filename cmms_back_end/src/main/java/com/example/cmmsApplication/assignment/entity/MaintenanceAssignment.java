@@ -7,9 +7,15 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "maintenance_assignment")
+@Getter
+@Setter
+@NoArgsConstructor
 public class MaintenanceAssignment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -104,8 +110,3 @@ public class MaintenanceAssignment {
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 }
-
-
-
-
-

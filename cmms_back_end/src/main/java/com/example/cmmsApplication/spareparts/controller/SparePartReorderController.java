@@ -1,5 +1,7 @@
 package com.example.cmmsApplication.spareparts.controller;
 
+
+import lombok.RequiredArgsConstructor;
 import com.example.cmmsApplication.common.response.ApiResponse;
 import com.example.cmmsApplication.common.response.ResponseFactory;
 
@@ -14,14 +16,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/spare-part-reorders")
+@RequiredArgsConstructor
 public class SparePartReorderController {
     private final SparePartReorderService reorderService;
 
-    public SparePartReorderController(SparePartReorderService reorderService) {
-        this.reorderService = reorderService;
-    }
-
-    @GetMapping
+@GetMapping
     public ResponseEntity<ApiResponse<?>> getAll(@RequestParam(required = false) Long siteId,
                                                             @RequestParam(required = false) String status) {
         return ResponseFactory.ok(reorderService.getAll(siteId, status));
@@ -43,7 +42,3 @@ public class SparePartReorderController {
         return ResponseFactory.ok(reorderService.receiveStock(id, dto));
     }
 }
-
-
-
-

@@ -13,15 +13,13 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/equipment")
 public class EquipmentController {
     private final EquipmentService equipmentService;
-
-    public EquipmentController(EquipmentService equipmentService) {
-        this.equipmentService = equipmentService;
-    }
 
     @PostMapping
     public ResponseEntity<ApiResponse<?>> create(@Valid @RequestBody EquipmentDTO dto) {
@@ -54,8 +52,3 @@ public class EquipmentController {
         return ResponseFactory.ok(equipmentService.getAll(siteId));
     }
 }
-
-
-
-
-

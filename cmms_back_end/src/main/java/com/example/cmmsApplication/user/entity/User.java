@@ -1,6 +1,9 @@
 package com.example.cmmsApplication.user.entity;
 
 
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.Getter;
 import com.example.cmmsApplication.employee.entity.Employee;
 import com.example.cmmsApplication.user.enums.UserRole;
 import jakarta.persistence.*;
@@ -9,6 +12,9 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "users")
+@Getter
+@Setter
+@NoArgsConstructor
 public class User {
     
     @Id
@@ -57,12 +63,8 @@ public class User {
     
     @Column(nullable = false)
     private Boolean active = true;
-    
-    // Default constructor
-    public User() {
-    }
-    
-    // All-args constructor
+
+// All-args constructor
     public User(Long id, String username, String email, String firstName, String lastName, 
                 UserRole role, String department, User manager, java.util.List<User> subordinates,
                 LocalDateTime createdAt, LocalDateTime updatedAt, Boolean active) {
@@ -79,121 +81,8 @@ public class User {
         this.updatedAt = updatedAt;
         this.active = active;
     }
-    
-    // Getters and Setters
-    public Long getId() {
-        return id;
-    }
-    
-    public void setId(Long id) {
-        this.id = id;
-    }
-    
-    public String getUsername() {
-        return username;
-    }
-    
-    public void setUsername(String username) {
-        this.username = username;
-    }
-    
-    public String getEmail() {
-        return email;
-    }
-    
-    public void setEmail(String email) {
-        this.email = email;
-    }
-    
-    public String getPassword() {
-        return password;
-    }
-    
-    public void setPassword(String password) {
-        this.password = password;
-    }
-    
-    public String getFirstName() {
-        return firstName;
-    }
-    
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-    
-    public String getLastName() {
-        return lastName;
-    }
-    
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-    
-    public UserRole getRole() {
-        return role;
-    }
-    
-    public void setRole(UserRole role) {
-        this.role = role;
-    }
-    
-    public String getDepartment() {
-        return department;
-    }
-    
-    public void setDepartment(String department) {
-        this.department = department;
-    }
 
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
-    
-    public User getManager() {
-        return manager;
-    }
-    
-    public void setManager(User manager) {
-        this.manager = manager;
-    }
-    
-    public java.util.List<User> getSubordinates() {
-        return subordinates;
-    }
-    
-    public void setSubordinates(java.util.List<User> subordinates) {
-        this.subordinates = subordinates;
-    }
-    
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-    
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-    
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-    
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-    
-    public Boolean getActive() {
-        return active;
-    }
-    
-    public void setActive(Boolean active) {
-        this.active = active;
-    }
-    
-    @PrePersist
+@PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
@@ -204,8 +93,3 @@ public class User {
         updatedAt = LocalDateTime.now();
     }
 }
-
-
-
-
-

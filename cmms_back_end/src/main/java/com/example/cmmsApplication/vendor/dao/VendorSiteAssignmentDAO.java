@@ -24,8 +24,3 @@ public class VendorSiteAssignmentDAO {
         return repository.existsByVendorIdAndSiteIdAndStatusIgnoreCase(vendorId, siteId, "ACTIVE");
     }
 }
-
-
-
-
-

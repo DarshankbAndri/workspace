@@ -20,7 +20,3 @@ public interface ApprovalRequestRepository extends JpaRepository<ApprovalRequest
     long countByApprovalStatusAndRequestedAtBefore(String approvalStatus, LocalDateTime requestedAt);
     long countByModuleCodeAndApprovalStatusAndRequestedAtBefore(String moduleCode, String approvalStatus, LocalDateTime requestedAt);
 }
-
-
-
-

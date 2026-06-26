@@ -11,17 +11,14 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class PermissionService {
     private final PermissionDAO permissionDAO;
     private final AccessControlService accessControlService;
-
-    public PermissionService(PermissionDAO permissionDAO, AccessControlService accessControlService) {
-        this.permissionDAO = permissionDAO;
-        this.accessControlService = accessControlService;
-    }
 
     public List<PermissionDTO> getAll() {
         accessControlService.validatePermission("PERMISSION_VIEW");
@@ -48,8 +45,3 @@ public class PermissionService {
         return dto;
     }
 }
-
-
-
-
-

@@ -1,5 +1,7 @@
 package com.example.cmmsApplication.vendor.controller;
 
+
+import lombok.RequiredArgsConstructor;
 import com.example.cmmsApplication.common.response.ApiResponse;
 import com.example.cmmsApplication.common.response.ResponseFactory;
 
@@ -17,16 +19,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/vendors")
+@RequiredArgsConstructor
 public class VendorController {
     private final VendorService vendorService;
     private final ListSearchService listSearchService;
 
-    public VendorController(VendorService vendorService, ListSearchService listSearchService) {
-        this.vendorService = vendorService;
-        this.listSearchService = listSearchService;
-    }
-
-    @PostMapping
+@PostMapping
     public ResponseEntity<ApiResponse<?>> create(@Valid @RequestBody VendorDTO dto) {
         return ResponseFactory.created(vendorService.create(dto));
     }
@@ -64,8 +62,3 @@ public class VendorController {
         return ResponseFactory.ok(listSearchService.searchVendors(searchDTO));
     }
 }
-
-
-
-
-

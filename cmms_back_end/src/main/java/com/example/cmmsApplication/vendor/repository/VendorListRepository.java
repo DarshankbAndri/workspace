@@ -10,8 +10,3 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface VendorListRepository extends JpaRepository<VendorList, Long>, JpaSpecificationExecutor<VendorList> {
 }
-
-
-
-
-

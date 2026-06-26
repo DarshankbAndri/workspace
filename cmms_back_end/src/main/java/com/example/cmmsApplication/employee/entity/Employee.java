@@ -5,9 +5,15 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "employee_master")
+@Getter
+@Setter
+@NoArgsConstructor
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -98,7 +104,3 @@ public class Employee {
     public List<EmployeeSiteAssignment> getSiteAssignments() { return siteAssignments; }
     public void setSiteAssignments(List<EmployeeSiteAssignment> siteAssignments) { this.siteAssignments = siteAssignments; }
 }
-
-
-
-

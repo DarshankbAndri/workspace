@@ -4,9 +4,15 @@ package com.example.cmmsApplication.notification.entity;
 import com.example.cmmsApplication.user.entity.User;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "notification_setting")
+@Getter
+@Setter
+@NoArgsConstructor
 public class NotificationSetting {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -98,8 +104,3 @@ public class NotificationSetting {
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 }
-
-
-
-
-

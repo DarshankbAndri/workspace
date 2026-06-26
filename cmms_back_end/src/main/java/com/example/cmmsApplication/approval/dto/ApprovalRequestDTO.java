@@ -3,7 +3,13 @@ package com.example.cmmsApplication.approval.dto;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ApprovalRequestDTO {
     private Long id;
     private String moduleCode;
@@ -67,7 +73,3 @@ public class ApprovalRequestDTO {
     public List<ApprovalActionDTO> getActions() { return actions; }
     public void setActions(List<ApprovalActionDTO> actions) { this.actions = actions; }
 }
-
-
-
-

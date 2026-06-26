@@ -12,17 +12,14 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/maintenance/assignments")
 public class MaintenanceAssignmentController {
     private final MaintenanceAssignmentService assignmentService;
     private final ListSearchService listSearchService;
-
-    public MaintenanceAssignmentController(MaintenanceAssignmentService assignmentService, ListSearchService listSearchService) {
-        this.assignmentService = assignmentService;
-        this.listSearchService = listSearchService;
-    }
 
     @PostMapping
     public ResponseEntity<ApiResponse<?>> create(@Valid @RequestBody MaintenanceAssignmentDTO dto) {
@@ -55,7 +52,3 @@ public class MaintenanceAssignmentController {
         return ResponseFactory.ok(listSearchService.searchMaintenanceAssignments(searchDTO));
     }
 }
-
-
-
-

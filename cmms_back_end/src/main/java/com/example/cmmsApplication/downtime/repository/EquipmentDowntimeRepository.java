@@ -23,8 +23,3 @@ public interface EquipmentDowntimeRepository extends JpaRepository<EquipmentDown
     @Query("select coalesce(sum(d.downtimeMinutes), 0) from EquipmentDowntime d where d.site.id = :siteId")
     Long sumDowntimeMinutesBySiteId(Long siteId);
 }
-
-
-
-
-

@@ -27,7 +27,3 @@ public class EquipmentDowntimeDAO {
     public Long sumDowntimeMinutes() { return repository.sumDowntimeMinutes(); }
     public Long sumDowntimeMinutesBySiteId(Long siteId) { return repository.sumDowntimeMinutesBySiteId(siteId); }
 }
-
-
-
-

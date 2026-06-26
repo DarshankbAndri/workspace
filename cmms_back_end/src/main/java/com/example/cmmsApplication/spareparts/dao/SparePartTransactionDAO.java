@@ -17,7 +17,3 @@ public class SparePartTransactionDAO {
     public SparePartTransaction save(SparePartTransaction transaction) { return repository.save(transaction); }
     public List<SparePartTransaction> findByStockId(Long stockId) { return repository.findByStockIdOrderByTransactionDateDesc(stockId); }
 }
-
-
-
-

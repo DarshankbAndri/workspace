@@ -14,7 +14,3 @@ public interface SparePartReorderRepository extends JpaRepository<SparePartReord
     List<SparePartReorderRequest> findBySiteIdAndStatusOrderByRequestedAtDesc(Long siteId, String status);
     List<SparePartReorderRequest> findBySiteIdInAndStatusOrderByRequestedAtDesc(Collection<Long> siteIds, String status);
 }
-
-
-
-

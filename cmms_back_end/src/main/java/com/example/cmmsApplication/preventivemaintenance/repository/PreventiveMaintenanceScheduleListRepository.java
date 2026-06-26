@@ -8,7 +8,3 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PreventiveMaintenanceScheduleListRepository extends JpaRepository<PreventiveMaintenanceScheduleList, Long>, JpaSpecificationExecutor<PreventiveMaintenanceScheduleList> {
 }
-
-
-
-

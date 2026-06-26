@@ -20,7 +20,3 @@ public class UserRoleAssignmentDAO {
     public boolean existsActiveByUserIdAndRoleId(Long userId, Long roleId) { return repository.existsByUserIdAndRoleIdAndStatusIgnoreCase(userId, roleId, "ACTIVE"); }
     public void deleteByUserId(Long userId) { repository.deleteByUserId(userId); }
 }
-
-
-
-

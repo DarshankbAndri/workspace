@@ -9,7 +9,13 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class MaintenanceRequestDTO {
     private Long id;
     private String requestNumber;
@@ -79,8 +85,3 @@ public class MaintenanceRequestDTO {
     public String getApprovalStatus() { return approvalStatus; }
     public void setApprovalStatus(String approvalStatus) { this.approvalStatus = approvalStatus; }
 }
-
-
-
-
-

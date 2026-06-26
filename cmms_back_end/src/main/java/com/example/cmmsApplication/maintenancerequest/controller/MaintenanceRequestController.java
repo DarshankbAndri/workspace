@@ -14,17 +14,14 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/maintenance/requests")
 public class MaintenanceRequestController {
     private final MaintenanceRequestService requestService;
     private final ListSearchService listSearchService;
-
-    public MaintenanceRequestController(MaintenanceRequestService requestService, ListSearchService listSearchService) {
-        this.requestService = requestService;
-        this.listSearchService = listSearchService;
-    }
 
     @PostMapping
     public ResponseEntity<ApiResponse<?>> create(@Valid @RequestBody MaintenanceRequestDTO dto) {
@@ -58,8 +55,3 @@ public class MaintenanceRequestController {
         return ResponseFactory.ok(listSearchService.searchMaintenanceRequests(searchDTO));
     }
 }
-
-
-
-
-

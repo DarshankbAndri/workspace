@@ -1,7 +1,13 @@
 package com.example.cmmsApplication.admin.dto;
 
 import java.time.LocalDateTime;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserRoleAssignmentDTO {
     private Long id;
     private Long userId;
@@ -35,7 +41,3 @@ public class UserRoleAssignmentDTO {
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 }
-
-
-
-

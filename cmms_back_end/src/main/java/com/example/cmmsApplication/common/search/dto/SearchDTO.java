@@ -2,7 +2,13 @@ package com.example.cmmsApplication.common.search.dto;
 
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class SearchDTO {
     private List<SearchCriteriaDTO> searchCriteriaList = new ArrayList<>();
     private String dataOption;
@@ -15,7 +21,3 @@ public class SearchDTO {
     public PagePropertiesDTO getPagination() { return pagination; }
     public void setPagination(PagePropertiesDTO pagination) { this.pagination = pagination; }
 }
-
-
-
-

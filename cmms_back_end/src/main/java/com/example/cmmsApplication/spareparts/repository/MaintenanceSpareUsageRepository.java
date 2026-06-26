@@ -15,7 +15,3 @@ public interface MaintenanceSpareUsageRepository extends JpaRepository<Maintenan
     Optional<MaintenanceSpareUsage> findByIdAndAssignmentId(Long id, Long assignmentId);
     boolean existsByAssignmentIdAndStockId(Long assignmentId, Long stockId);
 }
-
-
-
-

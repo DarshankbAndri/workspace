@@ -12,7 +12,3 @@ public interface ApprovalConfigRepository extends JpaRepository<ApprovalConfig, 
     boolean existsByModuleCodeAndActionCode(String moduleCode, String actionCode);
     boolean existsByModuleCodeAndActionCodeAndIdNot(String moduleCode, String actionCode, Long id);
 }
-
-
-
-

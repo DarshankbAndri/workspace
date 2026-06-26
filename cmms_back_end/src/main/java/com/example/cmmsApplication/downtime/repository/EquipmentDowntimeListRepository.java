@@ -8,7 +8,3 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EquipmentDowntimeListRepository extends JpaRepository<EquipmentDowntimeList, Long>, JpaSpecificationExecutor<EquipmentDowntimeList> {
 }
-
-
-
-

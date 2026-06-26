@@ -15,8 +15,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class DashboardService {
     private final EquipmentDAO equipmentDAO;
@@ -25,15 +27,6 @@ public class DashboardService {
     private final EquipmentDowntimeDAO downtimeDAO;
     private final SparePartSiteStockDAO stockDAO;
     private final AccessControlService accessControlService;
-
-    public DashboardService(EquipmentDAO equipmentDAO, VendorDAO vendorDAO, MaintenanceRequestDAO requestDAO, EquipmentDowntimeDAO downtimeDAO, SparePartSiteStockDAO stockDAO, AccessControlService accessControlService) {
-        this.equipmentDAO = equipmentDAO;
-        this.vendorDAO = vendorDAO;
-        this.requestDAO = requestDAO;
-        this.downtimeDAO = downtimeDAO;
-        this.stockDAO = stockDAO;
-        this.accessControlService = accessControlService;
-    }
 
     public DashboardDTO getSummary(Long siteId) {
         accessControlService.validatePermission("DASHBOARD_VIEW");
@@ -68,8 +61,3 @@ public class DashboardService {
         return new DashboardDTO(equipmentCount, vendorDAO.findBySiteIdsAndActive(siteIds, true).size(), openRequests, stockDAO.countLowStockBySiteIds(siteIds), downtimeHours);
     }
 }
-
-
-
-
-

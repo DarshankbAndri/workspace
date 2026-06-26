@@ -1,7 +1,11 @@
 package com.example.cmmsApplication.report.dto;
 
 
+import lombok.NoArgsConstructor;
+import lombok.Data;
 import com.example.cmmsApplication.common.search.dto.PageProperties;
+@Data
+@NoArgsConstructor
 public class DowntimeAnalysisPageDTO {
     private PageProperties page;
     private DowntimeAnalysisSummaryDTO summary;
@@ -11,13 +15,4 @@ public class DowntimeAnalysisPageDTO {
         this.summary = summary;
     }
 
-    public PageProperties getPage() { return page; }
-    public void setPage(PageProperties page) { this.page = page; }
-    public DowntimeAnalysisSummaryDTO getSummary() { return summary; }
-    public void setSummary(DowntimeAnalysisSummaryDTO summary) { this.summary = summary; }
 }
-
-
-
-
-

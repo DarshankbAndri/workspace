@@ -13,7 +13,3 @@ public interface NotificationRepository extends JpaRepository<Notification, Long
     long countByRecipientUserIdAndStatus(Long recipientUserId, String status);
     boolean existsByDedupeKey(String dedupeKey);
 }
-
-
-
-

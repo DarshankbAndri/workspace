@@ -698,8 +698,3 @@ public class ApprovalWorkflowService {
 
     private record DefaultApprovalConfig(String moduleCode, String actionCode, String approverRoleCode) {}
 }
-
-
-
-
-

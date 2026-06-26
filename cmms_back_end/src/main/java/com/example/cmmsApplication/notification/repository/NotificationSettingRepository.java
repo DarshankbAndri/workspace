@@ -12,8 +12,3 @@ import java.util.Optional;
 public interface NotificationSettingRepository extends JpaRepository<NotificationSetting, Long> {
     Optional<NotificationSetting> findFirstByOrderByIdAsc();
 }
-
-
-
-
-

@@ -1,5 +1,7 @@
 package com.example.cmmsApplication.site.controller;
 
+
+import lombok.RequiredArgsConstructor;
 import com.example.cmmsApplication.common.response.ApiResponse;
 import com.example.cmmsApplication.common.response.ResponseFactory;
 
@@ -18,16 +20,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/hr/sites")
+@RequiredArgsConstructor
 public class SiteController {
     private final SiteService siteService;
     private final ListSearchService listSearchService;
 
-    public SiteController(SiteService siteService, ListSearchService listSearchService) {
-        this.siteService = siteService;
-        this.listSearchService = listSearchService;
-    }
-
-    @PostMapping
+@PostMapping
     public ResponseEntity<ApiResponse<?>> create(@Valid @RequestBody SiteDTO dto) {
         return ResponseFactory.created(siteService.create(dto));
     }
@@ -58,8 +56,3 @@ public class SiteController {
         return ResponseFactory.ok(listSearchService.searchSites(searchDTO));
     }
 }
-
-
-
-
-

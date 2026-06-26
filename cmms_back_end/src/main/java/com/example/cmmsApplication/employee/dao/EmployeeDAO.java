@@ -23,7 +23,3 @@ public class EmployeeDAO {
     public boolean existsByEmployeeCode(String code) { return repository.existsByEmployeeCode(code); }
     public boolean existsByEmployeeCodeAndIdNot(String code, Long id) { return repository.existsByEmployeeCodeAndIdNot(code, id); }
 }
-
-
-
-

@@ -16,21 +16,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 @Transactional
 public class MaintenanceAssignmentService {
     private final MaintenanceAssignmentDAO assignmentDAO;
     private final MaintenanceRequestService requestService;
     private final VendorService vendorService;
     private final AccessControlService accessControlService;
-
-    public MaintenanceAssignmentService(MaintenanceAssignmentDAO assignmentDAO, MaintenanceRequestService requestService, VendorService vendorService, AccessControlService accessControlService) {
-        this.assignmentDAO = assignmentDAO;
-        this.requestService = requestService;
-        this.vendorService = vendorService;
-        this.accessControlService = accessControlService;
-    }
 
     public MaintenanceAssignmentDTO create(MaintenanceAssignmentDTO dto) {
         accessControlService.validatePermission("ASSIGNMENT_CREATE");
@@ -139,8 +134,3 @@ public class MaintenanceAssignmentService {
         return dto;
     }
 }
-
-
-
-
-

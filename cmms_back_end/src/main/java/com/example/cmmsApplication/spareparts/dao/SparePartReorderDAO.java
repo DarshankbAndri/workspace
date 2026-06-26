@@ -21,7 +21,3 @@ public class SparePartReorderDAO {
     public List<SparePartReorderRequest> findBySiteIdAndStatus(Long siteId, String status) { return repository.findBySiteIdAndStatusOrderByRequestedAtDesc(siteId, status); }
     public List<SparePartReorderRequest> findBySiteIdsAndStatus(Collection<Long> siteIds, String status) { return repository.findBySiteIdInAndStatusOrderByRequestedAtDesc(siteIds, status); }
 }
-
-
-
-

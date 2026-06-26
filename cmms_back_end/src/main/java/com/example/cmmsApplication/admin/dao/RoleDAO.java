@@ -22,7 +22,3 @@ public class RoleDAO {
     public boolean existsByRoleCode(String roleCode) { return repository.existsByRoleCode(roleCode); }
     public boolean existsByRoleCodeAndIdNot(String roleCode, Long id) { return repository.existsByRoleCodeAndIdNot(roleCode, id); }
 }
-
-
-
-

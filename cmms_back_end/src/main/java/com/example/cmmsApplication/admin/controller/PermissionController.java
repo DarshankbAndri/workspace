@@ -7,15 +7,13 @@ import com.example.cmmsApplication.admin.dto.PermissionDTO;
 import com.example.cmmsApplication.admin.service.PermissionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import lombok.RequiredArgsConstructor;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/admin/permissions")
 public class PermissionController {
     private final PermissionService permissionService;
-
-    public PermissionController(PermissionService permissionService) {
-        this.permissionService = permissionService;
-    }
 
     @GetMapping
     public ResponseEntity<ApiResponse<?>> getAll() {
@@ -27,7 +25,3 @@ public class PermissionController {
         return ResponseFactory.ok(permissionService.getGrouped());
     }
 }
-
-
-
-

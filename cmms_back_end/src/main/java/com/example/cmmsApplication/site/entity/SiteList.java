@@ -1,5 +1,9 @@
 package com.example.cmmsApplication.site.entity;
 
+
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.Getter;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -34,6 +38,9 @@ import java.time.LocalDateTime;
             s.updated_at AS updated_at
         FROM site_master s
         """)
+@Getter
+@Setter
+@NoArgsConstructor
 public class SiteList {
     @Id
     private Long id;
@@ -67,27 +74,4 @@ public class SiteList {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    public Long getId() { return id; }
-    public String getSiteCode() { return siteCode; }
-    public String getSiteName() { return siteName; }
-    public String getOrganizationName() { return organizationName; }
-    public String getSiteType() { return siteType; }
-    public String getAddressLine1() { return addressLine1; }
-    public String getAddressLine2() { return addressLine2; }
-    public String getCity() { return city; }
-    public String getState() { return state; }
-    public String getCountry() { return country; }
-    public String getPincode() { return pincode; }
-    public String getContactPerson() { return contactPerson; }
-    public String getContactMobile() { return contactMobile; }
-    public String getContactEmail() { return contactEmail; }
-    public BigDecimal getLatitude() { return latitude; }
-    public BigDecimal getLongitude() { return longitude; }
-    public String getStatus() { return status; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
 }
-
-
-
-

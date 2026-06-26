@@ -736,8 +736,3 @@ public class SparePartService {
         return value == null || value.isBlank() ? "-" : value;
     }
 }
-
-
-
-
-

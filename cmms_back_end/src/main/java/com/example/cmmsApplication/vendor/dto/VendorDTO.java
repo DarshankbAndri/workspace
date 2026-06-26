@@ -1,6 +1,9 @@
 package com.example.cmmsApplication.vendor.dto;
 
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.Data;
 import com.example.cmmsApplication.vendor.entity.Vendor;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.Valid;
@@ -9,6 +12,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class VendorDTO {
     private Long id;
     @NotBlank(message = "Vendor code is required")
@@ -30,39 +36,4 @@ public class VendorDTO {
     @Valid
     private List<VendorSiteAssignmentDTO> siteAssignments = new ArrayList<>();
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    public String getVendorCode() { return vendorCode; }
-    public void setVendorCode(String vendorCode) { this.vendorCode = vendorCode; }
-    public String getVendorName() { return vendorName; }
-    public void setVendorName(String vendorName) { this.vendorName = vendorName; }
-    public String getContactPerson() { return contactPerson; }
-    public void setContactPerson(String contactPerson) { this.contactPerson = contactPerson; }
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
-    public String getPhone() { return phone; }
-    public void setPhone(String phone) { this.phone = phone; }
-    public String getAddress() { return address; }
-    public void setAddress(String address) { this.address = address; }
-    public String getServiceCategory() { return serviceCategory; }
-    public void setServiceCategory(String serviceCategory) { this.serviceCategory = serviceCategory; }
-    public Boolean getActive() { return active; }
-    public void setActive(Boolean active) { this.active = active; }
-    public Integer getAssignedSiteCount() { return assignedSiteCount; }
-    public void setAssignedSiteCount(Integer assignedSiteCount) { this.assignedSiteCount = assignedSiteCount; }
-    public String getPrimarySiteName() { return primarySiteName; }
-    public void setPrimarySiteName(String primarySiteName) { this.primarySiteName = primarySiteName; }
-    public String getSiteNames() { return siteNames; }
-    public void setSiteNames(String siteNames) { this.siteNames = siteNames; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
-    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
-    public List<VendorSiteAssignmentDTO> getSiteAssignments() { return siteAssignments; }
-    public void setSiteAssignments(List<VendorSiteAssignmentDTO> siteAssignments) { this.siteAssignments = siteAssignments; }
 }
-
-
-
-
-

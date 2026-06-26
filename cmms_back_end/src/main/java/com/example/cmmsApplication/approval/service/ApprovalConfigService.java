@@ -13,17 +13,14 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 @Transactional
 public class ApprovalConfigService {
     private final ApprovalConfigDAO approvalConfigDAO;
     private final AccessControlService accessControlService;
-
-    public ApprovalConfigService(ApprovalConfigDAO approvalConfigDAO, AccessControlService accessControlService) {
-        this.approvalConfigDAO = approvalConfigDAO;
-        this.accessControlService = accessControlService;
-    }
 
     @Transactional(readOnly = true)
     public List<ApprovalConfigDTO> getAll() {
@@ -96,8 +93,3 @@ public class ApprovalConfigService {
         return value == null ? null : value.trim().toUpperCase(Locale.ROOT);
     }
 }
-
-
-
-
-

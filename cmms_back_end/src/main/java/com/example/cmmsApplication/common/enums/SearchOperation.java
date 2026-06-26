@@ -33,7 +33,3 @@ public enum SearchOperation {
         throw new IllegalArgumentException("Unsupported search operation: " + value);
     }
 }
-
-
-
-

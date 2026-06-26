@@ -12,7 +12,3 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
     Optional<Company> findFirstByStatusIgnoreCaseOrderByUpdatedDateDescIdDesc(String status);
     Optional<Company> findFirstByOrderByUpdatedDateDescIdDesc();
 }
-
-
-
-

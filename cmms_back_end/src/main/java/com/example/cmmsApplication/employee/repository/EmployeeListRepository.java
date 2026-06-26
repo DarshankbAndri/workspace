@@ -10,8 +10,3 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EmployeeListRepository extends JpaRepository<EmployeeList, Long>, JpaSpecificationExecutor<EmployeeList> {
 }
-
-
-
-
-

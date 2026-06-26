@@ -12,7 +12,3 @@ public interface SparePartRepository extends JpaRepository<SparePart, Long> {
     boolean existsByPartCode(String partCode);
     boolean existsByPartCodeAndIdNot(String partCode, Long id);
 }
-
-
-
-

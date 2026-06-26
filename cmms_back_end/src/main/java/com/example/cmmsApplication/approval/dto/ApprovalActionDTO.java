@@ -1,7 +1,13 @@
 package com.example.cmmsApplication.approval.dto;
 
 import java.time.LocalDateTime;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ApprovalActionDTO {
     private Long id;
     private Long approvalRequestId;
@@ -26,7 +32,3 @@ public class ApprovalActionDTO {
     public LocalDateTime getActionAt() { return actionAt; }
     public void setActionAt(LocalDateTime actionAt) { this.actionAt = actionAt; }
 }
-
-
-
-

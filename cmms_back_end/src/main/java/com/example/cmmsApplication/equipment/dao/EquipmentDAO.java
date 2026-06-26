@@ -26,7 +26,3 @@ public class EquipmentDAO {
     public boolean existsByEquipmentCode(String code) { return repository.existsByEquipmentCode(code); }
     public boolean existsByEquipmentCodeAndIdNot(String code, Long id) { return repository.existsByEquipmentCodeAndIdNot(code, id); }
 }
-
-
-
-

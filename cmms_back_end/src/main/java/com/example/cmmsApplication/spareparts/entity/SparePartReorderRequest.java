@@ -1,6 +1,9 @@
 package com.example.cmmsApplication.spareparts.entity;
 
 
+import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import com.example.cmmsApplication.assignment.entity.MaintenanceAssignment;
 import com.example.cmmsApplication.site.entity.Site;
 import com.example.cmmsApplication.user.entity.User;
@@ -12,6 +15,9 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "spare_part_reorder_request")
+@Getter
+@Setter
+@NoArgsConstructor
 public class SparePartReorderRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -81,41 +87,4 @@ public class SparePartReorderRequest {
         updatedAt = LocalDateTime.now();
     }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    public SparePartSiteStock getStock() { return stock; }
-    public void setStock(SparePartSiteStock stock) { this.stock = stock; }
-    public SparePart getSparePart() { return sparePart; }
-    public void setSparePart(SparePart sparePart) { this.sparePart = sparePart; }
-    public Site getSite() { return site; }
-    public void setSite(Site site) { this.site = site; }
-    public MaintenanceAssignment getAssignment() { return assignment; }
-    public void setAssignment(MaintenanceAssignment assignment) { this.assignment = assignment; }
-    public MaintenanceSpareUsage getSpareRequest() { return spareRequest; }
-    public void setSpareRequest(MaintenanceSpareUsage spareRequest) { this.spareRequest = spareRequest; }
-    public Vendor getVendor() { return vendor; }
-    public void setVendor(Vendor vendor) { this.vendor = vendor; }
-    public BigDecimal getRequestedQuantity() { return requestedQuantity; }
-    public void setRequestedQuantity(BigDecimal requestedQuantity) { this.requestedQuantity = requestedQuantity; }
-    public BigDecimal getEstimatedUnitCost() { return estimatedUnitCost; }
-    public void setEstimatedUnitCost(BigDecimal estimatedUnitCost) { this.estimatedUnitCost = estimatedUnitCost; }
-    public BigDecimal getEstimatedTotalCost() { return estimatedTotalCost; }
-    public void setEstimatedTotalCost(BigDecimal estimatedTotalCost) { this.estimatedTotalCost = estimatedTotalCost; }
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
-    public LocalDate getExpectedDate() { return expectedDate; }
-    public void setExpectedDate(LocalDate expectedDate) { this.expectedDate = expectedDate; }
-    public String getRemarks() { return remarks; }
-    public void setRemarks(String remarks) { this.remarks = remarks; }
-    public User getRequestedBy() { return requestedBy; }
-    public void setRequestedBy(User requestedBy) { this.requestedBy = requestedBy; }
-    public LocalDateTime getRequestedAt() { return requestedAt; }
-    public void setRequestedAt(LocalDateTime requestedAt) { this.requestedAt = requestedAt; }
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
-    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 }
-
-
-
-
-

@@ -20,8 +20,3 @@ public class NotificationSettingDAO {
     public Optional<NotificationSetting> findCurrent() { return repository.findFirstByOrderByIdAsc(); }
     public long count() { return repository.count(); }
 }
-
-
-
-
-

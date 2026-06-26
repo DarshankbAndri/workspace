@@ -50,8 +50,3 @@ public class NotificationProperties {
     public String getFromAddress() { return fromAddress; }
     public void setFromAddress(String fromAddress) { this.fromAddress = fromAddress; }
 }
-
-
-
-
-

@@ -8,6 +8,9 @@ import org.hibernate.annotations.Subselect;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Immutable
@@ -38,6 +41,9 @@ import java.time.LocalDateTime;
         LEFT JOIN site_master s ON s.site_id = d.site_id
         LEFT JOIN maintenance_request mr ON mr.id = d.request_id
         """)
+@Getter
+@Setter
+@NoArgsConstructor
 public class EquipmentDowntimeList {
     @Id
     private Long id;
@@ -98,7 +104,3 @@ public class EquipmentDowntimeList {
     public LocalDateTime getCreatedAt() { return createdAt; }
     public LocalDateTime getUpdatedAt() { return updatedAt; }
 }
-
-
-
-
