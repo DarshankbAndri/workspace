@@ -67,18 +67,6 @@ travel-reimbursement-system/
 - PostgreSQL 12 or higher
 - Maven 3.6 or higher
 
-### VS Code Lombok Setup
-
-This backend uses Lombok for DTO boilerplate and constructor injection.
-
-1. Install the `Lombok Annotations Support for VS Code` extension if Lombok annotations are not resolved.
-2. Install `Extension Pack for Java` if Java language support is not already installed.
-3. Reload the VS Code window after installing extensions.
-4. Run the Maven build from `cmms_back_end`:
-```bash
-mvn clean install
-```
-
 ### Database Setup
 
 1. Create PostgreSQL database:

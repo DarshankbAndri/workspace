@@ -4,28 +4,25 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <changeSet id="permission-master-001-create-table" author="DARSHAN">
-        <createTable tableName="permission_master">
-            <column name="permission_id" type="BIGINT" autoIncrement="true">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="permission_code" type="VARCHAR(100)">
-                <constraints nullable="false" unique="true"/>
-            </column>
-            <column name="permission_name" type="VARCHAR(150)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="module_name" type="VARCHAR(100)"/>
-            <column name="action_name" type="VARCHAR(50)"/>
-            <column name="status" type="VARCHAR(20)" defaultValue="ACTIVE"/>
-            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-            <column name="updated_at" type="TIMESTAMP"/>
-        </createTable>
+    <changeSet id="cmms-permission-master-create" author="codex">
+        <preConditions onFail="MARK_RAN">
+            <not><tableExists tableName="permission_master"/></not>
+        </preConditions>
+        <sql>
+            CREATE TABLE IF NOT EXISTS permission_master (
+                permission_id BIGSERIAL PRIMARY KEY,
+                permission_code VARCHAR(100) UNIQUE NOT NULL,
+                permission_name VARCHAR(150) NOT NULL,
+                module_name VARCHAR(100),
+                action_name VARCHAR(50),
+                status VARCHAR(20) DEFAULT 'ACTIVE',
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP
+            );
+        </sql>
     </changeSet>
 
-    <changeSet id="permission-master-002-seed-defaults" author="DARSHAN">
+    <changeSet id="cmms-permission-master-seed-defaults" author="codex">
         <sql>
             INSERT INTO permission_master (permission_code, permission_name, module_name, action_name, status, created_at, updated_at) VALUES
             ('DASHBOARD_VIEW', 'View Dashboard', 'Dashboard', 'VIEW', 'ACTIVE', NOW(), NOW()),
@@ -70,7 +67,7 @@
         </sql>
     </changeSet>
 
-    <changeSet id="permission-master-003-seed-approval" author="DARSHAN">
+    <changeSet id="cmms-permission-master-seed-approval" author="codex">
         <sql>
             INSERT INTO permission_master (permission_code, permission_name, module_name, action_name, status, created_at, updated_at) VALUES
             ('APPROVAL_VIEW', 'View Approvals', 'Approval', 'VIEW', 'ACTIVE', NOW(), NOW()),
@@ -78,14 +75,6 @@
             ('APPROVAL_REJECT', 'Reject Approval Requests', 'Approval', 'REJECT', 'ACTIVE', NOW(), NOW()),
             ('APPROVAL_CONFIG_VIEW', 'View Approval Config', 'Approval Config', 'VIEW', 'ACTIVE', NOW(), NOW()),
             ('APPROVAL_CONFIG_UPDATE', 'Update Approval Config', 'Approval Config', 'UPDATE', 'ACTIVE', NOW(), NOW())
-            ON CONFLICT (permission_code) DO NOTHING;
-        </sql>
-    </changeSet>
-
-    <changeSet id="permission-master-004-seed-site-global-access" author="Codex">
-        <sql>
-            INSERT INTO permission_master (permission_code, permission_name, module_name, action_name, status, created_at, updated_at) VALUES
-            ('SITE_GLOBAL_ACCESS', 'Access All Sites', 'Site', 'GLOBAL_ACCESS', 'ACTIVE', NOW(), NOW())
             ON CONFLICT (permission_code) DO NOTHING;
         </sql>
     </changeSet>

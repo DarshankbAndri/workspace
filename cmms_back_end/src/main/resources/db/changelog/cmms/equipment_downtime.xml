@@ -4,64 +4,62 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <changeSet id="equipment-downtime-001-create-table" author="DARSHAN">
+    <changeSet id="cmms-equipment-downtime-create" author="darshan">
+        <preConditions onFail="MARK_RAN">
+            <not><tableExists tableName="equipment_downtime"/></not>
+        </preConditions>
         <createTable tableName="equipment_downtime">
-            <column name="id" type="BIGINT" autoIncrement="true">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="equipment_id" type="BIGINT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="site_id" type="BIGINT"/>
+            <column name="id" type="BIGSERIAL"><constraints primaryKey="true"/></column>
+            <column name="equipment_id" type="BIGINT"><constraints nullable="false"/></column>
             <column name="request_id" type="BIGINT"/>
-            <column name="downtime_start" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
+            <column name="downtime_start" type="TIMESTAMP"><constraints nullable="false"/></column>
             <column name="downtime_end" type="TIMESTAMP"/>
-            <column name="downtime_minutes" type="BIGINT"/>
-            <column name="reason" type="VARCHAR(120)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="planned" type="BOOLEAN" defaultValueBoolean="false">
-                <constraints nullable="false"/>
-            </column>
+            <column name="downtime_hours" type="NUMERIC(10,2)"/>
+            <column name="reason" type="VARCHAR(120)"><constraints nullable="false"/></column>
+            <column name="planned" type="BOOLEAN" defaultValueBoolean="false"><constraints nullable="false"/></column>
             <column name="remarks" type="VARCHAR(1000)"/>
-            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"><constraints nullable="false"/></column>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"><constraints nullable="false"/></column>
         </createTable>
     </changeSet>
 
-    <changeSet id="equipment-downtime-002-add-foreign-keys" author="DARSHAN">
-        <addForeignKeyConstraint constraintName="fk_downtime_equipment"
-                                 baseTableName="equipment_downtime"
-                                 baseColumnNames="equipment_id"
-                                 referencedTableName="equipment_master"
-                                 referencedColumnNames="id"/>
-        <addForeignKeyConstraint constraintName="fk_downtime_request"
-                                 baseTableName="equipment_downtime"
-                                 baseColumnNames="request_id"
-                                 referencedTableName="maintenance_request"
-                                 referencedColumnNames="id"/>
-        <addForeignKeyConstraint constraintName="fk_downtime_site"
-                                 baseTableName="equipment_downtime"
-                                 baseColumnNames="site_id"
-                                 referencedTableName="site_master"
-                                 referencedColumnNames="site_id"/>
+    <changeSet id="cmms-equipment-downtime-add-minutes" author="darshan">
+        <preConditions onFail="MARK_RAN">
+            <not><columnExists tableName="equipment_downtime" columnName="downtime_minutes"/></not>
+        </preConditions>
+        <addColumn tableName="equipment_downtime">
+            <column name="downtime_minutes" type="BIGINT"/>
+        </addColumn>
+        <update tableName="equipment_downtime">
+            <column name="downtime_minutes" valueComputed="CAST(ROUND(downtime_hours * 60) AS BIGINT)"/>
+            <where>downtime_hours IS NOT NULL AND downtime_minutes IS NULL</where>
+        </update>
     </changeSet>
 
-    <changeSet id="equipment-downtime-003-create-indexes" author="DARSHAN">
-        <createIndex indexName="idx_downtime_equipment" tableName="equipment_downtime">
-            <column name="equipment_id"/>
-        </createIndex>
-        <createIndex indexName="idx_downtime_start" tableName="equipment_downtime">
-            <column name="downtime_start"/>
-        </createIndex>
-        <createIndex indexName="idx_downtime_site_id" tableName="equipment_downtime">
-            <column name="site_id"/>
-        </createIndex>
+    <changeSet id="cmms-equipment-downtime-add-site" author="codex">
+        <preConditions onFail="MARK_RAN">
+            <not><columnExists tableName="equipment_downtime" columnName="site_id"/></not>
+        </preConditions>
+        <addColumn tableName="equipment_downtime">
+            <column name="site_id" type="BIGINT"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="cmms-equipment-downtime-fks" author="darshan">
+        <preConditions onFail="MARK_RAN">
+            <not><foreignKeyConstraintExists foreignKeyName="fk_downtime_equipment" foreignKeyTableName="equipment_downtime"/></not>
+        </preConditions>
+        <addForeignKeyConstraint constraintName="fk_downtime_equipment" baseTableName="equipment_downtime" baseColumnNames="equipment_id" referencedTableName="equipment_master" referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_downtime_request" baseTableName="equipment_downtime" baseColumnNames="request_id" referencedTableName="maintenance_request" referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_downtime_site" baseTableName="equipment_downtime" baseColumnNames="site_id" referencedTableName="site_master" referencedColumnNames="site_id"/>
+    </changeSet>
+
+    <changeSet id="cmms-equipment-downtime-indexes" author="darshan">
+        <preConditions onFail="MARK_RAN">
+            <not><indexExists indexName="idx_downtime_equipment"/></not>
+        </preConditions>
+        <createIndex indexName="idx_downtime_equipment" tableName="equipment_downtime"><column name="equipment_id"/></createIndex>
+        <createIndex indexName="idx_downtime_start" tableName="equipment_downtime"><column name="downtime_start"/></createIndex>
+        <createIndex indexName="idx_downtime_site_id" tableName="equipment_downtime"><column name="site_id"/></createIndex>
     </changeSet>
 </databaseChangeLog>

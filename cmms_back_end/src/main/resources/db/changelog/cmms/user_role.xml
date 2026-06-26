@@ -4,41 +4,20 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <changeSet id="user-role-001-create-table" author="DARSHAN">
-        <createTable tableName="user_role">
-            <column name="user_role_id" type="BIGINT" autoIncrement="true">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="user_id" type="BIGINT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="role_id" type="BIGINT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="site_id" type="BIGINT"/>
-            <column name="status" type="VARCHAR(20)" defaultValue="ACTIVE"/>
-            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-            <column name="updated_at" type="TIMESTAMP"/>
-        </createTable>
-    </changeSet>
-
-    <changeSet id="user-role-002-add-foreign-keys" author="DARSHAN">
-        <addForeignKeyConstraint constraintName="fk_user_role_user"
-                                 baseTableName="user_role"
-                                 baseColumnNames="user_id"
-                                 referencedTableName="users"
-                                 referencedColumnNames="id"/>
-        <addForeignKeyConstraint constraintName="fk_user_role_role"
-                                 baseTableName="user_role"
-                                 baseColumnNames="role_id"
-                                 referencedTableName="role_master"
-                                 referencedColumnNames="role_id"/>
-        <addForeignKeyConstraint constraintName="fk_user_role_site"
-                                 baseTableName="user_role"
-                                 baseColumnNames="site_id"
-                                 referencedTableName="site_master"
-                                 referencedColumnNames="site_id"/>
+    <changeSet id="cmms-user-role-create" author="codex">
+        <preConditions onFail="MARK_RAN">
+            <not><tableExists tableName="user_role"/></not>
+        </preConditions>
+        <sql>
+            CREATE TABLE IF NOT EXISTS user_role (
+                user_role_id BIGSERIAL PRIMARY KEY,
+                user_id BIGINT NOT NULL REFERENCES users(id),
+                role_id BIGINT NOT NULL REFERENCES role_master(role_id),
+                site_id BIGINT NULL REFERENCES site_master(site_id),
+                status VARCHAR(20) DEFAULT 'ACTIVE',
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP
+            );
+        </sql>
     </changeSet>
 </databaseChangeLog>

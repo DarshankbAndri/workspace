@@ -4,9 +4,12 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <changeSet id="cmms-approval-config-create" author="DARSHAN">
+    <changeSet id="cmms-approval-config-create" author="codex">
+        <preConditions onFail="MARK_RAN">
+            <not><tableExists tableName="approval_config"/></not>
+        </preConditions>
         <createTable tableName="approval_config">
-            <column name="config_id" type="BIGINT" autoIncrement="true"><constraints primaryKey="true"/></column>
+            <column name="config_id" type="BIGSERIAL"><constraints primaryKey="true"/></column>
             <column name="module_code" type="VARCHAR(100)"><constraints nullable="false"/></column>
             <column name="action_code" type="VARCHAR(100)"><constraints nullable="false"/></column>
             <column name="approval_required" type="BOOLEAN" defaultValueBoolean="false"><constraints nullable="false"/></column>
@@ -19,14 +22,17 @@
         <addUniqueConstraint tableName="approval_config" columnNames="module_code, action_code" constraintName="uk_approval_config_module_action"/>
     </changeSet>
 
-    <changeSet id="cmms-approval-config-indexes" author="DARSHAN">
+    <changeSet id="cmms-approval-config-indexes" author="codex">
+        <preConditions onFail="MARK_RAN">
+            <not><indexExists indexName="idx_approval_config_module_action"/></not>
+        </preConditions>
         <createIndex indexName="idx_approval_config_module_action" tableName="approval_config">
             <column name="module_code"/>
             <column name="action_code"/>
         </createIndex>
     </changeSet>
 
-    <changeSet id="cmms-approval-config-seed-defaults" author="DARSHAN">
+    <changeSet id="cmms-approval-config-seed-defaults" author="codex">
         <sql>
             INSERT INTO approval_config (module_code, action_code, approval_required, approver_role_code, min_approval_count, status, created_at, updated_at) VALUES
             ('PM_SCHEDULE', 'CREATE', false, 'MAINTENANCE_MANAGER', 1, 'ACTIVE', NOW(), NOW()),

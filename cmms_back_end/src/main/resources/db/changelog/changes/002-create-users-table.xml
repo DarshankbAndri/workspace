@@ -4,9 +4,9 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <changeSet id="users-001-create-table" author="DARSHAN">
+    <changeSet id="002-create-users-table" author="admin">
         <createTable tableName="users">
-            <column name="id" type="BIGINT" autoIncrement="true">
+            <column name="id" type="BIGSERIAL">
                 <constraints primaryKey="true"/>
             </column>
             <column name="username" type="VARCHAR(100)">
@@ -27,7 +27,6 @@
             <column name="department" type="VARCHAR(100)">
                 <constraints nullable="false"/>
             </column>
-            <column name="employee_id" type="BIGINT"/>
             <column name="manager_id" type="BIGINT"/>
             <column name="active" type="BOOLEAN" defaultValue="true">
                 <constraints nullable="false"/>
@@ -42,28 +41,23 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="users-002-add-foreign-keys" author="DARSHAN">
+    <changeSet id="002-add-users-fk" author="admin">
         <addForeignKeyConstraint constraintName="fk_users_manager_id"
                                  baseTableName="users"
                                  baseColumnNames="manager_id"
                                  referencedTableName="users"
                                  referencedColumnNames="id"/>
-        <addForeignKeyConstraint constraintName="fk_users_employee_id"
-                                 baseTableName="users"
-                                 baseColumnNames="employee_id"
-                                 referencedTableName="employee_master"
-                                 referencedColumnNames="employee_id"/>
-        <addUniqueConstraint constraintName="uk_users_employee_id"
-                             tableName="users"
-                             columnNames="employee_id"/>
     </changeSet>
 
-    <changeSet id="users-003-create-indexes" author="DARSHAN">
+    <changeSet id="002-create-users-indexes" author="admin">
+        <createIndex indexName="idx_users_username" tableName="users">
+            <column name="username"/>
+        </createIndex>
+        <createIndex indexName="idx_users_email" tableName="users">
+            <column name="email"/>
+        </createIndex>
         <createIndex indexName="idx_users_role" tableName="users">
             <column name="role"/>
-        </createIndex>
-        <createIndex indexName="idx_users_employee_id" tableName="users">
-            <column name="employee_id"/>
         </createIndex>
     </changeSet>
 

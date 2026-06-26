@@ -4,9 +4,12 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <changeSet id="cmms-employee-master-create" author="DARSHAN">
+    <changeSet id="cmms-employee-master-create" author="codex">
+        <preConditions onFail="MARK_RAN">
+            <not><tableExists tableName="employee_master"/></not>
+        </preConditions>
         <createTable tableName="employee_master">
-            <column name="employee_id" type="BIGINT" autoIncrement="true"><constraints primaryKey="true"/></column>
+            <column name="employee_id" type="BIGSERIAL"><constraints primaryKey="true"/></column>
             <column name="employee_code" type="VARCHAR(50)"><constraints nullable="false" unique="true"/></column>
             <column name="first_name" type="VARCHAR(100)"><constraints nullable="false"/></column>
             <column name="last_name" type="VARCHAR(100)"/>
@@ -23,7 +26,11 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="cmms-employee-master-indexes" author="DARSHAN">
+    <changeSet id="cmms-employee-master-indexes" author="codex">
+        <preConditions onFail="MARK_RAN">
+            <not><indexExists indexName="idx_employee_master_code"/></not>
+        </preConditions>
+        <createIndex indexName="idx_employee_master_code" tableName="employee_master"><column name="employee_code"/></createIndex>
         <createIndex indexName="idx_employee_master_status" tableName="employee_master"><column name="status"/></createIndex>
     </changeSet>
 </databaseChangeLog>

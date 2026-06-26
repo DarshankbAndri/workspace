@@ -4,9 +4,12 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <changeSet id="cmms-site-master-create" author="DARSHAN">
+    <changeSet id="cmms-site-master-create" author="codex">
+        <preConditions onFail="MARK_RAN">
+            <not><tableExists tableName="site_master"/></not>
+        </preConditions>
         <createTable tableName="site_master">
-            <column name="site_id" type="BIGINT" autoIncrement="true"><constraints primaryKey="true"/></column>
+            <column name="site_id" type="BIGSERIAL"><constraints primaryKey="true"/></column>
             <column name="site_code" type="VARCHAR(50)"><constraints nullable="false" unique="true"/></column>
             <column name="site_name" type="VARCHAR(200)"><constraints nullable="false"/></column>
             <column name="organization_name" type="VARCHAR(200)"/>
@@ -28,7 +31,11 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="cmms-site-master-indexes" author="DARSHAN">
+    <changeSet id="cmms-site-master-indexes" author="codex">
+        <preConditions onFail="MARK_RAN">
+            <not><indexExists indexName="idx_site_master_code"/></not>
+        </preConditions>
+        <createIndex indexName="idx_site_master_code" tableName="site_master"><column name="site_code"/></createIndex>
         <createIndex indexName="idx_site_master_status" tableName="site_master"><column name="status"/></createIndex>
     </changeSet>
 </databaseChangeLog>

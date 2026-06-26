@@ -4,9 +4,12 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <changeSet id="cmms-company-master-create" author="DARSHAN">
+    <changeSet id="cmms-company-master-create" author="codex">
+        <preConditions onFail="MARK_RAN">
+            <not><tableExists tableName="company_master"/></not>
+        </preConditions>
         <createTable tableName="company_master">
-            <column name="id" type="BIGINT" autoIncrement="true"><constraints primaryKey="true"/></column>
+            <column name="id" type="BIGSERIAL"><constraints primaryKey="true"/></column>
             <column name="company_name" type="VARCHAR(150)"><constraints nullable="false"/></column>
             <column name="company_code" type="VARCHAR(50)"><constraints nullable="false" unique="true"/></column>
             <column name="email" type="VARCHAR(150)"/>
@@ -20,12 +23,15 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="cmms-company-master-indexes" author="DARSHAN">
+    <changeSet id="cmms-company-master-indexes" author="codex">
+        <preConditions onFail="MARK_RAN">
+            <not><indexExists indexName="idx_company_master_status"/></not>
+        </preConditions>
         <createIndex indexName="idx_company_master_status" tableName="company_master"><column name="status"/></createIndex>
         <createIndex indexName="idx_company_master_updated" tableName="company_master"><column name="updated_date"/></createIndex>
     </changeSet>
 
-    <changeSet id="cmms-company-master-permissions" author="DARSHAN">
+    <changeSet id="cmms-company-master-permissions" author="codex">
         <sql>
             INSERT INTO permission_master (permission_code, permission_name, module_name, action_name, status, created_at, updated_at) VALUES
             ('COMPANY_VIEW', 'View Company Master', 'Company', 'VIEW', 'ACTIVE', NOW(), NOW()),

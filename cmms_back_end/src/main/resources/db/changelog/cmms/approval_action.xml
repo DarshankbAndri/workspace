@@ -4,9 +4,12 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <changeSet id="cmms-approval-action-create" author="DARSHAN">
+    <changeSet id="cmms-approval-action-create" author="codex">
+        <preConditions onFail="MARK_RAN">
+            <not><tableExists tableName="approval_action"/></not>
+        </preConditions>
         <createTable tableName="approval_action">
-            <column name="approval_action_id" type="BIGINT" autoIncrement="true"><constraints primaryKey="true"/></column>
+            <column name="approval_action_id" type="BIGSERIAL"><constraints primaryKey="true"/></column>
             <column name="approval_request_id" type="BIGINT"><constraints nullable="false"/></column>
             <column name="approver_user_id" type="BIGINT"><constraints nullable="false"/></column>
             <column name="action_status" type="VARCHAR(30)"><constraints nullable="false"/></column>
@@ -16,12 +19,18 @@
         <addUniqueConstraint tableName="approval_action" columnNames="approval_request_id, approver_user_id" constraintName="uk_approval_action_request_user"/>
     </changeSet>
 
-    <changeSet id="cmms-approval-action-fks" author="DARSHAN">
+    <changeSet id="cmms-approval-action-fks" author="codex">
+        <preConditions onFail="MARK_RAN">
+            <not><foreignKeyConstraintExists foreignKeyName="fk_approval_action_request" foreignKeyTableName="approval_action"/></not>
+        </preConditions>
         <addForeignKeyConstraint constraintName="fk_approval_action_request" baseTableName="approval_action" baseColumnNames="approval_request_id" referencedTableName="approval_request" referencedColumnNames="approval_request_id"/>
         <addForeignKeyConstraint constraintName="fk_approval_action_user" baseTableName="approval_action" baseColumnNames="approver_user_id" referencedTableName="users" referencedColumnNames="id"/>
     </changeSet>
 
-    <changeSet id="cmms-approval-action-indexes" author="DARSHAN">
+    <changeSet id="cmms-approval-action-indexes" author="codex">
+        <preConditions onFail="MARK_RAN">
+            <not><indexExists indexName="idx_approval_action_request"/></not>
+        </preConditions>
         <createIndex indexName="idx_approval_action_request" tableName="approval_action"><column name="approval_request_id"/></createIndex>
         <createIndex indexName="idx_approval_action_user" tableName="approval_action"><column name="approver_user_id"/></createIndex>
     </changeSet>
