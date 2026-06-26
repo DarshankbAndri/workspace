@@ -89,4 +89,15 @@
             ON CONFLICT (permission_code) DO NOTHING;
         </sql>
     </changeSet>
+
+    <changeSet id="permission-master-005-seed-assignment-checklist" author="Codex">
+        <sql>
+            INSERT INTO permission_master (permission_code, permission_name, module_name, action_name, status, created_at, updated_at) VALUES
+            ('ASSIGNMENT_CHECKLIST_VIEW', 'View Assignment Checklists', 'Assignment Checklist', 'VIEW', 'ACTIVE', NOW(), NOW()),
+            ('ASSIGNMENT_CHECKLIST_UPDATE', 'Update Assignment Checklists', 'Assignment Checklist', 'UPDATE', 'ACTIVE', NOW(), NOW()),
+            ('ASSIGNMENT_CHECKLIST_PROOF_UPLOAD', 'Upload Assignment Checklist Proof', 'Assignment Checklist', 'PROOF_UPLOAD', 'ACTIVE', NOW(), NOW()),
+            ('ASSIGNMENT_CHECKLIST_PROOF_DELETE', 'Delete Assignment Checklist Proof', 'Assignment Checklist', 'PROOF_DELETE', 'ACTIVE', NOW(), NOW())
+            ON CONFLICT (permission_code) DO NOTHING;
+        </sql>
+    </changeSet>
 </databaseChangeLog>

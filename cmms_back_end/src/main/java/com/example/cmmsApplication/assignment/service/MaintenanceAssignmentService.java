@@ -26,6 +26,7 @@ public class MaintenanceAssignmentService {
     private final MaintenanceRequestService requestService;
     private final VendorService vendorService;
     private final AccessControlService accessControlService;
+    private final MaintenanceAssignmentChecklistService checklistService;
 
     public MaintenanceAssignmentDTO create(MaintenanceAssignmentDTO dto) {
         accessControlService.validatePermission("ASSIGNMENT_CREATE");
@@ -42,6 +43,9 @@ public class MaintenanceAssignmentService {
         accessControlService.validateSiteAccess(currentSiteId);
         accessControlService.validateSiteAccess(dto.getSiteId());
         apply(assignment, dto);
+        if ("COMPLETED".equalsIgnoreCase(assignment.getStatus())) {
+            checklistService.validateAssignmentCanComplete(assignment);
+        }
         return toDTO(assignmentDAO.save(assignment));
     }
 

@@ -3,6 +3,7 @@ package com.example.cmmsApplication.preventivemaintenance.service;
 
 import lombok.RequiredArgsConstructor;
 import com.example.cmmsApplication.approval.service.ApprovalWorkflowService;
+import com.example.cmmsApplication.assignment.service.MaintenanceAssignmentChecklistService;
 import com.example.cmmsApplication.common.observability.ObservabilityMetrics;
 import com.example.cmmsApplication.common.security.service.AccessControlService;
 import com.example.cmmsApplication.equipment.service.EquipmentService;
@@ -10,12 +11,15 @@ import com.example.cmmsApplication.site.service.SiteService;
 import com.example.cmmsApplication.vendor.service.VendorService;
 import com.example.cmmsApplication.assignment.dao.MaintenanceAssignmentDAO;
 import com.example.cmmsApplication.maintenancerequest.dao.MaintenanceRequestDAO;
+import com.example.cmmsApplication.preventivemaintenance.dao.PmScheduleChecklistItemDAO;
 import com.example.cmmsApplication.preventivemaintenance.dao.PreventiveMaintenanceScheduleDAO;
 import com.example.cmmsApplication.approval.dto.ApprovalRequestDTO;
+import com.example.cmmsApplication.preventivemaintenance.dto.PmScheduleChecklistItemDTO;
 import com.example.cmmsApplication.preventivemaintenance.dto.PreventiveMaintenanceScheduleDTO;
 import com.example.cmmsApplication.equipment.entity.Equipment;
 import com.example.cmmsApplication.assignment.entity.MaintenanceAssignment;
 import com.example.cmmsApplication.maintenancerequest.entity.MaintenanceRequest;
+import com.example.cmmsApplication.preventivemaintenance.entity.PmScheduleChecklistItem;
 import com.example.cmmsApplication.preventivemaintenance.entity.PreventiveMaintenanceSchedule;
 import com.example.cmmsApplication.site.entity.Site;
 import com.example.cmmsApplication.vendor.entity.Vendor;
@@ -35,6 +39,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -44,6 +49,7 @@ public class PreventiveMaintenanceScheduleService {
     private static final List<String> FREQUENCIES = Arrays.asList("DAILY", "WEEKLY", "MONTHLY", "QUARTERLY", "YEARLY");
 
     private final PreventiveMaintenanceScheduleDAO scheduleDAO;
+    private final PmScheduleChecklistItemDAO checklistItemDAO;
     private final MaintenanceRequestDAO requestDAO;
     private final MaintenanceAssignmentDAO assignmentDAO;
     private final EquipmentService equipmentService;
@@ -51,7 +57,9 @@ public class PreventiveMaintenanceScheduleService {
     private final SiteService siteService;
     private final AccessControlService accessControlService;
     private final ApprovalWorkflowService approvalWorkflowService;
+    private final MaintenanceAssignmentChecklistService assignmentChecklistService;
     private final ObservabilityMetrics observabilityMetrics;
+    private static final Set<String> CHECKLIST_RESPONSE_TYPES = Set.of("CHECKBOX", "TEXT", "NUMBER", "PHOTO");
 
 public PreventiveMaintenanceScheduleDTO create(PreventiveMaintenanceScheduleDTO dto) {
         accessControlService.validatePermission("REQUEST_CREATE");
@@ -70,6 +78,7 @@ public PreventiveMaintenanceScheduleDTO create(PreventiveMaintenanceScheduleDTO 
             schedule.setStatus("PENDING_APPROVAL");
         }
         PreventiveMaintenanceSchedule saved = scheduleDAO.save(schedule);
+        saveChecklistItems(saved, dto.getChecklistItems());
         PreventiveMaintenanceScheduleDTO result = toDTO(saved);
         if (approvalRequired) {
             ApprovalRequestDTO approval = approvalWorkflowService.createApprovalRequest(
@@ -101,6 +110,7 @@ public PreventiveMaintenanceScheduleDTO create(PreventiveMaintenanceScheduleDTO 
             schedule.setStatus("PENDING_APPROVAL");
         }
         PreventiveMaintenanceSchedule saved = scheduleDAO.save(schedule);
+        saveChecklistItems(saved, dto.getChecklistItems());
         PreventiveMaintenanceScheduleDTO result = toDTO(saved);
         if (approvalRequired) {
             ApprovalRequestDTO approval = approvalWorkflowService.createApprovalRequest(
@@ -258,7 +268,8 @@ public PreventiveMaintenanceScheduleDTO create(PreventiveMaintenanceScheduleDTO 
             assignment.setPlannedEndDate(schedule.getNextDueDate());
             assignment.setStatus("ASSIGNED");
             assignment.setRemarks("Auto-generated from PM schedule " + schedule.getScheduleCode());
-            assignmentDAO.save(assignment);
+            MaintenanceAssignment savedAssignment = assignmentDAO.save(assignment);
+            assignmentChecklistService.copyFromPmTemplate(savedAssignment, checklistItemDAO.findActiveByScheduleId(schedule.getId()));
         }
 
         notifyVendor(schedule, savedRequest);
@@ -393,6 +404,7 @@ public PreventiveMaintenanceScheduleDTO create(PreventiveMaintenanceScheduleDTO 
         dto.setCompletionPercentage(completion);
         dto.setCreatedAt(schedule.getCreatedAt());
         dto.setUpdatedAt(schedule.getUpdatedAt());
+        dto.setChecklistItems(checklistDTOs(schedule.getId()));
         return dto;
     }
 
@@ -402,5 +414,62 @@ public PreventiveMaintenanceScheduleDTO create(PreventiveMaintenanceScheduleDTO 
         }
         dto.setApprovalRequestId(approval.getId());
         dto.setApprovalStatus(approval.getApprovalStatus());
+    }
+
+    private void saveChecklistItems(PreventiveMaintenanceSchedule schedule, List<PmScheduleChecklistItemDTO> checklistItems) {
+        checklistItemDAO.deleteByScheduleId(schedule.getId());
+        if (checklistItems == null || checklistItems.isEmpty()) {
+            return;
+        }
+        int fallbackSequence = 1;
+        for (PmScheduleChecklistItemDTO dto : checklistItems) {
+            if (dto == null || dto.getTaskTitle() == null || dto.getTaskTitle().isBlank()) {
+                continue;
+            }
+            PmScheduleChecklistItem item = new PmScheduleChecklistItem();
+            item.setSchedule(schedule);
+            item.setSequenceNumber(dto.getSequenceNumber() == null ? fallbackSequence : dto.getSequenceNumber());
+            item.setTaskTitle(dto.getTaskTitle().trim());
+            item.setInstructions(emptyToNull(dto.getInstructions()));
+            item.setRequired(dto.getRequired() == null || dto.getRequired());
+            item.setProofRequired(Boolean.TRUE.equals(dto.getProofRequired()));
+            item.setResponseType(normalizeChecklistResponseType(dto.getResponseType()));
+            item.setActive(dto.getActive() == null || dto.getActive());
+            checklistItemDAO.save(item);
+            fallbackSequence++;
+        }
+    }
+
+    private List<PmScheduleChecklistItemDTO> checklistDTOs(Long scheduleId) {
+        return checklistItemDAO.findByScheduleId(scheduleId).stream()
+                .map(this::toChecklistDTO)
+                .collect(Collectors.toList());
+    }
+
+    private PmScheduleChecklistItemDTO toChecklistDTO(PmScheduleChecklistItem item) {
+        return PmScheduleChecklistItemDTO.builder()
+                .id(item.getId())
+                .sequenceNumber(item.getSequenceNumber())
+                .taskTitle(item.getTaskTitle())
+                .instructions(item.getInstructions())
+                .required(item.getRequired())
+                .proofRequired(item.getProofRequired())
+                .responseType(item.getResponseType())
+                .active(item.getActive())
+                .createdAt(item.getCreatedAt())
+                .updatedAt(item.getUpdatedAt())
+                .build();
+    }
+
+    private String normalizeChecklistResponseType(String value) {
+        String responseType = value == null || value.isBlank() ? "CHECKBOX" : value.trim().toUpperCase(Locale.ROOT);
+        if (!CHECKLIST_RESPONSE_TYPES.contains(responseType)) {
+            throw new InvalidOperationException("Checklist response type must be CHECKBOX, TEXT, NUMBER, or PHOTO");
+        }
+        return responseType;
+    }
+
+    private String emptyToNull(String value) {
+        return value == null || value.trim().isEmpty() ? null : value.trim();
     }
 }

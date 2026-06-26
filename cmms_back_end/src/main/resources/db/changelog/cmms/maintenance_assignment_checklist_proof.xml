@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="cmms-maintenance-assignment-checklist-proof-create" author="Codex">
+        <createTable tableName="maintenance_assignment_checklist_proof">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="checklist_item_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="original_file_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="stored_file_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="stored_file_path" type="VARCHAR(700)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="content_type" type="VARCHAR(120)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="file_size" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="uploaded_by_user_id" type="BIGINT"/>
+            <column name="uploaded_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="cmms-maintenance-assignment-checklist-proof-fks" author="Codex">
+        <addForeignKeyConstraint constraintName="fk_assignment_checklist_proof_item"
+                                 baseTableName="maintenance_assignment_checklist_proof"
+                                 baseColumnNames="checklist_item_id"
+                                 referencedTableName="maintenance_assignment_checklist_item"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_assignment_checklist_proof_user"
+                                 baseTableName="maintenance_assignment_checklist_proof"
+                                 baseColumnNames="uploaded_by_user_id"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="cmms-maintenance-assignment-checklist-proof-indexes" author="Codex">
+        <createIndex indexName="idx_assignment_checklist_proof_item" tableName="maintenance_assignment_checklist_proof">
+            <column name="checklist_item_id"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>

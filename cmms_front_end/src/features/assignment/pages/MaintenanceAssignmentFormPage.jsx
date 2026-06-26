@@ -1,12 +1,24 @@
 import React from 'react';
 import { Alert, Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, MenuItem, Paper, Stack, TextField, Tooltip, Typography } from '@mui/material';
-import { Cancel, CheckCircle, Delete, Edit, Inventory, Save, Undo } from '@mui/icons-material';
+import { AddTask, Cancel, CheckCircle, Delete, Download, Edit, Inventory, Save, Undo, UploadFile } from '@mui/icons-material';
 import { DataGrid } from '@mui/x-data-grid';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../../../shared/context/AuthContext';
 import { getVendorsBySite } from '../../vendor/services/vendorService';
 import { getSites } from '../../site/services/siteService';
-import { createMaintenanceAssignment, getMaintenanceAssignmentById, getRequestsBySite, updateMaintenanceAssignment } from '../../maintenance/services/maintenanceService';
+import {
+  addAssignmentChecklistItem,
+  createMaintenanceAssignment,
+  deleteAssignmentChecklistItem,
+  deleteAssignmentChecklistProof,
+  downloadAssignmentChecklistProof,
+  getAssignmentChecklist,
+  getMaintenanceAssignmentById,
+  getRequestsBySite,
+  updateAssignmentChecklistItem,
+  updateMaintenanceAssignment,
+  uploadAssignmentChecklistProof,
+} from '../../maintenance/services/maintenanceService';
 import {
   addAssignmentSpare,
   cancelAssignmentSpare,
@@ -38,6 +50,9 @@ const initialForm = {
 };
 
 const initialSpareEditDialog = { open: false, row: null, quantityUsed: '', remarks: '' };
+const initialChecklistForm = { taskTitle: '', instructions: '', required: true, proofRequired: false, responseType: 'CHECKBOX' };
+const checklistStatusOptions = ['PENDING', 'COMPLETED', 'NOT_APPLICABLE'];
+const checklistResponseTypes = ['CHECKBOX', 'TEXT', 'NUMBER', 'PHOTO'];
 const statusColors = {
   REQUESTED: 'default',
   MANAGER_APPROVED: 'info',
@@ -71,6 +86,8 @@ function MaintenanceAssignmentFormPage() {
   const [spareRows, setSpareRows] = React.useState([]);
   const [spareForm, setSpareForm] = React.useState({ stockId: '', quantityUsed: '', remarks: '' });
   const [spareEditDialog, setSpareEditDialog] = React.useState(initialSpareEditDialog);
+  const [checklistRows, setChecklistRows] = React.useState([]);
+  const [checklistForm, setChecklistForm] = React.useState(initialChecklistForm);
   const [error, setError] = React.useState('');
   const [saving, setSaving] = React.useState(false);
 
@@ -114,16 +131,119 @@ function MaintenanceAssignmentFormPage() {
 
   React.useEffect(() => { loadSpares(); }, [loadSpares]);
 
+  const loadChecklist = React.useCallback(() => {
+    if (!id) {
+      setChecklistRows([]);
+      return;
+    }
+    getAssignmentChecklist(id)
+      .then((data) => setChecklistRows(data || []))
+      .catch(() => setError('Unable to load assignment checklist.'));
+  }, [id]);
+
+  React.useEffect(() => { loadChecklist(); }, [loadChecklist]);
+
   const updateField = (field) => (event) => setForm((current) => ({ ...current, [field]: event.target.value }));
   const updateSite = (event) => setForm((current) => ({ ...current, siteId: event.target.value, requestId: '', vendorId: '' }));
   const updateRequest = (event) => setForm((current) => ({ ...current, requestId: event.target.value, vendorId: '' }));
   const updateSpareField = (field) => (event) => setSpareForm((current) => ({ ...current, [field]: event.target.value }));
+  const updateChecklistForm = (field) => (event) => setChecklistForm((current) => ({ ...current, [field]: event.target.value }));
+  const updateChecklistRow = (rowId, field, value) => {
+    setChecklistRows((current) => current.map((row) => (row.id === rowId ? { ...row, [field]: value } : row)));
+  };
 
   const materialCost = spareRows
     .filter((item) => ['CONSUMED', 'RETURNED', 'PARTIALLY_CONSUMED'].includes(item.status || 'CONSUMED'))
     .reduce((sum, item) => sum + (Number(item.consumedQty || item.quantityUsed || 0) * Number(item.unitCost || 0)), 0);
   const serviceCost = Number(form.actualCost || 0);
   const totalActualCost = serviceCost + materialCost;
+  const completedChecklistCount = checklistRows.filter((row) => ['COMPLETED', 'NOT_APPLICABLE'].includes(row.status)).length;
+  const canCompleteChecklist = checklistRows.every((row) => {
+    if (row.required === false) return true;
+    const statusDone = ['COMPLETED', 'NOT_APPLICABLE'].includes(row.status);
+    const proofDone = !row.proofRequired || (row.proofs || []).length > 0;
+    return statusDone && proofDone;
+  });
+
+  const handleAddChecklistItem = async () => {
+    setError('');
+    if (!id) {
+      setError('Save the assignment before adding checklist steps.');
+      return;
+    }
+    if (!checklistForm.taskTitle.trim()) {
+      setError('Checklist task title is required.');
+      return;
+    }
+    try {
+      await addAssignmentChecklistItem(id, {
+        ...checklistForm,
+        sequenceNumber: checklistRows.length + 1,
+        taskTitle: checklistForm.taskTitle.trim(),
+      });
+      setChecklistForm(initialChecklistForm);
+      loadChecklist();
+    } catch (err) {
+      setError(err.response?.data?.message || 'Unable to add checklist item.');
+    }
+  };
+
+  const handleSaveChecklistRow = async (row) => {
+    setError('');
+    try {
+      await updateAssignmentChecklistItem(id, row.id, row);
+      loadChecklist();
+    } catch (err) {
+      setError(err.response?.data?.message || 'Unable to update checklist item.');
+    }
+  };
+
+  const handleDeleteChecklistRow = async (row) => {
+    if (!window.confirm('Remove this checklist item?')) return;
+    try {
+      await deleteAssignmentChecklistItem(id, row.id);
+      loadChecklist();
+    } catch (err) {
+      setError(err.response?.data?.message || 'Unable to remove checklist item.');
+    }
+  };
+
+  const handleUploadChecklistProof = async (row, file) => {
+    if (!file) return;
+    setError('');
+    try {
+      await uploadAssignmentChecklistProof(id, row.id, file);
+      loadChecklist();
+    } catch (err) {
+      setError(err.response?.data?.message || 'Unable to upload checklist proof.');
+    }
+  };
+
+  const handleDownloadChecklistProof = async (row, proof) => {
+    try {
+      const response = await downloadAssignmentChecklistProof(id, row.id, proof.id);
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = proof.originalFileName || 'proof';
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      setError(err.response?.data?.message || 'Unable to download checklist proof.');
+    }
+  };
+
+  const handleDeleteChecklistProof = async (row, proof) => {
+    if (!window.confirm('Remove this proof file?')) return;
+    try {
+      await deleteAssignmentChecklistProof(id, row.id, proof.id);
+      loadChecklist();
+    } catch (err) {
+      setError(err.response?.data?.message || 'Unable to delete checklist proof.');
+    }
+  };
 
   const handleAddSpare = async () => {
     setError('');
@@ -285,6 +405,10 @@ function MaintenanceAssignmentFormPage() {
       setError('Site, maintenance request, and vendor are required.');
       return;
     }
+    if (form.status === 'COMPLETED' && !canCompleteChecklist) {
+      setError('Complete required checklist steps and proof before completing the assignment.');
+      return;
+    }
     setSaving(true);
     try {
       const payload = {
@@ -322,7 +446,7 @@ function MaintenanceAssignmentFormPage() {
             <Grid item xs={12} md={3}><TextField type="date" fullWidth disabled={isView} label="Assigned Date" value={form.assignedDate || ''} onChange={updateField('assignedDate')} InputLabelProps={{ shrink: true }} /></Grid>
             <Grid item xs={12} md={3}><TextField type="date" fullWidth disabled={isView} label="Planned Start" value={form.plannedStartDate || ''} onChange={updateField('plannedStartDate')} InputLabelProps={{ shrink: true }} /></Grid>
             <Grid item xs={12} md={3}><TextField type="date" fullWidth disabled={isView} label="Planned End" value={form.plannedEndDate || ''} onChange={updateField('plannedEndDate')} InputLabelProps={{ shrink: true }} /></Grid>
-            <Grid item xs={12} md={3}><TextField select fullWidth disabled={isView} label="Status" value={form.status || 'ASSIGNED'} onChange={updateField('status')}><MenuItem value="ASSIGNED">Assigned</MenuItem><MenuItem value="IN_PROGRESS">In Progress</MenuItem><MenuItem value="COMPLETED">Completed</MenuItem><MenuItem value="CANCELLED">Cancelled</MenuItem></TextField></Grid>
+            <Grid item xs={12} md={3}><TextField select fullWidth disabled={isView} label="Status" value={form.status || 'ASSIGNED'} onChange={updateField('status')}><MenuItem value="ASSIGNED">Assigned</MenuItem><MenuItem value="IN_PROGRESS">In Progress</MenuItem><MenuItem value="COMPLETED" disabled={checklistRows.length > 0 && !canCompleteChecklist}>Completed</MenuItem><MenuItem value="CANCELLED">Cancelled</MenuItem></TextField></Grid>
             <Grid item xs={12} md={3}><TextField type="date" fullWidth disabled={isView} label="Actual Start" value={form.actualStartDate || ''} onChange={updateField('actualStartDate')} InputLabelProps={{ shrink: true }} /></Grid>
             <Grid item xs={12} md={3}><TextField type="date" fullWidth disabled={isView} label="Actual End" value={form.actualEndDate || ''} onChange={updateField('actualEndDate')} InputLabelProps={{ shrink: true }} /></Grid>
             <Grid item xs={12} md={3}><TextField type="number" fullWidth disabled={isView} label="Estimated Cost" value={form.estimatedCost} onChange={updateField('estimatedCost')} /></Grid>
@@ -337,6 +461,100 @@ function MaintenanceAssignmentFormPage() {
           </Stack>
         </Paper>
       </Box>
+      {id && (
+        <Paper sx={{ p: 3, borderRadius: 1, mt: 2 }}>
+          <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" alignItems={{ xs: 'stretch', sm: 'center' }} spacing={1.5} sx={{ mb: 2 }}>
+            <Stack direction="row" spacing={1} alignItems="center">
+              <Typography variant="h6" fontWeight={800}>Checklist</Typography>
+              <Chip size="small" label={`${completedChecklistCount}/${checklistRows.length}`} color={canCompleteChecklist ? 'success' : 'warning'} />
+            </Stack>
+          </Stack>
+          {!isView && hasPermission('ASSIGNMENT_CHECKLIST_UPDATE') && (
+            <Grid container spacing={1.5} sx={{ mb: 2 }}>
+              <Grid item xs={12} md={3}><TextField fullWidth label="Task" value={checklistForm.taskTitle} onChange={updateChecklistForm('taskTitle')} /></Grid>
+              <Grid item xs={12} md={3}><TextField fullWidth label="Instructions" value={checklistForm.instructions} onChange={updateChecklistForm('instructions')} /></Grid>
+              <Grid item xs={12} md={2}>
+                <TextField select fullWidth label="Response" value={checklistForm.responseType} onChange={updateChecklistForm('responseType')}>
+                  {checklistResponseTypes.map((type) => <MenuItem key={type} value={type}>{type}</MenuItem>)}
+                </TextField>
+              </Grid>
+              <Grid item xs={12} md={2}>
+                <Stack direction="row" spacing={1}>
+                  <Button variant={checklistForm.required ? 'contained' : 'outlined'} onClick={() => setChecklistForm((current) => ({ ...current, required: !current.required }))}>Required</Button>
+                  <Button variant={checklistForm.proofRequired ? 'contained' : 'outlined'} onClick={() => setChecklistForm((current) => ({ ...current, proofRequired: !current.proofRequired }))}>Proof</Button>
+                </Stack>
+              </Grid>
+              <Grid item xs={12} md={2}><Button fullWidth variant="contained" startIcon={<AddTask />} sx={{ height: '100%' }} onClick={handleAddChecklistItem}>Add Step</Button></Grid>
+            </Grid>
+          )}
+          <Stack spacing={1.5}>
+            {checklistRows.length === 0 && <Typography variant="body2" color="text.secondary">No checklist items.</Typography>}
+            {checklistRows.map((row) => (
+              <Box key={row.id} sx={{ border: 1, borderColor: 'divider', borderRadius: 1, p: 1.5 }}>
+                <Grid container spacing={1.5} alignItems="center">
+                  <Grid item xs={12} md={2.5}>
+                    <Typography variant="subtitle2" fontWeight={800}>{row.sequenceNumber}. {row.taskTitle}</Typography>
+                    <Typography variant="caption" color="text.secondary">{row.responseType}{row.required !== false ? ' | Required' : ''}{row.proofRequired ? ' | Proof' : ''}</Typography>
+                  </Grid>
+                  <Grid item xs={12} md={2}>
+                    <TextField select fullWidth size="small" disabled={isView || !hasPermission('ASSIGNMENT_CHECKLIST_UPDATE')} label="Status" value={row.status || 'PENDING'} onChange={(event) => updateChecklistRow(row.id, 'status', event.target.value)}>
+                      {checklistStatusOptions.map((status) => <MenuItem key={status} value={status}>{status.replaceAll('_', ' ')}</MenuItem>)}
+                    </TextField>
+                  </Grid>
+                  <Grid item xs={12} md={2}>
+                    <TextField fullWidth size="small" disabled={isView || !hasPermission('ASSIGNMENT_CHECKLIST_UPDATE')} label={row.responseType === 'NUMBER' ? 'Reading' : 'Response'} value={row.responseValue || ''} onChange={(event) => updateChecklistRow(row.id, 'responseValue', event.target.value)} />
+                  </Grid>
+                  <Grid item xs={12} md={2.5}>
+                    <TextField fullWidth size="small" disabled={isView || !hasPermission('ASSIGNMENT_CHECKLIST_UPDATE')} label="Remarks" value={row.remarks || ''} onChange={(event) => updateChecklistRow(row.id, 'remarks', event.target.value)} />
+                  </Grid>
+                  <Grid item xs={12} md={3}>
+                    <Stack direction="row" spacing={0.5} justifyContent={{ xs: 'flex-start', md: 'flex-end' }} flexWrap="wrap" useFlexGap>
+                      {!isView && hasPermission('ASSIGNMENT_CHECKLIST_UPDATE') && (
+                        <Tooltip title="Save"><IconButton color="primary" onClick={() => handleSaveChecklistRow(row)}><Save fontSize="small" /></IconButton></Tooltip>
+                      )}
+                      {!isView && hasPermission('ASSIGNMENT_CHECKLIST_PROOF_UPLOAD') && (
+                        <Tooltip title="Upload proof">
+                          <IconButton component="label" color={row.proofRequired ? 'primary' : 'default'}>
+                            <UploadFile fontSize="small" />
+                            <input type="file" hidden onChange={(event) => handleUploadChecklistProof(row, event.target.files?.[0])} />
+                          </IconButton>
+                        </Tooltip>
+                      )}
+                      {!isView && hasPermission('ASSIGNMENT_CHECKLIST_UPDATE') && !row.sourcePmChecklistItemId && (
+                        <Tooltip title="Delete"><IconButton color="error" onClick={() => handleDeleteChecklistRow(row)}><Delete fontSize="small" /></IconButton></Tooltip>
+                      )}
+                    </Stack>
+                  </Grid>
+                  {row.completedAt && (
+                    <Grid item xs={12}>
+                      <Typography variant="caption" color="text.secondary">
+                        Completed {new Date(row.completedAt).toLocaleString()} {row.completedByName ? `by ${row.completedByName}` : ''}
+                      </Typography>
+                    </Grid>
+                  )}
+                  {(row.proofs || []).length > 0 && (
+                    <Grid item xs={12}>
+                      <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+                        {(row.proofs || []).map((proof) => (
+                          <Chip
+                            key={proof.id}
+                            size="small"
+                            label={proof.originalFileName}
+                            onClick={() => handleDownloadChecklistProof(row, proof)}
+                            onDelete={!isView && hasPermission('ASSIGNMENT_CHECKLIST_PROOF_DELETE') ? () => handleDeleteChecklistProof(row, proof) : undefined}
+                            deleteIcon={!isView && hasPermission('ASSIGNMENT_CHECKLIST_PROOF_DELETE') ? <Delete /> : undefined}
+                            icon={<Download />}
+                          />
+                        ))}
+                      </Stack>
+                    </Grid>
+                  )}
+                </Grid>
+              </Box>
+            ))}
+          </Stack>
+        </Paper>
+      )}
       {id && (
         <Paper sx={{ p: 3, borderRadius: 1, mt: 2 }}>
           <Typography variant="h6" fontWeight={800} sx={{ mb: 2 }}>Spare Part Requests</Typography>

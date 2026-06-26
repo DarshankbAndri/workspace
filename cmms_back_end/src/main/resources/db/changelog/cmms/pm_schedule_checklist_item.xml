@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="cmms-pm-schedule-checklist-item-create" author="Codex">
+        <createTable tableName="pm_schedule_checklist_item">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="pm_schedule_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sequence_number" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="task_title" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="instructions" type="VARCHAR(1000)"/>
+            <column name="required" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="proof_required" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="response_type" type="VARCHAR(30)" defaultValue="CHECKBOX">
+                <constraints nullable="false"/>
+            </column>
+            <column name="active" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="cmms-pm-schedule-checklist-item-fks" author="Codex">
+        <addForeignKeyConstraint constraintName="fk_pm_checklist_schedule"
+                                 baseTableName="pm_schedule_checklist_item"
+                                 baseColumnNames="pm_schedule_id"
+                                 referencedTableName="preventive_maintenance_schedule"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="cmms-pm-schedule-checklist-item-indexes" author="Codex">
+        <createIndex indexName="idx_pm_checklist_schedule" tableName="pm_schedule_checklist_item">
+            <column name="pm_schedule_id"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>

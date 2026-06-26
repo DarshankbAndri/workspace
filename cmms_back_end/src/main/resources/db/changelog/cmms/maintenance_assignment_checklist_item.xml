@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="cmms-maintenance-assignment-checklist-item-create" author="Codex">
+        <createTable tableName="maintenance_assignment_checklist_item">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="assignment_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="source_pm_checklist_item_id" type="BIGINT"/>
+            <column name="sequence_number" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="task_title" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="instructions" type="VARCHAR(1000)"/>
+            <column name="required" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="proof_required" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="response_type" type="VARCHAR(30)" defaultValue="CHECKBOX">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="VARCHAR(30)" defaultValue="PENDING">
+                <constraints nullable="false"/>
+            </column>
+            <column name="response_value" type="VARCHAR(1000)"/>
+            <column name="remarks" type="VARCHAR(1000)"/>
+            <column name="completed_by_user_id" type="BIGINT"/>
+            <column name="completed_at" type="TIMESTAMP"/>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="cmms-maintenance-assignment-checklist-item-fks" author="Codex">
+        <addForeignKeyConstraint constraintName="fk_assignment_checklist_assignment"
+                                 baseTableName="maintenance_assignment_checklist_item"
+                                 baseColumnNames="assignment_id"
+                                 referencedTableName="maintenance_assignment"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_assignment_checklist_pm_item"
+                                 baseTableName="maintenance_assignment_checklist_item"
+                                 baseColumnNames="source_pm_checklist_item_id"
+                                 referencedTableName="pm_schedule_checklist_item"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_assignment_checklist_completed_by"
+                                 baseTableName="maintenance_assignment_checklist_item"
+                                 baseColumnNames="completed_by_user_id"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="cmms-maintenance-assignment-checklist-item-indexes" author="Codex">
+        <createIndex indexName="idx_assignment_checklist_assignment" tableName="maintenance_assignment_checklist_item">
+            <column name="assignment_id"/>
+        </createIndex>
+        <createIndex indexName="idx_assignment_checklist_pm_item" tableName="maintenance_assignment_checklist_item">
+            <column name="source_pm_checklist_item_id"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>

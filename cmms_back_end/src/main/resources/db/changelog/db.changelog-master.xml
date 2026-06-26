@@ -18,8 +18,11 @@
     <include file="db/changelog/cmms/user_role.xml"/>
     <include file="db/changelog/cmms/vendor_site_assignment.xml"/>
     <include file="db/changelog/cmms/preventive_maintenance_schedule.xml"/>
+    <include file="db/changelog/cmms/pm_schedule_checklist_item.xml"/>
     <include file="db/changelog/cmms/maintenance_request.xml"/>
     <include file="db/changelog/cmms/maintenance_assignment.xml"/>
+    <include file="db/changelog/cmms/maintenance_assignment_checklist_item.xml"/>
+    <include file="db/changelog/cmms/maintenance_assignment_checklist_proof.xml"/>
     <include file="db/changelog/cmms/equipment_downtime.xml"/>
     <include file="db/changelog/cmms/approval_config.xml"/>
     <include file="db/changelog/cmms/approval_request.xml"/>

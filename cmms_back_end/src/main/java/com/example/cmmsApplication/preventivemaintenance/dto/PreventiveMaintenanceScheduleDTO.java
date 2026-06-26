@@ -12,6 +12,8 @@ import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -55,5 +57,6 @@ public class PreventiveMaintenanceScheduleDTO {
     private LocalDateTime updatedAt;
     private Long approvalRequestId;
     private String approvalStatus;
+    private List<PmScheduleChecklistItemDTO> checklistItems = new ArrayList<>();
 
 }
