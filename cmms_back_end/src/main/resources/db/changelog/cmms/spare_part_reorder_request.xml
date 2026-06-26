@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd" xmlns="http://www.liquibase.org/xml/ns/dbchangelog">
+    <changeSet id="spare-part-reorder-request-001-create-table" author="DARSHAN">
+        <createTable tableName="spare_part_reorder_request">
+            <column name="reorder_id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="stock_id" type="BIGINT">
+                <constraints nullable="false" />
+            </column>
+            <column name="spare_part_id" type="BIGINT">
+                <constraints nullable="false" />
+            </column>
+            <column name="site_id" type="BIGINT">
+                <constraints nullable="false" />
+            </column>
+            <column name="assignment_id" type="BIGINT" />
+            <column name="spare_request_id" type="BIGINT" />
+            <column name="vendor_id" type="BIGINT" />
+            <column name="requested_quantity" type="DECIMAL(14,3)">
+                <constraints nullable="false" />
+            </column>
+            <column name="estimated_unit_cost" type="DECIMAL(12,2)" defaultValueNumeric="0">
+                <constraints nullable="false" />
+            </column>
+            <column name="estimated_total_cost" type="DECIMAL(14,2)" defaultValueNumeric="0">
+                <constraints nullable="false" />
+            </column>
+            <column name="status" type="VARCHAR(30)" defaultValue="REQUESTED">
+                <constraints nullable="false" />
+            </column>
+            <column name="expected_date" type="DATE" />
+            <column name="remarks" type="VARCHAR(1000)" />
+            <column name="requested_by" type="BIGINT" />
+            <column name="requested_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
+            </column>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="spare-part-reorder-request-002-add-foreign-keys" author="DARSHAN">
+        <addForeignKeyConstraint constraintName="fk_spare_reorder_stock" baseTableName="spare_part_reorder_request" baseColumnNames="stock_id" referencedTableName="spare_part_site_stock" referencedColumnNames="stock_id" />
+        <addForeignKeyConstraint constraintName="fk_spare_reorder_part" baseTableName="spare_part_reorder_request" baseColumnNames="spare_part_id" referencedTableName="spare_part_master" referencedColumnNames="spare_part_id" />
+        <addForeignKeyConstraint constraintName="fk_spare_reorder_site" baseTableName="spare_part_reorder_request" baseColumnNames="site_id" referencedTableName="site_master" referencedColumnNames="site_id" />
+        <addForeignKeyConstraint constraintName="fk_spare_reorder_assignment" baseTableName="spare_part_reorder_request" baseColumnNames="assignment_id" referencedTableName="maintenance_assignment" referencedColumnNames="id" />
+        <addForeignKeyConstraint constraintName="fk_spare_reorder_spare_request" baseTableName="spare_part_reorder_request" baseColumnNames="spare_request_id" referencedTableName="maintenance_spare_usage" referencedColumnNames="usage_id" />
+        <addForeignKeyConstraint constraintName="fk_spare_reorder_vendor" baseTableName="spare_part_reorder_request" baseColumnNames="vendor_id" referencedTableName="vendor_master" referencedColumnNames="id" />
+        <addForeignKeyConstraint constraintName="fk_spare_reorder_requested_by" baseTableName="spare_part_reorder_request" baseColumnNames="requested_by" referencedTableName="users" referencedColumnNames="id" />
+    </changeSet>
+    <changeSet id="spare-part-reorder-request-003-create-indexes" author="DARSHAN">
+        <createIndex indexName="idx_spare_reorder_site_status" tableName="spare_part_reorder_request">
+            <column name="site_id" />
+            <column name="status" />
+        </createIndex>
+        <createIndex indexName="idx_spare_reorder_stock" tableName="spare_part_reorder_request">
+            <column name="stock_id" />
+        </createIndex>
+        <createIndex indexName="idx_spare_reorder_requested_at" tableName="spare_part_reorder_request">
+            <column name="requested_at" />
+        </createIndex>
+        <createIndex indexName="idx_spare_reorder_assignment" tableName="spare_part_reorder_request">
+            <column name="assignment_id" />
+        </createIndex>
+        <createIndex indexName="idx_spare_reorder_spare_request" tableName="spare_part_reorder_request">
+            <column name="spare_request_id" />
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>

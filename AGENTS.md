@@ -20,6 +20,7 @@ For every new feature:
 4. Avoid duplicate APIs/files.
 5. Preserve existing authentication.
 6. Summarize files changed after implementation.
+7. Place every new file in the module-based structure described below.
 
 Use commands like:
 
@@ -40,3 +41,119 @@ Rules:
 - If graphify-out/wiki/index.md exists, use it for broad navigation instead of raw source browsing.
 - Read graphify-out/GRAPH_REPORT.md only for broad architecture review or when query/path/explain do not surface enough context.
 - After modifying code, run `graphify update .` to keep the graph current (AST-only, no API cost).
+
+## Module-Based Structure
+
+Future development must follow the module/page-based structure already used in this repository. Do not add new files back into broad global folders such as `controller`, `service`, `repository`, `entity`, `dto`, `pages`, `services`, or `components`.
+
+### Backend
+
+For every new backend page/module, create or reuse a lowercase package under:
+
+```text
+cmms_back_end/src/main/java/com/example/cmmsApplication/{module}/
+    controller/
+    service/
+    repository/
+    dao/
+    entity/
+    dto/
+    mapper/
+    enums/
+```
+
+Rules:
+
+1. Put controllers in `{module}/controller`.
+2. Put services and service implementations in `{module}/service`.
+3. Put repositories in `{module}/repository`.
+4. Put DAO wrappers/adapters in `{module}/dao`.
+5. Put entities in `{module}/entity`.
+6. Put DTO/request/response classes in `{module}/dto`.
+7. Put mappers/converters in `{module}/mapper`.
+8. Put module-specific enums in `{module}/enums`.
+9. Keep shared code in `common`, including `common/config`, `common/exception`, `common/security`, `common/search`, `common/enums`, `common/utils`, `common/constants`, and shared response types.
+10. Keep security/auth/global exception/config files in common/global packages, not inside page modules.
+11. Preserve existing package/module boundaries when modifying code.
+
+Current backend modules include `admin`, `approval`, `assignment`, `company`, `dashboard`, `downtime`, `employee`, `equipment`, `maintenancerequest`, `notification`, `preventivemaintenance`, `report`, `site`, `spareparts`, `user`, and `vendor`.
+
+## API Response Contract
+
+1. Every JSON REST endpoint must return `ApiResponse<T>` for successful responses.
+2. Never create controller-specific success or error envelope DTOs.
+3. Controllers must use `ResponseFactory` instead of manually constructing response envelopes.
+4. Exceptions must flow through `GlobalExceptionHandler` and return `ApiErrorResponse`.
+5. Use standard machine-readable error codes from `ApiErrorCode`.
+6. Include `correlationId` in API responses and exception logs.
+7. Validation errors must use the standard `details` array with `field` and `message`.
+8. Do not expose stack traces in API responses; log stack traces only on the server.
+9. Binary downloads and event streams may remain raw protocol responses, but all normal JSON APIs must follow the standard contract.
+10. Frontend API error handling must read `code`, `message`, `details`, and `correlationId`.
+
+## Observability Rules
+
+1. Every request must have a correlation ID from `X-Correlation-Id` or a generated UUID.
+2. Logs must include `correlationId` and `userId` when authenticated.
+3. Do not log passwords, JWT tokens, authorization headers, refresh tokens, or sensitive request/response payloads.
+4. Request logging must emit one structured summary line per request with method, path, status, duration, and error code.
+5. Unexpected exceptions must be logged once at ERROR with stack trace and correlation ID.
+6. Expected business/client exceptions should be WARN without duplicate stack traces.
+7. Add Micrometer metrics for new scheduled jobs and critical workflows.
+8. Avoid high-cardinality metric tags such as raw username, email, entity id, or free-form path.
+9. Use standard API error codes in responses, metrics, and logs.
+10. Keep actuator sensitive endpoints protected; expose only health/liveness/readiness publicly unless explicitly approved.
+
+### Frontend
+
+For every new UI page/module, create or reuse a feature folder under:
+
+```text
+cmms_front_end/src/features/{moduleName}/
+    pages/
+    components/
+    services/
+    hooks/
+    constants/
+```
+
+Rules:
+
+1. Put page files in `src/features/{moduleName}/pages`.
+2. Put page-specific components in `src/features/{moduleName}/components`.
+3. Put module API wrappers in `src/features/{moduleName}/services`.
+4. Put module hooks/constants in `src/features/{moduleName}/hooks` and `src/features/{moduleName}/constants`.
+5. Put reusable UI components in `src/shared/components`.
+6. Put layouts/navigation shells in `src/shared/layouts`.
+7. Put shared clients/utilities in `src/shared/services` and `src/shared/utils`.
+8. Do not duplicate components or API wrappers across feature folders.
+9. Update all imports and route imports after moving or adding files.
+10. Run backend compile and frontend build after structural changes.
+
+Current frontend feature folders include `admin`, `approval`, `assignment`, `auth`, `company`, `dashboard`, `downtime`, `employee`, `equipment`, `maintenance`, `maintenanceRequest`, `notification`, `preventiveMaintenance`, `report`, `site`, `spareParts`, `user`, and `vendor`.
+
+## Lombok Rules
+
+1. Use Lombok for DTO boilerplate when getters, setters, constructors, and builders have no custom logic.
+2. Use `@Getter` and `@Setter` for JPA entities, not `@Data`.
+3. Use `@RequiredArgsConstructor` for dependency injection.
+4. Do not use field injection for new code.
+5. Do not remove custom methods, custom constructors, lifecycle hooks, or getters/setters with business logic.
+6. Always run `mvn clean install` from `cmms_back_end` after Lombok changes.
+
+## Liquibase Rules
+
+1. For new tables, always create Liquibase XML using `<createTable>`, not raw SQL.
+2. Always use one XML file per table.
+3. Do not create separate XML files for indexes.
+4. Do not create separate XML files for foreign keys.
+5. Keep each table's creation, indexes, unique constraints, and foreign keys in that table's XML file.
+6. One XML file must not create more than one table.
+7. One XML file can contain multiple changeSets, but only for the same table.
+8. Use Liquibase XML tags such as `<createTable>`, `<createIndex>`, `<addForeignKeyConstraint>`, `<addUniqueConstraint>`, and `<addNotNullConstraint>` for normal schema changes.
+9. Do not use raw SQL for normal table, index, column, primary key, foreign key, or unique-constraint creation.
+10. Include table XML files in dependency order in `db.changelog-master.xml`; if a foreign key references another table, include the referenced table XML before the table that owns the foreign key.
+11. Keep changelogs module-wise under the existing changelog structure.
+12. For a fresh first-time setup, keep the schema clean instead of preserving unnecessary incremental changes.
+13. Always test Liquibase changes by dropping or clearing the local database and running migrations from scratch.
+14. Always run `mvn clean install` from `cmms_back_end` after Liquibase changes.

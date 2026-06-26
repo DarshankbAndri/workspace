@@ -4,12 +4,9 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <changeSet id="cmms-approval-request-create" author="codex">
-        <preConditions onFail="MARK_RAN">
-            <not><tableExists tableName="approval_request"/></not>
-        </preConditions>
+    <changeSet id="cmms-approval-request-create" author="DARSHAN">
         <createTable tableName="approval_request">
-            <column name="approval_request_id" type="BIGSERIAL"><constraints primaryKey="true"/></column>
+            <column name="approval_request_id" type="BIGINT" autoIncrement="true"><constraints primaryKey="true"/></column>
             <column name="module_code" type="VARCHAR(100)"><constraints nullable="false"/></column>
             <column name="action_code" type="VARCHAR(100)"><constraints nullable="false"/></column>
             <column name="reference_id" type="BIGINT"/>
@@ -29,18 +26,12 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="cmms-approval-request-fks" author="codex">
-        <preConditions onFail="MARK_RAN">
-            <not><foreignKeyConstraintExists foreignKeyName="fk_approval_request_site" foreignKeyTableName="approval_request"/></not>
-        </preConditions>
+    <changeSet id="cmms-approval-request-fks" author="DARSHAN">
         <addForeignKeyConstraint constraintName="fk_approval_request_site" baseTableName="approval_request" baseColumnNames="site_id" referencedTableName="site_master" referencedColumnNames="site_id"/>
         <addForeignKeyConstraint constraintName="fk_approval_request_user" baseTableName="approval_request" baseColumnNames="requested_by" referencedTableName="users" referencedColumnNames="id"/>
     </changeSet>
 
-    <changeSet id="cmms-approval-request-indexes" author="codex">
-        <preConditions onFail="MARK_RAN">
-            <not><indexExists indexName="idx_approval_request_module_action"/></not>
-        </preConditions>
+    <changeSet id="cmms-approval-request-indexes" author="DARSHAN">
         <createIndex indexName="idx_approval_request_module_action" tableName="approval_request">
             <column name="module_code"/>
             <column name="action_code"/>
