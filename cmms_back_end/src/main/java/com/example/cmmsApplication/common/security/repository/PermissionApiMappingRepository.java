@@ -15,7 +15,7 @@ public interface PermissionApiMappingRepository extends JpaRepository<Permission
                    "join role_permission rp on rp.role_id=ur.role_id " +
                    "join permission_master pm on pm.permission_id=rp.permission_id " +
                    "join permission_api_mapping pam on pam.permission_code=pm.permission_code " +
-                   "where ur.user_id=:userId and pam.api_path=:apiPath", nativeQuery = true)
-    int countUserPermissionsForApiPath(@Param("userId") Long userId, @Param("apiPath") String apiPath);
+                   "where ur.user_id=:userId and pam.api_path=:apiPath and pam.http_method=:httpMethod", nativeQuery = true)
+    int countUserPermissionsForApiPath(@Param("userId") Long userId, @Param("apiPath") String apiPath,@Param("httpMethod") String httpMethod);
 
 }
