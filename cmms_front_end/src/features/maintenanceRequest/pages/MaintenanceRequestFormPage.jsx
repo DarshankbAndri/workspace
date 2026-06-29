@@ -2,7 +2,7 @@ import React from 'react';
 import { Alert, Box, Button, Chip, Grid, MenuItem, Paper, Stack, TextField, Typography } from '@mui/material';
 import { Save } from '@mui/icons-material';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { createMaintenanceRequest, getMaintenanceRequestById, updateMaintenanceRequest } from '../../maintenance/services/maintenanceService';
+import { createMaintenanceRequest, getMaintenanceRequestById, updateMaintenanceRequest } from '../services/maintenanceRequestService';
 import { getEquipments } from '../../equipment/services/equipmentService';
 import { getSites } from '../../site/services/siteService';
 
@@ -87,7 +87,7 @@ function MaintenanceRequestFormPage() {
             <Grid item xs={12} md={4}><TextField fullWidth disabled={isView} label="Reported By" value={form.reportedBy || ''} onChange={updateField('reportedBy')} /></Grid>
             <Grid item xs={12} md={3}><TextField select fullWidth disabled={isView} label="Type" value={form.requestType || 'BREAKDOWN'} onChange={updateField('requestType')}><MenuItem value="BREAKDOWN">Breakdown</MenuItem><MenuItem value="PREVENTIVE">Preventive</MenuItem><MenuItem value="INSPECTION">Inspection</MenuItem><MenuItem value="CALIBRATION">Calibration</MenuItem></TextField></Grid>
             <Grid item xs={12} md={3}><TextField select fullWidth disabled={isView} label="Priority" value={form.priority || 'MEDIUM'} onChange={updateField('priority')}><MenuItem value="LOW">Low</MenuItem><MenuItem value="MEDIUM">Medium</MenuItem><MenuItem value="HIGH">High</MenuItem><MenuItem value="URGENT">Urgent</MenuItem></TextField></Grid>
-            <Grid item xs={12} md={3}><TextField select fullWidth disabled={isView} label="Status" value={form.status || 'OPEN'} onChange={updateField('status')}><MenuItem value="OPEN">Open</MenuItem><MenuItem value="IN_PROGRESS">In Progress</MenuItem><MenuItem value="ON_HOLD">On Hold</MenuItem><MenuItem value="CLOSED">Closed</MenuItem><MenuItem value="CANCELLED">Cancelled</MenuItem></TextField></Grid>
+            <Grid item xs={12} md={3}><TextField select fullWidth disabled={isView} label="Status" value={form.status || 'OPEN'} onChange={updateField('status')}><MenuItem value="OPEN">Open</MenuItem><MenuItem value="ASSIGNED">Assigned</MenuItem><MenuItem value="IN_PROGRESS">In Progress</MenuItem><MenuItem value="ON_HOLD">On Hold</MenuItem><MenuItem value="CLOSED">Closed</MenuItem><MenuItem value="CANCELLED">Cancelled</MenuItem></TextField></Grid>
             <Grid item xs={12} md={3}><TextField type="date" fullWidth disabled={isView} label="Requested Date" value={form.requestedDate || ''} onChange={updateField('requestedDate')} InputLabelProps={{ shrink: true }} /></Grid>
             <Grid item xs={12} md={3}><TextField type="date" fullWidth disabled={isView} label="Target Completion" value={form.targetCompletionDate || ''} onChange={updateField('targetCompletionDate')} InputLabelProps={{ shrink: true }} /></Grid>
             <Grid item xs={12} md={9}><TextField required fullWidth disabled={isView} multiline minRows={2} label="Description" value={form.description || ''} onChange={updateField('description')} /></Grid>

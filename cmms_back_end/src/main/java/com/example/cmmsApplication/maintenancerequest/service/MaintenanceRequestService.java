@@ -2,6 +2,8 @@ package com.example.cmmsApplication.maintenancerequest.service;
 
 
 import com.example.cmmsApplication.approval.service.ApprovalWorkflowService;
+import com.example.cmmsApplication.assignment.dao.MaintenanceAssignmentDAO;
+import com.example.cmmsApplication.assignment.entity.MaintenanceAssignment;
 import com.example.cmmsApplication.common.security.service.AccessControlService;
 import com.example.cmmsApplication.equipment.service.EquipmentService;
 import com.example.cmmsApplication.site.service.SiteService;
@@ -18,7 +20,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 
@@ -26,11 +30,14 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Transactional
 public class MaintenanceRequestService {
+    private static final Set<String> STATUSES = Set.of("OPEN", "ASSIGNED", "IN_PROGRESS", "ON_HOLD", "CLOSED", "COMPLETED", "CANCELLED", "PENDING_APPROVAL", "CLOSE_PENDING_APPROVAL", "REJECTED");
+
     private final MaintenanceRequestDAO requestDAO;
     private final EquipmentService equipmentService;
     private final SiteService siteService;
     private final AccessControlService accessControlService;
     private final ApprovalWorkflowService approvalWorkflowService;
+    private final MaintenanceAssignmentDAO assignmentDAO;
 
     public MaintenanceRequestDTO create(MaintenanceRequestDTO dto) {
         accessControlService.validatePermission("REQUEST_CREATE");
@@ -75,6 +82,9 @@ public class MaintenanceRequestService {
             throw new InvalidOperationException("Request number already exists: " + request.getRequestNumber());
         }
         boolean closeRequested = isCloseRequested(previousStatus, request.getStatus());
+        if (closeRequested) {
+            validateRequestCanClose(request);
+        }
         boolean approvalRequired = closeRequested && approvalWorkflowService.isApprovalEnabled(ApprovalWorkflowService.MAINTENANCE_REQUEST, ApprovalWorkflowService.CLOSE);
         String requestedStatus = request.getStatus();
         if (approvalRequired) {
@@ -161,7 +171,7 @@ public class MaintenanceRequestService {
         }
         request.setRequestType(dto.getRequestType() == null ? "BREAKDOWN" : dto.getRequestType());
         request.setPriority(dto.getPriority() == null ? "MEDIUM" : dto.getPriority());
-        request.setStatus(dto.getStatus() == null ? "OPEN" : dto.getStatus());
+        request.setStatus(normalizeStatus(dto.getStatus()));
         request.setTitle(dto.getTitle());
         request.setDescription(dto.getDescription());
         request.setReportedBy(dto.getReportedBy());
@@ -214,6 +224,26 @@ public class MaintenanceRequestService {
         boolean targetClosed = "CLOSED".equalsIgnoreCase(requestedStatus) || "COMPLETED".equalsIgnoreCase(requestedStatus);
         boolean alreadyClosed = "CLOSED".equalsIgnoreCase(previousStatus) || "COMPLETED".equalsIgnoreCase(previousStatus);
         return targetClosed && !alreadyClosed;
+    }
+
+    private String normalizeStatus(String value) {
+        String status = value == null || value.isBlank() ? "OPEN" : value.trim().toUpperCase(Locale.ROOT);
+        if (!STATUSES.contains(status)) {
+            throw new InvalidOperationException("Request status must be OPEN, ASSIGNED, IN_PROGRESS, ON_HOLD, CLOSED, COMPLETED, CANCELLED, PENDING_APPROVAL, CLOSE_PENDING_APPROVAL, or REJECTED");
+        }
+        return status;
+    }
+
+    private void validateRequestCanClose(MaintenanceRequest request) {
+        List<MaintenanceAssignment> assignments = assignmentDAO.findByRequestId(request.getId());
+        if (assignments.isEmpty()) {
+            throw new InvalidOperationException("Complete at least one assignment before closing the request");
+        }
+        boolean hasCompletedAssignment = assignments.stream().anyMatch((assignment) -> "COMPLETED".equalsIgnoreCase(assignment.getStatus()));
+        boolean hasOpenAssignment = assignments.stream().anyMatch((assignment) -> !("COMPLETED".equalsIgnoreCase(assignment.getStatus()) || "CANCELLED".equalsIgnoreCase(assignment.getStatus())));
+        if (!hasCompletedAssignment || hasOpenAssignment) {
+            throw new InvalidOperationException("All open assignments must be completed before closing the request");
+        }
     }
 
     private void applyApproval(MaintenanceRequestDTO dto, ApprovalRequestDTO approval) {

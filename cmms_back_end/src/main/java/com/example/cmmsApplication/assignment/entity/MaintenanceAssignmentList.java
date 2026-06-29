@@ -27,6 +27,9 @@ import lombok.NoArgsConstructor;
             mr.status AS request_status,
             ma.vendor_id AS vendor_id,
             v.vendor_name AS vendor_name,
+            ma.assigned_employee_id AS assigned_employee_id,
+            e.employee_code AS assigned_employee_code,
+            CONCAT(e.first_name, ' ', COALESCE(e.last_name, '')) AS assigned_employee_name,
             ma.assigned_to AS assigned_to,
             ma.assigned_date AS assigned_date,
             ma.planned_start_date AS planned_start_date,
@@ -43,6 +46,7 @@ import lombok.NoArgsConstructor;
         JOIN maintenance_request mr ON mr.id = ma.request_id
         LEFT JOIN site_master s ON s.site_id = mr.site_id
         LEFT JOIN vendor_master v ON v.id = ma.vendor_id
+        LEFT JOIN employee_master e ON e.employee_id = ma.assigned_employee_id
         """)
 @Getter
 @Setter
@@ -68,6 +72,12 @@ public class MaintenanceAssignmentList {
     private Long vendorId;
     @Column(name = "vendor_name")
     private String vendorName;
+    @Column(name = "assigned_employee_id")
+    private Long assignedEmployeeId;
+    @Column(name = "assigned_employee_code")
+    private String assignedEmployeeCode;
+    @Column(name = "assigned_employee_name")
+    private String assignedEmployeeName;
     @Column(name = "assigned_to")
     private String assignedTo;
     @Column(name = "assigned_date")
@@ -102,6 +112,9 @@ public class MaintenanceAssignmentList {
     public String getMaintenanceRequestStatus() { return requestStatus; }
     public Long getVendorId() { return vendorId; }
     public String getVendorName() { return vendorName; }
+    public Long getAssignedEmployeeId() { return assignedEmployeeId; }
+    public String getAssignedEmployeeCode() { return assignedEmployeeCode; }
+    public String getAssignedEmployeeName() { return assignedEmployeeName; }
     public String getAssignedTo() { return assignedTo; }
     public LocalDate getAssignedDate() { return assignedDate; }
     public LocalDate getPlannedStartDate() { return plannedStartDate; }

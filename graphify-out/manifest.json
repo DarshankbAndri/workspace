@@ -165,8 +165,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/resources/db/sample/cmms_sample_data.sql": {
-    "mtime": 1781516395.0526154,
-    "ast_hash": "6d9d257bfa746ff3d2c74c6fcf748f71",
+    "mtime": 1782711022.861636,
+    "ast_hash": "f5bb050787afbb1eb07cc4c435da1a9e",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/resources/db/sample/superadmin.sql": {
@@ -385,28 +385,28 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/controller/MaintenanceAssignmentController.java": {
-    "mtime": 1782470041.8779125,
-    "ast_hash": "742be566944a892ff339049ee1205210",
+    "mtime": 1782710803.5123074,
+    "ast_hash": "e1995972acf0927c13366ef336c6b4d5",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dao/MaintenanceAssignmentDAO.java": {
-    "mtime": 1782467371.0272665,
-    "ast_hash": "aeda2456eb6dd1217d07d0c1ee98704d",
+    "mtime": 1782710884.7295053,
+    "ast_hash": "f1c79b821b660331a40da14977504e4d",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java": {
-    "mtime": 1782467371.0327284,
-    "ast_hash": "84b1c739ffff623a29dc3b29235e18d8",
+    "mtime": 1782711066.0616488,
+    "ast_hash": "676cbd23d8d87fefd91e5f99fa316747",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/entity/MaintenanceAssignment.java": {
-    "mtime": 1782467371.03707,
-    "ast_hash": "da41a503eee0452d57845f1d1ccdbef7",
+    "mtime": 1782710825.319704,
+    "ast_hash": "ad5e0b2ed87533a013d4f5ceb1a6e54a",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/entity/MaintenanceAssignmentList.java": {
-    "mtime": 1782467371.0415635,
-    "ast_hash": "35161b265ad9fba06ba2e05cf33821d4",
+    "mtime": 1782710825.3420317,
+    "ast_hash": "f42310beeed10bf1469754297b3fa0a0",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/repository/MaintenanceAssignmentListRepository.java": {
@@ -415,13 +415,13 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/repository/MaintenanceAssignmentRepository.java": {
-    "mtime": 1782467371.0500126,
-    "ast_hash": "27cdd763fae7076ff6695b866a443b65",
+    "mtime": 1782710884.7185745,
+    "ast_hash": "08e7d2ae186b568361552654a80aa143",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/service/MaintenanceAssignmentService.java": {
-    "mtime": 1782470087.168849,
-    "ast_hash": "f068cce995eaf517a923177654fd0aa3",
+    "mtime": 1782711054.874056,
+    "ast_hash": "a7289571632fb331620c9a9f4c52f55b",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/common/config/CmmsSecurityProperties.java": {
@@ -495,8 +495,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/common/search/service/ListSearchService.java": {
-    "mtime": 1782467371.1651413,
-    "ast_hash": "0aad6774e8049713a57cfa7be5d9107c",
+    "mtime": 1782710894.3687475,
+    "ast_hash": "95dc652408c6dd855d009d7d331b3191",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/common/search/service/SearchService.java": {
@@ -550,8 +550,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/common/security/service/AccessControlService.java": {
-    "mtime": 1782470162.5770094,
-    "ast_hash": "efbd636d9ac93e69d3021e194d3c3d24",
+    "mtime": 1782710962.8791924,
+    "ast_hash": "05de0de360c9dcb55a2aa0763544a86c",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/company/controller/CompanyController.java": {
@@ -780,8 +780,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/maintenancerequest/service/MaintenanceRequestService.java": {
-    "mtime": 1782467371.466456,
-    "ast_hash": "39e015cbe425206e5b1f09fcdc50adbb",
+    "mtime": 1782711040.22446,
+    "ast_hash": "9ee10f19efab15d38145df804f3285a2",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/notification/controller/NotificationController.java": {
@@ -890,7 +890,7 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/preventivemaintenance/entity/PreventiveMaintenanceScheduleList.java": {
-    "mtime": 1782467371.5984101,
+    "mtime": 1782476757.740311,
     "ast_hash": "fe2c96e09590948067ce8c63f68b6dd5",
     "semantic_hash": ""
   },
@@ -1225,8 +1225,8 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/admin/pages/RoleFormPage.jsx": {
-    "mtime": 1782470172.565534,
-    "ast_hash": "0c748955633cc6d6e1347562fe962280",
+    "mtime": 1782711022.853634,
+    "ast_hash": "da1ecf4ebb172d40e3b06989201f49ae",
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/admin/pages/RoleListPage.jsx": {
@@ -1280,13 +1280,13 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/assignment/pages/MaintenanceAssignmentFormPage.jsx": {
-    "mtime": 1782470321.565915,
-    "ast_hash": "d4c1f54a5d712facf33e4188c836abd6",
+    "mtime": 1782711304.6437101,
+    "ast_hash": "93eed50024408346df6deffa180781ee",
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/assignment/pages/MaintenanceAssignmentListPage.jsx": {
-    "mtime": 1782467373.7688723,
-    "ast_hash": "4fb237cc60d29ab6c67c1420c9adae5c",
+    "mtime": 1782711313.6021748,
+    "ast_hash": "f519970cb295f7f8879941c06cc66bbc",
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/assignment/pages/MaintenanceAssignmentPage.jsx": {
@@ -1365,13 +1365,13 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/maintenanceRequest/pages/MaintenanceRequestFormPage.jsx": {
-    "mtime": 1782467374.1215956,
-    "ast_hash": "79bd8de3dfbe88cf0e24a803f9e7eb72",
+    "mtime": 1782711124.8187065,
+    "ast_hash": "6aa8b98b32b54e3fc495dbb43e065850",
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/maintenanceRequest/pages/MaintenanceRequestListPage.jsx": {
-    "mtime": 1782467374.1255956,
-    "ast_hash": "bd30f23cadfeb2cc554118e94f8994c9",
+    "mtime": 1782711124.8152347,
+    "ast_hash": "a04337d468418c1f9857de28c6491f3b",
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/maintenanceRequest/pages/MaintenanceRequestPage.jsx": {
@@ -1697,6 +1697,56 @@
   "cmms_back_end/src/test/java/com/example/cmmsApplication/assignment/service/MaintenanceAssignmentChecklistServiceTest.java": {
     "mtime": 1782470419.2009435,
     "ast_hash": "981871399e92d8d34a119d1a8b55ebe3",
+    "semantic_hash": ""
+  },
+  "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dao/MaintenanceAssignmentWorkLogDAO.java": {
+    "mtime": 1782710700.7607522,
+    "ast_hash": "e39032f17b5453ce6b022780b92127f7",
+    "semantic_hash": ""
+  },
+  "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentWorkLogAttachmentDTO.java": {
+    "mtime": 1782710700.7417119,
+    "ast_hash": "97441220982d59f33afb3cfd085776a9",
+    "semantic_hash": ""
+  },
+  "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentWorkLogDTO.java": {
+    "mtime": 1782710700.7464635,
+    "ast_hash": "7bfa6dfab3f814e85525f8d89a4b91d8",
+    "semantic_hash": ""
+  },
+  "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/entity/MaintenanceAssignmentWorkLog.java": {
+    "mtime": 1782710700.7068276,
+    "ast_hash": "7865b10ed72a5ad34351fa892d713464",
+    "semantic_hash": ""
+  },
+  "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/entity/MaintenanceAssignmentWorkLogAttachment.java": {
+    "mtime": 1782710700.736977,
+    "ast_hash": "10ea638d2190c3a0a2c6c4d39df94dfb",
+    "semantic_hash": ""
+  },
+  "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/repository/MaintenanceAssignmentWorkLogAttachmentRepository.java": {
+    "mtime": 1782710700.756025,
+    "ast_hash": "d27fd6df1b011b3012a086b02039cd2d",
+    "semantic_hash": ""
+  },
+  "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/repository/MaintenanceAssignmentWorkLogRepository.java": {
+    "mtime": 1782710700.7528625,
+    "ast_hash": "d7d1dca0cf52ef853aaf6e863af8df0d",
+    "semantic_hash": ""
+  },
+  "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/service/MaintenanceAssignmentWorkLogService.java": {
+    "mtime": 1782710777.990755,
+    "ast_hash": "08f48c68f1a2e177de42f7fed63415a2",
+    "semantic_hash": ""
+  },
+  "cmms_front_end/src/features/assignment/services/assignmentService.js": {
+    "mtime": 1782711112.098129,
+    "ast_hash": "e49be3d8cb48939a736dbd7e577ea84a",
+    "semantic_hash": ""
+  },
+  "cmms_front_end/src/features/maintenanceRequest/services/maintenanceRequestService.js": {
+    "mtime": 1782711112.103216,
+    "ast_hash": "4efcf005ba470ce8320a09f42d58f635",
     "semantic_hash": ""
   }
 }

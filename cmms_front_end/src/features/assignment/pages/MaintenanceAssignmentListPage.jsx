@@ -3,7 +3,7 @@ import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogContent
 import { Add, Delete, Edit, Visibility } from '@mui/icons-material';
 import { DataGrid } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
-import { deleteMaintenanceAssignment, searchMaintenanceAssignments } from '../../maintenance/services/maintenanceService';
+import { deleteMaintenanceAssignment, searchMaintenanceAssignments } from '../services/assignmentService';
 import { getSites } from '../../site/services/siteService';
 import { getVendors } from '../../vendor/services/vendorService';
 import { useAuth } from '../../../shared/context/AuthContext';
@@ -79,7 +79,7 @@ function MaintenanceAssignmentListPage() {
     { field: 'siteName', headerName: 'Site', minWidth: 170, flex: 0.8 },
     { field: 'requestNumber', headerName: 'Request No.', minWidth: 170, flex: 0.9 },
     { field: 'requestTitle', headerName: 'Request', minWidth: 220, flex: 1.2 },
-    { field: 'assignedTo', headerName: 'Assigned To', minWidth: 150, flex: 0.8 },
+    { field: 'assignedEmployeeName', headerName: 'Technician', minWidth: 170, flex: 0.8, valueGetter: ({ row }) => row.assignedEmployeeName || row.assignedTo },
     { field: 'vendorName', headerName: 'Vendor', minWidth: 180, flex: 1 },
     { field: 'assignedDate', headerName: 'Assigned', minWidth: 120, flex: 0.7 },
     { field: 'status', headerName: 'Status', minWidth: 130, flex: 0.7 },
@@ -118,6 +118,7 @@ function MaintenanceAssignmentListPage() {
           <TextField select label="Request Status" value={filters.requestStatus} onChange={updateFilter('requestStatus')} sx={{ minWidth: 180 }}>
             <MenuItem value="">All Requests</MenuItem>
             <MenuItem value="OPEN">Open</MenuItem>
+            <MenuItem value="ASSIGNED">Assigned</MenuItem>
             <MenuItem value="IN_PROGRESS">In Progress</MenuItem>
             <MenuItem value="ON_HOLD">On Hold</MenuItem>
             <MenuItem value="CLOSED">Closed</MenuItem>

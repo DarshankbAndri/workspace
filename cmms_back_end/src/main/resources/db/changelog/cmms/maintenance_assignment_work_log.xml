@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="cmms-maintenance-assignment-work-log-create" author="Codex">
+        <createTable tableName="maintenance_assignment_work_log">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="assignment_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="technician_employee_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="start_time" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="end_time" type="TIMESTAMP"/>
+            <column name="work_notes" type="VARCHAR(2000)"/>
+            <column name="issue_found" type="VARCHAR(1000)"/>
+            <column name="action_taken" type="VARCHAR(1000)"/>
+            <column name="completion_status" type="VARCHAR(30)" defaultValue="IN_PROGRESS">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by_user_id" type="BIGINT"/>
+            <column name="updated_by_user_id" type="BIGINT"/>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="cmms-maintenance-assignment-work-log-fks" author="Codex">
+        <addForeignKeyConstraint constraintName="fk_assignment_work_log_assignment"
+                                 baseTableName="maintenance_assignment_work_log"
+                                 baseColumnNames="assignment_id"
+                                 referencedTableName="maintenance_assignment"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_assignment_work_log_technician"
+                                 baseTableName="maintenance_assignment_work_log"
+                                 baseColumnNames="technician_employee_id"
+                                 referencedTableName="employee_master"
+                                 referencedColumnNames="employee_id"/>
+        <addForeignKeyConstraint constraintName="fk_assignment_work_log_created_by"
+                                 baseTableName="maintenance_assignment_work_log"
+                                 baseColumnNames="created_by_user_id"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_assignment_work_log_updated_by"
+                                 baseTableName="maintenance_assignment_work_log"
+                                 baseColumnNames="updated_by_user_id"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="cmms-maintenance-assignment-work-log-indexes" author="Codex">
+        <createIndex indexName="idx_assignment_work_log_assignment" tableName="maintenance_assignment_work_log">
+            <column name="assignment_id"/>
+        </createIndex>
+        <createIndex indexName="idx_assignment_work_log_technician" tableName="maintenance_assignment_work_log">
+            <column name="technician_employee_id"/>
+        </createIndex>
+        <createIndex indexName="idx_assignment_work_log_status" tableName="maintenance_assignment_work_log">
+            <column name="completion_status"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>

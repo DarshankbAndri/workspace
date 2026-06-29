@@ -2,6 +2,7 @@ package com.example.cmmsApplication.assignment.entity;
 
 
 import com.example.cmmsApplication.maintenancerequest.entity.MaintenanceRequest;
+import com.example.cmmsApplication.employee.entity.Employee;
 import com.example.cmmsApplication.vendor.entity.Vendor;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
@@ -28,6 +29,10 @@ public class MaintenanceAssignment {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vendor_id")
     private Vendor vendor;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "assigned_employee_id")
+    private Employee assignedEmployee;
 
     @Column(name = "assigned_to", nullable = false, length = 120)
     private String assignedTo;
@@ -85,6 +90,8 @@ public class MaintenanceAssignment {
     public void setRequest(MaintenanceRequest request) { this.request = request; }
     public Vendor getVendor() { return vendor; }
     public void setVendor(Vendor vendor) { this.vendor = vendor; }
+    public Employee getAssignedEmployee() { return assignedEmployee; }
+    public void setAssignedEmployee(Employee assignedEmployee) { this.assignedEmployee = assignedEmployee; }
     public String getAssignedTo() { return assignedTo; }
     public void setAssignedTo(String assignedTo) { this.assignedTo = assignedTo; }
     public LocalDate getAssignedDate() { return assignedDate; }

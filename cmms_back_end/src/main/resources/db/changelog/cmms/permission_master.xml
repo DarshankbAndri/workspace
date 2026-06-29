@@ -100,4 +100,17 @@
             ON CONFLICT (permission_code) DO NOTHING;
         </sql>
     </changeSet>
+
+    <changeSet id="permission-master-006-seed-assignment-work-log" author="Codex">
+        <sql>
+            INSERT INTO permission_master (permission_code, permission_name, module_name, action_name, status, created_at, updated_at) VALUES
+            ('ASSIGNMENT_WORK_LOG_VIEW', 'View Assignment Work Logs', 'Assignment Work Log', 'VIEW', 'ACTIVE', NOW(), NOW()),
+            ('ASSIGNMENT_WORK_LOG_CREATE', 'Create Assignment Work Logs', 'Assignment Work Log', 'CREATE', 'ACTIVE', NOW(), NOW()),
+            ('ASSIGNMENT_WORK_LOG_UPDATE', 'Update Assignment Work Logs', 'Assignment Work Log', 'UPDATE', 'ACTIVE', NOW(), NOW()),
+            ('ASSIGNMENT_WORK_LOG_DELETE', 'Delete Assignment Work Logs', 'Assignment Work Log', 'DELETE', 'ACTIVE', NOW(), NOW()),
+            ('ASSIGNMENT_WORK_LOG_ATTACHMENT_UPLOAD', 'Upload Assignment Work Log Attachments', 'Assignment Work Log', 'ATTACHMENT_UPLOAD', 'ACTIVE', NOW(), NOW()),
+            ('ASSIGNMENT_WORK_LOG_ATTACHMENT_DELETE', 'Delete Assignment Work Log Attachments', 'Assignment Work Log', 'ATTACHMENT_DELETE', 'ACTIVE', NOW(), NOW())
+            ON CONFLICT (permission_code) DO NOTHING;
+        </sql>
+    </changeSet>
 </databaseChangeLog>

@@ -10,4 +10,5 @@ import java.util.List;
 public interface MaintenanceAssignmentRepository extends JpaRepository<MaintenanceAssignment, Long> {
     List<MaintenanceAssignment> findByRequestSiteId(Long siteId);
     List<MaintenanceAssignment> findByRequestSiteIdIn(Collection<Long> siteIds);
+    List<MaintenanceAssignment> findByRequestId(Long requestId);
 }

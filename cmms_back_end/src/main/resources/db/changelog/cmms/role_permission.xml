@@ -137,4 +137,34 @@
             ON CONFLICT (role_id, permission_id) DO NOTHING;
         </sql>
     </changeSet>
+
+    <changeSet id="role-permission-009-seed-assignment-work-log" author="Codex">
+        <sql>
+            INSERT INTO role_permission (role_id, permission_id)
+            SELECT r.role_id, p.permission_id
+            FROM role_master r
+            JOIN permission_master p ON p.permission_code IN (
+                'ASSIGNMENT_WORK_LOG_VIEW',
+                'ASSIGNMENT_WORK_LOG_CREATE',
+                'ASSIGNMENT_WORK_LOG_UPDATE',
+                'ASSIGNMENT_WORK_LOG_DELETE',
+                'ASSIGNMENT_WORK_LOG_ATTACHMENT_UPLOAD',
+                'ASSIGNMENT_WORK_LOG_ATTACHMENT_DELETE'
+            )
+            WHERE r.role_code IN ('SUPER_ADMIN', 'ADMIN', 'SITE_MANAGER', 'MAINTENANCE_MANAGER')
+            ON CONFLICT (role_id, permission_id) DO NOTHING;
+
+            INSERT INTO role_permission (role_id, permission_id)
+            SELECT r.role_id, p.permission_id
+            FROM role_master r
+            JOIN permission_master p ON p.permission_code IN (
+                'ASSIGNMENT_WORK_LOG_VIEW',
+                'ASSIGNMENT_WORK_LOG_CREATE',
+                'ASSIGNMENT_WORK_LOG_UPDATE',
+                'ASSIGNMENT_WORK_LOG_ATTACHMENT_UPLOAD'
+            )
+            WHERE r.role_code = 'TECHNICIAN'
+            ON CONFLICT (role_id, permission_id) DO NOTHING;
+        </sql>
+    </changeSet>
 </databaseChangeLog>

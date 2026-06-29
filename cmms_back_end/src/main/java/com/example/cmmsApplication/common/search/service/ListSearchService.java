@@ -66,6 +66,7 @@ public class ListSearchService {
     private static final Set<String> ASSIGNMENT_FILTERS = Set.of(
             "commonSearch", "id", "siteId", "siteCode", "siteName", "requestId",
             "requestNumber", "requestTitle", "requestStatus", "vendorId", "vendorName",
+            "assignedEmployeeId", "assignedEmployeeCode", "assignedEmployeeName",
             "assignedTo", "assignedDate", "plannedStartDate", "plannedEndDate",
             "actualStartDate", "actualEndDate", "status", "estimatedCost", "actualCost",
             "remarks", "createdAt", "updatedAt"

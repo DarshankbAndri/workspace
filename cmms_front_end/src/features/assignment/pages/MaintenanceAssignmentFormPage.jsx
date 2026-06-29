@@ -6,19 +6,28 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../../../shared/context/AuthContext';
 import { getVendorsBySite } from '../../vendor/services/vendorService';
 import { getSites } from '../../site/services/siteService';
+import { searchEmployees } from '../../employee/services/employeeService';
+import { createSearchPayload, equalFilter } from '../../../shared/utils/searchPayload';
 import {
   addAssignmentChecklistItem,
+  addAssignmentWorkLog,
   createMaintenanceAssignment,
   deleteAssignmentChecklistItem,
   deleteAssignmentChecklistProof,
+  deleteAssignmentWorkLog,
+  deleteAssignmentWorkLogAttachment,
   downloadAssignmentChecklistProof,
+  downloadAssignmentWorkLogAttachment,
   getAssignmentChecklist,
+  getAssignmentWorkLogs,
   getMaintenanceAssignmentById,
-  getRequestsBySite,
   updateAssignmentChecklistItem,
+  updateAssignmentWorkLog,
   updateMaintenanceAssignment,
   uploadAssignmentChecklistProof,
-} from '../../maintenance/services/maintenanceService';
+  uploadAssignmentWorkLogAttachment,
+} from '../services/assignmentService';
+import { getRequestsBySite } from '../../maintenanceRequest/services/maintenanceRequestService';
 import {
   addAssignmentSpare,
   cancelAssignmentSpare,
@@ -37,6 +46,7 @@ const initialForm = {
   siteId: '',
   requestId: '',
   vendorId: '',
+  assignedEmployeeId: '',
   assignedTo: '',
   assignedDate: new Date().toISOString().slice(0, 10),
   plannedStartDate: '',
@@ -51,8 +61,18 @@ const initialForm = {
 
 const initialSpareEditDialog = { open: false, row: null, quantityUsed: '', remarks: '' };
 const initialChecklistForm = { taskTitle: '', instructions: '', required: true, proofRequired: false, responseType: 'CHECKBOX' };
+const initialWorkLogForm = {
+  technicianEmployeeId: '',
+  startTime: '',
+  endTime: '',
+  workNotes: '',
+  issueFound: '',
+  actionTaken: '',
+  completionStatus: 'IN_PROGRESS',
+};
 const checklistStatusOptions = ['PENDING', 'COMPLETED', 'NOT_APPLICABLE'];
 const checklistResponseTypes = ['CHECKBOX', 'TEXT', 'NUMBER', 'PHOTO'];
+const workLogStatusOptions = ['IN_PROGRESS', 'COMPLETED', 'FOLLOW_UP_REQUIRED', 'CANCELLED'];
 const statusColors = {
   REQUESTED: 'default',
   MANAGER_APPROVED: 'info',
@@ -71,6 +91,21 @@ const statusColors = {
   RETURNED: 'default',
 };
 
+const toDateTimeInput = (value) => {
+  if (!value) return '';
+  return String(value).slice(0, 16);
+};
+
+const toApiDateTime = (value) => {
+  if (!value) return null;
+  return value.length === 16 ? `${value}:00` : value;
+};
+
+const employeeLabel = (employee) => {
+  const name = `${employee.firstName || ''} ${employee.lastName || ''}`.trim();
+  return `${employee.employeeCode || employee.id} - ${name || 'Employee'}`;
+};
+
 function MaintenanceAssignmentFormPage() {
   const { id } = useParams();
   const location = useLocation();
@@ -82,12 +117,16 @@ function MaintenanceAssignmentFormPage() {
   const [sites, setSites] = React.useState([]);
   const [requests, setRequests] = React.useState([]);
   const [vendors, setVendors] = React.useState([]);
+  const [employees, setEmployees] = React.useState([]);
   const [siteSpares, setSiteSpares] = React.useState([]);
   const [spareRows, setSpareRows] = React.useState([]);
   const [spareForm, setSpareForm] = React.useState({ stockId: '', quantityUsed: '', remarks: '' });
   const [spareEditDialog, setSpareEditDialog] = React.useState(initialSpareEditDialog);
   const [checklistRows, setChecklistRows] = React.useState([]);
   const [checklistForm, setChecklistForm] = React.useState(initialChecklistForm);
+  const [workLogRows, setWorkLogRows] = React.useState([]);
+  const [workLogForm, setWorkLogForm] = React.useState(initialWorkLogForm);
+  const [editingWorkLogId, setEditingWorkLogId] = React.useState(null);
   const [error, setError] = React.useState('');
   const [saving, setSaving] = React.useState(false);
 
@@ -98,7 +137,7 @@ function MaintenanceAssignmentFormPage() {
   React.useEffect(() => {
     if (id) {
       getMaintenanceAssignmentById(id)
-        .then((data) => setForm({ ...initialForm, ...data, siteId: data.siteId || '', requestId: data.requestId || '', vendorId: data.vendorId || '', estimatedCost: data.estimatedCost ?? '', actualCost: data.actualCost ?? '' }))
+        .then((data) => setForm({ ...initialForm, ...data, siteId: data.siteId || '', requestId: data.requestId || '', vendorId: data.vendorId || '', assignedEmployeeId: data.assignedEmployeeId || '', estimatedCost: data.estimatedCost ?? '', actualCost: data.actualCost ?? '' }))
         .catch((err) => setError(err.response?.data?.message || 'Unable to load assignment.'));
     }
   }, [id]);
@@ -107,16 +146,23 @@ function MaintenanceAssignmentFormPage() {
     if (!form.siteId) {
       setRequests([]);
       setVendors([]);
+      setEmployees([]);
       setSiteSpares([]);
       return;
     }
-    Promise.all([getRequestsBySite(form.siteId), getVendorsBySite(form.siteId), getSparePartsBySite(form.siteId)])
-      .then(([requestRows, vendorRows, spareRows]) => {
+    const employeePayload = createSearchPayload({
+      filters: [equalFilter('siteId', form.siteId, 'NUMBER'), equalFilter('status', 'ACTIVE')],
+      paginationModel: { page: 0, pageSize: 200 },
+      sortModel: [{ field: 'firstName', sort: 'asc' }],
+    });
+    Promise.all([getRequestsBySite(form.siteId), getVendorsBySite(form.siteId), getSparePartsBySite(form.siteId), searchEmployees(employeePayload)])
+      .then(([requestRows, vendorRows, spareRows, employeeRows]) => {
         setRequests((requestRows || []).filter((request) => !['PENDING_APPROVAL', 'CLOSE_PENDING_APPROVAL', 'REJECTED'].includes(request.status)));
         setVendors(vendorRows || []);
         setSiteSpares(spareRows || []);
+        setEmployees(employeeRows?.data || []);
       })
-      .catch(() => setError('Unable to load requests, vendors, or spare parts for selected site.'));
+      .catch(() => setError('Unable to load requests, vendors, technicians, or spare parts for selected site.'));
   }, [form.siteId]);
 
   const loadSpares = React.useCallback(() => {
@@ -143,11 +189,39 @@ function MaintenanceAssignmentFormPage() {
 
   React.useEffect(() => { loadChecklist(); }, [loadChecklist]);
 
+  const loadWorkLogs = React.useCallback(() => {
+    if (!id) {
+      setWorkLogRows([]);
+      return;
+    }
+    getAssignmentWorkLogs(id)
+      .then((data) => setWorkLogRows(data || []))
+      .catch(() => setError('Unable to load technician work logs.'));
+  }, [id]);
+
+  React.useEffect(() => { loadWorkLogs(); }, [loadWorkLogs]);
+
+  React.useEffect(() => {
+    if (!editingWorkLogId && form.assignedEmployeeId && !workLogForm.technicianEmployeeId) {
+      setWorkLogForm((current) => ({ ...current, technicianEmployeeId: form.assignedEmployeeId }));
+    }
+  }, [editingWorkLogId, form.assignedEmployeeId, workLogForm.technicianEmployeeId]);
+
   const updateField = (field) => (event) => setForm((current) => ({ ...current, [field]: event.target.value }));
   const updateSite = (event) => setForm((current) => ({ ...current, siteId: event.target.value, requestId: '', vendorId: '' }));
   const updateRequest = (event) => setForm((current) => ({ ...current, requestId: event.target.value, vendorId: '' }));
   const updateSpareField = (field) => (event) => setSpareForm((current) => ({ ...current, [field]: event.target.value }));
   const updateChecklistForm = (field) => (event) => setChecklistForm((current) => ({ ...current, [field]: event.target.value }));
+  const updateWorkLogForm = (field) => (event) => setWorkLogForm((current) => ({ ...current, [field]: event.target.value }));
+  const updateAssignedEmployee = (event) => {
+    const employeeId = event.target.value;
+    const selected = employees.find((employee) => String(employee.id) === String(employeeId));
+    setForm((current) => ({
+      ...current,
+      assignedEmployeeId: employeeId,
+      assignedTo: selected ? `${selected.firstName || ''} ${selected.lastName || ''}`.trim() : current.assignedTo,
+    }));
+  };
   const updateChecklistRow = (rowId, field, value) => {
     setChecklistRows((current) => current.map((row) => (row.id === rowId ? { ...row, [field]: value } : row)));
   };
@@ -164,6 +238,8 @@ function MaintenanceAssignmentFormPage() {
     const proofDone = !row.proofRequired || (row.proofs || []).length > 0;
     return statusDone && proofDone;
   });
+  const completedWorkLogCount = workLogRows.filter((row) => row.completionStatus === 'COMPLETED').length;
+  const canCompleteWorkLogs = completedWorkLogCount > 0 && workLogRows.every((row) => !['IN_PROGRESS', 'FOLLOW_UP_REQUIRED'].includes(row.completionStatus));
 
   const handleAddChecklistItem = async () => {
     setError('');
@@ -242,6 +318,107 @@ function MaintenanceAssignmentFormPage() {
       loadChecklist();
     } catch (err) {
       setError(err.response?.data?.message || 'Unable to delete checklist proof.');
+    }
+  };
+
+  const resetWorkLogForm = () => {
+    setEditingWorkLogId(null);
+    setWorkLogForm(initialWorkLogForm);
+  };
+
+  const handleSaveWorkLog = async () => {
+    setError('');
+    if (!id) {
+      setError('Save the assignment before adding technician work logs.');
+      return;
+    }
+    if (!workLogForm.technicianEmployeeId || !workLogForm.startTime) {
+      setError('Technician and start time are required.');
+      return;
+    }
+    if (workLogForm.completionStatus === 'COMPLETED' && !workLogForm.endTime) {
+      setError('End time is required when work log is completed.');
+      return;
+    }
+    try {
+      const payload = {
+        ...workLogForm,
+        technicianEmployeeId: Number(workLogForm.technicianEmployeeId),
+        startTime: toApiDateTime(workLogForm.startTime),
+        endTime: toApiDateTime(workLogForm.endTime),
+      };
+      if (editingWorkLogId) {
+        await updateAssignmentWorkLog(id, editingWorkLogId, payload);
+      } else {
+        await addAssignmentWorkLog(id, payload);
+      }
+      resetWorkLogForm();
+      loadWorkLogs();
+    } catch (err) {
+      setError(err.response?.data?.message || 'Unable to save technician work log.');
+    }
+  };
+
+  const handleEditWorkLog = (row) => {
+    setEditingWorkLogId(row.id);
+    setWorkLogForm({
+      technicianEmployeeId: row.technicianEmployeeId || '',
+      startTime: toDateTimeInput(row.startTime),
+      endTime: toDateTimeInput(row.endTime),
+      workNotes: row.workNotes || '',
+      issueFound: row.issueFound || '',
+      actionTaken: row.actionTaken || '',
+      completionStatus: row.completionStatus || 'IN_PROGRESS',
+    });
+  };
+
+  const handleDeleteWorkLog = async (row) => {
+    if (!window.confirm('Remove this technician work log?')) return;
+    try {
+      await deleteAssignmentWorkLog(id, row.id);
+      if (editingWorkLogId === row.id) {
+        resetWorkLogForm();
+      }
+      loadWorkLogs();
+    } catch (err) {
+      setError(err.response?.data?.message || 'Unable to remove technician work log.');
+    }
+  };
+
+  const handleUploadWorkLogAttachment = async (row, file) => {
+    if (!file) return;
+    setError('');
+    try {
+      await uploadAssignmentWorkLogAttachment(id, row.id, file);
+      loadWorkLogs();
+    } catch (err) {
+      setError(err.response?.data?.message || 'Unable to upload work log attachment.');
+    }
+  };
+
+  const handleDownloadWorkLogAttachment = async (row, attachment) => {
+    try {
+      const response = await downloadAssignmentWorkLogAttachment(id, row.id, attachment.id);
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = attachment.originalFileName || 'attachment';
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      setError(err.response?.data?.message || 'Unable to download work log attachment.');
+    }
+  };
+
+  const handleDeleteWorkLogAttachment = async (row, attachment) => {
+    if (!window.confirm('Remove this work log attachment?')) return;
+    try {
+      await deleteAssignmentWorkLogAttachment(id, row.id, attachment.id);
+      loadWorkLogs();
+    } catch (err) {
+      setError(err.response?.data?.message || 'Unable to delete work log attachment.');
     }
   };
 
@@ -405,8 +582,16 @@ function MaintenanceAssignmentFormPage() {
       setError('Site, maintenance request, and vendor are required.');
       return;
     }
+    if (!form.assignedEmployeeId && !String(form.assignedTo || '').trim()) {
+      setError('Assigned technician is required.');
+      return;
+    }
     if (form.status === 'COMPLETED' && !canCompleteChecklist) {
       setError('Complete required checklist steps and proof before completing the assignment.');
+      return;
+    }
+    if (form.status === 'COMPLETED' && !canCompleteWorkLogs) {
+      setError('Add at least one completed work log and resolve in-progress/follow-up logs before completing the assignment.');
       return;
     }
     setSaving(true);
@@ -416,6 +601,7 @@ function MaintenanceAssignmentFormPage() {
         siteId: Number(form.siteId),
         requestId: Number(form.requestId),
         vendorId: Number(form.vendorId),
+        assignedEmployeeId: form.assignedEmployeeId ? Number(form.assignedEmployeeId) : null,
         estimatedCost: form.estimatedCost === '' ? null : Number(form.estimatedCost),
         actualCost: form.actualCost === '' ? null : Number(form.actualCost),
       };
@@ -442,11 +628,20 @@ function MaintenanceAssignmentFormPage() {
             <Grid item xs={12} md={4}><TextField required select fullWidth disabled={isView} label="Site" value={form.siteId} onChange={updateSite}>{sites.map((site) => <MenuItem key={site.id} value={site.id}>{site.siteName} ({site.siteCode})</MenuItem>)}</TextField></Grid>
             <Grid item xs={12} md={4}><TextField required select fullWidth disabled={isView || !form.siteId} label="Request" value={form.requestId} onChange={updateRequest} helperText={form.siteId && requests.length === 0 ? 'No maintenance requests found for this site.' : ''}>{requests.map((item) => <MenuItem key={item.id} value={item.id}>{item.requestNumber} - {item.title}</MenuItem>)}</TextField></Grid>
             <Grid item xs={12} md={4}><TextField required select fullWidth disabled={isView || !form.siteId || !form.requestId} label="Vendor" value={form.vendorId} onChange={updateField('vendorId')} helperText={form.siteId && vendors.length === 0 ? 'No vendors assigned to this site.' : ''}>{vendors.map((item) => <MenuItem key={item.id} value={item.id}>{item.vendorName}</MenuItem>)}</TextField></Grid>
-            <Grid item xs={12} md={4}><TextField required fullWidth disabled={isView} label="Assigned To" value={form.assignedTo || ''} onChange={updateField('assignedTo')} /></Grid>
+            <Grid item xs={12} md={4}>
+              <TextField select fullWidth disabled={isView || !form.siteId} label="Assigned Technician" value={form.assignedEmployeeId || ''} onChange={updateAssignedEmployee} helperText={form.siteId && employees.length === 0 ? 'No active employees found for this site.' : ''}>
+                <MenuItem value="">Manual / external technician</MenuItem>
+                {form.assignedEmployeeId && !employees.some((employee) => String(employee.id) === String(form.assignedEmployeeId)) && (
+                  <MenuItem value={form.assignedEmployeeId}>{form.assignedEmployeeName || form.assignedTo}</MenuItem>
+                )}
+                {employees.map((employee) => <MenuItem key={employee.id} value={employee.id}>{employeeLabel(employee)}</MenuItem>)}
+              </TextField>
+            </Grid>
+            <Grid item xs={12} md={4}><TextField required fullWidth disabled={isView || Boolean(form.assignedEmployeeId)} label="Assigned To" value={form.assignedTo || ''} onChange={updateField('assignedTo')} /></Grid>
             <Grid item xs={12} md={3}><TextField type="date" fullWidth disabled={isView} label="Assigned Date" value={form.assignedDate || ''} onChange={updateField('assignedDate')} InputLabelProps={{ shrink: true }} /></Grid>
             <Grid item xs={12} md={3}><TextField type="date" fullWidth disabled={isView} label="Planned Start" value={form.plannedStartDate || ''} onChange={updateField('plannedStartDate')} InputLabelProps={{ shrink: true }} /></Grid>
             <Grid item xs={12} md={3}><TextField type="date" fullWidth disabled={isView} label="Planned End" value={form.plannedEndDate || ''} onChange={updateField('plannedEndDate')} InputLabelProps={{ shrink: true }} /></Grid>
-            <Grid item xs={12} md={3}><TextField select fullWidth disabled={isView} label="Status" value={form.status || 'ASSIGNED'} onChange={updateField('status')}><MenuItem value="ASSIGNED">Assigned</MenuItem><MenuItem value="IN_PROGRESS">In Progress</MenuItem><MenuItem value="COMPLETED" disabled={checklistRows.length > 0 && !canCompleteChecklist}>Completed</MenuItem><MenuItem value="CANCELLED">Cancelled</MenuItem></TextField></Grid>
+            <Grid item xs={12} md={3}><TextField select fullWidth disabled={isView} label="Status" value={form.status || 'ASSIGNED'} onChange={updateField('status')}><MenuItem value="ASSIGNED">Assigned</MenuItem><MenuItem value="IN_PROGRESS">In Progress</MenuItem><MenuItem value="COMPLETED" disabled={(checklistRows.length > 0 && !canCompleteChecklist) || !canCompleteWorkLogs}>Completed</MenuItem><MenuItem value="CANCELLED">Cancelled</MenuItem></TextField></Grid>
             <Grid item xs={12} md={3}><TextField type="date" fullWidth disabled={isView} label="Actual Start" value={form.actualStartDate || ''} onChange={updateField('actualStartDate')} InputLabelProps={{ shrink: true }} /></Grid>
             <Grid item xs={12} md={3}><TextField type="date" fullWidth disabled={isView} label="Actual End" value={form.actualEndDate || ''} onChange={updateField('actualEndDate')} InputLabelProps={{ shrink: true }} /></Grid>
             <Grid item xs={12} md={3}><TextField type="number" fullWidth disabled={isView} label="Estimated Cost" value={form.estimatedCost} onChange={updateField('estimatedCost')} /></Grid>
@@ -543,6 +738,99 @@ function MaintenanceAssignmentFormPage() {
                             onClick={() => handleDownloadChecklistProof(row, proof)}
                             onDelete={!isView && hasPermission('ASSIGNMENT_CHECKLIST_PROOF_DELETE') ? () => handleDeleteChecklistProof(row, proof) : undefined}
                             deleteIcon={!isView && hasPermission('ASSIGNMENT_CHECKLIST_PROOF_DELETE') ? <Delete /> : undefined}
+                            icon={<Download />}
+                          />
+                        ))}
+                      </Stack>
+                    </Grid>
+                  )}
+                </Grid>
+              </Box>
+            ))}
+          </Stack>
+        </Paper>
+      )}
+      {id && (
+        <Paper sx={{ p: 3, borderRadius: 1, mt: 2 }}>
+          <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" alignItems={{ xs: 'stretch', sm: 'center' }} spacing={1.5} sx={{ mb: 2 }}>
+            <Stack direction="row" spacing={1} alignItems="center">
+              <Typography variant="h6" fontWeight={800}>Technician Work Logs</Typography>
+              <Chip size="small" label={`${completedWorkLogCount}/${workLogRows.length}`} color={canCompleteWorkLogs ? 'success' : 'warning'} />
+            </Stack>
+            {!isView && editingWorkLogId && <Button variant="outlined" size="small" onClick={resetWorkLogForm}>New Log</Button>}
+          </Stack>
+          {!isView && hasPermission(editingWorkLogId ? 'ASSIGNMENT_WORK_LOG_UPDATE' : 'ASSIGNMENT_WORK_LOG_CREATE') && (
+            <Grid container spacing={1.5} sx={{ mb: 2 }}>
+              <Grid item xs={12} md={3}>
+                <TextField select required fullWidth label="Technician" value={workLogForm.technicianEmployeeId} onChange={updateWorkLogForm('technicianEmployeeId')}>
+                  {form.assignedEmployeeId && !employees.some((employee) => String(employee.id) === String(form.assignedEmployeeId)) && (
+                    <MenuItem value={form.assignedEmployeeId}>{form.assignedEmployeeName || form.assignedTo}</MenuItem>
+                  )}
+                  {employees.map((employee) => <MenuItem key={employee.id} value={employee.id}>{employeeLabel(employee)}</MenuItem>)}
+                </TextField>
+              </Grid>
+              <Grid item xs={12} md={2}><TextField type="datetime-local" required fullWidth label="Start Time" value={workLogForm.startTime} onChange={updateWorkLogForm('startTime')} InputLabelProps={{ shrink: true }} /></Grid>
+              <Grid item xs={12} md={2}><TextField type="datetime-local" fullWidth label="End Time" value={workLogForm.endTime} onChange={updateWorkLogForm('endTime')} InputLabelProps={{ shrink: true }} /></Grid>
+              <Grid item xs={12} md={2}>
+                <TextField select fullWidth label="Status" value={workLogForm.completionStatus} onChange={updateWorkLogForm('completionStatus')}>
+                  {workLogStatusOptions.map((status) => <MenuItem key={status} value={status}>{status.replaceAll('_', ' ')}</MenuItem>)}
+                </TextField>
+              </Grid>
+              <Grid item xs={12} md={3}><TextField fullWidth label="Work Notes" value={workLogForm.workNotes} onChange={updateWorkLogForm('workNotes')} /></Grid>
+              <Grid item xs={12} md={4}><TextField fullWidth label="Issue Found" value={workLogForm.issueFound} onChange={updateWorkLogForm('issueFound')} /></Grid>
+              <Grid item xs={12} md={4}><TextField fullWidth label="Action Taken" value={workLogForm.actionTaken} onChange={updateWorkLogForm('actionTaken')} /></Grid>
+              <Grid item xs={12} md={4}>
+                <Stack direction="row" spacing={1} sx={{ height: '100%' }} alignItems="stretch">
+                  <Button fullWidth variant="contained" startIcon={<Save />} onClick={handleSaveWorkLog}>{editingWorkLogId ? 'Update Log' : 'Add Log'}</Button>
+                  {editingWorkLogId && <Button variant="outlined" onClick={resetWorkLogForm}>Cancel</Button>}
+                </Stack>
+              </Grid>
+            </Grid>
+          )}
+          <Stack spacing={1.5}>
+            {workLogRows.length === 0 && <Typography variant="body2" color="text.secondary">No technician work logs.</Typography>}
+            {workLogRows.map((row) => (
+              <Box key={row.id} sx={{ border: 1, borderColor: 'divider', borderRadius: 1, p: 1.5 }}>
+                <Grid container spacing={1.5} alignItems="center">
+                  <Grid item xs={12} md={2.5}>
+                    <Typography variant="subtitle2" fontWeight={800}>{row.technicianName || row.technicianEmployeeCode}</Typography>
+                    <Typography variant="caption" color="text.secondary">
+                      {row.startTime ? new Date(row.startTime).toLocaleString() : ''}{row.endTime ? ` - ${new Date(row.endTime).toLocaleString()}` : ''}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12} md={1.5}><Chip size="small" label={(row.completionStatus || '').replaceAll('_', ' ')} color={row.completionStatus === 'COMPLETED' ? 'success' : row.completionStatus === 'FOLLOW_UP_REQUIRED' ? 'warning' : 'default'} /></Grid>
+                  <Grid item xs={12} md={2}><Typography variant="body2">{row.issueFound || '-'}</Typography></Grid>
+                  <Grid item xs={12} md={2}><Typography variant="body2">{row.actionTaken || '-'}</Typography></Grid>
+                  <Grid item xs={12} md={2}><Typography variant="body2" color="text.secondary">{row.workNotes || '-'}</Typography></Grid>
+                  <Grid item xs={12} md={2}>
+                    <Stack direction="row" spacing={0.5} justifyContent={{ xs: 'flex-start', md: 'flex-end' }} flexWrap="wrap" useFlexGap>
+                      {!isView && hasPermission('ASSIGNMENT_WORK_LOG_UPDATE') && (
+                        <Tooltip title="Edit"><IconButton color="primary" onClick={() => handleEditWorkLog(row)}><Edit fontSize="small" /></IconButton></Tooltip>
+                      )}
+                      {!isView && hasPermission('ASSIGNMENT_WORK_LOG_ATTACHMENT_UPLOAD') && (
+                        <Tooltip title="Upload attachment">
+                          <IconButton component="label">
+                            <UploadFile fontSize="small" />
+                            <input type="file" hidden onChange={(event) => handleUploadWorkLogAttachment(row, event.target.files?.[0])} />
+                          </IconButton>
+                        </Tooltip>
+                      )}
+                      {!isView && hasPermission('ASSIGNMENT_WORK_LOG_DELETE') && (
+                        <Tooltip title="Delete"><IconButton color="error" onClick={() => handleDeleteWorkLog(row)}><Delete fontSize="small" /></IconButton></Tooltip>
+                      )}
+                    </Stack>
+                  </Grid>
+                  {(row.attachments || []).length > 0 && (
+                    <Grid item xs={12}>
+                      <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+                        {(row.attachments || []).map((attachment) => (
+                          <Chip
+                            key={attachment.id}
+                            size="small"
+                            label={attachment.originalFileName}
+                            onClick={() => handleDownloadWorkLogAttachment(row, attachment)}
+                            onDelete={!isView && hasPermission('ASSIGNMENT_WORK_LOG_ATTACHMENT_DELETE') ? () => handleDeleteWorkLogAttachment(row, attachment) : undefined}
+                            deleteIcon={!isView && hasPermission('ASSIGNMENT_WORK_LOG_ATTACHMENT_DELETE') ? <Delete /> : undefined}
                             icon={<Download />}
                           />
                         ))}

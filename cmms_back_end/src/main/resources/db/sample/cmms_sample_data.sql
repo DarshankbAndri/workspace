@@ -114,6 +114,12 @@ INSERT INTO permission_master (permission_code, permission_name, module_name, ac
 ('ASSIGNMENT_CREATE', 'Create Assignments', 'Assignment', 'CREATE', 'ACTIVE', NOW(), NOW()),
 ('ASSIGNMENT_UPDATE', 'Update Assignments', 'Assignment', 'UPDATE', 'ACTIVE', NOW(), NOW()),
 ('ASSIGNMENT_DELETE', 'Delete Assignments', 'Assignment', 'DELETE', 'ACTIVE', NOW(), NOW()),
+('ASSIGNMENT_WORK_LOG_VIEW', 'View Assignment Work Logs', 'Assignment Work Log', 'VIEW', 'ACTIVE', NOW(), NOW()),
+('ASSIGNMENT_WORK_LOG_CREATE', 'Create Assignment Work Logs', 'Assignment Work Log', 'CREATE', 'ACTIVE', NOW(), NOW()),
+('ASSIGNMENT_WORK_LOG_UPDATE', 'Update Assignment Work Logs', 'Assignment Work Log', 'UPDATE', 'ACTIVE', NOW(), NOW()),
+('ASSIGNMENT_WORK_LOG_DELETE', 'Delete Assignment Work Logs', 'Assignment Work Log', 'DELETE', 'ACTIVE', NOW(), NOW()),
+('ASSIGNMENT_WORK_LOG_ATTACHMENT_UPLOAD', 'Upload Assignment Work Log Attachments', 'Assignment Work Log', 'ATTACHMENT_UPLOAD', 'ACTIVE', NOW(), NOW()),
+('ASSIGNMENT_WORK_LOG_ATTACHMENT_DELETE', 'Delete Assignment Work Log Attachments', 'Assignment Work Log', 'ATTACHMENT_DELETE', 'ACTIVE', NOW(), NOW()),
 ('DOWNTIME_VIEW', 'View Downtime', 'Downtime', 'VIEW', 'ACTIVE', NOW(), NOW()),
 ('DOWNTIME_CREATE', 'Create Downtime', 'Downtime', 'CREATE', 'ACTIVE', NOW(), NOW()),
 ('DOWNTIME_UPDATE', 'Update Downtime', 'Downtime', 'UPDATE', 'ACTIVE', NOW(), NOW()),
@@ -155,6 +161,8 @@ JOIN permission_master p ON p.permission_code IN (
     'DASHBOARD_VIEW', 'EQUIPMENT_VIEW', 'EQUIPMENT_CREATE', 'EQUIPMENT_UPDATE',
     'VENDOR_VIEW', 'REQUEST_VIEW', 'REQUEST_CREATE', 'REQUEST_UPDATE',
     'ASSIGNMENT_VIEW', 'ASSIGNMENT_CREATE', 'ASSIGNMENT_UPDATE',
+    'ASSIGNMENT_WORK_LOG_VIEW', 'ASSIGNMENT_WORK_LOG_CREATE', 'ASSIGNMENT_WORK_LOG_UPDATE',
+    'ASSIGNMENT_WORK_LOG_DELETE', 'ASSIGNMENT_WORK_LOG_ATTACHMENT_UPLOAD', 'ASSIGNMENT_WORK_LOG_ATTACHMENT_DELETE',
     'DOWNTIME_VIEW', 'DOWNTIME_CREATE', 'DOWNTIME_UPDATE', 'REPORT_VIEW'
 )
 WHERE r.role_code IN ('SITE_MANAGER', 'MAINTENANCE_MANAGER')
@@ -164,6 +172,15 @@ INSERT INTO role_permission (role_id, permission_id)
 SELECT r.role_id, p.permission_id
 FROM role_master r
 JOIN permission_master p ON p.permission_code IN ('DASHBOARD_VIEW', 'EQUIPMENT_VIEW', 'REQUEST_VIEW', 'REQUEST_UPDATE', 'DOWNTIME_VIEW', 'DOWNTIME_CREATE')
+WHERE r.role_code = 'TECHNICIAN'
+ON CONFLICT (role_id, permission_id) DO NOTHING;
+
+INSERT INTO role_permission (role_id, permission_id)
+SELECT r.role_id, p.permission_id
+FROM role_master r
+JOIN permission_master p ON p.permission_code IN (
+    'ASSIGNMENT_WORK_LOG_VIEW', 'ASSIGNMENT_WORK_LOG_CREATE', 'ASSIGNMENT_WORK_LOG_UPDATE', 'ASSIGNMENT_WORK_LOG_ATTACHMENT_UPLOAD'
+)
 WHERE r.role_code = 'TECHNICIAN'
 ON CONFLICT (role_id, permission_id) DO NOTHING;
 
@@ -300,25 +317,26 @@ ON CONFLICT (request_number) DO NOTHING;
 
 -- 13. Maintenance assignments
 INSERT INTO maintenance_assignment (
-    request_id, vendor_id, assigned_to, assigned_date, planned_start_date, planned_end_date,
+    request_id, vendor_id, assigned_employee_id, assigned_to, assigned_date, planned_start_date, planned_end_date,
     actual_start_date, actual_end_date, status, estimated_cost, actual_cost, remarks, created_at, updated_at
 )
-SELECT mr.id, vnd.id, v.assigned_to, v.assigned_date::date, v.planned_start_date::date, v.planned_end_date::date,
+SELECT mr.id, vnd.id, emp.employee_id, v.assigned_to, v.assigned_date::date, v.planned_start_date::date, v.planned_end_date::date,
        NULL, NULL, v.status, v.estimated_cost::numeric, NULL, v.remarks, NOW(), NOW()
 FROM (VALUES
-    ('MR-001', 'VEN-001', 'Imran Khan', '2026-06-01', '2026-06-02', '2026-06-04', 'ASSIGNED', '12000.00', 'Pump vibration diagnosis assigned.'),
-    ('MR-002', 'VEN-002', 'Pooja Nair', '2026-06-02', '2026-06-03', '2026-06-05', 'IN_PROGRESS', '8500.00', 'Hydraulic leak inspection in progress.'),
-    ('MR-003', 'VEN-003', 'Manoj Pillai', '2026-06-03', '2026-06-04', '2026-06-06', 'ASSIGNED', '9000.00', 'Cooling fan trip investigation.'),
-    ('MR-004', 'VEN-004', 'Neha Kulkarni', '2026-06-04', '2026-06-05', '2026-06-07', 'ASSIGNED', '11000.00', 'Compressor pressure audit.'),
-    ('MR-005', 'VEN-005', 'Divya Rao', '2026-06-05', '2026-06-06', '2026-06-08', 'ASSIGNED', '7000.00', 'CNC calibration assigned.'),
-    ('MR-006', 'VEN-006', 'Karthik S', '2026-06-06', '2026-06-07', '2026-06-09', 'IN_PROGRESS', '6500.00', 'Forklift brake inspection.'),
-    ('MR-007', 'VEN-007', 'Raghav Menon', '2026-06-07', '2026-06-08', '2026-06-10', 'ASSIGNED', '13500.00', 'Crane gearbox inspection.'),
-    ('MR-008', 'VEN-008', 'Farah Ali', '2026-06-08', '2026-06-09', '2026-06-11', 'ASSIGNED', '10500.00', 'Pump seal replacement planning.'),
-    ('MR-009', 'VEN-009', 'Imran Khan', '2026-06-09', '2026-06-10', '2026-06-12', 'ASSIGNED', '4000.00', 'Cable replacement work assigned.'),
-    ('MR-010', 'VEN-010', 'Pooja Nair', '2026-06-10', '2026-06-11', '2026-06-13', 'ASSIGNED', '15000.00', 'Fire controller alarm inspection.')
-) AS v(request_number, vendor_code, assigned_to, assigned_date, planned_start_date, planned_end_date, status, estimated_cost, remarks)
+    ('MR-001', 'VEN-001', 'EMP-005', 'Imran Khan', '2026-06-01', '2026-06-02', '2026-06-04', 'ASSIGNED', '12000.00', 'Pump vibration diagnosis assigned.'),
+    ('MR-002', 'VEN-002', 'EMP-006', 'Pooja Nair', '2026-06-02', '2026-06-03', '2026-06-05', 'IN_PROGRESS', '8500.00', 'Hydraulic leak inspection in progress.'),
+    ('MR-003', 'VEN-003', 'EMP-007', 'Manoj Pillai', '2026-06-03', '2026-06-04', '2026-06-06', 'ASSIGNED', '9000.00', 'Cooling fan trip investigation.'),
+    ('MR-004', 'VEN-004', 'EMP-004', 'Neha Kulkarni', '2026-06-04', '2026-06-05', '2026-06-07', 'ASSIGNED', '11000.00', 'Compressor pressure audit.'),
+    ('MR-005', 'VEN-005', 'EMP-008', 'Divya Rao', '2026-06-05', '2026-06-06', '2026-06-08', 'ASSIGNED', '7000.00', 'CNC calibration assigned.'),
+    ('MR-006', 'VEN-006', 'EMP-009', 'Karthik S', '2026-06-06', '2026-06-07', '2026-06-09', 'IN_PROGRESS', '6500.00', 'Forklift brake inspection.'),
+    ('MR-007', 'VEN-007', 'EMP-003', 'Raghav Menon', '2026-06-07', '2026-06-08', '2026-06-10', 'ASSIGNED', '13500.00', 'Crane gearbox inspection.'),
+    ('MR-008', 'VEN-008', 'EMP-010', 'Farah Ali', '2026-06-08', '2026-06-09', '2026-06-11', 'ASSIGNED', '10500.00', 'Pump seal replacement planning.'),
+    ('MR-009', 'VEN-009', 'EMP-005', 'Imran Khan', '2026-06-09', '2026-06-10', '2026-06-12', 'ASSIGNED', '4000.00', 'Cable replacement work assigned.'),
+    ('MR-010', 'VEN-010', 'EMP-006', 'Pooja Nair', '2026-06-10', '2026-06-11', '2026-06-13', 'ASSIGNED', '15000.00', 'Fire controller alarm inspection.')
+) AS v(request_number, vendor_code, employee_code, assigned_to, assigned_date, planned_start_date, planned_end_date, status, estimated_cost, remarks)
 JOIN maintenance_request mr ON mr.request_number = v.request_number
 JOIN vendor_master vnd ON vnd.vendor_code = v.vendor_code
+LEFT JOIN employee_master emp ON emp.employee_code = v.employee_code
 WHERE EXISTS (
     SELECT 1 FROM vendor_site_assignment vsa
     WHERE vsa.vendor_id = vnd.id AND vsa.site_id = mr.site_id AND vsa.status = 'ACTIVE'

@@ -3,7 +3,6 @@ package com.example.cmmsApplication.assignment.dto;
 
 import com.example.cmmsApplication.vendor.entity.Vendor;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -27,7 +26,9 @@ public class MaintenanceAssignmentDTO {
     @NotNull(message = "Vendor is required")
     private Long vendorId;
     private String vendorName;
-    @NotBlank(message = "Assigned to is required")
+    private Long assignedEmployeeId;
+    private String assignedEmployeeCode;
+    private String assignedEmployeeName;
     private String assignedTo;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate assignedDate;
@@ -64,6 +65,12 @@ public class MaintenanceAssignmentDTO {
     public void setVendorId(Long vendorId) { this.vendorId = vendorId; }
     public String getVendorName() { return vendorName; }
     public void setVendorName(String vendorName) { this.vendorName = vendorName; }
+    public Long getAssignedEmployeeId() { return assignedEmployeeId; }
+    public void setAssignedEmployeeId(Long assignedEmployeeId) { this.assignedEmployeeId = assignedEmployeeId; }
+    public String getAssignedEmployeeCode() { return assignedEmployeeCode; }
+    public void setAssignedEmployeeCode(String assignedEmployeeCode) { this.assignedEmployeeCode = assignedEmployeeCode; }
+    public String getAssignedEmployeeName() { return assignedEmployeeName; }
+    public void setAssignedEmployeeName(String assignedEmployeeName) { this.assignedEmployeeName = assignedEmployeeName; }
     public String getAssignedTo() { return assignedTo; }
     public void setAssignedTo(String assignedTo) { this.assignedTo = assignedTo; }
     public LocalDate getAssignedDate() { return assignedDate; }

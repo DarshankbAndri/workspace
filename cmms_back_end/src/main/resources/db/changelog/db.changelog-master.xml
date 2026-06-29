@@ -23,6 +23,8 @@
     <include file="db/changelog/cmms/maintenance_assignment.xml"/>
     <include file="db/changelog/cmms/maintenance_assignment_checklist_item.xml"/>
     <include file="db/changelog/cmms/maintenance_assignment_checklist_proof.xml"/>
+    <include file="db/changelog/cmms/maintenance_assignment_work_log.xml"/>
+    <include file="db/changelog/cmms/maintenance_assignment_work_log_attachment.xml"/>
     <include file="db/changelog/cmms/equipment_downtime.xml"/>
     <include file="db/changelog/cmms/approval_config.xml"/>
     <include file="db/changelog/cmms/approval_request.xml"/>

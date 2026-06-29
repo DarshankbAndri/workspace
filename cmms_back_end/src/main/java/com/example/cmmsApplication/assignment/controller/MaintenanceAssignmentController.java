@@ -5,8 +5,11 @@ import com.example.cmmsApplication.common.response.ResponseFactory;
 
 import com.example.cmmsApplication.assignment.dto.MaintenanceAssignmentDTO;
 import com.example.cmmsApplication.assignment.dto.MaintenanceAssignmentChecklistItemDTO;
+import com.example.cmmsApplication.assignment.dto.MaintenanceAssignmentWorkLogDTO;
 import com.example.cmmsApplication.assignment.entity.MaintenanceAssignmentChecklistProof;
+import com.example.cmmsApplication.assignment.entity.MaintenanceAssignmentWorkLogAttachment;
 import com.example.cmmsApplication.assignment.service.MaintenanceAssignmentChecklistService;
+import com.example.cmmsApplication.assignment.service.MaintenanceAssignmentWorkLogService;
 import com.example.cmmsApplication.common.search.dto.PageProperties;
 import com.example.cmmsApplication.common.search.dto.SearchDTO;
 import com.example.cmmsApplication.common.search.service.ListSearchService;
@@ -27,6 +30,7 @@ import lombok.RequiredArgsConstructor;
 public class MaintenanceAssignmentController {
     private final MaintenanceAssignmentService assignmentService;
     private final MaintenanceAssignmentChecklistService checklistService;
+    private final MaintenanceAssignmentWorkLogService workLogService;
     private final ListSearchService listSearchService;
 
     @PostMapping
@@ -111,7 +115,59 @@ public class MaintenanceAssignmentController {
         return ResponseFactory.ok(null);
     }
 
+    @GetMapping("/{assignmentId}/work-logs")
+    public ResponseEntity<ApiResponse<?>> getWorkLogs(@PathVariable Long assignmentId) {
+        return ResponseFactory.ok(workLogService.getWorkLogs(assignmentId));
+    }
+
+    @PostMapping("/{assignmentId}/work-logs")
+    public ResponseEntity<ApiResponse<?>> addWorkLog(@PathVariable Long assignmentId,
+                                                     @Valid @RequestBody MaintenanceAssignmentWorkLogDTO dto) {
+        return ResponseFactory.created(workLogService.addWorkLog(assignmentId, dto));
+    }
+
+    @PutMapping("/{assignmentId}/work-logs/{workLogId}")
+    public ResponseEntity<ApiResponse<?>> updateWorkLog(@PathVariable Long assignmentId,
+                                                        @PathVariable Long workLogId,
+                                                        @Valid @RequestBody MaintenanceAssignmentWorkLogDTO dto) {
+        return ResponseFactory.ok(workLogService.updateWorkLog(assignmentId, workLogId, dto));
+    }
+
+    @DeleteMapping("/{assignmentId}/work-logs/{workLogId}")
+    public ResponseEntity<ApiResponse<?>> deleteWorkLog(@PathVariable Long assignmentId,
+                                                        @PathVariable Long workLogId) {
+        workLogService.deleteWorkLog(assignmentId, workLogId);
+        return ResponseFactory.ok(null);
+    }
+
+    @PostMapping(value = "/{assignmentId}/work-logs/{workLogId}/attachments", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ApiResponse<?>> uploadWorkLogAttachment(@PathVariable Long assignmentId,
+                                                                  @PathVariable Long workLogId,
+                                                                  @RequestParam("file") MultipartFile file) {
+        return ResponseFactory.created(workLogService.uploadAttachment(assignmentId, workLogId, file));
+    }
+
+    @GetMapping("/{assignmentId}/work-logs/{workLogId}/attachments/{attachmentId}")
+    public ResponseEntity<Resource> downloadWorkLogAttachment(@PathVariable Long assignmentId,
+                                                              @PathVariable Long workLogId,
+                                                              @PathVariable Long attachmentId) {
+        MaintenanceAssignmentWorkLogAttachment attachment = workLogService.getAttachment(assignmentId, workLogId, attachmentId);
+        Resource resource = workLogService.getAttachmentResource(attachment);
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(attachment.getContentType()))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + safeFileName(attachment.getOriginalFileName()) + "\"")
+                .body(resource);
+    }
+
+    @DeleteMapping("/{assignmentId}/work-logs/{workLogId}/attachments/{attachmentId}")
+    public ResponseEntity<ApiResponse<?>> deleteWorkLogAttachment(@PathVariable Long assignmentId,
+                                                                  @PathVariable Long workLogId,
+                                                                  @PathVariable Long attachmentId) {
+        workLogService.deleteAttachment(assignmentId, workLogId, attachmentId);
+        return ResponseFactory.ok(null);
+    }
+
     private String safeFileName(String fileName) {
-        return fileName == null ? "proof" : fileName.replace("\"", "");
+        return fileName == null ? "attachment" : fileName.replace("\"", "");
     }
 }

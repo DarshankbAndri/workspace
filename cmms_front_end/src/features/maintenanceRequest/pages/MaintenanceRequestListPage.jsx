@@ -3,7 +3,7 @@ import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogContent
 import { Add, Delete, Edit, Visibility } from '@mui/icons-material';
 import { DataGrid } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
-import { deleteMaintenanceRequest, searchMaintenanceRequests } from '../../maintenance/services/maintenanceService';
+import { deleteMaintenanceRequest, searchMaintenanceRequests } from '../services/maintenanceRequestService';
 import { getSites } from '../../site/services/siteService';
 import { useAuth } from '../../../shared/context/AuthContext';
 import { commonSearchFilter, createSearchPayload, equalFilter } from '../../../shared/utils/searchPayload';
@@ -110,6 +110,7 @@ function MaintenanceRequestListPage() {
           <TextField select label="Status" value={filters.status} onChange={updateFilter('status')} sx={{ minWidth: 180 }}>
             <MenuItem value="">All Status</MenuItem>
             <MenuItem value="OPEN">Open</MenuItem>
+            <MenuItem value="ASSIGNED">Assigned</MenuItem>
             <MenuItem value="IN_PROGRESS">In Progress</MenuItem>
             <MenuItem value="ON_HOLD">On Hold</MenuItem>
             <MenuItem value="CLOSED">Closed</MenuItem>
