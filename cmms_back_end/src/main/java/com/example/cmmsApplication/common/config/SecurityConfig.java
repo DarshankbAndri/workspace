@@ -99,7 +99,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .requestMatchers("/", "/index.html").permitAll()
-                .requestMatchers("/auth/login", "/auth/test").permitAll()
+                .requestMatchers("/auth/login", "/auth/test", "/auth/logout", "/auth/refresh").permitAll()
                 .requestMatchers("/company/logo/**").permitAll()
                 .requestMatchers("/actuator/health", "/actuator/health/liveness", "/actuator/health/readiness").permitAll()
                 .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html", 

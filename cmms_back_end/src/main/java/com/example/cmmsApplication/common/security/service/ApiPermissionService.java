@@ -32,21 +32,20 @@ public class ApiPermissionService {
                     userId, httpMethod, requestUrl);
             return true;
         }
-        boolean mapped = permissionApiMappingRepository.hasActiveMapping(requestUrl, httpMethod);
-        if (!mapped) {
-            if (securityProperties.isDenyUnmappedApi()) {
-                LOGGER.warn("[API_PERMISSION_CHECK] userId={} method={} url={} result=DENIED reason=UNMAPPED",
-                        userId, httpMethod, requestUrl);
-                return false;
-            }
-            LOGGER.warn("[UNMAPPED_API_ALLOWED] method={} url={}", httpMethod, requestUrl);
-            return true;
-        }
-        boolean allowed = permissionApiMappingRepository.hasPermission(userId, requestUrl, httpMethod);
+
+        boolean allowed = hasPermission(Long.valueOf(userId), requestUrl,httpMethod);
         LOGGER.info("[API_PERMISSION_CHECK] userId={} method={} url={} result={}",
                 userId, httpMethod, requestUrl, allowed ? "ALLOWED" : "DENIED");
         return allowed;
     }
+
+
+     public boolean hasPermission(Long userId, String requestUrl, String httpMethod) {
+        Integer count = permissionApiMappingRepository.countUserPermissionsForApiPath(userId, requestUrl,httpMethod);
+        boolean allowed = count > 0;
+        return allowed;
+    }
+
 
     public boolean isPublicApi(String requestUrl) {
         String path = normalizePath(requestUrl);

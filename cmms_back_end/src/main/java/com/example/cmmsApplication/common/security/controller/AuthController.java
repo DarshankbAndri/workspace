@@ -21,6 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -86,6 +87,40 @@ public class AuthController {
     public ResponseEntity<com.example.cmmsApplication.common.response.ApiResponse<?>> me() {
         User user = accessControlService.getCurrentUser();
         return ResponseFactory.ok(accessControlService.buildAccessPayload(user));
+    }
+
+    @PostMapping("/refresh")
+    @Operation(summary = "Refresh JWT token", description = "Refresh an active JWT token")
+    public ResponseEntity<?> refresh(HttpServletRequest request) {
+        String authorizationHeader = request.getHeader("Authorization");
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            return ResponseFactory.error(HttpStatus.BAD_REQUEST, ApiErrorCode.BAD_REQUEST,
+                    "Bearer token is required for refresh.");
+        }
+        String token = authorizationHeader.substring(7);
+        if (!jwtUtil.validateToken(token)) {
+            return ResponseFactory.error(HttpStatus.UNAUTHORIZED, ApiErrorCode.INVALID_TOKEN,
+                    "Invalid token.");
+        }
+        String username = jwtUtil.extractUsername(token);
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with username: " + username));
+        if (!Boolean.TRUE.equals(user.getActive())) {
+            return ResponseFactory.error(HttpStatus.UNAUTHORIZED, ApiErrorCode.UNAUTHORIZED,
+                    "User account is inactive");
+        }
+        AuthAccessDTO access = accessControlService.buildAccessPayload(user);
+        LoginResponse response = new LoginResponse(jwtUtil.generateToken(user.getUsername()), access.getUser(), "Token refreshed");
+        response.setRoles(access.getRoles());
+        response.setPermissions(access.getPermissions());
+        response.setAllowedSites(access.getAllowedSites());
+        return ResponseFactory.ok(response, "Token refreshed");
+    }
+
+    @PostMapping("/logout")
+    @Operation(summary = "Logout", description = "Stateless logout endpoint for clients to clear local credentials")
+    public ResponseEntity<?> logout() {
+        return ResponseFactory.ok(null, "Logged out successfully");
     }
     
     @PostMapping("/change-password")

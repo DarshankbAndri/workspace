@@ -5,7 +5,9 @@ import com.example.cmmsApplication.common.security.repository.PermissionApiMappi
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +38,8 @@ public class ApiPermissionMappingCsvLoader implements ApplicationRunner {
         int inserted = 0;
         int updated = 0;
         int skipped = 0;
+        int deactivated = 0;
+        Set<String> loadedKeys = new HashSet<>();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8))) {
             String line;
             int lineNumber = 0;
@@ -54,6 +58,7 @@ public class ApiPermissionMappingCsvLoader implements ApplicationRunner {
                 String apiPath = normalizePath(columns[1]);
                 String httpMethod = columns[2].trim().toUpperCase(Locale.ROOT);
                 String description = columns[3].trim();
+                loadedKeys.add(mappingKey(permissionCode, apiPath, httpMethod));
                 PermissionApiMapping mapping = repository.findByPermissionCodeAndApiPathAndHttpMethod(permissionCode, apiPath, httpMethod)
                         .orElseGet(PermissionApiMapping::new);
                 boolean isNew = mapping.getId() == null;
@@ -69,10 +74,19 @@ public class ApiPermissionMappingCsvLoader implements ApplicationRunner {
                     updated++;
                 }
             }
+            for (PermissionApiMapping mapping : repository.findAll()) {
+                if (Boolean.TRUE.equals(mapping.getActive())
+                        && !loadedKeys.contains(mappingKey(mapping.getPermissionCode(), mapping.getApiPath(), mapping.getHttpMethod()))) {
+                    mapping.setActive(false);
+                    repository.save(mapping);
+                    deactivated++;
+                }
+            }
         } catch (Exception ex) {
             LOGGER.error("Unable to load API permission mapping CSV", ex);
         }
-        LOGGER.info("API permission mapping CSV loaded inserted={} updated={} skipped={}", inserted, updated, skipped);
+        LOGGER.info("API permission mapping CSV loaded inserted={} updated={} deactivated={} skipped={}",
+                inserted, updated, deactivated, skipped);
     }
 
     private String[] parseLine(String line) {
@@ -86,5 +100,9 @@ public class ApiPermissionMappingCsvLoader implements ApplicationRunner {
 
     private boolean isBlank(String value) {
         return value == null || value.trim().isEmpty();
+    }
+
+    private String mappingKey(String permissionCode, String apiPath, String httpMethod) {
+        return permissionCode + "|" + apiPath + "|" + httpMethod;
     }
 }

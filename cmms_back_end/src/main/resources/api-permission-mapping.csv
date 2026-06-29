@@ -1,52 +1,67 @@
 permissionCode,apiPath,httpMethod,description
 DASHBOARD_VIEW,/api/dashboard/**,GET,View dashboard summary
-DASHBOARD_VIEW,/api/hr/sites/**,GET,Dashboard site filter data
-DASHBOARD_VIEW,/api/equipment/**,GET,Dashboard equipment data
-DASHBOARD_VIEW,/api/maintenance/requests/**,GET,Dashboard maintenance request data
-DASHBOARD_VIEW,/api/maintenance/assignments/**,GET,Dashboard assignment data
-DASHBOARD_VIEW,/api/maintenance/downtime/**,GET,Dashboard downtime data
-DASHBOARD_VIEW,/api/spare-parts/**,GET,Dashboard spare part data
 SITE_VIEW,/api/hr/sites/**,GET,View sites
+SITE_VIEW,/api/hr/sites,GET,View site list
 SITE_VIEW,/api/hr/sites/search,POST,Search sites
 SITE_CREATE,/api/hr/sites,POST,Create site
 SITE_UPDATE,/api/hr/sites/*,PUT,Update site
 SITE_DELETE,/api/hr/sites/*,DELETE,Delete site
 EMPLOYEE_VIEW,/api/hr/employees/**,GET,View employees
+EMPLOYEE_VIEW,/api/hr/employees,GET,View employee list
 EMPLOYEE_VIEW,/api/hr/employees/search,POST,Search employees
 EMPLOYEE_VIEW,/api/hr/sites/**,GET,Employee site helper data
+EMPLOYEE_VIEW,/api/hr/sites,GET,Employee site helper data
 EMPLOYEE_CREATE,/api/hr/employees,POST,Create employee
 EMPLOYEE_CREATE,/api/hr/sites/**,GET,Create employee site helper data
+EMPLOYEE_CREATE,/api/hr/sites,GET,Create employee site helper data
 EMPLOYEE_UPDATE,/api/hr/employees/*,PUT,Update employee
 EMPLOYEE_UPDATE,/api/hr/sites/**,GET,Update employee site helper data
+EMPLOYEE_UPDATE,/api/hr/sites,GET,Update employee site helper data
 EMPLOYEE_DELETE,/api/hr/employees/*,DELETE,Delete employee
 VENDOR_VIEW,/api/vendors/**,GET,View vendors
+VENDOR_VIEW,/api/vendors,GET,View vendor list
 VENDOR_VIEW,/api/vendors/search,POST,Search vendors
 VENDOR_VIEW,/api/hr/sites/**,GET,Vendor site helper data
+VENDOR_VIEW,/api/hr/sites,GET,Vendor site helper data
 VENDOR_CREATE,/api/vendors,POST,Create vendor
 VENDOR_CREATE,/api/hr/sites/**,GET,Create vendor site helper data
+VENDOR_CREATE,/api/hr/sites,GET,Create vendor site helper data
 VENDOR_UPDATE,/api/vendors/*,PUT,Update vendor
 VENDOR_UPDATE,/api/hr/sites/**,GET,Update vendor site helper data
+VENDOR_UPDATE,/api/hr/sites,GET,Update vendor site helper data
 VENDOR_DELETE,/api/vendors/*,DELETE,Delete vendor
 EQUIPMENT_VIEW,/api/equipment/**,GET,View equipment
+EQUIPMENT_VIEW,/api/equipment,GET,View equipment list
 EQUIPMENT_VIEW,/api/equipment/search,POST,Search equipment
 EQUIPMENT_VIEW,/api/hr/sites/**,GET,Equipment site helper data
+EQUIPMENT_VIEW,/api/hr/sites,GET,Equipment site helper data
 EQUIPMENT_CREATE,/api/equipment,POST,Create equipment
 EQUIPMENT_CREATE,/api/hr/sites/**,GET,Create equipment site helper data
+EQUIPMENT_CREATE,/api/hr/sites,GET,Create equipment site helper data
 EQUIPMENT_UPDATE,/api/equipment/*,PUT,Update equipment
 EQUIPMENT_UPDATE,/api/hr/sites/**,GET,Update equipment site helper data
+EQUIPMENT_UPDATE,/api/hr/sites,GET,Update equipment site helper data
 EQUIPMENT_DELETE,/api/equipment/*,DELETE,Delete equipment
 REQUEST_VIEW,/api/maintenance/requests/**,GET,View maintenance requests
+REQUEST_VIEW,/api/maintenance/requests,GET,View maintenance request list
 REQUEST_VIEW,/api/maintenance/requests/search,POST,Search maintenance requests
 REQUEST_VIEW,/api/hr/sites/**,GET,Maintenance request site helper data
+REQUEST_VIEW,/api/hr/sites,GET,Maintenance request site helper data
 REQUEST_VIEW,/api/equipment/**,GET,Maintenance request equipment helper data
+REQUEST_VIEW,/api/equipment,GET,Maintenance request equipment helper data
 REQUEST_CREATE,/api/maintenance/requests,POST,Create maintenance request
 REQUEST_CREATE,/api/hr/sites/**,GET,Create maintenance request site helper data
+REQUEST_CREATE,/api/hr/sites,GET,Create maintenance request site helper data
 REQUEST_CREATE,/api/equipment/**,GET,Create maintenance request equipment helper data
+REQUEST_CREATE,/api/equipment,GET,Create maintenance request equipment helper data
 REQUEST_UPDATE,/api/maintenance/requests/*,PUT,Update maintenance request
 REQUEST_UPDATE,/api/hr/sites/**,GET,Update maintenance request site helper data
+REQUEST_UPDATE,/api/hr/sites,GET,Update maintenance request site helper data
 REQUEST_UPDATE,/api/equipment/**,GET,Update maintenance request equipment helper data
+REQUEST_UPDATE,/api/equipment,GET,Update maintenance request equipment helper data
 REQUEST_DELETE,/api/maintenance/requests/*,DELETE,Delete maintenance request
 REQUEST_VIEW,/api/preventive-maintenance/schedules/**,GET,View preventive maintenance schedules
+REQUEST_VIEW,/api/preventive-maintenance/schedules,GET,View preventive maintenance schedule list
 REQUEST_VIEW,/api/preventive-maintenance/schedules/search,POST,Search preventive maintenance schedules
 REQUEST_CREATE,/api/preventive-maintenance/schedules,POST,Create preventive maintenance schedule
 REQUEST_UPDATE,/api/preventive-maintenance/schedules/*,PUT,Update preventive maintenance schedule
@@ -57,53 +72,74 @@ ASSIGNMENT_VIEW,/api/maintenance/assignments,GET,View maintenance assignments
 ASSIGNMENT_VIEW,/api/maintenance/assignments/*,GET,View maintenance assignment
 ASSIGNMENT_VIEW,/api/maintenance/assignments/search,POST,Search maintenance assignments
 ASSIGNMENT_VIEW,/api/maintenance/requests/**,GET,Assignment maintenance request helper data
+ASSIGNMENT_VIEW,/api/maintenance/requests,GET,Assignment maintenance request helper data
 ASSIGNMENT_VIEW,/api/vendors/**,GET,Assignment vendor helper data
+ASSIGNMENT_VIEW,/api/vendors,GET,Assignment vendor helper data
 ASSIGNMENT_VIEW,/api/hr/sites/**,GET,Assignment site helper data
+ASSIGNMENT_VIEW,/api/hr/sites,GET,Assignment site helper data
 ASSIGNMENT_CREATE,/api/maintenance/assignments,POST,Create maintenance assignment
 ASSIGNMENT_CREATE,/api/maintenance/requests/**,GET,Create assignment maintenance request helper data
+ASSIGNMENT_CREATE,/api/maintenance/requests,GET,Create assignment maintenance request helper data
 ASSIGNMENT_CREATE,/api/vendors/**,GET,Create assignment vendor helper data
+ASSIGNMENT_CREATE,/api/vendors,GET,Create assignment vendor helper data
 ASSIGNMENT_CREATE,/api/hr/sites/**,GET,Create assignment site helper data
+ASSIGNMENT_CREATE,/api/hr/sites,GET,Create assignment site helper data
 ASSIGNMENT_UPDATE,/api/maintenance/assignments/*,PUT,Update maintenance assignment
 ASSIGNMENT_UPDATE,/api/maintenance/requests/**,GET,Update assignment maintenance request helper data
+ASSIGNMENT_UPDATE,/api/maintenance/requests,GET,Update assignment maintenance request helper data
 ASSIGNMENT_UPDATE,/api/vendors/**,GET,Update assignment vendor helper data
+ASSIGNMENT_UPDATE,/api/vendors,GET,Update assignment vendor helper data
 ASSIGNMENT_UPDATE,/api/hr/sites/**,GET,Update assignment site helper data
+ASSIGNMENT_UPDATE,/api/hr/sites,GET,Update assignment site helper data
 ASSIGNMENT_DELETE,/api/maintenance/assignments/*,DELETE,Delete maintenance assignment
 ASSIGNMENT_CHECKLIST_VIEW,/api/maintenance/assignments/*/checklist/**,GET,View assignment checklist
+ASSIGNMENT_CHECKLIST_VIEW,/api/maintenance/assignments/*/checklist,GET,View assignment checklist
 ASSIGNMENT_CHECKLIST_UPDATE,/api/maintenance/assignments/*/checklist,POST,Create assignment checklist item
 ASSIGNMENT_CHECKLIST_UPDATE,/api/maintenance/assignments/*/checklist/*,PUT,Update assignment checklist item
 ASSIGNMENT_CHECKLIST_UPDATE,/api/maintenance/assignments/*/checklist/*,DELETE,Delete assignment checklist item
 ASSIGNMENT_CHECKLIST_UPDATE,/api/maintenance/assignments/*/checklist/*/proof,POST,Upload assignment checklist proof
 ASSIGNMENT_CHECKLIST_UPDATE,/api/maintenance/assignments/*/checklist/*/proof/*,DELETE,Delete assignment checklist proof
 ASSIGNMENT_WORK_LOG_VIEW,/api/maintenance/assignments/*/work-logs/**,GET,View assignment work logs
+ASSIGNMENT_WORK_LOG_VIEW,/api/maintenance/assignments/*/work-logs,GET,View assignment work logs
 ASSIGNMENT_WORK_LOG_CREATE,/api/maintenance/assignments/*/work-logs,POST,Create assignment work log
 ASSIGNMENT_WORK_LOG_CREATE,/api/maintenance/assignments/*/work-logs/*/attachments,POST,Upload assignment work log attachment
 ASSIGNMENT_WORK_LOG_UPDATE,/api/maintenance/assignments/*/work-logs/*,PUT,Update assignment work log
 ASSIGNMENT_WORK_LOG_DELETE,/api/maintenance/assignments/*/work-logs/*,DELETE,Delete assignment work log
 ASSIGNMENT_WORK_LOG_DELETE,/api/maintenance/assignments/*/work-logs/*/attachments/*,DELETE,Delete assignment work log attachment
 DOWNTIME_VIEW,/api/maintenance/downtime/**,GET,View downtime
+DOWNTIME_VIEW,/api/maintenance/downtime,GET,View downtime list
 DOWNTIME_VIEW,/api/maintenance/downtime/search,POST,Search downtime
 DOWNTIME_VIEW,/api/equipment/**,GET,Downtime equipment helper data
+DOWNTIME_VIEW,/api/equipment,GET,Downtime equipment helper data
 DOWNTIME_CREATE,/api/maintenance/downtime,POST,Create downtime
 DOWNTIME_CREATE,/api/equipment/**,GET,Create downtime equipment helper data
+DOWNTIME_CREATE,/api/equipment,GET,Create downtime equipment helper data
 DOWNTIME_UPDATE,/api/maintenance/downtime/*,PUT,Update downtime
 DOWNTIME_UPDATE,/api/equipment/**,GET,Update downtime equipment helper data
+DOWNTIME_UPDATE,/api/equipment,GET,Update downtime equipment helper data
 DOWNTIME_DELETE,/api/maintenance/downtime/*,DELETE,Delete downtime
 REPORT_VIEW,/api/reports/**,GET,View reports
 REPORT_VIEW,/api/equipment/**,GET,Report equipment helper data
+REPORT_VIEW,/api/equipment,GET,Report equipment helper data
 REPORT_VIEW,/api/maintenance/downtime/**,GET,Report downtime helper data
+REPORT_VIEW,/api/maintenance/downtime,GET,Report downtime helper data
 REPORT_VIEW,/api/maintenance/assignments/**,GET,Report assignment helper data
+REPORT_VIEW,/api/maintenance/assignments,GET,Report assignment helper data
 REPORT_VIEW,/api/maintenance/requests/**,GET,Report request helper data
+REPORT_VIEW,/api/maintenance/requests,GET,Report request helper data
 COMPANY_VIEW,/api/company/current,GET,View company profile
 COMPANY_VIEW,/api/company/*,GET,View company
 COMPANY_CREATE,/api/company/create,POST,Create company
 COMPANY_UPDATE,/api/company/update/*,PUT,Update company
 COMPANY_UPDATE,/api/company/upload-logo,POST,Upload company logo
 ROLE_VIEW,/api/admin/roles/**,GET,View roles
+ROLE_VIEW,/api/admin/roles,GET,View role list
 ROLE_VIEW,/api/admin/roles/search,POST,Search roles
 ROLE_CREATE,/api/admin/roles,POST,Create role
 ROLE_UPDATE,/api/admin/roles/*,PUT,Update role
 ROLE_DELETE,/api/admin/roles/*,DELETE,Delete role
 PERMISSION_VIEW,/api/admin/permissions/**,GET,View permissions
+PERMISSION_VIEW,/api/admin/permissions,GET,View permission list
 USER_ROLE_VIEW,/api/admin/users/*/roles,GET,View user role assignments
 USER_ROLE_ASSIGN,/api/admin/users/*/roles,PUT,Assign user roles
 USER_ROLE_UPDATE,/api/admin/users/*/roles,PUT,Update user role assignments
@@ -111,34 +147,45 @@ USER_ROLE_VIEW,/api/users/**,GET,View user accounts
 USER_ROLE_ASSIGN,/api/users,POST,Create user account
 USER_ROLE_UPDATE,/api/users/*,PUT,Update user account
 APPROVAL_VIEW,/api/approvals/**,GET,View approvals
+APPROVAL_VIEW,/api/approvals,GET,View approval list
 APPROVAL_VIEW,/api/approvals/history/search,POST,Search approval history
 APPROVAL_APPROVE,/api/approvals/*/approve,POST,Approve request
 APPROVAL_REJECT,/api/approvals/*/reject,POST,Reject request
 APPROVAL_CONFIG_VIEW,/api/admin/approval-config/**,GET,View approval configuration
+APPROVAL_CONFIG_VIEW,/api/admin/approval-config,GET,View approval configuration list
 APPROVAL_CONFIG_UPDATE,/api/admin/approval-config,POST,Create approval configuration
 APPROVAL_CONFIG_UPDATE,/api/admin/approval-config/*,PUT,Update approval configuration
 NOTIFICATION_VIEW,/api/notifications/**,GET,View notifications
+NOTIFICATION_VIEW,/api/notifications,GET,View notification list
 NOTIFICATION_UPDATE,/api/notifications/*/read,PUT,Mark notification read
 NOTIFICATION_UPDATE,/api/notifications/read-all,PUT,Mark all notifications read
 NOTIFICATION_UPDATE,/api/notifications/*/archive,PUT,Archive notification
 NOTIFICATION_CONFIG_VIEW,/api/admin/notification-settings/**,GET,View notification settings
+NOTIFICATION_CONFIG_VIEW,/api/admin/notification-settings,GET,View notification settings
 NOTIFICATION_CONFIG_UPDATE,/api/admin/notification-settings/**,PUT,Update notification settings
 SPARE_PART_VIEW,/api/spare-parts/**,GET,View spare parts
+SPARE_PART_VIEW,/api/spare-parts,GET,View spare part list
 SPARE_PART_VIEW,/api/spare-parts/search,POST,Search spare parts
 SPARE_PART_VIEW,/api/hr/sites/**,GET,Spare part site helper data
+SPARE_PART_VIEW,/api/hr/sites,GET,Spare part site helper data
 SPARE_PART_CREATE,/api/spare-parts,POST,Create spare part
 SPARE_PART_CREATE,/api/spare-parts/import,POST,Import spare parts
 SPARE_PART_CREATE,/api/hr/sites/**,GET,Create spare part site helper data
+SPARE_PART_CREATE,/api/hr/sites,GET,Create spare part site helper data
 SPARE_PART_UPDATE,/api/spare-parts/*,PUT,Update spare part
 SPARE_PART_UPDATE,/api/hr/sites/**,GET,Update spare part site helper data
+SPARE_PART_UPDATE,/api/hr/sites,GET,Update spare part site helper data
 SPARE_PART_DELETE,/api/spare-parts/*,DELETE,Delete spare part
 STOCK_TRANSACTION_VIEW,/api/spare-parts/*/transactions,GET,View stock transactions
 STOCK_TRANSACTION_CREATE,/api/spare-parts/*/stock-in,POST,Stock in spare part
 STOCK_TRANSACTION_CREATE,/api/spare-parts/*/adjust,POST,Adjust spare part stock
 STOCK_TRANSACTION_CREATE,/api/spare-parts/*/transfer,POST,Transfer spare part stock
 SPARE_USAGE_VIEW,/api/maintenance/assignments/*/spares/**,GET,View assignment spare usage
+SPARE_USAGE_VIEW,/api/maintenance/assignments/*/spares,GET,View assignment spare usage
 SPARE_USAGE_VIEW,/api/spare-requests/**,GET,View spare requests
+SPARE_USAGE_VIEW,/api/spare-requests,GET,View spare request list
 SPARE_USAGE_VIEW,/api/spare-parts/**,GET,Spare usage spare part helper data
+SPARE_USAGE_VIEW,/api/spare-parts,GET,Spare usage spare part helper data
 SPARE_USAGE_CREATE,/api/maintenance/assignments/*/spares,POST,Create assignment spare usage
 SPARE_USAGE_CREATE,/api/assignments/*/spare-requests,POST,Create spare request
 SPARE_USAGE_UPDATE,/api/maintenance/assignments/*/spares/*,PUT,Update assignment spare usage
@@ -156,6 +203,7 @@ SPARE_USAGE_REJECT,/api/maintenance/assignments/*/spares/*/reject,POST,Reject sp
 SPARE_USAGE_CANCEL,/api/maintenance/assignments/*/spares/*/cancel,POST,Cancel spare usage
 SPARE_USAGE_RETURN,/api/maintenance/assignments/*/spares/*/return,POST,Return spare usage
 REORDER_VIEW,/api/spare-part-reorders/**,GET,View spare part reorders
+REORDER_VIEW,/api/spare-part-reorders,GET,View spare part reorder list
 REORDER_CREATE,/api/spare-part-reorders,POST,Create spare part reorder
 REORDER_CREATE,/api/spare-requests/*/create-purchase-request,POST,Create purchase request from spare request
 REORDER_UPDATE,/api/spare-part-reorders/*,PUT,Update spare part reorder

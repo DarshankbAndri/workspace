@@ -35,11 +35,6 @@
         <addUniqueConstraint tableName="permission_api_mapping"
                              columnNames="permission_code, api_path, http_method"
                              constraintName="uk_permission_api_mapping"/>
-        <addForeignKeyConstraint baseTableName="permission_api_mapping"
-                                 baseColumnNames="permission_code"
-                                 referencedTableName="permission_master"
-                                 referencedColumnNames="permission_code"
-                                 constraintName="fk_permission_api_mapping_permission_code"/>
         <createIndex indexName="idx_permission_api_mapping_code" tableName="permission_api_mapping">
             <column name="permission_code"/>
         </createIndex>
@@ -52,5 +47,13 @@
         <createIndex indexName="idx_permission_api_mapping_active" tableName="permission_api_mapping">
             <column name="active"/>
         </createIndex>
+    </changeSet>
+
+    <changeSet id="permission-api-mapping-003-add-permission-code-fk" author="Codex">
+        <addForeignKeyConstraint baseTableName="permission_api_mapping"
+                                 baseColumnNames="permission_code"
+                                 referencedTableName="permission_master"
+                                 referencedColumnNames="permission_code"
+                                 constraintName="fk_permission_api_mapping_permission_code"/>
     </changeSet>
 </databaseChangeLog>
