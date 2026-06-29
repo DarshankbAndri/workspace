@@ -30,7 +30,6 @@ public class EquipmentDowntimeService {
     private final AccessControlService accessControlService;
 
     public EquipmentDowntimeDTO create(EquipmentDowntimeDTO dto) {
-        accessControlService.validatePermission("DOWNTIME_CREATE");
         accessControlService.validateSiteAccess(dto.getSiteId());
         EquipmentDowntime downtime = new EquipmentDowntime();
         apply(downtime, dto);
@@ -38,7 +37,6 @@ public class EquipmentDowntimeService {
     }
 
     public EquipmentDowntimeDTO update(Long id, EquipmentDowntimeDTO dto) {
-        accessControlService.validatePermission("DOWNTIME_UPDATE");
         EquipmentDowntime downtime = getEntity(id);
         accessControlService.validateSiteAccess(downtime.getSite() == null ? null : downtime.getSite().getId());
         accessControlService.validateSiteAccess(dto.getSiteId());
@@ -48,7 +46,6 @@ public class EquipmentDowntimeService {
 
     @Transactional(readOnly = true)
     public EquipmentDowntimeDTO getById(Long id) {
-        accessControlService.validatePermission("DOWNTIME_VIEW");
         EquipmentDowntime downtime = getEntity(id);
         accessControlService.validateSiteAccess(downtime.getSite() == null ? null : downtime.getSite().getId());
         return toDTO(downtime);
@@ -56,7 +53,6 @@ public class EquipmentDowntimeService {
 
     @Transactional(readOnly = true)
     public List<EquipmentDowntimeDTO> getAll(Long siteId, Long equipmentId) {
-        accessControlService.validatePermission("DOWNTIME_VIEW");
         List<EquipmentDowntime> entries;
         if (siteId != null && equipmentId != null) {
             accessControlService.validateSiteAccess(siteId);
@@ -81,7 +77,6 @@ public class EquipmentDowntimeService {
     }
 
     public void delete(Long id) {
-        accessControlService.validatePermission("DOWNTIME_DELETE");
         EquipmentDowntime downtime = getEntity(id);
         accessControlService.validateSiteAccess(downtime.getSite() == null ? null : downtime.getSite().getId());
         downtimeDAO.deleteById(id);

@@ -40,7 +40,6 @@ public class MaintenanceRequestService {
     private final MaintenanceAssignmentDAO assignmentDAO;
 
     public MaintenanceRequestDTO create(MaintenanceRequestDTO dto) {
-        accessControlService.validatePermission("REQUEST_CREATE");
         accessControlService.validateSiteAccess(dto.getSiteId());
         MaintenanceRequest request = new MaintenanceRequest();
         apply(request, dto);
@@ -72,7 +71,6 @@ public class MaintenanceRequestService {
     }
 
     public MaintenanceRequestDTO update(Long id, MaintenanceRequestDTO dto) {
-        accessControlService.validatePermission("REQUEST_UPDATE");
         MaintenanceRequest request = getEntity(id);
         accessControlService.validateSiteAccess(request.getSite() == null ? null : request.getSite().getId());
         accessControlService.validateSiteAccess(dto.getSiteId());
@@ -109,7 +107,6 @@ public class MaintenanceRequestService {
 
     @Transactional(readOnly = true)
     public MaintenanceRequestDTO getById(Long id) {
-        accessControlService.validatePermission("REQUEST_VIEW");
         MaintenanceRequest request = getEntity(id);
         accessControlService.validateSiteAccess(request.getSite() == null ? null : request.getSite().getId());
         return toDTO(request);
@@ -117,7 +114,6 @@ public class MaintenanceRequestService {
 
     @Transactional(readOnly = true)
     public List<MaintenanceRequestDTO> getAll(Long siteId, String status) {
-        accessControlService.validatePermission("REQUEST_VIEW");
         List<MaintenanceRequest> requests;
         if (siteId != null && status != null && !status.isBlank()) {
             accessControlService.validateSiteAccess(siteId);
@@ -134,7 +130,6 @@ public class MaintenanceRequestService {
     }
 
     public void delete(Long id) {
-        accessControlService.validatePermission("REQUEST_DELETE");
         MaintenanceRequest request = getEntity(id);
         accessControlService.validateSiteAccess(request.getSite() == null ? null : request.getSite().getId());
         requestDAO.deleteById(id);

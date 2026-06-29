@@ -1,7 +1,6 @@
 package com.example.cmmsApplication.company.service;
 
 
-import com.example.cmmsApplication.common.security.service.AccessControlService;
 import com.example.cmmsApplication.common.config.FileStorageConfig;
 import com.example.cmmsApplication.company.dao.CompanyDAO;
 import com.example.cmmsApplication.company.dto.CompanyDTO;
@@ -29,11 +28,9 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 public class CompanyService {
     private final CompanyDAO companyDAO;
-    private final AccessControlService accessControlService;
     private final FileStorageConfig fileStorageConfig;
 
     public CompanyDTO create(CompanyDTO dto) {
-        accessControlService.validatePermission("COMPANY_CREATE");
         if (companyDAO.existsByCompanyCode(dto.getCompanyCode())) {
             throw new InvalidOperationException("Company code already exists: " + dto.getCompanyCode());
         }
@@ -43,7 +40,6 @@ public class CompanyService {
     }
 
     public CompanyDTO update(Long id, CompanyDTO dto) {
-        accessControlService.validatePermission("COMPANY_UPDATE");
         Company company = getEntity(id);
         if (companyDAO.existsByCompanyCodeAndIdNot(dto.getCompanyCode(), id)) {
             throw new InvalidOperationException("Company code already exists: " + dto.getCompanyCode());
@@ -54,7 +50,6 @@ public class CompanyService {
 
     @Transactional(readOnly = true)
     public CompanyDTO getById(Long id) {
-        accessControlService.validatePermission("COMPANY_VIEW");
         return toDTO(getEntity(id));
     }
 
@@ -64,7 +59,6 @@ public class CompanyService {
     }
 
     public CompanyDTO uploadLogo(Long companyId, MultipartFile file) {
-        accessControlService.validatePermission("COMPANY_UPDATE");
         if (file == null || file.isEmpty()) {
             throw new InvalidOperationException("Logo file is required");
         }

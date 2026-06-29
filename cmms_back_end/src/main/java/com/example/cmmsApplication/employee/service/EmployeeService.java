@@ -42,7 +42,6 @@ public class EmployeeService {
     private final RoleDAO roleDAO;
 
     public EmployeeDTO create(EmployeeDTO dto) {
-        accessControlService.validatePermission("EMPLOYEE_CREATE");
         accessControlService.validateAnySiteAccess(assignmentSiteIds(dto.getSiteAssignments()));
         validateRequired(dto);
         if (employeeDAO.existsByEmployeeCode(dto.getEmployeeCode())) {
@@ -58,7 +57,6 @@ public class EmployeeService {
     }
 
     public EmployeeDTO update(Long id, EmployeeDTO dto) {
-        accessControlService.validatePermission("EMPLOYEE_UPDATE");
         accessControlService.validateAnySiteAccess(assignmentSiteIds(dto.getSiteAssignments()));
         validateRequired(dto);
         Employee employee = getEntityWithAssignments(id);
@@ -76,7 +74,6 @@ public class EmployeeService {
 
     @Transactional(readOnly = true)
     public EmployeeDTO getById(Long id) {
-        accessControlService.validatePermission("EMPLOYEE_VIEW");
         Employee employee = getEntityWithAssignments(id);
         accessControlService.validateAnySiteAccess(employee.getSiteAssignments().stream()
                 .map((assignment) -> assignment.getSite().getId())
@@ -86,7 +83,6 @@ public class EmployeeService {
 
     @Transactional(readOnly = true)
     public List<EmployeeDTO> getAll() {
-        accessControlService.validatePermission("EMPLOYEE_VIEW");
         List<Long> allowedSiteIds = accessControlService.getAllowedSiteIds();
         return employeeDAO.findAll().stream()
                 .filter((employee) -> accessControlService.isAdmin() || assignmentDAO.findByEmployeeId(employee.getId()).stream()
@@ -96,7 +92,6 @@ public class EmployeeService {
     }
 
     public void delete(Long id) {
-        accessControlService.validatePermission("EMPLOYEE_DELETE");
         Employee employee = getEntityWithAssignments(id);
         accessControlService.validateAnySiteAccess(employee.getSiteAssignments().stream()
                 .map((assignment) -> assignment.getSite().getId())

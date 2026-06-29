@@ -29,7 +29,6 @@ public class DashboardService {
     private final AccessControlService accessControlService;
 
     public DashboardDTO getSummary(Long siteId) {
-        accessControlService.validatePermission("DASHBOARD_VIEW");
         if (siteId != null) {
             accessControlService.validateSiteAccess(siteId);
         }

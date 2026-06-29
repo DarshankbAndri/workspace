@@ -38,7 +38,6 @@ public class ReportService {
     private final EquipmentRepository equipmentRepository;
 
     public PageProperties getEquipmentHistory(Long equipmentId, Long siteId, Integer page, Integer size) {
-        accessControlService.validatePermission("REPORT_VIEW");
         validateReportAccess(equipmentId, siteId);
 
         int pageNumber = normalizePage(page);
@@ -64,7 +63,6 @@ public class ReportService {
     }
 
     public DowntimeAnalysisPageDTO getDowntimeAnalysis(Long equipmentId, Long siteId, Integer page, Integer size) {
-        accessControlService.validatePermission("REPORT_VIEW");
         validateReportAccess(equipmentId, siteId);
 
         int pageNumber = normalizePage(page);

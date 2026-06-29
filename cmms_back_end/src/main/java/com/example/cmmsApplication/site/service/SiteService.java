@@ -22,7 +22,6 @@ public class SiteService {
     private final AccessControlService accessControlService;
 
 public SiteDTO create(SiteDTO dto) {
-        accessControlService.validatePermission("SITE_CREATE");
         validateRequired(dto);
         if (siteDAO.existsBySiteCode(dto.getSiteCode())) {
             throw new InvalidOperationException("Site code already exists: " + dto.getSiteCode());
@@ -33,7 +32,6 @@ public SiteDTO create(SiteDTO dto) {
     }
 
     public SiteDTO update(Long id, SiteDTO dto) {
-        accessControlService.validatePermission("SITE_UPDATE");
         accessControlService.validateSiteAccess(id);
         validateRequired(dto);
         Site site = getEntity(id);
@@ -46,14 +44,12 @@ public SiteDTO create(SiteDTO dto) {
 
     @Transactional(readOnly = true)
     public SiteDTO getById(Long id) {
-        accessControlService.validatePermission("SITE_VIEW");
         accessControlService.validateSiteAccess(id);
         return toDTO(getEntity(id));
     }
 
     @Transactional(readOnly = true)
     public List<SiteDTO> getAll() {
-        accessControlService.validatePermission("SITE_VIEW");
         List<Site> sites = accessControlService.isAdmin()
                 ? siteDAO.findAll()
                 : siteDAO.findAll().stream()
@@ -63,7 +59,6 @@ public SiteDTO create(SiteDTO dto) {
     }
 
     public void delete(Long id) {
-        accessControlService.validatePermission("SITE_DELETE");
         accessControlService.validateSiteAccess(id);
         Site site = getEntity(id);
         site.setStatus("INACTIVE");

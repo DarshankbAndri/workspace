@@ -62,7 +62,6 @@ public class PreventiveMaintenanceScheduleService {
     private static final Set<String> CHECKLIST_RESPONSE_TYPES = Set.of("CHECKBOX", "TEXT", "NUMBER", "PHOTO");
 
 public PreventiveMaintenanceScheduleDTO create(PreventiveMaintenanceScheduleDTO dto) {
-        accessControlService.validatePermission("REQUEST_CREATE");
         accessControlService.validateSiteAccess(dto.getSiteId());
         PreventiveMaintenanceSchedule schedule = new PreventiveMaintenanceSchedule();
         apply(schedule, dto);
@@ -96,7 +95,6 @@ public PreventiveMaintenanceScheduleDTO create(PreventiveMaintenanceScheduleDTO 
     }
 
     public PreventiveMaintenanceScheduleDTO update(Long id, PreventiveMaintenanceScheduleDTO dto) {
-        accessControlService.validatePermission("REQUEST_UPDATE");
         PreventiveMaintenanceSchedule schedule = getEntity(id);
         accessControlService.validateSiteAccess(schedule.getSite() == null ? null : schedule.getSite().getId());
         accessControlService.validateSiteAccess(dto.getSiteId());
@@ -129,7 +127,6 @@ public PreventiveMaintenanceScheduleDTO create(PreventiveMaintenanceScheduleDTO 
 
     @Transactional(readOnly = true)
     public PreventiveMaintenanceScheduleDTO getById(Long id) {
-        accessControlService.validatePermission("REQUEST_VIEW");
         PreventiveMaintenanceSchedule schedule = getEntity(id);
         accessControlService.validateSiteAccess(schedule.getSite() == null ? null : schedule.getSite().getId());
         return toDTO(schedule);
@@ -137,7 +134,6 @@ public PreventiveMaintenanceScheduleDTO create(PreventiveMaintenanceScheduleDTO 
 
     @Transactional(readOnly = true)
     public List<PreventiveMaintenanceScheduleDTO> getAll() {
-        accessControlService.validatePermission("REQUEST_VIEW");
         return scheduleDAO.findAll().stream()
                 .filter((schedule) -> accessControlService.isAdmin()
                         || (schedule.getSite() != null && accessControlService.getAllowedSiteIds().contains(schedule.getSite().getId())))
@@ -147,7 +143,6 @@ public PreventiveMaintenanceScheduleDTO create(PreventiveMaintenanceScheduleDTO 
 
     @Transactional(readOnly = true)
     public List<PreventiveMaintenanceScheduleDTO> getUpcoming(int days) {
-        accessControlService.validatePermission("REQUEST_VIEW");
         LocalDate today = LocalDate.now();
         return scheduleDAO.findUpcoming(today, today.plusDays(days)).stream()
                 .filter((schedule) -> accessControlService.isAdmin()
@@ -157,7 +152,6 @@ public PreventiveMaintenanceScheduleDTO create(PreventiveMaintenanceScheduleDTO 
     }
 
     public List<PreventiveMaintenanceScheduleDTO> generateDueWorkOrders() {
-        accessControlService.validatePermission("REQUEST_CREATE");
         Instant started = Instant.now();
         try {
             List<PreventiveMaintenanceScheduleDTO> generated = scheduleDAO.findDue(LocalDate.now()).stream()
@@ -189,7 +183,6 @@ public PreventiveMaintenanceScheduleDTO create(PreventiveMaintenanceScheduleDTO 
     }
 
     public PreventiveMaintenanceScheduleDTO generateWorkOrder(Long id) {
-        accessControlService.validatePermission("REQUEST_CREATE");
         Instant started = Instant.now();
         try {
             PreventiveMaintenanceScheduleDTO result = generateWorkOrder(getEntity(id));
@@ -202,7 +195,6 @@ public PreventiveMaintenanceScheduleDTO create(PreventiveMaintenanceScheduleDTO 
     }
 
     public void delete(Long id) {
-        accessControlService.validatePermission("REQUEST_DELETE");
         PreventiveMaintenanceSchedule schedule = getEntity(id);
         accessControlService.validateSiteAccess(schedule.getSite() == null ? null : schedule.getSite().getId());
         scheduleDAO.deleteById(id);

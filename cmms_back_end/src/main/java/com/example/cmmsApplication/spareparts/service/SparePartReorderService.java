@@ -35,7 +35,6 @@ public class SparePartReorderService {
     private final AccessControlService accessControlService;
 
 public SparePartReorderDTO create(SparePartReorderDTO dto) {
-        accessControlService.validatePermission("REORDER_CREATE");
         SparePartSiteStock stock = sparePartService.getStockEntity(dto.getStockId());
         accessControlService.validateSiteAccess(stock.getSite().getId());
 
@@ -58,7 +57,6 @@ public SparePartReorderDTO create(SparePartReorderDTO dto) {
     }
 
     public SparePartReorderDTO update(Long id, SparePartReorderDTO dto) {
-        accessControlService.validatePermission("REORDER_UPDATE");
         SparePartReorderRequest request = getEntity(id);
         accessControlService.validateSiteAccess(request.getSite().getId());
 
@@ -76,7 +74,6 @@ public SparePartReorderDTO create(SparePartReorderDTO dto) {
 
     @Transactional(readOnly = true)
     public List<SparePartReorderDTO> getAll(Long siteId, String status) {
-        accessControlService.validatePermission("REORDER_VIEW");
         String normalizedStatus = status == null || status.isBlank() ? null : status.trim().toUpperCase(Locale.ROOT);
         List<SparePartReorderRequest> requests;
         if (siteId != null) {
@@ -98,7 +95,6 @@ public SparePartReorderDTO create(SparePartReorderDTO dto) {
     }
 
     public SparePartReorderDTO receiveStock(Long id, SparePartTransactionDTO dto) {
-        accessControlService.validatePermission("REORDER_UPDATE");
         SparePartReorderRequest request = getEntity(id);
         accessControlService.validateSiteAccess(request.getSite().getId());
         BigDecimal quantity = positive(dto == null || dto.getQuantity() == null ? request.getRequestedQuantity() : dto.getQuantity());

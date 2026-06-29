@@ -109,62 +109,53 @@ public class ListSearchService {
     private final SparePartStockListRepository sparePartStockListRepository;
 
     public PageProperties searchSites(SearchDTO searchDTO) {
-        accessControlService.validatePermission("SITE_VIEW");
         SearchDTO effectiveSearch = prepare(searchDTO, SITE_FILTERS, SiteList.class, "id");
         applySiteAccess(effectiveSearch, "id");
         return searchService.getFilteredResults(effectiveSearch, siteListRepository, SiteList.class);
     }
 
     public PageProperties searchEmployees(SearchDTO searchDTO) {
-        accessControlService.validatePermission("EMPLOYEE_VIEW");
         SearchDTO effectiveSearch = prepare(searchDTO, EMPLOYEE_FILTERS, EmployeeList.class, "createdAt");
         applySiteAccess(effectiveSearch, "siteId");
         return searchService.getFilteredResults(effectiveSearch, employeeListRepository, EmployeeList.class);
     }
 
     public PageProperties searchVendors(SearchDTO searchDTO) {
-        accessControlService.validatePermission("VENDOR_VIEW");
         SearchDTO effectiveSearch = prepare(searchDTO, VENDOR_FILTERS, VendorList.class, "createdAt");
         applySiteAccess(effectiveSearch, "siteId");
         return searchService.getFilteredResults(effectiveSearch, vendorListRepository, VendorList.class);
     }
 
     public PageProperties searchMaintenanceRequests(SearchDTO searchDTO) {
-        accessControlService.validatePermission("REQUEST_VIEW");
         SearchDTO effectiveSearch = prepare(searchDTO, REQUEST_FILTERS, MaintenanceRequestList.class, "createdAt");
         applySiteAccess(effectiveSearch, "siteId");
         return searchService.getFilteredResults(effectiveSearch, maintenanceRequestListRepository, MaintenanceRequestList.class);
     }
 
     public PageProperties searchMaintenanceAssignments(SearchDTO searchDTO) {
-        accessControlService.validatePermission("ASSIGNMENT_VIEW");
         SearchDTO effectiveSearch = prepare(searchDTO, ASSIGNMENT_FILTERS, MaintenanceAssignmentList.class, "createdAt");
         applySiteAccess(effectiveSearch, "siteId");
         return searchService.getFilteredResults(effectiveSearch, maintenanceAssignmentListRepository, MaintenanceAssignmentList.class);
     }
 
     public PageProperties searchDowntime(SearchDTO searchDTO) {
-        accessControlService.validatePermission("DOWNTIME_VIEW");
         SearchDTO effectiveSearch = prepare(searchDTO, DOWNTIME_FILTERS, EquipmentDowntimeList.class, "createdAt");
         applySiteAccess(effectiveSearch, "siteId");
         return searchService.getFilteredResults(effectiveSearch, equipmentDowntimeListRepository, EquipmentDowntimeList.class);
     }
 
     public PageProperties searchPreventiveSchedules(SearchDTO searchDTO) {
-        accessControlService.validatePermission("REQUEST_VIEW");
         SearchDTO effectiveSearch = prepare(searchDTO, PM_FILTERS, PreventiveMaintenanceScheduleList.class, "createdAt");
         applySiteAccess(effectiveSearch, "siteId");
         return searchService.getFilteredResults(effectiveSearch, preventiveMaintenanceScheduleListRepository, PreventiveMaintenanceScheduleList.class);
     }
 
     public PageProperties searchRoles(SearchDTO searchDTO) {
-        accessControlService.validatePermission("ROLE_VIEW");
         SearchDTO effectiveSearch = prepare(searchDTO, ROLE_FILTERS, RoleList.class, "createdAt");
         return searchService.getFilteredResults(effectiveSearch, roleListRepository, RoleList.class);
     }
 
     public PageProperties searchSparePartStocks(SearchDTO searchDTO) {
-        accessControlService.validatePermission("SPARE_PART_VIEW");
         SearchDTO effectiveSearch = prepare(searchDTO, SPARE_PART_FILTERS, SparePartStockList.class, "createdAt");
         applySiteAccess(effectiveSearch, "siteId");
         return searchService.getFilteredResults(effectiveSearch, sparePartStockListRepository, SparePartStockList.class);

@@ -76,7 +76,6 @@ public class EquipmentService {
     private final AccessControlService accessControlService;
 
     public EquipmentDTO create(EquipmentDTO dto) {
-        accessControlService.validatePermission("EQUIPMENT_CREATE");
         accessControlService.validateSiteAccess(dto.getSiteId());
         if (equipmentDAO.existsByEquipmentCode(dto.getEquipmentCode())) {
             throw new InvalidOperationException("Equipment code already exists: " + dto.getEquipmentCode());
@@ -87,7 +86,6 @@ public class EquipmentService {
     }
 
     public EquipmentDTO update(Long id, EquipmentDTO dto) {
-        accessControlService.validatePermission("EQUIPMENT_UPDATE");
         Equipment equipment = getEntity(id);
         accessControlService.validateSiteAccess(equipment.getSite() == null ? null : equipment.getSite().getId());
         accessControlService.validateSiteAccess(dto.getSiteId());
@@ -100,7 +98,6 @@ public class EquipmentService {
 
     @Transactional(readOnly = true)
     public EquipmentDTO getById(Long id) {
-        accessControlService.validatePermission("EQUIPMENT_VIEW");
         Equipment equipment = getEntity(id);
         accessControlService.validateSiteAccess(equipment.getSite() == null ? null : equipment.getSite().getId());
         return toDTO(equipment);
@@ -108,7 +105,6 @@ public class EquipmentService {
 
     @Transactional(readOnly = true)
     public List<EquipmentDTO> getAll(Long siteId) {
-        accessControlService.validatePermission("EQUIPMENT_VIEW");
         if (siteId != null) {
             accessControlService.validateSiteAccess(siteId);
         }
@@ -120,7 +116,6 @@ public class EquipmentService {
 
     @Transactional(readOnly = true)
     public PageProperties searchEquipment(SearchDTO searchDTO) {
-        accessControlService.validatePermission("EQUIPMENT_VIEW");
         SearchDTO effectiveSearch = searchDTO == null ? new SearchDTO() : searchDTO;
         validateEquipmentSearchKeys(effectiveSearch);
         normalizeOperations(effectiveSearch);
@@ -130,7 +125,6 @@ public class EquipmentService {
     }
 
     public void delete(Long id) {
-        accessControlService.validatePermission("EQUIPMENT_DELETE");
         Equipment equipment = getEntity(id);
         accessControlService.validateSiteAccess(equipment.getSite() == null ? null : equipment.getSite().getId());
         equipmentDAO.deleteById(id);

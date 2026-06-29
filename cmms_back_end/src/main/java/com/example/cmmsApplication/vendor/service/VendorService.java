@@ -28,7 +28,6 @@ public class VendorService {
     private final AccessControlService accessControlService;
 
 public VendorDTO create(VendorDTO dto) {
-        accessControlService.validatePermission("VENDOR_CREATE");
         accessControlService.validateAnySiteAccess(assignmentSiteIds(dto.getSiteAssignments()));
         if (vendorDAO.existsByVendorCode(dto.getVendorCode())) {
             throw new InvalidOperationException("Vendor code already exists: " + dto.getVendorCode());
@@ -40,7 +39,6 @@ public VendorDTO create(VendorDTO dto) {
     }
 
     public VendorDTO update(Long id, VendorDTO dto) {
-        accessControlService.validatePermission("VENDOR_UPDATE");
         accessControlService.validateAnySiteAccess(assignmentSiteIds(dto.getSiteAssignments()));
         Vendor vendor = getEntity(id);
         if (vendorDAO.existsByVendorCodeAndIdNot(dto.getVendorCode(), id)) {
@@ -54,7 +52,6 @@ public VendorDTO create(VendorDTO dto) {
 
     @Transactional(readOnly = true)
     public VendorDTO getById(Long id) {
-        accessControlService.validatePermission("VENDOR_VIEW");
         Vendor vendor = getEntityWithAssignments(id);
         accessControlService.validateAnySiteAccess(vendor.getSiteAssignments().stream()
                 .filter((assignment) -> !"INACTIVE".equalsIgnoreCase(assignment.getStatus()))
@@ -65,7 +62,6 @@ public VendorDTO create(VendorDTO dto) {
 
     @Transactional(readOnly = true)
     public List<VendorDTO> getAll(Long siteId, Boolean active) {
-        accessControlService.validatePermission("VENDOR_VIEW");
         List<Vendor> vendors;
         if (siteId != null && active != null) {
             accessControlService.validateSiteAccess(siteId);
@@ -82,7 +78,6 @@ public VendorDTO create(VendorDTO dto) {
     }
 
     public void delete(Long id) {
-        accessControlService.validatePermission("VENDOR_DELETE");
         getEntity(id);
         vendorDAO.deleteById(id);
     }

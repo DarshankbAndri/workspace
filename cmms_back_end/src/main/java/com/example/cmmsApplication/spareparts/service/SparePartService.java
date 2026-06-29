@@ -67,7 +67,6 @@ public class SparePartService {
     private final NotificationService notificationService;
 
     public SparePartDTO create(SparePartDTO dto) {
-        accessControlService.validatePermission("SPARE_PART_CREATE");
         validateRequired(dto);
         accessControlService.validateSiteAccess(dto.getSiteId());
         String partCode = normalizeCode(dto.getPartCode());
@@ -94,7 +93,6 @@ public class SparePartService {
     }
 
     public SparePartDTO update(Long stockId, SparePartDTO dto) {
-        accessControlService.validatePermission("SPARE_PART_UPDATE");
         SparePartSiteStock stock = getStockEntity(stockId);
         accessControlService.validateSiteAccess(stock.getSite().getId());
         if (dto.getSiteId() != null && !stock.getSite().getId().equals(dto.getSiteId())) {
@@ -115,7 +113,6 @@ public class SparePartService {
     }
 
     public void delete(Long stockId) {
-        accessControlService.validatePermission("SPARE_PART_DELETE");
         SparePartSiteStock stock = getStockEntity(stockId);
         accessControlService.validateSiteAccess(stock.getSite().getId());
         stock.setStatus("INACTIVE");
@@ -124,7 +121,6 @@ public class SparePartService {
 
     @Transactional(readOnly = true)
     public SparePartDTO getByStockId(Long stockId) {
-        accessControlService.validatePermission("SPARE_PART_VIEW");
         SparePartSiteStock stock = getStockEntity(stockId);
         accessControlService.validateSiteAccess(stock.getSite().getId());
         return toDTO(stock);
@@ -137,7 +133,6 @@ public class SparePartService {
 
     @Transactional(readOnly = true)
     public List<SparePartDTO> getActiveBySite(Long siteId) {
-        accessControlService.validatePermission("SPARE_PART_VIEW");
         accessControlService.validateSiteAccess(siteId);
         return stockDAO.findBySiteIdAndStatus(siteId, "ACTIVE").stream()
                 .filter((stock) -> "ACTIVE".equalsIgnoreCase(stock.getSparePart().getStatus()))
@@ -146,7 +141,6 @@ public class SparePartService {
     }
 
     public SparePartTransactionDTO stockIn(Long stockId, SparePartTransactionDTO dto) {
-        accessControlService.validatePermission("STOCK_TRANSACTION_CREATE");
         SparePartSiteStock stock = getStockForUpdate(stockId);
         accessControlService.validateSiteAccess(stock.getSite().getId());
         BigDecimal quantity = positive(dto.getQuantity(), "Quantity");
@@ -163,7 +157,6 @@ public class SparePartService {
     }
 
     public SparePartTransactionDTO adjustStock(Long stockId, SparePartTransactionDTO dto) {
-        accessControlService.validatePermission("STOCK_TRANSACTION_CREATE");
         SparePartSiteStock stock = getStockForUpdate(stockId);
         accessControlService.validateSiteAccess(stock.getSite().getId());
         BigDecimal newStock = nonNegative(dto.getQuantity(), "Adjusted stock");
@@ -184,7 +177,6 @@ public class SparePartService {
     }
 
     public List<SparePartTransactionDTO> transferStock(Long sourceStockId, StockTransferDTO dto) {
-        accessControlService.validatePermission("STOCK_TRANSACTION_CREATE");
         SparePartSiteStock source = getStockForUpdate(sourceStockId);
         accessControlService.validateSiteAccess(source.getSite().getId());
         accessControlService.validateSiteAccess(dto.getTargetSiteId());
@@ -236,7 +228,6 @@ public class SparePartService {
     }
 
     public SparePartImportResultDTO importSpareParts(MultipartFile file) {
-        accessControlService.validatePermission("SPARE_PART_CREATE");
         if (file == null || file.isEmpty()) {
             throw new InvalidOperationException("Import file is required");
         }
@@ -250,7 +241,6 @@ public class SparePartService {
 
     @Transactional(readOnly = true)
     public List<SparePartTransactionDTO> getTransactions(Long stockId) {
-        accessControlService.validatePermission("STOCK_TRANSACTION_VIEW");
         SparePartSiteStock stock = getStockEntity(stockId);
         accessControlService.validateSiteAccess(stock.getSite().getId());
         return transactionDAO.findByStockId(stockId).stream().map(this::toTransactionDTO).collect(Collectors.toList());

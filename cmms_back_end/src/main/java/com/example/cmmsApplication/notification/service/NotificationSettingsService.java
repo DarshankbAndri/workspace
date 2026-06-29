@@ -68,7 +68,6 @@ public class NotificationSettingsService {
     }
 
     public NotificationSettingDTO getForAdmin() {
-        accessControlService.validatePermission("NOTIFICATION_CONFIG_VIEW");
         return toDTO(getCurrentEntity());
     }
 
@@ -77,7 +76,6 @@ public class NotificationSettingsService {
     }
 
     public NotificationSettingDTO update(NotificationSettingDTO dto) {
-        accessControlService.validatePermission("NOTIFICATION_CONFIG_UPDATE");
         validate(dto);
         NotificationSetting setting = getCurrentEntity();
         apply(setting, dto);

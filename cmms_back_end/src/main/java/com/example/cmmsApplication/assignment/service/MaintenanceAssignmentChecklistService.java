@@ -47,14 +47,12 @@ public class MaintenanceAssignmentChecklistService {
 
     @Transactional(readOnly = true)
     public List<MaintenanceAssignmentChecklistItemDTO> getChecklist(Long assignmentId) {
-        accessControlService.validatePermission("ASSIGNMENT_CHECKLIST_VIEW");
         MaintenanceAssignment assignment = getAssignment(assignmentId);
         validateAssignmentSite(assignment);
         return checklistDAO.findByAssignmentId(assignmentId).stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     public MaintenanceAssignmentChecklistItemDTO addItem(Long assignmentId, MaintenanceAssignmentChecklistItemDTO dto) {
-        accessControlService.validatePermission("ASSIGNMENT_CHECKLIST_UPDATE");
         MaintenanceAssignment assignment = getAssignment(assignmentId);
         validateAssignmentSite(assignment);
         MaintenanceAssignmentChecklistItem item = new MaintenanceAssignmentChecklistItem();
@@ -67,7 +65,6 @@ public class MaintenanceAssignmentChecklistService {
     }
 
     public MaintenanceAssignmentChecklistItemDTO updateItem(Long assignmentId, Long itemId, MaintenanceAssignmentChecklistItemDTO dto) {
-        accessControlService.validatePermission("ASSIGNMENT_CHECKLIST_UPDATE");
         MaintenanceAssignmentChecklistItem item = getOwnedItem(assignmentId, itemId);
         apply(item, dto);
         String status = normalizeStatus(dto.getStatus());
@@ -84,7 +81,6 @@ public class MaintenanceAssignmentChecklistService {
     }
 
     public void deleteItem(Long assignmentId, Long itemId) {
-        accessControlService.validatePermission("ASSIGNMENT_CHECKLIST_UPDATE");
         MaintenanceAssignmentChecklistItem item = getOwnedItem(assignmentId, itemId);
         checklistDAO.findProofsByItemId(item.getId()).forEach(this::deleteStoredProofQuietly);
         checklistDAO.deleteProofsByItemId(item.getId());
@@ -92,7 +88,6 @@ public class MaintenanceAssignmentChecklistService {
     }
 
     public MaintenanceAssignmentChecklistProofDTO uploadProof(Long assignmentId, Long itemId, MultipartFile file) {
-        accessControlService.validatePermission("ASSIGNMENT_CHECKLIST_PROOF_UPLOAD");
         if (!checklistProperties.isProofUploadsEnabled()) {
             throw new InvalidOperationException("Checklist proof uploads are disabled");
         }
@@ -113,7 +108,6 @@ public class MaintenanceAssignmentChecklistService {
 
     @Transactional(readOnly = true)
     public MaintenanceAssignmentChecklistProof getProof(Long assignmentId, Long itemId, Long proofId) {
-        accessControlService.validatePermission("ASSIGNMENT_CHECKLIST_VIEW");
         getOwnedItem(assignmentId, itemId);
         MaintenanceAssignmentChecklistProof proof = checklistDAO.findProofById(proofId)
                 .orElseThrow(() -> new ResourceNotFoundException("Checklist proof not found with id: " + proofId));
@@ -141,7 +135,6 @@ public class MaintenanceAssignmentChecklistService {
     }
 
     public void deleteProof(Long assignmentId, Long itemId, Long proofId) {
-        accessControlService.validatePermission("ASSIGNMENT_CHECKLIST_PROOF_DELETE");
         MaintenanceAssignmentChecklistProof proof = getProof(assignmentId, itemId, proofId);
         deleteStoredProofQuietly(proof);
         checklistDAO.deleteProof(proof);

@@ -38,7 +38,6 @@ public class MaintenanceAssignmentService {
     private final MaintenanceAssignmentWorkLogService workLogService;
 
     public MaintenanceAssignmentDTO create(MaintenanceAssignmentDTO dto) {
-        accessControlService.validatePermission("ASSIGNMENT_CREATE");
         accessControlService.validateSiteAccess(dto.getSiteId());
         MaintenanceAssignment assignment = new MaintenanceAssignment();
         apply(assignment, dto);
@@ -50,7 +49,6 @@ public class MaintenanceAssignmentService {
     }
 
     public MaintenanceAssignmentDTO update(Long id, MaintenanceAssignmentDTO dto) {
-        accessControlService.validatePermission("ASSIGNMENT_UPDATE");
         MaintenanceAssignment assignment = getEntity(id);
         Long currentSiteId = assignment.getRequest().getSite() == null ? null : assignment.getRequest().getSite().getId();
         accessControlService.validateSiteAccess(currentSiteId);
@@ -66,7 +64,6 @@ public class MaintenanceAssignmentService {
 
     @Transactional(readOnly = true)
     public MaintenanceAssignmentDTO getById(Long id) {
-        accessControlService.validatePermission("ASSIGNMENT_VIEW");
         MaintenanceAssignment assignment = getEntity(id);
         accessControlService.validateSiteAccess(assignment.getRequest().getSite() == null ? null : assignment.getRequest().getSite().getId());
         return toDTO(assignment);
@@ -74,7 +71,6 @@ public class MaintenanceAssignmentService {
 
     @Transactional(readOnly = true)
     public List<MaintenanceAssignmentDTO> getAll(Long siteId) {
-        accessControlService.validatePermission("ASSIGNMENT_VIEW");
         if (siteId != null) {
             accessControlService.validateSiteAccess(siteId);
         }
@@ -85,7 +81,6 @@ public class MaintenanceAssignmentService {
     }
 
     public void delete(Long id) {
-        accessControlService.validatePermission("ASSIGNMENT_DELETE");
         MaintenanceAssignment assignment = getEntity(id);
         accessControlService.validateSiteAccess(assignment.getRequest().getSite() == null ? null : assignment.getRequest().getSite().getId());
         assignmentDAO.deleteById(id);

@@ -1,7 +1,6 @@
 package com.example.cmmsApplication.approval.service;
 
 
-import com.example.cmmsApplication.common.security.service.AccessControlService;
 import com.example.cmmsApplication.approval.dao.ApprovalConfigDAO;
 import com.example.cmmsApplication.approval.dto.ApprovalConfigDTO;
 import com.example.cmmsApplication.approval.entity.ApprovalConfig;
@@ -20,16 +19,13 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 public class ApprovalConfigService {
     private final ApprovalConfigDAO approvalConfigDAO;
-    private final AccessControlService accessControlService;
 
     @Transactional(readOnly = true)
     public List<ApprovalConfigDTO> getAll() {
-        accessControlService.validatePermission("APPROVAL_CONFIG_VIEW");
         return approvalConfigDAO.findAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     public ApprovalConfigDTO create(ApprovalConfigDTO dto) {
-        accessControlService.validatePermission("APPROVAL_CONFIG_UPDATE");
         validate(dto);
         String moduleCode = normalize(dto.getModuleCode());
         String actionCode = normalize(dto.getActionCode());
@@ -42,7 +38,6 @@ public class ApprovalConfigService {
     }
 
     public ApprovalConfigDTO update(Long id, ApprovalConfigDTO dto) {
-        accessControlService.validatePermission("APPROVAL_CONFIG_UPDATE");
         validate(dto);
         ApprovalConfig config = approvalConfigDAO.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Approval config not found with id: " + id));

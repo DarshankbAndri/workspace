@@ -1,7 +1,6 @@
 package com.example.cmmsApplication.admin.service;
 
 
-import com.example.cmmsApplication.common.security.service.AccessControlService;
 import com.example.cmmsApplication.admin.dao.PermissionDAO;
 import com.example.cmmsApplication.admin.dto.PermissionDTO;
 import com.example.cmmsApplication.admin.entity.PermissionMaster;
@@ -18,15 +17,12 @@ import lombok.RequiredArgsConstructor;
 @Transactional(readOnly = true)
 public class PermissionService {
     private final PermissionDAO permissionDAO;
-    private final AccessControlService accessControlService;
 
     public List<PermissionDTO> getAll() {
-        accessControlService.validatePermission("PERMISSION_VIEW");
         return permissionDAO.findAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     public Map<String, List<PermissionDTO>> getGrouped() {
-        accessControlService.validatePermission("PERMISSION_VIEW");
         return permissionDAO.findAll().stream()
                 .map(this::toDTO)
                 .collect(Collectors.groupingBy((permission) -> permission.getModuleName() == null ? "General" : permission.getModuleName()));

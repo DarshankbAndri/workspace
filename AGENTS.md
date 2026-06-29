@@ -91,6 +91,19 @@ Current backend modules include `admin`, `approval`, `assignment`, `company`, `d
 9. Binary downloads and event streams may remain raw protocol responses, but all normal JSON APIs must follow the standard contract.
 10. Frontend API error handling must read `code`, `message`, `details`, and `correlationId`.
 
+## API Permission Rules
+
+1. API authorization is centralized in `JwtFilter` through `ApiPermissionService`.
+2. Do not add `accessControlService.validatePermission(...)` calls in controllers or services.
+3. Keep record-level and site-level business access checks in services, such as `validateSiteAccess`.
+4. Every protected backend API must have a row in `cmms_back_end/src/main/resources/api-permission-mapping.csv`.
+5. Use the same path shape seen by the backend request URI, including `/api` when the servlet context path is `/api`.
+6. Keep `permission_api_mapping.xml` as the single Liquibase file for the `permission_api_mapping` table, indexes, unique constraint, and foreign key.
+7. When adding or changing role, permission, or API mapping behavior, clear the `api-permissions` cache after successful changes.
+8. Only add public endpoints through `cmms.security.public-api-patterns`; avoid hardcoded bypasses.
+9. Leave `cmms.security.deny-unmapped-api=true` for production unless there is an explicit migration window.
+10. New frontend helper/list APIs must be mapped to the page permission that needs them, not only to their owning module permission.
+
 ## Observability Rules
 
 1. Every request must have a correlation ID from `X-Correlation-Id` or a generated UUID.

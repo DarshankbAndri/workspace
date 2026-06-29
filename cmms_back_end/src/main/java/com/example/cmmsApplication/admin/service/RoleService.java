@@ -13,6 +13,7 @@ import com.example.cmmsApplication.admin.entity.RoleMaster;
 import com.example.cmmsApplication.admin.entity.RolePermission;
 import com.example.cmmsApplication.common.exception.InvalidOperationException;
 import com.example.cmmsApplication.common.exception.ResourceNotFoundException;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,18 +36,16 @@ public class RoleService {
 
     @Transactional(readOnly = true)
     public List<RoleDTO> getAll() {
-        accessControlService.validatePermission("ROLE_VIEW");
         return roleDAO.findAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
     public RoleDTO getById(Long id) {
-        accessControlService.validatePermission("ROLE_VIEW");
         return toDTO(getEntity(id));
     }
 
+    @CacheEvict(value = "api-permissions", allEntries = true)
     public RoleDTO create(RoleDTO dto) {
-        accessControlService.validatePermission("ROLE_CREATE");
         validateRequired(dto);
         if (roleDAO.existsByRoleCode(dto.getRoleCode())) {
             throw new InvalidOperationException("Role code already exists: " + dto.getRoleCode());
@@ -58,8 +57,8 @@ public class RoleService {
         return toDTO(saved);
     }
 
+    @CacheEvict(value = "api-permissions", allEntries = true)
     public RoleDTO update(Long id, RoleDTO dto) {
-        accessControlService.validatePermission("ROLE_UPDATE");
         validateRequired(dto);
         RoleMaster role = getEntity(id);
         if (roleDAO.existsByRoleCodeAndIdNot(dto.getRoleCode(), id)) {
@@ -71,8 +70,8 @@ public class RoleService {
         return toDTO(saved);
     }
 
+    @CacheEvict(value = "api-permissions", allEntries = true)
     public void delete(Long id) {
-        accessControlService.validatePermission("ROLE_DELETE");
         RoleMaster role = getEntity(id);
         if ("SUPER_ADMIN".equalsIgnoreCase(role.getRoleCode())) {
             throw new InvalidOperationException("SUPER_ADMIN role cannot be deleted or inactivated");

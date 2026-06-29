@@ -1,7 +1,6 @@
 package com.example.cmmsApplication.admin.service;
 
 
-import com.example.cmmsApplication.common.security.service.AccessControlService;
 import com.example.cmmsApplication.admin.dao.UserRoleAssignmentDAO;
 import com.example.cmmsApplication.admin.dto.UserRoleAssignmentDTO;
 import com.example.cmmsApplication.admin.entity.RoleMaster;
@@ -11,6 +10,7 @@ import com.example.cmmsApplication.admin.entity.UserRoleAssignment;
 import com.example.cmmsApplication.common.exception.ResourceNotFoundException;
 import com.example.cmmsApplication.site.repository.SiteRepository;
 import com.example.cmmsApplication.user.repository.UserRepository;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,16 +26,14 @@ public class UserRoleAssignmentService {
     private final UserRepository userRepository;
     private final SiteRepository siteRepository;
     private final RoleService roleService;
-    private final AccessControlService accessControlService;
 
     @Transactional(readOnly = true)
     public List<UserRoleAssignmentDTO> getByUserId(Long userId) {
-        accessControlService.validatePermission("USER_ROLE_VIEW");
         return userRoleAssignmentDAO.findActiveByUserId(userId).stream().map(this::toDTO).collect(Collectors.toList());
     }
 
+    @CacheEvict(value = "api-permissions", allEntries = true)
     public List<UserRoleAssignmentDTO> replaceUserRoles(Long userId, List<UserRoleAssignmentDTO> assignments) {
-        accessControlService.validatePermission("USER_ROLE_UPDATE");
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
         userRoleAssignmentDAO.deleteByUserId(userId);
         if (assignments != null) {

@@ -63,7 +63,6 @@ public class MaintenanceSpareUsageService {
 
 @Transactional(readOnly = true)
     public List<MaintenanceSpareUsageDTO> getAll(String status) {
-        accessControlService.validatePermission("SPARE_USAGE_VIEW");
         String normalizedStatus = status == null || status.isBlank() ? null : normalizeStatus(status);
         List<MaintenanceSpareUsage> rows = normalizedStatus == null ? usageDAO.findAll() : usageDAO.findByStatus(normalizedStatus);
         return rows.stream()
@@ -74,7 +73,6 @@ public class MaintenanceSpareUsageService {
 
     @Transactional(readOnly = true)
     public MaintenanceSpareUsageDTO getById(Long id) {
-        accessControlService.validatePermission("SPARE_USAGE_VIEW");
         MaintenanceSpareUsage usage = getUsage(id);
         validateAssignmentAccess(usage.getAssignment());
         return toDTO(usage);
@@ -82,14 +80,12 @@ public class MaintenanceSpareUsageService {
 
     @Transactional(readOnly = true)
     public List<MaintenanceSpareUsageDTO> getByAssignment(Long assignmentId) {
-        accessControlService.validatePermission("SPARE_USAGE_VIEW");
         MaintenanceAssignment assignment = assignmentService.getEntity(assignmentId);
         validateAssignmentAccess(assignment);
         return usageDAO.findByAssignmentId(assignmentId).stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     public MaintenanceSpareUsageDTO create(Long assignmentId, MaintenanceSpareUsageDTO dto) {
-        accessControlService.validatePermission("SPARE_USAGE_CREATE");
         MaintenanceAssignment assignment = assignmentService.getEntity(assignmentId);
         validateAssignmentAccess(assignment);
         if (usageDAO.existsByAssignmentIdAndStockId(assignmentId, dto.getStockId())) {
@@ -119,7 +115,6 @@ public class MaintenanceSpareUsageService {
     }
 
     public MaintenanceSpareUsageDTO update(Long assignmentId, Long usageId, MaintenanceSpareUsageDTO dto) {
-        accessControlService.validatePermission("SPARE_USAGE_UPDATE");
         MaintenanceSpareUsage usage = getUsage(assignmentId, usageId);
         validateAssignmentAccess(usage.getAssignment());
         requireStatus(usage, REQUESTED, "Only requested spare lines can be edited.");
@@ -133,7 +128,6 @@ public class MaintenanceSpareUsageService {
     }
 
     public void delete(Long assignmentId, Long usageId) {
-        accessControlService.validatePermission("SPARE_USAGE_DELETE");
         MaintenanceSpareUsage usage = getUsage(assignmentId, usageId);
         validateAssignmentAccess(usage.getAssignment());
         String status = normalizeStatus(usage.getStatus());
@@ -146,7 +140,6 @@ public class MaintenanceSpareUsageService {
     }
 
     public MaintenanceSpareUsageDTO managerApprove(Long id, MaintenanceSpareUsageDTO dto) {
-        accessControlService.validatePermission("SPARE_USAGE_MANAGER_APPROVE");
         MaintenanceSpareUsage usage = getUsage(id);
         validateAssignmentAccess(usage.getAssignment());
         if (CLOSED_STATUSES.contains(normalizeStatus(usage.getStatus()))) {
@@ -165,7 +158,6 @@ public class MaintenanceSpareUsageService {
     }
 
     public MaintenanceSpareUsageDTO managerReject(Long id, MaintenanceSpareUsageDTO dto) {
-        accessControlService.validatePermission("SPARE_USAGE_MANAGER_APPROVE");
         MaintenanceSpareUsage usage = getUsage(id);
         validateAssignmentAccess(usage.getAssignment());
         if (CLOSED_STATUSES.contains(normalizeStatus(usage.getStatus()))) {
@@ -180,7 +172,6 @@ public class MaintenanceSpareUsageService {
     }
 
     public MaintenanceSpareUsageDTO checkStock(Long id, MaintenanceSpareUsageDTO dto) {
-        accessControlService.validatePermission("SPARE_USAGE_STORE_PROCESS");
         MaintenanceSpareUsage usage = getUsage(id);
         validateAssignmentAccess(usage.getAssignment());
         requireAnyStatus(usage, Set.of(MANAGER_APPROVED, STORE_REVIEW, STOCK_AVAILABLE, STOCK_NOT_AVAILABLE, PURCHASE_RECEIVED),
@@ -199,7 +190,6 @@ public class MaintenanceSpareUsageService {
     }
 
     public MaintenanceSpareUsageDTO reserveById(Long id, MaintenanceSpareUsageDTO dto) {
-        accessControlService.validatePermission("SPARE_USAGE_RESERVE");
         MaintenanceSpareUsage usage = getUsage(id);
         validateAssignmentAccess(usage.getAssignment());
         requireAnyStatus(usage, Set.of(STOCK_AVAILABLE, PURCHASE_RECEIVED), "Only stock-available spare requests can be reserved.");
@@ -219,7 +209,6 @@ public class MaintenanceSpareUsageService {
     }
 
     public MaintenanceSpareUsageDTO issueById(Long id, MaintenanceSpareUsageDTO dto) {
-        accessControlService.validatePermission("SPARE_USAGE_ISSUE");
         MaintenanceSpareUsage usage = getUsage(id);
         validateAssignmentAccess(usage.getAssignment());
         requireAnyStatus(usage, Set.of(RESERVED, STOCK_AVAILABLE, PURCHASE_RECEIVED), "Only available or reserved spare requests can be issued.");
@@ -235,7 +224,6 @@ public class MaintenanceSpareUsageService {
     }
 
     public SparePartReorderDTO createPurchaseRequest(Long id, MaintenanceSpareUsageDTO dto) {
-        accessControlService.validatePermission("REORDER_CREATE");
         MaintenanceSpareUsage usage = getUsage(id);
         validateAssignmentAccess(usage.getAssignment());
         requireStatus(usage, STOCK_NOT_AVAILABLE, "Purchase request can be created only when stock is not available.");
@@ -284,7 +272,6 @@ public class MaintenanceSpareUsageService {
     }
 
     public MaintenanceSpareUsageDTO consumeReturnById(Long id, MaintenanceSpareUsageDTO dto) {
-        accessControlService.validatePermission("SPARE_USAGE_CONSUME");
         MaintenanceSpareUsage usage = getUsage(id);
         validateAssignmentAccess(usage.getAssignment());
         requireAnyStatus(usage, Set.of(ISSUED, PARTIALLY_CONSUMED), "Only issued spare requests can be consumed or returned.");
@@ -324,7 +311,6 @@ public class MaintenanceSpareUsageService {
     }
 
     public MaintenanceSpareUsageDTO cancel(Long assignmentId, Long usageId, MaintenanceSpareUsageDTO dto) {
-        accessControlService.validatePermission("SPARE_USAGE_CANCEL");
         MaintenanceSpareUsage usage = getUsage(assignmentId, usageId);
         validateAssignmentAccess(usage.getAssignment());
         String status = normalizeStatus(usage.getStatus());

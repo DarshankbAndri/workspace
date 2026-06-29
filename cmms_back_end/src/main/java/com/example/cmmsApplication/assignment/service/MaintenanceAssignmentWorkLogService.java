@@ -49,14 +49,12 @@ public class MaintenanceAssignmentWorkLogService {
 
     @Transactional(readOnly = true)
     public List<MaintenanceAssignmentWorkLogDTO> getWorkLogs(Long assignmentId) {
-        accessControlService.validatePermission("ASSIGNMENT_WORK_LOG_VIEW");
         MaintenanceAssignment assignment = getAssignment(assignmentId);
         validateAssignmentSite(assignment);
         return workLogDAO.findByAssignmentId(assignmentId).stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     public MaintenanceAssignmentWorkLogDTO addWorkLog(Long assignmentId, MaintenanceAssignmentWorkLogDTO dto) {
-        accessControlService.validatePermission("ASSIGNMENT_WORK_LOG_CREATE");
         MaintenanceAssignment assignment = getAssignment(assignmentId);
         validateAssignmentSite(assignment);
         MaintenanceAssignmentWorkLog workLog = new MaintenanceAssignmentWorkLog();
@@ -69,7 +67,6 @@ public class MaintenanceAssignmentWorkLogService {
     }
 
     public MaintenanceAssignmentWorkLogDTO updateWorkLog(Long assignmentId, Long workLogId, MaintenanceAssignmentWorkLogDTO dto) {
-        accessControlService.validatePermission("ASSIGNMENT_WORK_LOG_UPDATE");
         MaintenanceAssignmentWorkLog workLog = getOwnedWorkLog(assignmentId, workLogId);
         apply(workLog, dto, assignmentSiteId(workLog.getAssignment()));
         workLog.setUpdatedBy(accessControlService.getCurrentUser());
@@ -77,7 +74,6 @@ public class MaintenanceAssignmentWorkLogService {
     }
 
     public void deleteWorkLog(Long assignmentId, Long workLogId) {
-        accessControlService.validatePermission("ASSIGNMENT_WORK_LOG_DELETE");
         MaintenanceAssignmentWorkLog workLog = getOwnedWorkLog(assignmentId, workLogId);
         workLogDAO.findAttachmentsByWorkLogId(workLog.getId()).forEach(this::deleteStoredAttachmentQuietly);
         workLogDAO.deleteAttachmentsByWorkLogId(workLog.getId());
@@ -85,7 +81,6 @@ public class MaintenanceAssignmentWorkLogService {
     }
 
     public MaintenanceAssignmentWorkLogAttachmentDTO uploadAttachment(Long assignmentId, Long workLogId, MultipartFile file) {
-        accessControlService.validatePermission("ASSIGNMENT_WORK_LOG_ATTACHMENT_UPLOAD");
         if (!checklistProperties.isProofUploadsEnabled()) {
             throw new InvalidOperationException("Work log attachment uploads are disabled");
         }
@@ -106,7 +101,6 @@ public class MaintenanceAssignmentWorkLogService {
 
     @Transactional(readOnly = true)
     public MaintenanceAssignmentWorkLogAttachment getAttachment(Long assignmentId, Long workLogId, Long attachmentId) {
-        accessControlService.validatePermission("ASSIGNMENT_WORK_LOG_VIEW");
         getOwnedWorkLog(assignmentId, workLogId);
         MaintenanceAssignmentWorkLogAttachment attachment = workLogDAO.findAttachmentById(attachmentId)
                 .orElseThrow(() -> new ResourceNotFoundException("Work log attachment not found with id: " + attachmentId));
@@ -134,7 +128,6 @@ public class MaintenanceAssignmentWorkLogService {
     }
 
     public void deleteAttachment(Long assignmentId, Long workLogId, Long attachmentId) {
-        accessControlService.validatePermission("ASSIGNMENT_WORK_LOG_ATTACHMENT_DELETE");
         MaintenanceAssignmentWorkLogAttachment attachment = getAttachment(assignmentId, workLogId, attachmentId);
         deleteStoredAttachmentQuietly(attachment);
         workLogDAO.deleteAttachment(attachment);

@@ -177,7 +177,6 @@ public class ApprovalWorkflowService {
     }
 
     public ApprovalRequestDTO approve(Long approvalRequestId, String comments) {
-        accessControlService.validatePermission("APPROVAL_APPROVE");
         ApprovalRequest request = getPendingRequest(approvalRequestId);
         validateApproverPermission(request, "APPROVAL_APPROVE");
         saveAction(request, "APPROVED", comments);
@@ -190,7 +189,6 @@ public class ApprovalWorkflowService {
     }
 
     public ApprovalRequestDTO reject(Long approvalRequestId, String comments) {
-        accessControlService.validatePermission("APPROVAL_REJECT");
         ApprovalRequest request = getPendingRequest(approvalRequestId);
         validateApproverPermission(request, "APPROVAL_REJECT");
         saveAction(request, "REJECTED", comments);
@@ -202,7 +200,6 @@ public class ApprovalWorkflowService {
 
     @Transactional(readOnly = true)
     public List<ApprovalRequestDTO> getPendingApprovalsForCurrentUser() {
-        accessControlService.validatePermission("APPROVAL_VIEW");
         List<ApprovalRequest> requests = accessControlService.isAdmin()
                 ? approvalRequestDAO.findPending()
                 : approvalRequestDAO.findPendingBySiteIds(accessControlService.getAllowedSiteIds());
@@ -214,7 +211,6 @@ public class ApprovalWorkflowService {
 
     @Transactional(readOnly = true)
     public List<ApprovalRequestDTO> getApprovalHistory(String moduleCode, Long referenceId) {
-        accessControlService.validatePermission("APPROVAL_VIEW");
         if (moduleCode == null || moduleCode.isBlank() || referenceId == null) {
             throw new InvalidOperationException("Module code and reference id are required");
         }
@@ -227,7 +223,6 @@ public class ApprovalWorkflowService {
 
     @Transactional(readOnly = true)
     public PageProperties searchApprovalHistory(SearchDTO searchDTO) {
-        accessControlService.validatePermission("APPROVAL_VIEW");
         SearchDTO effectiveSearch = prepareApprovalHistorySearch(searchDTO);
         Page<ApprovalRequestDTO> page = approvalRequestDAO.search(
                         buildApprovalHistorySpecification(effectiveSearch),
@@ -238,7 +233,6 @@ public class ApprovalWorkflowService {
 
     @Transactional(readOnly = true)
     public ApprovalRequestDTO getApprovalRequest(Long approvalRequestId) {
-        accessControlService.validatePermission("APPROVAL_VIEW");
         ApprovalRequest request = approvalRequestDAO.findById(approvalRequestId)
                 .orElseThrow(() -> new ResourceNotFoundException("Approval request not found with id: " + approvalRequestId));
         accessControlService.validateSiteAccess(request.getSite() == null ? null : request.getSite().getId());
@@ -246,7 +240,6 @@ public class ApprovalWorkflowService {
     }
 
     public void validateApproverPermission(ApprovalRequest request, String permissionCode) {
-        accessControlService.validatePermission(permissionCode);
         accessControlService.validateSiteAccess(request.getSite() == null ? null : request.getSite().getId());
         if (!canCurrentUserActOnRole(request)) {
             throw new InvalidOperationException("Current user is not an approver for this request");

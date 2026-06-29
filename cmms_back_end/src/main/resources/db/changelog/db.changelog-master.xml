@@ -10,6 +10,7 @@
     <include file="db/changelog/changes/002-create-users-table.xml"/>
     <include file="db/changelog/cmms/role_master.xml"/>
     <include file="db/changelog/cmms/permission_master.xml"/>
+    <include file="db/changelog/cmms/permission_api_mapping.xml"/>
     <include file="db/changelog/cmms/company_master.xml"/>
     <include file="db/changelog/cmms/vendor_master.xml"/>
     <include file="db/changelog/cmms/equipment_master.xml"/>
