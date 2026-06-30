@@ -4,8 +4,11 @@ import { CheckCircle, Cancel, Visibility } from '@mui/icons-material';
 import { DataGrid } from '@mui/x-data-grid';
 import { getPendingApprovals, approveApproval, rejectApproval } from '../services/approvalService';
 import { getSites } from '../../site/services/siteService';
+import { useAuth } from '../../../shared/context/AuthContext';
+import { PERMISSIONS } from '../../../shared/utils/permissionRoutes';
 
 function ApprovalInboxPage() {
+  const { hasPermission } = useAuth();
   const [rows, setRows] = React.useState([]);
   const [sites, setSites] = React.useState([]);
   const [filters, setFilters] = React.useState({ moduleCode: '', actionCode: '', siteId: '', status: '', requestedFrom: '', requestedTo: '' });
@@ -74,9 +77,9 @@ function ApprovalInboxPage() {
       width: 220,
       renderCell: ({ row }) => (
         <Stack direction="row" spacing={0.75}>
-          <Button size="small" startIcon={<Visibility />} onClick={() => setDecision({ type: 'VIEW', row })}>View</Button>
-          <Button size="small" color="success" startIcon={<CheckCircle />} onClick={() => setDecision({ type: 'APPROVE', row })}>Approve</Button>
-          <Button size="small" color="error" startIcon={<Cancel />} onClick={() => setDecision({ type: 'REJECT', row })}>Reject</Button>
+          {hasPermission(PERMISSIONS.APPROVAL_VIEW) && <Button size="small" startIcon={<Visibility />} onClick={() => setDecision({ type: 'VIEW', row })}>View</Button>}
+          {hasPermission(PERMISSIONS.APPROVAL_APPROVE) && <Button size="small" color="success" startIcon={<CheckCircle />} onClick={() => setDecision({ type: 'APPROVE', row })}>Approve</Button>}
+          {hasPermission(PERMISSIONS.APPROVAL_REJECT) && <Button size="small" color="error" startIcon={<Cancel />} onClick={() => setDecision({ type: 'REJECT', row })}>Reject</Button>}
         </Stack>
       ),
     },

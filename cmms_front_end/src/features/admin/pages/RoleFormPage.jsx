@@ -36,18 +36,23 @@ const permissionCategories = [
 ];
 
 const categoryGroupOrder = {
-  operation: ['Dashboard', 'Masters', 'Maintenance', 'Reports'],
+  operation: ['Dashboard', 'Masters', 'Maintenance', 'Inventory', 'Approvals', 'Notifications', 'Reports'],
   hr: ['Creation'],
-  admin: ['Access Control'],
+  admin: ['Access Control', 'Configuration', 'Company'],
 };
 
 const subGroupOrder = {
   Dashboard: ['Dashboard'],
   Masters: ['Equipment', 'Vendors'],
   Maintenance: ['Requests', 'Assignments', 'Downtime'],
+  Inventory: ['Spare Parts', 'Stock Transactions', 'Spare Usage', 'Reorders'],
+  Approvals: ['Approvals'],
+  Notifications: ['Notifications'],
   Reports: ['Reports'],
   Creation: ['Sites', 'Employees'],
   'Access Control': ['Roles', 'Permissions', 'User Role'],
+  Configuration: ['Approval Config', 'Notification Settings'],
+  Company: ['Company'],
 };
 
 const permissionCodeOrder = [
@@ -82,6 +87,32 @@ const permissionCodeOrder = [
   'DOWNTIME_CREATE',
   'DOWNTIME_UPDATE',
   'DOWNTIME_DELETE',
+  'SPARE_PART_VIEW',
+  'SPARE_PART_CREATE',
+  'SPARE_PART_UPDATE',
+  'SPARE_PART_DELETE',
+  'STOCK_TRANSACTION_VIEW',
+  'STOCK_TRANSACTION_CREATE',
+  'SPARE_USAGE_VIEW',
+  'SPARE_USAGE_CREATE',
+  'SPARE_USAGE_UPDATE',
+  'SPARE_USAGE_DELETE',
+  'SPARE_USAGE_RESERVE',
+  'SPARE_USAGE_ISSUE',
+  'SPARE_USAGE_CONSUME',
+  'SPARE_USAGE_REJECT',
+  'SPARE_USAGE_CANCEL',
+  'SPARE_USAGE_RETURN',
+  'SPARE_USAGE_MANAGER_APPROVE',
+  'SPARE_USAGE_STORE_PROCESS',
+  'REORDER_VIEW',
+  'REORDER_CREATE',
+  'REORDER_UPDATE',
+  'APPROVAL_VIEW',
+  'APPROVAL_APPROVE',
+  'APPROVAL_REJECT',
+  'NOTIFICATION_VIEW',
+  'NOTIFICATION_UPDATE',
   'REPORT_VIEW',
   'SITE_VIEW',
   'SITE_CREATE',
@@ -97,6 +128,15 @@ const permissionCodeOrder = [
   'ROLE_DELETE',
   'PERMISSION_VIEW',
   'USER_ROLE_ASSIGN',
+  'USER_ROLE_VIEW',
+  'USER_ROLE_UPDATE',
+  'APPROVAL_CONFIG_VIEW',
+  'APPROVAL_CONFIG_UPDATE',
+  'NOTIFICATION_CONFIG_VIEW',
+  'NOTIFICATION_CONFIG_UPDATE',
+  'COMPANY_VIEW',
+  'COMPANY_CREATE',
+  'COMPANY_UPDATE',
 ];
 
 function getPermissionCategory(permission) {
@@ -117,7 +157,10 @@ function getPermissionCategory(permission) {
     code.startsWith('ROLE_') ||
     code === 'PERMISSION_VIEW' ||
     code === 'USER_ROLE_ASSIGN' ||
-    code.startsWith('USER_ROLE_')
+    code.startsWith('USER_ROLE_') ||
+    code.startsWith('APPROVAL_CONFIG_') ||
+    code.startsWith('NOTIFICATION_CONFIG_') ||
+    code.startsWith('COMPANY_')
   ) {
     return 'admin';
   }
@@ -130,6 +173,9 @@ function getPermissionGroupLabel(permission, category) {
     if (code === 'DASHBOARD_VIEW') return 'Dashboard';
     if (code.startsWith('EQUIPMENT_') || code.startsWith('VENDOR_')) return 'Masters';
     if (code.startsWith('REQUEST_') || code.startsWith('ASSIGNMENT_') || code.startsWith('DOWNTIME_')) return 'Maintenance';
+    if (code.startsWith('SPARE_PART_') || code.startsWith('STOCK_TRANSACTION_') || code.startsWith('SPARE_USAGE_') || code.startsWith('REORDER_')) return 'Inventory';
+    if (code.startsWith('APPROVAL_')) return 'Approvals';
+    if (code.startsWith('NOTIFICATION_')) return 'Notifications';
     if (code === 'REPORT_VIEW') return 'Reports';
   }
   if (category === 'hr') {
@@ -150,6 +196,12 @@ function getPermissionSubGroupLabel(permission, category) {
     if (code.startsWith('REQUEST_')) return 'Requests';
     if (code.startsWith('ASSIGNMENT_')) return 'Assignments';
     if (code.startsWith('DOWNTIME_')) return 'Downtime';
+    if (code.startsWith('SPARE_PART_')) return 'Spare Parts';
+    if (code.startsWith('STOCK_TRANSACTION_')) return 'Stock Transactions';
+    if (code.startsWith('SPARE_USAGE_')) return 'Spare Usage';
+    if (code.startsWith('REORDER_')) return 'Reorders';
+    if (code.startsWith('APPROVAL_')) return 'Approvals';
+    if (code.startsWith('NOTIFICATION_')) return 'Notifications';
     if (code === 'REPORT_VIEW') return 'Reports';
   }
   if (category === 'hr') {
@@ -160,6 +212,9 @@ function getPermissionSubGroupLabel(permission, category) {
     if (code.startsWith('ROLE_')) return 'Roles';
     if (code === 'PERMISSION_VIEW') return 'Permissions';
     if (code === 'USER_ROLE_ASSIGN' || code.startsWith('USER_ROLE_')) return 'User Role';
+    if (code.startsWith('APPROVAL_CONFIG_')) return 'Approval Config';
+    if (code.startsWith('NOTIFICATION_CONFIG_')) return 'Notification Settings';
+    if (code.startsWith('COMPANY_')) return 'Company';
   }
   return permission.moduleName || 'General';
 }

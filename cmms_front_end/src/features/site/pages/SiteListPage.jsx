@@ -6,9 +6,12 @@ import { useNavigate } from 'react-router-dom';
 import ConfirmDialog from '../../../shared/components/common/ConfirmDialog';
 import { deleteSite, searchSites } from '../services/siteService';
 import { commonSearchFilter, createSearchPayload, equalFilter } from '../../../shared/utils/searchPayload';
+import { useAuth } from '../../../shared/context/AuthContext';
+import { PERMISSIONS } from '../../../shared/utils/permissionRoutes';
 
 function SiteListPage() {
   const navigate = useNavigate();
+  const { hasPermission } = useAuth();
   const [rows, setRows] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState('');
@@ -76,9 +79,9 @@ function SiteListPage() {
       width: 150,
       renderCell: ({ row }) => (
         <Stack direction="row" spacing={0.5}>
-          <IconButton aria-label="View site" onClick={() => navigate(`/hr/sites/${row.id}/edit`, { state: { viewOnly: true } })}><Visibility fontSize="small" /></IconButton>
-          <IconButton aria-label="Edit site" onClick={() => navigate(`/hr/sites/${row.id}/edit`)}><Edit fontSize="small" /></IconButton>
-          <IconButton aria-label="Mark site inactive" color="error" onClick={() => setDeleteId(row.id)}><Delete fontSize="small" /></IconButton>
+          {hasPermission(PERMISSIONS.SITE_VIEW) && <IconButton aria-label="View site" onClick={() => navigate(`/hr/sites/${row.id}/view`)}><Visibility fontSize="small" /></IconButton>}
+          {hasPermission(PERMISSIONS.SITE_UPDATE) && <IconButton aria-label="Edit site" onClick={() => navigate(`/hr/sites/${row.id}/edit`)}><Edit fontSize="small" /></IconButton>}
+          {hasPermission(PERMISSIONS.SITE_DELETE) && <IconButton aria-label="Mark site inactive" color="error" onClick={() => setDeleteId(row.id)}><Delete fontSize="small" /></IconButton>}
         </Stack>
       ),
     },
@@ -91,7 +94,7 @@ function SiteListPage() {
           <Typography variant="h4" fontWeight={800}>Sites</Typography>
           <Typography variant="body2" color="text.secondary">Manage organization sites and plant contact details.</Typography>
         </Box>
-        <Button variant="contained" startIcon={<Add />} onClick={() => navigate('/hr/sites/new')}>Add Site</Button>
+        {hasPermission(PERMISSIONS.SITE_CREATE) && <Button variant="contained" startIcon={<Add />} onClick={() => navigate('/hr/sites/new')}>Add Site</Button>}
       </Stack>
       {error && <Alert severity="error" sx={{ mb: 2 }} onClose={() => setError('')}>{error}</Alert>}
       <Paper sx={{ p: 2, mb: 2, borderRadius: 1 }}>

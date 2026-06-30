@@ -1,6 +1,8 @@
 import React from 'react';
 import { Alert, Box, Button, Grid, MenuItem, Paper, Stack, TextField, Typography } from '@mui/material';
 import { CloudUpload, Save } from '@mui/icons-material';
+import { useAuth } from '../../../shared/context/AuthContext';
+import { PERMISSIONS } from '../../../shared/utils/permissionRoutes';
 import { createCompany, getCurrentCompany, resolveCompanyLogoUrl, updateCompany, uploadCompanyLogo } from '../services/companyService';
 
 const initialForm = {
@@ -14,6 +16,7 @@ const initialForm = {
 };
 
 function CompanyFormPage() {
+  const { hasPermission } = useAuth();
   const [form, setForm] = React.useState(initialForm);
   const [logoFile, setLogoFile] = React.useState(null);
   const [logoPreview, setLogoPreview] = React.useState('');
@@ -40,6 +43,8 @@ function CompanyFormPage() {
   }, [logoFile]);
 
   const updateField = (field) => (event) => setForm((current) => ({ ...current, [field]: event.target.value }));
+  const canPersist = form.id ? hasPermission(PERMISSIONS.COMPANY_UPDATE) : hasPermission(PERMISSIONS.COMPANY_CREATE);
+  const canUploadLogo = Boolean(form.id) && hasPermission(PERMISSIONS.COMPANY_UPDATE);
 
   const validateForm = () => {
     if (!form.companyName.trim()) return 'Company name is required.';
@@ -51,6 +56,7 @@ function CompanyFormPage() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (!canPersist) return;
     const validationError = validateForm();
     if (validationError) {
       setError(validationError);
@@ -69,7 +75,7 @@ function CompanyFormPage() {
         status: form.status || 'ACTIVE',
       };
       let saved = form.id ? await updateCompany(form.id, payload) : await createCompany(payload);
-      if (logoFile) {
+      if (logoFile && hasPermission(PERMISSIONS.COMPANY_UPDATE)) {
         saved = await uploadCompanyLogo(saved.id, logoFile);
         setLogoFile(null);
       }
@@ -91,23 +97,23 @@ function CompanyFormPage() {
       {success && <Alert severity="success" sx={{ mb: 2 }} onClose={() => setSuccess('')}>{success}</Alert>}
       <Paper component="form" onSubmit={handleSubmit} sx={{ p: 3, borderRadius: 1 }}>
         <Grid container spacing={2}>
-          <Grid item xs={12} md={4}><TextField required fullWidth label="Company Code" value={form.companyCode || ''} onChange={updateField('companyCode')} /></Grid>
-          <Grid item xs={12} md={8}><TextField required fullWidth label="Company Name" value={form.companyName || ''} onChange={updateField('companyName')} /></Grid>
-          <Grid item xs={12} md={4}><TextField type="email" fullWidth label="Email" value={form.email || ''} onChange={updateField('email')} /></Grid>
-          <Grid item xs={12} md={4}><TextField fullWidth label="Phone Number" value={form.phoneNumber || ''} onChange={updateField('phoneNumber')} /></Grid>
+          <Grid item xs={12} md={4}><TextField required disabled={!canPersist} fullWidth label="Company Code" value={form.companyCode || ''} onChange={updateField('companyCode')} /></Grid>
+          <Grid item xs={12} md={8}><TextField required disabled={!canPersist} fullWidth label="Company Name" value={form.companyName || ''} onChange={updateField('companyName')} /></Grid>
+          <Grid item xs={12} md={4}><TextField type="email" disabled={!canPersist} fullWidth label="Email" value={form.email || ''} onChange={updateField('email')} /></Grid>
+          <Grid item xs={12} md={4}><TextField disabled={!canPersist} fullWidth label="Phone Number" value={form.phoneNumber || ''} onChange={updateField('phoneNumber')} /></Grid>
           <Grid item xs={12} md={4}>
-            <TextField select fullWidth label="Status" value={form.status || 'ACTIVE'} onChange={updateField('status')}>
+            <TextField select disabled={!canPersist} fullWidth label="Status" value={form.status || 'ACTIVE'} onChange={updateField('status')}>
               <MenuItem value="ACTIVE">ACTIVE</MenuItem>
               <MenuItem value="INACTIVE">INACTIVE</MenuItem>
             </TextField>
           </Grid>
-          <Grid item xs={12}><TextField fullWidth multiline minRows={3} label="Address" value={form.address || ''} onChange={updateField('address')} /></Grid>
+          <Grid item xs={12}><TextField disabled={!canPersist} fullWidth multiline minRows={3} label="Address" value={form.address || ''} onChange={updateField('address')} /></Grid>
           <Grid item xs={12} md={5}>
             <Stack spacing={1.5}>
-              <Button component="label" variant="outlined" startIcon={<CloudUpload />}>
+              {canUploadLogo && <Button component="label" variant="outlined" startIcon={<CloudUpload />}>
                 Upload Logo
                 <input hidden type="file" accept="image/*" onChange={(event) => setLogoFile(event.target.files?.[0] || null)} />
-              </Button>
+              </Button>}
               {logoPreview && (
                 <Box
                   sx={{
@@ -129,7 +135,7 @@ function CompanyFormPage() {
           </Grid>
         </Grid>
         <Stack direction="row" spacing={1.5} sx={{ mt: 3 }}>
-          <Button type="submit" variant="contained" startIcon={<Save />} disabled={saving}>{saving ? 'Saving...' : 'Save Company'}</Button>
+          {canPersist && <Button type="submit" variant="contained" startIcon={<Save />} disabled={saving}>{saving ? 'Saving...' : 'Save Company'}</Button>}
         </Stack>
       </Paper>
     </Box>

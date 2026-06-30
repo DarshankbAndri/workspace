@@ -3,10 +3,13 @@ import { Alert, Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogT
 import { DataGrid } from '@mui/x-data-grid';
 import { CheckCircle, Cancel } from '@mui/icons-material';
 import { getSpareRequests, managerApproveSpareRequest, managerRejectSpareRequest } from '../services/sparePartService';
+import { useAuth } from '../../../shared/context/AuthContext';
+import { PERMISSIONS } from '../../../shared/utils/permissionRoutes';
 
 const initialDialog = { open: false, action: '', row: null, approvedQty: '', remarks: '' };
 
 function SpareRequestApprovalPage() {
+  const { hasPermission } = useAuth();
   const [rows, setRows] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState('');
@@ -69,8 +72,8 @@ function SpareRequestApprovalPage() {
       width: 190,
       renderCell: ({ row }) => (
         <Stack direction="row" spacing={1}>
-          <Button size="small" variant="contained" startIcon={<CheckCircle />} onClick={() => openDialog(row, 'approve')}>Approve</Button>
-          <Button size="small" color="error" startIcon={<Cancel />} onClick={() => openDialog(row, 'reject')}>Reject</Button>
+          {hasPermission(PERMISSIONS.SPARE_USAGE_MANAGER_APPROVE) && <Button size="small" variant="contained" startIcon={<CheckCircle />} onClick={() => openDialog(row, 'approve')}>Approve</Button>}
+          {hasPermission(PERMISSIONS.SPARE_USAGE_MANAGER_APPROVE) && <Button size="small" color="error" startIcon={<Cancel />} onClick={() => openDialog(row, 'reject')}>Reject</Button>}
         </Stack>
       ),
     },

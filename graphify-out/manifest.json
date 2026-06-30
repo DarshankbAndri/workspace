@@ -30,8 +30,8 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/App.jsx": {
-    "mtime": 1782467373.5167246,
-    "ast_hash": "d0a6e11284161c7f55e046cdfb82d6cd",
+    "mtime": 1782814245.6723154,
+    "ast_hash": "73eb47b1dcbb06b5211f8eec20374a44",
     "semantic_hash": ""
   },
   "cmms_front_end/src/index.js": {
@@ -1225,8 +1225,8 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/admin/pages/RoleFormPage.jsx": {
-    "mtime": 1782711022.853634,
-    "ast_hash": "da1ecf4ebb172d40e3b06989201f49ae",
+    "mtime": 1782814556.7522283,
+    "ast_hash": "445506563d25087543bd078e6cb2a93c",
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/admin/pages/RoleListPage.jsx": {
@@ -1255,8 +1255,8 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/approval/pages/ApprovalConfigPage.jsx": {
-    "mtime": 1782467373.7084675,
-    "ast_hash": "5cfaacdef2364e7eed5c297447177be4",
+    "mtime": 1782814199.9147544,
+    "ast_hash": "866ee695bae2735ea0682b88483bae38",
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/approval/pages/ApprovalHistoryPage.jsx": {
@@ -1265,8 +1265,8 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/approval/pages/ApprovalInboxPage.jsx": {
-    "mtime": 1782467373.7187319,
-    "ast_hash": "fb864ca9e415938fbe3ab241da78cef0",
+    "mtime": 1782814101.9055798,
+    "ast_hash": "c84c8c2b2436b5a263cc3e68b7e1f90f",
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/approval/services/approvalConfigService.js": {
@@ -1295,13 +1295,13 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/auth/pages/LoginPage.jsx": {
-    "mtime": 1782467373.8364794,
-    "ast_hash": "c34ee6607bd74b4e356b2aa431140420",
+    "mtime": 1782813961.9780002,
+    "ast_hash": "3c5509863d50b4226422debf0379d0e2",
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/company/pages/CompanyFormPage.jsx": {
-    "mtime": 1782467373.8427482,
-    "ast_hash": "d5746808802aab9a09ea1e11b256f6be",
+    "mtime": 1782814171.7818706,
+    "ast_hash": "7eff04078f881d371873708e123aec7d",
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/company/services/companyService.js": {
@@ -1335,13 +1335,13 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/employee/pages/EmployeeFormPage.jsx": {
-    "mtime": 1782467373.9762137,
-    "ast_hash": "29aa2e7a2bbf342107e9b887d268d38f",
+    "mtime": 1782814029.7595906,
+    "ast_hash": "e56544d44f7dde3efa6cfbd31ebc64b5",
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/employee/pages/EmployeeListPage.jsx": {
-    "mtime": 1782467373.9867377,
-    "ast_hash": "6d94dfdef9ec8c724c10d505b65c04d8",
+    "mtime": 1782814022.762864,
+    "ast_hash": "3621415b8afe6ba02c8c809701def42a",
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/employee/services/employeeService.js": {
@@ -1355,8 +1355,8 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/equipment/pages/EquipmentListPage.jsx": {
-    "mtime": 1782467374.0932803,
-    "ast_hash": "6ddb93fa3f7bf39f1bff4f5905efe94a",
+    "mtime": 1782813976.882926,
+    "ast_hash": "23205977dddf7a4fff692852d8631733",
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/equipment/services/equipmentService.js": {
@@ -1385,13 +1385,13 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/notification/pages/NotificationCenterPage.jsx": {
-    "mtime": 1782467374.1365974,
-    "ast_hash": "d9c392f1b65dc1a12d1d37381d70b4c2",
+    "mtime": 1782814117.762007,
+    "ast_hash": "77e6c4db687ecb664d9c7e3acf41884a",
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/notification/pages/NotificationSettingsPage.jsx": {
-    "mtime": 1782467374.1405983,
-    "ast_hash": "5e58aa5d50772449ba735989c23e1292",
+    "mtime": 1782814144.5623271,
+    "ast_hash": "893a64952f8d46b3229dea4c4efc9bdc",
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/notification/services/notificationService.js": {
@@ -1440,13 +1440,13 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/site/pages/SiteFormPage.jsx": {
-    "mtime": 1782467374.3404715,
-    "ast_hash": "c22f3354962c9ae01d8ac60144ce212f",
+    "mtime": 1782814010.0091634,
+    "ast_hash": "89f9ea919796b97ce6f12270230073fa",
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/site/pages/SiteListPage.jsx": {
-    "mtime": 1782467374.3450687,
-    "ast_hash": "842b8595bc08f9a26dd9ae758a5d2dca",
+    "mtime": 1782814005.2259529,
+    "ast_hash": "7cc88281f7897ae6a72cb3e23b22c922",
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/site/services/siteService.js": {
@@ -1460,23 +1460,23 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/spareParts/pages/SparePartListPage.jsx": {
-    "mtime": 1782467374.362083,
-    "ast_hash": "ed9817fd1b295cfb2737957f698aaf3a",
+    "mtime": 1782814055.6919627,
+    "ast_hash": "93090914ad2f6311abfd52b4ecf37415",
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/spareParts/pages/SparePartReorderPage.jsx": {
-    "mtime": 1782467374.3680842,
-    "ast_hash": "a073feac5fb4225d983e45cc2ebce107",
+    "mtime": 1782814089.989616,
+    "ast_hash": "43d5438a2abb150a96440692cbd7715e",
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/spareParts/pages/SpareRequestApprovalPage.jsx": {
-    "mtime": 1782467374.3745008,
-    "ast_hash": "36f1d3dbabed323afdd881e45badcfde",
+    "mtime": 1782814066.927012,
+    "ast_hash": "81e88d6c91b115747f537230d853789a",
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/spareParts/pages/SpareRequestStorePage.jsx": {
-    "mtime": 1782467374.3795033,
-    "ast_hash": "69d6185971b6131e03e1c4c11ae269fe",
+    "mtime": 1782814080.922423,
+    "ast_hash": "748d25e6b9e4f8be595e0eb9b1938c71",
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/spareParts/services/sparePartService.js": {
@@ -1485,8 +1485,8 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/user/pages/UserManagementPage.jsx": {
-    "mtime": 1782467374.393027,
-    "ast_hash": "d9320ea7944caa7001baaec878924a82",
+    "mtime": 1782814253.2841702,
+    "ast_hash": "4cf971d0aa46eae034a03e584571b506",
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/vendor/pages/VendorFormPage.jsx": {
@@ -1495,8 +1495,8 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/vendor/pages/VendorListPage.jsx": {
-    "mtime": 1782467374.410027,
-    "ast_hash": "f544072e18c9fcaa0fe985574cdf6e0b",
+    "mtime": 1782813989.475864,
+    "ast_hash": "095c691c0154810d589560679402071d",
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/vendor/services/vendorService.js": {
@@ -1755,8 +1755,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/common/security/repository/PermissionApiMappingRepository.java": {
-    "mtime": 1782721235.7070794,
-    "ast_hash": "982def8f9304fd1fdbd738e4ebad38d6",
+    "mtime": 1782723259.3686068,
+    "ast_hash": "b08402296181818086e7cb9db2356c81",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/common/security/repository/PermissionApiMappingRepositoryCustom.java": {
@@ -1775,8 +1775,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/common/security/service/ApiPermissionService.java": {
-    "mtime": 1782717073.1688168,
-    "ast_hash": "84f66a0ea0ab37728ee651888b85bc8b",
+    "mtime": 1782723518.8957586,
+    "ast_hash": "b71309789cbb8ca602006b3136f1c3b0",
     "semantic_hash": ""
   },
   "cmms_back_end/src/test/java/com/example/cmmsApplication/common/security/service/ApiPermissionServiceTest.java": {
@@ -1787,6 +1787,11 @@
   "cmms_back_end/src/test/java/com/example/cmmsApplication/common/security/service/ApiPermissionMappingCsvCoverageTest.java": {
     "mtime": 1782720599.1817327,
     "ast_hash": "0b387605cc4e282217d9b5e877f55ad1",
+    "semantic_hash": ""
+  },
+  "cmms_front_end/src/shared/utils/permissionRoutes.js": {
+    "mtime": 1782814261.1857147,
+    "ast_hash": "8cdea679c3836408ca7453d0dcf3b736",
     "semantic_hash": ""
   }
 }

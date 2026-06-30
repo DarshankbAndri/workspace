@@ -4,6 +4,8 @@ import { Edit } from '@mui/icons-material';
 import { DataGrid } from '@mui/x-data-grid';
 import { createApprovalConfig, getApprovalConfigs, updateApprovalConfig } from '../services/approvalConfigService';
 import { getRoles } from '../../admin/services/roleService';
+import { useAuth } from '../../../shared/context/AuthContext';
+import { PERMISSIONS } from '../../../shared/utils/permissionRoutes';
 
 const defaultApprovalConfigs = [
   { moduleCode: 'PM_SCHEDULE', actionCode: 'CREATE', approvalRequired: false, approverRoleCode: 'MAINTENANCE_MANAGER', minApprovalCount: 1, status: 'ACTIVE' },
@@ -27,6 +29,8 @@ function mergeDefaultConfigs(data = []) {
 }
 
 function ApprovalConfigPage() {
+  const { hasPermission } = useAuth();
+  const canUpdate = hasPermission(PERMISSIONS.APPROVAL_CONFIG_UPDATE);
   const [rows, setRows] = React.useState([]);
   const [roles, setRoles] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
@@ -81,7 +85,7 @@ function ApprovalConfigPage() {
       sortable: false,
       filterable: false,
       width: 110,
-      renderCell: ({ row }) => <Button size="small" startIcon={<Edit />} onClick={() => setEditRow(row)}>Edit</Button>,
+      renderCell: ({ row }) => canUpdate ? <Button size="small" startIcon={<Edit />} onClick={() => setEditRow(row)}>Edit</Button> : null,
     },
   ];
 
@@ -125,7 +129,7 @@ function ApprovalConfigPage() {
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setEditRow(null)}>Cancel</Button>
-          <Button variant="contained" onClick={saveConfig}>Save</Button>
+          {canUpdate && <Button variant="contained" onClick={saveConfig}>Save</Button>}
         </DialogActions>
       </Dialog>
       <Snackbar open={Boolean(success)} autoHideDuration={3000} message={success} onClose={() => setSuccess('')} />

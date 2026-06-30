@@ -14,6 +14,8 @@ import {
   Typography,
 } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
+import { useAuth } from '../../../shared/context/AuthContext';
+import { PERMISSIONS } from '../../../shared/utils/permissionRoutes';
 import { getSites } from '../../site/services/siteService';
 import { getReorderRequests, receivePurchaseRequestStock, updateReorderRequest } from '../services/sparePartService';
 
@@ -22,6 +24,7 @@ const initialEditDialog = { open: false, row: null, status: '', requestedQuantit
 const initialReceiveDialog = { open: false, row: null, quantity: '', unitCost: '', remarks: '' };
 
 function SparePartReorderPage() {
+  const { hasPermission } = useAuth();
   const [rows, setRows] = React.useState([]);
   const [sites, setSites] = React.useState([]);
   const [filters, setFilters] = React.useState({ siteId: '', status: '' });
@@ -127,8 +130,8 @@ function SparePartReorderPage() {
       width: 190,
       renderCell: ({ row }) => (
         <Stack direction="row" spacing={1}>
-          <Button size="small" onClick={() => openEditDialog(row)}>Update</Button>
-          {row.status !== 'RECEIVED' && <Button size="small" variant="contained" onClick={() => openReceiveDialog(row)}>Receive</Button>}
+          {hasPermission(PERMISSIONS.REORDER_UPDATE) && <Button size="small" onClick={() => openEditDialog(row)}>Update</Button>}
+          {hasPermission(PERMISSIONS.REORDER_UPDATE) && row.status !== 'RECEIVED' && <Button size="small" variant="contained" onClick={() => openReceiveDialog(row)}>Receive</Button>}
         </Stack>
       ),
     },

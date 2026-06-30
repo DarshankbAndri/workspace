@@ -6,9 +6,12 @@ import { useNavigate } from 'react-router-dom';
 import ConfirmDialog from '../../../shared/components/common/ConfirmDialog';
 import { deleteEmployee, searchEmployees } from '../services/employeeService';
 import { commonSearchFilter, createSearchPayload, equalFilter } from '../../../shared/utils/searchPayload';
+import { useAuth } from '../../../shared/context/AuthContext';
+import { PERMISSIONS } from '../../../shared/utils/permissionRoutes';
 
 function EmployeeListPage() {
   const navigate = useNavigate();
+  const { hasPermission } = useAuth();
   const [rows, setRows] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState('');
@@ -78,9 +81,9 @@ function EmployeeListPage() {
       width: 150,
       renderCell: ({ row }) => (
         <Stack direction="row" spacing={0.5}>
-          <IconButton aria-label="View employee" onClick={() => navigate(`/hr/employees/${row.id}/edit`, { state: { viewOnly: true } })}><Visibility fontSize="small" /></IconButton>
-          <IconButton aria-label="Edit employee" onClick={() => navigate(`/hr/employees/${row.id}/edit`)}><Edit fontSize="small" /></IconButton>
-          <IconButton aria-label="Mark employee inactive" color="error" onClick={() => setDeleteId(row.id)}><Delete fontSize="small" /></IconButton>
+          {hasPermission(PERMISSIONS.EMPLOYEE_VIEW) && <IconButton aria-label="View employee" onClick={() => navigate(`/hr/employees/${row.id}/view`)}><Visibility fontSize="small" /></IconButton>}
+          {hasPermission(PERMISSIONS.EMPLOYEE_UPDATE) && <IconButton aria-label="Edit employee" onClick={() => navigate(`/hr/employees/${row.id}/edit`)}><Edit fontSize="small" /></IconButton>}
+          {hasPermission(PERMISSIONS.EMPLOYEE_DELETE) && <IconButton aria-label="Mark employee inactive" color="error" onClick={() => setDeleteId(row.id)}><Delete fontSize="small" /></IconButton>}
         </Stack>
       ),
     },
@@ -93,7 +96,7 @@ function EmployeeListPage() {
           <Typography variant="h4" fontWeight={800}>Employees</Typography>
           <Typography variant="body2" color="text.secondary">Maintain employees and site-wise execution roles.</Typography>
         </Box>
-        <Button variant="contained" startIcon={<Add />} onClick={() => navigate('/hr/employees/new')}>Add Employee</Button>
+        {hasPermission(PERMISSIONS.EMPLOYEE_CREATE) && <Button variant="contained" startIcon={<Add />} onClick={() => navigate('/hr/employees/new')}>Add Employee</Button>}
       </Stack>
       {error && <Alert severity="error" sx={{ mb: 2 }} onClose={() => setError('')}>{error}</Alert>}
       <Paper sx={{ p: 2, mb: 2, borderRadius: 1 }}>

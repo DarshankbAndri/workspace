@@ -32,6 +32,8 @@ import { DataGrid } from '@mui/x-data-grid';
 import { QRCodeSVG } from 'qrcode.react';
 import { useNavigate } from 'react-router-dom';
 import { commonSearchFilter, createSearchPayload, equalFilter } from '../../../shared/utils/searchPayload';
+import { useAuth } from '../../../shared/context/AuthContext';
+import { PERMISSIONS } from '../../../shared/utils/permissionRoutes';
 import { getSites } from '../../site/services/siteService';
 import {
   adjustStock,
@@ -53,6 +55,7 @@ const initialLabelDialog = { open: false, row: null };
 
 function SparePartListPage() {
   const navigate = useNavigate();
+  const { hasPermission } = useAuth();
   const [rows, setRows] = React.useState([]);
   const [rowCount, setRowCount] = React.useState(0);
   const [sites, setSites] = React.useState([]);
@@ -312,14 +315,14 @@ function SparePartListPage() {
       width: 300,
       renderCell: ({ row }) => (
         <Stack direction="row" spacing={0.25}>
-          <Tooltip title="History"><IconButton aria-label="History" onClick={() => openHistoryDialog(row)}><History fontSize="small" /></IconButton></Tooltip>
-          <Tooltip title="Transfer"><IconButton aria-label="Transfer stock" onClick={() => openTransferDialog(row)}><SwapHoriz fontSize="small" /></IconButton></Tooltip>
-          <Tooltip title="Reorder"><IconButton aria-label="Create reorder" onClick={() => openReorderDialog(row)}><ShoppingCart fontSize="small" /></IconButton></Tooltip>
+          {hasPermission(PERMISSIONS.STOCK_TRANSACTION_VIEW) && <Tooltip title="History"><IconButton aria-label="History" onClick={() => openHistoryDialog(row)}><History fontSize="small" /></IconButton></Tooltip>}
+          {hasPermission(PERMISSIONS.STOCK_TRANSACTION_CREATE) && <Tooltip title="Transfer"><IconButton aria-label="Transfer stock" onClick={() => openTransferDialog(row)}><SwapHoriz fontSize="small" /></IconButton></Tooltip>}
+          {hasPermission(PERMISSIONS.REORDER_CREATE) && <Tooltip title="Reorder"><IconButton aria-label="Create reorder" onClick={() => openReorderDialog(row)}><ShoppingCart fontSize="small" /></IconButton></Tooltip>}
           <Tooltip title="QR label"><IconButton aria-label="QR label" onClick={() => setLabelDialog({ open: true, row })}><QrCode2 fontSize="small" /></IconButton></Tooltip>
-          <Tooltip title="Stock in"><IconButton aria-label="Stock in" onClick={() => openStockDialog(row, 'STOCK_IN')}><Inventory fontSize="small" /></IconButton></Tooltip>
-          <Tooltip title="Adjust"><IconButton aria-label="Adjust stock" onClick={() => openStockDialog(row, 'ADJUSTMENT')}><Tune fontSize="small" /></IconButton></Tooltip>
-          <Tooltip title="Edit"><IconButton aria-label="Edit spare part" onClick={() => navigate(`/inventory/spare-parts/${row.id}/edit`)}><Edit fontSize="small" /></IconButton></Tooltip>
-          <Tooltip title="Delete"><IconButton aria-label="Delete spare part" color="error" onClick={() => handleDelete(row.id)}><Delete fontSize="small" /></IconButton></Tooltip>
+          {hasPermission(PERMISSIONS.STOCK_TRANSACTION_CREATE) && <Tooltip title="Stock in"><IconButton aria-label="Stock in" onClick={() => openStockDialog(row, 'STOCK_IN')}><Inventory fontSize="small" /></IconButton></Tooltip>}
+          {hasPermission(PERMISSIONS.STOCK_TRANSACTION_CREATE) && <Tooltip title="Adjust"><IconButton aria-label="Adjust stock" onClick={() => openStockDialog(row, 'ADJUSTMENT')}><Tune fontSize="small" /></IconButton></Tooltip>}
+          {hasPermission(PERMISSIONS.SPARE_PART_UPDATE) && <Tooltip title="Edit"><IconButton aria-label="Edit spare part" onClick={() => navigate(`/inventory/spare-parts/${row.id}/edit`)}><Edit fontSize="small" /></IconButton></Tooltip>}
+          {hasPermission(PERMISSIONS.SPARE_PART_DELETE) && <Tooltip title="Delete"><IconButton aria-label="Delete spare part" color="error" onClick={() => handleDelete(row.id)}><Delete fontSize="small" /></IconButton></Tooltip>}
         </Stack>
       ),
     },
@@ -333,8 +336,8 @@ function SparePartListPage() {
           <Typography variant="body2" color="text.secondary">Manage site-wise spare stock, transfers, reorders, and material cost.</Typography>
         </Box>
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1} sx={{ width: { xs: '100%', sm: 'auto' } }}>
-          <Button variant="outlined" startIcon={<UploadFile />} onClick={() => setImportDialog({ ...initialImportDialog, open: true })}>Import</Button>
-          <Button variant="contained" startIcon={<Add />} onClick={() => navigate('/inventory/spare-parts/new')}>Add Spare Part</Button>
+          {hasPermission(PERMISSIONS.SPARE_PART_CREATE) && <Button variant="outlined" startIcon={<UploadFile />} onClick={() => setImportDialog({ ...initialImportDialog, open: true })}>Import</Button>}
+          {hasPermission(PERMISSIONS.SPARE_PART_CREATE) && <Button variant="contained" startIcon={<Add />} onClick={() => navigate('/inventory/spare-parts/new')}>Add Spare Part</Button>}
         </Stack>
       </Stack>
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}

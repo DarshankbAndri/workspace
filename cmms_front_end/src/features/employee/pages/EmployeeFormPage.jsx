@@ -70,7 +70,7 @@ function EmployeeFormPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const isEdit = Boolean(id);
-  const viewOnly = Boolean(location.state?.viewOnly);
+  const viewOnly = Boolean(location.state?.viewOnly) || location.pathname.endsWith('/view');
   const [form, setForm] = React.useState(initialForm);
   const [sites, setSites] = React.useState([]);
   const [roles, setRoles] = React.useState([]);

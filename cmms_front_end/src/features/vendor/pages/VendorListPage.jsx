@@ -6,9 +6,12 @@ import { useNavigate } from 'react-router-dom';
 import { deleteVendor, getVendors, searchVendors } from '../services/vendorService';
 import { getSites } from '../../site/services/siteService';
 import { createSearchPayload, equalFilter } from '../../../shared/utils/searchPayload';
+import { useAuth } from '../../../shared/context/AuthContext';
+import { PERMISSIONS } from '../../../shared/utils/permissionRoutes';
 
 function VendorListPage() {
   const navigate = useNavigate();
+  const { hasPermission } = useAuth();
   const [rows, setRows] = React.useState([]);
   const [sites, setSites] = React.useState([]);
   const [siteFilter, setSiteFilter] = React.useState('');
@@ -69,8 +72,8 @@ function VendorListPage() {
       width: 110,
       renderCell: ({ row }) => (
         <Stack direction="row" spacing={0.5}>
-          <IconButton aria-label="Edit vendor" onClick={() => navigate(`/vendors/${row.id}`)}><Edit fontSize="small" /></IconButton>
-          <IconButton aria-label="Delete vendor" color="error" onClick={() => handleDelete(row.id)}><Delete fontSize="small" /></IconButton>
+          {hasPermission(PERMISSIONS.VENDOR_UPDATE) && <IconButton aria-label="Edit vendor" onClick={() => navigate(`/vendors/${row.id}`)}><Edit fontSize="small" /></IconButton>}
+          {hasPermission(PERMISSIONS.VENDOR_DELETE) && <IconButton aria-label="Delete vendor" color="error" onClick={() => handleDelete(row.id)}><Delete fontSize="small" /></IconButton>}
         </Stack>
       ),
     },
@@ -83,7 +86,7 @@ function VendorListPage() {
           <Typography variant="h4" fontWeight={800}>Vendors</Typography>
           <Typography variant="body2" color="text.secondary">Maintain maintenance partners and service categories.</Typography>
         </Box>
-        <Button variant="contained" startIcon={<Add />} onClick={() => navigate('/vendors/new')}>Add Vendor</Button>
+        {hasPermission(PERMISSIONS.VENDOR_CREATE) && <Button variant="contained" startIcon={<Add />} onClick={() => navigate('/vendors/new')}>Add Vendor</Button>}
       </Stack>
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
       <Paper sx={{ p: 2, mb: 2, borderRadius: 1 }}>

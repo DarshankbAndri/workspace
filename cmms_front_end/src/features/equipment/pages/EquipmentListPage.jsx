@@ -5,9 +5,12 @@ import { DataGrid } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
 import { deleteEquipment, searchEquipments } from '../services/equipmentService';
 import { getSites } from '../../site/services/siteService';
+import { useAuth } from '../../../shared/context/AuthContext';
+import { PERMISSIONS } from '../../../shared/utils/permissionRoutes';
 
 function EquipmentListPage() {
   const navigate = useNavigate();
+  const { hasPermission } = useAuth();
   const [rows, setRows] = React.useState([]);
   const [rowCount, setRowCount] = React.useState(0);
   const [sites, setSites] = React.useState([]);
@@ -106,8 +109,8 @@ function EquipmentListPage() {
       width: 110,
       renderCell: ({ row }) => (
         <Stack direction="row" spacing={0.5}>
-          <IconButton aria-label="Edit equipment" onClick={() => navigate(`/equipment/${row.id}`)}><Edit fontSize="small" /></IconButton>
-          <IconButton aria-label="Delete equipment" color="error" onClick={() => handleDelete(row.id)}><Delete fontSize="small" /></IconButton>
+          {hasPermission(PERMISSIONS.EQUIPMENT_UPDATE) && <IconButton aria-label="Edit equipment" onClick={() => navigate(`/equipment/${row.id}`)}><Edit fontSize="small" /></IconButton>}
+          {hasPermission(PERMISSIONS.EQUIPMENT_DELETE) && <IconButton aria-label="Delete equipment" color="error" onClick={() => handleDelete(row.id)}><Delete fontSize="small" /></IconButton>}
         </Stack>
       ),
     },
@@ -120,7 +123,7 @@ function EquipmentListPage() {
           <Typography variant="h4" fontWeight={800}>Equipment</Typography>
           <Typography variant="body2" color="text.secondary">Maintain plant assets and operating status.</Typography>
         </Box>
-        <Button variant="contained" startIcon={<Add />} onClick={() => navigate('/equipment/new')}>Add Equipment</Button>
+        {hasPermission(PERMISSIONS.EQUIPMENT_CREATE) && <Button variant="contained" startIcon={<Add />} onClick={() => navigate('/equipment/new')}>Add Equipment</Button>}
       </Stack>
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
       <Paper sx={{ p: 2, mb: 2, borderRadius: 1 }}>

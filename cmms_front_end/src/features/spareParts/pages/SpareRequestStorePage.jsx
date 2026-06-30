@@ -2,6 +2,8 @@ import React from 'react';
 import { Alert, Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, Paper, Stack, TextField, Typography } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { CheckCircle, Inventory, ShoppingCart, TaskAlt, Undo } from '@mui/icons-material';
+import { useAuth } from '../../../shared/context/AuthContext';
+import { PERMISSIONS } from '../../../shared/utils/permissionRoutes';
 import {
   checkSpareRequestStock,
   consumeReturnSpareRequest,
@@ -27,6 +29,7 @@ const statusColors = {
 };
 
 function SpareRequestStorePage() {
+  const { hasPermission } = useAuth();
   const [rows, setRows] = React.useState([]);
   const [filters, setFilters] = React.useState({ status: '' });
   const [loading, setLoading] = React.useState(true);
@@ -123,19 +126,19 @@ function SpareRequestStorePage() {
         const status = row.status;
         return (
           <Stack direction="row" spacing={0.75}>
-            {['MANAGER_APPROVED', 'PURCHASE_RECEIVED', 'STOCK_AVAILABLE', 'STOCK_NOT_AVAILABLE'].includes(status) && (
+            {hasPermission(PERMISSIONS.SPARE_USAGE_STORE_PROCESS) && ['MANAGER_APPROVED', 'PURCHASE_RECEIVED', 'STOCK_AVAILABLE', 'STOCK_NOT_AVAILABLE'].includes(status) && (
               <Button size="small" startIcon={<TaskAlt />} onClick={() => runAction(row, 'check')}>Check</Button>
             )}
-            {['STOCK_AVAILABLE', 'PURCHASE_RECEIVED'].includes(status) && (
+            {hasPermission(PERMISSIONS.SPARE_USAGE_RESERVE) && ['STOCK_AVAILABLE', 'PURCHASE_RECEIVED'].includes(status) && (
               <Button size="small" startIcon={<CheckCircle />} onClick={() => runAction(row, 'reserve')}>Reserve</Button>
             )}
-            {['STOCK_AVAILABLE', 'PURCHASE_RECEIVED', 'RESERVED'].includes(status) && (
+            {hasPermission(PERMISSIONS.SPARE_USAGE_ISSUE) && ['STOCK_AVAILABLE', 'PURCHASE_RECEIVED', 'RESERVED'].includes(status) && (
               <Button size="small" variant="contained" startIcon={<Inventory />} onClick={() => runAction(row, 'issue')}>Issue</Button>
             )}
-            {status === 'STOCK_NOT_AVAILABLE' && (
+            {hasPermission(PERMISSIONS.REORDER_CREATE) && status === 'STOCK_NOT_AVAILABLE' && (
               <Button size="small" color="warning" startIcon={<ShoppingCart />} onClick={() => runAction(row, 'purchase')}>Purchase</Button>
             )}
-            {['ISSUED', 'PARTIALLY_CONSUMED'].includes(status) && (
+            {hasPermission(PERMISSIONS.SPARE_USAGE_CONSUME) && ['ISSUED', 'PARTIALLY_CONSUMED'].includes(status) && (
               <Button size="small" color="success" startIcon={<Undo />} onClick={() => openConsumeDialog(row)}>Consume/Return</Button>
             )}
           </Stack>

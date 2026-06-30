@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../shared/context/AuthContext';
 import { createUserByHR } from '../../../shared/services/api';
+import { getFirstAllowedPath } from '../../../shared/utils/permissionRoutes';
 import {
   Container,
   Paper,
@@ -23,7 +24,8 @@ import { PersonAdd, ArrowBack } from '@mui/icons-material';
 
 function UserManagementPage() {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, hasPermission } = useAuth();
+  const firstAllowedPath = getFirstAllowedPath(hasPermission);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -50,7 +52,7 @@ function UserManagementPage() {
           </Typography>
           <Button
             variant="contained"
-            onClick={() => navigate('/dashboard')}
+            onClick={() => navigate(firstAllowedPath)}
             startIcon={<ArrowBack />}
           >
             Back to Dashboard
@@ -131,7 +133,7 @@ function UserManagementPage() {
 
       // Redirect to dashboard after 2 seconds
       setTimeout(() => {
-        navigate('/dashboard');
+        navigate(firstAllowedPath);
       }, 2000);
     } catch (err) {
       const errorMessage = err.response?.data?.message || err.message || 'Failed to create user';
@@ -307,7 +309,7 @@ function UserManagementPage() {
                     variant="outlined"
                     color="primary"
                     size="large"
-                    onClick={() => navigate('/dashboard')}
+                    onClick={() => navigate(firstAllowedPath)}
                     disabled={loading}
                     startIcon={<ArrowBack />}
                   >

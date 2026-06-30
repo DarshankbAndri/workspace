@@ -13,10 +13,11 @@ import {
 } from '@mui/material';
 import { useAuth } from '../../../shared/context/AuthContext';
 import { login as apiLogin } from '../../../shared/services/api';
+import { getFirstAllowedPath, getFirstAllowedPathFromAccess } from '../../../shared/utils/permissionRoutes';
 
 function LoginPage() {
   const navigate = useNavigate();
-  const { login, isAuthenticated, loading } = useAuth();
+  const { login, isAuthenticated, loading, hasPermission } = useAuth();
   const [apiError, setApiError] = useState('');
   const [apiLoading, setApiLoading] = useState(false);
   
@@ -32,7 +33,7 @@ function LoginPage() {
   });
 
   if (!loading && isAuthenticated) {
-    return <Navigate to="/dashboard" replace />;
+    return <Navigate to={getFirstAllowedPath(hasPermission)} replace />;
   }
 
   const onSubmit = async (data) => {
@@ -58,7 +59,7 @@ function LoginPage() {
       
       // Store token and user data in AuthContext and localStorage
       login(user, token, { roles, permissions, allowedSites });
-      navigate('/dashboard');
+      navigate(getFirstAllowedPathFromAccess({ user, roles, permissions }));
     } catch (err) {
       console.error('Login error:', err);
       

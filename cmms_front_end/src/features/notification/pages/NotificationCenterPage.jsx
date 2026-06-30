@@ -4,6 +4,8 @@ import { Archive, DoneAll, OpenInNew, Refresh, Search } from '@mui/icons-materia
 import { DataGrid } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
 import { archiveNotification, getNotifications, markAllNotificationsRead, markNotificationRead } from '../services/notificationService';
+import { useAuth } from '../../../shared/context/AuthContext';
+import { PERMISSIONS } from '../../../shared/utils/permissionRoutes';
 
 const notificationTabs = [
   { key: 'all', label: 'All', filter: {} },
@@ -18,6 +20,7 @@ const notificationTabs = [
 
 function NotificationCenterPage() {
   const navigate = useNavigate();
+  const { hasPermission } = useAuth();
   const [rows, setRows] = React.useState([]);
   const [rowCount, setRowCount] = React.useState(0);
   const [activeTab, setActiveTab] = React.useState('all');
@@ -62,7 +65,7 @@ function NotificationCenterPage() {
 
   const openNotification = async (row) => {
     try {
-      if (row.status === 'UNREAD') {
+      if (row.status === 'UNREAD' && hasPermission(PERMISSIONS.NOTIFICATION_UPDATE)) {
         await markNotificationRead(row.id);
       }
       if (row.targetUrl) {
@@ -118,13 +121,13 @@ function NotificationCenterPage() {
       renderCell: ({ row }) => (
         <Stack direction="row" spacing={0.5}>
           <Tooltip title="Open"><IconButton size="small" onClick={() => openNotification(row)}><OpenInNew fontSize="small" /></IconButton></Tooltip>
-          <Tooltip title="Archive">
+          {hasPermission(PERMISSIONS.NOTIFICATION_UPDATE) && <Tooltip title="Archive">
             <span>
               <IconButton size="small" onClick={() => archiveRow(row)} disabled={row.status === 'ARCHIVED'}>
                 <Archive fontSize="small" />
               </IconButton>
             </span>
-          </Tooltip>
+          </Tooltip>}
         </Stack>
       ),
     },
@@ -139,7 +142,7 @@ function NotificationCenterPage() {
         </Box>
         <Stack direction="row" spacing={1}>
           <Button variant="outlined" startIcon={<Refresh />} onClick={loadRows}>Refresh</Button>
-          <Button variant="contained" startIcon={<DoneAll />} onClick={markAllRead}>Mark All Read</Button>
+          {hasPermission(PERMISSIONS.NOTIFICATION_UPDATE) && <Button variant="contained" startIcon={<DoneAll />} onClick={markAllRead}>Mark All Read</Button>}
         </Stack>
       </Stack>
       {error && <Alert severity="error" sx={{ mb: 2 }} onClose={() => setError('')}>{error}</Alert>}

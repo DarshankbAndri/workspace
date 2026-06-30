@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { ThemeProvider, createTheme, CssBaseline, useMediaQuery, Box, Paper, Typography } from '@mui/material';
 import { useAuth } from './shared/context/AuthContext';
 import SidebarLayout from './shared/layouts/SidebarLayout';
+import { getFirstAllowedPath } from './shared/utils/permissionRoutes';
 import LoginPage from './features/auth/pages/LoginPage';
 import UserManagementPage from './features/user/pages/UserManagementPage';
 import DashboardPage from './features/dashboard/pages/DashboardPage';
@@ -131,7 +132,7 @@ function ProtectedRoute({ children, permission }) {
 }
 
 function App() {
-  const { isAuthenticated, loading } = useAuth();
+  const { isAuthenticated, loading, hasPermission } = useAuth();
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const [mode, setMode] = React.useState(() => localStorage.getItem('cmmsThemeMode') || (prefersDarkMode ? 'dark' : 'light'));
   const theme = React.useMemo(() => createAppTheme(mode), [mode]);
@@ -148,6 +149,8 @@ function App() {
     return null;
   }
 
+  const firstAllowedPath = isAuthenticated ? getFirstAllowedPath(hasPermission) : '/login';
+
   const protectedPage = (page, permission) => (
     <ProtectedRoute permission={permission}>
       <SidebarLayout mode={mode} onToggleMode={toggleMode}>{page}</SidebarLayout>
@@ -160,7 +163,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/" element={<Navigate to={isAuthenticated ? '/dashboard' : '/login'} replace />} />
+          <Route path="/" element={<Navigate to={isAuthenticated ? firstAllowedPath : '/login'} replace />} />
           <Route path="/dashboard" element={protectedPage(<DashboardPage />, 'DASHBOARD_VIEW')} />
           <Route path="/equipment" element={protectedPage(<EquipmentListPage />, 'EQUIPMENT_VIEW')} />
           <Route path="/equipment/new" element={protectedPage(<EquipmentFormPage />, 'EQUIPMENT_CREATE')} />
@@ -199,9 +202,11 @@ function App() {
           <Route path="/hr/sites" element={protectedPage(<SiteListPage />, 'SITE_VIEW')} />
           <Route path="/hr/sites/new" element={protectedPage(<SiteFormPage />, 'SITE_CREATE')} />
           <Route path="/hr/sites/:id/edit" element={protectedPage(<SiteFormPage />, 'SITE_UPDATE')} />
+          <Route path="/hr/sites/:id/view" element={protectedPage(<SiteFormPage />, 'SITE_VIEW')} />
           <Route path="/hr/employees" element={protectedPage(<EmployeeListPage />, 'EMPLOYEE_VIEW')} />
           <Route path="/hr/employees/new" element={protectedPage(<EmployeeFormPage />, 'EMPLOYEE_CREATE')} />
           <Route path="/hr/employees/:id/edit" element={protectedPage(<EmployeeFormPage />, 'EMPLOYEE_UPDATE')} />
+          <Route path="/hr/employees/:id/view" element={protectedPage(<EmployeeFormPage />, 'EMPLOYEE_VIEW')} />
           <Route path="/admin/roles" element={protectedPage(<RoleListPage />, 'ROLE_VIEW')} />
           <Route path="/admin/roles/new" element={protectedPage(<RoleFormPage />, 'ROLE_CREATE')} />
           <Route path="/admin/roles/:id/edit" element={protectedPage(<RoleFormPage />, 'ROLE_UPDATE')} />
@@ -211,8 +216,8 @@ function App() {
           <Route path="/admin/approval-config" element={protectedPage(<ApprovalConfigPage />, 'APPROVAL_CONFIG_VIEW')} />
           <Route path="/admin/notification-settings" element={protectedPage(<NotificationSettingsPage />, 'NOTIFICATION_CONFIG_VIEW')} />
           <Route path="/admin/company" element={protectedPage(<CompanyFormPage />, 'COMPANY_VIEW')} />
-          <Route path="/create-user" element={protectedPage(<UserManagementPage />)} />
-          <Route path="*" element={<Navigate to={isAuthenticated ? '/dashboard' : '/login'} replace />} />
+          <Route path="/create-user" element={protectedPage(<UserManagementPage />, 'USER_ROLE_ASSIGN')} />
+          <Route path="*" element={<Navigate to={isAuthenticated ? firstAllowedPath : '/login'} replace />} />
         </Routes>
       </Router>
     </ThemeProvider>

@@ -16,6 +16,8 @@ import {
   Typography,
 } from '@mui/material';
 import { Refresh, Save } from '@mui/icons-material';
+import { useAuth } from '../../../shared/context/AuthContext';
+import { PERMISSIONS } from '../../../shared/utils/permissionRoutes';
 import { getRoles } from '../../admin/services/roleService';
 import { getNotificationSettings, updateNotificationSettings } from '../services/notificationSettingsService';
 
@@ -33,7 +35,7 @@ const initialForm = {
   approvalFallbackRoleCodes: [],
 };
 
-function RoleSelect({ label, value, roles, onChange }) {
+function RoleSelect({ label, value, roles, onChange, disabled = false }) {
   return (
     <TextField
       select
@@ -41,6 +43,7 @@ function RoleSelect({ label, value, roles, onChange }) {
       label={label}
       value={value || []}
       onChange={onChange}
+      disabled={disabled}
       SelectProps={{
         multiple: true,
         renderValue: (selected) => (
@@ -61,6 +64,8 @@ function RoleSelect({ label, value, roles, onChange }) {
 }
 
 function NotificationSettingsPage() {
+  const { hasPermission } = useAuth();
+  const canUpdate = hasPermission(PERMISSIONS.NOTIFICATION_CONFIG_UPDATE);
   const [form, setForm] = React.useState(initialForm);
   const [roles, setRoles] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
@@ -116,7 +121,7 @@ function NotificationSettingsPage() {
         <Typography variant="h4" fontWeight={800}>Notification Settings</Typography>
         <Stack direction="row" spacing={1}>
           <Button variant="outlined" startIcon={<Refresh />} onClick={loadData} disabled={loading}>Refresh</Button>
-          <Button variant="contained" startIcon={<Save />} onClick={saveSettings} disabled={saving || loading}>{saving ? 'Saving...' : 'Save'}</Button>
+          {canUpdate && <Button variant="contained" startIcon={<Save />} onClick={saveSettings} disabled={saving || loading}>{saving ? 'Saving...' : 'Save'}</Button>}
         </Stack>
       </Stack>
       {error && <Alert severity="error" sx={{ mb: 2 }} onClose={() => setError('')}>{error}</Alert>}
@@ -125,12 +130,12 @@ function NotificationSettingsPage() {
         <Grid container spacing={2.5}>
           <Grid item xs={12} md={6}>
             <Stack spacing={1}>
-              <FormControlLabel control={<Switch checked={Boolean(form.enabled)} onChange={updateSwitch('enabled')} />} label="Notifications Enabled" />
-              <FormControlLabel control={<Switch checked={Boolean(form.inAppEnabled)} onChange={updateSwitch('inAppEnabled')} />} label="In-App Notifications" />
-              <FormControlLabel control={<Switch checked={Boolean(form.emailEnabled)} onChange={updateSwitch('emailEnabled')} />} label="Email Notifications" />
-              <FormControlLabel control={<Switch checked={Boolean(form.pmDueReminderEnabled)} onChange={updateSwitch('pmDueReminderEnabled')} />} label="PM Due Reminders" />
-              <FormControlLabel control={<Switch checked={Boolean(form.overdueRequestEnabled)} onChange={updateSwitch('overdueRequestEnabled')} />} label="Overdue Request Alerts" />
-              <FormControlLabel control={<Switch checked={Boolean(form.approvalPendingEnabled)} onChange={updateSwitch('approvalPendingEnabled')} />} label="Approval Pending Alerts" />
+              <FormControlLabel control={<Switch disabled={!canUpdate} checked={Boolean(form.enabled)} onChange={updateSwitch('enabled')} />} label="Notifications Enabled" />
+              <FormControlLabel control={<Switch disabled={!canUpdate} checked={Boolean(form.inAppEnabled)} onChange={updateSwitch('inAppEnabled')} />} label="In-App Notifications" />
+              <FormControlLabel control={<Switch disabled={!canUpdate} checked={Boolean(form.emailEnabled)} onChange={updateSwitch('emailEnabled')} />} label="Email Notifications" />
+              <FormControlLabel control={<Switch disabled={!canUpdate} checked={Boolean(form.pmDueReminderEnabled)} onChange={updateSwitch('pmDueReminderEnabled')} />} label="PM Due Reminders" />
+              <FormControlLabel control={<Switch disabled={!canUpdate} checked={Boolean(form.overdueRequestEnabled)} onChange={updateSwitch('overdueRequestEnabled')} />} label="Overdue Request Alerts" />
+              <FormControlLabel control={<Switch disabled={!canUpdate} checked={Boolean(form.approvalPendingEnabled)} onChange={updateSwitch('approvalPendingEnabled')} />} label="Approval Pending Alerts" />
             </Stack>
           </Grid>
           <Grid item xs={12} md={3}>
@@ -140,6 +145,7 @@ function NotificationSettingsPage() {
               label="PM Reminder Days"
               value={form.pmReminderDays}
               onChange={updateField('pmReminderDays')}
+              disabled={!canUpdate}
               inputProps={{ min: 0 }}
             />
           </Grid>
@@ -150,17 +156,18 @@ function NotificationSettingsPage() {
               label="Daily Scan Time"
               value={form.scanTime || '07:00'}
               onChange={updateField('scanTime')}
+              disabled={!canUpdate}
               InputLabelProps={{ shrink: true }}
             />
           </Grid>
           <Grid item xs={12} md={4}>
-            <RoleSelect label="PM Recipient Roles" value={form.pmRecipientRoleCodes} roles={roles} onChange={updateRoles('pmRecipientRoleCodes')} />
+            <RoleSelect label="PM Recipient Roles" value={form.pmRecipientRoleCodes} roles={roles} onChange={updateRoles('pmRecipientRoleCodes')} disabled={!canUpdate} />
           </Grid>
           <Grid item xs={12} md={4}>
-            <RoleSelect label="Overdue Recipient Roles" value={form.overdueRecipientRoleCodes} roles={roles} onChange={updateRoles('overdueRecipientRoleCodes')} />
+            <RoleSelect label="Overdue Recipient Roles" value={form.overdueRecipientRoleCodes} roles={roles} onChange={updateRoles('overdueRecipientRoleCodes')} disabled={!canUpdate} />
           </Grid>
           <Grid item xs={12} md={4}>
-            <RoleSelect label="Approval Fallback Roles" value={form.approvalFallbackRoleCodes} roles={roles} onChange={updateRoles('approvalFallbackRoleCodes')} />
+            <RoleSelect label="Approval Fallback Roles" value={form.approvalFallbackRoleCodes} roles={roles} onChange={updateRoles('approvalFallbackRoleCodes')} disabled={!canUpdate} />
           </Grid>
           <Grid item xs={12}>
             <Typography variant="body2" color="text.secondary">
