@@ -12,8 +12,6 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
@@ -42,28 +40,23 @@ class ApiPermissionServiceTest {
 
     @Test
     void unmappedApiIsDeniedWhenDenyUnmappedIsEnabled() {
-        securityProperties.setDenyUnmappedApi(true);
-        when(permissionApiMappingRepository.hasActiveMapping("/api/equipment", "GET")).thenReturn(false);
+        when(permissionApiMappingRepository.countUserPermissionsForApiPath(10L, "/api/equipment", "GET")).thenReturn(0);
 
         assertFalse(apiPermissionService.hasPermission("10", "/api/equipment", "GET"));
-
-        verify(permissionApiMappingRepository, never()).hasPermission("10", "/api/equipment", "GET");
     }
 
     @Test
     void unmappedApiIsAllowedWhenDenyUnmappedIsDisabled() {
-        securityProperties.setDenyUnmappedApi(false);
-        when(permissionApiMappingRepository.hasActiveMapping("/api/equipment", "GET")).thenReturn(false);
+        securityProperties.setApiPermissionRestrictionEnabled(false);
 
         assertTrue(apiPermissionService.hasPermission("10", "/api/equipment", "GET"));
 
-        verify(permissionApiMappingRepository, never()).hasPermission("10", "/api/equipment", "GET");
+        verifyNoInteractions(permissionApiMappingRepository);
     }
 
     @Test
     void mappedApiUsesRepositoryDecision() {
-        when(permissionApiMappingRepository.hasActiveMapping("/api/equipment", "GET")).thenReturn(true);
-        when(permissionApiMappingRepository.hasPermission("10", "/api/equipment", "GET")).thenReturn(true);
+        when(permissionApiMappingRepository.countUserPermissionsForApiPath(10L, "/api/equipment", "GET")).thenReturn(1);
 
         assertTrue(apiPermissionService.hasPermission("10", "/api/equipment", "GET"));
     }
