@@ -1,13 +1,16 @@
 import React from 'react';
-import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, MenuItem, Paper, Snackbar, Stack, TextField, Tooltip, Typography } from '@mui/material';
+import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Paper, Snackbar, Stack, TextField, Tooltip, Typography } from '@mui/material';
 import { Add, Delete, Edit, Visibility } from '@mui/icons-material';
-import { DataGrid } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
 import { deleteMaintenanceAssignment, searchMaintenanceAssignments } from '../services/assignmentService';
 import { getSites } from '../../site/services/siteService';
 import { getVendors } from '../../vendor/services/vendorService';
 import { useAuth } from '../../../shared/context/AuthContext';
 import { commonSearchFilter, createSearchPayload, equalFilter } from '../../../shared/utils/searchPayload';
+import CommonDropdown from '../../../shared/components/common/CommonDropdown';
+import CommonList from '../../../shared/components/common/CommonList';
+import CommonStatusDropdown from '../../../shared/components/common/CommonStatusDropdown';
+import { ASSIGNMENT_STATUS_OPTIONS, MAINTENANCE_REQUEST_STATUS_OPTIONS } from '../../../shared/constants/statusOptions';
 
 function MaintenanceAssignmentListPage() {
   const navigate = useNavigate();
@@ -111,49 +114,61 @@ function MaintenanceAssignmentListPage() {
       {error && <Alert severity="error" sx={{ mb: 2 }} onClose={() => setError('')}>{error}</Alert>}
       <Paper sx={{ p: 2, mb: 2, borderRadius: 1 }}>
         <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
-          <TextField select label="Site" value={filters.siteId} onChange={updateFilter('siteId')} sx={{ minWidth: 220 }}>
-            <MenuItem value="">All Sites</MenuItem>
-            {sites.map((site) => <MenuItem key={site.id} value={site.id}>{site.siteName} ({site.siteCode})</MenuItem>)}
-          </TextField>
-          <TextField select label="Request Status" value={filters.requestStatus} onChange={updateFilter('requestStatus')} sx={{ minWidth: 180 }}>
-            <MenuItem value="">All Requests</MenuItem>
-            <MenuItem value="OPEN">Open</MenuItem>
-            <MenuItem value="ASSIGNED">Assigned</MenuItem>
-            <MenuItem value="IN_PROGRESS">In Progress</MenuItem>
-            <MenuItem value="ON_HOLD">On Hold</MenuItem>
-            <MenuItem value="CLOSED">Closed</MenuItem>
-            <MenuItem value="CANCELLED">Cancelled</MenuItem>
-          </TextField>
-          <TextField select label="Vendor" value={filters.vendorId} onChange={updateFilter('vendorId')} sx={{ minWidth: 220 }}>
-            <MenuItem value="">All Vendors</MenuItem>
-            {vendors.map((vendor) => <MenuItem key={vendor.id} value={vendor.id}>{vendor.vendorName}</MenuItem>)}
-          </TextField>
-          <TextField select label="Assignment Status" value={filters.status} onChange={updateFilter('status')} sx={{ minWidth: 180 }}>
-            <MenuItem value="">All Status</MenuItem>
-            <MenuItem value="ASSIGNED">Assigned</MenuItem>
-            <MenuItem value="IN_PROGRESS">In Progress</MenuItem>
-            <MenuItem value="COMPLETED">Completed</MenuItem>
-            <MenuItem value="CANCELLED">Cancelled</MenuItem>
-          </TextField>
+          <CommonDropdown
+            label="Site"
+            value={filters.siteId}
+            onChange={updateFilter('siteId')}
+            options={sites}
+            placeholder="All Sites"
+            clearable
+            getOptionLabel={(site) => `${site.siteName} (${site.siteCode})`}
+            getOptionValue={(site) => site.id}
+            sx={{ minWidth: 220 }}
+          />
+          <CommonStatusDropdown
+            label="Request Status"
+            value={filters.requestStatus}
+            onChange={updateFilter('requestStatus')}
+            options={MAINTENANCE_REQUEST_STATUS_OPTIONS}
+            placeholder="All Requests"
+            sx={{ minWidth: 180 }}
+          />
+          <CommonDropdown
+            label="Vendor"
+            value={filters.vendorId}
+            onChange={updateFilter('vendorId')}
+            options={vendors}
+            placeholder="All Vendors"
+            clearable
+            getOptionLabel={(vendor) => vendor.vendorName}
+            getOptionValue={(vendor) => vendor.id}
+            sx={{ minWidth: 220 }}
+          />
+          <CommonStatusDropdown
+            label="Assignment Status"
+            value={filters.status}
+            onChange={updateFilter('status')}
+            options={ASSIGNMENT_STATUS_OPTIONS}
+            placeholder="All Status"
+            sx={{ minWidth: 180 }}
+          />
           <TextField label="Search" value={filters.search} onChange={updateFilter('search')} fullWidth />
         </Stack>
       </Paper>
-      <Paper sx={{ height: 560, borderRadius: 1 }}>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          loading={loading}
-          disableRowSelectionOnClick
-          pageSizeOptions={[10, 25, 50]}
-          paginationMode="server"
-          sortingMode="server"
-          rowCount={rowCount}
-          paginationModel={paginationModel}
-          onPaginationModelChange={(model) => setPaginationModel((current) => (model.pageSize !== current.pageSize ? { ...model, page: 0 } : model))}
-          sortModel={sortModel}
-          onSortModelChange={(model) => { setSortModel(model); resetPage(); }}
-        />
-      </Paper>
+      <CommonList
+        rows={rows}
+        columns={columns}
+        loading={loading}
+        dataGridProps={{
+          paginationMode: 'server',
+          sortingMode: 'server',
+          rowCount,
+          paginationModel,
+          onPaginationModelChange: (model) => setPaginationModel((current) => (model.pageSize !== current.pageSize ? { ...model, page: 0 } : model)),
+          sortModel,
+          onSortModelChange: (model) => { setSortModel(model); resetPage(); },
+        }}
+      />
       <Dialog open={Boolean(deleteRow)} onClose={() => setDeleteRow(null)}>
         <DialogTitle>Delete assignment?</DialogTitle>
         <DialogContent><DialogContentText>This will delete assignment for {deleteRow?.requestNumber || deleteRow?.requestTitle}.</DialogContentText></DialogContent>

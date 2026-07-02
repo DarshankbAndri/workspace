@@ -1,11 +1,12 @@
 import React from 'react';
-import { Alert, Box, Button, Chip, IconButton, MenuItem, Paper, Stack, TextField, Tooltip, Typography } from '@mui/material';
+import { Alert, Box, Button, Chip, IconButton, Paper, Stack, TextField, Tooltip, Typography } from '@mui/material';
 import { Add, Delete, Edit, Visibility } from '@mui/icons-material';
-import { DataGrid } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
 import { deleteRole, searchRoles } from '../services/roleService';
 import { useAuth } from '../../../shared/context/AuthContext';
 import { commonSearchFilter, createSearchPayload, equalFilter } from '../../../shared/utils/searchPayload';
+import CommonList from '../../../shared/components/common/CommonList';
+import CommonStatusDropdown from '../../../shared/components/common/CommonStatusDropdown';
 
 function RoleListPage() {
   const navigate = useNavigate();
@@ -92,29 +93,23 @@ function RoleListPage() {
       <Paper sx={{ p: 2, borderRadius: 1, mb: 2 }}>
         <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
           <TextField label="Search" value={search} onChange={(event) => { setSearch(event.target.value); resetPage(); }} fullWidth />
-          <TextField select label="Status" value={status} onChange={(event) => { setStatus(event.target.value); resetPage(); }} sx={{ minWidth: 180 }}>
-            <MenuItem value="">All</MenuItem>
-            <MenuItem value="ACTIVE">ACTIVE</MenuItem>
-            <MenuItem value="INACTIVE">INACTIVE</MenuItem>
-          </TextField>
+          <CommonStatusDropdown value={status} onChange={(event) => { setStatus(event.target.value); resetPage(); }} sx={{ minWidth: 180 }} />
         </Stack>
       </Paper>
-      <Paper sx={{ height: 560, borderRadius: 1 }}>
-        <DataGrid
-          rows={roles}
-          columns={columns}
-          loading={loading}
-          disableRowSelectionOnClick
-          pageSizeOptions={[10, 25, 50]}
-          paginationMode="server"
-          sortingMode="server"
-          rowCount={rowCount}
-          paginationModel={paginationModel}
-          onPaginationModelChange={(model) => setPaginationModel((current) => (model.pageSize !== current.pageSize ? { ...model, page: 0 } : model))}
-          sortModel={sortModel}
-          onSortModelChange={(model) => { setSortModel(model); resetPage(); }}
-        />
-      </Paper>
+      <CommonList
+        rows={roles}
+        columns={columns}
+        loading={loading}
+        dataGridProps={{
+          paginationMode: 'server',
+          sortingMode: 'server',
+          rowCount,
+          paginationModel,
+          onPaginationModelChange: (model) => setPaginationModel((current) => (model.pageSize !== current.pageSize ? { ...model, page: 0 } : model)),
+          sortModel,
+          onSortModelChange: (model) => { setSortModel(model); resetPage(); },
+        }}
+      />
     </Box>
   );
 }

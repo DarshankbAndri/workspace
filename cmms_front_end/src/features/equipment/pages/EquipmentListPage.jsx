@@ -1,12 +1,13 @@
 import React from 'react';
-import { Box, Button, IconButton, MenuItem, Paper, Stack, TextField, Typography, Alert } from '@mui/material';
+import { Box, Button, IconButton, Paper, Stack, TextField, Typography, Alert } from '@mui/material';
 import { Add, Delete, Edit } from '@mui/icons-material';
-import { DataGrid } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
 import { deleteEquipment, searchEquipments } from '../services/equipmentService';
 import { getSites } from '../../site/services/siteService';
 import { useAuth } from '../../../shared/context/AuthContext';
 import { PERMISSIONS } from '../../../shared/utils/permissionRoutes';
+import CommonDropdown from '../../../shared/components/common/CommonDropdown';
+import CommonList from '../../../shared/components/common/CommonList';
 
 function EquipmentListPage() {
   const navigate = useNavigate();
@@ -129,31 +130,36 @@ function EquipmentListPage() {
       <Paper sx={{ p: 2, mb: 2, borderRadius: 1 }}>
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
           <TextField label="Equipment" value={equipmentNameFilter} onChange={updateEquipmentNameFilter} sx={{ minWidth: { xs: '100%', sm: 280 } }} />
-          <TextField select label="Site" value={siteFilter} onChange={updateSiteFilter} sx={{ minWidth: { xs: '100%', sm: 280 } }}>
-            <MenuItem value="">All Sites</MenuItem>
-            {sites.map((site) => <MenuItem key={site.id} value={site.id}>{site.siteName} ({site.siteCode})</MenuItem>)}
-          </TextField>
+          <CommonDropdown
+            label="Site"
+            value={siteFilter}
+            onChange={updateSiteFilter}
+            options={sites}
+            placeholder="All Sites"
+            clearable
+            getOptionLabel={(site) => `${site.siteName} (${site.siteCode})`}
+            getOptionValue={(site) => site.id}
+            sx={{ minWidth: { xs: '100%', sm: 280 } }}
+          />
         </Stack>
       </Paper>
-      <Paper sx={{ height: 560, borderRadius: 1 }}>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          loading={loading}
-          disableRowSelectionOnClick
-          pageSizeOptions={[10, 25, 50]}
-          paginationMode="server"
-          sortingMode="server"
-          rowCount={rowCount}
-          paginationModel={paginationModel}
-          onPaginationModelChange={updatePaginationModel}
-          sortModel={sortModel}
-          onSortModelChange={(model) => {
+      <CommonList
+        rows={rows}
+        columns={columns}
+        loading={loading}
+        dataGridProps={{
+          paginationMode: 'server',
+          sortingMode: 'server',
+          rowCount,
+          paginationModel,
+          onPaginationModelChange: updatePaginationModel,
+          sortModel,
+          onSortModelChange: (model) => {
             setSortModel(model);
             setPaginationModel((current) => ({ ...current, page: 0 }));
-          }}
-        />
-      </Paper>
+          },
+        }}
+      />
     </Box>
   );
 }

@@ -1,11 +1,13 @@
 import React from 'react';
-import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, Paper, Snackbar, Stack, TextField, Typography } from '@mui/material';
+import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Paper, Snackbar, Stack, TextField, Typography } from '@mui/material';
 import { CheckCircle, Cancel, Visibility } from '@mui/icons-material';
-import { DataGrid } from '@mui/x-data-grid';
 import { getPendingApprovals, approveApproval, rejectApproval } from '../services/approvalService';
 import { getSites } from '../../site/services/siteService';
 import { useAuth } from '../../../shared/context/AuthContext';
 import { PERMISSIONS } from '../../../shared/utils/permissionRoutes';
+import CommonDropdown from '../../../shared/components/common/CommonDropdown';
+import CommonList from '../../../shared/components/common/CommonList';
+import { APPROVAL_ACTION_OPTIONS, APPROVAL_MODULE_OPTIONS } from '../../../shared/constants/statusOptions';
 
 function ApprovalInboxPage() {
   const { hasPermission } = useAuth();
@@ -91,33 +93,29 @@ function ApprovalInboxPage() {
       {error && <Alert severity="error" sx={{ mb: 2 }} onClose={() => setError('')}>{error}</Alert>}
       <Paper sx={{ p: 2, mb: 2, borderRadius: 1 }}>
         <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
-          <TextField select label="Module" value={filters.moduleCode} onChange={updateFilter('moduleCode')} sx={{ minWidth: 210 }}>
-            <MenuItem value="">All Modules</MenuItem>
-            <MenuItem value="PM_SCHEDULE">PM Schedule</MenuItem>
-            <MenuItem value="PM_WORK_ORDER">PM Work Order</MenuItem>
-            <MenuItem value="MAINTENANCE_REQUEST">Maintenance Request</MenuItem>
-            <MenuItem value="SPARE_ISSUE">Spare Issue</MenuItem>
-          </TextField>
-          <TextField select label="Action" value={filters.actionCode} onChange={updateFilter('actionCode')} sx={{ minWidth: 160 }}>
-            <MenuItem value="">All Actions</MenuItem>
-            <MenuItem value="CREATE">Create</MenuItem>
-            <MenuItem value="UPDATE">Update</MenuItem>
-            <MenuItem value="GENERATE">Generate</MenuItem>
-            <MenuItem value="CLOSE">Close</MenuItem>
-            <MenuItem value="RESERVE">Reserve</MenuItem>
-            <MenuItem value="ISSUE">Issue</MenuItem>
-          </TextField>
-          <TextField select label="Site" value={filters.siteId} onChange={updateFilter('siteId')} sx={{ minWidth: 220 }}>
-            <MenuItem value="">All Sites</MenuItem>
-            {sites.map((site) => <MenuItem key={site.id} value={site.id}>{site.siteName} ({site.siteCode})</MenuItem>)}
-          </TextField>
+          <CommonDropdown label="Module" value={filters.moduleCode} onChange={updateFilter('moduleCode')} options={APPROVAL_MODULE_OPTIONS} placeholder="All Modules" clearable sx={{ minWidth: 210 }} />
+          <CommonDropdown label="Action" value={filters.actionCode} onChange={updateFilter('actionCode')} options={APPROVAL_ACTION_OPTIONS} placeholder="All Actions" clearable sx={{ minWidth: 160 }} />
+          <CommonDropdown
+            label="Site"
+            value={filters.siteId}
+            onChange={updateFilter('siteId')}
+            options={sites}
+            placeholder="All Sites"
+            clearable
+            getOptionLabel={(site) => `${site.siteName} (${site.siteCode})`}
+            getOptionValue={(site) => site.id}
+            sx={{ minWidth: 220 }}
+          />
           <TextField type="date" label="Requested From" value={filters.requestedFrom} onChange={updateFilter('requestedFrom')} InputLabelProps={{ shrink: true }} sx={{ minWidth: 170 }} />
           <TextField type="date" label="Requested To" value={filters.requestedTo} onChange={updateFilter('requestedTo')} InputLabelProps={{ shrink: true }} sx={{ minWidth: 170 }} />
         </Stack>
       </Paper>
-      <Paper sx={{ height: 560, borderRadius: 1 }}>
-        <DataGrid rows={visibleRows} columns={columns} loading={loading} disableRowSelectionOnClick pageSizeOptions={[10, 25, 50]} initialState={{ pagination: { paginationModel: { pageSize: 10 } } }} />
-      </Paper>
+      <CommonList
+        rows={visibleRows}
+        columns={columns}
+        loading={loading}
+        dataGridProps={{ initialState: { pagination: { paginationModel: { pageSize: 10 } } } }}
+      />
       <Dialog open={Boolean(decision)} onClose={() => setDecision(null)} maxWidth="sm" fullWidth>
         <DialogTitle>{decision?.type === 'VIEW' ? 'Approval Details' : `${decision?.type === 'APPROVE' ? 'Approve' : 'Reject'} Approval`}</DialogTitle>
         <DialogContent>

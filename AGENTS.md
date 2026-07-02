@@ -143,6 +143,15 @@ Rules:
 9. Update all imports and route imports after moving or adding files.
 10. Run backend compile and frontend build after structural changes.
 
+Shared frontend component rules:
+
+1. Do not create repeated dropdown logic inside pages.
+2. Use `CommonDropdown` or `CommonStatusDropdown` for dropdown/select fields.
+3. Use `CommonList` for list pages where practical.
+4. Keep dropdown API loading inside `useDropdownOptions` where possible.
+5. Shared option arrays must go inside `src/shared/constants`.
+6. New pages must follow the common component pattern.
+
 Current frontend feature folders include `admin`, `approval`, `assignment`, `auth`, `company`, `dashboard`, `downtime`, `employee`, `equipment`, `maintenance`, `maintenanceRequest`, `notification`, `preventiveMaintenance`, `report`, `site`, `spareParts`, `user`, and `vendor`.
 
 ## Lombok Rules

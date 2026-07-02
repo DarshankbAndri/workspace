@@ -1,9 +1,10 @@
 import React from 'react';
-import { Alert, Box, Button, Chip, IconButton, MenuItem, Paper, Snackbar, Stack, TextField, Typography } from '@mui/material';
+import { Alert, Box, Button, Chip, IconButton, Paper, Snackbar, Stack, TextField, Typography } from '@mui/material';
 import { Add, Delete, Edit, Visibility } from '@mui/icons-material';
-import { DataGrid } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
 import ConfirmDialog from '../../../shared/components/common/ConfirmDialog';
+import CommonList from '../../../shared/components/common/CommonList';
+import CommonStatusDropdown from '../../../shared/components/common/CommonStatusDropdown';
 import { deleteSite, searchSites } from '../services/siteService';
 import { commonSearchFilter, createSearchPayload, equalFilter } from '../../../shared/utils/searchPayload';
 import { useAuth } from '../../../shared/context/AuthContext';
@@ -100,29 +101,23 @@ function SiteListPage() {
       <Paper sx={{ p: 2, mb: 2, borderRadius: 1 }}>
         <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
           <TextField fullWidth label="Search" value={search} onChange={(event) => { setSearch(event.target.value); resetPage(); }} placeholder="Site name, code, or city" />
-          <TextField select label="Status" value={status} onChange={(event) => { setStatus(event.target.value); resetPage(); }} sx={{ minWidth: 180 }}>
-            <MenuItem value="">All</MenuItem>
-            <MenuItem value="ACTIVE">ACTIVE</MenuItem>
-            <MenuItem value="INACTIVE">INACTIVE</MenuItem>
-          </TextField>
+          <CommonStatusDropdown value={status} onChange={(event) => { setStatus(event.target.value); resetPage(); }} sx={{ minWidth: 180 }} />
         </Stack>
       </Paper>
-      <Paper sx={{ height: 560, borderRadius: 1 }}>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          loading={loading}
-          disableRowSelectionOnClick
-          pageSizeOptions={[10, 25, 50]}
-          paginationMode="server"
-          sortingMode="server"
-          rowCount={rowCount}
-          paginationModel={paginationModel}
-          onPaginationModelChange={(model) => setPaginationModel((current) => (model.pageSize !== current.pageSize ? { ...model, page: 0 } : model))}
-          sortModel={sortModel}
-          onSortModelChange={(model) => { setSortModel(model); resetPage(); }}
-        />
-      </Paper>
+      <CommonList
+        rows={rows}
+        columns={columns}
+        loading={loading}
+        dataGridProps={{
+          paginationMode: 'server',
+          sortingMode: 'server',
+          rowCount,
+          paginationModel,
+          onPaginationModelChange: (model) => setPaginationModel((current) => (model.pageSize !== current.pageSize ? { ...model, page: 0 } : model)),
+          sortModel,
+          onSortModelChange: (model) => { setSortModel(model); resetPage(); },
+        }}
+      />
       <ConfirmDialog open={Boolean(deleteId)} handleClose={() => setDeleteId(null)} title="Mark site inactive?" message="This site will be marked inactive." handleAgree={handleDelete} closebtn="Cancel" agreebtn="Mark inactive" />
       <Snackbar open={Boolean(snackbar)} autoHideDuration={3000} message={snackbar} onClose={() => setSnackbar('')} />
     </Box>

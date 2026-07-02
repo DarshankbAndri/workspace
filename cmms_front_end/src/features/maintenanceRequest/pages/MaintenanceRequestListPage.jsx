@@ -1,12 +1,15 @@
 import React from 'react';
-import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, MenuItem, Paper, Snackbar, Stack, TextField, Tooltip, Typography } from '@mui/material';
+import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Paper, Snackbar, Stack, TextField, Tooltip, Typography } from '@mui/material';
 import { Add, Delete, Edit, Visibility } from '@mui/icons-material';
-import { DataGrid } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
 import { deleteMaintenanceRequest, searchMaintenanceRequests } from '../services/maintenanceRequestService';
 import { getSites } from '../../site/services/siteService';
 import { useAuth } from '../../../shared/context/AuthContext';
 import { commonSearchFilter, createSearchPayload, equalFilter } from '../../../shared/utils/searchPayload';
+import CommonDropdown from '../../../shared/components/common/CommonDropdown';
+import CommonList from '../../../shared/components/common/CommonList';
+import CommonStatusDropdown from '../../../shared/components/common/CommonStatusDropdown';
+import { MAINTENANCE_REQUEST_STATUS_OPTIONS, PRIORITY_OPTIONS } from '../../../shared/constants/statusOptions';
 
 function MaintenanceRequestListPage() {
   const navigate = useNavigate();
@@ -103,45 +106,50 @@ function MaintenanceRequestListPage() {
       {error && <Alert severity="error" sx={{ mb: 2 }} onClose={() => setError('')}>{error}</Alert>}
       <Paper sx={{ p: 2, mb: 2, borderRadius: 1 }}>
         <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
-          <TextField select label="Site" value={filters.siteId} onChange={updateFilter('siteId')} sx={{ minWidth: 220 }}>
-            <MenuItem value="">All Sites</MenuItem>
-            {sites.map((site) => <MenuItem key={site.id} value={site.id}>{site.siteName} ({site.siteCode})</MenuItem>)}
-          </TextField>
-          <TextField select label="Status" value={filters.status} onChange={updateFilter('status')} sx={{ minWidth: 180 }}>
-            <MenuItem value="">All Status</MenuItem>
-            <MenuItem value="OPEN">Open</MenuItem>
-            <MenuItem value="ASSIGNED">Assigned</MenuItem>
-            <MenuItem value="IN_PROGRESS">In Progress</MenuItem>
-            <MenuItem value="ON_HOLD">On Hold</MenuItem>
-            <MenuItem value="CLOSED">Closed</MenuItem>
-            <MenuItem value="CANCELLED">Cancelled</MenuItem>
-          </TextField>
-          <TextField select label="Priority" value={filters.priority} onChange={updateFilter('priority')} sx={{ minWidth: 180 }}>
-            <MenuItem value="">All Priority</MenuItem>
-            <MenuItem value="LOW">Low</MenuItem>
-            <MenuItem value="MEDIUM">Medium</MenuItem>
-            <MenuItem value="HIGH">High</MenuItem>
-            <MenuItem value="URGENT">Urgent</MenuItem>
-          </TextField>
+          <CommonDropdown
+            label="Site"
+            value={filters.siteId}
+            onChange={updateFilter('siteId')}
+            options={sites}
+            placeholder="All Sites"
+            clearable
+            getOptionLabel={(site) => `${site.siteName} (${site.siteCode})`}
+            getOptionValue={(site) => site.id}
+            sx={{ minWidth: 220 }}
+          />
+          <CommonStatusDropdown
+            value={filters.status}
+            onChange={updateFilter('status')}
+            options={MAINTENANCE_REQUEST_STATUS_OPTIONS}
+            placeholder="All Status"
+            sx={{ minWidth: 180 }}
+          />
+          <CommonDropdown
+            label="Priority"
+            value={filters.priority}
+            onChange={updateFilter('priority')}
+            options={PRIORITY_OPTIONS}
+            placeholder="All Priority"
+            clearable
+            sx={{ minWidth: 180 }}
+          />
           <TextField label="Search" value={filters.search} onChange={updateFilter('search')} fullWidth />
         </Stack>
       </Paper>
-      <Paper sx={{ height: 560, borderRadius: 1 }}>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          loading={loading}
-          disableRowSelectionOnClick
-          pageSizeOptions={[10, 25, 50]}
-          paginationMode="server"
-          sortingMode="server"
-          rowCount={rowCount}
-          paginationModel={paginationModel}
-          onPaginationModelChange={(model) => setPaginationModel((current) => (model.pageSize !== current.pageSize ? { ...model, page: 0 } : model))}
-          sortModel={sortModel}
-          onSortModelChange={(model) => { setSortModel(model); resetPage(); }}
-        />
-      </Paper>
+      <CommonList
+        rows={rows}
+        columns={columns}
+        loading={loading}
+        dataGridProps={{
+          paginationMode: 'server',
+          sortingMode: 'server',
+          rowCount,
+          paginationModel,
+          onPaginationModelChange: (model) => setPaginationModel((current) => (model.pageSize !== current.pageSize ? { ...model, page: 0 } : model)),
+          sortModel,
+          onSortModelChange: (model) => { setSortModel(model); resetPage(); },
+        }}
+      />
       <Dialog open={Boolean(deleteRow)} onClose={() => setDeleteRow(null)}>
         <DialogTitle>Delete maintenance request?</DialogTitle>
         <DialogContent><DialogContentText>This will delete {deleteRow?.requestNumber || deleteRow?.title}.</DialogContentText></DialogContent>

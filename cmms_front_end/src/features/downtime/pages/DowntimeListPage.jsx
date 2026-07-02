@@ -1,13 +1,14 @@
 import React from 'react';
-import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, MenuItem, Paper, Snackbar, Stack, TextField, Tooltip, Typography } from '@mui/material';
+import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Paper, Snackbar, Stack, TextField, Tooltip, Typography } from '@mui/material';
 import { Add, Delete, Edit, Visibility } from '@mui/icons-material';
-import { DataGrid } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
 import { deleteDowntimeEntry, getMaintenanceRequests, searchDowntimeEntries } from '../../maintenance/services/maintenanceService';
 import { getEquipments } from '../../equipment/services/equipmentService';
 import { getSites } from '../../site/services/siteService';
 import { useAuth } from '../../../shared/context/AuthContext';
 import { commonSearchFilter, createSearchPayload, equalFilter, rangeFilter } from '../../../shared/utils/searchPayload';
+import CommonDropdown from '../../../shared/components/common/CommonDropdown';
+import CommonList from '../../../shared/components/common/CommonList';
 
 const formatDuration = (value) => value ?? '-';
 
@@ -127,42 +128,61 @@ function DowntimeListPage() {
       {error && <Alert severity="error" sx={{ mb: 2 }} onClose={() => setError('')}>{error}</Alert>}
       <Paper sx={{ p: 2, mb: 2, borderRadius: 1 }}>
         <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
-          <TextField select label="Site" value={filters.siteId} onChange={updateFilter('siteId')} sx={{ minWidth: 220 }}>
-            <MenuItem value="">All Sites</MenuItem>
-            {sites.map((site) => <MenuItem key={site.id} value={site.id}>{site.siteName} ({site.siteCode})</MenuItem>)}
-          </TextField>
-          <TextField select label="Equipment" value={filters.equipmentId} onChange={updateFilter('equipmentId')} sx={{ minWidth: 220 }}>
-            <MenuItem value="">All Equipment</MenuItem>
-            {filteredEquipments.map((item) => <MenuItem key={item.id} value={item.id}>{item.equipmentCode} - {item.equipmentName}</MenuItem>)}
-          </TextField>
-          <TextField select label="Request" value={filters.requestId} onChange={updateFilter('requestId')} sx={{ minWidth: 220 }}>
-            <MenuItem value="">All Requests</MenuItem>
-            {filteredRequests.map((item) => <MenuItem key={item.id} value={item.id}>{item.requestNumber} - {item.title}</MenuItem>)}
-          </TextField>
+          <CommonDropdown
+            label="Site"
+            value={filters.siteId}
+            onChange={updateFilter('siteId')}
+            options={sites}
+            placeholder="All Sites"
+            clearable
+            getOptionLabel={(site) => `${site.siteName} (${site.siteCode})`}
+            getOptionValue={(site) => site.id}
+            sx={{ minWidth: 220 }}
+          />
+          <CommonDropdown
+            label="Equipment"
+            value={filters.equipmentId}
+            onChange={updateFilter('equipmentId')}
+            options={filteredEquipments}
+            placeholder="All Equipment"
+            clearable
+            getOptionLabel={(item) => `${item.equipmentCode} - ${item.equipmentName}`}
+            getOptionValue={(item) => item.id}
+            sx={{ minWidth: 220 }}
+          />
+          <CommonDropdown
+            label="Request"
+            value={filters.requestId}
+            onChange={updateFilter('requestId')}
+            options={filteredRequests}
+            placeholder="All Requests"
+            clearable
+            getOptionLabel={(item) => `${item.requestNumber} - ${item.title}`}
+            getOptionValue={(item) => item.id}
+            sx={{ minWidth: 220 }}
+          />
           <TextField type="date" label="Date From" value={filters.dateFrom} onChange={updateFilter('dateFrom')} InputLabelProps={{ shrink: true }} sx={{ minWidth: 170 }} />
           <TextField type="date" label="Date To" value={filters.dateTo} onChange={updateFilter('dateTo')} InputLabelProps={{ shrink: true }} sx={{ minWidth: 170 }} />
           <TextField label="Search" value={filters.search} onChange={updateFilter('search')} fullWidth />
         </Stack>
       </Paper>
-      <Paper sx={{ height: 560, borderRadius: 1 }}>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          loading={loading}
-          disableRowSelectionOnClick
-          pageSizeOptions={[10, 25, 50]}
-          paginationMode="server"
-          sortingMode="server"
-          rowCount={rowCount}
-          paginationModel={paginationModel}
-          onPaginationModelChange={(model) => setPaginationModel((current) => (model.pageSize !== current.pageSize ? { ...model, page: 0 } : model))}
-          sortModel={sortModel}
-          onSortModelChange={(model) => {
+      <CommonList
+        rows={rows}
+        columns={columns}
+        loading={loading}
+        dataGridProps={{
+          paginationMode: 'server',
+          sortingMode: 'server',
+          rowCount,
+          paginationModel,
+          onPaginationModelChange: (model) => setPaginationModel((current) => (model.pageSize !== current.pageSize ? { ...model, page: 0 } : model)),
+          sortModel,
+          onSortModelChange: (model) => {
             setSortModel(model);
             setPaginationModel((current) => ({ ...current, page: 0 }));
-          }}
-        />
-      </Paper>
+          },
+        }}
+      />
       <Dialog open={Boolean(deleteRow)} onClose={() => setDeleteRow(null)}>
         <DialogTitle>Delete downtime entry?</DialogTitle>
         <DialogContent><DialogContentText>This will delete downtime for {deleteRow?.equipmentName || 'this equipment'}.</DialogContentText></DialogContent>
