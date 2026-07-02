@@ -80,6 +80,11 @@ const initialWorkLogForm = {
 const checklistStatusOptions = ['PENDING', 'COMPLETED', 'NOT_APPLICABLE'];
 const checklistResponseTypes = ['CHECKBOX', 'TEXT', 'NUMBER', 'PHOTO'];
 const workLogStatusOptions = ['IN_PROGRESS', 'COMPLETED', 'FOLLOW_UP_REQUIRED', 'CANCELLED'];
+const workflowTabByQuery = {
+  checklist: 0,
+  workLogs: 1,
+  spares: 2,
+};
 const statusColors = {
   REQUESTED: 'default',
   MANAGER_APPROVED: 'info',
@@ -120,6 +125,10 @@ function MaintenanceAssignmentFormPage() {
   const { hasPermission } = useAuth();
   const isEdit = Boolean(id) && !location.pathname.endsWith('/view');
   const isView = location.pathname.endsWith('/view');
+  const workflowTabFromQuery = React.useMemo(() => {
+    const targetTab = new URLSearchParams(location.search).get('tab');
+    return workflowTabByQuery[targetTab] ?? 0;
+  }, [location.search]);
   const [form, setForm] = React.useState(initialForm);
   const [sites, setSites] = React.useState([]);
   const [requests, setRequests] = React.useState([]);
@@ -137,11 +146,15 @@ function MaintenanceAssignmentFormPage() {
   const [error, setError] = React.useState('');
   const [saving, setSaving] = React.useState(false);
   const [confirmDialog, setConfirmDialog] = React.useState({ open: false, title: '', message: '', resolve: null });
-  const [workflowTab, setWorkflowTab] = React.useState(0);
+  const [workflowTab, setWorkflowTab] = React.useState(workflowTabFromQuery);
 
   React.useEffect(() => {
     getSites().then((data) => setSites((data || []).filter((site) => site.status !== 'INACTIVE'))).catch(() => setError('Unable to load sites.'));
   }, []);
+
+  React.useEffect(() => {
+    setWorkflowTab(workflowTabFromQuery);
+  }, [workflowTabFromQuery]);
 
   React.useEffect(() => {
     if (id) {
