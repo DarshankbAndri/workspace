@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, Paper, Stack, Tooltip, Typography } from '@mui/material';
+import { Alert, Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, LinearProgress, Paper, Stack, Tab, Tabs, Tooltip, Typography } from '@mui/material';
 import { AddTask, Cancel, CheckCircle, Delete, Download, Edit, Inventory, Save, Undo, UploadFile } from '@mui/icons-material';
 import { DataGrid } from '@mui/x-data-grid';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -137,6 +137,7 @@ function MaintenanceAssignmentFormPage() {
   const [error, setError] = React.useState('');
   const [saving, setSaving] = React.useState(false);
   const [confirmDialog, setConfirmDialog] = React.useState({ open: false, title: '', message: '', resolve: null });
+  const [workflowTab, setWorkflowTab] = React.useState(0);
 
   React.useEffect(() => {
     getSites().then((data) => setSites((data || []).filter((site) => site.status !== 'INACTIVE'))).catch(() => setError('Unable to load sites.'));
@@ -251,6 +252,7 @@ function MaintenanceAssignmentFormPage() {
   const serviceCost = Number(form.actualCost || 0);
   const totalActualCost = serviceCost + materialCost;
   const completedChecklistCount = checklistRows.filter((row) => ['COMPLETED', 'NOT_APPLICABLE'].includes(row.status)).length;
+  const checklistProgress = checklistRows.length ? Math.round((completedChecklistCount / checklistRows.length) * 100) : 0;
   const canCompleteChecklist = checklistRows.every((row) => {
     if (row.required === false) return true;
     const statusDone = ['COMPLETED', 'NOT_APPLICABLE'].includes(row.status);
@@ -258,6 +260,7 @@ function MaintenanceAssignmentFormPage() {
     return statusDone && proofDone;
   });
   const completedWorkLogCount = workLogRows.filter((row) => row.completionStatus === 'COMPLETED').length;
+  const workLogProgress = workLogRows.length ? Math.round((completedWorkLogCount / workLogRows.length) * 100) : 0;
   const canCompleteWorkLogs = completedWorkLogCount > 0 && workLogRows.every((row) => !['IN_PROGRESS', 'FOLLOW_UP_REQUIRED'].includes(row.completionStatus));
 
   const handleAddChecklistItem = async () => {
@@ -737,13 +740,24 @@ function MaintenanceAssignmentFormPage() {
         </Paper>
       </Box>
       {id && (
+        <Paper sx={{ borderRadius: 1, mt: 2 }}>
+          <Tabs value={workflowTab} onChange={(event, nextTab) => setWorkflowTab(nextTab)} variant="scrollable" scrollButtons="auto">
+            <Tab label={`Checklist (${completedChecklistCount}/${checklistRows.length})`} />
+            <Tab label={`Work Logs (${completedWorkLogCount}/${workLogRows.length})`} />
+            <Tab label={`Spare Parts (${spareRows.length})`} />
+          </Tabs>
+        </Paper>
+      )}
+      {id && workflowTab === 0 && (
         <Paper sx={{ p: 3, borderRadius: 1, mt: 2 }}>
           <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" alignItems={{ xs: 'stretch', sm: 'center' }} spacing={1.5} sx={{ mb: 2 }}>
             <Stack direction="row" spacing={1} alignItems="center">
               <Typography variant="h6" fontWeight={800}>Checklist</Typography>
               <Chip size="small" label={`${completedChecklistCount}/${checklistRows.length}`} color={canCompleteChecklist ? 'success' : 'warning'} />
+              <Chip size="small" label={`${checklistProgress}%`} color={checklistProgress === 100 && checklistRows.length ? 'success' : 'warning'} variant="outlined" />
             </Stack>
           </Stack>
+          <LinearProgress variant="determinate" value={checklistProgress} sx={{ mb: 2 }} />
           {!isView && hasPermission('ASSIGNMENT_CHECKLIST_UPDATE') && (
             <Grid container spacing={1.5} sx={{ mb: 2 }}>
               <Grid item xs={12} md={3}><CommonInput label="Task" value={checklistForm.taskTitle} onChange={updateChecklistForm('taskTitle')} /></Grid>
@@ -826,15 +840,17 @@ function MaintenanceAssignmentFormPage() {
           </Stack>
         </Paper>
       )}
-      {id && (
+      {id && workflowTab === 1 && (
         <Paper sx={{ p: 3, borderRadius: 1, mt: 2 }}>
           <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" alignItems={{ xs: 'stretch', sm: 'center' }} spacing={1.5} sx={{ mb: 2 }}>
             <Stack direction="row" spacing={1} alignItems="center">
               <Typography variant="h6" fontWeight={800}>Technician Work Logs</Typography>
               <Chip size="small" label={`${completedWorkLogCount}/${workLogRows.length}`} color={canCompleteWorkLogs ? 'success' : 'warning'} />
+              <Chip size="small" label={`${workLogProgress}% completed`} color={workLogProgress === 100 && workLogRows.length ? 'success' : 'warning'} variant="outlined" />
             </Stack>
             {!isView && editingWorkLogId && <Button variant="outlined" size="small" onClick={resetWorkLogForm}>New Log</Button>}
           </Stack>
+          <LinearProgress variant="determinate" value={workLogProgress} sx={{ mb: 2 }} />
           {!isView && hasPermission(editingWorkLogId ? 'ASSIGNMENT_WORK_LOG_UPDATE' : 'ASSIGNMENT_WORK_LOG_CREATE') && (
             <Grid container spacing={1.5} sx={{ mb: 2 }}>
               <Grid item xs={12} md={3}>
@@ -912,7 +928,7 @@ function MaintenanceAssignmentFormPage() {
           </Stack>
         </Paper>
       )}
-      {id && (
+      {id && workflowTab === 2 && (
         <Paper sx={{ p: 3, borderRadius: 1, mt: 2 }}>
           <Typography variant="h6" fontWeight={800} sx={{ mb: 2 }}>Spare Part Requests</Typography>
           {!isView && (
