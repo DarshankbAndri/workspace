@@ -167,4 +167,15 @@
             ON CONFLICT (role_id, permission_id) DO NOTHING;
         </sql>
     </changeSet>
+
+    <changeSet id="role-permission-010-seed-pm-calendar" author="Codex">
+        <sql>
+            INSERT INTO role_permission (role_id, permission_id)
+            SELECT r.role_id, p.permission_id
+            FROM role_master r
+            JOIN permission_master p ON p.permission_code = 'PM_CALENDAR_VIEW'
+            WHERE r.role_code IN ('SUPER_ADMIN', 'ADMIN', 'SITE_MANAGER', 'MAINTENANCE_MANAGER', 'TECHNICIAN', 'VIEWER')
+            ON CONFLICT (role_id, permission_id) DO NOTHING;
+        </sql>
+    </changeSet>
 </databaseChangeLog>

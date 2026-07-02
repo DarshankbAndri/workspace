@@ -40,6 +40,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.Collections;
+import java.util.Collection;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,6 +49,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PreventiveMaintenanceScheduleService {
     private static final List<String> FREQUENCIES = Arrays.asList("DAILY", "WEEKLY", "MONTHLY", "QUARTERLY", "YEARLY");
+    private static final long MAX_CALENDAR_RANGE_DAYS = 370;
 
     private final PreventiveMaintenanceScheduleDAO scheduleDAO;
     private final PmScheduleChecklistItemDAO checklistItemDAO;
@@ -147,6 +150,31 @@ public PreventiveMaintenanceScheduleDTO create(PreventiveMaintenanceScheduleDTO 
         return scheduleDAO.findUpcoming(today, today.plusDays(days)).stream()
                 .filter((schedule) -> accessControlService.isAdmin()
                         || (schedule.getSite() != null && accessControlService.getAllowedSiteIds().contains(schedule.getSite().getId())))
+                .map(this::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<PreventiveMaintenanceScheduleDTO> getCalendar(LocalDate startDate, LocalDate endDate, Long siteId, Long equipmentId) {
+        if (startDate == null || endDate == null) {
+            throw new InvalidOperationException("Calendar startDate and endDate are required.");
+        }
+        if (endDate.isBefore(startDate)) {
+            throw new InvalidOperationException("Calendar endDate must be on or after startDate.");
+        }
+        long rangeDays = Duration.between(startDate.atStartOfDay(), endDate.plusDays(1).atStartOfDay()).toDays();
+        if (rangeDays > MAX_CALENDAR_RANGE_DAYS) {
+            throw new InvalidOperationException("Calendar range cannot exceed " + MAX_CALENDAR_RANGE_DAYS + " days.");
+        }
+        boolean admin = accessControlService.isAdmin();
+        Collection<Long> allowedSiteIds = admin ? Collections.singleton(-1L) : accessControlService.getAllowedSiteIds();
+        if (!admin && allowedSiteIds.isEmpty()) {
+            return List.of();
+        }
+        if (siteId != null) {
+            accessControlService.validateSiteAccess(siteId);
+        }
+        return scheduleDAO.findCalendar(startDate, endDate, siteId, equipmentId, admin, allowedSiteIds).stream()
                 .map(this::toDTO)
                 .collect(Collectors.toList());
     }

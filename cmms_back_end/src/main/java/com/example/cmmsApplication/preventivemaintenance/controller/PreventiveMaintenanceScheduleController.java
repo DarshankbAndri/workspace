@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import com.example.cmmsApplication.common.response.ApiResponse;
 import com.example.cmmsApplication.common.response.ResponseFactory;
 
-import com.example.cmmsApplication.common.search.dto.PageProperties;
 import com.example.cmmsApplication.preventivemaintenance.dto.PreventiveMaintenanceScheduleDTO;
 import com.example.cmmsApplication.common.search.dto.SearchDTO;
 import com.example.cmmsApplication.common.search.service.ListSearchService;
@@ -13,7 +12,6 @@ import com.example.cmmsApplication.preventivemaintenance.service.PreventiveMaint
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
 @RestController
 @RequestMapping("/preventive-maintenance/schedules")
@@ -22,7 +20,7 @@ public class PreventiveMaintenanceScheduleController {
     private final PreventiveMaintenanceScheduleService scheduleService;
     private final ListSearchService listSearchService;
 
-@PostMapping
+    @PostMapping
     public ResponseEntity<ApiResponse<?>> create(@Valid @RequestBody PreventiveMaintenanceScheduleDTO dto) {
         return ResponseFactory.created(scheduleService.create(dto));
     }

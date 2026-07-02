@@ -20,6 +20,7 @@ import DowntimeListPage from './features/downtime/pages/DowntimeListPage';
 import DowntimeFormPage from './features/downtime/pages/DowntimeFormPage';
 import PreventiveMaintenanceListPage from './features/preventiveMaintenance/pages/PreventiveMaintenanceListPage';
 import PreventiveMaintenanceFormPage from './features/preventiveMaintenance/pages/PreventiveMaintenanceFormPage';
+import PreventiveMaintenanceCalendarPage from './features/preventiveMaintenance/pages/PreventiveMaintenanceCalendarPage';
 import ApprovalInboxPage from './features/approval/pages/ApprovalInboxPage';
 import ApprovalHistoryPage from './features/approval/pages/ApprovalHistoryPage';
 import NotificationCenterPage from './features/notification/pages/NotificationCenterPage';
@@ -185,6 +186,7 @@ function App() {
           <Route path="/maintenance/downtime/:id/edit" element={protectedPage(<DowntimeFormPage />, 'DOWNTIME_UPDATE')} />
           <Route path="/maintenance/downtime/:id/view" element={protectedPage(<DowntimeFormPage />, 'DOWNTIME_VIEW')} />
           <Route path="/maintenance/preventive" element={protectedPage(<PreventiveMaintenanceListPage />, 'REQUEST_VIEW')} />
+          <Route path="/maintenance/preventive/calendar" element={protectedPage(<PreventiveMaintenanceCalendarPage />, 'PM_CALENDAR_VIEW')} />
           <Route path="/maintenance/preventive/new" element={protectedPage(<PreventiveMaintenanceFormPage />, 'REQUEST_CREATE')} />
           <Route path="/maintenance/preventive/:id/edit" element={protectedPage(<PreventiveMaintenanceFormPage />, 'REQUEST_UPDATE')} />
           <Route path="/maintenance/preventive/:id/view" element={protectedPage(<PreventiveMaintenanceFormPage />, 'REQUEST_VIEW')} />

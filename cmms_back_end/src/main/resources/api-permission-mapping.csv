@@ -63,6 +63,11 @@ REQUEST_DELETE,/api/maintenance/requests/*,DELETE,Delete maintenance request
 REQUEST_VIEW,/api/preventive-maintenance/schedules/**,GET,View preventive maintenance schedules
 REQUEST_VIEW,/api/preventive-maintenance/schedules,GET,View preventive maintenance schedule list
 REQUEST_VIEW,/api/preventive-maintenance/schedules/search,POST,Search preventive maintenance schedules
+PM_CALENDAR_VIEW,/api/preventive-maintenance/calendar,GET,View preventive maintenance calendar
+PM_CALENDAR_VIEW,/api/hr/sites/**,GET,Preventive maintenance calendar site helper data
+PM_CALENDAR_VIEW,/api/hr/sites,GET,Preventive maintenance calendar site helper data
+PM_CALENDAR_VIEW,/api/equipment/**,GET,Preventive maintenance calendar equipment helper data
+PM_CALENDAR_VIEW,/api/equipment,GET,Preventive maintenance calendar equipment helper data
 REQUEST_CREATE,/api/preventive-maintenance/schedules,POST,Create preventive maintenance schedule
 REQUEST_UPDATE,/api/preventive-maintenance/schedules/*,PUT,Update preventive maintenance schedule
 REQUEST_DELETE,/api/preventive-maintenance/schedules/*,DELETE,Delete preventive maintenance schedule

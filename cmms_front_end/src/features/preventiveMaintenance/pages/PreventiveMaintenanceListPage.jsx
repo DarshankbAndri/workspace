@@ -1,6 +1,6 @@
 import React from 'react';
 import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, LinearProgress, Paper, Snackbar, Stack, TextField, Tooltip, Typography } from '@mui/material';
-import { Add, AddTask, Delete, Edit, PlayArrow, Visibility } from '@mui/icons-material';
+import { Add, AddTask, CalendarMonth, Delete, Edit, PlayArrow, Visibility } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { getEquipments } from '../../equipment/services/equipmentService';
 import { getSites } from '../../site/services/siteService';
@@ -157,6 +157,7 @@ function PreventiveMaintenanceListPage() {
           <Typography variant="body2" color="text.secondary">Schedule recurring maintenance and generate work orders for assigned vendors.</Typography>
         </Box>
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1}>
+          {hasPermission('PM_CALENDAR_VIEW') && <Button variant="outlined" startIcon={<CalendarMonth />} onClick={() => navigate('/maintenance/preventive/calendar')}>Calendar</Button>}
           {hasPermission('REQUEST_CREATE') && <Button variant="outlined" startIcon={<AddTask />} onClick={handleGenerateDue}>Generate Due Work Orders</Button>}
           {hasPermission('REQUEST_CREATE') && <Button variant="contained" startIcon={<Add />} onClick={() => navigate('/maintenance/preventive/new')}>Add PM Schedule</Button>}
         </Stack>

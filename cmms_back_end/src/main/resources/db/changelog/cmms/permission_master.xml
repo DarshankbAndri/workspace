@@ -113,4 +113,12 @@
             ON CONFLICT (permission_code) DO NOTHING;
         </sql>
     </changeSet>
+
+    <changeSet id="permission-master-007-seed-pm-calendar" author="Codex">
+        <sql>
+            INSERT INTO permission_master (permission_code, permission_name, module_name, action_name, status, created_at, updated_at) VALUES
+            ('PM_CALENDAR_VIEW', 'View PM Calendar', 'Preventive Maintenance Calendar', 'VIEW', 'ACTIVE', NOW(), NOW())
+            ON CONFLICT (permission_code) DO NOTHING;
+        </sql>
+    </changeSet>
 </databaseChangeLog>
