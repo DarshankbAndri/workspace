@@ -15,6 +15,7 @@ import MaintenanceRequestListPage from './features/maintenanceRequest/pages/Main
 import MaintenanceRequestFormPage from './features/maintenanceRequest/pages/MaintenanceRequestFormPage';
 import MaintenanceAssignmentListPage from './features/assignment/pages/MaintenanceAssignmentListPage';
 import MaintenanceAssignmentFormPage from './features/assignment/pages/MaintenanceAssignmentFormPage';
+import MaintenanceAssignmentViewPage from './features/assignment/pages/MaintenanceAssignmentViewPage';
 import DowntimeListPage from './features/downtime/pages/DowntimeListPage';
 import DowntimeFormPage from './features/downtime/pages/DowntimeFormPage';
 import PreventiveMaintenanceListPage from './features/preventiveMaintenance/pages/PreventiveMaintenanceListPage';
@@ -178,7 +179,7 @@ function App() {
           <Route path="/maintenance/assignments" element={protectedPage(<MaintenanceAssignmentListPage />, 'ASSIGNMENT_VIEW')} />
           <Route path="/maintenance/assignments/new" element={protectedPage(<MaintenanceAssignmentFormPage />, 'ASSIGNMENT_CREATE')} />
           <Route path="/maintenance/assignments/:id/edit" element={protectedPage(<MaintenanceAssignmentFormPage />, 'ASSIGNMENT_UPDATE')} />
-          <Route path="/maintenance/assignments/:id/view" element={protectedPage(<MaintenanceAssignmentFormPage />, 'ASSIGNMENT_VIEW')} />
+          <Route path="/maintenance/assignments/:id/view" element={protectedPage(<MaintenanceAssignmentViewPage />, 'ASSIGNMENT_VIEW')} />
           <Route path="/maintenance/downtime" element={protectedPage(<DowntimeListPage />, 'DOWNTIME_VIEW')} />
           <Route path="/maintenance/downtime/new" element={protectedPage(<DowntimeFormPage />, 'DOWNTIME_CREATE')} />
           <Route path="/maintenance/downtime/:id/edit" element={protectedPage(<DowntimeFormPage />, 'DOWNTIME_UPDATE')} />

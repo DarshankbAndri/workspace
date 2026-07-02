@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, Paper, Stack, TextField, MenuItem, Tooltip, Typography } from '@mui/material';
+import { Alert, Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, Paper, Stack, Tooltip, Typography } from '@mui/material';
 import { AddTask, Cancel, CheckCircle, Delete, Download, Edit, Inventory, Save, Undo, UploadFile } from '@mui/icons-material';
 import { DataGrid } from '@mui/x-data-grid';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -47,6 +47,7 @@ import CommonDatePicker from '../../../shared/components/common/CommonDatePicker
 import CommonDateTimePicker from '../../../shared/components/common/CommonDateTimePicker';
 import CommonDropdown from '../../../shared/components/common/CommonDropdown';
 import CommonFormActions from '../../../shared/components/common/CommonFormActions';
+import ConfirmDialog from '../../../shared/components/common/ConfirmDialog';
 
 const initialForm = {
   siteId: '',
@@ -135,6 +136,7 @@ function MaintenanceAssignmentFormPage() {
   const [editingWorkLogId, setEditingWorkLogId] = React.useState(null);
   const [error, setError] = React.useState('');
   const [saving, setSaving] = React.useState(false);
+  const [confirmDialog, setConfirmDialog] = React.useState({ open: false, title: '', message: '', resolve: null });
 
   React.useEffect(() => {
     getSites().then((data) => setSites((data || []).filter((site) => site.status !== 'INACTIVE'))).catch(() => setError('Unable to load sites.'));
@@ -232,6 +234,17 @@ function MaintenanceAssignmentFormPage() {
     setChecklistRows((current) => current.map((row) => (row.id === rowId ? { ...row, [field]: value } : row)));
   };
 
+  const requestConfirmation = React.useCallback((title, message) => new Promise((resolve) => {
+    setConfirmDialog({ open: true, title, message, resolve });
+  }), []);
+
+  const closeConfirmation = (confirmed) => {
+    if (confirmDialog.resolve) {
+      confirmDialog.resolve(confirmed);
+    }
+    setConfirmDialog({ open: false, title: '', message: '', resolve: null });
+  };
+
   const materialCost = spareRows
     .filter((item) => ['CONSUMED', 'RETURNED', 'PARTIALLY_CONSUMED'].includes(item.status || 'CONSUMED'))
     .reduce((sum, item) => sum + (Number(item.consumedQty || item.quantityUsed || 0) * Number(item.unitCost || 0)), 0);
@@ -281,7 +294,7 @@ function MaintenanceAssignmentFormPage() {
   };
 
   const handleDeleteChecklistRow = async (row) => {
-    if (!window.confirm('Remove this checklist item?')) return;
+    if (!(await requestConfirmation('Remove checklist item?', 'This checklist item will be removed from the assignment.'))) return;
     try {
       await deleteAssignmentChecklistItem(id, row.id);
       loadChecklist();
@@ -318,7 +331,7 @@ function MaintenanceAssignmentFormPage() {
   };
 
   const handleDeleteChecklistProof = async (row, proof) => {
-    if (!window.confirm('Remove this proof file?')) return;
+    if (!(await requestConfirmation('Remove proof file?', `This will remove ${proof.originalFileName || 'the selected proof file'}.`))) return;
     try {
       await deleteAssignmentChecklistProof(id, row.id, proof.id);
       loadChecklist();
@@ -379,7 +392,7 @@ function MaintenanceAssignmentFormPage() {
   };
 
   const handleDeleteWorkLog = async (row) => {
-    if (!window.confirm('Remove this technician work log?')) return;
+    if (!(await requestConfirmation('Remove work log?', 'This technician work log will be removed from the assignment.'))) return;
     try {
       await deleteAssignmentWorkLog(id, row.id);
       if (editingWorkLogId === row.id) {
@@ -419,7 +432,7 @@ function MaintenanceAssignmentFormPage() {
   };
 
   const handleDeleteWorkLogAttachment = async (row, attachment) => {
-    if (!window.confirm('Remove this work log attachment?')) return;
+    if (!(await requestConfirmation('Remove attachment?', `This will remove ${attachment.originalFileName || 'the selected attachment'}.`))) return;
     try {
       await deleteAssignmentWorkLogAttachment(id, row.id, attachment.id);
       loadWorkLogs();
@@ -453,7 +466,7 @@ function MaintenanceAssignmentFormPage() {
   };
 
   const handleDeleteSpare = async (usageId) => {
-    if (!window.confirm('Remove this spare request?')) return;
+    if (!(await requestConfirmation('Remove spare request?', 'This spare request will be removed from the assignment.'))) return;
     try {
       await deleteAssignmentSpare(id, usageId);
       loadSpares();
@@ -500,7 +513,7 @@ function MaintenanceAssignmentFormPage() {
       cancel: 'cancel this spare request',
       return: 'return this issued spare',
     };
-    if (!window.confirm(`Confirm ${labels[action]}?`)) return;
+    if (!(await requestConfirmation('Update spare request?', `Confirm ${labels[action]}?`))) return;
     setError('');
     try {
       const payload = { remarks: row.remarks };
@@ -634,6 +647,19 @@ function MaintenanceAssignmentFormPage() {
       : []),
     ...employees.map((e) => ({ value: e.id, label: employeeLabel(e) })),
   ], [employees, form.assignedEmployeeId, form.assignedEmployeeName, form.assignedTo]);
+  const checklistStatusDropdownOptions = React.useMemo(() => checklistStatusOptions.map((status) => ({ value: status, label: status.replaceAll('_', ' ') })), []);
+  const checklistResponseOptions = React.useMemo(() => checklistResponseTypes.map((type) => ({ value: type, label: type })), []);
+  const workLogStatusDropdownOptions = React.useMemo(() => workLogStatusOptions.map((status) => ({ value: status, label: status.replaceAll('_', ' ') })), []);
+  const workLogTechnicianOptions = React.useMemo(() => [
+    ...(form.assignedEmployeeId && !employees.some((employee) => String(employee.id) === String(form.assignedEmployeeId))
+      ? [{ value: form.assignedEmployeeId, label: form.assignedEmployeeName || form.assignedTo }]
+      : []),
+    ...employees.map((employee) => ({ value: employee.id, label: employeeLabel(employee) })),
+  ], [employees, form.assignedEmployeeId, form.assignedEmployeeName, form.assignedTo]);
+  const sparePartOptions = React.useMemo(() => siteSpares.map((item) => ({
+    value: item.id,
+    label: `${item.partCode} - ${item.partName} | Available: ${item.availableStock ?? item.currentStock} ${item.unit}`,
+  })), [siteSpares]);
   const assignmentStatusOptions = React.useMemo(() => [
     { value: 'ASSIGNED', label: 'Assigned' },
     { value: 'IN_PROGRESS', label: 'In Progress' },
@@ -720,12 +746,10 @@ function MaintenanceAssignmentFormPage() {
           </Stack>
           {!isView && hasPermission('ASSIGNMENT_CHECKLIST_UPDATE') && (
             <Grid container spacing={1.5} sx={{ mb: 2 }}>
-              <Grid item xs={12} md={3}><TextField fullWidth label="Task" value={checklistForm.taskTitle} onChange={updateChecklistForm('taskTitle')} /></Grid>
-              <Grid item xs={12} md={3}><TextField fullWidth label="Instructions" value={checklistForm.instructions} onChange={updateChecklistForm('instructions')} /></Grid>
+              <Grid item xs={12} md={3}><CommonInput label="Task" value={checklistForm.taskTitle} onChange={updateChecklistForm('taskTitle')} /></Grid>
+              <Grid item xs={12} md={3}><CommonInput label="Instructions" value={checklistForm.instructions} onChange={updateChecklistForm('instructions')} /></Grid>
               <Grid item xs={12} md={2}>
-                <TextField select fullWidth label="Response" value={checklistForm.responseType} onChange={updateChecklistForm('responseType')}>
-                  {checklistResponseTypes.map((type) => <MenuItem key={type} value={type}>{type}</MenuItem>)}
-                </TextField>
+                <CommonDropdown label="Response" value={checklistForm.responseType} onChange={updateChecklistForm('responseType')} options={checklistResponseOptions} />
               </Grid>
               <Grid item xs={12} md={2}>
                 <Stack direction="row" spacing={1}>
@@ -746,15 +770,13 @@ function MaintenanceAssignmentFormPage() {
                     <Typography variant="caption" color="text.secondary">{row.responseType}{row.required !== false ? ' | Required' : ''}{row.proofRequired ? ' | Proof' : ''}</Typography>
                   </Grid>
                   <Grid item xs={12} md={2}>
-                    <TextField select fullWidth size="small" disabled={isView || !hasPermission('ASSIGNMENT_CHECKLIST_UPDATE')} label="Status" value={row.status || 'PENDING'} onChange={(event) => updateChecklistRow(row.id, 'status', event.target.value)}>
-                      {checklistStatusOptions.map((status) => <MenuItem key={status} value={status}>{status.replaceAll('_', ' ')}</MenuItem>)}
-                    </TextField>
+                    <CommonDropdown size="small" disabled={isView || !hasPermission('ASSIGNMENT_CHECKLIST_UPDATE')} label="Status" value={row.status || 'PENDING'} onChange={(event) => updateChecklistRow(row.id, 'status', event.target.value)} options={checklistStatusDropdownOptions} />
                   </Grid>
                   <Grid item xs={12} md={2}>
-                    <TextField fullWidth size="small" disabled={isView || !hasPermission('ASSIGNMENT_CHECKLIST_UPDATE')} label={row.responseType === 'NUMBER' ? 'Reading' : 'Response'} value={row.responseValue || ''} onChange={(event) => updateChecklistRow(row.id, 'responseValue', event.target.value)} />
+                    <CommonInput size="small" disabled={isView || !hasPermission('ASSIGNMENT_CHECKLIST_UPDATE')} label={row.responseType === 'NUMBER' ? 'Reading' : 'Response'} value={row.responseValue || ''} onChange={(event) => updateChecklistRow(row.id, 'responseValue', event.target.value)} />
                   </Grid>
                   <Grid item xs={12} md={2.5}>
-                    <TextField fullWidth size="small" disabled={isView || !hasPermission('ASSIGNMENT_CHECKLIST_UPDATE')} label="Remarks" value={row.remarks || ''} onChange={(event) => updateChecklistRow(row.id, 'remarks', event.target.value)} />
+                    <CommonInput size="small" disabled={isView || !hasPermission('ASSIGNMENT_CHECKLIST_UPDATE')} label="Remarks" value={row.remarks || ''} onChange={(event) => updateChecklistRow(row.id, 'remarks', event.target.value)} />
                   </Grid>
                   <Grid item xs={12} md={3}>
                     <Stack direction="row" spacing={0.5} justifyContent={{ xs: 'flex-start', md: 'flex-end' }} flexWrap="wrap" useFlexGap>
@@ -816,23 +838,16 @@ function MaintenanceAssignmentFormPage() {
           {!isView && hasPermission(editingWorkLogId ? 'ASSIGNMENT_WORK_LOG_UPDATE' : 'ASSIGNMENT_WORK_LOG_CREATE') && (
             <Grid container spacing={1.5} sx={{ mb: 2 }}>
               <Grid item xs={12} md={3}>
-                <TextField select required fullWidth label="Technician" value={workLogForm.technicianEmployeeId} onChange={updateWorkLogForm('technicianEmployeeId')}>
-                  {form.assignedEmployeeId && !employees.some((employee) => String(employee.id) === String(form.assignedEmployeeId)) && (
-                    <MenuItem value={form.assignedEmployeeId}>{form.assignedEmployeeName || form.assignedTo}</MenuItem>
-                  )}
-                  {employees.map((employee) => <MenuItem key={employee.id} value={employee.id}>{employeeLabel(employee)}</MenuItem>)}
-                </TextField>
+                <CommonDropdown required label="Technician" value={workLogForm.technicianEmployeeId} onChange={updateWorkLogForm('technicianEmployeeId')} options={workLogTechnicianOptions} />
               </Grid>
-              <Grid item xs={12} md={2}><TextField type="datetime-local" required fullWidth label="Start Time" value={workLogForm.startTime} onChange={updateWorkLogForm('startTime')} InputLabelProps={{ shrink: true }} /></Grid>
-              <Grid item xs={12} md={2}><TextField type="datetime-local" fullWidth label="End Time" value={workLogForm.endTime} onChange={updateWorkLogForm('endTime')} InputLabelProps={{ shrink: true }} /></Grid>
+              <Grid item xs={12} md={2}><CommonDateTimePicker required label="Start Time" value={workLogForm.startTime} onChange={updateWorkLogForm('startTime')} /></Grid>
+              <Grid item xs={12} md={2}><CommonDateTimePicker label="End Time" value={workLogForm.endTime} onChange={updateWorkLogForm('endTime')} /></Grid>
               <Grid item xs={12} md={2}>
-                <TextField select fullWidth label="Status" value={workLogForm.completionStatus} onChange={updateWorkLogForm('completionStatus')}>
-                  {workLogStatusOptions.map((status) => <MenuItem key={status} value={status}>{status.replaceAll('_', ' ')}</MenuItem>)}
-                </TextField>
+                <CommonDropdown label="Status" value={workLogForm.completionStatus} onChange={updateWorkLogForm('completionStatus')} options={workLogStatusDropdownOptions} />
               </Grid>
-              <Grid item xs={12} md={3}><TextField fullWidth label="Work Notes" value={workLogForm.workNotes} onChange={updateWorkLogForm('workNotes')} /></Grid>
-              <Grid item xs={12} md={4}><TextField fullWidth label="Issue Found" value={workLogForm.issueFound} onChange={updateWorkLogForm('issueFound')} /></Grid>
-              <Grid item xs={12} md={4}><TextField fullWidth label="Action Taken" value={workLogForm.actionTaken} onChange={updateWorkLogForm('actionTaken')} /></Grid>
+              <Grid item xs={12} md={3}><CommonInput label="Work Notes" value={workLogForm.workNotes} onChange={updateWorkLogForm('workNotes')} /></Grid>
+              <Grid item xs={12} md={4}><CommonInput label="Issue Found" value={workLogForm.issueFound} onChange={updateWorkLogForm('issueFound')} /></Grid>
+              <Grid item xs={12} md={4}><CommonInput label="Action Taken" value={workLogForm.actionTaken} onChange={updateWorkLogForm('actionTaken')} /></Grid>
               <Grid item xs={12} md={4}>
                 <Stack direction="row" spacing={1} sx={{ height: '100%' }} alignItems="stretch">
                   <Button fullWidth variant="contained" startIcon={<Save />} onClick={handleSaveWorkLog}>{editingWorkLogId ? 'Update Log' : 'Add Log'}</Button>
@@ -903,16 +918,10 @@ function MaintenanceAssignmentFormPage() {
           {!isView && (
             <Grid container spacing={2} sx={{ mb: 2 }}>
               <Grid item xs={12} md={5}>
-                <TextField select fullWidth label="Spare Part" value={spareForm.stockId} onChange={updateSpareField('stockId')}>
-                  {siteSpares.map((item) => (
-                    <MenuItem key={item.id} value={item.id}>
-                      {item.partCode} - {item.partName} | Available: {item.availableStock ?? item.currentStock} {item.unit}
-                    </MenuItem>
-                  ))}
-                </TextField>
+                <CommonDropdown label="Spare Part" value={spareForm.stockId} onChange={updateSpareField('stockId')} options={sparePartOptions} />
               </Grid>
-              <Grid item xs={12} md={2}><TextField type="number" fullWidth label="Quantity" value={spareForm.quantityUsed} onChange={updateSpareField('quantityUsed')} /></Grid>
-              <Grid item xs={12} md={3}><TextField fullWidth label="Remarks" value={spareForm.remarks} onChange={updateSpareField('remarks')} /></Grid>
+              <Grid item xs={12} md={2}><CommonInput type="number" label="Quantity" value={spareForm.quantityUsed} onChange={updateSpareField('quantityUsed')} /></Grid>
+              <Grid item xs={12} md={3}><CommonInput label="Remarks" value={spareForm.remarks} onChange={updateSpareField('remarks')} /></Grid>
               <Grid item xs={12} md={2}><Button fullWidth variant="contained" sx={{ height: '100%' }} onClick={handleAddSpare}>Request Spare</Button></Grid>
             </Grid>
           )}
@@ -927,15 +936,14 @@ function MaintenanceAssignmentFormPage() {
           <Typography variant="body2" color="text.secondary">
             {spareEditDialog.row?.partCode} - {spareEditDialog.row?.partName}
           </Typography>
-          <TextField
+          <CommonInput
             required
             type="number"
             label="Requested Quantity"
             value={spareEditDialog.quantityUsed}
             onChange={(event) => setSpareEditDialog((current) => ({ ...current, quantityUsed: event.target.value }))}
           />
-          <TextField
-            multiline
+          <CommonTextArea
             minRows={2}
             label="Remarks"
             value={spareEditDialog.remarks}
@@ -947,6 +955,16 @@ function MaintenanceAssignmentFormPage() {
           <Button variant="contained" onClick={handleUpdateSpare}>Save</Button>
         </DialogActions>
       </Dialog>
+      <ConfirmDialog
+        open={confirmDialog.open}
+        handleClose={() => closeConfirmation(false)}
+        title={confirmDialog.title}
+        message={confirmDialog.message}
+        handleAgree={() => closeConfirmation(true)}
+        closebtn="Cancel"
+        agreebtn="Confirm"
+        isOuterClick
+      />
     </Box>
   );
 }

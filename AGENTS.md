@@ -151,6 +151,9 @@ Shared frontend component rules:
 4. Keep dropdown API loading inside `useDropdownOptions` where possible.
 5. Shared option arrays must go inside `src/shared/constants`.
 6. New pages must follow the common component pattern.
+7. All list, create, edit, and dialog form pages must use shared common components. Do not directly use MUI `TextField`, `Select`, `MenuItem`, `Autocomplete`, `DatePicker`, or `DateTimePicker` inside feature pages. Use `CommonInput`, `CommonDropdown`, `CommonDatePicker`, `CommonDateTimePicker`, `CommonTextArea`, `CommonFormActions`, and `CommonFormCard` from `src/shared/components/common/` instead.
+8. `CommonDropdown` uses MUI `Autocomplete` (typeahead). Pass `options` as `{value, label}` objects. Dynamic disabled options use `{value, label, disabled: true}` — the component already handles this via `getOptionDisabled`. `onChange` fires `(event, option)` where `event.target.value` is the option value, compatible with `updateField(field)` handlers.
+9. For table-cell inline dropdowns and inputs, pass `size="small"` to `CommonDropdown` and `CommonInput`.
 
 Current frontend feature folders include `admin`, `approval`, `assignment`, `auth`, `company`, `dashboard`, `downtime`, `employee`, `equipment`, `maintenance`, `maintenanceRequest`, `notification`, `preventiveMaintenance`, `report`, `site`, `spareParts`, `user`, and `vendor`.
 
