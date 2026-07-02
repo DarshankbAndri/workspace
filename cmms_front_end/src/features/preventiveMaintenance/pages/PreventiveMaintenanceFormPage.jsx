@@ -1,11 +1,17 @@
 import React from 'react';
-import { Alert, Box, Button, Checkbox, Chip, FormControlLabel, Grid, IconButton, MenuItem, Paper, Stack, TextField, Tooltip, Typography } from '@mui/material';
-import { Add, Delete, KeyboardArrowDown, KeyboardArrowUp, Save } from '@mui/icons-material';
+import { Alert, Box, Button, Checkbox, Chip, FormControlLabel, Grid, IconButton, Stack, Tooltip, Typography } from '@mui/material';
+import { Add, Delete, KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { getEquipments } from '../../equipment/services/equipmentService';
 import { getSites } from '../../site/services/siteService';
 import { getVendorsBySite } from '../../vendor/services/vendorService';
 import { createPMSchedule, getPMScheduleById, updatePMSchedule } from '../services/preventiveMaintenanceService';
+import CommonInput from '../../../shared/components/common/CommonInput';
+import CommonTextArea from '../../../shared/components/common/CommonTextArea';
+import CommonDatePicker from '../../../shared/components/common/CommonDatePicker';
+import CommonDropdown from '../../../shared/components/common/CommonDropdown';
+import CommonFormActions from '../../../shared/components/common/CommonFormActions';
+import CommonFormCard from '../../../shared/components/common/CommonFormCard';
 
 const today = () => new Date().toISOString().slice(0, 10);
 
@@ -28,6 +34,20 @@ const initialForm = {
 const frequencies = ['DAILY', 'WEEKLY', 'MONTHLY', 'QUARTERLY', 'YEARLY'];
 const priorities = ['LOW', 'MEDIUM', 'HIGH', 'CRITICAL'];
 const checklistResponseTypes = ['CHECKBOX', 'TEXT', 'NUMBER', 'PHOTO'];
+
+const FREQUENCY_OPTIONS = frequencies.map((f) => ({ value: f, label: f }));
+const PRIORITY_OPTIONS = priorities.map((p) => ({ value: p, label: p }));
+const RESPONSE_TYPE_OPTIONS = checklistResponseTypes.map((t) => ({ value: t, label: t }));
+const PM_ACTIVE_OPTIONS = [
+  { value: 'true', label: 'Active' },
+  { value: 'false', label: 'Inactive' },
+];
+const PM_STATUS_OPTIONS = [
+  { value: 'ACTIVE', label: 'Active' },
+  { value: 'APPROVED', label: 'Approved' },
+  { value: 'PENDING_APPROVAL', label: 'Pending Approval' },
+  { value: 'REJECTED', label: 'Rejected' },
+];
 const sampleChecklistItems = [
   { taskTitle: 'Inspect oil level', instructions: '', required: true, proofRequired: false, responseType: 'CHECKBOX', active: true },
   { taskTitle: 'Check belt tension', instructions: '', required: true, proofRequired: false, responseType: 'CHECKBOX', active: true },
@@ -173,6 +193,13 @@ function PreventiveMaintenanceFormPage() {
     }
   };
 
+  const siteOptions = React.useMemo(() => sites.map((s) => ({ value: s.id, label: `${s.siteName} (${s.siteCode})` })), [sites]);
+  const equipmentOptions = React.useMemo(() => filteredEquipments.map((e) => ({ value: e.id, label: `${e.equipmentCode} - ${e.equipmentName}` })), [filteredEquipments]);
+  const vendorOptions = React.useMemo(() => [
+    { value: '', label: 'Internal team' },
+    ...vendors.map((v) => ({ value: v.id, label: v.vendorName })),
+  ], [vendors]);
+
   return (
     <Box>
       <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.5} alignItems={{ xs: 'flex-start', sm: 'center' }} sx={{ mb: 1 }}>
@@ -181,20 +208,49 @@ function PreventiveMaintenanceFormPage() {
       </Stack>
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
       <Box component="form" onSubmit={handleSubmit}>
-        <Paper sx={{ p: 3, borderRadius: 1 }}>
+        <CommonFormCard>
           <Grid container spacing={2}>
-            <Grid item xs={12} md={4}><TextField required select fullWidth disabled={isView} label="Site" value={form.siteId} onChange={updateSite}>{sites.map((site) => <MenuItem key={site.id} value={site.id}>{site.siteName} ({site.siteCode})</MenuItem>)}</TextField></Grid>
-            <Grid item xs={12} md={4}><TextField required select fullWidth disabled={isView || !form.siteId} label="Equipment" value={form.equipmentId} onChange={updateField('equipmentId')} helperText={form.siteId && filteredEquipments.length === 0 ? 'No equipment found for this site.' : ''}>{filteredEquipments.map((item) => <MenuItem key={item.id} value={item.id}>{item.equipmentCode} - {item.equipmentName}</MenuItem>)}</TextField></Grid>
-            <Grid item xs={12} md={4}><TextField select fullWidth disabled={isView || !form.siteId} label="Assigned Vendor" value={form.vendorId} onChange={updateField('vendorId')} helperText={form.siteId && vendors.length === 0 ? 'No vendors assigned to this site.' : ''}><MenuItem value="">Internal team</MenuItem>{vendors.map((item) => <MenuItem key={item.id} value={item.id}>{item.vendorName}</MenuItem>)}</TextField></Grid>
-            <Grid item xs={12} md={4}><TextField fullWidth disabled={isView} label="Assigned To" value={form.assignedTo || ''} onChange={updateField('assignedTo')} /></Grid>
-            <Grid item xs={12} md={5}><TextField required fullWidth disabled={isView} label="PM Task" value={form.title || ''} onChange={updateField('title')} /></Grid>
-            <Grid item xs={12} md={3}><TextField required select fullWidth disabled={isView} label="Frequency" value={form.frequency || 'MONTHLY'} onChange={updateField('frequency')}>{frequencies.map((item) => <MenuItem key={item} value={item}>{item}</MenuItem>)}</TextField></Grid>
-            <Grid item xs={12} md={2}><TextField select fullWidth disabled={isView} label="Priority" value={form.priority || 'MEDIUM'} onChange={updateField('priority')}>{priorities.map((item) => <MenuItem key={item} value={item}>{item}</MenuItem>)}</TextField></Grid>
-            <Grid item xs={12} md={2}><TextField select fullWidth disabled={isView} label="Status" value={String(form.active)} onChange={updateField('active')}><MenuItem value="true">Active</MenuItem><MenuItem value="false">Inactive</MenuItem></TextField></Grid>
-            <Grid item xs={12} md={2}><TextField select fullWidth disabled={isView} label="Approval Status" value={form.status || 'ACTIVE'} onChange={updateField('status')}><MenuItem value="ACTIVE">Active</MenuItem><MenuItem value="APPROVED">Approved</MenuItem><MenuItem value="PENDING_APPROVAL">Pending Approval</MenuItem><MenuItem value="REJECTED">Rejected</MenuItem></TextField></Grid>
-            <Grid item xs={12} md={3}><TextField required type="date" fullWidth disabled={isView} label="Start Date" value={form.startDate || ''} onChange={updateField('startDate')} InputLabelProps={{ shrink: true }} /></Grid>
-            <Grid item xs={12} md={3}><TextField required type="date" fullWidth disabled={isView} label="Next Due Date" value={form.nextDueDate || ''} onChange={updateField('nextDueDate')} InputLabelProps={{ shrink: true }} /></Grid>
-            <Grid item xs={12} md={6}><TextField required fullWidth disabled={isView} multiline minRows={2} label="Description" value={form.description || ''} onChange={updateField('description')} /></Grid>
+            <Grid item xs={12} md={4}>
+              <CommonDropdown required disabled={isView} label="Site" value={form.siteId} onChange={updateSite} options={siteOptions} />
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <CommonDropdown
+                required
+                disabled={isView || !form.siteId}
+                label="Equipment"
+                value={form.equipmentId}
+                onChange={updateField('equipmentId')}
+                options={equipmentOptions}
+                helperText={form.siteId && filteredEquipments.length === 0 ? 'No equipment found for this site.' : ''}
+              />
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <CommonDropdown
+                disabled={isView || !form.siteId}
+                label="Assigned Vendor"
+                value={form.vendorId}
+                onChange={updateField('vendorId')}
+                options={vendorOptions}
+                helperText={form.siteId && vendors.length === 0 ? 'No vendors assigned to this site.' : ''}
+              />
+            </Grid>
+            <Grid item xs={12} md={4}><CommonInput disabled={isView} label="Assigned To" value={form.assignedTo || ''} onChange={updateField('assignedTo')} /></Grid>
+            <Grid item xs={12} md={5}><CommonInput required disabled={isView} label="PM Task" value={form.title || ''} onChange={updateField('title')} /></Grid>
+            <Grid item xs={12} md={3}>
+              <CommonDropdown required disabled={isView} label="Frequency" value={form.frequency || 'MONTHLY'} onChange={updateField('frequency')} options={FREQUENCY_OPTIONS} />
+            </Grid>
+            <Grid item xs={12} md={2}>
+              <CommonDropdown disabled={isView} label="Priority" value={form.priority || 'MEDIUM'} onChange={updateField('priority')} options={PRIORITY_OPTIONS} />
+            </Grid>
+            <Grid item xs={12} md={2}>
+              <CommonDropdown disabled={isView} label="Status" value={String(form.active)} onChange={updateField('active')} options={PM_ACTIVE_OPTIONS} />
+            </Grid>
+            <Grid item xs={12} md={2}>
+              <CommonDropdown disabled={isView} label="Approval Status" value={form.status || 'ACTIVE'} onChange={updateField('status')} options={PM_STATUS_OPTIONS} />
+            </Grid>
+            <Grid item xs={12} md={3}><CommonDatePicker required disabled={isView} label="Start Date" value={form.startDate || ''} onChange={updateField('startDate')} /></Grid>
+            <Grid item xs={12} md={3}><CommonDatePicker required disabled={isView} label="Next Due Date" value={form.nextDueDate || ''} onChange={updateField('nextDueDate')} /></Grid>
+            <Grid item xs={12} md={6}><CommonTextArea required disabled={isView} minRows={2} label="Description" value={form.description || ''} onChange={updateField('description')} /></Grid>
             <Grid item xs={12}>
               <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" alignItems={{ xs: 'stretch', sm: 'center' }} spacing={1} sx={{ mt: 1 }}>
                 <Typography variant="h6" fontWeight={800}>Checklist</Typography>
@@ -211,15 +267,19 @@ function PreventiveMaintenanceFormPage() {
                 <Box sx={{ border: 1, borderColor: 'divider', borderRadius: 1, p: 1.5 }}>
                   <Grid container spacing={1.5} alignItems="center">
                     <Grid item xs={12} md={3}>
-                      <TextField fullWidth required disabled={isView} label={`Step ${index + 1}`} value={item.taskTitle || ''} onChange={(event) => updateChecklistItem(index, 'taskTitle', event.target.value)} />
+                      <CommonInput fullWidth required disabled={isView} label={`Step ${index + 1}`} value={item.taskTitle || ''} onChange={(event) => updateChecklistItem(index, 'taskTitle', event.target.value)} />
                     </Grid>
                     <Grid item xs={12} md={3}>
-                      <TextField fullWidth disabled={isView} label="Instructions" value={item.instructions || ''} onChange={(event) => updateChecklistItem(index, 'instructions', event.target.value)} />
+                      <CommonInput fullWidth disabled={isView} label="Instructions" value={item.instructions || ''} onChange={(event) => updateChecklistItem(index, 'instructions', event.target.value)} />
                     </Grid>
                     <Grid item xs={12} md={2}>
-                      <TextField select fullWidth disabled={isView} label="Response" value={item.responseType || 'CHECKBOX'} onChange={(event) => updateChecklistItem(index, 'responseType', event.target.value)}>
-                        {checklistResponseTypes.map((type) => <MenuItem key={type} value={type}>{type}</MenuItem>)}
-                      </TextField>
+                      <CommonDropdown
+                        disabled={isView}
+                        label="Response"
+                        value={item.responseType || 'CHECKBOX'}
+                        onChange={(event) => updateChecklistItem(index, 'responseType', event.target.value)}
+                        options={RESPONSE_TYPE_OPTIONS}
+                      />
                     </Grid>
                     <Grid item xs={12} md={2}>
                       <Stack direction="row" spacing={1}>
@@ -241,11 +301,13 @@ function PreventiveMaintenanceFormPage() {
               </Grid>
             ))}
           </Grid>
-          <Stack direction="row" spacing={1.5} sx={{ mt: 3 }}>
-            {!isView && <Button type="submit" variant="contained" startIcon={<Save />} disabled={saving}>{saving ? 'Saving...' : 'Save'}</Button>}
-            <Button variant="outlined" onClick={() => navigate('/maintenance/preventive')}>{isView ? 'Back' : 'Cancel'}</Button>
-          </Stack>
-        </Paper>
+          <CommonFormActions
+            saving={saving}
+            showSave={!isView}
+            onCancel={() => navigate('/maintenance/preventive')}
+            cancelLabel={isView ? 'Back' : 'Cancel'}
+          />
+        </CommonFormCard>
       </Box>
     </Box>
   );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, MenuItem, Paper, Stack, TextField, Tooltip, Typography } from '@mui/material';
+import { Alert, Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, Paper, Stack, TextField, MenuItem, Tooltip, Typography } from '@mui/material';
 import { AddTask, Cancel, CheckCircle, Delete, Download, Edit, Inventory, Save, Undo, UploadFile } from '@mui/icons-material';
 import { DataGrid } from '@mui/x-data-grid';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -41,6 +41,12 @@ import {
   returnAssignmentSpare,
   updateAssignmentSpare,
 } from '../../spareParts/services/sparePartService';
+import CommonInput from '../../../shared/components/common/CommonInput';
+import CommonTextArea from '../../../shared/components/common/CommonTextArea';
+import CommonDatePicker from '../../../shared/components/common/CommonDatePicker';
+import CommonDateTimePicker from '../../../shared/components/common/CommonDateTimePicker';
+import CommonDropdown from '../../../shared/components/common/CommonDropdown';
+import CommonFormActions from '../../../shared/components/common/CommonFormActions';
 
 const initialForm = {
   siteId: '',
@@ -618,6 +624,27 @@ function MaintenanceAssignmentFormPage() {
     }
   };
 
+  const siteOptions = React.useMemo(() => sites.map((s) => ({ value: s.id, label: `${s.siteName} (${s.siteCode})` })), [sites]);
+  const requestOptions = React.useMemo(() => requests.map((r) => ({ value: r.id, label: `${r.requestNumber} - ${r.title}` })), [requests]);
+  const vendorOptions = React.useMemo(() => vendors.map((v) => ({ value: v.id, label: v.vendorName })), [vendors]);
+  const employeeOptions = React.useMemo(() => [
+    { value: '', label: 'Manual / external technician' },
+    ...(form.assignedEmployeeId && !employees.some((e) => String(e.id) === String(form.assignedEmployeeId))
+      ? [{ value: form.assignedEmployeeId, label: form.assignedEmployeeName || form.assignedTo }]
+      : []),
+    ...employees.map((e) => ({ value: e.id, label: employeeLabel(e) })),
+  ], [employees, form.assignedEmployeeId, form.assignedEmployeeName, form.assignedTo]);
+  const assignmentStatusOptions = React.useMemo(() => [
+    { value: 'ASSIGNED', label: 'Assigned' },
+    { value: 'IN_PROGRESS', label: 'In Progress' },
+    {
+      value: 'COMPLETED',
+      label: 'Completed',
+      disabled: (checklistRows.length > 0 && !canCompleteChecklist) || !canCompleteWorkLogs,
+    },
+    { value: 'CANCELLED', label: 'Cancelled' },
+  ], [checklistRows.length, canCompleteChecklist, canCompleteWorkLogs]);
+
   return (
     <Box>
       <Typography variant="h4" fontWeight={800} gutterBottom>{isView ? 'View Assignment' : isEdit ? 'Edit Assignment' : 'Add Assignment'}</Typography>
@@ -625,35 +652,62 @@ function MaintenanceAssignmentFormPage() {
       <Box component="form" onSubmit={handleSubmit}>
         <Paper sx={{ p: 3, borderRadius: 1 }}>
           <Grid container spacing={2}>
-            <Grid item xs={12} md={4}><TextField required select fullWidth disabled={isView} label="Site" value={form.siteId} onChange={updateSite}>{sites.map((site) => <MenuItem key={site.id} value={site.id}>{site.siteName} ({site.siteCode})</MenuItem>)}</TextField></Grid>
-            <Grid item xs={12} md={4}><TextField required select fullWidth disabled={isView || !form.siteId} label="Request" value={form.requestId} onChange={updateRequest} helperText={form.siteId && requests.length === 0 ? 'No maintenance requests found for this site.' : ''}>{requests.map((item) => <MenuItem key={item.id} value={item.id}>{item.requestNumber} - {item.title}</MenuItem>)}</TextField></Grid>
-            <Grid item xs={12} md={4}><TextField required select fullWidth disabled={isView || !form.siteId || !form.requestId} label="Vendor" value={form.vendorId} onChange={updateField('vendorId')} helperText={form.siteId && vendors.length === 0 ? 'No vendors assigned to this site.' : ''}>{vendors.map((item) => <MenuItem key={item.id} value={item.id}>{item.vendorName}</MenuItem>)}</TextField></Grid>
             <Grid item xs={12} md={4}>
-              <TextField select fullWidth disabled={isView || !form.siteId} label="Assigned Technician" value={form.assignedEmployeeId || ''} onChange={updateAssignedEmployee} helperText={form.siteId && employees.length === 0 ? 'No active employees found for this site.' : ''}>
-                <MenuItem value="">Manual / external technician</MenuItem>
-                {form.assignedEmployeeId && !employees.some((employee) => String(employee.id) === String(form.assignedEmployeeId)) && (
-                  <MenuItem value={form.assignedEmployeeId}>{form.assignedEmployeeName || form.assignedTo}</MenuItem>
-                )}
-                {employees.map((employee) => <MenuItem key={employee.id} value={employee.id}>{employeeLabel(employee)}</MenuItem>)}
-              </TextField>
+              <CommonDropdown required disabled={isView} label="Site" value={form.siteId} onChange={updateSite} options={siteOptions} />
             </Grid>
-            <Grid item xs={12} md={4}><TextField required fullWidth disabled={isView || Boolean(form.assignedEmployeeId)} label="Assigned To" value={form.assignedTo || ''} onChange={updateField('assignedTo')} /></Grid>
-            <Grid item xs={12} md={3}><TextField type="date" fullWidth disabled={isView} label="Assigned Date" value={form.assignedDate || ''} onChange={updateField('assignedDate')} InputLabelProps={{ shrink: true }} /></Grid>
-            <Grid item xs={12} md={3}><TextField type="date" fullWidth disabled={isView} label="Planned Start" value={form.plannedStartDate || ''} onChange={updateField('plannedStartDate')} InputLabelProps={{ shrink: true }} /></Grid>
-            <Grid item xs={12} md={3}><TextField type="date" fullWidth disabled={isView} label="Planned End" value={form.plannedEndDate || ''} onChange={updateField('plannedEndDate')} InputLabelProps={{ shrink: true }} /></Grid>
-            <Grid item xs={12} md={3}><TextField select fullWidth disabled={isView} label="Status" value={form.status || 'ASSIGNED'} onChange={updateField('status')}><MenuItem value="ASSIGNED">Assigned</MenuItem><MenuItem value="IN_PROGRESS">In Progress</MenuItem><MenuItem value="COMPLETED" disabled={(checklistRows.length > 0 && !canCompleteChecklist) || !canCompleteWorkLogs}>Completed</MenuItem><MenuItem value="CANCELLED">Cancelled</MenuItem></TextField></Grid>
-            <Grid item xs={12} md={3}><TextField type="date" fullWidth disabled={isView} label="Actual Start" value={form.actualStartDate || ''} onChange={updateField('actualStartDate')} InputLabelProps={{ shrink: true }} /></Grid>
-            <Grid item xs={12} md={3}><TextField type="date" fullWidth disabled={isView} label="Actual End" value={form.actualEndDate || ''} onChange={updateField('actualEndDate')} InputLabelProps={{ shrink: true }} /></Grid>
-            <Grid item xs={12} md={3}><TextField type="number" fullWidth disabled={isView} label="Estimated Cost" value={form.estimatedCost} onChange={updateField('estimatedCost')} /></Grid>
-            <Grid item xs={12} md={3}><TextField type="number" fullWidth disabled={isView} label="Service/Vendor Cost" value={form.actualCost} onChange={updateField('actualCost')} /></Grid>
-            <Grid item xs={12} md={3}><TextField fullWidth disabled label="Material Cost" value={materialCost.toFixed(2)} /></Grid>
-            <Grid item xs={12} md={3}><TextField fullWidth disabled label="Total Actual Cost" value={totalActualCost.toFixed(2)} /></Grid>
-            <Grid item xs={12}><TextField fullWidth disabled={isView} multiline minRows={2} label="Remarks" value={form.remarks || ''} onChange={updateField('remarks')} /></Grid>
+            <Grid item xs={12} md={4}>
+              <CommonDropdown
+                required
+                disabled={isView || !form.siteId}
+                label="Request"
+                value={form.requestId}
+                onChange={updateRequest}
+                options={requestOptions}
+                helperText={form.siteId && requests.length === 0 ? 'No maintenance requests found for this site.' : ''}
+              />
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <CommonDropdown
+                required
+                disabled={isView || !form.siteId || !form.requestId}
+                label="Vendor"
+                value={form.vendorId}
+                onChange={updateField('vendorId')}
+                options={vendorOptions}
+                helperText={form.siteId && vendors.length === 0 ? 'No vendors assigned to this site.' : ''}
+              />
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <CommonDropdown
+                disabled={isView || !form.siteId}
+                label="Assigned Technician"
+                value={form.assignedEmployeeId || ''}
+                onChange={updateAssignedEmployee}
+                options={employeeOptions}
+                helperText={form.siteId && employees.length === 0 ? 'No active employees found for this site.' : ''}
+              />
+            </Grid>
+            <Grid item xs={12} md={4}><CommonInput required disabled={isView || Boolean(form.assignedEmployeeId)} label="Assigned To" value={form.assignedTo || ''} onChange={updateField('assignedTo')} /></Grid>
+            <Grid item xs={12} md={3}><CommonDatePicker disabled={isView} label="Assigned Date" value={form.assignedDate || ''} onChange={updateField('assignedDate')} /></Grid>
+            <Grid item xs={12} md={3}><CommonDatePicker disabled={isView} label="Planned Start" value={form.plannedStartDate || ''} onChange={updateField('plannedStartDate')} /></Grid>
+            <Grid item xs={12} md={3}><CommonDatePicker disabled={isView} label="Planned End" value={form.plannedEndDate || ''} onChange={updateField('plannedEndDate')} /></Grid>
+            <Grid item xs={12} md={3}>
+              <CommonDropdown disabled={isView} label="Status" value={form.status || 'ASSIGNED'} onChange={updateField('status')} options={assignmentStatusOptions} />
+            </Grid>
+            <Grid item xs={12} md={3}><CommonDatePicker disabled={isView} label="Actual Start" value={form.actualStartDate || ''} onChange={updateField('actualStartDate')} /></Grid>
+            <Grid item xs={12} md={3}><CommonDatePicker disabled={isView} label="Actual End" value={form.actualEndDate || ''} onChange={updateField('actualEndDate')} /></Grid>
+            <Grid item xs={12} md={3}><CommonInput type="number" disabled={isView} label="Estimated Cost" value={form.estimatedCost} onChange={updateField('estimatedCost')} /></Grid>
+            <Grid item xs={12} md={3}><CommonInput type="number" disabled={isView} label="Service/Vendor Cost" value={form.actualCost} onChange={updateField('actualCost')} /></Grid>
+            <Grid item xs={12} md={3}><CommonInput disabled label="Material Cost" value={materialCost.toFixed(2)} /></Grid>
+            <Grid item xs={12} md={3}><CommonInput disabled label="Total Actual Cost" value={totalActualCost.toFixed(2)} /></Grid>
+            <Grid item xs={12}><CommonTextArea disabled={isView} minRows={2} label="Remarks" value={form.remarks || ''} onChange={updateField('remarks')} /></Grid>
           </Grid>
-          <Stack direction="row" spacing={1.5} sx={{ mt: 3 }}>
-            {!isView && <Button type="submit" variant="contained" startIcon={<Save />} disabled={saving}>{saving ? 'Saving...' : 'Save'}</Button>}
-            <Button variant="outlined" onClick={() => navigate('/maintenance/assignments')}>{isView ? 'Back' : 'Cancel'}</Button>
-          </Stack>
+          <CommonFormActions
+            saving={saving}
+            showSave={!isView}
+            onCancel={() => navigate('/maintenance/assignments')}
+            cancelLabel={isView ? 'Back' : 'Cancel'}
+          />
         </Paper>
       </Box>
       {id && (

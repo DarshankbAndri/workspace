@@ -1,10 +1,15 @@
 import React from 'react';
-import { Alert, Box, Button, Grid, MenuItem, Paper, Stack, TextField, Typography } from '@mui/material';
-import { Save } from '@mui/icons-material';
+import { Alert, Box, Grid, Typography } from '@mui/material';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { createDowntimeEntry, getDowntimeEntryById, getMaintenanceRequests, updateDowntimeEntry } from '../../maintenance/services/maintenanceService';
 import { getEquipments } from '../../equipment/services/equipmentService';
 import { getSites } from '../../site/services/siteService';
+import CommonInput from '../../../shared/components/common/CommonInput';
+import CommonTextArea from '../../../shared/components/common/CommonTextArea';
+import CommonDateTimePicker from '../../../shared/components/common/CommonDateTimePicker';
+import CommonDropdown from '../../../shared/components/common/CommonDropdown';
+import CommonFormActions from '../../../shared/components/common/CommonFormActions';
+import CommonFormCard from '../../../shared/components/common/CommonFormCard';
 
 const nowLocal = () => new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 16);
 
@@ -104,29 +109,44 @@ function DowntimeFormPage() {
     }
   };
 
+  const siteOptions = React.useMemo(() => sites.map((s) => ({ value: s.id, label: `${s.siteName} (${s.siteCode})` })), [sites]);
+  const equipmentOptions = React.useMemo(() => formEquipments.map((e) => ({ value: e.id, label: `${e.equipmentCode} - ${e.equipmentName}` })), [formEquipments]);
+  const requestOptions = React.useMemo(() => [
+    { value: '', label: 'No request' },
+    ...formRequests.map((r) => ({ value: r.id, label: `${r.requestNumber} - ${r.title}` })),
+  ], [formRequests]);
+
   return (
     <Box>
       <Typography variant="h4" fontWeight={800} gutterBottom>{isView ? 'View Downtime' : isEdit ? 'Edit Downtime' : 'Add Downtime'}</Typography>
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
       <Box component="form" onSubmit={handleSubmit}>
-        <Paper sx={{ p: 3, borderRadius: 1 }}>
+        <CommonFormCard>
           <Grid container spacing={2}>
-            <Grid item xs={12} md={4}><TextField required select fullWidth disabled={isView} label="Site" value={form.siteId} onChange={updateSite}>{sites.map((site) => <MenuItem key={site.id} value={site.id}>{site.siteName} ({site.siteCode})</MenuItem>)}</TextField></Grid>
-            <Grid item xs={12} md={4}><TextField required select fullWidth disabled={isView || !form.siteId} label="Equipment" value={form.equipmentId} onChange={updateEquipment}>{formEquipments.map((item) => <MenuItem key={item.id} value={item.id}>{item.equipmentCode} - {item.equipmentName}</MenuItem>)}</TextField></Grid>
-            <Grid item xs={12} md={4}><TextField select fullWidth disabled={isView || !form.siteId || !form.equipmentId} label="Maintenance Request" value={form.requestId} onChange={updateField('requestId')}><MenuItem value="">No request</MenuItem>{formRequests.map((item) => <MenuItem key={item.id} value={item.id}>{item.requestNumber} - {item.title}</MenuItem>)}</TextField></Grid>
-            <Grid item xs={12} md={4}><TextField required fullWidth disabled={isView} label="Reason" value={form.reason || ''} onChange={updateField('reason')} /></Grid>
-            <Grid item xs={12} md={4}><TextField required type="datetime-local" fullWidth disabled={isView} label="Start Time" value={form.downtimeStart || ''} onChange={updateField('downtimeStart')} InputLabelProps={{ shrink: true }} /></Grid>
-            <Grid item xs={12} md={4}><TextField type="datetime-local" fullWidth disabled={isView} label="End Time" value={form.downtimeEnd || ''} onChange={updateField('downtimeEnd')} InputLabelProps={{ shrink: true }} /></Grid>
-            <Grid item xs={12} md={4}><TextField fullWidth label="Minutes" value={duration?.minutes ?? form.downtimeMinutes ?? ''} InputProps={{ readOnly: true }} /></Grid>
-            <Grid item xs={12} md={4}><TextField fullWidth label="Hours" value={duration?.hours ?? form.downtimeHours ?? ''} InputProps={{ readOnly: true }} /></Grid>
-            <Grid item xs={12} md={4}><TextField fullWidth label="Days" value={duration?.days ?? form.downtimeDays ?? ''} InputProps={{ readOnly: true }} /></Grid>
-            <Grid item xs={12}><TextField fullWidth disabled={isView} multiline minRows={2} label="Remarks" value={form.remarks || ''} onChange={updateField('remarks')} /></Grid>
+            <Grid item xs={12} md={4}>
+              <CommonDropdown required disabled={isView} label="Site" value={form.siteId} onChange={updateSite} options={siteOptions} />
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <CommonDropdown required disabled={isView || !form.siteId} label="Equipment" value={form.equipmentId} onChange={updateEquipment} options={equipmentOptions} />
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <CommonDropdown disabled={isView || !form.siteId || !form.equipmentId} label="Maintenance Request" value={form.requestId} onChange={updateField('requestId')} options={requestOptions} />
+            </Grid>
+            <Grid item xs={12} md={4}><CommonInput required disabled={isView} label="Reason" value={form.reason || ''} onChange={updateField('reason')} /></Grid>
+            <Grid item xs={12} md={4}><CommonDateTimePicker required disabled={isView} label="Start Time" value={form.downtimeStart || ''} onChange={updateField('downtimeStart')} /></Grid>
+            <Grid item xs={12} md={4}><CommonDateTimePicker disabled={isView} label="End Time" value={form.downtimeEnd || ''} onChange={updateField('downtimeEnd')} /></Grid>
+            <Grid item xs={12} md={4}><CommonInput label="Minutes" value={duration?.minutes ?? form.downtimeMinutes ?? ''} InputProps={{ readOnly: true }} /></Grid>
+            <Grid item xs={12} md={4}><CommonInput label="Hours" value={duration?.hours ?? form.downtimeHours ?? ''} InputProps={{ readOnly: true }} /></Grid>
+            <Grid item xs={12} md={4}><CommonInput label="Days" value={duration?.days ?? form.downtimeDays ?? ''} InputProps={{ readOnly: true }} /></Grid>
+            <Grid item xs={12}><CommonTextArea disabled={isView} minRows={2} label="Remarks" value={form.remarks || ''} onChange={updateField('remarks')} /></Grid>
           </Grid>
-          <Stack direction="row" spacing={1.5} sx={{ mt: 3 }}>
-            {!isView && <Button type="submit" variant="contained" startIcon={<Save />} disabled={saving}>{saving ? 'Saving...' : 'Save'}</Button>}
-            <Button variant="outlined" onClick={() => navigate('/maintenance/downtime')}>{isView ? 'Back' : 'Cancel'}</Button>
-          </Stack>
-        </Paper>
+          <CommonFormActions
+            saving={saving}
+            showSave={!isView}
+            onCancel={() => navigate('/maintenance/downtime')}
+            cancelLabel={isView ? 'Back' : 'Cancel'}
+          />
+        </CommonFormCard>
       </Box>
     </Box>
   );

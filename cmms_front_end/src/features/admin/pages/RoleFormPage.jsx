@@ -8,7 +8,6 @@ import {
   Divider,
   FormControlLabel,
   Grid,
-  MenuItem,
   Paper,
   Stack,
   ToggleButton,
@@ -16,10 +15,18 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { Save } from '@mui/icons-material';
 import { useNavigate, useParams } from 'react-router-dom';
 import { createRole, getRoleById, updateRole } from '../services/roleService';
 import { getGroupedPermissions } from '../services/permissionService';
+import CommonInput from '../../../shared/components/common/CommonInput';
+import CommonDropdown from '../../../shared/components/common/CommonDropdown';
+import CommonFormActions from '../../../shared/components/common/CommonFormActions';
+import CommonFormCard from '../../../shared/components/common/CommonFormCard';
+
+const ROLE_STATUS_OPTIONS = [
+  { value: 'ACTIVE', label: 'ACTIVE' },
+  { value: 'INACTIVE', label: 'INACTIVE' },
+];
 
 const initialForm = {
   roleCode: '',
@@ -362,20 +369,16 @@ function RoleFormPage() {
       <Typography variant="h4" sx={{ mb: 3 }}>{isEdit ? 'Edit Role' : 'Add Role'}</Typography>
       {error && <Alert severity="error" sx={{ mb: 2 }} onClose={() => setError('')}>{error}</Alert>}
       <Box component="form" onSubmit={handleSubmit}>
-        <Paper sx={{ p: 3, borderRadius: 1, mb: 2 }}>
-          <Typography variant="h6" fontWeight={800} sx={{ mb: 2 }}>Role Details</Typography>
+        <CommonFormCard title="Role Details" sx={{ mb: 2 }}>
           <Grid container spacing={2}>
-            <Grid item xs={12} md={3}><TextField required fullWidth label="Role Code" value={form.roleCode} onChange={updateField('roleCode')} /></Grid>
-            <Grid item xs={12} md={3}><TextField required fullWidth label="Role Name" value={form.roleName} onChange={updateField('roleName')} /></Grid>
-            <Grid item xs={12} md={4}><TextField fullWidth label="Description" value={form.description || ''} onChange={updateField('description')} /></Grid>
+            <Grid item xs={12} md={3}><CommonInput required label="Role Code" value={form.roleCode} onChange={updateField('roleCode')} /></Grid>
+            <Grid item xs={12} md={3}><CommonInput required label="Role Name" value={form.roleName} onChange={updateField('roleName')} /></Grid>
+            <Grid item xs={12} md={4}><CommonInput label="Description" value={form.description || ''} onChange={updateField('description')} /></Grid>
             <Grid item xs={12} md={2}>
-              <TextField select required fullWidth label="Status" value={form.status} onChange={updateField('status')}>
-                <MenuItem value="ACTIVE">ACTIVE</MenuItem>
-                <MenuItem value="INACTIVE">INACTIVE</MenuItem>
-              </TextField>
+              <CommonDropdown required label="Status" value={form.status} onChange={updateField('status')} options={ROLE_STATUS_OPTIONS} />
             </Grid>
           </Grid>
-        </Paper>
+        </CommonFormCard>
 
         <Paper sx={{ p: 3, borderRadius: 1 }}>
           <Stack direction={{ xs: 'column', md: 'row' }} justifyContent="space-between" alignItems={{ xs: 'stretch', md: 'center' }} spacing={2} sx={{ mb: 2 }}>
@@ -459,10 +462,7 @@ function RoleFormPage() {
             })}
           </Stack>
 
-          <Stack direction="row" spacing={1.5} sx={{ mt: 3 }}>
-            <Button type="submit" variant="contained" startIcon={<Save />} disabled={saving}>{saving ? 'Saving...' : 'Save'}</Button>
-            <Button variant="outlined" onClick={() => navigate('/admin/roles')}>Cancel</Button>
-          </Stack>
+          <CommonFormActions saving={saving} onCancel={() => navigate('/admin/roles')} />
         </Paper>
       </Box>
     </Box>

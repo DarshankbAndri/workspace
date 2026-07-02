@@ -7,9 +7,6 @@ import {
   FormControlLabel,
   Grid,
   IconButton,
-  MenuItem,
-  Paper,
-  Snackbar,
   Stack,
   Switch,
   Table,
@@ -18,14 +15,37 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  TextField,
   Typography,
 } from '@mui/material';
-import { Add, Delete, Save } from '@mui/icons-material';
+import { Add, Delete } from '@mui/icons-material';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { createEmployee, getEmployeeById, updateEmployee } from '../services/employeeService';
 import { getSites } from '../../site/services/siteService';
 import { getRoles } from '../../admin/services/roleService';
+import CommonInput from '../../../shared/components/common/CommonInput';
+import CommonDatePicker from '../../../shared/components/common/CommonDatePicker';
+import CommonDropdown from '../../../shared/components/common/CommonDropdown';
+import CommonFormActions from '../../../shared/components/common/CommonFormActions';
+import CommonFormCard from '../../../shared/components/common/CommonFormCard';
+
+const STATUS_OPTIONS = [
+  { value: 'ACTIVE', label: 'ACTIVE' },
+  { value: 'INACTIVE', label: 'INACTIVE' },
+];
+
+const GENDER_OPTIONS = [
+  { value: '', label: 'Not set' },
+  { value: 'MALE', label: 'MALE' },
+  { value: 'FEMALE', label: 'FEMALE' },
+  { value: 'OTHER', label: 'OTHER' },
+];
+
+const AUTH_ROLE_OPTIONS = [
+  { value: 'EMPLOYEE', label: 'EMPLOYEE' },
+  { value: 'MANAGER', label: 'MANAGER' },
+  { value: 'HR', label: 'HR' },
+  { value: 'ADMIN', label: 'ADMIN' },
+];
 
 const emptyAssignment = {
   siteId: '',
@@ -78,6 +98,15 @@ function EmployeeFormPage() {
   const [saving, setSaving] = React.useState(false);
   const [snackbar, setSnackbar] = React.useState('');
   const [resetPassword, setResetPassword] = React.useState(false);
+
+  const siteOptions = React.useMemo(
+    () => sites.map((s) => ({ value: s.id, label: s.siteName })),
+    [sites],
+  );
+  const roleOptions = React.useMemo(
+    () => roles.map((r) => ({ value: r.id, label: r.roleName })),
+    [roles],
+  );
 
   React.useEffect(() => {
     getSites().then((data) => setSites(data.filter((site) => site.status !== 'INACTIVE'))).catch(() => setError('Unable to load sites.'));
@@ -235,24 +264,27 @@ function EmployeeFormPage() {
       <Typography variant="h4" fontWeight={800} gutterBottom>{viewOnly ? 'View Employee' : isEdit ? 'Edit Employee' : 'Add Employee'}</Typography>
       {error && <Alert severity="error" sx={{ mb: 2 }} onClose={() => setError('')}>{error}</Alert>}
       <Box component="form" onSubmit={handleSubmit}>
-        <Paper sx={{ p: 3, borderRadius: 1, mb: 2 }}>
-          <Typography variant="h6" fontWeight={800} gutterBottom>Basic Information</Typography>
+        <CommonFormCard title="Basic Information" sx={{ mb: 2 }}>
           <Grid container spacing={2}>
-            <Grid item xs={12} md={3}><TextField required disabled={viewOnly} fullWidth label="Employee Code" value={form.employeeCode} onChange={updateField('employeeCode')} /></Grid>
-            <Grid item xs={12} md={3}><TextField required disabled={viewOnly} fullWidth label="First Name" value={form.firstName} onChange={updateField('firstName')} /></Grid>
-            <Grid item xs={12} md={3}><TextField disabled={viewOnly} fullWidth label="Last Name" value={form.lastName || ''} onChange={updateField('lastName')} /></Grid>
-            <Grid item xs={12} md={3}><TextField required disabled={viewOnly} fullWidth label="Mobile Number" value={form.mobileNumber} onChange={updateField('mobileNumber')} /></Grid>
-            <Grid item xs={12} md={4}><TextField type="email" disabled={viewOnly} fullWidth label="Email" value={form.email || ''} onChange={updateField('email')} /></Grid>
-            <Grid item xs={12} md={2}><TextField select disabled={viewOnly} fullWidth label="Gender" value={form.gender || ''} onChange={updateField('gender')}><MenuItem value="">Not set</MenuItem><MenuItem value="MALE">MALE</MenuItem><MenuItem value="FEMALE">FEMALE</MenuItem><MenuItem value="OTHER">OTHER</MenuItem></TextField></Grid>
-            <Grid item xs={12} md={3}><TextField type="date" disabled={viewOnly} fullWidth label="Date of Birth" value={form.dateOfBirth || ''} onChange={updateField('dateOfBirth')} InputLabelProps={{ shrink: true }} /></Grid>
-            <Grid item xs={12} md={3}><TextField type="date" disabled={viewOnly} fullWidth label="Date of Joining" value={form.dateOfJoining || ''} onChange={updateField('dateOfJoining')} InputLabelProps={{ shrink: true }} /></Grid>
-            <Grid item xs={12} md={4}><TextField disabled={viewOnly} fullWidth label="Designation" value={form.designation || ''} onChange={updateField('designation')} /></Grid>
-            <Grid item xs={12} md={4}><TextField disabled={viewOnly} fullWidth label="Department" value={form.department || ''} onChange={updateField('department')} /></Grid>
-            <Grid item xs={12} md={4}><TextField select disabled={viewOnly} fullWidth label="Status" value={form.status || 'ACTIVE'} onChange={updateField('status')}><MenuItem value="ACTIVE">ACTIVE</MenuItem><MenuItem value="INACTIVE">INACTIVE</MenuItem></TextField></Grid>
+            <Grid item xs={12} md={3}><CommonInput required disabled={viewOnly} label="Employee Code" value={form.employeeCode} onChange={updateField('employeeCode')} /></Grid>
+            <Grid item xs={12} md={3}><CommonInput required disabled={viewOnly} label="First Name" value={form.firstName} onChange={updateField('firstName')} /></Grid>
+            <Grid item xs={12} md={3}><CommonInput disabled={viewOnly} label="Last Name" value={form.lastName || ''} onChange={updateField('lastName')} /></Grid>
+            <Grid item xs={12} md={3}><CommonInput required disabled={viewOnly} label="Mobile Number" value={form.mobileNumber} onChange={updateField('mobileNumber')} /></Grid>
+            <Grid item xs={12} md={4}><CommonInput type="email" disabled={viewOnly} label="Email" value={form.email || ''} onChange={updateField('email')} /></Grid>
+            <Grid item xs={12} md={2}>
+              <CommonDropdown disabled={viewOnly} label="Gender" value={form.gender || ''} onChange={updateField('gender')} options={GENDER_OPTIONS} />
+            </Grid>
+            <Grid item xs={12} md={3}><CommonDatePicker disabled={viewOnly} label="Date of Birth" value={form.dateOfBirth || ''} onChange={updateField('dateOfBirth')} /></Grid>
+            <Grid item xs={12} md={3}><CommonDatePicker disabled={viewOnly} label="Date of Joining" value={form.dateOfJoining || ''} onChange={updateField('dateOfJoining')} /></Grid>
+            <Grid item xs={12} md={4}><CommonInput disabled={viewOnly} label="Designation" value={form.designation || ''} onChange={updateField('designation')} /></Grid>
+            <Grid item xs={12} md={4}><CommonInput disabled={viewOnly} label="Department" value={form.department || ''} onChange={updateField('department')} /></Grid>
+            <Grid item xs={12} md={4}>
+              <CommonDropdown disabled={viewOnly} label="Status" value={form.status || 'ACTIVE'} onChange={updateField('status')} options={STATUS_OPTIONS} />
+            </Grid>
           </Grid>
-        </Paper>
+        </CommonFormCard>
 
-        <Paper sx={{ p: 3, borderRadius: 1, mb: 2 }}>
+        <CommonFormCard sx={{ mb: 2 }}>
           <Stack direction={{ xs: 'column', sm: 'row' }} alignItems={{ xs: 'flex-start', sm: 'center' }} justifyContent="space-between" spacing={2} sx={{ mb: 2 }}>
             <Box>
               <Typography variant="h6" fontWeight={800}>Login Details</Typography>
@@ -264,9 +296,13 @@ function EmployeeFormPage() {
             />
           </Stack>
           <Grid container spacing={2}>
-            <Grid item xs={12} md={4}><TextField required={Boolean(form.loginEnabled)} disabled={viewOnly || !form.loginEnabled} fullWidth label="Username" value={form.username || ''} onChange={updateField('username')} /></Grid>
-            <Grid item xs={12} md={4}><TextField select disabled={viewOnly || !form.loginEnabled} fullWidth label="Auth Role" value={form.authRole || 'EMPLOYEE'} onChange={updateField('authRole')}><MenuItem value="EMPLOYEE">EMPLOYEE</MenuItem><MenuItem value="MANAGER">MANAGER</MenuItem><MenuItem value="HR">HR</MenuItem><MenuItem value="ADMIN">ADMIN</MenuItem></TextField></Grid>
-            <Grid item xs={12} md={4}><TextField select disabled={viewOnly || !form.loginEnabled} fullWidth label="Account Status" value={form.accountStatus || 'ACTIVE'} onChange={updateField('accountStatus')}><MenuItem value="ACTIVE">ACTIVE</MenuItem><MenuItem value="INACTIVE">INACTIVE</MenuItem></TextField></Grid>
+            <Grid item xs={12} md={4}><CommonInput required={Boolean(form.loginEnabled)} disabled={viewOnly || !form.loginEnabled} label="Username" value={form.username || ''} onChange={updateField('username')} /></Grid>
+            <Grid item xs={12} md={4}>
+              <CommonDropdown disabled={viewOnly || !form.loginEnabled} label="Auth Role" value={form.authRole || 'EMPLOYEE'} onChange={updateField('authRole')} options={AUTH_ROLE_OPTIONS} />
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <CommonDropdown disabled={viewOnly || !form.loginEnabled} label="Account Status" value={form.accountStatus || 'ACTIVE'} onChange={updateField('accountStatus')} options={STATUS_OPTIONS} />
+            </Grid>
             {isEdit && form.loginEnabled && !viewOnly && (
               <Grid item xs={12}>
                 <FormControlLabel control={<Checkbox checked={resetPassword} onChange={(event) => setResetPassword(event.target.checked)} />} label="Reset Password" />
@@ -274,14 +310,14 @@ function EmployeeFormPage() {
             )}
             {form.loginEnabled && (!isEdit || resetPassword) && !viewOnly && (
               <>
-                <Grid item xs={12} md={4}><TextField required={!form.userId} type="password" fullWidth label="Password" value={form.password || ''} onChange={updateField('password')} /></Grid>
-                <Grid item xs={12} md={4}><TextField required={!form.userId} type="password" fullWidth label="Confirm Password" value={form.confirmPassword || ''} onChange={updateField('confirmPassword')} /></Grid>
+                <Grid item xs={12} md={4}><CommonInput required={!form.userId} type="password" label="Password" value={form.password || ''} onChange={updateField('password')} /></Grid>
+                <Grid item xs={12} md={4}><CommonInput required={!form.userId} type="password" label="Confirm Password" value={form.confirmPassword || ''} onChange={updateField('confirmPassword')} /></Grid>
               </>
             )}
           </Grid>
-        </Paper>
+        </CommonFormCard>
 
-        <Paper sx={{ p: 3, borderRadius: 1 }}>
+        <CommonFormCard sx={{ mb: 2 }}>
           <Stack direction={{ xs: 'column', sm: 'row' }} alignItems={{ xs: 'flex-start', sm: 'center' }} justifyContent="space-between" spacing={2} sx={{ mb: 2 }}>
             <Box>
               <Typography variant="h6" fontWeight={800}>Site Execution Details</Typography>
@@ -305,21 +341,37 @@ function EmployeeFormPage() {
               <TableBody>
                 {form.siteAssignments.map((assignment, index) => (
                   <TableRow key={`${assignment.assignmentId || 'new'}-${index}`}>
-                    <TableCell><TextField select disabled={viewOnly} fullWidth size="small" value={assignment.siteId || ''} onChange={(event) => updateAssignment(index, 'siteId', event.target.value)}>{sites.map((site) => <MenuItem key={site.id} value={site.id}>{site.siteName}</MenuItem>)}</TextField></TableCell>
-                    <TableCell><TextField disabled={viewOnly} fullWidth size="small" value={assignment.roleName || ''} onChange={(event) => updateAssignment(index, 'roleName', event.target.value)} /></TableCell>
+                    <TableCell>
+                      <CommonDropdown
+                        size="small"
+                        disabled={viewOnly}
+                        value={assignment.siteId || ''}
+                        onChange={(event) => updateAssignment(index, 'siteId', event.target.value)}
+                        options={siteOptions}
+                      />
+                    </TableCell>
+                    <TableCell><CommonInput size="small" disabled={viewOnly} value={assignment.roleName || ''} onChange={(event) => updateAssignment(index, 'roleName', event.target.value)} /></TableCell>
                     <TableCell align="center"><Checkbox disabled={viewOnly} checked={Boolean(assignment.primarySite)} onChange={() => setPrimaryAssignment(index)} /></TableCell>
-                    <TableCell><TextField type="date" disabled={viewOnly} fullWidth size="small" value={assignment.effectiveFrom || ''} onChange={(event) => updateAssignment(index, 'effectiveFrom', event.target.value)} /></TableCell>
-                    <TableCell><TextField type="date" disabled={viewOnly} fullWidth size="small" value={assignment.effectiveTo || ''} onChange={(event) => updateAssignment(index, 'effectiveTo', event.target.value)} /></TableCell>
-                    <TableCell><TextField select disabled={viewOnly} fullWidth size="small" value={assignment.status || 'ACTIVE'} onChange={(event) => updateAssignment(index, 'status', event.target.value)}><MenuItem value="ACTIVE">ACTIVE</MenuItem><MenuItem value="INACTIVE">INACTIVE</MenuItem></TextField></TableCell>
+                    <TableCell><CommonDatePicker size="small" disabled={viewOnly} value={assignment.effectiveFrom || ''} onChange={(event) => updateAssignment(index, 'effectiveFrom', event.target.value)} /></TableCell>
+                    <TableCell><CommonDatePicker size="small" disabled={viewOnly} value={assignment.effectiveTo || ''} onChange={(event) => updateAssignment(index, 'effectiveTo', event.target.value)} /></TableCell>
+                    <TableCell>
+                      <CommonDropdown
+                        size="small"
+                        disabled={viewOnly}
+                        value={assignment.status || 'ACTIVE'}
+                        onChange={(event) => updateAssignment(index, 'status', event.target.value)}
+                        options={STATUS_OPTIONS}
+                      />
+                    </TableCell>
                     <TableCell align="right">{!viewOnly && <IconButton aria-label="Remove assignment" color="error" onClick={() => removeAssignment(index)}><Delete fontSize="small" /></IconButton>}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
           </TableContainer>
-        </Paper>
+        </CommonFormCard>
 
-        <Paper sx={{ p: 3, borderRadius: 1, mt: 2 }}>
+        <CommonFormCard>
           <Stack direction={{ xs: 'column', sm: 'row' }} alignItems={{ xs: 'flex-start', sm: 'center' }} justifyContent="space-between" spacing={2} sx={{ mb: 2 }}>
             <Box>
               <Typography variant="h6" fontWeight={800}>Role Assignment</Typography>
@@ -348,30 +400,49 @@ function EmployeeFormPage() {
                 {form.roleAssignments.map((assignment, index) => (
                   <TableRow key={`${assignment.userRoleId || 'new'}-${index}`}>
                     <TableCell>
-                      <TextField select disabled={viewOnly} fullWidth size="small" value={assignment.siteId || ''} onChange={(event) => updateRoleAssignment(index, 'siteId', event.target.value)}>
-                        <MenuItem value="">Global</MenuItem>
-                        {selectedSites(form.siteAssignments, sites).map((site) => <MenuItem key={site.id} value={site.id}>{site.siteName}</MenuItem>)}
-                      </TextField>
+                      <CommonDropdown
+                        size="small"
+                        disabled={viewOnly}
+                        value={assignment.siteId || ''}
+                        onChange={(event) => updateRoleAssignment(index, 'siteId', event.target.value)}
+                        options={[
+                          { value: '', label: 'Global' },
+                          ...selectedSites(form.siteAssignments, sites).map((s) => ({ value: s.id, label: s.siteName })),
+                        ]}
+                      />
                     </TableCell>
                     <TableCell>
-                      <TextField select disabled={viewOnly} fullWidth size="small" value={assignment.roleId || ''} onChange={(event) => updateRoleAssignment(index, 'roleId', event.target.value)}>
-                        {roles.map((role) => <MenuItem key={role.id} value={role.id}>{role.roleName}</MenuItem>)}
-                      </TextField>
+                      <CommonDropdown
+                        size="small"
+                        disabled={viewOnly}
+                        value={assignment.roleId || ''}
+                        onChange={(event) => updateRoleAssignment(index, 'roleId', event.target.value)}
+                        options={roleOptions}
+                      />
                     </TableCell>
-                    <TableCell><TextField select disabled={viewOnly} fullWidth size="small" value={assignment.status || 'ACTIVE'} onChange={(event) => updateRoleAssignment(index, 'status', event.target.value)}><MenuItem value="ACTIVE">ACTIVE</MenuItem><MenuItem value="INACTIVE">INACTIVE</MenuItem></TextField></TableCell>
+                    <TableCell>
+                      <CommonDropdown
+                        size="small"
+                        disabled={viewOnly}
+                        value={assignment.status || 'ACTIVE'}
+                        onChange={(event) => updateRoleAssignment(index, 'status', event.target.value)}
+                        options={STATUS_OPTIONS}
+                      />
+                    </TableCell>
                     <TableCell align="right">{!viewOnly && <IconButton aria-label="Remove role" color="error" onClick={() => removeRoleAssignment(index)}><Delete fontSize="small" /></IconButton>}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
           </TableContainer>
-          <Stack direction="row" spacing={1.5} sx={{ mt: 3 }}>
-            {!viewOnly && <Button type="submit" variant="contained" startIcon={<Save />} disabled={saving}>{saving ? 'Saving...' : 'Save'}</Button>}
-            <Button variant="outlined" onClick={() => navigate('/hr/employees')}>{viewOnly ? 'Back' : 'Cancel'}</Button>
-          </Stack>
-        </Paper>
+          <CommonFormActions
+            saving={saving}
+            showSave={!viewOnly}
+            onCancel={() => navigate('/hr/employees')}
+            cancelLabel={viewOnly ? 'Back' : 'Cancel'}
+          />
+        </CommonFormCard>
       </Box>
-      <Snackbar open={Boolean(snackbar)} autoHideDuration={3000} message={snackbar} onClose={() => setSnackbar('')} />
     </Box>
   );
 }

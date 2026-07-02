@@ -1,10 +1,15 @@
 import React from 'react';
-import { Alert, Box, Button, Chip, Grid, MenuItem, Paper, Stack, TextField, Typography } from '@mui/material';
-import { Save } from '@mui/icons-material';
+import { Alert, Box, Chip, Grid, Stack, Typography } from '@mui/material';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { createMaintenanceRequest, getMaintenanceRequestById, updateMaintenanceRequest } from '../services/maintenanceRequestService';
 import { getEquipments } from '../../equipment/services/equipmentService';
 import { getSites } from '../../site/services/siteService';
+import CommonInput from '../../../shared/components/common/CommonInput';
+import CommonTextArea from '../../../shared/components/common/CommonTextArea';
+import CommonDatePicker from '../../../shared/components/common/CommonDatePicker';
+import CommonDropdown from '../../../shared/components/common/CommonDropdown';
+import CommonFormActions from '../../../shared/components/common/CommonFormActions';
+import CommonFormCard from '../../../shared/components/common/CommonFormCard';
 
 const initialForm = {
   siteId: '',
@@ -18,6 +23,29 @@ const initialForm = {
   requestedDate: new Date().toISOString().slice(0, 10),
   targetCompletionDate: '',
 };
+
+const REQUEST_TYPE_OPTIONS = [
+  { value: 'BREAKDOWN', label: 'Breakdown' },
+  { value: 'PREVENTIVE', label: 'Preventive' },
+  { value: 'INSPECTION', label: 'Inspection' },
+  { value: 'CALIBRATION', label: 'Calibration' },
+];
+
+const PRIORITY_OPTIONS = [
+  { value: 'LOW', label: 'Low' },
+  { value: 'MEDIUM', label: 'Medium' },
+  { value: 'HIGH', label: 'High' },
+  { value: 'URGENT', label: 'Urgent' },
+];
+
+const REQUEST_STATUS_OPTIONS = [
+  { value: 'OPEN', label: 'Open' },
+  { value: 'ASSIGNED', label: 'Assigned' },
+  { value: 'IN_PROGRESS', label: 'In Progress' },
+  { value: 'ON_HOLD', label: 'On Hold' },
+  { value: 'CLOSED', label: 'Closed' },
+  { value: 'CANCELLED', label: 'Cancelled' },
+];
 
 function MaintenanceRequestFormPage() {
   const { id } = useParams();
@@ -71,6 +99,9 @@ function MaintenanceRequestFormPage() {
     }
   };
 
+  const siteOptions = React.useMemo(() => sites.map((s) => ({ value: s.id, label: `${s.siteName} (${s.siteCode})` })), [sites]);
+  const equipmentOptions = React.useMemo(() => formEquipments.map((e) => ({ value: e.id, label: `${e.equipmentCode} - ${e.equipmentName}` })), [formEquipments]);
+
   return (
     <Box>
       <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.5} alignItems={{ xs: 'flex-start', sm: 'center' }} sx={{ mb: 1 }}>
@@ -79,24 +110,36 @@ function MaintenanceRequestFormPage() {
       </Stack>
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
       <Box component="form" onSubmit={handleSubmit}>
-        <Paper sx={{ p: 3, borderRadius: 1 }}>
+        <CommonFormCard>
           <Grid container spacing={2}>
-            <Grid item xs={12} md={4}><TextField required select fullWidth disabled={isView} label="Site" value={form.siteId} onChange={updateSite}>{sites.map((site) => <MenuItem key={site.id} value={site.id}>{site.siteName} ({site.siteCode})</MenuItem>)}</TextField></Grid>
-            <Grid item xs={12} md={4}><TextField required select fullWidth disabled={isView || !form.siteId} label="Equipment" value={form.equipmentId} onChange={updateField('equipmentId')}>{formEquipments.map((item) => <MenuItem key={item.id} value={item.id}>{item.equipmentCode} - {item.equipmentName}</MenuItem>)}</TextField></Grid>
-            <Grid item xs={12} md={4}><TextField required fullWidth disabled={isView} label="Title" value={form.title || ''} onChange={updateField('title')} /></Grid>
-            <Grid item xs={12} md={4}><TextField fullWidth disabled={isView} label="Reported By" value={form.reportedBy || ''} onChange={updateField('reportedBy')} /></Grid>
-            <Grid item xs={12} md={3}><TextField select fullWidth disabled={isView} label="Type" value={form.requestType || 'BREAKDOWN'} onChange={updateField('requestType')}><MenuItem value="BREAKDOWN">Breakdown</MenuItem><MenuItem value="PREVENTIVE">Preventive</MenuItem><MenuItem value="INSPECTION">Inspection</MenuItem><MenuItem value="CALIBRATION">Calibration</MenuItem></TextField></Grid>
-            <Grid item xs={12} md={3}><TextField select fullWidth disabled={isView} label="Priority" value={form.priority || 'MEDIUM'} onChange={updateField('priority')}><MenuItem value="LOW">Low</MenuItem><MenuItem value="MEDIUM">Medium</MenuItem><MenuItem value="HIGH">High</MenuItem><MenuItem value="URGENT">Urgent</MenuItem></TextField></Grid>
-            <Grid item xs={12} md={3}><TextField select fullWidth disabled={isView} label="Status" value={form.status || 'OPEN'} onChange={updateField('status')}><MenuItem value="OPEN">Open</MenuItem><MenuItem value="ASSIGNED">Assigned</MenuItem><MenuItem value="IN_PROGRESS">In Progress</MenuItem><MenuItem value="ON_HOLD">On Hold</MenuItem><MenuItem value="CLOSED">Closed</MenuItem><MenuItem value="CANCELLED">Cancelled</MenuItem></TextField></Grid>
-            <Grid item xs={12} md={3}><TextField type="date" fullWidth disabled={isView} label="Requested Date" value={form.requestedDate || ''} onChange={updateField('requestedDate')} InputLabelProps={{ shrink: true }} /></Grid>
-            <Grid item xs={12} md={3}><TextField type="date" fullWidth disabled={isView} label="Target Completion" value={form.targetCompletionDate || ''} onChange={updateField('targetCompletionDate')} InputLabelProps={{ shrink: true }} /></Grid>
-            <Grid item xs={12} md={9}><TextField required fullWidth disabled={isView} multiline minRows={2} label="Description" value={form.description || ''} onChange={updateField('description')} /></Grid>
+            <Grid item xs={12} md={4}>
+              <CommonDropdown required disabled={isView} label="Site" value={form.siteId} onChange={updateSite} options={siteOptions} />
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <CommonDropdown required disabled={isView || !form.siteId} label="Equipment" value={form.equipmentId} onChange={updateField('equipmentId')} options={equipmentOptions} />
+            </Grid>
+            <Grid item xs={12} md={4}><CommonInput required disabled={isView} label="Title" value={form.title || ''} onChange={updateField('title')} /></Grid>
+            <Grid item xs={12} md={4}><CommonInput disabled={isView} label="Reported By" value={form.reportedBy || ''} onChange={updateField('reportedBy')} /></Grid>
+            <Grid item xs={12} md={3}>
+              <CommonDropdown disabled={isView} label="Type" value={form.requestType || 'BREAKDOWN'} onChange={updateField('requestType')} options={REQUEST_TYPE_OPTIONS} />
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <CommonDropdown disabled={isView} label="Priority" value={form.priority || 'MEDIUM'} onChange={updateField('priority')} options={PRIORITY_OPTIONS} />
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <CommonDropdown disabled={isView} label="Status" value={form.status || 'OPEN'} onChange={updateField('status')} options={REQUEST_STATUS_OPTIONS} />
+            </Grid>
+            <Grid item xs={12} md={3}><CommonDatePicker disabled={isView} label="Requested Date" value={form.requestedDate || ''} onChange={updateField('requestedDate')} /></Grid>
+            <Grid item xs={12} md={3}><CommonDatePicker disabled={isView} label="Target Completion" value={form.targetCompletionDate || ''} onChange={updateField('targetCompletionDate')} /></Grid>
+            <Grid item xs={12} md={9}><CommonTextArea required disabled={isView} minRows={2} label="Description" value={form.description || ''} onChange={updateField('description')} /></Grid>
           </Grid>
-          <Stack direction="row" spacing={1.5} sx={{ mt: 3 }}>
-            {!isView && <Button type="submit" variant="contained" startIcon={<Save />} disabled={saving}>{saving ? 'Saving...' : 'Save'}</Button>}
-            <Button variant="outlined" onClick={() => navigate('/maintenance/requests')}>{isView ? 'Back' : 'Cancel'}</Button>
-          </Stack>
-        </Paper>
+          <CommonFormActions
+            saving={saving}
+            showSave={!isView}
+            onCancel={() => navigate('/maintenance/requests')}
+            cancelLabel={isView ? 'Back' : 'Cancel'}
+          />
+        </CommonFormCard>
       </Box>
     </Box>
   );

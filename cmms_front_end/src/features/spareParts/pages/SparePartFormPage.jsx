@@ -1,10 +1,14 @@
 import React from 'react';
-import { Alert, Box, Button, Grid, MenuItem, Paper, Stack, TextField, Typography } from '@mui/material';
-import { Save } from '@mui/icons-material';
+import { Alert, Box, Grid, Typography } from '@mui/material';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { createSparePart, getSparePartById, updateSparePart } from '../services/sparePartService';
 import { getSites } from '../../site/services/siteService';
 import { getVendorsBySite } from '../../vendor/services/vendorService';
+import CommonInput from '../../../shared/components/common/CommonInput';
+import CommonTextArea from '../../../shared/components/common/CommonTextArea';
+import CommonDropdown from '../../../shared/components/common/CommonDropdown';
+import CommonFormActions from '../../../shared/components/common/CommonFormActions';
+import CommonFormCard from '../../../shared/components/common/CommonFormCard';
 
 const initialForm = {
   partCode: '',
@@ -20,6 +24,11 @@ const initialForm = {
   storageLocation: '',
   status: 'ACTIVE',
 };
+
+const SPARE_STATUS_OPTIONS = [
+  { value: 'ACTIVE', label: 'Active' },
+  { value: 'INACTIVE', label: 'Inactive' },
+];
 
 function SparePartFormPage() {
   const { id } = useParams();
@@ -94,30 +103,44 @@ function SparePartFormPage() {
     }
   };
 
+  const siteOptions = React.useMemo(() => sites.map((s) => ({ value: s.id, label: `${s.siteName} (${s.siteCode})` })), [sites]);
+  const vendorOptions = React.useMemo(() => [
+    { value: '', label: 'No preferred vendor' },
+    ...vendors.map((v) => ({ value: v.id, label: v.vendorName })),
+  ], [vendors]);
+
   return (
     <Box>
       <Typography variant="h4" fontWeight={800} gutterBottom>{isView ? 'View Spare Part' : isEdit ? 'Edit Spare Part' : 'Add Spare Part'}</Typography>
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
-      <Paper component="form" onSubmit={handleSubmit} sx={{ p: 3, borderRadius: 1 }}>
+      <CommonFormCard component="form" onSubmit={handleSubmit}>
         <Grid container spacing={2}>
-          <Grid item xs={12} md={4}><TextField required fullWidth disabled={isView || isEdit} label="Part Code" value={form.partCode || ''} onChange={updateField('partCode')} /></Grid>
-          <Grid item xs={12} md={4}><TextField required fullWidth disabled={isView} label="Part Name" value={form.partName || ''} onChange={updateField('partName')} /></Grid>
-          <Grid item xs={12} md={4}><TextField required fullWidth disabled={isView} label="Unit" value={form.unit || ''} onChange={updateField('unit')} /></Grid>
-          <Grid item xs={12} md={4}><TextField fullWidth disabled={isView} label="Category" value={form.category || ''} onChange={updateField('category')} /></Grid>
-          <Grid item xs={12} md={4}><TextField required select fullWidth disabled={isView || isEdit} label="Site" value={form.siteId || ''} onChange={updateSite}>{sites.map((site) => <MenuItem key={site.id} value={site.id}>{site.siteName} ({site.siteCode})</MenuItem>)}</TextField></Grid>
-          <Grid item xs={12} md={4}><TextField select fullWidth disabled={isView || !form.siteId} label="Preferred Vendor" value={form.preferredVendorId || ''} onChange={updateField('preferredVendorId')}><MenuItem value="">No preferred vendor</MenuItem>{vendors.map((vendor) => <MenuItem key={vendor.id} value={vendor.id}>{vendor.vendorName}</MenuItem>)}</TextField></Grid>
-          <Grid item xs={12} md={3}><TextField type="number" fullWidth disabled={isView || isEdit} label="Opening Stock" value={form.currentStock ?? 0} onChange={updateField('currentStock')} /></Grid>
-          <Grid item xs={12} md={3}><TextField type="number" fullWidth disabled={isView} label="Minimum Stock" value={form.minimumStock ?? 0} onChange={updateField('minimumStock')} /></Grid>
-          <Grid item xs={12} md={3}><TextField type="number" fullWidth disabled={isView} label="Unit Cost" value={form.unitCost ?? 0} onChange={updateField('unitCost')} /></Grid>
-          <Grid item xs={12} md={3}><TextField select fullWidth disabled={isView} label="Status" value={form.status || 'ACTIVE'} onChange={updateField('status')}><MenuItem value="ACTIVE">Active</MenuItem><MenuItem value="INACTIVE">Inactive</MenuItem></TextField></Grid>
-          <Grid item xs={12} md={6}><TextField fullWidth disabled={isView} label="Storage Location" value={form.storageLocation || ''} onChange={updateField('storageLocation')} /></Grid>
-          <Grid item xs={12} md={6}><TextField fullWidth disabled={isView} multiline minRows={2} label="Description" value={form.description || ''} onChange={updateField('description')} /></Grid>
+          <Grid item xs={12} md={4}><CommonInput required disabled={isView || isEdit} label="Part Code" value={form.partCode || ''} onChange={updateField('partCode')} /></Grid>
+          <Grid item xs={12} md={4}><CommonInput required disabled={isView} label="Part Name" value={form.partName || ''} onChange={updateField('partName')} /></Grid>
+          <Grid item xs={12} md={4}><CommonInput required disabled={isView} label="Unit" value={form.unit || ''} onChange={updateField('unit')} /></Grid>
+          <Grid item xs={12} md={4}><CommonInput disabled={isView} label="Category" value={form.category || ''} onChange={updateField('category')} /></Grid>
+          <Grid item xs={12} md={4}>
+            <CommonDropdown required disabled={isView || isEdit} label="Site" value={form.siteId || ''} onChange={updateSite} options={siteOptions} />
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <CommonDropdown disabled={isView || !form.siteId} label="Preferred Vendor" value={form.preferredVendorId || ''} onChange={updateField('preferredVendorId')} options={vendorOptions} />
+          </Grid>
+          <Grid item xs={12} md={3}><CommonInput type="number" disabled={isView || isEdit} label="Opening Stock" value={form.currentStock ?? 0} onChange={updateField('currentStock')} /></Grid>
+          <Grid item xs={12} md={3}><CommonInput type="number" disabled={isView} label="Minimum Stock" value={form.minimumStock ?? 0} onChange={updateField('minimumStock')} /></Grid>
+          <Grid item xs={12} md={3}><CommonInput type="number" disabled={isView} label="Unit Cost" value={form.unitCost ?? 0} onChange={updateField('unitCost')} /></Grid>
+          <Grid item xs={12} md={3}>
+            <CommonDropdown disabled={isView} label="Status" value={form.status || 'ACTIVE'} onChange={updateField('status')} options={SPARE_STATUS_OPTIONS} />
+          </Grid>
+          <Grid item xs={12} md={6}><CommonInput disabled={isView} label="Storage Location" value={form.storageLocation || ''} onChange={updateField('storageLocation')} /></Grid>
+          <Grid item xs={12} md={6}><CommonTextArea disabled={isView} minRows={2} label="Description" value={form.description || ''} onChange={updateField('description')} /></Grid>
         </Grid>
-        <Stack direction="row" spacing={1.5} sx={{ mt: 3 }}>
-          {!isView && <Button type="submit" variant="contained" startIcon={<Save />} disabled={saving}>{saving ? 'Saving...' : 'Save'}</Button>}
-          <Button variant="outlined" onClick={() => navigate('/inventory/spare-parts')}>{isView ? 'Back' : 'Cancel'}</Button>
-        </Stack>
-      </Paper>
+        <CommonFormActions
+          saving={saving}
+          showSave={!isView}
+          onCancel={() => navigate('/inventory/spare-parts')}
+          cancelLabel={isView ? 'Back' : 'Cancel'}
+        />
+      </CommonFormCard>
     </Box>
   );
 }

@@ -1,9 +1,13 @@
 import React from 'react';
-import { Alert, Box, Button, Grid, MenuItem, Paper, Stack, TextField, Typography } from '@mui/material';
-import { Save } from '@mui/icons-material';
+import { Alert, Box, Grid, Typography } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import { createEquipment, getEquipmentById, updateEquipment } from '../services/equipmentService';
 import { getSites } from '../../site/services/siteService';
+import CommonInput from '../../../shared/components/common/CommonInput';
+import CommonDatePicker from '../../../shared/components/common/CommonDatePicker';
+import CommonDropdown from '../../../shared/components/common/CommonDropdown';
+import CommonFormActions from '../../../shared/components/common/CommonFormActions';
+import CommonFormCard from '../../../shared/components/common/CommonFormCard';
 
 const initialForm = {
   equipmentCode: '',
@@ -19,6 +23,20 @@ const initialForm = {
   status: 'ACTIVE',
   criticality: 'MEDIUM',
 };
+
+const STATUS_OPTIONS = [
+  { value: 'ACTIVE', label: 'Active' },
+  { value: 'INACTIVE', label: 'Inactive' },
+  { value: 'UNDER_MAINTENANCE', label: 'Under Maintenance' },
+  { value: 'RETIRED', label: 'Retired' },
+];
+
+const CRITICALITY_OPTIONS = [
+  { value: 'LOW', label: 'Low' },
+  { value: 'MEDIUM', label: 'Medium' },
+  { value: 'HIGH', label: 'High' },
+  { value: 'CRITICAL', label: 'Critical' },
+];
 
 function EquipmentFormPage() {
   const { id } = useParams();
@@ -60,30 +78,38 @@ function EquipmentFormPage() {
     }
   };
 
+  const siteOptions = React.useMemo(
+    () => sites.map((s) => ({ value: s.id, label: `${s.siteName} (${s.siteCode})` })),
+    [sites],
+  );
+
   return (
     <Box>
       <Typography variant="h4" fontWeight={800} gutterBottom>{isEdit ? 'Edit Equipment' : 'Add Equipment'}</Typography>
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
-      <Paper component="form" onSubmit={handleSubmit} sx={{ p: 3, borderRadius: 1 }}>
+      <CommonFormCard component="form" onSubmit={handleSubmit}>
         <Grid container spacing={2}>
-          <Grid item xs={12} md={4}><TextField required fullWidth label="Equipment Code" value={form.equipmentCode} onChange={updateField('equipmentCode')} /></Grid>
-          <Grid item xs={12} md={4}><TextField required fullWidth label="Equipment Name" value={form.equipmentName} onChange={updateField('equipmentName')} /></Grid>
-          <Grid item xs={12} md={4}><TextField required select fullWidth label="Site" value={form.siteId || ''} onChange={updateField('siteId')}>{sites.map((site) => <MenuItem key={site.id} value={site.id}>{site.siteName} ({site.siteCode})</MenuItem>)}</TextField></Grid>
-          <Grid item xs={12} md={4}><TextField required fullWidth label="Category" value={form.category} onChange={updateField('category')} /></Grid>
-          <Grid item xs={12} md={4}><TextField fullWidth label="Location" value={form.location || ''} onChange={updateField('location')} /></Grid>
-          <Grid item xs={12} md={4}><TextField fullWidth label="Manufacturer" value={form.manufacturer || ''} onChange={updateField('manufacturer')} /></Grid>
-          <Grid item xs={12} md={4}><TextField fullWidth label="Model Number" value={form.modelNumber || ''} onChange={updateField('modelNumber')} /></Grid>
-          <Grid item xs={12} md={4}><TextField fullWidth label="Serial Number" value={form.serialNumber || ''} onChange={updateField('serialNumber')} /></Grid>
-          <Grid item xs={12} md={4}><TextField select fullWidth label="Status" value={form.status || 'ACTIVE'} onChange={updateField('status')}><MenuItem value="ACTIVE">Active</MenuItem><MenuItem value="INACTIVE">Inactive</MenuItem><MenuItem value="UNDER_MAINTENANCE">Under Maintenance</MenuItem><MenuItem value="RETIRED">Retired</MenuItem></TextField></Grid>
-          <Grid item xs={12} md={4}><TextField type="date" fullWidth label="Installation Date" value={form.installationDate || ''} onChange={updateField('installationDate')} InputLabelProps={{ shrink: true }} /></Grid>
-          <Grid item xs={12} md={4}><TextField type="date" fullWidth label="Warranty Expiry" value={form.warrantyExpiryDate || ''} onChange={updateField('warrantyExpiryDate')} InputLabelProps={{ shrink: true }} /></Grid>
-          <Grid item xs={12} md={4}><TextField select fullWidth label="Criticality" value={form.criticality || 'MEDIUM'} onChange={updateField('criticality')}><MenuItem value="LOW">Low</MenuItem><MenuItem value="MEDIUM">Medium</MenuItem><MenuItem value="HIGH">High</MenuItem><MenuItem value="CRITICAL">Critical</MenuItem></TextField></Grid>
+          <Grid item xs={12} md={4}><CommonInput required label="Equipment Code" value={form.equipmentCode} onChange={updateField('equipmentCode')} /></Grid>
+          <Grid item xs={12} md={4}><CommonInput required label="Equipment Name" value={form.equipmentName} onChange={updateField('equipmentName')} /></Grid>
+          <Grid item xs={12} md={4}>
+            <CommonDropdown required label="Site" value={form.siteId || ''} onChange={updateField('siteId')} options={siteOptions} />
+          </Grid>
+          <Grid item xs={12} md={4}><CommonInput required label="Category" value={form.category} onChange={updateField('category')} /></Grid>
+          <Grid item xs={12} md={4}><CommonInput label="Location" value={form.location || ''} onChange={updateField('location')} /></Grid>
+          <Grid item xs={12} md={4}><CommonInput label="Manufacturer" value={form.manufacturer || ''} onChange={updateField('manufacturer')} /></Grid>
+          <Grid item xs={12} md={4}><CommonInput label="Model Number" value={form.modelNumber || ''} onChange={updateField('modelNumber')} /></Grid>
+          <Grid item xs={12} md={4}><CommonInput label="Serial Number" value={form.serialNumber || ''} onChange={updateField('serialNumber')} /></Grid>
+          <Grid item xs={12} md={4}>
+            <CommonDropdown label="Status" value={form.status || 'ACTIVE'} onChange={updateField('status')} options={STATUS_OPTIONS} />
+          </Grid>
+          <Grid item xs={12} md={4}><CommonDatePicker label="Installation Date" value={form.installationDate || ''} onChange={updateField('installationDate')} /></Grid>
+          <Grid item xs={12} md={4}><CommonDatePicker label="Warranty Expiry" value={form.warrantyExpiryDate || ''} onChange={updateField('warrantyExpiryDate')} /></Grid>
+          <Grid item xs={12} md={4}>
+            <CommonDropdown label="Criticality" value={form.criticality || 'MEDIUM'} onChange={updateField('criticality')} options={CRITICALITY_OPTIONS} />
+          </Grid>
         </Grid>
-        <Stack direction="row" spacing={1.5} sx={{ mt: 3 }}>
-          <Button type="submit" variant="contained" startIcon={<Save />} disabled={saving}>{saving ? 'Saving...' : 'Save'}</Button>
-          <Button variant="outlined" onClick={() => navigate('/equipment')}>Cancel</Button>
-        </Stack>
-      </Paper>
+        <CommonFormActions saving={saving} onCancel={() => navigate('/equipment')} />
+      </CommonFormCard>
     </Box>
   );
 }

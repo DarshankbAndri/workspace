@@ -1,9 +1,14 @@
 import React from 'react';
-import { Alert, Box, Button, Grid, MenuItem, Paper, Stack, TextField, Typography } from '@mui/material';
-import { CloudUpload, Save } from '@mui/icons-material';
+import { Alert, Box, Grid, Stack, Typography } from '@mui/material';
 import { useAuth } from '../../../shared/context/AuthContext';
 import { PERMISSIONS } from '../../../shared/utils/permissionRoutes';
 import { createCompany, getCurrentCompany, resolveCompanyLogoUrl, updateCompany, uploadCompanyLogo } from '../services/companyService';
+import CommonInput from '../../../shared/components/common/CommonInput';
+import CommonTextArea from '../../../shared/components/common/CommonTextArea';
+import CommonDropdown from '../../../shared/components/common/CommonDropdown';
+import CommonFormActions from '../../../shared/components/common/CommonFormActions';
+import CommonFormCard from '../../../shared/components/common/CommonFormCard';
+import CommonFileUpload from '../../../shared/components/common/CommonFileUpload';
 
 const initialForm = {
   companyName: '',
@@ -14,6 +19,11 @@ const initialForm = {
   status: 'ACTIVE',
   logoUrl: '',
 };
+
+const STATUS_OPTIONS = [
+  { value: 'ACTIVE', label: 'ACTIVE' },
+  { value: 'INACTIVE', label: 'INACTIVE' },
+];
 
 function CompanyFormPage() {
   const { hasPermission } = useAuth();
@@ -95,25 +105,25 @@ function CompanyFormPage() {
       <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>Maintain company information used in the top navigation bar.</Typography>
       {error && <Alert severity="error" sx={{ mb: 2 }} onClose={() => setError('')}>{error}</Alert>}
       {success && <Alert severity="success" sx={{ mb: 2 }} onClose={() => setSuccess('')}>{success}</Alert>}
-      <Paper component="form" onSubmit={handleSubmit} sx={{ p: 3, borderRadius: 1 }}>
+      <CommonFormCard component="form" onSubmit={handleSubmit}>
         <Grid container spacing={2}>
-          <Grid item xs={12} md={4}><TextField required disabled={!canPersist} fullWidth label="Company Code" value={form.companyCode || ''} onChange={updateField('companyCode')} /></Grid>
-          <Grid item xs={12} md={8}><TextField required disabled={!canPersist} fullWidth label="Company Name" value={form.companyName || ''} onChange={updateField('companyName')} /></Grid>
-          <Grid item xs={12} md={4}><TextField type="email" disabled={!canPersist} fullWidth label="Email" value={form.email || ''} onChange={updateField('email')} /></Grid>
-          <Grid item xs={12} md={4}><TextField disabled={!canPersist} fullWidth label="Phone Number" value={form.phoneNumber || ''} onChange={updateField('phoneNumber')} /></Grid>
+          <Grid item xs={12} md={4}><CommonInput required disabled={!canPersist} label="Company Code" value={form.companyCode || ''} onChange={updateField('companyCode')} /></Grid>
+          <Grid item xs={12} md={8}><CommonInput required disabled={!canPersist} label="Company Name" value={form.companyName || ''} onChange={updateField('companyName')} /></Grid>
+          <Grid item xs={12} md={4}><CommonInput type="email" disabled={!canPersist} label="Email" value={form.email || ''} onChange={updateField('email')} /></Grid>
+          <Grid item xs={12} md={4}><CommonInput disabled={!canPersist} label="Phone Number" value={form.phoneNumber || ''} onChange={updateField('phoneNumber')} /></Grid>
           <Grid item xs={12} md={4}>
-            <TextField select disabled={!canPersist} fullWidth label="Status" value={form.status || 'ACTIVE'} onChange={updateField('status')}>
-              <MenuItem value="ACTIVE">ACTIVE</MenuItem>
-              <MenuItem value="INACTIVE">INACTIVE</MenuItem>
-            </TextField>
+            <CommonDropdown disabled={!canPersist} label="Status" value={form.status || 'ACTIVE'} onChange={updateField('status')} options={STATUS_OPTIONS} />
           </Grid>
-          <Grid item xs={12}><TextField disabled={!canPersist} fullWidth multiline minRows={3} label="Address" value={form.address || ''} onChange={updateField('address')} /></Grid>
+          <Grid item xs={12}><CommonTextArea disabled={!canPersist} label="Address" value={form.address || ''} onChange={updateField('address')} /></Grid>
           <Grid item xs={12} md={5}>
             <Stack spacing={1.5}>
-              {canUploadLogo && <Button component="label" variant="outlined" startIcon={<CloudUpload />}>
-                Upload Logo
-                <input hidden type="file" accept="image/*" onChange={(event) => setLogoFile(event.target.files?.[0] || null)} />
-              </Button>}
+              {canUploadLogo && (
+                <CommonFileUpload
+                  label="Upload Logo"
+                  accept="image/*"
+                  onChange={(event) => setLogoFile(event.target.files?.[0] || null)}
+                />
+              )}
               {logoPreview && (
                 <Box
                   sx={{
@@ -134,10 +144,8 @@ function CompanyFormPage() {
             </Stack>
           </Grid>
         </Grid>
-        <Stack direction="row" spacing={1.5} sx={{ mt: 3 }}>
-          {canPersist && <Button type="submit" variant="contained" startIcon={<Save />} disabled={saving}>{saving ? 'Saving...' : 'Save Company'}</Button>}
-        </Stack>
-      </Paper>
+        <CommonFormActions saving={saving} showSave={canPersist} saveLabel="Save Company" />
+      </CommonFormCard>
     </Box>
   );
 }

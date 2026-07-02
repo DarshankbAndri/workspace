@@ -1,9 +1,20 @@
 import React from 'react';
-import { Alert, Box, Button, Checkbox, FormControlLabel, Grid, IconButton, MenuItem, Paper, Stack, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
-import { Add, Delete, Save } from '@mui/icons-material';
+import { Alert, Box, Checkbox, FormControlLabel, Grid, IconButton, Stack, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
+import { Add, Delete } from '@mui/icons-material';
 import { useNavigate, useParams } from 'react-router-dom';
 import { createVendor, getVendorById, updateVendor } from '../services/vendorService';
 import { getSites } from '../../site/services/siteService';
+import CommonInput from '../../../shared/components/common/CommonInput';
+import CommonTextArea from '../../../shared/components/common/CommonTextArea';
+import CommonDropdown from '../../../shared/components/common/CommonDropdown';
+import CommonFormActions from '../../../shared/components/common/CommonFormActions';
+import CommonFormCard from '../../../shared/components/common/CommonFormCard';
+import { Button } from '@mui/material';
+
+const STATUS_OPTIONS = [
+  { value: 'ACTIVE', label: 'ACTIVE' },
+  { value: 'INACTIVE', label: 'INACTIVE' },
+];
 
 const emptyAssignment = {
   siteId: '',
@@ -108,25 +119,29 @@ function VendorFormPage() {
     }
   };
 
+  const siteOptions = React.useMemo(
+    () => sites.map((s) => ({ value: s.id, label: `${s.siteName} (${s.siteCode})` })),
+    [sites],
+  );
+
   return (
     <Box>
       <Typography variant="h4" fontWeight={800} gutterBottom>{isEdit ? 'Edit Vendor' : 'Add Vendor'}</Typography>
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
       <Box component="form" onSubmit={handleSubmit}>
-      <Paper sx={{ p: 3, borderRadius: 1, mb: 2 }}>
-        <Typography variant="h6" fontWeight={800} gutterBottom>Vendor Basic Details</Typography>
+      <CommonFormCard title="Vendor Basic Details" sx={{ mb: 2 }}>
         <Grid container spacing={2}>
-          <Grid item xs={12} md={4}><TextField required fullWidth label="Vendor Code" value={form.vendorCode} onChange={updateField('vendorCode')} /></Grid>
-          <Grid item xs={12} md={8}><TextField required fullWidth label="Vendor Name" value={form.vendorName} onChange={updateField('vendorName')} /></Grid>
-          <Grid item xs={12} md={4}><TextField fullWidth label="Contact Person" value={form.contactPerson || ''} onChange={updateField('contactPerson')} /></Grid>
-          <Grid item xs={12} md={4}><TextField type="email" fullWidth label="Email" value={form.email || ''} onChange={updateField('email')} /></Grid>
-          <Grid item xs={12} md={4}><TextField fullWidth label="Phone" value={form.phone || ''} onChange={updateField('phone')} /></Grid>
-          <Grid item xs={12} md={6}><TextField fullWidth label="Service Category" value={form.serviceCategory || ''} onChange={updateField('serviceCategory')} /></Grid>
+          <Grid item xs={12} md={4}><CommonInput required label="Vendor Code" value={form.vendorCode} onChange={updateField('vendorCode')} /></Grid>
+          <Grid item xs={12} md={8}><CommonInput required label="Vendor Name" value={form.vendorName} onChange={updateField('vendorName')} /></Grid>
+          <Grid item xs={12} md={4}><CommonInput label="Contact Person" value={form.contactPerson || ''} onChange={updateField('contactPerson')} /></Grid>
+          <Grid item xs={12} md={4}><CommonInput type="email" label="Email" value={form.email || ''} onChange={updateField('email')} /></Grid>
+          <Grid item xs={12} md={4}><CommonInput label="Phone" value={form.phone || ''} onChange={updateField('phone')} /></Grid>
+          <Grid item xs={12} md={6}><CommonInput label="Service Category" value={form.serviceCategory || ''} onChange={updateField('serviceCategory')} /></Grid>
           <Grid item xs={12} md={6}><FormControlLabel control={<Switch checked={Boolean(form.active)} onChange={updateActive} />} label="Active vendor" /></Grid>
-          <Grid item xs={12}><TextField fullWidth multiline minRows={3} label="Address" value={form.address || ''} onChange={updateField('address')} /></Grid>
+          <Grid item xs={12}><CommonTextArea label="Address" value={form.address || ''} onChange={updateField('address')} /></Grid>
         </Grid>
-      </Paper>
-      <Paper sx={{ p: 3, borderRadius: 1 }}>
+      </CommonFormCard>
+      <CommonFormCard>
         <Stack direction={{ xs: 'column', sm: 'row' }} alignItems={{ xs: 'flex-start', sm: 'center' }} justifyContent="space-between" spacing={2} sx={{ mb: 2 }}>
           <Box>
             <Typography variant="h6" fontWeight={800}>Site Assignment</Typography>
@@ -147,20 +162,31 @@ function VendorFormPage() {
             <TableBody>
               {form.siteAssignments.map((assignment, index) => (
                 <TableRow key={`${assignment.assignmentId || 'new'}-${index}`}>
-                  <TableCell><TextField select fullWidth size="small" value={assignment.siteId || ''} onChange={(event) => updateAssignment(index, 'siteId', event.target.value)}>{sites.map((site) => <MenuItem key={site.id} value={site.id}>{site.siteName} ({site.siteCode})</MenuItem>)}</TextField></TableCell>
+                  <TableCell>
+                    <CommonDropdown
+                      size="small"
+                      value={assignment.siteId || ''}
+                      onChange={(event) => updateAssignment(index, 'siteId', event.target.value)}
+                      options={siteOptions}
+                    />
+                  </TableCell>
                   <TableCell align="center"><Checkbox checked={Boolean(assignment.primarySite)} onChange={() => setPrimaryAssignment(index)} /></TableCell>
-                  <TableCell><TextField select fullWidth size="small" value={assignment.status || 'ACTIVE'} onChange={(event) => updateAssignment(index, 'status', event.target.value)}><MenuItem value="ACTIVE">ACTIVE</MenuItem><MenuItem value="INACTIVE">INACTIVE</MenuItem></TextField></TableCell>
+                  <TableCell>
+                    <CommonDropdown
+                      size="small"
+                      value={assignment.status || 'ACTIVE'}
+                      onChange={(event) => updateAssignment(index, 'status', event.target.value)}
+                      options={STATUS_OPTIONS}
+                    />
+                  </TableCell>
                   <TableCell align="right"><IconButton aria-label="Remove site assignment" color="error" onClick={() => removeAssignment(index)}><Delete fontSize="small" /></IconButton></TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
-        <Stack direction="row" spacing={1.5} sx={{ mt: 3 }}>
-          <Button type="submit" variant="contained" startIcon={<Save />} disabled={saving}>{saving ? 'Saving...' : 'Save'}</Button>
-          <Button variant="outlined" onClick={() => navigate('/vendors')}>Cancel</Button>
-        </Stack>
-      </Paper>
+        <CommonFormActions saving={saving} onCancel={() => navigate('/vendors')} />
+      </CommonFormCard>
       </Box>
     </Box>
   );
