@@ -4,13 +4,13 @@ import { Add, Clear, Delete, Visibility } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { deleteMaintenanceAssignment, searchMaintenanceAssignments } from '../services/assignmentService';
 import { getSites } from '../../site/services/siteService';
-import { getVendors } from '../../vendor/services/vendorService';
 import { useAuth } from '../../../shared/context/AuthContext';
 import { commonSearchFilter, createSearchPayload, equalFilter } from '../../../shared/utils/searchPayload';
 import CommonDropdown from '../../../shared/components/common/CommonDropdown';
 import CommonInput from '../../../shared/components/common/CommonInput';
 import CommonList from '../../../shared/components/common/CommonList';
 import CommonStatusDropdown from '../../../shared/components/common/CommonStatusDropdown';
+import CommonVendorDropdown from '../../../shared/components/common/CommonVendorDropdown';
 import ConfirmDialog from '../../../shared/components/common/ConfirmDialog';
 import { ASSIGNMENT_STATUS_OPTIONS, MAINTENANCE_REQUEST_STATUS_OPTIONS } from '../../../shared/constants/statusOptions';
 
@@ -44,7 +44,6 @@ function MaintenanceAssignmentListPage() {
   const { hasPermission } = useAuth();
   const [rows, setRows] = React.useState([]);
   const [sites, setSites] = React.useState([]);
-  const [vendors, setVendors] = React.useState([]);
   const [filters, setFilters] = React.useState(emptyFilters);
   const [searchInput, setSearchInput] = React.useState('');
   const [loading, setLoading] = React.useState(true);
@@ -88,10 +87,9 @@ function MaintenanceAssignmentListPage() {
   }, [searchInput]);
 
   React.useEffect(() => {
-    Promise.all([getSites(), getVendors({ status: 'ACTIVE' })])
-      .then(([siteRows, vendorRows]) => {
+    getSites()
+      .then((siteRows) => {
         setSites((siteRows || []).filter((site) => site.status !== 'INACTIVE'));
-        setVendors(vendorRows || []);
       })
       .catch((err) => setError(formatApiError(err, 'Unable to load filters.')));
   }, []);
@@ -99,7 +97,11 @@ function MaintenanceAssignmentListPage() {
   const resetPage = () => setPaginationModel((current) => ({ ...current, page: 0 }));
 
   const updateFilter = (field) => (event) => {
-    setFilters((current) => ({ ...current, [field]: event.target.value }));
+    setFilters((current) => ({
+      ...current,
+      [field]: event.target.value,
+      ...(field === 'siteId' ? { vendorId: '' } : {}),
+    }));
     resetPage();
   };
 
@@ -195,15 +197,13 @@ function MaintenanceAssignmentListPage() {
             placeholder="All Requests"
             sx={{ minWidth: 180 }}
           />
-          <CommonDropdown
+          <CommonVendorDropdown
             label="Vendor"
             value={filters.vendorId}
             onChange={updateFilter('vendorId')}
-            options={vendors}
+            siteId={filters.siteId}
             placeholder="All Vendors"
             clearable
-            getOptionLabel={(vendor) => vendor.vendorName}
-            getOptionValue={(vendor) => vendor.id}
             sx={{ minWidth: 220 }}
           />
           <CommonStatusDropdown

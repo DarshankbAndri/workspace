@@ -80,6 +80,7 @@ ASSIGNMENT_VIEW,/api/maintenance/requests/**,GET,Assignment maintenance request 
 ASSIGNMENT_VIEW,/api/maintenance/requests,GET,Assignment maintenance request helper data
 ASSIGNMENT_VIEW,/api/vendors/**,GET,Assignment vendor helper data
 ASSIGNMENT_VIEW,/api/vendors,GET,Assignment vendor helper data
+ASSIGNMENT_VIEW,/api/vendors/search,POST,Assignment vendor search helper data
 ASSIGNMENT_VIEW,/api/hr/sites/**,GET,Assignment site helper data
 ASSIGNMENT_VIEW,/api/hr/sites,GET,Assignment site helper data
 ASSIGNMENT_CREATE,/api/maintenance/assignments,POST,Create maintenance assignment
