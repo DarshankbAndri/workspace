@@ -1,6 +1,6 @@
 import React from 'react';
 import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Paper, Snackbar, Stack, TextField, Tooltip, Typography } from '@mui/material';
-import { Add, Delete, Edit, Visibility } from '@mui/icons-material';
+import { Add, Delete } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { deleteDowntimeEntry, getMaintenanceRequests, searchDowntimeEntries } from '../../maintenance/services/maintenanceService';
 import { getEquipments } from '../../equipment/services/equipmentService';
@@ -102,15 +102,26 @@ function DowntimeListPage() {
     { field: 'reason', headerName: 'Reason', minWidth: 180, flex: 1 },
     {
       field: 'actions',
-      headerName: 'Actions',
+      headerName: '',
       sortable: false,
       filterable: false,
-      width: 140,
+      width: 70,
       renderCell: ({ row }) => (
         <Stack direction="row" spacing={0.5}>
-          {hasPermission('DOWNTIME_VIEW') && <Tooltip title="View"><IconButton size="small" onClick={() => navigate(`/maintenance/downtime/${row.id}/view`)}><Visibility fontSize="small" /></IconButton></Tooltip>}
-          {hasPermission('DOWNTIME_UPDATE') && <Tooltip title="Edit"><IconButton size="small" onClick={() => navigate(`/maintenance/downtime/${row.id}/edit`)}><Edit fontSize="small" /></IconButton></Tooltip>}
-          {hasPermission('DOWNTIME_DELETE') && <Tooltip title="Delete"><IconButton size="small" color="error" onClick={() => setDeleteRow(row)}><Delete fontSize="small" /></IconButton></Tooltip>}
+          {hasPermission('DOWNTIME_DELETE') && (
+            <Tooltip title="Delete">
+              <IconButton
+                size="small"
+                color="error"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  setDeleteRow(row);
+                }}
+              >
+                <Delete fontSize="small" />
+              </IconButton>
+            </Tooltip>
+          )}
         </Stack>
       ),
     },
@@ -180,6 +191,12 @@ function DowntimeListPage() {
           onSortModelChange: (model) => {
             setSortModel(model);
             setPaginationModel((current) => ({ ...current, page: 0 }));
+          },
+          onRowClick: ({ row }) => navigate(`/maintenance/downtime/${row.id}/view`),
+          sx: {
+            '& .MuiDataGrid-row': {
+              cursor: 'pointer',
+            },
           },
         }}
       />

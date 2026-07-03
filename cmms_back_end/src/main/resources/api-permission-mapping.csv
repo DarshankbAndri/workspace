@@ -69,7 +69,7 @@ PM_CALENDAR_VIEW,/api/hr/sites,GET,Preventive maintenance calendar site helper d
 PM_CALENDAR_VIEW,/api/equipment/**,GET,Preventive maintenance calendar equipment helper data
 PM_CALENDAR_VIEW,/api/equipment,GET,Preventive maintenance calendar equipment helper data
 REQUEST_CREATE,/api/preventive-maintenance/schedules,POST,Create preventive maintenance schedule
-REQUEST_UPDATE,/api/preventive-maintenance/schedules/*,PUT,Update preventive maintenance schedule
+REQUEST_UPDATE,/api/preventive-maintenance/schedules/**,PUT,Update preventive maintenance schedule
 REQUEST_DELETE,/api/preventive-maintenance/schedules/*,DELETE,Delete preventive maintenance schedule
 REQUEST_CREATE,/api/preventive-maintenance/schedules/*/generate-work-order,POST,Generate preventive maintenance work order
 REQUEST_CREATE,/api/preventive-maintenance/schedules/generate-due-work-orders,POST,Generate due preventive maintenance work orders
@@ -119,7 +119,7 @@ DOWNTIME_VIEW,/api/equipment,GET,Downtime equipment helper data
 DOWNTIME_CREATE,/api/maintenance/downtime,POST,Create downtime
 DOWNTIME_CREATE,/api/equipment/**,GET,Create downtime equipment helper data
 DOWNTIME_CREATE,/api/equipment,GET,Create downtime equipment helper data
-DOWNTIME_UPDATE,/api/maintenance/downtime/*,PUT,Update downtime
+DOWNTIME_UPDATE,/api/maintenance/downtime/**,PUT,Update downtime
 DOWNTIME_UPDATE,/api/equipment/**,GET,Update downtime equipment helper data
 DOWNTIME_UPDATE,/api/equipment,GET,Update downtime equipment helper data
 DOWNTIME_DELETE,/api/maintenance/downtime/*,DELETE,Delete downtime

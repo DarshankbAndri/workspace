@@ -1,6 +1,6 @@
 import React from 'react';
 import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, LinearProgress, Paper, Snackbar, Stack, TextField, Tooltip, Typography } from '@mui/material';
-import { Add, AddTask, CalendarMonth, Delete, Edit, PlayArrow, Visibility } from '@mui/icons-material';
+import { Add, AddTask, CalendarMonth, Delete, PlayArrow } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { getEquipments } from '../../equipment/services/equipmentService';
 import { getSites } from '../../site/services/siteService';
@@ -134,16 +134,40 @@ function PreventiveMaintenanceListPage() {
     { field: 'generatedWorkOrders', headerName: 'WOs', minWidth: 90, flex: 0.4 },
     {
       field: 'actions',
-      headerName: 'Actions',
+      headerName: '',
       sortable: false,
       filterable: false,
-      width: 180,
+      width: 110,
       renderCell: ({ row }) => (
         <Stack direction="row" spacing={0.5}>
-          {hasPermission('REQUEST_CREATE') && <Tooltip title="Generate work order"><IconButton size="small" color="primary" onClick={() => handleGenerate(row)}><PlayArrow fontSize="small" /></IconButton></Tooltip>}
-          {hasPermission('REQUEST_VIEW') && <Tooltip title="View"><IconButton size="small" onClick={() => navigate(`/maintenance/preventive/${row.id}/view`)}><Visibility fontSize="small" /></IconButton></Tooltip>}
-          {hasPermission('REQUEST_UPDATE') && <Tooltip title="Edit"><IconButton size="small" onClick={() => navigate(`/maintenance/preventive/${row.id}/edit`)}><Edit fontSize="small" /></IconButton></Tooltip>}
-          {hasPermission('REQUEST_DELETE') && <Tooltip title="Delete"><IconButton size="small" color="error" onClick={() => setDeleteRow(row)}><Delete fontSize="small" /></IconButton></Tooltip>}
+          {hasPermission('REQUEST_CREATE') && (
+            <Tooltip title="Generate work order">
+              <IconButton
+                size="small"
+                color="primary"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  handleGenerate(row);
+                }}
+              >
+                <PlayArrow fontSize="small" />
+              </IconButton>
+            </Tooltip>
+          )}
+          {hasPermission('REQUEST_DELETE') && (
+            <Tooltip title="Delete">
+              <IconButton
+                size="small"
+                color="error"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  setDeleteRow(row);
+                }}
+              >
+                <Delete fontSize="small" />
+              </IconButton>
+            </Tooltip>
+          )}
         </Stack>
       ),
     },
@@ -207,6 +231,12 @@ function PreventiveMaintenanceListPage() {
           onSortModelChange: (model) => {
             setSortModel(model);
             setPaginationModel((current) => ({ ...current, page: 0 }));
+          },
+          onRowClick: ({ row }) => navigate(`/maintenance/preventive/${row.id}/view`),
+          sx: {
+            '& .MuiDataGrid-row': {
+              cursor: 'pointer',
+            },
           },
         }}
       />
