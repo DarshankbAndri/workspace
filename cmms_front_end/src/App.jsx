@@ -9,6 +9,7 @@ import UserManagementPage from './features/user/pages/UserManagementPage';
 import DashboardPage from './features/dashboard/pages/DashboardPage';
 import EquipmentListPage from './features/equipment/pages/EquipmentListPage';
 import EquipmentFormPage from './features/equipment/pages/EquipmentFormPage';
+import EquipmentViewPage from './features/equipment/pages/EquipmentViewPage';
 import VendorListPage from './features/vendor/pages/VendorListPage';
 import VendorFormPage from './features/vendor/pages/VendorFormPage';
 import MaintenanceRequestListPage from './features/maintenanceRequest/pages/MaintenanceRequestListPage';
@@ -169,6 +170,10 @@ function App() {
           <Route path="/dashboard" element={protectedPage(<DashboardPage />, 'DASHBOARD_VIEW')} />
           <Route path="/equipment" element={protectedPage(<EquipmentListPage />, 'EQUIPMENT_VIEW')} />
           <Route path="/equipment/new" element={protectedPage(<EquipmentFormPage />, 'EQUIPMENT_CREATE')} />
+          <Route path="/equipment/:id/view" element={protectedPage(<EquipmentViewPage />, 'EQUIPMENT_VIEW')} />
+          <Route path="/equipment/view/:id" element={protectedPage(<EquipmentViewPage />, 'EQUIPMENT_VIEW')} />
+          <Route path="/equipment/:id/edit" element={protectedPage(<EquipmentFormPage />, 'EQUIPMENT_UPDATE')} />
+          <Route path="/equipment/edit/:id" element={protectedPage(<EquipmentFormPage />, 'EQUIPMENT_UPDATE')} />
           <Route path="/equipment/:id" element={protectedPage(<EquipmentFormPage />, 'EQUIPMENT_UPDATE')} />
           <Route path="/vendors" element={protectedPage(<VendorListPage />, 'VENDOR_VIEW')} />
           <Route path="/vendors/new" element={protectedPage(<VendorFormPage />, 'VENDOR_CREATE')} />

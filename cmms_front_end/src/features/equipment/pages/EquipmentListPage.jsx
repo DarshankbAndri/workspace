@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Button, IconButton, Paper, Stack, TextField, Typography, Alert } from '@mui/material';
-import { Add, Delete, Edit } from '@mui/icons-material';
+import { Add, Delete } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { deleteEquipment, searchEquipments } from '../services/equipmentService';
 import { getSites } from '../../site/services/siteService';
@@ -107,11 +107,21 @@ function EquipmentListPage() {
       field: 'actions',
       headerName: '',
       sortable: false,
-      width: 110,
+      width: 70,
       renderCell: ({ row }) => (
         <Stack direction="row" spacing={0.5}>
-          {hasPermission(PERMISSIONS.EQUIPMENT_UPDATE) && <IconButton aria-label="Edit equipment" onClick={() => navigate(`/equipment/${row.id}`)}><Edit fontSize="small" /></IconButton>}
-          {hasPermission(PERMISSIONS.EQUIPMENT_DELETE) && <IconButton aria-label="Delete equipment" color="error" onClick={() => handleDelete(row.id)}><Delete fontSize="small" /></IconButton>}
+          {hasPermission(PERMISSIONS.EQUIPMENT_DELETE) && (
+            <IconButton
+              aria-label="Delete equipment"
+              color="error"
+              onClick={(event) => {
+                event.stopPropagation();
+                handleDelete(row.id);
+              }}
+            >
+              <Delete fontSize="small" />
+            </IconButton>
+          )}
         </Stack>
       ),
     },
@@ -157,6 +167,12 @@ function EquipmentListPage() {
           onSortModelChange: (model) => {
             setSortModel(model);
             setPaginationModel((current) => ({ ...current, page: 0 }));
+          },
+          onRowClick: ({ row }) => navigate(`/equipment/${row.id}/view`),
+          sx: {
+            '& .MuiDataGrid-row': {
+              cursor: 'pointer',
+            },
           },
         }}
       />

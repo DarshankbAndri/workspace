@@ -30,8 +30,8 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/App.jsx": {
-    "mtime": 1782988198.4684675,
-    "ast_hash": "52b906502d0765034289fca06022ab1a",
+    "mtime": 1783055172.7897518,
+    "ast_hash": "bc9b9e07e61651cdbcaea77973a44cb5",
     "semantic_hash": ""
   },
   "cmms_front_end/src/index.js": {
@@ -715,8 +715,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/dto/EquipmentDTO.java": {
-    "mtime": 1782467371.40399,
-    "ast_hash": "76c3abf0ea3e462afe5c690755231b86",
+    "mtime": 1783055172.8583338,
+    "ast_hash": "8421cab32172f2f1b5241be6f33388a4",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/entity/Equipment.java": {
@@ -740,8 +740,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/service/EquipmentService.java": {
-    "mtime": 1782717518.1620922,
-    "ast_hash": "f1ee0a964dd3f94ca1ea823b22eaeef1",
+    "mtime": 1783055172.893271,
+    "ast_hash": "8a8fed1869dccc0703e1f2a823cc53ca",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/maintenancerequest/controller/MaintenanceRequestController.java": {
@@ -1355,8 +1355,8 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/equipment/pages/EquipmentListPage.jsx": {
-    "mtime": 1782908390.103689,
-    "ast_hash": "9c5b0d8ac980b115ff5fed814df8d6f8",
+    "mtime": 1783055172.7506528,
+    "ast_hash": "2fb1f66d04453d18bdad24a17c7010bd",
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/equipment/services/equipmentService.js": {
@@ -1877,6 +1877,11 @@
   "cmms_back_end/src/main/java/com/example/cmmsApplication/preventivemaintenance/controller/PreventiveMaintenanceCalendarController.java": {
     "mtime": 1782988198.4340973,
     "ast_hash": "b6ef386aa4b28ed71ece2ce67101b8d0",
+    "semantic_hash": ""
+  },
+  "cmms_front_end/src/features/equipment/pages/EquipmentViewPage.jsx": {
+    "mtime": 1783056357.2544715,
+    "ast_hash": "e134c5529383856976bf98be9283d564",
     "semantic_hash": ""
   }
 }

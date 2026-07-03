@@ -100,7 +100,13 @@ public class EquipmentService {
     public EquipmentDTO getById(Long id) {
         Equipment equipment = getEntity(id);
         accessControlService.validateSiteAccess(equipment.getSite() == null ? null : equipment.getSite().getId());
-        return toDTO(equipment);
+        EquipmentDTO dto = toDTO(equipment);
+        equipmentListRepository.findById(id).ifPresent((equipmentList) -> {
+            dto.setEquipmentType(equipmentList.getEquipmentType());
+            dto.setVendorId(equipmentList.getVendorId());
+            dto.setVendorName(equipmentList.getVendorName());
+        });
+        return dto;
     }
 
     @Transactional(readOnly = true)
@@ -251,6 +257,7 @@ public class EquipmentService {
         dto.setSiteId(equipment.getSite() == null ? null : equipment.getSite().getId());
         dto.setSiteCode(equipment.getSite() == null ? null : equipment.getSite().getSiteCode());
         dto.setSiteName(equipment.getSite() == null ? null : equipment.getSite().getSiteName());
+        dto.setEquipmentType(equipment.getCategory());
         dto.setCategory(equipment.getCategory());
         dto.setLocation(equipment.getLocation());
         dto.setManufacturer(equipment.getManufacturer());

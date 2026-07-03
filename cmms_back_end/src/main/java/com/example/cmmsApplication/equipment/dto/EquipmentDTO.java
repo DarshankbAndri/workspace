@@ -25,6 +25,9 @@ public class EquipmentDTO {
     private Long siteId;
     private String siteCode;
     private String siteName;
+    private String equipmentType;
+    private Long vendorId;
+    private String vendorName;
     @NotBlank(message = "Category is required")
     private String category;
     private String location;
@@ -52,6 +55,12 @@ public class EquipmentDTO {
     public void setSiteCode(String siteCode) { this.siteCode = siteCode; }
     public String getSiteName() { return siteName; }
     public void setSiteName(String siteName) { this.siteName = siteName; }
+    public String getEquipmentType() { return equipmentType; }
+    public void setEquipmentType(String equipmentType) { this.equipmentType = equipmentType; }
+    public Long getVendorId() { return vendorId; }
+    public void setVendorId(Long vendorId) { this.vendorId = vendorId; }
+    public String getVendorName() { return vendorName; }
+    public void setVendorName(String vendorName) { this.vendorName = vendorName; }
     public String getCategory() { return category; }
     public void setCategory(String category) { this.category = category; }
     public String getLocation() { return location; }
