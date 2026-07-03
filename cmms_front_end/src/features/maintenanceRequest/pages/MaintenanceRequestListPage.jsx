@@ -1,6 +1,6 @@
 import React from 'react';
 import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Paper, Snackbar, Stack, TextField, Tooltip, Typography } from '@mui/material';
-import { Add, Delete, Edit, Visibility } from '@mui/icons-material';
+import { Add, Delete } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { deleteMaintenanceRequest, searchMaintenanceRequests } from '../services/maintenanceRequestService';
 import { getSites } from '../../site/services/siteService';
@@ -80,15 +80,26 @@ function MaintenanceRequestListPage() {
     { field: 'requestedDate', headerName: 'Requested', minWidth: 120, flex: 0.7 },
     {
       field: 'actions',
-      headerName: 'Actions',
+      headerName: '',
       sortable: false,
       filterable: false,
-      width: 140,
+      width: 70,
       renderCell: ({ row }) => (
         <Stack direction="row" spacing={0.5}>
-          {hasPermission('REQUEST_VIEW') && <Tooltip title="View"><IconButton size="small" onClick={() => navigate(`/maintenance/requests/${row.id}/view`)}><Visibility fontSize="small" /></IconButton></Tooltip>}
-          {hasPermission('REQUEST_UPDATE') && <Tooltip title="Edit"><IconButton size="small" onClick={() => navigate(`/maintenance/requests/${row.id}/edit`)}><Edit fontSize="small" /></IconButton></Tooltip>}
-          {hasPermission('REQUEST_DELETE') && <Tooltip title="Delete"><IconButton size="small" color="error" onClick={() => setDeleteRow(row)}><Delete fontSize="small" /></IconButton></Tooltip>}
+          {hasPermission('REQUEST_DELETE') && (
+            <Tooltip title="Delete">
+              <IconButton
+                size="small"
+                color="error"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  setDeleteRow(row);
+                }}
+              >
+                <Delete fontSize="small" />
+              </IconButton>
+            </Tooltip>
+          )}
         </Stack>
       ),
     },
@@ -148,6 +159,12 @@ function MaintenanceRequestListPage() {
           onPaginationModelChange: (model) => setPaginationModel((current) => (model.pageSize !== current.pageSize ? { ...model, page: 0 } : model)),
           sortModel,
           onSortModelChange: (model) => { setSortModel(model); resetPage(); },
+          onRowClick: ({ row }) => navigate(`/maintenance/requests/${row.id}/view`),
+          sx: {
+            '& .MuiDataGrid-row': {
+              cursor: 'pointer',
+            },
+          },
         }}
       />
       <Dialog open={Boolean(deleteRow)} onClose={() => setDeleteRow(null)}>

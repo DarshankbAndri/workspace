@@ -30,8 +30,8 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/App.jsx": {
-    "mtime": 1783056694.603791,
-    "ast_hash": "72d87428dd770c59bfad0615e1423fa3",
+    "mtime": 1783057226.9965372,
+    "ast_hash": "ab5ea3f0ee9a7a84d9070d363760d36d",
     "semantic_hash": ""
   },
   "cmms_front_end/src/index.js": {
@@ -1370,8 +1370,8 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/maintenanceRequest/pages/MaintenanceRequestListPage.jsx": {
-    "mtime": 1782908419.5947907,
-    "ast_hash": "54ac370c9e7d1362975bdeb49ce23f59",
+    "mtime": 1783057226.984038,
+    "ast_hash": "1bfd76f0bc305c1334e426053edac0fe",
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/maintenanceRequest/pages/MaintenanceRequestPage.jsx": {
@@ -1887,6 +1887,11 @@
   "cmms_front_end/src/features/vendor/pages/VendorViewPage.jsx": {
     "mtime": 1783056694.5997913,
     "ast_hash": "b0a358167f23266db0c51eb0bbba4f2e",
+    "semantic_hash": ""
+  },
+  "cmms_front_end/src/features/maintenanceRequest/pages/MaintenanceRequestViewPage.jsx": {
+    "mtime": 1783057226.989117,
+    "ast_hash": "dcc3d5d59e01eaadb44a4f7ad2447efa",
     "semantic_hash": ""
   }
 }
