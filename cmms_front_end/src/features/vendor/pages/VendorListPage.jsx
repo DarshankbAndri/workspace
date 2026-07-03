@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Button, IconButton, Paper, Stack, Typography, Alert } from '@mui/material';
-import { Add, Delete, Edit } from '@mui/icons-material';
+import { Add, Delete } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { deleteVendor, getVendors, searchVendors } from '../services/vendorService';
 import { getSites } from '../../site/services/siteService';
@@ -71,11 +71,21 @@ function VendorListPage() {
       field: 'actions',
       headerName: '',
       sortable: false,
-      width: 110,
+      width: 70,
       renderCell: ({ row }) => (
         <Stack direction="row" spacing={0.5}>
-          {hasPermission(PERMISSIONS.VENDOR_UPDATE) && <IconButton aria-label="Edit vendor" onClick={() => navigate(`/vendors/${row.id}`)}><Edit fontSize="small" /></IconButton>}
-          {hasPermission(PERMISSIONS.VENDOR_DELETE) && <IconButton aria-label="Delete vendor" color="error" onClick={() => handleDelete(row.id)}><Delete fontSize="small" /></IconButton>}
+          {hasPermission(PERMISSIONS.VENDOR_DELETE) && (
+            <IconButton
+              aria-label="Delete vendor"
+              color="error"
+              onClick={(event) => {
+                event.stopPropagation();
+                handleDelete(row.id);
+              }}
+            >
+              <Delete fontSize="small" />
+            </IconButton>
+          )}
         </Stack>
       ),
     },
@@ -119,6 +129,12 @@ function VendorListPage() {
           onPaginationModelChange: (model) => setPaginationModel((current) => (model.pageSize !== current.pageSize ? { ...model, page: 0 } : model)),
           sortModel,
           onSortModelChange: (model) => { setSortModel(model); resetPage(); },
+          onRowClick: ({ row }) => navigate(`/vendors/${row.id}/view`),
+          sx: {
+            '& .MuiDataGrid-row': {
+              cursor: 'pointer',
+            },
+          },
         }}
       />
     </Box>

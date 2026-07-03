@@ -30,8 +30,8 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/App.jsx": {
-    "mtime": 1783055172.7897518,
-    "ast_hash": "bc9b9e07e61651cdbcaea77973a44cb5",
+    "mtime": 1783056694.603791,
+    "ast_hash": "72d87428dd770c59bfad0615e1423fa3",
     "semantic_hash": ""
   },
   "cmms_front_end/src/index.js": {
@@ -1495,8 +1495,8 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/vendor/pages/VendorListPage.jsx": {
-    "mtime": 1782908350.4996219,
-    "ast_hash": "a3a4d2c7fa03a131b3149ba9baa67b87",
+    "mtime": 1783056694.5967913,
+    "ast_hash": "2d85a8619c2f292e4ad3763ca93bc1a1",
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/vendor/services/vendorService.js": {
@@ -1882,6 +1882,11 @@
   "cmms_front_end/src/features/equipment/pages/EquipmentViewPage.jsx": {
     "mtime": 1783056357.2544715,
     "ast_hash": "e134c5529383856976bf98be9283d564",
+    "semantic_hash": ""
+  },
+  "cmms_front_end/src/features/vendor/pages/VendorViewPage.jsx": {
+    "mtime": 1783056694.5997913,
+    "ast_hash": "b0a358167f23266db0c51eb0bbba4f2e",
     "semantic_hash": ""
   }
 }

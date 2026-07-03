@@ -26,7 +26,7 @@ VENDOR_VIEW,/api/hr/sites,GET,Vendor site helper data
 VENDOR_CREATE,/api/vendors,POST,Create vendor
 VENDOR_CREATE,/api/hr/sites/**,GET,Create vendor site helper data
 VENDOR_CREATE,/api/hr/sites,GET,Create vendor site helper data
-VENDOR_UPDATE,/api/vendors/*,PUT,Update vendor
+VENDOR_UPDATE,/api/vendors/**,PUT,Update vendor
 VENDOR_UPDATE,/api/hr/sites/**,GET,Update vendor site helper data
 VENDOR_UPDATE,/api/hr/sites,GET,Update vendor site helper data
 VENDOR_DELETE,/api/vendors/*,DELETE,Delete vendor
