@@ -1,0 +1,11 @@
+equipmentCode,equipmentName,siteCode,vendorCode,category,equipmentType,manufacturer,modelNumber,serialNumber,location,installationDate,warrantyExpiryDate,criticality,status
+MIG-EQ-001,Boiler Feed Pump,MIG-SITE-001,MIG-VEN-001,Pump,Centrifugal,ANDRITZ,BFP-450,MIG-SN-001,Utility Bay 1,2023-01-15,2028-01-14,HIGH,ACTIVE
+MIG-EQ-002,Hydraulic Press,MIG-SITE-002,MIG-VEN-002,Press,Hydraulic,ANDRITZ,HP-220,MIG-SN-002,Assembly Line 2,2022-06-10,2027-06-09,MEDIUM,ACTIVE
+MIG-EQ-003,Cooling Tower Fan,MIG-SITE-003,MIG-VEN-003,Fan,Axial,CT Systems,CTF-90,MIG-SN-003,Cooling Area,2021-09-01,2026-08-31,HIGH,ACTIVE
+MIG-EQ-004,Air Compressor,MIG-SITE-004,MIG-VEN-004,Compressor,Reciprocating,Atlas Demo,AC-75,MIG-SN-004,Compressor Room,2020-03-12,2025-03-11,HIGH,ACTIVE
+MIG-EQ-005,CNC Milling Machine,MIG-SITE-005,MIG-VEN-005,CNC,Milling,Mazak Demo,CNC-M5,MIG-SN-005,Machine Shop,2023-05-20,2028-05-19,MEDIUM,ACTIVE
+MIG-EQ-006,Forklift,MIG-SITE-006,MIG-VEN-006,Material Handling,Electric,Toyota Demo,FL-30,MIG-SN-006,Warehouse A,2022-10-08,2027-10-07,LOW,ACTIVE
+MIG-EQ-007,EOT Crane,MIG-SITE-007,MIG-VEN-007,Crane,Overhead,Kone Demo,EOT-15T,MIG-SN-007,Operations Yard,2021-12-11,2026-12-10,HIGH,ACTIVE
+MIG-EQ-008,Raw Water Pump,MIG-SITE-008,MIG-VEN-008,Pump,Centrifugal,Kirloskar Demo,RWP-120,MIG-SN-008,Pump House,2020-07-17,2025-07-16,HIGH,ACTIVE
+MIG-EQ-009,Welding Station,MIG-SITE-009,MIG-VEN-009,Welding,Arc,Lincoln Demo,WS-400,MIG-SN-009,Fabrication Bay,2023-02-22,2028-02-21,MEDIUM,ACTIVE
+MIG-EQ-010,Fire Pump Controller,MIG-SITE-010,MIG-VEN-010,Safety,Controller,SafeTech Demo,FPC-12,MIG-SN-010,Fire Pump Room,2021-04-04,2026-04-03,CRITICAL,ACTIVE

@@ -1,0 +1,11 @@
+siteCode,siteName,organizationName,siteType,addressLine1,addressLine2,city,state,country,pincode,contactPerson,contactMobile,contactEmail,status
+MIG-SITE-001,Pune Manufacturing Plant,ANDRITZ Migration Demo,Manufacturing,Plot 11 Industrial Area,Phase 1,Pune,Maharashtra,India,411057,Amit Patil,+91-9810000001,mig.pune@example.com,ACTIVE
+MIG-SITE-002,Chennai Assembly Unit,ANDRITZ Migration Demo,Assembly,12 SIPCOT Road,Block B,Chennai,Tamil Nadu,India,600119,Priya Raman,+91-9810000002,mig.chennai@example.com,ACTIVE
+MIG-SITE-003,Vadodara Service Center,ANDRITZ Migration Demo,Service,GIDC Estate,Makarpura,Vadodara,Gujarat,India,390010,Nilesh Shah,+91-9810000003,mig.vadodara@example.com,ACTIVE
+MIG-SITE-004,Hyderabad Utilities Plant,ANDRITZ Migration Demo,Utilities,Hitech City Road,Sector 4,Hyderabad,Telangana,India,500081,Meera Reddy,+91-9810000004,mig.hyderabad@example.com,ACTIVE
+MIG-SITE-005,Bengaluru R&D Workshop,ANDRITZ Migration Demo,Workshop,Peenya Industrial Area,Stage 2,Bengaluru,Karnataka,India,560058,Kiran Rao,+91-9810000005,mig.bengaluru@example.com,ACTIVE
+MIG-SITE-006,Mumbai Warehouse,ANDRITZ Migration Demo,Warehouse,MIDC Road,Andheri East,Mumbai,Maharashtra,India,400093,Rohit Mehta,+91-9810000006,mig.mumbai@example.com,ACTIVE
+MIG-SITE-007,Delhi Operations Yard,ANDRITZ Migration Demo,Operations,Okhla Industrial Estate,Phase 3,New Delhi,Delhi,India,110020,Sneha Kapoor,+91-9810000007,mig.delhi@example.com,ACTIVE
+MIG-SITE-008,Kolkata Pump Station,ANDRITZ Migration Demo,Pump Station,Salt Lake Sector V,Unit 8,Kolkata,West Bengal,India,700091,Arindam Sen,+91-9810000008,mig.kolkata@example.com,ACTIVE
+MIG-SITE-009,Coimbatore Fabrication Shop,ANDRITZ Migration Demo,Fabrication,Avinashi Road,Industrial Block,Coimbatore,Tamil Nadu,India,641014,Lakshmi Nair,+91-9810000009,mig.coimbatore@example.com,ACTIVE
+MIG-SITE-010,Nagpur Maintenance Depot,ANDRITZ Migration Demo,Depot,Hingna MIDC,Sector A,Nagpur,Maharashtra,India,440016,Vikram Deshmukh,+91-9810000010,mig.nagpur@example.com,ACTIVE

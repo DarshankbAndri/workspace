@@ -1,0 +1,11 @@
+employeeCode,firstName,lastName,mobileNumber,email,gender,designation,department,status,siteCode,roleName
+MIG-EMP-001,Suresh,Iyer,+91-9100000001,mig.suresh.iyer@example.com,MALE,Plant Head,Administration,ACTIVE,MIG-SITE-001,Site Manager
+MIG-EMP-002,Kavita,Menon,+91-9100000002,mig.kavita.menon@example.com,FEMALE,Maintenance Manager,Maintenance,ACTIVE,MIG-SITE-002,Maintenance Manager
+MIG-EMP-003,Rahul,Deshmukh,+91-9100000003,mig.rahul.deshmukh@example.com,MALE,Senior Technician,Maintenance,ACTIVE,MIG-SITE-003,Technician
+MIG-EMP-004,Anjali,Gupta,+91-9100000004,mig.anjali.gupta@example.com,FEMALE,Electrical Engineer,Engineering,ACTIVE,MIG-SITE-004,Technician
+MIG-EMP-005,Vikram,Singh,+91-9100000005,mig.vikram.singh@example.com,MALE,Mechanical Engineer,Engineering,ACTIVE,MIG-SITE-005,Technician
+MIG-EMP-006,Deepa,Nair,+91-9100000006,mig.deepa.nair@example.com,FEMALE,Site Supervisor,Operations,ACTIVE,MIG-SITE-006,Site Manager
+MIG-EMP-007,Arjun,Rao,+91-9100000007,mig.arjun.rao@example.com,MALE,Maintenance Technician,Maintenance,ACTIVE,MIG-SITE-007,Technician
+MIG-EMP-008,Pooja,Sharma,+91-9100000008,mig.pooja.sharma@example.com,FEMALE,Planner,Maintenance,ACTIVE,MIG-SITE-008,Viewer
+MIG-EMP-009,Manoj,Kulkarni,+91-9100000009,mig.manoj.kulkarni@example.com,MALE,Reliability Engineer,Engineering,ACTIVE,MIG-SITE-009,Technician
+MIG-EMP-010,Sneha,Verma,+91-9100000010,mig.sneha.verma@example.com,FEMALE,HR Executive,Administration,ACTIVE,MIG-SITE-010,Viewer

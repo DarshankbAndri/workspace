@@ -1,0 +1,9 @@
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Run artifacts (keep the folders via .gitkeep, ignore generated files)
+logs/*.log
+reports/*.csv

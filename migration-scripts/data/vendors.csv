@@ -1,0 +1,11 @@
+vendorCode,vendorName,contactPerson,email,phone,address,serviceCategory,siteCode,status
+MIG-VEN-001,Apex Mechanical Services,Ravi Kumar,mig.ravi@apexmech.example,+91-9820000001,Pune Maharashtra,Mechanical,MIG-SITE-001,ACTIVE
+MIG-VEN-002,Bright Electrical Works,Anita Shah,mig.anita@brightelectrical.example,+91-9820000002,Chennai Tamil Nadu,Electrical,MIG-SITE-002,ACTIVE
+MIG-VEN-003,HydroCare Pumps,Vijay Nair,mig.vijay@hydrocare.example,+91-9820000003,Vadodara Gujarat,Pumps,MIG-SITE-003,ACTIVE
+MIG-VEN-004,ThermalTech Services,Mohan Reddy,mig.mohan@thermaltech.example,+91-9820000004,Hyderabad Telangana,Boiler,MIG-SITE-004,ACTIVE
+MIG-VEN-005,Precision Drives India,Leena Rao,mig.leena@precisiondrives.example,+91-9820000005,Bengaluru Karnataka,Drives,MIG-SITE-005,ACTIVE
+MIG-VEN-006,Metro Instrumentation,Sanjay Mehta,mig.sanjay@metroinst.example,+91-9820000006,Mumbai Maharashtra,Instrumentation,MIG-SITE-006,ACTIVE
+MIG-VEN-007,NorthStar Fabricators,Ritu Kapoor,mig.ritu@northstarfab.example,+91-9820000007,New Delhi,Fabrication,MIG-SITE-007,ACTIVE
+MIG-VEN-008,Eastern Utilities Support,Subho Sen,mig.subho@easternutilities.example,+91-9820000008,Kolkata West Bengal,Utilities,MIG-SITE-008,ACTIVE
+MIG-VEN-009,Coimbatore Machine Care,Arun Prakash,mig.arun@cmcare.example,+91-9820000009,Coimbatore Tamil Nadu,Machine Maintenance,MIG-SITE-009,ACTIVE
+MIG-VEN-010,Central Safety Systems,Geeta Deshmukh,mig.geeta@centralsafety.example,+91-9820000010,Nagpur Maharashtra,Safety Systems,MIG-SITE-010,INACTIVE

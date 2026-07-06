@@ -1,0 +1,84 @@
+# ---------------------------------------------------------------------------
+# CMMS API-based Migration Utility - Configuration
+#
+# Endpoints and DTO field names below were taken from the running backend
+# (cmms_back_end). The Spring server runs on port 4200 with a servlet
+# context-path of "/api", so every API path already includes the "/api" prefix.
+# ---------------------------------------------------------------------------
+
+backend:
+  base_url: "http://localhost:4200"
+  login_url: "/api/auth/login"
+  # Default seeded superadmin account (see db/sample/superadmin.sql).
+  # The default password for seeded accounts is "andritz".
+  username: "superadmin"
+  password: "andritz"
+  # Response token is auto-detected. The backend returns it at data.token,
+  # but token / accessToken / data.accessToken are also supported.
+
+migration:
+  # Entities are processed in this exact order so that foreign-key style
+  # references resolve: sites and vendors must exist before equipment,
+  # and sites must exist before employee site-assignments.
+  order:
+    - sites
+    - vendors
+    - employees
+    - equipment
+  stop_on_error: false      # true -> abort the whole run on the first failed row
+  dry_run: false            # true -> build + print payloads but never call the API
+  timeout_seconds: 30
+  # On start, GET existing sites/vendors and pre-load their code->id map so
+  # equipment/employees can resolve references even on a re-run where the
+  # parent records were created previously.
+  preload_existing: true
+
+files:
+  sites:
+    path: "data/sites.csv"
+    api: "/api/hr/sites"
+    list_api: "/api/hr/sites"
+    method: "POST"
+    code_field: "siteCode"
+    required_columns: ["siteCode", "siteName"]
+    unique_fields: ["siteCode"]
+    # Register created id under this namespace so children can look it up.
+    register_as: "site"
+
+  vendors:
+    path: "data/vendors.csv"
+    api: "/api/vendors"
+    list_api: "/api/vendors"
+    method: "POST"
+    code_field: "vendorCode"
+    required_columns: ["vendorCode", "vendorName", "siteCode"]
+    unique_fields: ["vendorCode", "email"]
+    register_as: "vendor"
+    # siteCode is turned into a mandatory vendor site-assignment (backend rule:
+    # at least one site assignment is required per vendor).
+    depends_on:
+      siteCode: "site"
+
+  employees:
+    path: "data/employees.csv"
+    api: "/api/hr/employees"
+    method: "POST"
+    code_field: "employeeCode"
+    required_columns: ["employeeCode", "firstName", "mobileNumber"]
+    unique_fields: ["employeeCode", "email"]
+    # siteCode (optional) is validated against sites.csv and, when a roleName
+    # is also supplied, turned into a site assignment on the employee payload.
+    depends_on:
+      siteCode: "site"
+
+  equipment:
+    path: "data/equipment.csv"
+    api: "/api/equipment"
+    method: "POST"
+    code_field: "equipmentCode"
+    required_columns: ["equipmentCode", "equipmentName", "category", "siteCode"]
+    unique_fields: ["equipmentCode", "serialNumber"]
+    # siteCode is mandatory (backend needs siteId); vendorCode is optional.
+    depends_on:
+      siteCode: "site"
+      vendorCode: "vendor"
