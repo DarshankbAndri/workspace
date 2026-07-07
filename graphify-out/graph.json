@@ -10,7 +10,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "cmmsapplication_cmmsapplication",
-      "community": 312,
+      "community": 117,
       "norm_label": "cmmsapplication.java"
     },
     {
@@ -20,7 +20,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "cmmsapplication_cmmsapplication_cmmsapplication",
-      "community": 312,
+      "community": 117,
       "norm_label": "cmmsapplication"
     },
     {
@@ -30,7 +30,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "cmmsapplication_cmmsapplication_cmmsapplication_main",
-      "community": 312,
+      "community": 117,
       "norm_label": ".main()"
     },
     {
@@ -40,7 +40,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_cmmsapplication_java_string",
-      "community": 312,
+      "community": 117,
       "norm_label": "string"
     },
     {
@@ -4550,7 +4550,7 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "dto_approvalactiondto_approvalactiondto_setapprovername",
-      "community": 238,
+      "community": 197,
       "norm_label": ".setapprovername()"
     },
     {
@@ -6890,7 +6890,7 @@
       "source_location": "L99",
       "_origin": "ast",
       "id": "approvalconfigdao",
-      "community": 199,
+      "community": 178,
       "norm_label": "approvalconfigdao"
     },
     {
@@ -6940,7 +6940,7 @@
       "source_location": "L99",
       "_origin": "ast",
       "id": "accesscontrolservice",
-      "community": 185,
+      "community": 178,
       "norm_label": "accesscontrolservice"
     },
     {
@@ -6950,7 +6950,7 @@
       "source_location": "L99",
       "_origin": "ast",
       "id": "objectprovider",
-      "community": 177,
+      "community": 178,
       "norm_label": "objectprovider"
     },
     {
@@ -7250,7 +7250,7 @@
       "source_location": "L292",
       "_origin": "ast",
       "id": "service_approvalworkflowservice_approvalworkflowservice_normalizeapprovalhistorycriteria",
-      "community": 191,
+      "community": 77,
       "norm_label": ".normalizeapprovalhistorycriteria()"
     },
     {
@@ -7290,7 +7290,7 @@
       "source_location": "L326",
       "_origin": "ast",
       "id": "service_approvalworkflowservice_approvalworkflowservice_applyapprovalhistorysiteaccess",
-      "community": 191,
+      "community": 77,
       "norm_label": ".applyapprovalhistorysiteaccess()"
     },
     {
@@ -7300,7 +7300,7 @@
       "source_location": "L344",
       "_origin": "ast",
       "id": "service_approvalworkflowservice_approvalworkflowservice_buildapprovalhistoryspecification",
-      "community": 168,
+      "community": 77,
       "norm_label": ".buildapprovalhistoryspecification()"
     },
     {
@@ -7310,7 +7310,7 @@
       "source_location": "L344",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_approval_service_approvalworkflowservice_java_specification",
-      "community": 178,
+      "community": 77,
       "norm_label": "specification"
     },
     {
@@ -8510,7 +8510,7 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "dao_maintenanceassignmentworklogdao_maintenanceassignmentworklogdao_countcompletedbyassignmentid",
-      "community": 252,
+      "community": 172,
       "norm_label": ".countcompletedbyassignmentid()"
     },
     {
@@ -8520,7 +8520,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "dao_maintenanceassignmentworklogdao_maintenanceassignmentworklogdao_countblockingbyassignmentid",
-      "community": 252,
+      "community": 172,
       "norm_label": ".countblockingbyassignmentid()"
     },
     {
@@ -11430,7 +11430,7 @@
       "source_location": "L83",
       "_origin": "ast",
       "id": "maintenanceassignmentworklogattachmentdto",
-      "community": 249,
+      "community": 88,
       "norm_label": "maintenanceassignmentworklogattachmentdto"
     },
     {
@@ -11490,7 +11490,7 @@
       "source_location": "L136",
       "_origin": "ast",
       "id": "service_maintenanceassignmentworklogservice_maintenanceassignmentworklogservice_validateassignmentcancomplete",
-      "community": 252,
+      "community": 172,
       "norm_label": ".validateassignmentcancomplete()"
     },
     {
@@ -11710,7 +11710,7 @@
       "source_location": "L305",
       "_origin": "ast",
       "id": "service_maintenanceassignmentworklogservice_maintenanceassignmentworklogservice_toattachmentdto",
-      "community": 249,
+      "community": 88,
       "norm_label": ".toattachmentdto()"
     },
     {
@@ -12180,7 +12180,7 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "config_notificationproperties_notificationproperties_getapprovalfallbackrolecodes",
-      "community": 177,
+      "community": 30,
       "norm_label": ".getapprovalfallbackrolecodes()"
     },
     {
@@ -12640,7 +12640,7 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "resourcenotfoundexception",
-      "community": 233,
+      "community": 215,
       "norm_label": "resourcenotfoundexception"
     },
     {
@@ -14730,7 +14730,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dto_searchcriteriadto",
-      "community": 191,
+      "community": 77,
       "norm_label": "searchcriteriadto.java"
     },
     {
@@ -14740,7 +14740,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "dto_searchcriteriadto_searchcriteriadto",
-      "community": 191,
+      "community": 77,
       "norm_label": "searchcriteriadto"
     },
     {
@@ -14750,7 +14750,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "dto_searchcriteriadto_searchcriteriadto_getfilterkey",
-      "community": 191,
+      "community": 77,
       "norm_label": ".getfilterkey()"
     },
     {
@@ -14760,7 +14760,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_common_search_dto_searchcriteriadto_java_string",
-      "community": 191,
+      "community": 77,
       "norm_label": "string"
     },
     {
@@ -14770,7 +14770,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "dto_searchcriteriadto_searchcriteriadto_setfilterkey",
-      "community": 191,
+      "community": 77,
       "norm_label": ".setfilterkey()"
     },
     {
@@ -14780,7 +14780,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "dto_searchcriteriadto_searchcriteriadto_getdatatype",
-      "community": 191,
+      "community": 77,
       "norm_label": ".getdatatype()"
     },
     {
@@ -14790,7 +14790,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "dto_searchcriteriadto_searchcriteriadto_setdatatype",
-      "community": 191,
+      "community": 77,
       "norm_label": ".setdatatype()"
     },
     {
@@ -14800,7 +14800,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "dto_searchcriteriadto_searchcriteriadto_getvalue",
-      "community": 191,
+      "community": 77,
       "norm_label": ".getvalue()"
     },
     {
@@ -14810,7 +14810,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_common_search_dto_searchcriteriadto_java_object",
-      "community": 191,
+      "community": 77,
       "norm_label": "object"
     },
     {
@@ -14820,7 +14820,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "dto_searchcriteriadto_searchcriteriadto_setvalue",
-      "community": 191,
+      "community": 77,
       "norm_label": ".setvalue()"
     },
     {
@@ -14830,7 +14830,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "dto_searchcriteriadto_searchcriteriadto_getoperation",
-      "community": 191,
+      "community": 77,
       "norm_label": ".getoperation()"
     },
     {
@@ -14840,7 +14840,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "dto_searchcriteriadto_searchcriteriadto_setoperation",
-      "community": 191,
+      "community": 77,
       "norm_label": ".setoperation()"
     },
     {
@@ -14940,7 +14940,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "dto_searchdto_searchdto_getpagination",
-      "community": 180,
+      "community": 77,
       "norm_label": ".getpagination()"
     },
     {
@@ -15140,7 +15140,7 @@
       "source_location": "L172",
       "_origin": "ast",
       "id": "service_listsearchservice_listsearchservice_normalizecriteria",
-      "community": 191,
+      "community": 77,
       "norm_label": ".normalizecriteria()"
     },
     {
@@ -16800,7 +16800,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "repository_permissionapimappingrepositorycustom",
-      "community": 317,
+      "community": 305,
       "norm_label": "permissionapimappingrepositorycustom.java"
     },
     {
@@ -16810,7 +16810,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "repository_permissionapimappingrepositorycustom_permissionapimappingrepositorycustom",
-      "community": 317,
+      "community": 305,
       "norm_label": "permissionapimappingrepositorycustom"
     },
     {
@@ -16820,7 +16820,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "repository_permissionapimappingrepositorycustom_permissionapimappingrepositorycustom_haspermission",
-      "community": 317,
+      "community": 305,
       "norm_label": ".haspermission()"
     },
     {
@@ -16830,7 +16830,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_common_security_repository_permissionapimappingrepositorycustom_java_string",
-      "community": 317,
+      "community": 305,
       "norm_label": "string"
     },
     {
@@ -16840,7 +16840,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "repository_permissionapimappingrepositorycustom_permissionapimappingrepositorycustom_hasactivemapping",
-      "community": 317,
+      "community": 305,
       "norm_label": ".hasactivemapping()"
     },
     {
@@ -17010,7 +17010,7 @@
       "source_location": "L92",
       "_origin": "ast",
       "id": "service_accesscontrolservice_accesscontrolservice_getallowedsiteids",
-      "community": 235,
+      "community": 182,
       "norm_label": ".getallowedsiteids()"
     },
     {
@@ -17130,7 +17130,7 @@
       "source_location": "L170",
       "_origin": "ast",
       "id": "service_accesscontrolservice_accesscontrolservice_isadmin",
-      "community": 182,
+      "community": 257,
       "norm_label": ".isadmin()"
     },
     {
@@ -17440,7 +17440,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "service_apipermissionservice",
-      "community": 310,
+      "community": 268,
       "norm_label": "apipermissionservice.java"
     },
     {
@@ -17450,7 +17450,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "service_apipermissionservice_apipermissionservice",
-      "community": 310,
+      "community": 268,
       "norm_label": "apipermissionservice"
     },
     {
@@ -17460,7 +17460,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "service_apipermissionservice_apipermissionservice_haspermission",
-      "community": 310,
+      "community": 268,
       "norm_label": ".haspermission()"
     },
     {
@@ -17470,7 +17470,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_common_security_service_apipermissionservice_java_string",
-      "community": 310,
+      "community": 268,
       "norm_label": "string"
     },
     {
@@ -17480,7 +17480,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "cacheable",
-      "community": 310,
+      "community": 268,
       "norm_label": "cacheable"
     },
     {
@@ -17490,7 +17490,7 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_common_security_service_apipermissionservice_java_long",
-      "community": 310,
+      "community": 268,
       "norm_label": "long"
     },
     {
@@ -17500,7 +17500,7 @@
       "source_location": "L50",
       "_origin": "ast",
       "id": "service_apipermissionservice_apipermissionservice_ispublicapi",
-      "community": 310,
+      "community": 268,
       "norm_label": ".ispublicapi()"
     },
     {
@@ -17510,7 +17510,7 @@
       "source_location": "L57",
       "_origin": "ast",
       "id": "service_apipermissionservice_apipermissionservice_normalizepath",
-      "community": 310,
+      "community": 268,
       "norm_label": ".normalizepath()"
     },
     {
@@ -21900,7 +21900,7 @@
       "source_location": "L102",
       "_origin": "ast",
       "id": "dto_employeedto_employeedto_getroleassignments",
-      "community": 303,
+      "community": 72,
       "norm_label": ".getroleassignments()"
     },
     {
@@ -21970,7 +21970,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "dto_employeeroleassignmentdto_employeeroleassignmentdto_setuserroleid",
-      "community": 72,
+      "community": 60,
       "norm_label": ".setuserroleid()"
     },
     {
@@ -23130,7 +23130,7 @@
       "source_location": "L65",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_employee_entity_employeesiteassignment_java_employee",
-      "community": 182,
+      "community": 233,
       "norm_label": "employee"
     },
     {
@@ -25910,7 +25910,7 @@
       "source_location": "L155",
       "_origin": "ast",
       "id": "service_equipmentservice_equipmentservice_searchequipment",
-      "community": 180,
+      "community": 77,
       "norm_label": ".searchequipment()"
     },
     {
@@ -25920,7 +25920,7 @@
       "source_location": "L155",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_service_equipmentservice_java_searchdto",
-      "community": 180,
+      "community": 77,
       "norm_label": "searchdto"
     },
     {
@@ -26010,7 +26010,7 @@
       "source_location": "L233",
       "_origin": "ast",
       "id": "service_equipmentservice_equipmentservice_validateequipmentsearchkeys",
-      "community": 180,
+      "community": 77,
       "norm_label": ".validateequipmentsearchkeys()"
     },
     {
@@ -26020,7 +26020,7 @@
       "source_location": "L247",
       "_origin": "ast",
       "id": "service_equipmentservice_equipmentservice_normalizeoperations",
-      "community": 180,
+      "community": 77,
       "norm_label": ".normalizeoperations()"
     },
     {
@@ -26030,7 +26030,7 @@
       "source_location": "L267",
       "_origin": "ast",
       "id": "service_equipmentservice_equipmentservice_applydefaultsort",
-      "community": 180,
+      "community": 77,
       "norm_label": ".applydefaultsort()"
     },
     {
@@ -26040,7 +26040,7 @@
       "source_location": "L274",
       "_origin": "ast",
       "id": "service_equipmentservice_equipmentservice_applysiteaccessfilter",
-      "community": 191,
+      "community": 77,
       "norm_label": ".applysiteaccessfilter()"
     },
     {
@@ -26050,7 +26050,7 @@
       "source_location": "L296",
       "_origin": "ast",
       "id": "service_equipmentservice_equipmentservice_isblank",
-      "community": 180,
+      "community": 77,
       "norm_label": ".isblank()"
     },
     {
@@ -29240,7 +29240,7 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "dto_notificationpagedto_notificationpagedto_gettotalelements",
-      "community": 77,
+      "community": 263,
       "norm_label": ".gettotalelements()"
     },
     {
@@ -29300,7 +29300,7 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "dto_notificationpagedto_notificationpagedto_getsize",
-      "community": 88,
+      "community": 66,
       "norm_label": ".getsize()"
     },
     {
@@ -30570,7 +30570,7 @@
       "source_location": "L101",
       "_origin": "ast",
       "id": "entity_notificationsetting_notificationsetting_setupdatedby",
-      "community": 249,
+      "community": 1,
       "norm_label": ".setupdatedby()"
     },
     {
@@ -30830,7 +30830,7 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "service_notificationscanservice_notificationscanservice_scandailynotifications",
-      "community": 177,
+      "community": 30,
       "norm_label": ".scandailynotifications()"
     },
     {
@@ -30940,7 +30940,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "service_notificationservice",
-      "community": 214,
+      "community": 30,
       "norm_label": "notificationservice.java"
     },
     {
@@ -30970,7 +30970,7 @@
       "source_location": "L54",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_notification_service_notificationservice_java_list",
-      "community": 214,
+      "community": 30,
       "norm_label": "list"
     },
     {
@@ -31060,7 +31060,7 @@
       "source_location": "L81",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_notification_service_notificationservice_java_sseemitter",
-      "community": 214,
+      "community": 30,
       "norm_label": "sseemitter"
     },
     {
@@ -31110,7 +31110,7 @@
       "source_location": "L122",
       "_origin": "ast",
       "id": "service_notificationservice_notificationservice_createpmduereminder",
-      "community": 177,
+      "community": 30,
       "norm_label": ".createpmduereminder()"
     },
     {
@@ -31120,7 +31120,7 @@
       "source_location": "L122",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_notification_service_notificationservice_java_preventivemaintenanceschedule",
-      "community": 177,
+      "community": 30,
       "norm_label": "preventivemaintenanceschedule"
     },
     {
@@ -31130,7 +31130,7 @@
       "source_location": "L122",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_notification_service_notificationservice_java_localdate",
-      "community": 177,
+      "community": 30,
       "norm_label": "localdate"
     },
     {
@@ -31140,7 +31140,7 @@
       "source_location": "L137",
       "_origin": "ast",
       "id": "service_notificationservice_notificationservice_createoverduerequestalert",
-      "community": 177,
+      "community": 30,
       "norm_label": ".createoverduerequestalert()"
     },
     {
@@ -31150,7 +31150,7 @@
       "source_location": "L137",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_notification_service_notificationservice_java_maintenancerequest",
-      "community": 177,
+      "community": 30,
       "norm_label": "maintenancerequest"
     },
     {
@@ -31160,7 +31160,7 @@
       "source_location": "L149",
       "_origin": "ast",
       "id": "service_notificationservice_notificationservice_createapprovalpendingalert",
-      "community": 214,
+      "community": 30,
       "norm_label": ".createapprovalpendingalert()"
     },
     {
@@ -31170,7 +31170,7 @@
       "source_location": "L149",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_notification_service_notificationservice_java_approvalrequest",
-      "community": 214,
+      "community": 30,
       "norm_label": "approvalrequest"
     },
     {
@@ -31180,7 +31180,7 @@
       "source_location": "L165",
       "_origin": "ast",
       "id": "service_notificationservice_notificationservice_createlowstockalert",
-      "community": 214,
+      "community": 30,
       "norm_label": ".createlowstockalert()"
     },
     {
@@ -31190,7 +31190,7 @@
       "source_location": "L165",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_notification_service_notificationservice_java_sparepartsitestock",
-      "community": 214,
+      "community": 30,
       "norm_label": "sparepartsitestock"
     },
     {
@@ -31200,7 +31200,7 @@
       "source_location": "L183",
       "_origin": "ast",
       "id": "service_notificationservice_notificationservice_notifyrolerecipients",
-      "community": 214,
+      "community": 30,
       "norm_label": ".notifyrolerecipients()"
     },
     {
@@ -31210,7 +31210,7 @@
       "source_location": "L183",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_notification_service_notificationservice_java_notificationsettingdto",
-      "community": 214,
+      "community": 30,
       "norm_label": "notificationsettingdto"
     },
     {
@@ -31220,7 +31220,7 @@
       "source_location": "L183",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_notification_service_notificationservice_java_collection",
-      "community": 214,
+      "community": 30,
       "norm_label": "collection"
     },
     {
@@ -31230,7 +31230,7 @@
       "source_location": "L183",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_notification_service_notificationservice_java_site",
-      "community": 214,
+      "community": 30,
       "norm_label": "site"
     },
     {
@@ -31240,7 +31240,7 @@
       "source_location": "L195",
       "_origin": "ast",
       "id": "service_notificationservice_notificationservice_resolverecipients",
-      "community": 214,
+      "community": 30,
       "norm_label": ".resolverecipients()"
     },
     {
@@ -31290,7 +31290,7 @@
       "source_location": "L264",
       "_origin": "ast",
       "id": "service_notificationservice_notificationservice_isenabled",
-      "community": 214,
+      "community": 30,
       "norm_label": ".isenabled()"
     },
     {
@@ -31410,7 +31410,7 @@
       "source_location": "L74",
       "_origin": "ast",
       "id": "service_notificationsettingsservice_notificationsettingsservice_getruntimesettings",
-      "community": 185,
+      "community": 30,
       "norm_label": ".getruntimesettings()"
     },
     {
@@ -32700,7 +32700,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "repository_preventivemaintenanceschedulerepository_preventivemaintenanceschedulerepository_countbyequipmentidandactivetrue",
-      "community": 180,
+      "community": 257,
       "norm_label": ".countbyequipmentidandactivetrue()"
     },
     {
@@ -33940,7 +33940,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dao_sitedao",
-      "community": 26,
+      "community": 312,
       "norm_label": "sitedao.java"
     },
     {
@@ -33950,7 +33950,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "dao_sitedao_sitedao",
-      "community": 26,
+      "community": 312,
       "norm_label": "sitedao"
     },
     {
@@ -33960,7 +33960,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "dao_sitedao_sitedao_sitedao",
-      "community": 26,
+      "community": 312,
       "norm_label": ".sitedao()"
     },
     {
@@ -33970,7 +33970,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "siterepository",
-      "community": 26,
+      "community": 312,
       "norm_label": "siterepository"
     },
     {
@@ -33980,7 +33980,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "dao_sitedao_sitedao_save",
-      "community": 26,
+      "community": 312,
       "norm_label": ".save()"
     },
     {
@@ -33990,7 +33990,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_site_dao_sitedao_java_site",
-      "community": 26,
+      "community": 312,
       "norm_label": "site"
     },
     {
@@ -34000,7 +34000,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "dao_sitedao_sitedao_findbyid",
-      "community": 26,
+      "community": 312,
       "norm_label": ".findbyid()"
     },
     {
@@ -34010,7 +34010,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_site_dao_sitedao_java_long",
-      "community": 26,
+      "community": 312,
       "norm_label": "long"
     },
     {
@@ -34020,7 +34020,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_site_dao_sitedao_java_optional",
-      "community": 26,
+      "community": 312,
       "norm_label": "optional"
     },
     {
@@ -34030,7 +34030,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "dao_sitedao_sitedao_findall",
-      "community": 26,
+      "community": 312,
       "norm_label": ".findall()"
     },
     {
@@ -34040,7 +34040,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_site_dao_sitedao_java_list",
-      "community": 26,
+      "community": 312,
       "norm_label": "list"
     },
     {
@@ -34050,7 +34050,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "dao_sitedao_sitedao_deletebyid",
-      "community": 26,
+      "community": 312,
       "norm_label": ".deletebyid()"
     },
     {
@@ -34060,7 +34060,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "dao_sitedao_sitedao_existsbysitecode",
-      "community": 26,
+      "community": 312,
       "norm_label": ".existsbysitecode()"
     },
     {
@@ -34070,7 +34070,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_site_dao_sitedao_java_string",
-      "community": 26,
+      "community": 312,
       "norm_label": "string"
     },
     {
@@ -34080,7 +34080,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "dao_sitedao_sitedao_existsbysitecodeandidnot",
-      "community": 26,
+      "community": 312,
       "norm_label": ".existsbysitecodeandidnot()"
     },
     {
@@ -36060,7 +36060,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dto_sparepartimportresultdto",
-      "community": 169,
+      "community": 319,
       "norm_label": "sparepartimportresultdto.java"
     },
     {
@@ -36070,7 +36070,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "dto_sparepartimportresultdto_sparepartimportresultdto",
-      "community": 169,
+      "community": 319,
       "norm_label": "sparepartimportresultdto"
     },
     {
@@ -36080,7 +36080,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "dto_sparepartimportresultdto_sparepartimportresultdto_incrementcreated",
-      "community": 169,
+      "community": 319,
       "norm_label": ".incrementcreated()"
     },
     {
@@ -36090,7 +36090,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "dto_sparepartimportresultdto_sparepartimportresultdto_incrementupdated",
-      "community": 169,
+      "community": 319,
       "norm_label": ".incrementupdated()"
     },
     {
@@ -36100,7 +36100,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "dto_sparepartimportresultdto_sparepartimportresultdto_adderror",
-      "community": 169,
+      "community": 319,
       "norm_label": ".adderror()"
     },
     {
@@ -36110,7 +36110,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_spareparts_dto_sparepartimportresultdto_java_string",
-      "community": 169,
+      "community": 319,
       "norm_label": "string"
     },
     {
@@ -40380,7 +40380,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "service_vendorservice",
-      "community": 30,
+      "community": 21,
       "norm_label": "vendorservice.java"
     },
     {
@@ -40390,7 +40390,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "service_vendorservice_vendorservice",
-      "community": 30,
+      "community": 21,
       "norm_label": "vendorservice"
     },
     {
@@ -40400,7 +40400,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "service_vendorservice_vendorservice_create",
-      "community": 30,
+      "community": 21,
       "norm_label": ".create()"
     },
     {
@@ -40410,7 +40410,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_vendor_service_vendorservice_java_vendordto",
-      "community": 30,
+      "community": 21,
       "norm_label": "vendordto"
     },
     {
@@ -40420,7 +40420,7 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "service_vendorservice_vendorservice_update",
-      "community": 30,
+      "community": 21,
       "norm_label": ".update()"
     },
     {
@@ -40430,7 +40430,7 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_vendor_service_vendorservice_java_long",
-      "community": 30,
+      "community": 21,
       "norm_label": "long"
     },
     {
@@ -40440,7 +40440,7 @@
       "source_location": "L53",
       "_origin": "ast",
       "id": "service_vendorservice_vendorservice_getbyid",
-      "community": 30,
+      "community": 21,
       "norm_label": ".getbyid()"
     },
     {
@@ -40450,7 +40450,7 @@
       "source_location": "L53",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_vendor_service_vendorservice_java_transactional",
-      "community": 30,
+      "community": 21,
       "norm_label": "transactional"
     },
     {
@@ -40460,7 +40460,7 @@
       "source_location": "L63",
       "_origin": "ast",
       "id": "service_vendorservice_vendorservice_getall",
-      "community": 30,
+      "community": 21,
       "norm_label": ".getall()"
     },
     {
@@ -40470,7 +40470,7 @@
       "source_location": "L63",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_vendor_service_vendorservice_java_boolean",
-      "community": 30,
+      "community": 21,
       "norm_label": "boolean"
     },
     {
@@ -40480,7 +40480,7 @@
       "source_location": "L63",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_vendor_service_vendorservice_java_list",
-      "community": 30,
+      "community": 21,
       "norm_label": "list"
     },
     {
@@ -40490,7 +40490,7 @@
       "source_location": "L80",
       "_origin": "ast",
       "id": "service_vendorservice_vendorservice_delete",
-      "community": 30,
+      "community": 21,
       "norm_label": ".delete()"
     },
     {
@@ -40500,7 +40500,7 @@
       "source_location": "L85",
       "_origin": "ast",
       "id": "service_vendorservice_vendorservice_getentity",
-      "community": 30,
+      "community": 21,
       "norm_label": ".getentity()"
     },
     {
@@ -40510,7 +40510,7 @@
       "source_location": "L85",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_vendor_service_vendorservice_java_vendor",
-      "community": 30,
+      "community": 21,
       "norm_label": "vendor"
     },
     {
@@ -40520,7 +40520,7 @@
       "source_location": "L91",
       "_origin": "ast",
       "id": "service_vendorservice_vendorservice_getentitywithassignments",
-      "community": 30,
+      "community": 21,
       "norm_label": ".getentitywithassignments()"
     },
     {
@@ -40530,7 +40530,7 @@
       "source_location": "L97",
       "_origin": "ast",
       "id": "service_vendorservice_vendorservice_isvendorassignedtosite",
-      "community": 30,
+      "community": 21,
       "norm_label": ".isvendorassignedtosite()"
     },
     {
@@ -40540,7 +40540,7 @@
       "source_location": "L102",
       "_origin": "ast",
       "id": "service_vendorservice_vendorservice_apply",
-      "community": 30,
+      "community": 21,
       "norm_label": ".apply()"
     },
     {
@@ -40550,7 +40550,7 @@
       "source_location": "L113",
       "_origin": "ast",
       "id": "service_vendorservice_vendorservice_replaceassignments",
-      "community": 30,
+      "community": 21,
       "norm_label": ".replaceassignments()"
     },
     {
@@ -40560,7 +40560,7 @@
       "source_location": "L113",
       "_origin": "ast",
       "id": "vendorsiteassignmentdto",
-      "community": 30,
+      "community": 21,
       "norm_label": "vendorsiteassignmentdto"
     },
     {
@@ -40570,7 +40570,7 @@
       "source_location": "L129",
       "_origin": "ast",
       "id": "service_vendorservice_vendorservice_validateassignments",
-      "community": 30,
+      "community": 21,
       "norm_label": ".validateassignments()"
     },
     {
@@ -40580,7 +40580,7 @@
       "source_location": "L152",
       "_origin": "ast",
       "id": "service_vendorservice_vendorservice_todto",
-      "community": 30,
+      "community": 21,
       "norm_label": ".todto()"
     },
     {
@@ -40590,7 +40590,7 @@
       "source_location": "L182",
       "_origin": "ast",
       "id": "service_vendorservice_vendorservice_toassignmentdto",
-      "community": 30,
+      "community": 21,
       "norm_label": ".toassignmentdto()"
     },
     {
@@ -40600,7 +40600,7 @@
       "source_location": "L182",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_vendor_service_vendorservice_java_vendorsiteassignment",
-      "community": 30,
+      "community": 21,
       "norm_label": "vendorsiteassignment"
     },
     {
@@ -40610,7 +40610,7 @@
       "source_location": "L193",
       "_origin": "ast",
       "id": "service_vendorservice_vendorservice_isblank",
-      "community": 30,
+      "community": 21,
       "norm_label": ".isblank()"
     },
     {
@@ -40620,7 +40620,7 @@
       "source_location": "L193",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_vendor_service_vendorservice_java_string",
-      "community": 30,
+      "community": 21,
       "norm_label": "string"
     },
     {
@@ -40630,7 +40630,7 @@
       "source_location": "L197",
       "_origin": "ast",
       "id": "service_vendorservice_vendorservice_assignmentsiteids",
-      "community": 30,
+      "community": 21,
       "norm_label": ".assignmentsiteids()"
     },
     {
@@ -41630,7 +41630,7 @@
       "source_location": "L128",
       "_origin": "ast",
       "id": "src_app_protectedroute",
-      "community": 288,
+      "community": 105,
       "norm_label": "protectedroute()"
     },
     {
@@ -41900,7 +41900,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "services_roleservice_getroles",
-      "community": 281,
+      "community": 105,
       "norm_label": "getroles()"
     },
     {
@@ -41960,7 +41960,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_approvalconfigpage",
-      "community": 281,
+      "community": 105,
       "norm_label": "approvalconfigpage.jsx"
     },
     {
@@ -41970,7 +41970,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "pages_approvalconfigpage_defaultapprovalconfigs",
-      "community": 281,
+      "community": 105,
       "norm_label": "defaultapprovalconfigs"
     },
     {
@@ -41980,7 +41980,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "pages_approvalconfigpage_mergedefaultconfigs",
-      "community": 281,
+      "community": 105,
       "norm_label": "mergedefaultconfigs()"
     },
     {
@@ -41990,7 +41990,7 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "pages_approvalconfigpage_approvalconfigpage",
-      "community": 281,
+      "community": 105,
       "norm_label": "approvalconfigpage()"
     },
     {
@@ -42040,7 +42040,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "services_approvalconfigservice",
-      "community": 281,
+      "community": 105,
       "norm_label": "approvalconfigservice.js"
     },
     {
@@ -42050,7 +42050,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "services_approvalconfigservice_getapprovalconfigs",
-      "community": 281,
+      "community": 105,
       "norm_label": "getapprovalconfigs()"
     },
     {
@@ -42060,7 +42060,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "services_approvalconfigservice_createapprovalconfig",
-      "community": 281,
+      "community": 105,
       "norm_label": "createapprovalconfig()"
     },
     {
@@ -42070,7 +42070,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "services_approvalconfigservice_updateapprovalconfig",
-      "community": 281,
+      "community": 105,
       "norm_label": "updateapprovalconfig()"
     },
     {
@@ -43210,7 +43210,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_employeeformpage",
-      "community": 281,
+      "community": 217,
       "norm_label": "employeeformpage.jsx"
     },
     {
@@ -43220,7 +43220,7 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "pages_employeeformpage_status_options",
-      "community": 281,
+      "community": 217,
       "norm_label": "status_options"
     },
     {
@@ -43230,7 +43230,7 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "pages_employeeformpage_gender_options",
-      "community": 281,
+      "community": 217,
       "norm_label": "gender_options"
     },
     {
@@ -43240,7 +43240,7 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "pages_employeeformpage_auth_role_options",
-      "community": 281,
+      "community": 217,
       "norm_label": "auth_role_options"
     },
     {
@@ -43250,7 +43250,7 @@
       "source_location": "L50",
       "_origin": "ast",
       "id": "pages_employeeformpage_emptyassignment",
-      "community": 281,
+      "community": 217,
       "norm_label": "emptyassignment"
     },
     {
@@ -43260,7 +43260,7 @@
       "source_location": "L59",
       "_origin": "ast",
       "id": "pages_employeeformpage_emptyroleassignment",
-      "community": 281,
+      "community": 217,
       "norm_label": "emptyroleassignment"
     },
     {
@@ -43270,7 +43270,7 @@
       "source_location": "L65",
       "_origin": "ast",
       "id": "pages_employeeformpage_initialform",
-      "community": 281,
+      "community": 217,
       "norm_label": "initialform"
     },
     {
@@ -43280,7 +43280,7 @@
       "source_location": "L88",
       "_origin": "ast",
       "id": "pages_employeeformpage_employeeformpage",
-      "community": 281,
+      "community": 217,
       "norm_label": "employeeformpage()"
     },
     {
@@ -43290,7 +43290,7 @@
       "source_location": "L450",
       "_origin": "ast",
       "id": "pages_employeeformpage_normalizeassignments",
-      "community": 281,
+      "community": 217,
       "norm_label": "normalizeassignments()"
     },
     {
@@ -43300,7 +43300,7 @@
       "source_location": "L465",
       "_origin": "ast",
       "id": "pages_employeeformpage_normalizeroleassignments",
-      "community": 281,
+      "community": 217,
       "norm_label": "normalizeroleassignments()"
     },
     {
@@ -43310,7 +43310,7 @@
       "source_location": "L475",
       "_origin": "ast",
       "id": "pages_employeeformpage_selectedsites",
-      "community": 281,
+      "community": 217,
       "norm_label": "selectedsites()"
     },
     {
@@ -43340,7 +43340,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "services_employeeservice",
-      "community": 281,
+      "community": 217,
       "norm_label": "employeeservice.js"
     },
     {
@@ -43350,7 +43350,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "services_employeeservice_getemployees",
-      "community": 281,
+      "community": 217,
       "norm_label": "getemployees()"
     },
     {
@@ -43370,7 +43370,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "services_employeeservice_getemployeebyid",
-      "community": 281,
+      "community": 217,
       "norm_label": "getemployeebyid()"
     },
     {
@@ -43380,7 +43380,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "services_employeeservice_createemployee",
-      "community": 281,
+      "community": 217,
       "norm_label": "createemployee()"
     },
     {
@@ -43390,7 +43390,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "services_employeeservice_updateemployee",
-      "community": 281,
+      "community": 217,
       "norm_label": "updateemployee()"
     },
     {
@@ -43410,7 +43410,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_equipmentformpage",
-      "community": 105,
+      "community": 217,
       "norm_label": "equipmentformpage.jsx"
     },
     {
@@ -43420,7 +43420,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "pages_equipmentformpage_initialform",
-      "community": 105,
+      "community": 217,
       "norm_label": "initialform"
     },
     {
@@ -43430,7 +43430,7 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "pages_equipmentformpage_status_options",
-      "community": 105,
+      "community": 217,
       "norm_label": "status_options"
     },
     {
@@ -43440,7 +43440,7 @@
       "source_location": "L40",
       "_origin": "ast",
       "id": "pages_equipmentformpage_criticality_options",
-      "community": 105,
+      "community": 217,
       "norm_label": "criticality_options"
     },
     {
@@ -43450,7 +43450,7 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "pages_equipmentformpage_lifecycle_status_options",
-      "community": 105,
+      "community": 217,
       "norm_label": "lifecycle_status_options"
     },
     {
@@ -43460,7 +43460,7 @@
       "source_location": "L58",
       "_origin": "ast",
       "id": "pages_equipmentformpage_asset_condition_options",
-      "community": 105,
+      "community": 217,
       "norm_label": "asset_condition_options"
     },
     {
@@ -43470,7 +43470,7 @@
       "source_location": "L66",
       "_origin": "ast",
       "id": "pages_equipmentformpage_operating_status_options",
-      "community": 105,
+      "community": 217,
       "norm_label": "operating_status_options"
     },
     {
@@ -43480,7 +43480,7 @@
       "source_location": "L74",
       "_origin": "ast",
       "id": "pages_equipmentformpage_ownership_type_options",
-      "community": 105,
+      "community": 217,
       "norm_label": "ownership_type_options"
     },
     {
@@ -43490,7 +43490,7 @@
       "source_location": "L81",
       "_origin": "ast",
       "id": "pages_equipmentformpage_equipmentformpage",
-      "community": 105,
+      "community": 104,
       "norm_label": "equipmentformpage()"
     },
     {
@@ -43500,17 +43500,47 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_equipmentlistpage",
-      "community": 105,
+      "community": 104,
       "norm_label": "equipmentlistpage.jsx"
+    },
+    {
+      "label": "initialQrDialog",
+      "file_type": "code",
+      "source_file": "cmms_front_end/src/features/equipment/pages/EquipmentListPage.jsx",
+      "source_location": "L29",
+      "_origin": "ast",
+      "id": "pages_equipmentlistpage_initialqrdialog",
+      "community": 104,
+      "norm_label": "initialqrdialog"
+    },
+    {
+      "label": "getEquipmentViewPath()",
+      "file_type": "code",
+      "source_file": "cmms_front_end/src/features/equipment/pages/EquipmentListPage.jsx",
+      "source_location": "L31",
+      "_origin": "ast",
+      "id": "pages_equipmentlistpage_getequipmentviewpath",
+      "community": 104,
+      "norm_label": "getequipmentviewpath()"
+    },
+    {
+      "label": "getEquipmentQrValue()",
+      "file_type": "code",
+      "source_file": "cmms_front_end/src/features/equipment/pages/EquipmentListPage.jsx",
+      "source_location": "L33",
+      "_origin": "ast",
+      "id": "pages_equipmentlistpage_getequipmentqrvalue",
+      "community": 104,
+      "norm_label": "getequipmentqrvalue()"
     },
     {
       "label": "EquipmentListPage()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/features/equipment/pages/EquipmentListPage.jsx",
-      "source_location": "L12",
+      "source_location": "L40",
       "_origin": "ast",
       "id": "pages_equipmentlistpage_equipmentlistpage",
-      "community": 105,
+      "community": 104,
       "norm_label": "equipmentlistpage()"
     },
     {
@@ -43580,7 +43610,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "services_equipmentservice",
-      "community": 105,
+      "community": 104,
       "norm_label": "equipmentservice.js"
     },
     {
@@ -43600,7 +43630,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "services_equipmentservice_searchequipments",
-      "community": 105,
+      "community": 104,
       "norm_label": "searchequipments()"
     },
     {
@@ -43620,7 +43650,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "services_equipmentservice_createequipment",
-      "community": 105,
+      "community": 104,
       "norm_label": "createequipment()"
     },
     {
@@ -43630,7 +43660,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "services_equipmentservice_updateequipment",
-      "community": 105,
+      "community": 104,
       "norm_label": "updateequipment()"
     },
     {
@@ -43640,7 +43670,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "services_equipmentservice_deleteequipment",
-      "community": 105,
+      "community": 104,
       "norm_label": "deleteequipment()"
     },
     {
@@ -43650,7 +43680,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_maintenancerequestformpage",
-      "community": 217,
+      "community": 310,
       "norm_label": "maintenancerequestformpage.jsx"
     },
     {
@@ -43660,7 +43690,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "pages_maintenancerequestformpage_initialform",
-      "community": 217,
+      "community": 310,
       "norm_label": "initialform"
     },
     {
@@ -43670,7 +43700,7 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "pages_maintenancerequestformpage_request_type_options",
-      "community": 217,
+      "community": 310,
       "norm_label": "request_type_options"
     },
     {
@@ -43680,7 +43710,7 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "pages_maintenancerequestformpage_priority_options",
-      "community": 217,
+      "community": 310,
       "norm_label": "priority_options"
     },
     {
@@ -43690,7 +43720,7 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "pages_maintenancerequestformpage_request_status_options",
-      "community": 217,
+      "community": 310,
       "norm_label": "request_status_options"
     },
     {
@@ -43700,7 +43730,7 @@
       "source_location": "L50",
       "_origin": "ast",
       "id": "pages_maintenancerequestformpage_maintenancerequestformpage",
-      "community": 217,
+      "community": 310,
       "norm_label": "maintenancerequestformpage()"
     },
     {
@@ -43740,7 +43770,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_maintenancerequestviewpage",
-      "community": 217,
+      "community": 310,
       "norm_label": "maintenancerequestviewpage.jsx"
     },
     {
@@ -43750,7 +43780,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "pages_maintenancerequestviewpage_maintenancerequestviewpage",
-      "community": 217,
+      "community": 310,
       "norm_label": "maintenancerequestviewpage()"
     },
     {
@@ -43760,7 +43790,7 @@
       "source_location": "L86",
       "_origin": "ast",
       "id": "pages_maintenancerequestviewpage_detailitem",
-      "community": 217,
+      "community": 310,
       "norm_label": "detailitem()"
     },
     {
@@ -43770,7 +43800,7 @@
       "source_location": "L104",
       "_origin": "ast",
       "id": "pages_maintenancerequestviewpage_displayvalue",
-      "community": 217,
+      "community": 310,
       "norm_label": "displayvalue()"
     },
     {
@@ -43780,7 +43810,7 @@
       "source_location": "L108",
       "_origin": "ast",
       "id": "pages_maintenancerequestviewpage_formatsite",
-      "community": 217,
+      "community": 310,
       "norm_label": "formatsite()"
     },
     {
@@ -43790,7 +43820,7 @@
       "source_location": "L115",
       "_origin": "ast",
       "id": "pages_maintenancerequestviewpage_formatequipment",
-      "community": 217,
+      "community": 310,
       "norm_label": "formatequipment()"
     },
     {
@@ -43800,7 +43830,7 @@
       "source_location": "L122",
       "_origin": "ast",
       "id": "pages_maintenancerequestviewpage_formatdate",
-      "community": 217,
+      "community": 310,
       "norm_label": "formatdate()"
     },
     {
@@ -43810,7 +43840,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "services_maintenancerequestservice",
-      "community": 217,
+      "community": 310,
       "norm_label": "maintenancerequestservice.js"
     },
     {
@@ -43820,7 +43850,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "services_maintenancerequestservice_getmaintenancerequests",
-      "community": 217,
+      "community": 310,
       "norm_label": "getmaintenancerequests()"
     },
     {
@@ -43850,7 +43880,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "services_maintenancerequestservice_getmaintenancerequestbyid",
-      "community": 217,
+      "community": 310,
       "norm_label": "getmaintenancerequestbyid()"
     },
     {
@@ -43860,7 +43890,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "services_maintenancerequestservice_createmaintenancerequest",
-      "community": 217,
+      "community": 310,
       "norm_label": "createmaintenancerequest()"
     },
     {
@@ -43870,7 +43900,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "services_maintenancerequestservice_updatemaintenancerequest",
-      "community": 217,
+      "community": 310,
       "norm_label": "updatemaintenancerequest()"
     },
     {
@@ -43940,7 +43970,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "services_maintenanceservice_getmaintenancerequestbyid",
-      "community": 217,
+      "community": 310,
       "norm_label": "getmaintenancerequestbyid()"
     },
     {
@@ -43950,7 +43980,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "services_maintenanceservice_createmaintenancerequest",
-      "community": 217,
+      "community": 310,
       "norm_label": "createmaintenancerequest()"
     },
     {
@@ -43960,7 +43990,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "services_maintenanceservice_updatemaintenancerequest",
-      "community": 217,
+      "community": 310,
       "norm_label": "updatemaintenancerequest()"
     },
     {
@@ -44200,7 +44230,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_notificationsettingspage",
-      "community": 281,
+      "community": 105,
       "norm_label": "notificationsettingspage.jsx"
     },
     {
@@ -44210,7 +44240,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "pages_notificationsettingspage_initialform",
-      "community": 281,
+      "community": 105,
       "norm_label": "initialform"
     },
     {
@@ -44220,7 +44250,7 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "pages_notificationsettingspage_roleselect",
-      "community": 281,
+      "community": 105,
       "norm_label": "roleselect()"
     },
     {
@@ -44230,7 +44260,7 @@
       "source_location": "L66",
       "_origin": "ast",
       "id": "pages_notificationsettingspage_notificationsettingspage",
-      "community": 281,
+      "community": 105,
       "norm_label": "notificationsettingspage()"
     },
     {
@@ -44320,7 +44350,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "services_notificationsettingsservice",
-      "community": 281,
+      "community": 105,
       "norm_label": "notificationsettingsservice.js"
     },
     {
@@ -44330,7 +44360,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "services_notificationsettingsservice_getnotificationsettings",
-      "community": 281,
+      "community": 105,
       "norm_label": "getnotificationsettings()"
     },
     {
@@ -44340,7 +44370,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "services_notificationsettingsservice_updatenotificationsettings",
-      "community": 281,
+      "community": 105,
       "norm_label": "updatenotificationsettings()"
     },
     {
@@ -44470,7 +44500,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_preventivemaintenanceformpage",
-      "community": 104,
+      "community": 217,
       "norm_label": "preventivemaintenanceformpage.jsx"
     },
     {
@@ -44480,7 +44510,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "pages_preventivemaintenanceformpage_today",
-      "community": 104,
+      "community": 217,
       "norm_label": "today()"
     },
     {
@@ -44490,7 +44520,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "pages_preventivemaintenanceformpage_initialform",
-      "community": 104,
+      "community": 217,
       "norm_label": "initialform"
     },
     {
@@ -44500,7 +44530,7 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "pages_preventivemaintenanceformpage_frequencies",
-      "community": 104,
+      "community": 217,
       "norm_label": "frequencies"
     },
     {
@@ -44510,7 +44540,7 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "pages_preventivemaintenanceformpage_priorities",
-      "community": 104,
+      "community": 217,
       "norm_label": "priorities"
     },
     {
@@ -44520,7 +44550,7 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "pages_preventivemaintenanceformpage_checklistresponsetypes",
-      "community": 104,
+      "community": 217,
       "norm_label": "checklistresponsetypes"
     },
     {
@@ -44530,7 +44560,7 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "pages_preventivemaintenanceformpage_frequency_options",
-      "community": 104,
+      "community": 217,
       "norm_label": "frequency_options"
     },
     {
@@ -44540,7 +44570,7 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "pages_preventivemaintenanceformpage_priority_options",
-      "community": 104,
+      "community": 217,
       "norm_label": "priority_options"
     },
     {
@@ -44550,7 +44580,7 @@
       "source_location": "L40",
       "_origin": "ast",
       "id": "pages_preventivemaintenanceformpage_response_type_options",
-      "community": 104,
+      "community": 217,
       "norm_label": "response_type_options"
     },
     {
@@ -44560,7 +44590,7 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "pages_preventivemaintenanceformpage_pm_active_options",
-      "community": 104,
+      "community": 217,
       "norm_label": "pm_active_options"
     },
     {
@@ -44570,7 +44600,7 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "pages_preventivemaintenanceformpage_pm_status_options",
-      "community": 104,
+      "community": 217,
       "norm_label": "pm_status_options"
     },
     {
@@ -44580,7 +44610,7 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "pages_preventivemaintenanceformpage_samplechecklistitems",
-      "community": 104,
+      "community": 217,
       "norm_label": "samplechecklistitems"
     },
     {
@@ -44640,7 +44670,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_preventivemaintenanceviewpage",
-      "community": 104,
+      "community": 317,
       "norm_label": "preventivemaintenanceviewpage.jsx"
     },
     {
@@ -44650,7 +44680,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "pages_preventivemaintenanceviewpage_preventivemaintenanceviewpage",
-      "community": 104,
+      "community": 317,
       "norm_label": "preventivemaintenanceviewpage()"
     },
     {
@@ -44660,7 +44690,7 @@
       "source_location": "L140",
       "_origin": "ast",
       "id": "pages_preventivemaintenanceviewpage_detailitem",
-      "community": 104,
+      "community": 317,
       "norm_label": "detailitem()"
     },
     {
@@ -44670,7 +44700,7 @@
       "source_location": "L158",
       "_origin": "ast",
       "id": "pages_preventivemaintenanceviewpage_displayvalue",
-      "community": 104,
+      "community": 317,
       "norm_label": "displayvalue()"
     },
     {
@@ -44680,7 +44710,7 @@
       "source_location": "L162",
       "_origin": "ast",
       "id": "pages_preventivemaintenanceviewpage_formatsite",
-      "community": 104,
+      "community": 317,
       "norm_label": "formatsite()"
     },
     {
@@ -44690,7 +44720,7 @@
       "source_location": "L169",
       "_origin": "ast",
       "id": "pages_preventivemaintenanceviewpage_formatequipment",
-      "community": 104,
+      "community": 317,
       "norm_label": "formatequipment()"
     },
     {
@@ -44700,7 +44730,7 @@
       "source_location": "L176",
       "_origin": "ast",
       "id": "pages_preventivemaintenanceviewpage_formatdate",
-      "community": 104,
+      "community": 317,
       "norm_label": "formatdate()"
     },
     {
@@ -44740,7 +44770,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "services_preventivemaintenanceservice_getpmschedulebyid",
-      "community": 104,
+      "community": 317,
       "norm_label": "getpmschedulebyid()"
     },
     {
@@ -45170,7 +45200,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_sparepartreorderpage",
-      "community": 70,
+      "community": 105,
       "norm_label": "sparepartreorderpage.jsx"
     },
     {
@@ -45180,7 +45210,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "pages_sparepartreorderpage_statuses",
-      "community": 70,
+      "community": 105,
       "norm_label": "statuses"
     },
     {
@@ -45190,7 +45220,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "pages_sparepartreorderpage_initialeditdialog",
-      "community": 70,
+      "community": 105,
       "norm_label": "initialeditdialog"
     },
     {
@@ -45200,7 +45230,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "pages_sparepartreorderpage_initialreceivedialog",
-      "community": 70,
+      "community": 105,
       "norm_label": "initialreceivedialog"
     },
     {
@@ -45210,7 +45240,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "pages_sparepartreorderpage_sparepartreorderpage",
-      "community": 70,
+      "community": 105,
       "norm_label": "sparepartreorderpage()"
     },
     {
@@ -45510,7 +45540,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "services_sparepartservice_getreorderrequests",
-      "community": 70,
+      "community": 105,
       "norm_label": "getreorderrequests()"
     },
     {
@@ -45530,7 +45560,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "services_sparepartservice_updatereorderrequest",
-      "community": 70,
+      "community": 105,
       "norm_label": "updatereorderrequest()"
     },
     {
@@ -45540,7 +45570,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "services_sparepartservice_receivepurchaserequeststock",
-      "community": 70,
+      "community": 105,
       "norm_label": "receivepurchaserequeststock()"
     },
     {
@@ -45850,7 +45880,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_vendorviewpage",
-      "community": 217,
+      "community": 105,
       "norm_label": "vendorviewpage.jsx"
     },
     {
@@ -45860,7 +45890,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "pages_vendorviewpage_vendorviewpage",
-      "community": 217,
+      "community": 105,
       "norm_label": "vendorviewpage()"
     },
     {
@@ -45870,7 +45900,7 @@
       "source_location": "L130",
       "_origin": "ast",
       "id": "pages_vendorviewpage_detailitem",
-      "community": 217,
+      "community": 105,
       "norm_label": "detailitem()"
     },
     {
@@ -45880,7 +45910,7 @@
       "source_location": "L148",
       "_origin": "ast",
       "id": "pages_vendorviewpage_displayvalue",
-      "community": 217,
+      "community": 105,
       "norm_label": "displayvalue()"
     },
     {
@@ -45890,7 +45920,7 @@
       "source_location": "L152",
       "_origin": "ast",
       "id": "pages_vendorviewpage_formatsite",
-      "community": 217,
+      "community": 105,
       "norm_label": "formatsite()"
     },
     {
@@ -46040,7 +46070,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "common_commondatepicker",
-      "community": 104,
+      "community": 217,
       "norm_label": "commondatepicker.jsx"
     },
     {
@@ -46050,7 +46080,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "common_commondatepicker_commondatepicker",
-      "community": 104,
+      "community": 217,
       "norm_label": "commondatepicker()"
     },
     {
@@ -46300,7 +46330,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "common_confirmdialog",
-      "community": 51,
+      "community": 251,
       "norm_label": "confirmdialog.jsx"
     },
     {
@@ -46310,7 +46340,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "common_confirmdialog_confirmdialog",
-      "community": 51,
+      "community": 251,
       "norm_label": "confirmdialog()"
     },
     {
@@ -46460,7 +46490,7 @@
       "source_location": "L105",
       "_origin": "ast",
       "id": "context_authcontext_useauth",
-      "community": 288,
+      "community": 105,
       "norm_label": "useauth()"
     },
     {
@@ -46490,7 +46520,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "layouts_navbar",
-      "community": 288,
+      "community": 105,
       "norm_label": "navbar.jsx"
     },
     {
@@ -46500,7 +46530,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "layouts_navbar_navbar",
-      "community": 288,
+      "community": 105,
       "norm_label": "navbar()"
     },
     {
@@ -46510,7 +46540,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "layouts_sidebarlayout",
-      "community": 288,
+      "community": 105,
       "norm_label": "sidebarlayout.jsx"
     },
     {
@@ -46520,7 +46550,7 @@
       "source_location": "L53",
       "_origin": "ast",
       "id": "layouts_sidebarlayout_operationgroups",
-      "community": 288,
+      "community": 105,
       "norm_label": "operationgroups"
     },
     {
@@ -46530,7 +46560,7 @@
       "source_location": "L111",
       "_origin": "ast",
       "id": "layouts_sidebarlayout_hrgroups",
-      "community": 288,
+      "community": 105,
       "norm_label": "hrgroups"
     },
     {
@@ -46540,7 +46570,7 @@
       "source_location": "L124",
       "_origin": "ast",
       "id": "layouts_sidebarlayout_admingroups",
-      "community": 288,
+      "community": 105,
       "norm_label": "admingroups"
     },
     {
@@ -46550,7 +46580,7 @@
       "source_location": "L141",
       "_origin": "ast",
       "id": "layouts_sidebarlayout_sidebarlink",
-      "community": 288,
+      "community": 105,
       "norm_label": "sidebarlink()"
     },
     {
@@ -46560,7 +46590,7 @@
       "source_location": "L188",
       "_origin": "ast",
       "id": "layouts_sidebarlayout_categorybutton",
-      "community": 288,
+      "community": 105,
       "norm_label": "categorybutton()"
     },
     {
@@ -46570,7 +46600,7 @@
       "source_location": "L218",
       "_origin": "ast",
       "id": "layouts_sidebarlayout_sidebarlayout",
-      "community": 288,
+      "community": 105,
       "norm_label": "sidebarlayout()"
     },
     {
@@ -46630,7 +46660,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "services_api_api",
-      "community": 281,
+      "community": 288,
       "norm_label": "api"
     },
     {
@@ -46970,7 +47000,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_permissionroutes_permissions",
-      "community": 51,
+      "community": 105,
       "norm_label": "permissions"
     },
     {
@@ -47430,7 +47460,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "exception",
-      "community": 314,
+      "community": 297,
       "norm_label": "exception"
     },
     {
@@ -47900,7 +47930,7 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "src_migration_runner_migrationrunner_init",
-      "community": 297,
+      "community": 320,
       "norm_label": ".__init__()"
     },
     {
@@ -47910,7 +47940,7 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "migration_scripts_src_migration_runner_py_apiclient",
-      "community": 297,
+      "community": 320,
       "norm_label": "apiclient"
     },
     {
@@ -79784,9 +79814,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/repository/MaintenanceAssignmentRepository.java",
       "source_location": "L14",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "repository_maintenanceassignmentrepository_maintenanceassignmentrepository",
-      "target": "repository_maintenanceassignmentrepository_maintenanceassignmentrepository_countbyrequestequipmentidandstatusnotin",
-      "confidence_score": 1.0
+      "target": "repository_maintenanceassignmentrepository_maintenanceassignmentrepository_countbyrequestequipmentidandstatusnotin"
     },
     {
       "relation": "method",
@@ -79858,9 +79888,9 @@
       "source_location": "L14",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "repository_maintenanceassignmentrepository_maintenanceassignmentrepository_countbyrequestequipmentidandstatusnotin",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_repository_maintenanceassignmentrepository_java_long",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_repository_maintenanceassignmentrepository_java_long"
     },
     {
       "relation": "references",
@@ -79946,9 +79976,9 @@
       "source_location": "L14",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "repository_maintenanceassignmentrepository_maintenanceassignmentrepository_countbyrequestequipmentidandstatusnotin",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_repository_maintenanceassignmentrepository_java_collection",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_repository_maintenanceassignmentrepository_java_collection"
     },
     {
       "relation": "references",
@@ -79957,9 +79987,9 @@
       "source_location": "L14",
       "weight": 1.0,
       "context": "generic_arg",
+      "confidence_score": 1.0,
       "source": "repository_maintenanceassignmentrepository_maintenanceassignmentrepository_countbyrequestequipmentidandstatusnotin",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_repository_maintenanceassignmentrepository_java_string",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_repository_maintenanceassignmentrepository_java_string"
     },
     {
       "relation": "calls",
@@ -105821,9 +105851,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/service/EquipmentService.java",
       "source_location": "L14",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_equipmentservice",
-      "target": "equipmentdowntimerepository",
-      "confidence_score": 1.0
+      "target": "equipmentdowntimerepository"
     },
     {
       "relation": "references",
@@ -108234,9 +108264,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/downtime/repository/EquipmentDowntimeRepository.java",
       "source_location": "L19",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "repository_equipmentdowntimerepository_equipmentdowntimerepository",
-      "target": "repository_equipmentdowntimerepository_equipmentdowntimerepository_countbyequipmentidanddowntimeendisnull",
-      "confidence_score": 1.0
+      "target": "repository_equipmentdowntimerepository_equipmentdowntimerepository_countbyequipmentidanddowntimeendisnull"
     },
     {
       "relation": "method",
@@ -108348,9 +108378,9 @@
       "source_location": "L19",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "repository_equipmentdowntimerepository_equipmentdowntimerepository_countbyequipmentidanddowntimeendisnull",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_downtime_repository_equipmentdowntimerepository_java_long",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_downtime_repository_equipmentdowntimerepository_java_long"
     },
     {
       "relation": "references",
@@ -115769,9 +115799,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/dto/EquipmentDTO.java",
       "source_location": "L94",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "dto_equipmentdto_equipmentdto",
-      "target": "dto_equipmentdto_equipmentdto_getassetcondition",
-      "confidence_score": 1.0
+      "target": "dto_equipmentdto_equipmentdto_getassetcondition"
     },
     {
       "relation": "method",
@@ -115789,9 +115819,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/dto/EquipmentDTO.java",
       "source_location": "L86",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "dto_equipmentdto_equipmentdto",
-      "target": "dto_equipmentdto_equipmentdto_getcommissioningdate",
-      "confidence_score": 1.0
+      "target": "dto_equipmentdto_equipmentdto_getcommissioningdate"
     },
     {
       "relation": "method",
@@ -115819,9 +115849,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/dto/EquipmentDTO.java",
       "source_location": "L88",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "dto_equipmentdto_equipmentdto",
-      "target": "dto_equipmentdto_equipmentdto_getdecommissiondate",
-      "confidence_score": 1.0
+      "target": "dto_equipmentdto_equipmentdto_getdecommissiondate"
     },
     {
       "relation": "method",
@@ -115879,9 +115909,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/dto/EquipmentDTO.java",
       "source_location": "L92",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "dto_equipmentdto_equipmentdto",
-      "target": "dto_equipmentdto_equipmentdto_getlifecyclestatus",
-      "confidence_score": 1.0
+      "target": "dto_equipmentdto_equipmentdto_getlifecyclestatus"
     },
     {
       "relation": "method",
@@ -115919,9 +115949,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/dto/EquipmentDTO.java",
       "source_location": "L96",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "dto_equipmentdto_equipmentdto",
-      "target": "dto_equipmentdto_equipmentdto_getoperatingstatus",
-      "confidence_score": 1.0
+      "target": "dto_equipmentdto_equipmentdto_getoperatingstatus"
     },
     {
       "relation": "method",
@@ -115929,9 +115959,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/dto/EquipmentDTO.java",
       "source_location": "L98",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "dto_equipmentdto_equipmentdto",
-      "target": "dto_equipmentdto_equipmentdto_getownershiptype",
-      "confidence_score": 1.0
+      "target": "dto_equipmentdto_equipmentdto_getownershiptype"
     },
     {
       "relation": "method",
@@ -116029,9 +116059,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/dto/EquipmentDTO.java",
       "source_location": "L95",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "dto_equipmentdto_equipmentdto",
-      "target": "dto_equipmentdto_equipmentdto_setassetcondition",
-      "confidence_score": 1.0
+      "target": "dto_equipmentdto_equipmentdto_setassetcondition"
     },
     {
       "relation": "method",
@@ -116049,9 +116079,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/dto/EquipmentDTO.java",
       "source_location": "L87",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "dto_equipmentdto_equipmentdto",
-      "target": "dto_equipmentdto_equipmentdto_setcommissioningdate",
-      "confidence_score": 1.0
+      "target": "dto_equipmentdto_equipmentdto_setcommissioningdate"
     },
     {
       "relation": "method",
@@ -116079,9 +116109,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/dto/EquipmentDTO.java",
       "source_location": "L89",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "dto_equipmentdto_equipmentdto",
-      "target": "dto_equipmentdto_equipmentdto_setdecommissiondate",
-      "confidence_score": 1.0
+      "target": "dto_equipmentdto_equipmentdto_setdecommissiondate"
     },
     {
       "relation": "method",
@@ -116139,9 +116169,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/dto/EquipmentDTO.java",
       "source_location": "L93",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "dto_equipmentdto_equipmentdto",
-      "target": "dto_equipmentdto_equipmentdto_setlifecyclestatus",
-      "confidence_score": 1.0
+      "target": "dto_equipmentdto_equipmentdto_setlifecyclestatus"
     },
     {
       "relation": "method",
@@ -116179,9 +116209,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/dto/EquipmentDTO.java",
       "source_location": "L97",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "dto_equipmentdto_equipmentdto",
-      "target": "dto_equipmentdto_equipmentdto_setoperatingstatus",
-      "confidence_score": 1.0
+      "target": "dto_equipmentdto_equipmentdto_setoperatingstatus"
     },
     {
       "relation": "method",
@@ -116189,9 +116219,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/dto/EquipmentDTO.java",
       "source_location": "L99",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "dto_equipmentdto_equipmentdto",
-      "target": "dto_equipmentdto_equipmentdto_setownershiptype",
-      "confidence_score": 1.0
+      "target": "dto_equipmentdto_equipmentdto_setownershiptype"
     },
     {
       "relation": "method",
@@ -116367,9 +116397,9 @@
       "source_location": "L94",
       "weight": 1.0,
       "context": "return_type",
+      "confidence_score": 1.0,
       "source": "dto_equipmentdto_equipmentdto_getassetcondition",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_dto_equipmentdto_java_string",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_dto_equipmentdto_java_string"
     },
     {
       "relation": "references",
@@ -116422,9 +116452,9 @@
       "source_location": "L92",
       "weight": 1.0,
       "context": "return_type",
+      "confidence_score": 1.0,
       "source": "dto_equipmentdto_equipmentdto_getlifecyclestatus",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_dto_equipmentdto_java_string",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_dto_equipmentdto_java_string"
     },
     {
       "relation": "references",
@@ -116466,9 +116496,9 @@
       "source_location": "L96",
       "weight": 1.0,
       "context": "return_type",
+      "confidence_score": 1.0,
       "source": "dto_equipmentdto_equipmentdto_getoperatingstatus",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_dto_equipmentdto_java_string",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_dto_equipmentdto_java_string"
     },
     {
       "relation": "references",
@@ -116477,9 +116507,9 @@
       "source_location": "L98",
       "weight": 1.0,
       "context": "return_type",
+      "confidence_score": 1.0,
       "source": "dto_equipmentdto_equipmentdto_getownershiptype",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_dto_equipmentdto_java_string",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_dto_equipmentdto_java_string"
     },
     {
       "relation": "references",
@@ -116543,9 +116573,9 @@
       "source_location": "L95",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "dto_equipmentdto_equipmentdto_setassetcondition",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_dto_equipmentdto_java_string",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_dto_equipmentdto_java_string"
     },
     {
       "relation": "references",
@@ -116609,9 +116639,9 @@
       "source_location": "L93",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "dto_equipmentdto_equipmentdto_setlifecyclestatus",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_dto_equipmentdto_java_string",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_dto_equipmentdto_java_string"
     },
     {
       "relation": "references",
@@ -116653,9 +116683,9 @@
       "source_location": "L97",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "dto_equipmentdto_equipmentdto_setoperatingstatus",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_dto_equipmentdto_java_string",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_dto_equipmentdto_java_string"
     },
     {
       "relation": "references",
@@ -116664,9 +116694,9 @@
       "source_location": "L99",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "dto_equipmentdto_equipmentdto_setownershiptype",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_dto_equipmentdto_java_string",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_dto_equipmentdto_java_string"
     },
     {
       "relation": "references",
@@ -116763,9 +116793,9 @@
       "source_location": "L86",
       "weight": 1.0,
       "context": "return_type",
+      "confidence_score": 1.0,
       "source": "dto_equipmentdto_equipmentdto_getcommissioningdate",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_dto_equipmentdto_java_localdate",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_dto_equipmentdto_java_localdate"
     },
     {
       "relation": "references",
@@ -116774,9 +116804,9 @@
       "source_location": "L88",
       "weight": 1.0,
       "context": "return_type",
+      "confidence_score": 1.0,
       "source": "dto_equipmentdto_equipmentdto_getdecommissiondate",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_dto_equipmentdto_java_localdate",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_dto_equipmentdto_java_localdate"
     },
     {
       "relation": "references",
@@ -116796,9 +116826,9 @@
       "source_location": "L87",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "dto_equipmentdto_equipmentdto_setcommissioningdate",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_dto_equipmentdto_java_localdate",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_dto_equipmentdto_java_localdate"
     },
     {
       "relation": "references",
@@ -116807,9 +116837,9 @@
       "source_location": "L89",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "dto_equipmentdto_equipmentdto_setdecommissiondate",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_dto_equipmentdto_java_localdate",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_dto_equipmentdto_java_localdate"
     },
     {
       "relation": "references",
@@ -116926,9 +116956,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/entity/Equipment.java",
       "source_location": "L124",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "entity_equipment_equipment",
-      "target": "entity_equipment_equipment_getassetcondition",
-      "confidence_score": 1.0
+      "target": "entity_equipment_equipment_getassetcondition"
     },
     {
       "relation": "method",
@@ -116946,9 +116976,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/entity/Equipment.java",
       "source_location": "L116",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "entity_equipment_equipment",
-      "target": "entity_equipment_equipment_getcommissioningdate",
-      "confidence_score": 1.0
+      "target": "entity_equipment_equipment_getcommissioningdate"
     },
     {
       "relation": "method",
@@ -116976,9 +117006,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/entity/Equipment.java",
       "source_location": "L118",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "entity_equipment_equipment",
-      "target": "entity_equipment_equipment_getdecommissiondate",
-      "confidence_score": 1.0
+      "target": "entity_equipment_equipment_getdecommissiondate"
     },
     {
       "relation": "method",
@@ -117026,9 +117056,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/entity/Equipment.java",
       "source_location": "L122",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "entity_equipment_equipment",
-      "target": "entity_equipment_equipment_getlifecyclestatus",
-      "confidence_score": 1.0
+      "target": "entity_equipment_equipment_getlifecyclestatus"
     },
     {
       "relation": "method",
@@ -117066,9 +117096,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/entity/Equipment.java",
       "source_location": "L126",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "entity_equipment_equipment",
-      "target": "entity_equipment_equipment_getoperatingstatus",
-      "confidence_score": 1.0
+      "target": "entity_equipment_equipment_getoperatingstatus"
     },
     {
       "relation": "method",
@@ -117076,9 +117106,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/entity/Equipment.java",
       "source_location": "L128",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "entity_equipment_equipment",
-      "target": "entity_equipment_equipment_getownershiptype",
-      "confidence_score": 1.0
+      "target": "entity_equipment_equipment_getownershiptype"
     },
     {
       "relation": "method",
@@ -117156,9 +117186,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/entity/Equipment.java",
       "source_location": "L125",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "entity_equipment_equipment",
-      "target": "entity_equipment_equipment_setassetcondition",
-      "confidence_score": 1.0
+      "target": "entity_equipment_equipment_setassetcondition"
     },
     {
       "relation": "method",
@@ -117176,9 +117206,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/entity/Equipment.java",
       "source_location": "L117",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "entity_equipment_equipment",
-      "target": "entity_equipment_equipment_setcommissioningdate",
-      "confidence_score": 1.0
+      "target": "entity_equipment_equipment_setcommissioningdate"
     },
     {
       "relation": "method",
@@ -117206,9 +117236,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/entity/Equipment.java",
       "source_location": "L119",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "entity_equipment_equipment",
-      "target": "entity_equipment_equipment_setdecommissiondate",
-      "confidence_score": 1.0
+      "target": "entity_equipment_equipment_setdecommissiondate"
     },
     {
       "relation": "method",
@@ -117256,9 +117286,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/entity/Equipment.java",
       "source_location": "L123",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "entity_equipment_equipment",
-      "target": "entity_equipment_equipment_setlifecyclestatus",
-      "confidence_score": 1.0
+      "target": "entity_equipment_equipment_setlifecyclestatus"
     },
     {
       "relation": "method",
@@ -117296,9 +117326,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/entity/Equipment.java",
       "source_location": "L127",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "entity_equipment_equipment",
-      "target": "entity_equipment_equipment_setoperatingstatus",
-      "confidence_score": 1.0
+      "target": "entity_equipment_equipment_setoperatingstatus"
     },
     {
       "relation": "method",
@@ -117306,9 +117336,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/entity/Equipment.java",
       "source_location": "L129",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "entity_equipment_equipment",
-      "target": "entity_equipment_equipment_setownershiptype",
-      "confidence_score": 1.0
+      "target": "entity_equipment_equipment_setownershiptype"
     },
     {
       "relation": "method",
@@ -117422,9 +117452,9 @@
       "source_location": "L124",
       "weight": 1.0,
       "context": "return_type",
+      "confidence_score": 1.0,
       "source": "entity_equipment_equipment_getassetcondition",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_entity_equipment_java_string",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_entity_equipment_java_string"
     },
     {
       "relation": "references",
@@ -117466,9 +117496,9 @@
       "source_location": "L122",
       "weight": 1.0,
       "context": "return_type",
+      "confidence_score": 1.0,
       "source": "entity_equipment_equipment_getlifecyclestatus",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_entity_equipment_java_string",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_entity_equipment_java_string"
     },
     {
       "relation": "references",
@@ -117510,9 +117540,9 @@
       "source_location": "L126",
       "weight": 1.0,
       "context": "return_type",
+      "confidence_score": 1.0,
       "source": "entity_equipment_equipment_getoperatingstatus",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_entity_equipment_java_string",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_entity_equipment_java_string"
     },
     {
       "relation": "references",
@@ -117521,9 +117551,9 @@
       "source_location": "L128",
       "weight": 1.0,
       "context": "return_type",
+      "confidence_score": 1.0,
       "source": "entity_equipment_equipment_getownershiptype",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_entity_equipment_java_string",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_entity_equipment_java_string"
     },
     {
       "relation": "references",
@@ -117554,9 +117584,9 @@
       "source_location": "L125",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "entity_equipment_equipment_setassetcondition",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_entity_equipment_java_string",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_entity_equipment_java_string"
     },
     {
       "relation": "references",
@@ -117609,9 +117639,9 @@
       "source_location": "L123",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "entity_equipment_equipment_setlifecyclestatus",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_entity_equipment_java_string",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_entity_equipment_java_string"
     },
     {
       "relation": "references",
@@ -117653,9 +117683,9 @@
       "source_location": "L127",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "entity_equipment_equipment_setoperatingstatus",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_entity_equipment_java_string",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_entity_equipment_java_string"
     },
     {
       "relation": "references",
@@ -117664,9 +117694,9 @@
       "source_location": "L129",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "entity_equipment_equipment_setownershiptype",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_entity_equipment_java_string",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_entity_equipment_java_string"
     },
     {
       "relation": "references",
@@ -117730,9 +117760,9 @@
       "source_location": "L116",
       "weight": 1.0,
       "context": "return_type",
+      "confidence_score": 1.0,
       "source": "entity_equipment_equipment_getcommissioningdate",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_entity_equipment_java_localdate",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_entity_equipment_java_localdate"
     },
     {
       "relation": "references",
@@ -117741,9 +117771,9 @@
       "source_location": "L118",
       "weight": 1.0,
       "context": "return_type",
+      "confidence_score": 1.0,
       "source": "entity_equipment_equipment_getdecommissiondate",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_entity_equipment_java_localdate",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_entity_equipment_java_localdate"
     },
     {
       "relation": "references",
@@ -117763,9 +117793,9 @@
       "source_location": "L117",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "entity_equipment_equipment_setcommissioningdate",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_entity_equipment_java_localdate",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_entity_equipment_java_localdate"
     },
     {
       "relation": "references",
@@ -117774,9 +117804,9 @@
       "source_location": "L119",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "entity_equipment_equipment_setdecommissiondate",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_entity_equipment_java_localdate",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_entity_equipment_java_localdate"
     },
     {
       "relation": "references",
@@ -117851,9 +117881,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/entity/EquipmentList.java",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "entity_equipmentlist",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_entity_equipmentlist_java_localdate",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_entity_equipmentlist_java_localdate"
     },
     {
       "relation": "imports",
@@ -117882,9 +117912,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/entity/EquipmentList.java",
       "source_location": "L150",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "entity_equipmentlist_equipmentlist",
-      "target": "entity_equipmentlist_equipmentlist_getassetcondition",
-      "confidence_score": 1.0
+      "target": "entity_equipmentlist_equipmentlist_getassetcondition"
     },
     {
       "relation": "method",
@@ -117902,9 +117932,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/entity/EquipmentList.java",
       "source_location": "L153",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "entity_equipmentlist_equipmentlist",
-      "target": "entity_equipmentlist_equipmentlist_getcommissioningdate",
-      "confidence_score": 1.0
+      "target": "entity_equipmentlist_equipmentlist_getcommissioningdate"
     },
     {
       "relation": "method",
@@ -117932,9 +117962,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/entity/EquipmentList.java",
       "source_location": "L154",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "entity_equipmentlist_equipmentlist",
-      "target": "entity_equipmentlist_equipmentlist_getdecommissiondate",
-      "confidence_score": 1.0
+      "target": "entity_equipmentlist_equipmentlist_getdecommissiondate"
     },
     {
       "relation": "method",
@@ -118002,9 +118032,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/entity/EquipmentList.java",
       "source_location": "L149",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "entity_equipmentlist_equipmentlist",
-      "target": "entity_equipmentlist_equipmentlist_getlifecyclestatus",
-      "confidence_score": 1.0
+      "target": "entity_equipmentlist_equipmentlist_getlifecyclestatus"
     },
     {
       "relation": "method",
@@ -118062,9 +118092,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/entity/EquipmentList.java",
       "source_location": "L151",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "entity_equipmentlist_equipmentlist",
-      "target": "entity_equipmentlist_equipmentlist_getoperatingstatus",
-      "confidence_score": 1.0
+      "target": "entity_equipmentlist_equipmentlist_getoperatingstatus"
     },
     {
       "relation": "method",
@@ -118072,9 +118102,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/entity/EquipmentList.java",
       "source_location": "L152",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "entity_equipmentlist_equipmentlist",
-      "target": "entity_equipmentlist_equipmentlist_getownershiptype",
-      "confidence_score": 1.0
+      "target": "entity_equipmentlist_equipmentlist_getownershiptype"
     },
     {
       "relation": "method",
@@ -118197,9 +118227,9 @@
       "source_location": "L150",
       "weight": 1.0,
       "context": "return_type",
+      "confidence_score": 1.0,
       "source": "entity_equipmentlist_equipmentlist_getassetcondition",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_entity_equipmentlist_java_string",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_entity_equipmentlist_java_string"
     },
     {
       "relation": "references",
@@ -118263,9 +118293,9 @@
       "source_location": "L149",
       "weight": 1.0,
       "context": "return_type",
+      "confidence_score": 1.0,
       "source": "entity_equipmentlist_equipmentlist_getlifecyclestatus",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_entity_equipmentlist_java_string",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_entity_equipmentlist_java_string"
     },
     {
       "relation": "references",
@@ -118329,9 +118359,9 @@
       "source_location": "L151",
       "weight": 1.0,
       "context": "return_type",
+      "confidence_score": 1.0,
       "source": "entity_equipmentlist_equipmentlist_getoperatingstatus",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_entity_equipmentlist_java_string",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_entity_equipmentlist_java_string"
     },
     {
       "relation": "references",
@@ -118340,9 +118370,9 @@
       "source_location": "L152",
       "weight": 1.0,
       "context": "return_type",
+      "confidence_score": 1.0,
       "source": "entity_equipmentlist_equipmentlist_getownershiptype",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_entity_equipmentlist_java_string",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_entity_equipmentlist_java_string"
     },
     {
       "relation": "references",
@@ -118406,9 +118436,9 @@
       "source_location": "L153",
       "weight": 1.0,
       "context": "return_type",
+      "confidence_score": 1.0,
       "source": "entity_equipmentlist_equipmentlist_getcommissioningdate",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_entity_equipmentlist_java_localdate",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_entity_equipmentlist_java_localdate"
     },
     {
       "relation": "references",
@@ -118417,9 +118447,9 @@
       "source_location": "L154",
       "weight": 1.0,
       "context": "return_type",
+      "confidence_score": 1.0,
       "source": "entity_equipmentlist_equipmentlist_getdecommissiondate",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_entity_equipmentlist_java_localdate",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_entity_equipmentlist_java_localdate"
     },
     {
       "relation": "references",
@@ -118729,9 +118759,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/service/EquipmentService.java",
       "source_location": "L29",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_equipmentservice",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_service_equipmentservice_java_set",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_service_equipmentservice_java_set"
     },
     {
       "relation": "imports",
@@ -118762,9 +118792,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/service/EquipmentService.java",
       "source_location": "L16",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_equipmentservice",
-      "target": "maintenancerequestrepository",
-      "confidence_score": 1.0
+      "target": "maintenancerequestrepository"
     },
     {
       "relation": "imports",
@@ -118773,9 +118803,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/service/EquipmentService.java",
       "source_location": "L17",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_equipmentservice",
-      "target": "preventivemaintenanceschedulerepository",
-      "confidence_score": 1.0
+      "target": "preventivemaintenanceschedulerepository"
     },
     {
       "relation": "contains",
@@ -118813,9 +118843,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/service/EquipmentService.java",
       "source_location": "L343",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_equipmentservice_equipmentservice",
-      "target": "service_equipmentservice_equipmentservice_applyretiredcompatibility",
-      "confidence_score": 1.0
+      "target": "service_equipmentservice_equipmentservice_applyretiredcompatibility"
     },
     {
       "relation": "method",
@@ -118843,9 +118873,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/service/EquipmentService.java",
       "source_location": "L365",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_equipmentservice_equipmentservice",
-      "target": "service_equipmentservice_equipmentservice_defaultoperatingstatus",
-      "confidence_score": 1.0
+      "target": "service_equipmentservice_equipmentservice_defaultoperatingstatus"
     },
     {
       "relation": "method",
@@ -118913,9 +118943,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/service/EquipmentService.java",
       "source_location": "L329",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_equipmentservice_equipmentservice",
-      "target": "service_equipmentservice_equipmentservice_isretired",
-      "confidence_score": 1.0
+      "target": "service_equipmentservice_equipmentservice_isretired"
     },
     {
       "relation": "method",
@@ -118923,9 +118953,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/service/EquipmentService.java",
       "source_location": "L357",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_equipmentservice_equipmentservice",
-      "target": "service_equipmentservice_equipmentservice_normalizeallowed",
-      "confidence_score": 1.0
+      "target": "service_equipmentservice_equipmentservice_normalizeallowed"
     },
     {
       "relation": "method",
@@ -118983,9 +119013,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/service/EquipmentService.java",
       "source_location": "L187",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_equipmentservice_equipmentservice",
-      "target": "service_equipmentservice_equipmentservice_validatecanreceivework",
-      "confidence_score": 1.0
+      "target": "service_equipmentservice_equipmentservice_validatecanreceivework"
     },
     {
       "relation": "method",
@@ -118993,9 +119023,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/service/EquipmentService.java",
       "source_location": "L313",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_equipmentservice_equipmentservice",
-      "target": "service_equipmentservice_equipmentservice_validatecanretire",
-      "confidence_score": 1.0
+      "target": "service_equipmentservice_equipmentservice_validatecanretire"
     },
     {
       "relation": "method",
@@ -119013,9 +119043,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/service/EquipmentService.java",
       "source_location": "L335",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_equipmentservice_equipmentservice",
-      "target": "service_equipmentservice_equipmentservice_validatelifecycledates",
-      "confidence_score": 1.0
+      "target": "service_equipmentservice_equipmentservice_validatelifecycledates"
     },
     {
       "relation": "references",
@@ -119145,9 +119175,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/service/EquipmentService.java",
       "source_location": "L123",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_equipmentservice_equipmentservice_update",
-      "target": "service_equipmentservice_equipmentservice_isretired",
-      "confidence_score": 1.0
+      "target": "service_equipmentservice_equipmentservice_isretired"
     },
     {
       "relation": "calls",
@@ -119167,9 +119197,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/service/EquipmentService.java",
       "source_location": "L126",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_equipmentservice_equipmentservice_update",
-      "target": "service_equipmentservice_equipmentservice_validatecanretire",
-      "confidence_score": 1.0
+      "target": "service_equipmentservice_equipmentservice_validatecanretire"
     },
     {
       "relation": "references",
@@ -119431,9 +119461,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/service/EquipmentService.java",
       "source_location": "L168",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_equipmentservice_equipmentservice_delete",
-      "target": "service_equipmentservice_equipmentservice_isretired",
-      "confidence_score": 1.0
+      "target": "service_equipmentservice_equipmentservice_isretired"
     },
     {
       "relation": "calls",
@@ -119442,9 +119472,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/service/EquipmentService.java",
       "source_location": "L171",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_equipmentservice_equipmentservice_delete",
-      "target": "service_equipmentservice_equipmentservice_validatecanretire",
-      "confidence_score": 1.0
+      "target": "service_equipmentservice_equipmentservice_validatecanretire"
     },
     {
       "relation": "references",
@@ -119486,9 +119516,9 @@
       "source_location": "L343",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "service_equipmentservice_equipmentservice_applyretiredcompatibility",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_service_equipmentservice_java_equipment",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_service_equipmentservice_java_equipment"
     },
     {
       "relation": "references",
@@ -119497,9 +119527,9 @@
       "source_location": "L329",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "service_equipmentservice_equipmentservice_isretired",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_service_equipmentservice_java_equipment",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_service_equipmentservice_java_equipment"
     },
     {
       "relation": "references",
@@ -119519,9 +119549,9 @@
       "source_location": "L187",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "service_equipmentservice_equipmentservice_validatecanreceivework",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_service_equipmentservice_java_equipment",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_service_equipmentservice_java_equipment"
     },
     {
       "relation": "references",
@@ -119530,9 +119560,9 @@
       "source_location": "L313",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "service_equipmentservice_equipmentservice_validatecanretire",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_service_equipmentservice_java_equipment",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_service_equipmentservice_java_equipment"
     },
     {
       "relation": "references",
@@ -119541,9 +119571,9 @@
       "source_location": "L335",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "service_equipmentservice_equipmentservice_validatelifecycledates",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_service_equipmentservice_java_equipment",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_service_equipmentservice_java_equipment"
     },
     {
       "relation": "calls",
@@ -119574,9 +119604,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/service/EquipmentService.java",
       "source_location": "L219",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_equipmentservice_equipmentservice_apply",
-      "target": "service_equipmentservice_equipmentservice_applyretiredcompatibility",
-      "confidence_score": 1.0
+      "target": "service_equipmentservice_equipmentservice_applyretiredcompatibility"
     },
     {
       "relation": "calls",
@@ -119585,9 +119615,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/service/EquipmentService.java",
       "source_location": "L215",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_equipmentservice_equipmentservice_apply",
-      "target": "service_equipmentservice_equipmentservice_defaultoperatingstatus",
-      "confidence_score": 1.0
+      "target": "service_equipmentservice_equipmentservice_defaultoperatingstatus"
     },
     {
       "relation": "calls",
@@ -119596,9 +119626,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/service/EquipmentService.java",
       "source_location": "L212",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_equipmentservice_equipmentservice_apply",
-      "target": "service_equipmentservice_equipmentservice_normalizeallowed",
-      "confidence_score": 1.0
+      "target": "service_equipmentservice_equipmentservice_normalizeallowed"
     },
     {
       "relation": "calls",
@@ -119618,9 +119648,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/service/EquipmentService.java",
       "source_location": "L218",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_equipmentservice_equipmentservice_apply",
-      "target": "service_equipmentservice_equipmentservice_validatelifecycledates",
-      "confidence_score": 1.0
+      "target": "service_equipmentservice_equipmentservice_validatelifecycledates"
     },
     {
       "relation": "references",
@@ -119695,9 +119725,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/service/EquipmentService.java",
       "source_location": "L358",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_equipmentservice_equipmentservice_normalizeallowed",
-      "target": "service_equipmentservice_equipmentservice_isblank",
-      "confidence_score": 1.0
+      "target": "service_equipmentservice_equipmentservice_isblank"
     },
     {
       "relation": "references",
@@ -119706,9 +119736,9 @@
       "source_location": "L365",
       "weight": 1.0,
       "context": "return_type",
+      "confidence_score": 1.0,
       "source": "service_equipmentservice_equipmentservice_defaultoperatingstatus",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_service_equipmentservice_java_string",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_service_equipmentservice_java_string"
     },
     {
       "relation": "references",
@@ -119717,9 +119747,9 @@
       "source_location": "L357",
       "weight": 1.0,
       "context": "return_type",
+      "confidence_score": 1.0,
       "source": "service_equipmentservice_equipmentservice_normalizeallowed",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_service_equipmentservice_java_string",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_service_equipmentservice_java_string"
     },
     {
       "relation": "references",
@@ -119761,9 +119791,9 @@
       "source_location": "L357",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "service_equipmentservice_equipmentservice_normalizeallowed",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_service_equipmentservice_java_set",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_service_equipmentservice_java_set"
     },
     {
       "relation": "imports",
@@ -123028,9 +123058,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/maintenancerequest/repository/MaintenanceRequestRepository.java",
       "source_location": "L24",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "repository_maintenancerequestrepository_maintenancerequestrepository",
-      "target": "repository_maintenancerequestrepository_maintenancerequestrepository_countbyequipmentidandstatusnotin",
-      "confidence_score": 1.0
+      "target": "repository_maintenancerequestrepository_maintenancerequestrepository_countbyequipmentidandstatusnotin"
     },
     {
       "relation": "method",
@@ -123170,9 +123200,9 @@
       "source_location": "L24",
       "weight": 1.0,
       "context": "generic_arg",
+      "confidence_score": 1.0,
       "source": "repository_maintenancerequestrepository_maintenancerequestrepository_countbyequipmentidandstatusnotin",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_maintenancerequest_repository_maintenancerequestrepository_java_string",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_maintenancerequest_repository_maintenancerequestrepository_java_string"
     },
     {
       "relation": "references",
@@ -123280,9 +123310,9 @@
       "source_location": "L24",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "repository_maintenancerequestrepository_maintenancerequestrepository_countbyequipmentidandstatusnotin",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_maintenancerequest_repository_maintenancerequestrepository_java_long",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_maintenancerequest_repository_maintenancerequestrepository_java_long"
     },
     {
       "relation": "references",
@@ -123379,9 +123409,9 @@
       "source_location": "L24",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "repository_maintenancerequestrepository_maintenancerequestrepository_countbyequipmentidandstatusnotin",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_maintenancerequest_repository_maintenancerequestrepository_java_collection",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_maintenancerequest_repository_maintenancerequestrepository_java_collection"
     },
     {
       "relation": "references",
@@ -133549,9 +133579,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/preventivemaintenance/repository/PreventiveMaintenanceScheduleRepository.java",
       "source_location": "L18",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "repository_preventivemaintenanceschedulerepository_preventivemaintenanceschedulerepository",
-      "target": "repository_preventivemaintenanceschedulerepository_preventivemaintenanceschedulerepository_countbyequipmentidandactivetrue",
-      "confidence_score": 1.0
+      "target": "repository_preventivemaintenanceschedulerepository_preventivemaintenanceschedulerepository_countbyequipmentidandactivetrue"
     },
     {
       "relation": "method",
@@ -133643,9 +133673,9 @@
       "source_location": "L18",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "repository_preventivemaintenanceschedulerepository_preventivemaintenanceschedulerepository_countbyequipmentidandactivetrue",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_preventivemaintenance_repository_preventivemaintenanceschedulerepository_java_long",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_preventivemaintenance_repository_preventivemaintenanceschedulerepository_java_long"
     },
     {
       "relation": "references",
@@ -165713,9 +165743,9 @@
       "source_file": "cmms_front_end/src/features/equipment/pages/EquipmentFormPage.jsx",
       "source_location": "L58",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "pages_equipmentformpage",
-      "target": "pages_equipmentformpage_asset_condition_options",
-      "confidence_score": 1.0
+      "target": "pages_equipmentformpage_asset_condition_options"
     },
     {
       "relation": "contains",
@@ -165753,9 +165783,9 @@
       "source_file": "cmms_front_end/src/features/equipment/pages/EquipmentFormPage.jsx",
       "source_location": "L47",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "pages_equipmentformpage",
-      "target": "pages_equipmentformpage_lifecycle_status_options",
-      "confidence_score": 1.0
+      "target": "pages_equipmentformpage_lifecycle_status_options"
     },
     {
       "relation": "contains",
@@ -165763,9 +165793,9 @@
       "source_file": "cmms_front_end/src/features/equipment/pages/EquipmentFormPage.jsx",
       "source_location": "L66",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "pages_equipmentformpage",
-      "target": "pages_equipmentformpage_operating_status_options",
-      "confidence_score": 1.0
+      "target": "pages_equipmentformpage_operating_status_options"
     },
     {
       "relation": "contains",
@@ -165773,9 +165803,9 @@
       "source_file": "cmms_front_end/src/features/equipment/pages/EquipmentFormPage.jsx",
       "source_location": "L74",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "pages_equipmentformpage",
-      "target": "pages_equipmentformpage_ownership_type_options",
-      "confidence_score": 1.0
+      "target": "pages_equipmentformpage_ownership_type_options"
     },
     {
       "relation": "contains",
@@ -165974,6 +166004,36 @@
       "target": "pages_equipmentlistpage_equipmentlistpage"
     },
     {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/features/equipment/pages/EquipmentListPage.jsx",
+      "source_location": "L33",
+      "weight": 1.0,
+      "source": "pages_equipmentlistpage",
+      "target": "pages_equipmentlistpage_getequipmentqrvalue",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/features/equipment/pages/EquipmentListPage.jsx",
+      "source_location": "L31",
+      "weight": 1.0,
+      "source": "pages_equipmentlistpage",
+      "target": "pages_equipmentlistpage_getequipmentviewpath",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/features/equipment/pages/EquipmentListPage.jsx",
+      "source_location": "L29",
+      "weight": 1.0,
+      "source": "pages_equipmentlistpage",
+      "target": "pages_equipmentlistpage_initialqrdialog",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
@@ -166049,6 +166109,17 @@
       "confidence_score": 1.0,
       "source": "pages_equipmentlistpage",
       "target": "utils_permissionroutes_permissions"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/features/equipment/pages/EquipmentListPage.jsx",
+      "source_location": "L34",
+      "weight": 1.0,
+      "source": "pages_equipmentlistpage_getequipmentqrvalue",
+      "target": "pages_equipmentlistpage_getequipmentviewpath",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -183937,9 +184008,9 @@
       "source_file": "sparePartimpromnet.md",
       "source_location": "L68",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "sparepartimpromnet",
-      "target": "sparepartimpromnet_equipment_production_level_improvement_implementation_plan",
-      "confidence_score": 1.0
+      "target": "sparepartimpromnet_equipment_production_level_improvement_implementation_plan"
     },
     {
       "relation": "contains",
@@ -183947,9 +184018,9 @@
       "source_file": "sparePartimpromnet.md",
       "source_location": "L449",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "sparepartimpromnet_equipment_production_level_improvement_implementation_plan",
-      "target": "sparepartimpromnet_best_first_sprint",
-      "confidence_score": 1.0
+      "target": "sparepartimpromnet_best_first_sprint"
     },
     {
       "relation": "contains",
@@ -183957,9 +184028,9 @@
       "source_file": "sparePartimpromnet.md",
       "source_location": "L404",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "sparepartimpromnet_equipment_production_level_improvement_implementation_plan",
-      "target": "sparepartimpromnet_phase_10_erp_asset_finance_fields",
-      "confidence_score": 1.0
+      "target": "sparepartimpromnet_phase_10_erp_asset_finance_fields"
     },
     {
       "relation": "contains",
@@ -183967,9 +184038,9 @@
       "source_file": "sparePartimpromnet.md",
       "source_location": "L92",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "sparepartimpromnet_equipment_production_level_improvement_implementation_plan",
-      "target": "sparepartimpromnet_phase_1_equipment_lifecycle_and_soft_delete",
-      "confidence_score": 1.0
+      "target": "sparepartimpromnet_phase_1_equipment_lifecycle_and_soft_delete"
     },
     {
       "relation": "contains",
@@ -183977,9 +184048,9 @@
       "source_file": "sparePartimpromnet.md",
       "source_location": "L139",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "sparepartimpromnet_equipment_production_level_improvement_implementation_plan",
-      "target": "sparepartimpromnet_phase_2_equipment_qr_label",
-      "confidence_score": 1.0
+      "target": "sparepartimpromnet_phase_2_equipment_qr_label"
     },
     {
       "relation": "contains",
@@ -183987,9 +184058,9 @@
       "source_file": "sparePartimpromnet.md",
       "source_location": "L168",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "sparepartimpromnet_equipment_production_level_improvement_implementation_plan",
-      "target": "sparepartimpromnet_phase_3_equipment_detail_dashboard",
-      "confidence_score": 1.0
+      "target": "sparepartimpromnet_phase_3_equipment_detail_dashboard"
     },
     {
       "relation": "contains",
@@ -183997,9 +184068,9 @@
       "source_file": "sparePartimpromnet.md",
       "source_location": "L210",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "sparepartimpromnet_equipment_production_level_improvement_implementation_plan",
-      "target": "sparepartimpromnet_phase_4_equipment_documents",
-      "confidence_score": 1.0
+      "target": "sparepartimpromnet_phase_4_equipment_documents"
     },
     {
       "relation": "contains",
@@ -184007,9 +184078,9 @@
       "source_file": "sparePartimpromnet.md",
       "source_location": "L252",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "sparepartimpromnet_equipment_production_level_improvement_implementation_plan",
-      "target": "sparepartimpromnet_phase_5_equipment_spare_bom",
-      "confidence_score": 1.0
+      "target": "sparepartimpromnet_phase_5_equipment_spare_bom"
     },
     {
       "relation": "contains",
@@ -184017,9 +184088,9 @@
       "source_file": "sparePartimpromnet.md",
       "source_location": "L291",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "sparepartimpromnet_equipment_production_level_improvement_implementation_plan",
-      "target": "sparepartimpromnet_phase_6_meter_runtime_readings",
-      "confidence_score": 1.0
+      "target": "sparepartimpromnet_phase_6_meter_runtime_readings"
     },
     {
       "relation": "contains",
@@ -184027,9 +184098,9 @@
       "source_file": "sparePartimpromnet.md",
       "source_location": "L321",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "sparepartimpromnet_equipment_production_level_improvement_implementation_plan",
-      "target": "sparepartimpromnet_phase_7_meter_based_preventive_maintenance",
-      "confidence_score": 1.0
+      "target": "sparepartimpromnet_phase_7_meter_based_preventive_maintenance"
     },
     {
       "relation": "contains",
@@ -184037,9 +184108,9 @@
       "source_file": "sparePartimpromnet.md",
       "source_location": "L349",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "sparepartimpromnet_equipment_production_level_improvement_implementation_plan",
-      "target": "sparepartimpromnet_phase_8_equipment_health_score_mtbf_and_mttr",
-      "confidence_score": 1.0
+      "target": "sparepartimpromnet_phase_8_equipment_health_score_mtbf_and_mttr"
     },
     {
       "relation": "contains",
@@ -184047,9 +184118,9 @@
       "source_file": "sparePartimpromnet.md",
       "source_location": "L381",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "sparepartimpromnet_equipment_production_level_improvement_implementation_plan",
-      "target": "sparepartimpromnet_phase_9_warranty_and_amc_tracking",
-      "confidence_score": 1.0
+      "target": "sparepartimpromnet_phase_9_warranty_and_amc_tracking"
     },
     {
       "relation": "contains",
@@ -184057,11 +184128,11 @@
       "source_file": "sparePartimpromnet.md",
       "source_location": "L435",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "sparepartimpromnet_equipment_production_level_improvement_implementation_plan",
-      "target": "sparepartimpromnet_recommended_build_order",
-      "confidence_score": 1.0
+      "target": "sparepartimpromnet_recommended_build_order"
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "8304608345e0cbc6427ecbb8f10d5cca24ba32cf"
+  "built_at_commit": "535180178b5f07340b2d50049150a5104a8e5a3b"
 }
