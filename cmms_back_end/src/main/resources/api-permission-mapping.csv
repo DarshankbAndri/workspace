@@ -40,10 +40,12 @@ EQUIPMENT_CREATE,/api/hr/sites/**,GET,Create equipment site helper data
 EQUIPMENT_CREATE,/api/hr/sites,GET,Create equipment site helper data
 EQUIPMENT_UPDATE,/api/equipment/**,PUT,Update equipment
 EQUIPMENT_UPDATE,/api/equipment/*/documents,POST,Upload equipment document
+EQUIPMENT_UPDATE,/api/equipment/*/spare-bom,POST,Create equipment spare BOM
 EQUIPMENT_UPDATE,/api/hr/sites/**,GET,Update equipment site helper data
 EQUIPMENT_UPDATE,/api/hr/sites,GET,Update equipment site helper data
 EQUIPMENT_DELETE,/api/equipment/*,DELETE,Delete equipment
 EQUIPMENT_DELETE,/api/equipment/*/documents/*,DELETE,Delete equipment document
+EQUIPMENT_DELETE,/api/equipment/*/spare-bom/*,DELETE,Delete equipment spare BOM
 REQUEST_VIEW,/api/maintenance/requests/**,GET,View maintenance requests
 REQUEST_VIEW,/api/maintenance/requests,GET,View maintenance request list
 REQUEST_VIEW,/api/maintenance/requests/search,POST,Search maintenance requests
@@ -190,6 +192,7 @@ STOCK_TRANSACTION_CREATE,/api/spare-parts/*/adjust,POST,Adjust spare part stock
 STOCK_TRANSACTION_CREATE,/api/spare-parts/*/transfer,POST,Transfer spare part stock
 SPARE_USAGE_VIEW,/api/maintenance/assignments/*/spares/**,GET,View assignment spare usage
 SPARE_USAGE_VIEW,/api/maintenance/assignments/*/spares,GET,View assignment spare usage
+SPARE_USAGE_VIEW,/api/equipment/*/spare-bom,GET,Assignment recommended spare helper data
 SPARE_USAGE_VIEW,/api/spare-requests/**,GET,View spare requests
 SPARE_USAGE_VIEW,/api/spare-requests,GET,View spare request list
 SPARE_USAGE_VIEW,/api/spare-parts/**,GET,Spare usage spare part helper data

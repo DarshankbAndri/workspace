@@ -5,10 +5,12 @@ import com.example.cmmsApplication.common.response.ResponseFactory;
 
 
 import com.example.cmmsApplication.equipment.dto.EquipmentDTO;
+import com.example.cmmsApplication.equipment.dto.EquipmentSpareBomDTO;
 import com.example.cmmsApplication.common.search.dto.SearchDTO;
 import com.example.cmmsApplication.equipment.entity.EquipmentDocument;
 import com.example.cmmsApplication.equipment.service.EquipmentDocumentService;
 import com.example.cmmsApplication.equipment.service.EquipmentService;
+import com.example.cmmsApplication.equipment.service.EquipmentSpareBomService;
 import jakarta.validation.Valid;
 import java.time.LocalDate;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +28,7 @@ import lombok.RequiredArgsConstructor;
 public class EquipmentController {
     private final EquipmentService equipmentService;
     private final EquipmentDocumentService equipmentDocumentService;
+    private final EquipmentSpareBomService equipmentSpareBomService;
 
     @PostMapping
     public ResponseEntity<ApiResponse<?>> create(@Valid @RequestBody EquipmentDTO dto) {
@@ -56,6 +59,29 @@ public class EquipmentController {
     @GetMapping("/{id}/documents")
     public ResponseEntity<ApiResponse<?>> getDocuments(@PathVariable Long id) {
         return ResponseFactory.ok(equipmentDocumentService.getDocuments(id));
+    }
+
+    @GetMapping("/{id}/spare-bom")
+    public ResponseEntity<ApiResponse<?>> getSpareBom(@PathVariable Long id) {
+        return ResponseFactory.ok(equipmentSpareBomService.getByEquipment(id));
+    }
+
+    @PostMapping("/{id}/spare-bom")
+    public ResponseEntity<ApiResponse<?>> createSpareBom(@PathVariable Long id, @RequestBody EquipmentSpareBomDTO dto) {
+        return ResponseFactory.created(equipmentSpareBomService.create(id, dto));
+    }
+
+    @PutMapping("/{id}/spare-bom/{bomId}")
+    public ResponseEntity<ApiResponse<?>> updateSpareBom(@PathVariable Long id,
+                                                         @PathVariable Long bomId,
+                                                         @RequestBody EquipmentSpareBomDTO dto) {
+        return ResponseFactory.ok(equipmentSpareBomService.update(id, bomId, dto));
+    }
+
+    @DeleteMapping("/{id}/spare-bom/{bomId}")
+    public ResponseEntity<ApiResponse<?>> deleteSpareBom(@PathVariable Long id, @PathVariable Long bomId) {
+        equipmentSpareBomService.delete(id, bomId);
+        return ResponseFactory.ok(null);
     }
 
     @PostMapping(value = "/{id}/documents", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="equipment-spare-bom-001-create-table" author="Codex">
+        <createTable tableName="equipment_spare_bom">
+            <column name="bom_id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="equipment_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="stock_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="spare_part_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="recommended_qty" type="DECIMAL(14,3)" defaultValueNumeric="1">
+                <constraints nullable="false"/>
+            </column>
+            <column name="criticality" type="VARCHAR(30)" defaultValue="MEDIUM">
+                <constraints nullable="false"/>
+            </column>
+            <column name="replacement_frequency" type="VARCHAR(120)"/>
+            <column name="remarks" type="VARCHAR(1000)"/>
+            <column name="status" type="VARCHAR(30)" defaultValue="ACTIVE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="equipment-spare-bom-002-constraints-fks" author="Codex">
+        <addUniqueConstraint tableName="equipment_spare_bom"
+                             columnNames="equipment_id, stock_id"
+                             constraintName="uk_equipment_spare_bom_equipment_stock"/>
+        <addForeignKeyConstraint constraintName="fk_equipment_spare_bom_equipment"
+                                 baseTableName="equipment_spare_bom"
+                                 baseColumnNames="equipment_id"
+                                 referencedTableName="equipment_master"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_equipment_spare_bom_stock"
+                                 baseTableName="equipment_spare_bom"
+                                 baseColumnNames="stock_id"
+                                 referencedTableName="spare_part_site_stock"
+                                 referencedColumnNames="stock_id"/>
+        <addForeignKeyConstraint constraintName="fk_equipment_spare_bom_spare_part"
+                                 baseTableName="equipment_spare_bom"
+                                 baseColumnNames="spare_part_id"
+                                 referencedTableName="spare_part_master"
+                                 referencedColumnNames="spare_part_id"/>
+    </changeSet>
+
+    <changeSet id="equipment-spare-bom-003-indexes" author="Codex">
+        <createIndex indexName="idx_equipment_spare_bom_equipment" tableName="equipment_spare_bom">
+            <column name="equipment_id"/>
+        </createIndex>
+        <createIndex indexName="idx_equipment_spare_bom_stock" tableName="equipment_spare_bom">
+            <column name="stock_id"/>
+        </createIndex>
+        <createIndex indexName="idx_equipment_spare_bom_status" tableName="equipment_spare_bom">
+            <column name="status"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>

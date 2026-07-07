@@ -23,6 +23,9 @@ public class MaintenanceAssignmentDTO {
     private Long requestId;
     private String requestNumber;
     private String requestTitle;
+    private Long equipmentId;
+    private String equipmentCode;
+    private String equipmentName;
     @NotNull(message = "Vendor is required")
     private Long vendorId;
     private String vendorName;
@@ -61,6 +64,12 @@ public class MaintenanceAssignmentDTO {
     public void setRequestNumber(String requestNumber) { this.requestNumber = requestNumber; }
     public String getRequestTitle() { return requestTitle; }
     public void setRequestTitle(String requestTitle) { this.requestTitle = requestTitle; }
+    public Long getEquipmentId() { return equipmentId; }
+    public void setEquipmentId(Long equipmentId) { this.equipmentId = equipmentId; }
+    public String getEquipmentCode() { return equipmentCode; }
+    public void setEquipmentCode(String equipmentCode) { this.equipmentCode = equipmentCode; }
+    public String getEquipmentName() { return equipmentName; }
+    public void setEquipmentName(String equipmentName) { this.equipmentName = equipmentName; }
     public Long getVendorId() { return vendorId; }
     public void setVendorId(Long vendorId) { this.vendorId = vendorId; }
     public String getVendorName() { return vendorName; }

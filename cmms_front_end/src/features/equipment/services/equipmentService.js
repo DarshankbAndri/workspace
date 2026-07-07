@@ -4,6 +4,10 @@ export const getEquipments = (siteId) => api.get('/equipment', { params: siteId 
 export const searchEquipments = (data) => api.post('/equipment/search', data).then((response) => response.data);
 export const getEquipmentById = (id) => api.get(`/equipment/${id}`).then((response) => response.data);
 export const getEquipmentSummary = (id) => api.get(`/equipment/${id}/summary`).then((response) => response.data);
+export const getEquipmentSpareBom = (id) => api.get(`/equipment/${id}/spare-bom`).then((response) => response.data);
+export const createEquipmentSpareBom = (id, data) => api.post(`/equipment/${id}/spare-bom`, data).then((response) => response.data);
+export const updateEquipmentSpareBom = (id, bomId, data) => api.put(`/equipment/${id}/spare-bom/${bomId}`, data).then((response) => response.data);
+export const deleteEquipmentSpareBom = (id, bomId) => api.delete(`/equipment/${id}/spare-bom/${bomId}`);
 export const getEquipmentDocuments = (id) => api.get(`/equipment/${id}/documents`).then((response) => response.data);
 export const uploadEquipmentDocument = (id, data) => {
   const formData = new FormData();

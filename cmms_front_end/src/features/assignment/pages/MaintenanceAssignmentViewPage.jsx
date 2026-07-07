@@ -40,6 +40,7 @@ import {
   returnAssignmentSpare,
   updateAssignmentSpare,
 } from '../../spareParts/services/sparePartService';
+import { getEquipmentSpareBom } from '../../equipment/services/equipmentService';
 import CommonInput from '../../../shared/components/common/CommonInput';
 import CommonTextArea from '../../../shared/components/common/CommonTextArea';
 import CommonDatePicker from '../../../shared/components/common/CommonDatePicker';
@@ -213,6 +214,7 @@ function MaintenanceAssignmentViewPage() {
   const [vendors, setVendors] = React.useState([]);
   const [employees, setEmployees] = React.useState([]);
   const [siteSpares, setSiteSpares] = React.useState([]);
+  const [recommendedSpareBom, setRecommendedSpareBom] = React.useState([]);
   const [checklistRows, setChecklistRows] = React.useState([]);
   const [checklistForm, setChecklistForm] = React.useState(initialChecklistForm);
   const [workLogRows, setWorkLogRows] = React.useState([]);
@@ -297,6 +299,16 @@ function MaintenanceAssignmentViewPage() {
   }, [detailForm.siteId]);
 
   React.useEffect(() => {
+    if (!assignment?.equipmentId) {
+      setRecommendedSpareBom([]);
+      return;
+    }
+    getEquipmentSpareBom(assignment.equipmentId)
+      .then((data) => setRecommendedSpareBom((data || []).filter((row) => row.status !== 'INACTIVE')))
+      .catch((err) => setError(formatApiError(err, 'Unable to load recommended equipment spares.')));
+  }, [assignment?.equipmentId]);
+
+  React.useEffect(() => {
     if (!editingWorkLogId && detailForm.assignedEmployeeId && !workLogForm.technicianEmployeeId) {
       setWorkLogForm((current) => ({ ...current, technicianEmployeeId: detailForm.assignedEmployeeId }));
     }
@@ -325,6 +337,16 @@ function MaintenanceAssignmentViewPage() {
   const updateChecklistForm = (field) => (event) => setChecklistForm((current) => ({ ...current, [field]: event.target.value }));
   const updateWorkLogForm = (field) => (event) => setWorkLogForm((current) => ({ ...current, [field]: event.target.value }));
   const updateSpareField = (field) => (event) => setSpareForm((current) => ({ ...current, [field]: event.target.value }));
+  const updateSpareStock = (event) => {
+    const stockId = event.target.value;
+    const recommended = recommendedSpareBom.find((row) => String(row.stockId) === String(stockId));
+    setSpareForm((current) => ({
+      ...current,
+      stockId,
+      quantityUsed: recommended && !current.quantityUsed ? recommended.recommendedQty : current.quantityUsed,
+      remarks: recommended && !current.remarks ? `Recommended for ${assignment?.equipmentCode || assignment?.equipmentName || 'equipment'}` : current.remarks,
+    }));
+  };
   const updateChecklistRow = (rowId, field, value) => {
     setChecklistRows((current) => current.map((row) => (row.id === rowId ? { ...row, [field]: value } : row)));
   };
@@ -664,10 +686,20 @@ function MaintenanceAssignmentViewPage() {
       : []),
     ...employees.map((employee) => ({ value: employee.id, label: employeeLabel(employee) })),
   ], [detailForm.assignedEmployeeId, detailForm.assignedEmployeeName, detailForm.assignedTo, employees]);
-  const sparePartOptions = React.useMemo(() => siteSpares.map((item) => ({
-    value: item.id,
-    label: `${item.partCode} - ${item.partName} | Available: ${item.availableStock ?? item.currentStock} ${item.unit}`,
-  })), [siteSpares]);
+  const sparePartOptions = React.useMemo(() => {
+    const recommendedStockIds = new Set(recommendedSpareBom.map((row) => String(row.stockId)));
+    const recommendedOptions = recommendedSpareBom.map((row) => ({
+      value: row.stockId,
+      label: `Recommended: ${row.partCode} - ${row.partName} | Qty: ${row.recommendedQty} ${row.unit || ''} | Available: ${row.availableStock ?? '-'}`,
+    }));
+    const otherOptions = siteSpares
+      .filter((item) => !recommendedStockIds.has(String(item.id)))
+      .map((item) => ({
+        value: item.id,
+        label: `${item.partCode} - ${item.partName} | Available: ${item.availableStock ?? item.currentStock} ${item.unit}`,
+      }));
+    return [...recommendedOptions, ...otherOptions];
+  }, [recommendedSpareBom, siteSpares]);
   const assignmentStatusOptions = React.useMemo(() => [
     { value: 'ASSIGNED', label: 'Assigned' },
     { value: 'IN_PROGRESS', label: 'In Progress' },
@@ -1077,7 +1109,7 @@ function MaintenanceAssignmentViewPage() {
           {sectionLoading.spares && <LinearProgress sx={{ mb: 2 }} />}
           {isEditingSpares && (
             <Grid container spacing={2} sx={{ mb: 2 }}>
-              <Grid item xs={12} md={5}><CommonDropdown label="Spare Part" value={spareForm.stockId} onChange={updateSpareField('stockId')} options={sparePartOptions} /></Grid>
+              <Grid item xs={12} md={5}><CommonDropdown label="Spare Part" value={spareForm.stockId} onChange={updateSpareStock} options={sparePartOptions} /></Grid>
               <Grid item xs={12} md={2}><CommonInput type="number" label="Quantity" value={spareForm.quantityUsed} onChange={updateSpareField('quantityUsed')} /></Grid>
               <Grid item xs={12} md={3}><CommonInput label="Remarks" value={spareForm.remarks} onChange={updateSpareField('remarks')} /></Grid>
               <Grid item xs={12} md={2}><Button fullWidth variant="contained" sx={{ height: '100%' }} onClick={handleAddSpare}>Request Spare</Button></Grid>

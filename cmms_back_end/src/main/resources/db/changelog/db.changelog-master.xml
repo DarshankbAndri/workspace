@@ -35,6 +35,7 @@
     <include file="db/changelog/cmms/notification_setting.xml"/>
     <include file="db/changelog/cmms/spare_part_master.xml"/>
     <include file="db/changelog/cmms/spare_part_site_stock.xml"/>
+    <include file="db/changelog/cmms/equipment_spare_bom.xml"/>
     <include file="db/changelog/cmms/spare_part_transaction.xml"/>
     <include file="db/changelog/cmms/maintenance_spare_usage.xml"/>
     <include file="db/changelog/cmms/spare_part_reorder_request.xml"/>

@@ -138,6 +138,9 @@ public class MaintenanceAssignmentService {
         dto.setRequestId(assignment.getRequest().getId());
         dto.setRequestNumber(assignment.getRequest().getRequestNumber());
         dto.setRequestTitle(assignment.getRequest().getTitle());
+        dto.setEquipmentId(assignment.getRequest().getEquipment() == null ? null : assignment.getRequest().getEquipment().getId());
+        dto.setEquipmentCode(assignment.getRequest().getEquipment() == null ? null : assignment.getRequest().getEquipment().getEquipmentCode());
+        dto.setEquipmentName(assignment.getRequest().getEquipment() == null ? null : assignment.getRequest().getEquipment().getEquipmentName());
         dto.setVendorId(assignment.getVendor() == null ? null : assignment.getVendor().getId());
         dto.setVendorName(assignment.getVendor() == null ? null : assignment.getVendor().getVendorName());
         dto.setAssignedEmployeeId(assignment.getAssignedEmployee() == null ? null : assignment.getAssignedEmployee().getId());

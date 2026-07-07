@@ -24,13 +24,18 @@ import {
 import { Delete, Download, Edit } from '@mui/icons-material';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
+  createEquipmentSpareBom,
   deleteEquipmentDocument,
+  deleteEquipmentSpareBom,
   downloadEquipmentDocument,
   getEquipmentById,
   getEquipmentDocuments,
+  getEquipmentSpareBom,
   getEquipmentSummary,
+  updateEquipmentSpareBom,
   uploadEquipmentDocument,
 } from '../services/equipmentService';
+import { getSparePartsBySite } from '../../spareParts/services/sparePartService';
 import { useAuth } from '../../../shared/context/AuthContext';
 import { PERMISSIONS } from '../../../shared/utils/permissionRoutes';
 import CommonFormActions from '../../../shared/components/common/CommonFormActions';
@@ -38,14 +43,36 @@ import CommonFormCard from '../../../shared/components/common/CommonFormCard';
 import CommonDatePicker from '../../../shared/components/common/CommonDatePicker';
 import CommonDropdown from '../../../shared/components/common/CommonDropdown';
 import CommonFileUpload from '../../../shared/components/common/CommonFileUpload';
+import CommonInput from '../../../shared/components/common/CommonInput';
 import CommonTextArea from '../../../shared/components/common/CommonTextArea';
 import ConfirmDialog from '../../../shared/components/common/ConfirmDialog';
+
+const initialSpareBomForm = {
+  stockId: '',
+  recommendedQty: '',
+  criticality: 'MEDIUM',
+  replacementFrequency: '',
+  status: 'ACTIVE',
+  remarks: '',
+};
 
 const initialDocumentForm = {
   documentType: 'MANUAL',
   expiryDate: '',
   remarks: '',
 };
+
+const criticalityOptions = [
+  { value: 'LOW', label: 'Low' },
+  { value: 'MEDIUM', label: 'Medium' },
+  { value: 'HIGH', label: 'High' },
+  { value: 'CRITICAL', label: 'Critical' },
+];
+
+const statusOptions = [
+  { value: 'ACTIVE', label: 'Active' },
+  { value: 'INACTIVE', label: 'Inactive' },
+];
 
 const documentTypeOptions = [
   { value: 'MANUAL', label: 'Manual' },
@@ -64,15 +91,23 @@ function EquipmentViewPage() {
   const { hasPermission } = useAuth();
   const [equipment, setEquipment] = React.useState(null);
   const [summary, setSummary] = React.useState(null);
+  const [spareBomRows, setSpareBomRows] = React.useState([]);
+  const [siteSpares, setSiteSpares] = React.useState([]);
+  const [spareBomForm, setSpareBomForm] = React.useState(initialSpareBomForm);
+  const [editingBomId, setEditingBomId] = React.useState(null);
   const [documents, setDocuments] = React.useState([]);
   const [documentForm, setDocumentForm] = React.useState(initialDocumentForm);
   const [documentFile, setDocumentFile] = React.useState(null);
   const [activeTab, setActiveTab] = React.useState('overview');
   const [loading, setLoading] = React.useState(true);
+  const [spareBomLoading, setSpareBomLoading] = React.useState(false);
+  const [spareBomSaving, setSpareBomSaving] = React.useState(false);
   const [documentsLoading, setDocumentsLoading] = React.useState(false);
   const [documentUploading, setDocumentUploading] = React.useState(false);
+  const [deleteBomRow, setDeleteBomRow] = React.useState(null);
   const [deleteDocumentRow, setDeleteDocumentRow] = React.useState(null);
   const [error, setError] = React.useState('');
+  const [spareBomError, setSpareBomError] = React.useState('');
   const [documentError, setDocumentError] = React.useState('');
 
   React.useEffect(() => {
@@ -90,6 +125,25 @@ function EquipmentViewPage() {
   const canEdit = hasPermission(PERMISSIONS.EQUIPMENT_UPDATE);
   const canDelete = hasPermission(PERMISSIONS.EQUIPMENT_DELETE);
 
+  const loadSpareBom = React.useCallback(() => {
+    setSpareBomLoading(true);
+    setSpareBomError('');
+    getEquipmentSpareBom(id)
+      .then((data) => setSpareBomRows(data || []))
+      .catch((err) => setSpareBomError(formatApiError(err, 'Unable to load equipment spare BOM.')))
+      .finally(() => setSpareBomLoading(false));
+  }, [id]);
+
+  const loadSiteSpares = React.useCallback((siteId) => {
+    if (!siteId) {
+      setSiteSpares([]);
+      return Promise.resolve();
+    }
+    return getSparePartsBySite(siteId)
+      .then((data) => setSiteSpares(data || []))
+      .catch((err) => setSpareBomError(formatApiError(err, 'Unable to load site spare parts.')));
+  }, []);
+
   const loadDocuments = React.useCallback(() => {
     setDocumentsLoading(true);
     setDocumentError('');
@@ -100,10 +154,80 @@ function EquipmentViewPage() {
   }, [id]);
 
   React.useEffect(() => {
+    if (activeTab === 'spares') {
+      loadSpareBom();
+      loadSiteSpares(equipment?.siteId);
+    }
+  }, [activeTab, equipment?.siteId, loadSiteSpares, loadSpareBom]);
+
+  React.useEffect(() => {
     if (activeTab === 'documents') {
       loadDocuments();
     }
   }, [activeTab, loadDocuments]);
+
+  const updateSpareBomField = (field) => (event) => {
+    setSpareBomForm((current) => ({ ...current, [field]: event.target.value }));
+  };
+
+  const resetSpareBomForm = () => {
+    setSpareBomForm(initialSpareBomForm);
+    setEditingBomId(null);
+  };
+
+  const handleSaveSpareBom = async () => {
+    setSpareBomError('');
+    if (!spareBomForm.stockId || !spareBomForm.recommendedQty) {
+      setSpareBomError('Spare part and recommended quantity are required.');
+      return;
+    }
+    setSpareBomSaving(true);
+    try {
+      const payload = {
+        ...spareBomForm,
+        stockId: Number(spareBomForm.stockId),
+        recommendedQty: Number(spareBomForm.recommendedQty),
+      };
+      if (editingBomId) {
+        await updateEquipmentSpareBom(id, editingBomId, payload);
+      } else {
+        await createEquipmentSpareBom(id, payload);
+      }
+      resetSpareBomForm();
+      await loadSpareBom();
+    } catch (err) {
+      setSpareBomError(formatApiError(err, 'Unable to save equipment spare BOM.'));
+    } finally {
+      setSpareBomSaving(false);
+    }
+  };
+
+  const handleEditSpareBom = (row) => {
+    setEditingBomId(row.bomId);
+    setSpareBomForm({
+      stockId: row.stockId || '',
+      recommendedQty: row.recommendedQty ?? '',
+      criticality: row.criticality || 'MEDIUM',
+      replacementFrequency: row.replacementFrequency || '',
+      status: row.status || 'ACTIVE',
+      remarks: row.remarks || '',
+    });
+  };
+
+  const confirmDeleteSpareBom = async () => {
+    if (!deleteBomRow) return;
+    setSpareBomError('');
+    try {
+      await deleteEquipmentSpareBom(id, deleteBomRow.bomId);
+      setDeleteBomRow(null);
+      if (editingBomId === deleteBomRow.bomId) {
+        resetSpareBomForm();
+      }
+      await loadSpareBom();
+    } catch (err) {
+      setSpareBomError(formatApiError(err, 'Unable to delete equipment spare BOM.'));
+    }
+  };
 
   const updateDocumentField = (field) => (event) => {
     setDocumentForm((current) => ({ ...current, [field]: event.target.value }));
@@ -257,7 +381,24 @@ function EquipmentViewPage() {
               </Grid>
             )}
 
-            {activeTab === 'spares' && <EmptyPanel title="Spare BOM" value="No spare BOM records available." />}
+            {activeTab === 'spares' && (
+              <EquipmentSpareBomTab
+                rows={spareBomRows}
+                siteSpares={siteSpares}
+                form={spareBomForm}
+                loading={spareBomLoading}
+                saving={spareBomSaving}
+                error={spareBomError}
+                editingBomId={editingBomId}
+                canEdit={canEdit}
+                canDelete={canDelete}
+                onFieldChange={updateSpareBomField}
+                onSave={handleSaveSpareBom}
+                onCancel={resetSpareBomForm}
+                onEdit={handleEditSpareBom}
+                onDelete={setDeleteBomRow}
+              />
+            )}
             {activeTab === 'documents' && (
               <EquipmentDocumentsTab
                 documents={documents}
@@ -296,6 +437,16 @@ function EquipmentViewPage() {
       </CommonFormCard>
 
       <ConfirmDialog
+        open={Boolean(deleteBomRow)}
+        handleClose={() => setDeleteBomRow(null)}
+        title="Delete spare BOM line?"
+        message={deleteBomRow ? `${deleteBomRow.partCode} - ${deleteBomRow.partName} will be removed from this equipment BOM.` : ''}
+        handleAgree={confirmDeleteSpareBom}
+        closebtn="Cancel"
+        agreebtn="Delete"
+      />
+
+      <ConfirmDialog
         open={Boolean(deleteDocumentRow)}
         handleClose={() => setDeleteDocumentRow(null)}
         title="Delete equipment document?"
@@ -305,6 +456,188 @@ function EquipmentViewPage() {
         agreebtn="Delete"
       />
     </Box>
+  );
+}
+
+function EquipmentSpareBomTab({
+  rows,
+  siteSpares,
+  form,
+  loading,
+  saving,
+  error,
+  editingBomId,
+  canEdit,
+  canDelete,
+  onFieldChange,
+  onSave,
+  onCancel,
+  onEdit,
+  onDelete,
+}) {
+  const spareOptions = React.useMemo(() => siteSpares.map((item) => ({
+    value: item.id,
+    label: `${item.partCode} - ${item.partName} | Available: ${formatNumber(item.availableStock ?? item.currentStock)} ${item.unit || ''}`,
+  })), [siteSpares]);
+
+  return (
+    <Stack spacing={2.5}>
+      {error && <Alert severity="error">{error}</Alert>}
+
+      {canEdit && (
+        <Box>
+          <Grid container spacing={2} alignItems="flex-start">
+            <Grid item xs={12} md={4}>
+              <CommonDropdown
+                label="Spare Part"
+                name="stockId"
+                value={form.stockId}
+                options={spareOptions}
+                onChange={onFieldChange('stockId')}
+                fullWidth
+                size="small"
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={2}>
+              <CommonInput
+                label="Recommended Qty"
+                name="recommendedQty"
+                type="number"
+                value={form.recommendedQty}
+                onChange={onFieldChange('recommendedQty')}
+                size="small"
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={2}>
+              <CommonDropdown
+                label="Criticality"
+                name="criticality"
+                value={form.criticality}
+                options={criticalityOptions}
+                onChange={onFieldChange('criticality')}
+                fullWidth
+                size="small"
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={2}>
+              <CommonInput
+                label="Replacement Frequency"
+                name="replacementFrequency"
+                value={form.replacementFrequency}
+                onChange={onFieldChange('replacementFrequency')}
+                size="small"
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={2}>
+              <CommonDropdown
+                label="Status"
+                name="status"
+                value={form.status}
+                options={statusOptions}
+                onChange={onFieldChange('status')}
+                fullWidth
+                size="small"
+              />
+            </Grid>
+            <Grid item xs={12} md={9}>
+              <CommonTextArea
+                label="Remarks"
+                name="remarks"
+                value={form.remarks}
+                onChange={onFieldChange('remarks')}
+                minRows={1}
+                size="small"
+              />
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <Stack direction="row" spacing={1} justifyContent={{ xs: 'flex-start', md: 'flex-end' }}>
+                {editingBomId && <Button variant="outlined" onClick={onCancel}>Cancel</Button>}
+                <Button
+                  variant="contained"
+                  onClick={onSave}
+                  disabled={saving}
+                  startIcon={saving ? <CircularProgress color="inherit" size={16} /> : null}
+                >
+                  {editingBomId ? 'Update BOM' : 'Add BOM'}
+                </Button>
+              </Stack>
+            </Grid>
+          </Grid>
+          <Divider sx={{ mt: 2 }} />
+        </Box>
+      )}
+
+      {loading ? (
+        <Grid container spacing={2}>
+          {Array.from({ length: 4 }).map((_, index) => (
+            <Grid item xs={12} key={index}>
+              <Skeleton variant="rounded" height={54} />
+            </Grid>
+          ))}
+        </Grid>
+      ) : (
+        <TableContainer component={Box}>
+          <Table size="small">
+            <TableHead>
+              <TableRow>
+                <TableCell>Part</TableCell>
+                <TableCell>Recommended</TableCell>
+                <TableCell>Available</TableCell>
+                <TableCell>Criticality</TableCell>
+                <TableCell>Frequency</TableCell>
+                <TableCell>Status</TableCell>
+                <TableCell>Remarks</TableCell>
+                <TableCell align="right">Actions</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rows.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={8}>
+                    <Typography variant="body2" color="text.secondary">No spare BOM records available.</Typography>
+                  </TableCell>
+                </TableRow>
+              ) : rows.map((row) => (
+                <TableRow key={row.bomId} hover selected={editingBomId === row.bomId}>
+                  <TableCell>
+                    <Typography variant="body2" fontWeight={700}>{row.partCode} - {row.partName}</Typography>
+                    <Typography variant="caption" color="text.secondary">{row.category || '-'} | {row.unit || '-'}</Typography>
+                  </TableCell>
+                  <TableCell>{formatNumber(row.recommendedQty)} {row.unit || ''}</TableCell>
+                  <TableCell>{formatNumber(row.availableStock)} {row.unit || ''}</TableCell>
+                  <TableCell>
+                    <Chip size="small" label={formatLabel(row.criticality)} color={criticalityColor(row.criticality)} />
+                  </TableCell>
+                  <TableCell>{row.replacementFrequency || '-'}</TableCell>
+                  <TableCell>
+                    <Chip size="small" label={formatLabel(row.status)} color={row.status === 'ACTIVE' ? 'success' : 'default'} variant="outlined" />
+                  </TableCell>
+                  <TableCell sx={{ maxWidth: 220 }}>
+                    <Typography variant="body2" sx={{ wordBreak: 'break-word' }}>{row.remarks || '-'}</Typography>
+                  </TableCell>
+                  <TableCell align="right">
+                    {canEdit && (
+                      <Tooltip title="Edit">
+                        <IconButton aria-label="Edit spare BOM" onClick={() => onEdit(row)}>
+                          <Edit fontSize="small" />
+                        </IconButton>
+                      </Tooltip>
+                    )}
+                    {canDelete && (
+                      <Tooltip title="Delete">
+                        <IconButton aria-label="Delete spare BOM" color="error" onClick={() => onDelete(row)}>
+                          <Delete fontSize="small" />
+                        </IconButton>
+                      </Tooltip>
+                    )}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
+    </Stack>
   );
 }
 
@@ -527,6 +860,13 @@ function chipColor(variant) {
   return 'default';
 }
 
+function criticalityColor(criticality) {
+  if (criticality === 'CRITICAL') return 'error';
+  if (criticality === 'HIGH') return 'warning';
+  if (criticality === 'MEDIUM') return 'info';
+  return 'default';
+}
+
 function healthVariant(status) {
   if (status === 'GOOD') return 'success-chip';
   if (status === 'WARNING') return 'warning-chip';
@@ -563,6 +903,13 @@ function formatMinutes(value) {
   if (!Number.isFinite(minutes)) return '';
   if (minutes < 60) return `${minutes} min`;
   return `${(minutes / 60).toFixed(1)} hr`;
+}
+
+function formatNumber(value) {
+  if (value === null || value === undefined || value === '') return '-';
+  const number = Number(value);
+  if (!Number.isFinite(number)) return String(value);
+  return Number.isInteger(number) ? String(number) : number.toFixed(3).replace(/0+$/, '').replace(/\.$/, '');
 }
 
 function formatFileSize(value) {
