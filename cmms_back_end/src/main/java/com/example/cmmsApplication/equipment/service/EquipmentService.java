@@ -7,10 +7,12 @@ import com.example.cmmsApplication.equipment.entity.EquipmentList;
 import com.example.cmmsApplication.site.service.SiteService;
 import com.example.cmmsApplication.equipment.dao.EquipmentDAO;
 import com.example.cmmsApplication.equipment.dto.EquipmentDTO;
+import com.example.cmmsApplication.equipment.dto.EquipmentSummaryDTO;
 import com.example.cmmsApplication.assignment.repository.MaintenanceAssignmentRepository;
 import com.example.cmmsApplication.common.search.dto.PageProperties;
 import com.example.cmmsApplication.common.search.dto.SearchCriteriaDTO;
 import com.example.cmmsApplication.common.search.dto.SearchDTO;
+import com.example.cmmsApplication.downtime.entity.EquipmentDowntime;
 import com.example.cmmsApplication.downtime.repository.EquipmentDowntimeRepository;
 import com.example.cmmsApplication.equipment.entity.Equipment;
 import com.example.cmmsApplication.maintenancerequest.repository.MaintenanceRequestRepository;
@@ -22,6 +24,8 @@ import com.example.cmmsApplication.equipment.repository.EquipmentListRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -160,6 +164,38 @@ public class EquipmentService {
         applyDefaultSort(effectiveSearch);
         applySiteAccessFilter(effectiveSearch);
         return searchService.getFilteredResults(effectiveSearch, equipmentListRepository, com.example.cmmsApplication.equipment.entity.EquipmentList.class);
+    }
+
+    @Transactional(readOnly = true)
+    public EquipmentSummaryDTO getSummary(Long id) {
+        Equipment equipment = getEntity(id);
+        accessControlService.validateSiteAccess(equipment.getSite() == null ? null : equipment.getSite().getId());
+
+        Long openRequestCount = maintenanceRequestRepository.countByEquipmentIdAndStatusNotIn(id, CLOSED_REQUEST_STATUSES);
+        Long activePmCount = preventiveMaintenanceScheduleRepository.countByEquipmentIdAndActiveTrue(id);
+        Long openDowntimeCount = equipmentDowntimeRepository.countByEquipmentIdAndDowntimeEndIsNull(id);
+        EquipmentDowntime lastDowntime = equipmentDowntimeRepository.findTopByEquipmentIdOrderByDowntimeStartDescIdDesc(id).orElse(null);
+        YearMonth currentMonth = YearMonth.now();
+        LocalDateTime monthStart = currentMonth.atDay(1).atStartOfDay();
+        LocalDateTime nextMonthStart = currentMonth.plusMonths(1).atDay(1).atStartOfDay();
+        Long monthlyDowntime = equipmentDowntimeRepository.sumDowntimeMinutesByEquipmentIdAndDowntimeStartBetween(id, monthStart, nextMonthStart);
+        LocalDate lastMaintenanceDate = maintenanceAssignmentRepository.findLastCompletedMaintenanceDateByEquipmentId(id);
+        LocalDate nextPmDate = preventiveMaintenanceScheduleRepository.findNextDueDateByEquipmentId(id);
+        Integer healthScore = calculateHealthScore(openRequestCount, openDowntimeCount, monthlyDowntime, nextPmDate);
+
+        return EquipmentSummaryDTO.builder()
+                .equipmentId(id)
+                .openRequestCount(openRequestCount)
+                .activePmCount(activePmCount)
+                .lastDowntimeAt(lastDowntime == null ? null : lastDowntime.getDowntimeStart())
+                .lastDowntimeReason(lastDowntime == null ? null : lastDowntime.getReason())
+                .lastDowntimeMinutes(lastDowntime == null ? null : lastDowntime.getDowntimeMinutes())
+                .totalDowntimeMinutesThisMonth(monthlyDowntime == null ? 0L : monthlyDowntime)
+                .lastMaintenanceDate(lastMaintenanceDate)
+                .nextPmDate(nextPmDate)
+                .healthScore(healthScore)
+                .healthStatus(healthStatus(healthScore))
+                .build();
     }
 
     public void delete(Long id) {
@@ -308,6 +344,34 @@ public class EquipmentService {
             return ((Collection<?>) value).isEmpty();
         }
         return false;
+    }
+
+    private Integer calculateHealthScore(Long openRequestCount, Long openDowntimeCount, Long monthlyDowntimeMinutes, LocalDate nextPmDate) {
+        int score = 100;
+        score -= Math.min(40, safeLong(openRequestCount) * 10);
+        score -= Math.min(20, safeLong(openDowntimeCount) * 20);
+        score -= Math.min(30, (int) (safeLong(monthlyDowntimeMinutes) / 60) * 5);
+        if (nextPmDate != null && nextPmDate.isBefore(LocalDate.now())) {
+            score -= 15;
+        }
+        return Math.max(0, Math.min(100, score));
+    }
+
+    private String healthStatus(Integer healthScore) {
+        if (healthScore == null) {
+            return "UNKNOWN";
+        }
+        if (healthScore < 50) {
+            return "CRITICAL";
+        }
+        if (healthScore < 75) {
+            return "WARNING";
+        }
+        return "GOOD";
+    }
+
+    private long safeLong(Long value) {
+        return value == null ? 0L : value;
     }
 
     private void validateCanRetire(Equipment equipment) {

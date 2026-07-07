@@ -18,6 +18,14 @@ public interface PreventiveMaintenanceScheduleRepository extends JpaRepository<P
     long countByEquipmentIdAndActiveTrue(Long equipmentId);
 
     @Query("""
+            select min(schedule.nextDueDate)
+            from PreventiveMaintenanceSchedule schedule
+            where schedule.equipment.id = :equipmentId
+              and schedule.active = true
+            """)
+    LocalDate findNextDueDateByEquipmentId(Long equipmentId);
+
+    @Query("""
             SELECT schedule FROM PreventiveMaintenanceSchedule schedule
             WHERE schedule.active = true
               AND schedule.nextDueDate BETWEEN :start AND :end
