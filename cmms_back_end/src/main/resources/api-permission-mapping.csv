@@ -39,9 +39,11 @@ EQUIPMENT_CREATE,/api/equipment,POST,Create equipment
 EQUIPMENT_CREATE,/api/hr/sites/**,GET,Create equipment site helper data
 EQUIPMENT_CREATE,/api/hr/sites,GET,Create equipment site helper data
 EQUIPMENT_UPDATE,/api/equipment/**,PUT,Update equipment
+EQUIPMENT_UPDATE,/api/equipment/*/documents,POST,Upload equipment document
 EQUIPMENT_UPDATE,/api/hr/sites/**,GET,Update equipment site helper data
 EQUIPMENT_UPDATE,/api/hr/sites,GET,Update equipment site helper data
 EQUIPMENT_DELETE,/api/equipment/*,DELETE,Delete equipment
+EQUIPMENT_DELETE,/api/equipment/*/documents/*,DELETE,Delete equipment document
 REQUEST_VIEW,/api/maintenance/requests/**,GET,View maintenance requests
 REQUEST_VIEW,/api/maintenance/requests,GET,View maintenance request list
 REQUEST_VIEW,/api/maintenance/requests/search,POST,Search maintenance requests

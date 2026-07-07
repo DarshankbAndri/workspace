@@ -705,8 +705,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/controller/EquipmentController.java": {
-    "mtime": 1783413287.490083,
-    "ast_hash": "3c13ce44cfd746ecf36de176f0dde238",
+    "mtime": 1783414523.2283835,
+    "ast_hash": "2cf7c48ae6a1b9ef3983d255847b9464",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/dao/EquipmentDAO.java": {
@@ -1360,8 +1360,8 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/equipment/services/equipmentService.js": {
-    "mtime": 1783413296.4248776,
-    "ast_hash": "e243f3f6818dda7e35cf7511ea7e0e0e",
+    "mtime": 1783414318.6786976,
+    "ast_hash": "8b0e0c711491aea45588bd6aeac68c23",
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/maintenanceRequest/pages/MaintenanceRequestFormPage.jsx": {
@@ -1880,8 +1880,8 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/equipment/pages/EquipmentViewPage.jsx": {
-    "mtime": 1783413347.7473202,
-    "ast_hash": "f59745856ad442b74ad9fe9cb583b2c6",
+    "mtime": 1783414331.7258284,
+    "ast_hash": "6d95065db2fe15495f90909297707ee7",
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/vendor/pages/VendorViewPage.jsx": {
@@ -1972,6 +1972,26 @@
   "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/dto/EquipmentSummaryDTO.java": {
     "mtime": 1783413255.7277312,
     "ast_hash": "7fc1f1d3a32d1202062d705d04e87152",
+    "semantic_hash": ""
+  },
+  "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/dto/EquipmentDocumentDTO.java": {
+    "mtime": 1783414215.1899755,
+    "ast_hash": "09a2f5122f3f08abf48990638f1d5a74",
+    "semantic_hash": ""
+  },
+  "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/entity/EquipmentDocument.java": {
+    "mtime": 1783414215.1860468,
+    "ast_hash": "02757d37b9bfaf078da0994944ac4398",
+    "semantic_hash": ""
+  },
+  "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/repository/EquipmentDocumentRepository.java": {
+    "mtime": 1783414245.2504425,
+    "ast_hash": "9de497271155e1e9cb48c70ae2e049af",
+    "semantic_hash": ""
+  },
+  "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/service/EquipmentDocumentService.java": {
+    "mtime": 1783414245.2574437,
+    "ast_hash": "8693477346e3b0c1c41f536edf65aae7",
     "semantic_hash": ""
   }
 }

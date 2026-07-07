@@ -4,15 +4,20 @@ import com.example.cmmsApplication.common.response.ApiResponse;
 import com.example.cmmsApplication.common.response.ResponseFactory;
 
 
-import com.example.cmmsApplication.equipment.entity.Equipment;
 import com.example.cmmsApplication.equipment.dto.EquipmentDTO;
-import com.example.cmmsApplication.common.search.dto.PageProperties;
 import com.example.cmmsApplication.common.search.dto.SearchDTO;
+import com.example.cmmsApplication.equipment.entity.EquipmentDocument;
+import com.example.cmmsApplication.equipment.service.EquipmentDocumentService;
 import com.example.cmmsApplication.equipment.service.EquipmentService;
 import jakarta.validation.Valid;
+import java.time.LocalDate;
 import org.springframework.http.ResponseEntity;
+import org.springframework.core.io.Resource;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
+import org.springframework.web.multipart.MultipartFile;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -20,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/equipment")
 public class EquipmentController {
     private final EquipmentService equipmentService;
+    private final EquipmentDocumentService equipmentDocumentService;
 
     @PostMapping
     public ResponseEntity<ApiResponse<?>> create(@Valid @RequestBody EquipmentDTO dto) {
@@ -47,6 +53,37 @@ public class EquipmentController {
         return ResponseFactory.ok(equipmentService.getSummary(id));
     }
 
+    @GetMapping("/{id}/documents")
+    public ResponseEntity<ApiResponse<?>> getDocuments(@PathVariable Long id) {
+        return ResponseFactory.ok(equipmentDocumentService.getDocuments(id));
+    }
+
+    @PostMapping(value = "/{id}/documents", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ApiResponse<?>> uploadDocument(@PathVariable Long id,
+                                                         @RequestParam("documentType") String documentType,
+                                                         @RequestParam(value = "expiryDate", required = false)
+                                                         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate expiryDate,
+                                                         @RequestParam(value = "remarks", required = false) String remarks,
+                                                         @RequestParam("file") MultipartFile file) {
+        return ResponseFactory.created(equipmentDocumentService.uploadDocument(id, documentType, expiryDate, remarks, file));
+    }
+
+    @GetMapping("/{id}/documents/{documentId}/file")
+    public ResponseEntity<Resource> downloadDocument(@PathVariable Long id, @PathVariable Long documentId) {
+        EquipmentDocument document = equipmentDocumentService.getDocument(id, documentId);
+        Resource resource = equipmentDocumentService.getDocumentResource(document);
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(document.getContentType()))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + safeFileName(document.getFileName()) + "\"")
+                .body(resource);
+    }
+
+    @DeleteMapping("/{id}/documents/{documentId}")
+    public ResponseEntity<ApiResponse<?>> deleteDocument(@PathVariable Long id, @PathVariable Long documentId) {
+        equipmentDocumentService.deleteDocument(id, documentId);
+        return ResponseFactory.ok(null);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<?>> getById(@PathVariable Long id) {
         return ResponseFactory.ok(equipmentService.getById(id));
@@ -55,5 +92,9 @@ public class EquipmentController {
     @GetMapping
     public ResponseEntity<ApiResponse<?>> getAll(@RequestParam(required = false) Long siteId) {
         return ResponseFactory.ok(equipmentService.getAll(siteId));
+    }
+
+    private String safeFileName(String fileName) {
+        return fileName == null ? "equipment-document" : fileName.replace("\"", "");
     }
 }

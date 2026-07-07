@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="equipment-document-001-create-table" author="Codex">
+        <createTable tableName="equipment_document">
+            <column name="document_id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="equipment_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="document_type" type="VARCHAR(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="file_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="stored_file_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="stored_file_path" type="VARCHAR(700)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="file_url" type="VARCHAR(500)"/>
+            <column name="content_type" type="VARCHAR(120)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="file_size" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="expiry_date" type="DATE"/>
+            <column name="uploaded_by" type="BIGINT"/>
+            <column name="uploaded_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="remarks" type="VARCHAR(1000)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="equipment-document-002-fks" author="Codex">
+        <addForeignKeyConstraint constraintName="fk_equipment_document_equipment"
+                                 baseTableName="equipment_document"
+                                 baseColumnNames="equipment_id"
+                                 referencedTableName="equipment_master"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_equipment_document_uploaded_by"
+                                 baseTableName="equipment_document"
+                                 baseColumnNames="uploaded_by"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="equipment-document-003-indexes" author="Codex">
+        <createIndex indexName="idx_equipment_document_equipment" tableName="equipment_document">
+            <column name="equipment_id"/>
+        </createIndex>
+        <createIndex indexName="idx_equipment_document_type" tableName="equipment_document">
+            <column name="document_type"/>
+        </createIndex>
+        <createIndex indexName="idx_equipment_document_expiry" tableName="equipment_document">
+            <column name="expiry_date"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>
