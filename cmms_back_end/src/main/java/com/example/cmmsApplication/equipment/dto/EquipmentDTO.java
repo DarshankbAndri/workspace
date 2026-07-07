@@ -38,7 +38,15 @@ public class EquipmentDTO {
     private LocalDate installationDate;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate warrantyExpiryDate;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate commissioningDate;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate decommissionDate;
     private String status;
+    private String lifecycleStatus;
+    private String assetCondition;
+    private String operatingStatus;
+    private String ownershipType;
     private String criticality;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -75,8 +83,20 @@ public class EquipmentDTO {
     public void setInstallationDate(LocalDate installationDate) { this.installationDate = installationDate; }
     public LocalDate getWarrantyExpiryDate() { return warrantyExpiryDate; }
     public void setWarrantyExpiryDate(LocalDate warrantyExpiryDate) { this.warrantyExpiryDate = warrantyExpiryDate; }
+    public LocalDate getCommissioningDate() { return commissioningDate; }
+    public void setCommissioningDate(LocalDate commissioningDate) { this.commissioningDate = commissioningDate; }
+    public LocalDate getDecommissionDate() { return decommissionDate; }
+    public void setDecommissionDate(LocalDate decommissionDate) { this.decommissionDate = decommissionDate; }
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
+    public String getLifecycleStatus() { return lifecycleStatus; }
+    public void setLifecycleStatus(String lifecycleStatus) { this.lifecycleStatus = lifecycleStatus; }
+    public String getAssetCondition() { return assetCondition; }
+    public void setAssetCondition(String assetCondition) { this.assetCondition = assetCondition; }
+    public String getOperatingStatus() { return operatingStatus; }
+    public void setOperatingStatus(String operatingStatus) { this.operatingStatus = operatingStatus; }
+    public String getOwnershipType() { return ownershipType; }
+    public void setOwnershipType(String ownershipType) { this.ownershipType = ownershipType; }
     public String getCriticality() { return criticality; }
     public void setCriticality(String criticality) { this.criticality = criticality; }
     public LocalDateTime getCreatedAt() { return createdAt; }

@@ -37,8 +37,14 @@ function EquipmentViewPage() {
     { label: 'Model Number', value: equipment?.modelNumber },
     { label: 'Serial Number', value: equipment?.serialNumber },
     { label: 'Status', value: equipment?.status, variant: 'chip' },
+    { label: 'Lifecycle Status', value: equipment?.lifecycleStatus, variant: 'chip' },
+    { label: 'Operating Status', value: equipment?.operatingStatus, variant: 'chip' },
+    { label: 'Asset Condition', value: equipment?.assetCondition, variant: 'chip' },
+    { label: 'Ownership Type', value: equipment?.ownershipType },
     { label: 'Installation Date', value: formatDate(equipment?.installationDate) },
+    { label: 'Commissioning Date', value: formatDate(equipment?.commissioningDate) },
     { label: 'Warranty Expiry', value: formatDate(equipment?.warrantyExpiryDate) },
+    { label: 'Decommission Date', value: formatDate(equipment?.decommissionDate) },
     { label: 'Criticality', value: equipment?.criticality, variant: 'chip' },
   ];
 
@@ -61,7 +67,7 @@ function EquipmentViewPage() {
       <CommonFormCard>
         {loading ? (
           <Grid container spacing={2}>
-            {Array.from({ length: 12 }).map((_, index) => (
+            {Array.from({ length: 18 }).map((_, index) => (
               <Grid item xs={12} md={4} key={index}>
                 <Skeleton variant="rounded" height={56} />
               </Grid>

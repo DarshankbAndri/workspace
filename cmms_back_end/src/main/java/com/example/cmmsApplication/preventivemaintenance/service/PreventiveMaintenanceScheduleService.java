@@ -301,6 +301,7 @@ public PreventiveMaintenanceScheduleDTO create(PreventiveMaintenanceScheduleDTO 
     private void apply(PreventiveMaintenanceSchedule schedule, PreventiveMaintenanceScheduleDTO dto) {
         Site site = validateActiveSite(dto.getSiteId());
         Equipment equipment = equipmentService.getEntity(dto.getEquipmentId());
+        equipmentService.validateCanReceiveWork(equipment);
         Vendor vendor = dto.getVendorId() == null ? null : vendorService.getEntity(dto.getVendorId());
         String frequency = normalizeFrequency(dto.getFrequency());
 

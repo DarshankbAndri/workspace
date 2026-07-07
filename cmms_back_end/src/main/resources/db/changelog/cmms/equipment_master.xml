@@ -56,4 +56,32 @@
             <column name="site_id"/>
         </createIndex>
     </changeSet>
+
+    <changeSet id="equipment-004-add-lifecycle-columns" author="DARSHAN">
+        <addColumn tableName="equipment_master">
+            <column name="commissioning_date" type="DATE"/>
+            <column name="decommission_date" type="DATE"/>
+            <column name="lifecycle_status" type="VARCHAR(30)" defaultValue="ACTIVE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="asset_condition" type="VARCHAR(30)" defaultValue="GOOD">
+                <constraints nullable="false"/>
+            </column>
+            <column name="operating_status" type="VARCHAR(30)" defaultValue="RUNNING">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ownership_type" type="VARCHAR(30)" defaultValue="OWNED">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="equipment-005-add-lifecycle-indexes" author="DARSHAN">
+        <createIndex indexName="idx_equipment_lifecycle_status" tableName="equipment_master">
+            <column name="lifecycle_status"/>
+        </createIndex>
+        <createIndex indexName="idx_equipment_operating_status" tableName="equipment_master">
+            <column name="operating_status"/>
+        </createIndex>
+    </changeSet>
 </databaseChangeLog>

@@ -50,8 +50,26 @@ public class Equipment {
     @Column(name = "warranty_expiry_date")
     private LocalDate warrantyExpiryDate;
 
+    @Column(name = "commissioning_date")
+    private LocalDate commissioningDate;
+
+    @Column(name = "decommission_date")
+    private LocalDate decommissionDate;
+
     @Column(nullable = false, length = 30)
     private String status = "ACTIVE";
+
+    @Column(name = "lifecycle_status", nullable = false, length = 30)
+    private String lifecycleStatus = "ACTIVE";
+
+    @Column(name = "asset_condition", nullable = false, length = 30)
+    private String assetCondition = "GOOD";
+
+    @Column(name = "operating_status", nullable = false, length = 30)
+    private String operatingStatus = "RUNNING";
+
+    @Column(name = "ownership_type", nullable = false, length = 30)
+    private String ownershipType = "OWNED";
 
     @Column(name = "criticality", nullable = false, length = 30)
     private String criticality = "MEDIUM";
@@ -95,8 +113,20 @@ public class Equipment {
     public void setInstallationDate(LocalDate installationDate) { this.installationDate = installationDate; }
     public LocalDate getWarrantyExpiryDate() { return warrantyExpiryDate; }
     public void setWarrantyExpiryDate(LocalDate warrantyExpiryDate) { this.warrantyExpiryDate = warrantyExpiryDate; }
+    public LocalDate getCommissioningDate() { return commissioningDate; }
+    public void setCommissioningDate(LocalDate commissioningDate) { this.commissioningDate = commissioningDate; }
+    public LocalDate getDecommissionDate() { return decommissionDate; }
+    public void setDecommissionDate(LocalDate decommissionDate) { this.decommissionDate = decommissionDate; }
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
+    public String getLifecycleStatus() { return lifecycleStatus; }
+    public void setLifecycleStatus(String lifecycleStatus) { this.lifecycleStatus = lifecycleStatus; }
+    public String getAssetCondition() { return assetCondition; }
+    public void setAssetCondition(String assetCondition) { this.assetCondition = assetCondition; }
+    public String getOperatingStatus() { return operatingStatus; }
+    public void setOperatingStatus(String operatingStatus) { this.operatingStatus = operatingStatus; }
+    public String getOwnershipType() { return ownershipType; }
+    public void setOwnershipType(String ownershipType) { this.ownershipType = ownershipType; }
     public String getCriticality() { return criticality; }
     public void setCriticality(String criticality) { this.criticality = criticality; }
     public LocalDateTime getCreatedAt() { return createdAt; }

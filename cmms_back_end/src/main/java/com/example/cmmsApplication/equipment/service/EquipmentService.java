@@ -7,16 +7,21 @@ import com.example.cmmsApplication.equipment.entity.EquipmentList;
 import com.example.cmmsApplication.site.service.SiteService;
 import com.example.cmmsApplication.equipment.dao.EquipmentDAO;
 import com.example.cmmsApplication.equipment.dto.EquipmentDTO;
+import com.example.cmmsApplication.assignment.repository.MaintenanceAssignmentRepository;
 import com.example.cmmsApplication.common.search.dto.PageProperties;
 import com.example.cmmsApplication.common.search.dto.SearchCriteriaDTO;
 import com.example.cmmsApplication.common.search.dto.SearchDTO;
+import com.example.cmmsApplication.downtime.repository.EquipmentDowntimeRepository;
 import com.example.cmmsApplication.equipment.entity.Equipment;
+import com.example.cmmsApplication.maintenancerequest.repository.MaintenanceRequestRepository;
+import com.example.cmmsApplication.preventivemaintenance.repository.PreventiveMaintenanceScheduleRepository;
 import com.example.cmmsApplication.site.entity.Site;
 import com.example.cmmsApplication.common.exception.InvalidOperationException;
 import com.example.cmmsApplication.common.exception.ResourceNotFoundException;
 import com.example.cmmsApplication.equipment.repository.EquipmentListRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -43,8 +48,21 @@ public class EquipmentService {
             "vendorName",
             "make",
             "model",
-            "serialNumber"
+            "serialNumber",
+            "lifecycleStatus",
+            "assetCondition",
+            "operatingStatus",
+            "ownershipType",
+            "commissioningDate",
+            "decommissionDate"
     );
+    private static final Set<String> EQUIPMENT_STATUSES = Set.of("ACTIVE", "INACTIVE", "UNDER_MAINTENANCE", "RETIRED");
+    private static final Set<String> LIFECYCLE_STATUSES = Set.of("DRAFT", "COMMISSIONED", "ACTIVE", "STANDBY", "UNDER_MAINTENANCE", "BREAKDOWN", "DECOMMISSIONED", "SCRAPPED");
+    private static final Set<String> ASSET_CONDITIONS = Set.of("GOOD", "FAIR", "POOR", "CRITICAL", "UNKNOWN");
+    private static final Set<String> OPERATING_STATUSES = Set.of("RUNNING", "STANDBY", "STOPPED", "UNDER_MAINTENANCE", "BREAKDOWN");
+    private static final Set<String> OWNERSHIP_TYPES = Set.of("OWNED", "LEASED", "RENTED", "CUSTOMER_SUPPLIED");
+    private static final Set<String> CLOSED_REQUEST_STATUSES = Set.of("CLOSED", "COMPLETED", "CANCELLED", "REJECTED");
+    private static final Set<String> CLOSED_ASSIGNMENT_STATUSES = Set.of("COMPLETED", "CANCELLED");
     private static final Set<String> ALLOWED_SORT_KEYS = Set.of(
             "id",
             "equipmentName",
@@ -65,12 +83,22 @@ public class EquipmentService {
             "category",
             "location",
             "criticality",
+            "lifecycleStatus",
+            "assetCondition",
+            "operatingStatus",
+            "ownershipType",
+            "commissioningDate",
+            "decommissionDate",
             "manufacturer",
             "modelNumber"
     );
 
     private final EquipmentDAO equipmentDAO;
     private final EquipmentListRepository equipmentListRepository;
+    private final MaintenanceRequestRepository maintenanceRequestRepository;
+    private final MaintenanceAssignmentRepository maintenanceAssignmentRepository;
+    private final PreventiveMaintenanceScheduleRepository preventiveMaintenanceScheduleRepository;
+    private final EquipmentDowntimeRepository equipmentDowntimeRepository;
     private final SearchService searchService;
     private final SiteService siteService;
     private final AccessControlService accessControlService;
@@ -92,7 +120,11 @@ public class EquipmentService {
         if (equipmentDAO.existsByEquipmentCodeAndIdNot(dto.getEquipmentCode(), id)) {
             throw new InvalidOperationException("Equipment code already exists: " + dto.getEquipmentCode());
         }
+        boolean retiredBefore = isRetired(equipment);
         apply(equipment, dto);
+        if (!retiredBefore && isRetired(equipment)) {
+            validateCanRetire(equipment);
+        }
         return toDTO(equipmentDAO.save(equipment));
     }
 
@@ -133,13 +165,34 @@ public class EquipmentService {
     public void delete(Long id) {
         Equipment equipment = getEntity(id);
         accessControlService.validateSiteAccess(equipment.getSite() == null ? null : equipment.getSite().getId());
-        equipmentDAO.deleteById(id);
+        if (isRetired(equipment)) {
+            return;
+        }
+        validateCanRetire(equipment);
+        equipment.setStatus("INACTIVE");
+        equipment.setLifecycleStatus("DECOMMISSIONED");
+        equipment.setOperatingStatus("STOPPED");
+        if (equipment.getDecommissionDate() == null) {
+            equipment.setDecommissionDate(LocalDate.now());
+        }
+        equipmentDAO.save(equipment);
     }
 
     @Transactional(readOnly = true)
     public Equipment getEntity(Long id) {
         return equipmentDAO.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Equipment not found with id: " + id));
+    }
+
+    public void validateCanReceiveWork(Equipment equipment) {
+        if (equipment == null) {
+            throw new InvalidOperationException("Equipment is required");
+        }
+        if ("INACTIVE".equalsIgnoreCase(equipment.getStatus())
+                || "DECOMMISSIONED".equalsIgnoreCase(equipment.getLifecycleStatus())
+                || "SCRAPPED".equalsIgnoreCase(equipment.getLifecycleStatus())) {
+            throw new InvalidOperationException("Retired or inactive equipment cannot receive new maintenance work.");
+        }
     }
 
     private void apply(Equipment equipment, EquipmentDTO dto) {
@@ -154,8 +207,16 @@ public class EquipmentService {
         equipment.setSerialNumber(dto.getSerialNumber());
         equipment.setInstallationDate(dto.getInstallationDate());
         equipment.setWarrantyExpiryDate(dto.getWarrantyExpiryDate());
-        equipment.setStatus(dto.getStatus() == null ? "ACTIVE" : dto.getStatus());
+        equipment.setCommissioningDate(dto.getCommissioningDate());
+        equipment.setDecommissionDate(dto.getDecommissionDate());
+        equipment.setStatus(normalizeAllowed(dto.getStatus(), "ACTIVE", EQUIPMENT_STATUSES, "Equipment status"));
+        equipment.setLifecycleStatus(normalizeAllowed(dto.getLifecycleStatus(), "ACTIVE", LIFECYCLE_STATUSES, "Lifecycle status"));
+        equipment.setAssetCondition(normalizeAllowed(dto.getAssetCondition(), "GOOD", ASSET_CONDITIONS, "Asset condition"));
+        equipment.setOperatingStatus(normalizeAllowed(dto.getOperatingStatus(), defaultOperatingStatus(equipment.getStatus(), equipment.getLifecycleStatus()), OPERATING_STATUSES, "Operating status"));
+        equipment.setOwnershipType(normalizeAllowed(dto.getOwnershipType(), "OWNED", OWNERSHIP_TYPES, "Ownership type"));
         equipment.setCriticality(dto.getCriticality() == null ? "MEDIUM" : dto.getCriticality());
+        validateLifecycleDates(equipment);
+        applyRetiredCompatibility(equipment);
     }
 
     private Site validateActiveSite(Long siteId) {
@@ -249,6 +310,74 @@ public class EquipmentService {
         return false;
     }
 
+    private void validateCanRetire(Equipment equipment) {
+        Long equipmentId = equipment.getId();
+        if (maintenanceRequestRepository.countByEquipmentIdAndStatusNotIn(equipmentId, CLOSED_REQUEST_STATUSES) > 0) {
+            throw new InvalidOperationException("Equipment cannot be retired while open maintenance requests exist.");
+        }
+        if (maintenanceAssignmentRepository.countByRequestEquipmentIdAndStatusNotIn(equipmentId, CLOSED_ASSIGNMENT_STATUSES) > 0) {
+            throw new InvalidOperationException("Equipment cannot be retired while active maintenance assignments exist.");
+        }
+        if (preventiveMaintenanceScheduleRepository.countByEquipmentIdAndActiveTrue(equipmentId) > 0) {
+            throw new InvalidOperationException("Equipment cannot be retired while active preventive maintenance schedules exist.");
+        }
+        if (equipmentDowntimeRepository.countByEquipmentIdAndDowntimeEndIsNull(equipmentId) > 0) {
+            throw new InvalidOperationException("Equipment cannot be retired while open downtime records exist.");
+        }
+    }
+
+    private boolean isRetired(Equipment equipment) {
+        return "INACTIVE".equalsIgnoreCase(equipment.getStatus())
+                || "DECOMMISSIONED".equalsIgnoreCase(equipment.getLifecycleStatus())
+                || "SCRAPPED".equalsIgnoreCase(equipment.getLifecycleStatus());
+    }
+
+    private void validateLifecycleDates(Equipment equipment) {
+        LocalDate commissioningDate = equipment.getCommissioningDate();
+        LocalDate decommissionDate = equipment.getDecommissionDate();
+        if (commissioningDate != null && decommissionDate != null && decommissionDate.isBefore(commissioningDate)) {
+            throw new InvalidOperationException("Decommission date cannot be before commissioning date.");
+        }
+    }
+
+    private void applyRetiredCompatibility(Equipment equipment) {
+        if ("RETIRED".equalsIgnoreCase(equipment.getStatus()) || "INACTIVE".equalsIgnoreCase(equipment.getStatus())) {
+            equipment.setStatus("INACTIVE");
+            equipment.setLifecycleStatus("DECOMMISSIONED");
+        }
+        if ("DECOMMISSIONED".equalsIgnoreCase(equipment.getLifecycleStatus()) || "SCRAPPED".equalsIgnoreCase(equipment.getLifecycleStatus())) {
+            equipment.setStatus("INACTIVE");
+            equipment.setOperatingStatus("STOPPED");
+            if (equipment.getDecommissionDate() == null) {
+                equipment.setDecommissionDate(LocalDate.now());
+            }
+        }
+    }
+
+    private String normalizeAllowed(String value, String fallback, Set<String> allowed, String label) {
+        String normalized = value == null || value.isBlank() ? fallback : value.trim().toUpperCase(Locale.ROOT);
+        if (!allowed.contains(normalized)) {
+            throw new InvalidOperationException(label + " must be one of: " + String.join(", ", allowed));
+        }
+        return normalized;
+    }
+
+    private String defaultOperatingStatus(String status, String lifecycleStatus) {
+        if ("UNDER_MAINTENANCE".equalsIgnoreCase(status) || "UNDER_MAINTENANCE".equalsIgnoreCase(lifecycleStatus)) {
+            return "UNDER_MAINTENANCE";
+        }
+        if ("BREAKDOWN".equalsIgnoreCase(lifecycleStatus)) {
+            return "BREAKDOWN";
+        }
+        if ("STANDBY".equalsIgnoreCase(lifecycleStatus)) {
+            return "STANDBY";
+        }
+        if ("INACTIVE".equalsIgnoreCase(status) || "DECOMMISSIONED".equalsIgnoreCase(lifecycleStatus) || "SCRAPPED".equalsIgnoreCase(lifecycleStatus)) {
+            return "STOPPED";
+        }
+        return "RUNNING";
+    }
+
     private EquipmentDTO toDTO(Equipment equipment) {
         EquipmentDTO dto = new EquipmentDTO();
         dto.setId(equipment.getId());
@@ -265,7 +394,13 @@ public class EquipmentService {
         dto.setSerialNumber(equipment.getSerialNumber());
         dto.setInstallationDate(equipment.getInstallationDate());
         dto.setWarrantyExpiryDate(equipment.getWarrantyExpiryDate());
+        dto.setCommissioningDate(equipment.getCommissioningDate());
+        dto.setDecommissionDate(equipment.getDecommissionDate());
         dto.setStatus(equipment.getStatus());
+        dto.setLifecycleStatus(equipment.getLifecycleStatus());
+        dto.setAssetCondition(equipment.getAssetCondition());
+        dto.setOperatingStatus(equipment.getOperatingStatus());
+        dto.setOwnershipType(equipment.getOwnershipType());
         dto.setCriticality(equipment.getCriticality());
         dto.setCreatedAt(equipment.getCreatedAt());
         dto.setUpdatedAt(equipment.getUpdatedAt());

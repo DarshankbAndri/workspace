@@ -6,6 +6,7 @@ import jakarta.persistence.Id;
 import org.hibernate.annotations.Immutable;
 import org.hibernate.annotations.Subselect;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,6 +35,12 @@ import lombok.NoArgsConstructor;
             e.model_number AS model,
             e.model_number AS model_number,
             e.serial_number AS serial_number,
+            e.lifecycle_status AS lifecycle_status,
+            e.asset_condition AS asset_condition,
+            e.operating_status AS operating_status,
+            e.ownership_type AS ownership_type,
+            e.commissioning_date AS commissioning_date,
+            e.decommission_date AS decommission_date,
             e.created_at AS created_at,
             e.updated_at AS last_modified_on
         FROM equipment_master e
@@ -96,6 +103,24 @@ public class EquipmentList {
     @Column(name = "serial_number")
     private String serialNumber;
 
+    @Column(name = "lifecycle_status")
+    private String lifecycleStatus;
+
+    @Column(name = "asset_condition")
+    private String assetCondition;
+
+    @Column(name = "operating_status")
+    private String operatingStatus;
+
+    @Column(name = "ownership_type")
+    private String ownershipType;
+
+    @Column(name = "commissioning_date")
+    private LocalDate commissioningDate;
+
+    @Column(name = "decommission_date")
+    private LocalDate decommissionDate;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
@@ -121,6 +146,12 @@ public class EquipmentList {
     public String getModel() { return model; }
     public String getModelNumber() { return modelNumber; }
     public String getSerialNumber() { return serialNumber; }
+    public String getLifecycleStatus() { return lifecycleStatus; }
+    public String getAssetCondition() { return assetCondition; }
+    public String getOperatingStatus() { return operatingStatus; }
+    public String getOwnershipType() { return ownershipType; }
+    public LocalDate getCommissioningDate() { return commissioningDate; }
+    public LocalDate getDecommissionDate() { return decommissionDate; }
     public LocalDateTime getCreatedAt() { return createdAt; }
     public LocalDateTime getLastModifiedOn() { return lastModifiedOn; }
 }

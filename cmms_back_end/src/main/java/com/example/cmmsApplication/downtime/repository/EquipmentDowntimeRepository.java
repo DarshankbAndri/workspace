@@ -16,6 +16,7 @@ public interface EquipmentDowntimeRepository extends JpaRepository<EquipmentDown
     List<EquipmentDowntime> findBySiteIdIn(Collection<Long> siteIds);
     List<EquipmentDowntime> findBySiteIdAndEquipmentId(Long siteId, Long equipmentId);
     List<EquipmentDowntime> findBySiteIdInAndEquipmentId(Collection<Long> siteIds, Long equipmentId);
+    long countByEquipmentIdAndDowntimeEndIsNull(Long equipmentId);
 
     @Query("select coalesce(sum(d.downtimeMinutes), 0) from EquipmentDowntime d")
     Long sumDowntimeMinutes();

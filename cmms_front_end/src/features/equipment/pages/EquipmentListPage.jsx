@@ -69,12 +69,12 @@ function EquipmentListPage() {
   }, []);
 
   const handleDelete = async (id) => {
-    if (!window.confirm('Delete this equipment?')) return;
+    if (!window.confirm('Retire this equipment? Open requests, assignments, PM schedules, or downtime records will block retirement.')) return;
     try {
       await deleteEquipment(id);
       loadRows();
     } catch {
-      setError('Unable to delete equipment.');
+      setError('Unable to retire equipment.');
     }
   };
 
@@ -102,6 +102,8 @@ function EquipmentListPage() {
     { field: 'category', headerName: 'Category', minWidth: 120, flex: 0.8 },
     { field: 'location', headerName: 'Location', minWidth: 130, flex: 0.8 },
     { field: 'status', headerName: 'Status', minWidth: 110, flex: 0.6 },
+    { field: 'lifecycleStatus', headerName: 'Lifecycle', minWidth: 150, flex: 0.75 },
+    { field: 'operatingStatus', headerName: 'Operating', minWidth: 160, flex: 0.8 },
     { field: 'criticality', headerName: 'Criticality', minWidth: 120, flex: 0.7 },
     {
       field: 'actions',
@@ -112,7 +114,7 @@ function EquipmentListPage() {
         <Stack direction="row" spacing={0.5}>
           {hasPermission(PERMISSIONS.EQUIPMENT_DELETE) && (
             <IconButton
-              aria-label="Delete equipment"
+              aria-label="Retire equipment"
               color="error"
               onClick={(event) => {
                 event.stopPropagation();

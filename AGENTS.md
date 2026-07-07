@@ -178,8 +178,9 @@ Current frontend feature folders include `admin`, `approval`, `assignment`, `aut
 7. One XML file can contain multiple changeSets, but only for the same table.
 8. Use Liquibase XML tags such as `<createTable>`, `<createIndex>`, `<addForeignKeyConstraint>`, `<addUniqueConstraint>`, and `<addNotNullConstraint>` for normal schema changes.
 9. Do not use raw SQL for normal table, index, column, primary key, foreign key, or unique-constraint creation.
-10. Include table XML files in dependency order in `db.changelog-master.xml`; if a foreign key references another table, include the referenced table XML before the table that owns the foreign key.
-11. Keep changelogs module-wise under the existing changelog structure.
-12. For a fresh first-time setup, keep the schema clean instead of preserving unnecessary incremental changes.
-13. Always test Liquibase changes by dropping or clearing the local database and running migrations from scratch.
-14. Always run `mvn clean install` from `cmms_back_end` after Liquibase changes.
+10. For existing tables, do not edit existing committed changeSets to add new columns, indexes, constraints, or foreign keys. Append a new changeSet in that table's existing XML file instead.
+11. Include table XML files in dependency order in `db.changelog-master.xml`; if a foreign key references another table, include the referenced table XML before the table that owns the foreign key.
+12. Keep changelogs module-wise under the existing changelog structure.
+13. For a fresh first-time setup, keep the schema clean instead of preserving unnecessary incremental changes.
+14. Always test Liquibase changes by dropping or clearing the local database and running migrations from scratch.
+15. Always run `mvn clean install` from `cmms_back_end` after Liquibase changes.

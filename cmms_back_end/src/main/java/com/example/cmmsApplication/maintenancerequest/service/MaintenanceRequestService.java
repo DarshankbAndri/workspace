@@ -156,6 +156,7 @@ public class MaintenanceRequestService {
     private void apply(MaintenanceRequest request, MaintenanceRequestDTO dto) {
         Site site = validateActiveSite(dto.getSiteId());
         Equipment equipment = equipmentService.getEntity(dto.getEquipmentId());
+        equipmentService.validateCanReceiveWork(equipment);
         if (equipment.getSite() == null || !site.getId().equals(equipment.getSite().getId())) {
             throw new InvalidOperationException("Selected equipment does not belong to selected site");
         }

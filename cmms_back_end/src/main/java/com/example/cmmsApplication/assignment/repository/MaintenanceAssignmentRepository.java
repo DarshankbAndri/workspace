@@ -11,4 +11,5 @@ public interface MaintenanceAssignmentRepository extends JpaRepository<Maintenan
     List<MaintenanceAssignment> findByRequestSiteId(Long siteId);
     List<MaintenanceAssignment> findByRequestSiteIdIn(Collection<Long> siteIds);
     List<MaintenanceAssignment> findByRequestId(Long requestId);
+    long countByRequestEquipmentIdAndStatusNotIn(Long equipmentId, Collection<String> statuses);
 }

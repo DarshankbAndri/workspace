@@ -20,7 +20,13 @@ const initialForm = {
   serialNumber: '',
   installationDate: '',
   warrantyExpiryDate: '',
+  commissioningDate: '',
+  decommissionDate: '',
   status: 'ACTIVE',
+  lifecycleStatus: 'ACTIVE',
+  assetCondition: 'GOOD',
+  operatingStatus: 'RUNNING',
+  ownershipType: 'OWNED',
   criticality: 'MEDIUM',
 };
 
@@ -36,6 +42,40 @@ const CRITICALITY_OPTIONS = [
   { value: 'MEDIUM', label: 'Medium' },
   { value: 'HIGH', label: 'High' },
   { value: 'CRITICAL', label: 'Critical' },
+];
+
+const LIFECYCLE_STATUS_OPTIONS = [
+  { value: 'DRAFT', label: 'Draft' },
+  { value: 'COMMISSIONED', label: 'Commissioned' },
+  { value: 'ACTIVE', label: 'Active' },
+  { value: 'STANDBY', label: 'Standby' },
+  { value: 'UNDER_MAINTENANCE', label: 'Under Maintenance' },
+  { value: 'BREAKDOWN', label: 'Breakdown' },
+  { value: 'DECOMMISSIONED', label: 'Decommissioned' },
+  { value: 'SCRAPPED', label: 'Scrapped' },
+];
+
+const ASSET_CONDITION_OPTIONS = [
+  { value: 'GOOD', label: 'Good' },
+  { value: 'FAIR', label: 'Fair' },
+  { value: 'POOR', label: 'Poor' },
+  { value: 'CRITICAL', label: 'Critical' },
+  { value: 'UNKNOWN', label: 'Unknown' },
+];
+
+const OPERATING_STATUS_OPTIONS = [
+  { value: 'RUNNING', label: 'Running' },
+  { value: 'STANDBY', label: 'Standby' },
+  { value: 'STOPPED', label: 'Stopped' },
+  { value: 'UNDER_MAINTENANCE', label: 'Under Maintenance' },
+  { value: 'BREAKDOWN', label: 'Breakdown' },
+];
+
+const OWNERSHIP_TYPE_OPTIONS = [
+  { value: 'OWNED', label: 'Owned' },
+  { value: 'LEASED', label: 'Leased' },
+  { value: 'RENTED', label: 'Rented' },
+  { value: 'CUSTOMER_SUPPLIED', label: 'Customer Supplied' },
 ];
 
 function EquipmentFormPage() {
@@ -102,8 +142,22 @@ function EquipmentFormPage() {
           <Grid item xs={12} md={4}>
             <CommonDropdown label="Status" value={form.status || 'ACTIVE'} onChange={updateField('status')} options={STATUS_OPTIONS} />
           </Grid>
+          <Grid item xs={12} md={4}>
+            <CommonDropdown label="Lifecycle Status" value={form.lifecycleStatus || 'ACTIVE'} onChange={updateField('lifecycleStatus')} options={LIFECYCLE_STATUS_OPTIONS} />
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <CommonDropdown label="Operating Status" value={form.operatingStatus || 'RUNNING'} onChange={updateField('operatingStatus')} options={OPERATING_STATUS_OPTIONS} />
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <CommonDropdown label="Asset Condition" value={form.assetCondition || 'GOOD'} onChange={updateField('assetCondition')} options={ASSET_CONDITION_OPTIONS} />
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <CommonDropdown label="Ownership Type" value={form.ownershipType || 'OWNED'} onChange={updateField('ownershipType')} options={OWNERSHIP_TYPE_OPTIONS} />
+          </Grid>
           <Grid item xs={12} md={4}><CommonDatePicker label="Installation Date" value={form.installationDate || ''} onChange={updateField('installationDate')} /></Grid>
+          <Grid item xs={12} md={4}><CommonDatePicker label="Commissioning Date" value={form.commissioningDate || ''} onChange={updateField('commissioningDate')} /></Grid>
           <Grid item xs={12} md={4}><CommonDatePicker label="Warranty Expiry" value={form.warrantyExpiryDate || ''} onChange={updateField('warrantyExpiryDate')} /></Grid>
+          <Grid item xs={12} md={4}><CommonDatePicker label="Decommission Date" value={form.decommissionDate || ''} onChange={updateField('decommissionDate')} /></Grid>
           <Grid item xs={12} md={4}>
             <CommonDropdown label="Criticality" value={form.criticality || 'MEDIUM'} onChange={updateField('criticality')} options={CRITICALITY_OPTIONS} />
           </Grid>
