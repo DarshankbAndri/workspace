@@ -33,6 +33,7 @@ import EquipmentHistoryPage from './features/report/pages/EquipmentHistoryPage';
 import DowntimeAnalysisPage from './features/report/pages/DowntimeAnalysisPage';
 import SparePartListPage from './features/spareParts/pages/SparePartListPage';
 import SparePartFormPage from './features/spareParts/pages/SparePartFormPage';
+import SparePartViewPage from './features/spareParts/pages/SparePartViewPage';
 import SparePartReorderPage from './features/spareParts/pages/SparePartReorderPage';
 import SpareRequestApprovalPage from './features/spareParts/pages/SpareRequestApprovalPage';
 import SpareRequestStorePage from './features/spareParts/pages/SpareRequestStorePage';
@@ -214,7 +215,8 @@ function App() {
           <Route path="/inventory/spare-parts" element={protectedPage(<SparePartListPage />, 'SPARE_PART_VIEW')} />
           <Route path="/inventory/spare-parts/new" element={protectedPage(<SparePartFormPage />, 'SPARE_PART_CREATE')} />
           <Route path="/inventory/spare-parts/:id/edit" element={protectedPage(<SparePartFormPage />, 'SPARE_PART_UPDATE')} />
-          <Route path="/inventory/spare-parts/:id/view" element={protectedPage(<SparePartFormPage />, 'SPARE_PART_VIEW')} />
+          <Route path="/inventory/spare-parts/:id/view" element={protectedPage(<SparePartViewPage />, 'SPARE_PART_VIEW')} />
+          <Route path="/inventory/spare-parts/view/:id" element={protectedPage(<SparePartViewPage />, 'SPARE_PART_VIEW')} />
           <Route path="/inventory/spare-approvals" element={protectedPage(<SpareRequestApprovalPage />, 'SPARE_USAGE_MANAGER_APPROVE')} />
           <Route path="/inventory/spare-requests" element={protectedPage(<SpareRequestStorePage />, 'SPARE_USAGE_STORE_PROCESS')} />
           <Route path="/inventory/reorders" element={protectedPage(<SparePartReorderPage />, 'REORDER_VIEW')} />

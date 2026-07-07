@@ -8,6 +8,7 @@ import {
   DialogContent,
   DialogTitle,
   Divider,
+  GlobalStyles,
   IconButton,
   MenuItem,
   Paper,
@@ -27,6 +28,7 @@ import {
   SwapHoriz,
   Tune,
   UploadFile,
+  Visibility,
 } from '@mui/icons-material';
 import { DataGrid } from '@mui/x-data-grid';
 import { QRCodeSVG } from 'qrcode.react';
@@ -53,6 +55,20 @@ const initialReorderDialog = { open: false, row: null, requestedQuantity: '', es
 const initialImportDialog = { open: false, file: null, result: null, loading: false };
 const initialLabelDialog = { open: false, row: null };
 
+const getSparePartViewPath = (row) => row?.id ? `/inventory/spare-parts/${row.id}/view` : '';
+
+const getSparePartQrValue = (row) => {
+  const path = getSparePartViewPath(row);
+  if (!path) return '';
+  if (typeof window === 'undefined') return path;
+  return `${window.location.origin}${path}`;
+};
+
+const formatStockValue = (value) => {
+  if (value === null || value === undefined || value === '') return '-';
+  return Number(value).toLocaleString(undefined, { maximumFractionDigits: 3 });
+};
+
 function SparePartListPage() {
   const navigate = useNavigate();
   const { hasPermission } = useAuth();
@@ -70,6 +86,7 @@ function SparePartListPage() {
   const [reorderDialog, setReorderDialog] = React.useState(initialReorderDialog);
   const [importDialog, setImportDialog] = React.useState(initialImportDialog);
   const [labelDialog, setLabelDialog] = React.useState(initialLabelDialog);
+  const labelQrValue = React.useMemo(() => getSparePartQrValue(labelDialog.row), [labelDialog.row]);
 
   const loadRows = React.useCallback(() => {
     setLoading(true);
@@ -312,9 +329,10 @@ function SparePartListPage() {
       field: 'actions',
       headerName: '',
       sortable: false,
-      width: 300,
+      width: 340,
       renderCell: ({ row }) => (
         <Stack direction="row" spacing={0.25}>
+          <Tooltip title="View"><IconButton aria-label="View spare part" onClick={() => navigate(`/inventory/spare-parts/${row.id}/view`)}><Visibility fontSize="small" /></IconButton></Tooltip>
           {hasPermission(PERMISSIONS.STOCK_TRANSACTION_VIEW) && <Tooltip title="History"><IconButton aria-label="History" onClick={() => openHistoryDialog(row)}><History fontSize="small" /></IconButton></Tooltip>}
           {hasPermission(PERMISSIONS.STOCK_TRANSACTION_CREATE) && <Tooltip title="Transfer"><IconButton aria-label="Transfer stock" onClick={() => openTransferDialog(row)}><SwapHoriz fontSize="small" /></IconButton></Tooltip>}
           {hasPermission(PERMISSIONS.REORDER_CREATE) && <Tooltip title="Reorder"><IconButton aria-label="Create reorder" onClick={() => openReorderDialog(row)}><ShoppingCart fontSize="small" /></IconButton></Tooltip>}
@@ -472,20 +490,70 @@ function SparePartListPage() {
       </Dialog>
 
       <Dialog open={labelDialog.open} onClose={() => setLabelDialog(initialLabelDialog)} maxWidth="xs" fullWidth>
+        <GlobalStyles
+          styles={{
+            '@media print': {
+              'body *': { visibility: 'hidden' },
+              '.spare-qr-print-area, .spare-qr-print-area *': { visibility: 'visible' },
+              '.spare-qr-print-area': {
+                background: '#fff',
+                color: '#000',
+                left: 0,
+                padding: '6mm',
+                position: 'fixed',
+                top: 0,
+                width: '72mm',
+              },
+            },
+          }}
+        />
         <DialogTitle>Spare Part QR Label</DialogTitle>
         <DialogContent>
-          <Stack spacing={2} alignItems="center" sx={{ py: 1 }}>
-            {labelDialog.row && <QRCodeSVG value={`CMMS-SPARE:${labelDialog.row.id}:${labelDialog.row.partCode}:${labelDialog.row.siteCode || ''}`} size={180} level="M" />}
-            <Box sx={{ textAlign: 'center' }}>
-              <Typography variant="h6" fontWeight={900}>{labelDialog.row?.partCode}</Typography>
-              <Typography variant="body2" color="text.secondary">{labelDialog.row?.partName}</Typography>
-              <Divider sx={{ my: 1.5 }} />
-              <Typography variant="body2">{labelDialog.row?.siteName}</Typography>
-              <Typography variant="caption" color="text.secondary">{labelDialog.row?.storageLocation || 'No storage location'}</Typography>
+          <Stack
+            className="spare-qr-print-area"
+            spacing={1.5}
+            alignItems="center"
+            sx={{
+              border: '1px solid',
+              borderColor: 'divider',
+              borderRadius: 1,
+              color: 'text.primary',
+              mx: 'auto',
+              p: 2,
+              width: 280,
+            }}
+          >
+            <Typography variant="overline" fontWeight={900} sx={{ lineHeight: 1 }}>CMMS Spare Part</Typography>
+            {labelDialog.row && labelQrValue && (
+              <QRCodeSVG
+                value={labelQrValue}
+                size={190}
+                level="H"
+                marginSize={2}
+                title={`Open ${labelDialog.row.partCode || 'spare part'} in CMMS`}
+              />
+            )}
+            <Box sx={{ textAlign: 'center', width: '100%' }}>
+              <Typography variant="h6" fontWeight={900} sx={{ overflowWrap: 'anywhere' }}>{labelDialog.row?.partCode}</Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ overflowWrap: 'anywhere' }}>{labelDialog.row?.partName}</Typography>
+              <Divider sx={{ my: 1.25 }} />
+              <Stack spacing={0.75} sx={{ textAlign: 'left' }}>
+                <Typography variant="caption"><strong>Site:</strong> {labelDialog.row?.siteName || '-'}</Typography>
+                <Typography variant="caption"><strong>Location:</strong> {labelDialog.row?.storageLocation || 'Not assigned'}</Typography>
+                <Typography variant="caption">
+                  <strong>Stock:</strong> {formatStockValue(labelDialog.row?.availableStock)} available / {formatStockValue(labelDialog.row?.currentStock)} current {labelDialog.row?.unit || ''}
+                </Typography>
+                <Typography variant="caption"><strong>Min:</strong> {formatStockValue(labelDialog.row?.minimumStock)} {labelDialog.row?.lowStock ? '(Low stock)' : ''}</Typography>
+              </Stack>
+              <Divider sx={{ my: 1.25 }} />
+              <Typography variant="caption" color="text.secondary" sx={{ display: 'block', overflowWrap: 'anywhere' }}>
+                {labelQrValue}
+              </Typography>
             </Box>
           </Stack>
         </DialogContent>
         <DialogActions>
+          {labelDialog.row && <Button onClick={() => navigate(getSparePartViewPath(labelDialog.row))}>Open</Button>}
           <Button onClick={() => window.print()}>Print</Button>
           <Button onClick={() => setLabelDialog(initialLabelDialog)}>Close</Button>
         </DialogActions>
