@@ -700,16 +700,28 @@ function MaintenanceAssignmentViewPage() {
       }));
     return [...recommendedOptions, ...otherOptions];
   }, [recommendedSpareBom, siteSpares]);
-  const assignmentStatusOptions = React.useMemo(() => [
-    { value: 'ASSIGNED', label: 'Assigned' },
-    { value: 'IN_PROGRESS', label: 'In Progress' },
-    {
-      value: 'COMPLETED',
-      label: 'Completed',
-      disabled: (checklistRows.length > 0 && !canCompleteChecklist) || !canCompleteWorkLogs,
-    },
-    { value: 'CANCELLED', label: 'Cancelled' },
-  ], [canCompleteChecklist, canCompleteWorkLogs, checklistRows.length]);
+  const assignmentStatusOptions = React.useMemo(() => {
+    const completedDisabledReasons = [];
+    if (checklistRows.length > 0 && !canCompleteChecklist) {
+      completedDisabledReasons.push('Complete all required checklist items and attach required proof.');
+    }
+    if (!canCompleteWorkLogs) {
+      completedDisabledReasons.push('Add at least one completed work log and close in-progress or follow-up work logs.');
+    }
+    const completedDisabled = completedDisabledReasons.length > 0;
+
+    return [
+      { value: 'ASSIGNED', label: 'Assigned' },
+      { value: 'IN_PROGRESS', label: 'In Progress' },
+      {
+        value: 'COMPLETED',
+        label: 'Completed',
+        disabled: completedDisabled,
+        disabledReason: completedDisabled ? completedDisabledReasons.join(' ') : '',
+      },
+      { value: 'CANCELLED', label: 'Cancelled' },
+    ];
+  }, [canCompleteChecklist, canCompleteWorkLogs, checklistRows.length]);
 
   const canEditMain = hasPermission('ASSIGNMENT_UPDATE');
   const canEditChecklist = hasPermission('ASSIGNMENT_CHECKLIST_UPDATE') || hasPermission('ASSIGNMENT_CHECKLIST_PROOF_UPLOAD') || hasPermission('ASSIGNMENT_CHECKLIST_PROOF_DELETE');

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Autocomplete, CircularProgress, TextField } from '@mui/material';
+import { Autocomplete, CircularProgress, TextField, Tooltip } from '@mui/material';
 
 const defaultGetOptionLabel = (option) => {
   if (option == null) return '';
@@ -35,6 +35,7 @@ function CommonDropdown({
   InputProps: textInputProps,
   ListboxProps,
   SelectProps,
+  renderOption,
   ...textFieldProps
 }) {
   const optionValueMatches = React.useCallback((option, selectedValue) => (
@@ -74,6 +75,59 @@ function CommonDropdown({
     }, selectedOption);
   };
 
+  const defaultRenderOption = React.useCallback((optionProps, option) => {
+    const disabledReason = option?.disabledReason || option?.reason || '';
+    const isDisabledWithReason = Boolean(option?.disabled && disabledReason);
+    const {
+      key,
+      style,
+      onClick,
+      onMouseDown,
+      ...listItemProps
+    } = optionProps;
+    const labelText = getOptionLabel(option);
+    const labelContent = (
+      <span
+        style={{
+          display: 'block',
+          width: '100%',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+        }}
+      >
+        {labelText}
+      </span>
+    );
+    const stopDisabledAction = (event, handler) => {
+      if (isDisabledWithReason) {
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
+      handler?.(event);
+    };
+
+    return (
+      <li
+        key={key}
+        {...listItemProps}
+        style={{
+          ...style,
+          pointerEvents: isDisabledWithReason ? 'auto' : style?.pointerEvents,
+          cursor: isDisabledWithReason ? 'not-allowed' : style?.cursor,
+        }}
+        onMouseDown={(event) => stopDisabledAction(event, onMouseDown)}
+        onClick={(event) => stopDisabledAction(event, onClick)}
+      >
+        {disabledReason ? (
+          <Tooltip title={disabledReason} placement="right" arrow>
+            {labelContent}
+          </Tooltip>
+        ) : labelContent}
+      </li>
+    );
+  }, [getOptionLabel]);
+
   return (
     <Autocomplete
       multiple={multiple}
@@ -89,6 +143,7 @@ function CommonDropdown({
       getOptionLabel={(option) => getOptionLabel(option)}
       isOptionEqualToValue={(option, selectedOption) => optionValueMatches(option, getOptionValue(selectedOption))}
       getOptionDisabled={(option) => Boolean(option?.disabled)}
+      renderOption={renderOption || defaultRenderOption}
       renderInput={(params) => (
         <TextField
           {...params}

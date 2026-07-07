@@ -22,4 +22,5 @@ public interface MaintenanceRequestRepository extends JpaRepository<MaintenanceR
     long countByPmScheduleId(Long pmScheduleId);
     long countByPmScheduleIdAndStatusIn(Long pmScheduleId, Collection<String> statuses);
     long countByEquipmentIdAndStatusNotIn(Long equipmentId, Collection<String> statuses);
+    long countByEquipmentIdAndPriorityInAndStatusNotIn(Long equipmentId, Collection<String> priorities, Collection<String> statuses);
 }

@@ -30,6 +30,7 @@ import {
   downloadEquipmentDocument,
   getEquipmentById,
   getEquipmentDocuments,
+  getEquipmentHealth,
   getEquipmentSpareBom,
   getEquipmentSummary,
   updateEquipmentSpareBom,
@@ -91,6 +92,7 @@ function EquipmentViewPage() {
   const { hasPermission } = useAuth();
   const [equipment, setEquipment] = React.useState(null);
   const [summary, setSummary] = React.useState(null);
+  const [health, setHealth] = React.useState(null);
   const [spareBomRows, setSpareBomRows] = React.useState([]);
   const [siteSpares, setSiteSpares] = React.useState([]);
   const [spareBomForm, setSpareBomForm] = React.useState(initialSpareBomForm);
@@ -113,10 +115,11 @@ function EquipmentViewPage() {
   React.useEffect(() => {
     setLoading(true);
     setError('');
-    Promise.all([getEquipmentById(id), getEquipmentSummary(id)])
-      .then(([equipmentData, summaryData]) => {
+    Promise.all([getEquipmentById(id), getEquipmentSummary(id), getEquipmentHealth(id)])
+      .then(([equipmentData, summaryData, healthData]) => {
         setEquipment(equipmentData);
         setSummary(summaryData);
+        setHealth(healthData);
       })
       .catch(() => setError('Unable to load equipment dashboard.'))
       .finally(() => setLoading(false));
@@ -346,7 +349,8 @@ function EquipmentViewPage() {
 
             {activeTab === 'overview' && (
               <Stack spacing={3}>
-                <SummaryGrid summary={summary} />
+                <SummaryGrid summary={summary} health={health} />
+                <HealthGrid health={health} />
                 <Grid container spacing={2.5}>
                   {fields.map((field) => (
                     <Grid item xs={12} sm={6} md={4} key={field.label}>
@@ -420,10 +424,14 @@ function EquipmentViewPage() {
 
             {activeTab === 'cost' && (
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={6} md={3}><Metric label="Health Score" value={summary?.healthScore == null ? '' : `${summary.healthScore}%`} /></Grid>
-                <Grid item xs={12} sm={6} md={3}><Metric label="Health Status" value={summary?.healthStatus} variant={healthVariant(summary?.healthStatus)} /></Grid>
+                <Grid item xs={12} sm={6} md={3}><Metric label="Health Score" value={health?.healthScore == null ? '' : `${health.healthScore}%`} /></Grid>
+                <Grid item xs={12} sm={6} md={3}><Metric label="Health Status" value={health?.healthStatus} variant={healthVariant(health?.healthStatus)} /></Grid>
                 <Grid item xs={12} sm={6} md={3}><Metric label="Downtime This Month" value={formatMinutes(summary?.totalDowntimeMinutesThisMonth)} /></Grid>
                 <Grid item xs={12} sm={6} md={3}><Metric label="Open Requests" value={summary?.openRequestCount} /></Grid>
+                <Grid item xs={12} sm={6} md={3}><Metric label="MTBF" value={formatHours(health?.mtbfHours)} /></Grid>
+                <Grid item xs={12} sm={6} md={3}><Metric label="MTTR" value={formatHours(health?.mttrHours)} /></Grid>
+                <Grid item xs={12} sm={6} md={3}><Metric label="Repeated Failures" value={health?.repeatedFailureCount} /></Grid>
+                <Grid item xs={12} sm={6} md={3}><Metric label="Overdue PM" value={health?.overduePmCount} /></Grid>
               </Grid>
             )}
           </>
@@ -793,17 +801,32 @@ function EquipmentDocumentsTab({
   );
 }
 
-function SummaryGrid({ summary }) {
+function SummaryGrid({ summary, health }) {
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12} sm={6} md={3}><Metric label="Health Score" value={summary?.healthScore == null ? '' : `${summary.healthScore}%`} /></Grid>
-      <Grid item xs={12} sm={6} md={3}><Metric label="Health Status" value={summary?.healthStatus} variant={healthVariant(summary?.healthStatus)} /></Grid>
+      <Grid item xs={12} sm={6} md={3}><Metric label="Health Score" value={health?.healthScore == null ? '' : `${health.healthScore}%`} /></Grid>
+      <Grid item xs={12} sm={6} md={3}><Metric label="Health Status" value={health?.healthStatus} variant={healthVariant(health?.healthStatus)} /></Grid>
       <Grid item xs={12} sm={6} md={3}><Metric label="Open Requests" value={summary?.openRequestCount} /></Grid>
       <Grid item xs={12} sm={6} md={3}><Metric label="Active PM" value={summary?.activePmCount} /></Grid>
       <Grid item xs={12} sm={6} md={3}><Metric label="Downtime This Month" value={formatMinutes(summary?.totalDowntimeMinutesThisMonth)} /></Grid>
       <Grid item xs={12} sm={6} md={3}><Metric label="Last Maintenance" value={formatDate(summary?.lastMaintenanceDate)} /></Grid>
       <Grid item xs={12} sm={6} md={3}><Metric label="Next PM Date" value={formatDate(summary?.nextPmDate)} /></Grid>
       <Grid item xs={12} sm={6} md={3}><Metric label="Last Downtime" value={formatDateTime(summary?.lastDowntimeAt)} /></Grid>
+    </Grid>
+  );
+}
+
+function HealthGrid({ health }) {
+  return (
+    <Grid container spacing={2}>
+      <Grid item xs={12} sm={6} md={3}><Metric label="MTBF" value={formatHours(health?.mtbfHours)} /></Grid>
+      <Grid item xs={12} sm={6} md={3}><Metric label="MTTR" value={formatHours(health?.mttrHours)} /></Grid>
+      <Grid item xs={12} sm={6} md={3}><Metric label="Last Failure" value={formatDateTime(health?.lastFailureDate)} /></Grid>
+      <Grid item xs={12} sm={6} md={3}><Metric label="Repeated Failure Count" value={health?.repeatedFailureCount} /></Grid>
+      <Grid item xs={12} sm={6} md={3}><Metric label="90 Day Failures" value={health?.downtimeFrequency90Days} /></Grid>
+      <Grid item xs={12} sm={6} md={3}><Metric label="90 Day Downtime" value={formatMinutes(health?.downtimeMinutes90Days)} /></Grid>
+      <Grid item xs={12} sm={6} md={3}><Metric label="Critical Open Requests" value={health?.criticalOpenRequestCount} /></Grid>
+      <Grid item xs={12} sm={6} md={3}><Metric label="Asset Age" value={health?.assetAgeYears == null ? '' : `${health.assetAgeYears} yr`} /></Grid>
     </Grid>
   );
 }
@@ -903,6 +926,13 @@ function formatMinutes(value) {
   if (!Number.isFinite(minutes)) return '';
   if (minutes < 60) return `${minutes} min`;
   return `${(minutes / 60).toFixed(1)} hr`;
+}
+
+function formatHours(value) {
+  if (value === null || value === undefined || value === '') return '';
+  const hours = Number(value);
+  if (!Number.isFinite(hours)) return '';
+  return `${hours.toFixed(2)} hr`;
 }
 
 function formatNumber(value) {

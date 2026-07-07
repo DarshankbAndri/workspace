@@ -20,6 +20,7 @@ public interface EquipmentDowntimeRepository extends JpaRepository<EquipmentDown
     List<EquipmentDowntime> findBySiteIdInAndEquipmentId(Collection<Long> siteIds, Long equipmentId);
     long countByEquipmentIdAndDowntimeEndIsNull(Long equipmentId);
     Optional<EquipmentDowntime> findTopByEquipmentIdOrderByDowntimeStartDescIdDesc(Long equipmentId);
+    Optional<EquipmentDowntime> findTopByEquipmentIdAndPlannedFalseOrderByDowntimeStartDescIdDesc(Long equipmentId);
 
     @Query("select coalesce(sum(d.downtimeMinutes), 0) from EquipmentDowntime d")
     Long sumDowntimeMinutes();
@@ -35,4 +36,41 @@ public interface EquipmentDowntimeRepository extends JpaRepository<EquipmentDown
               and d.downtimeStart < :end
             """)
     Long sumDowntimeMinutesByEquipmentIdAndDowntimeStartBetween(Long equipmentId, LocalDateTime start, LocalDateTime end);
+
+    @Query("""
+            select count(d)
+            from EquipmentDowntime d
+            where d.equipment.id = :equipmentId
+              and d.planned = false
+              and d.downtimeStart >= :start
+            """)
+    Long countFailuresSince(Long equipmentId, LocalDateTime start);
+
+    @Query("""
+            select coalesce(sum(d.downtimeMinutes), 0)
+            from EquipmentDowntime d
+            where d.equipment.id = :equipmentId
+              and d.planned = false
+              and d.downtimeStart >= :start
+            """)
+    Long sumFailureDowntimeMinutesSince(Long equipmentId, LocalDateTime start);
+
+    @Query("""
+            select coalesce(avg(d.downtimeMinutes), 0)
+            from EquipmentDowntime d
+            where d.equipment.id = :equipmentId
+              and d.planned = false
+              and d.downtimeMinutes is not null
+            """)
+    Double averageFailureDowntimeMinutes(Long equipmentId);
+
+    @Query("""
+            select count(d)
+            from EquipmentDowntime d
+            where d.equipment.id = :equipmentId
+              and d.planned = false
+              and upper(d.reason) = upper(:reason)
+              and d.downtimeStart >= :start
+            """)
+    Long countRepeatedFailuresByReasonSince(Long equipmentId, String reason, LocalDateTime start);
 }

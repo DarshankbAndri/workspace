@@ -7,6 +7,7 @@ import com.example.cmmsApplication.equipment.entity.EquipmentList;
 import com.example.cmmsApplication.site.service.SiteService;
 import com.example.cmmsApplication.equipment.dao.EquipmentDAO;
 import com.example.cmmsApplication.equipment.dto.EquipmentDTO;
+import com.example.cmmsApplication.equipment.dto.EquipmentHealthDTO;
 import com.example.cmmsApplication.equipment.dto.EquipmentSummaryDTO;
 import com.example.cmmsApplication.assignment.repository.MaintenanceAssignmentRepository;
 import com.example.cmmsApplication.common.search.dto.PageProperties;
@@ -23,8 +24,11 @@ import com.example.cmmsApplication.common.exception.ResourceNotFoundException;
 import com.example.cmmsApplication.equipment.repository.EquipmentListRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -170,10 +174,10 @@ public class EquipmentService {
     public EquipmentSummaryDTO getSummary(Long id) {
         Equipment equipment = getEntity(id);
         accessControlService.validateSiteAccess(equipment.getSite() == null ? null : equipment.getSite().getId());
+        EquipmentHealthDTO health = calculateHealth(equipment);
 
         Long openRequestCount = maintenanceRequestRepository.countByEquipmentIdAndStatusNotIn(id, CLOSED_REQUEST_STATUSES);
         Long activePmCount = preventiveMaintenanceScheduleRepository.countByEquipmentIdAndActiveTrue(id);
-        Long openDowntimeCount = equipmentDowntimeRepository.countByEquipmentIdAndDowntimeEndIsNull(id);
         EquipmentDowntime lastDowntime = equipmentDowntimeRepository.findTopByEquipmentIdOrderByDowntimeStartDescIdDesc(id).orElse(null);
         YearMonth currentMonth = YearMonth.now();
         LocalDateTime monthStart = currentMonth.atDay(1).atStartOfDay();
@@ -181,7 +185,6 @@ public class EquipmentService {
         Long monthlyDowntime = equipmentDowntimeRepository.sumDowntimeMinutesByEquipmentIdAndDowntimeStartBetween(id, monthStart, nextMonthStart);
         LocalDate lastMaintenanceDate = maintenanceAssignmentRepository.findLastCompletedMaintenanceDateByEquipmentId(id);
         LocalDate nextPmDate = preventiveMaintenanceScheduleRepository.findNextDueDateByEquipmentId(id);
-        Integer healthScore = calculateHealthScore(openRequestCount, openDowntimeCount, monthlyDowntime, nextPmDate);
 
         return EquipmentSummaryDTO.builder()
                 .equipmentId(id)
@@ -193,9 +196,16 @@ public class EquipmentService {
                 .totalDowntimeMinutesThisMonth(monthlyDowntime == null ? 0L : monthlyDowntime)
                 .lastMaintenanceDate(lastMaintenanceDate)
                 .nextPmDate(nextPmDate)
-                .healthScore(healthScore)
-                .healthStatus(healthStatus(healthScore))
+                .healthScore(health.getHealthScore())
+                .healthStatus(health.getHealthStatus())
                 .build();
+    }
+
+    @Transactional(readOnly = true)
+    public EquipmentHealthDTO getHealth(Long id) {
+        Equipment equipment = getEntity(id);
+        accessControlService.validateSiteAccess(equipment.getSite() == null ? null : equipment.getSite().getId());
+        return calculateHealth(equipment);
     }
 
     public void delete(Long id) {
@@ -346,14 +356,50 @@ public class EquipmentService {
         return false;
     }
 
-    private Integer calculateHealthScore(Long openRequestCount, Long openDowntimeCount, Long monthlyDowntimeMinutes, LocalDate nextPmDate) {
+    private EquipmentHealthDTO calculateHealth(Equipment equipment) {
+        Long equipmentId = equipment.getId();
+        LocalDate today = LocalDate.now();
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime ninetyDaysAgo = now.minusDays(90);
+        LocalDateTime oneYearAgo = now.minusDays(365);
+
+        Long downtimeFrequency90Days = equipmentDowntimeRepository.countFailuresSince(equipmentId, ninetyDaysAgo);
+        Long downtimeMinutes90Days = equipmentDowntimeRepository.sumFailureDowntimeMinutesSince(equipmentId, ninetyDaysAgo);
+        Long criticalOpenRequestCount = maintenanceRequestRepository.countByEquipmentIdAndPriorityInAndStatusNotIn(
+                equipmentId, Set.of("HIGH", "CRITICAL"), CLOSED_REQUEST_STATUSES);
+        Long overduePmCount = preventiveMaintenanceScheduleRepository.countByEquipmentIdAndActiveTrueAndNextDueDateBefore(equipmentId, today);
+        EquipmentDowntime lastFailure = equipmentDowntimeRepository.findTopByEquipmentIdAndPlannedFalseOrderByDowntimeStartDescIdDesc(equipmentId).orElse(null);
+        Long repeatedFailureCount = lastFailure == null || isBlank(lastFailure.getReason())
+                ? 0L
+                : Math.max(0L, safeLong(equipmentDowntimeRepository.countRepeatedFailuresByReasonSince(equipmentId, lastFailure.getReason(), oneYearAgo)) - 1L);
+        Integer assetAgeYears = assetAgeYears(equipment, today);
+        Integer healthScore = calculateHealthScore(downtimeFrequency90Days, downtimeMinutes90Days, criticalOpenRequestCount, overduePmCount, assetAgeYears, repeatedFailureCount);
+
+        return EquipmentHealthDTO.builder()
+                .equipmentId(equipmentId)
+                .healthScore(healthScore)
+                .healthStatus(healthStatus(healthScore))
+                .mtbfHours(calculateMtbfHours(equipment, downtimeFrequency90Days, downtimeMinutes90Days, oneYearAgo, now))
+                .mttrHours(toHours(equipmentDowntimeRepository.averageFailureDowntimeMinutes(equipmentId)))
+                .lastFailureDate(lastFailure == null ? null : lastFailure.getDowntimeStart())
+                .repeatedFailureCount(repeatedFailureCount)
+                .downtimeFrequency90Days(safeLong(downtimeFrequency90Days))
+                .downtimeMinutes90Days(safeLong(downtimeMinutes90Days))
+                .criticalOpenRequestCount(safeLong(criticalOpenRequestCount))
+                .overduePmCount(safeLong(overduePmCount))
+                .assetAgeYears(assetAgeYears)
+                .build();
+    }
+
+    private Integer calculateHealthScore(Long downtimeFrequency90Days, Long downtimeMinutes90Days, Long criticalOpenRequestCount,
+                                         Long overduePmCount, Integer assetAgeYears, Long repeatedFailureCount) {
         int score = 100;
-        score -= Math.min(40, safeLong(openRequestCount) * 10);
-        score -= Math.min(20, safeLong(openDowntimeCount) * 20);
-        score -= Math.min(30, (int) (safeLong(monthlyDowntimeMinutes) / 60) * 5);
-        if (nextPmDate != null && nextPmDate.isBefore(LocalDate.now())) {
-            score -= 15;
-        }
+        score -= Math.min(30, safeLong(downtimeFrequency90Days) * 6);
+        score -= Math.min(25, (int) (safeLong(downtimeMinutes90Days) / 60) * 2);
+        score -= Math.min(20, safeLong(criticalOpenRequestCount) * 10);
+        score -= Math.min(15, safeLong(overduePmCount) * 5);
+        score -= Math.min(10, Math.max(0, assetAgeYears == null ? 0 : assetAgeYears - 10));
+        score -= Math.min(15, safeLong(repeatedFailureCount) * 5);
         return Math.max(0, Math.min(100, score));
     }
 
@@ -372,6 +418,37 @@ public class EquipmentService {
 
     private long safeLong(Long value) {
         return value == null ? 0L : value;
+    }
+
+    private Integer assetAgeYears(Equipment equipment, LocalDate today) {
+        LocalDate start = equipment.getCommissioningDate() != null ? equipment.getCommissioningDate() : equipment.getInstallationDate();
+        if (start == null || start.isAfter(today)) {
+            return 0;
+        }
+        return (int) ChronoUnit.YEARS.between(start, today);
+    }
+
+    private BigDecimal calculateMtbfHours(Equipment equipment, Long failureCount,
+                                          Long downtimeMinutes, LocalDateTime oneYearAgo, LocalDateTime now) {
+        if (safeLong(failureCount) == 0L) {
+            return null;
+        }
+        LocalDateTime commissioningStart = (equipment.getCommissioningDate() != null ? equipment.getCommissioningDate() : equipment.getInstallationDate()) == null
+                ? oneYearAgo
+                : (equipment.getCommissioningDate() != null ? equipment.getCommissioningDate() : equipment.getInstallationDate()).atStartOfDay();
+        LocalDateTime windowStart = commissioningStart.isAfter(oneYearAgo) ? commissioningStart : oneYearAgo;
+        long windowMinutes = Math.max(0L, ChronoUnit.MINUTES.between(windowStart, now));
+        long uptimeMinutes = Math.max(0L, windowMinutes - safeLong(downtimeMinutes));
+        return BigDecimal.valueOf(uptimeMinutes)
+                .divide(BigDecimal.valueOf(60), 2, RoundingMode.HALF_UP)
+                .divide(BigDecimal.valueOf(safeLong(failureCount)), 2, RoundingMode.HALF_UP);
+    }
+
+    private BigDecimal toHours(Double minutes) {
+        if (minutes == null || minutes <= 0) {
+            return null;
+        }
+        return BigDecimal.valueOf(minutes).divide(BigDecimal.valueOf(60), 2, RoundingMode.HALF_UP);
     }
 
     private void validateCanRetire(Equipment equipment) {

@@ -12,7 +12,6 @@ import {
   IconButton,
   Paper,
   Stack,
-  TextField,
   Tooltip,
   Typography,
 } from '@mui/material';
@@ -24,6 +23,7 @@ import { getSites } from '../../site/services/siteService';
 import { useAuth } from '../../../shared/context/AuthContext';
 import { PERMISSIONS } from '../../../shared/utils/permissionRoutes';
 import CommonDropdown from '../../../shared/components/common/CommonDropdown';
+import CommonInput from '../../../shared/components/common/CommonInput';
 import CommonList from '../../../shared/components/common/CommonList';
 
 const initialQrDialog = { open: false, row: null };
@@ -181,8 +181,8 @@ function EquipmentListPage() {
       </Stack>
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
       <Paper sx={{ p: 2, mb: 2, borderRadius: 1 }}>
-        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-          <TextField label="Equipment" value={equipmentNameFilter} onChange={updateEquipmentNameFilter} sx={{ minWidth: { xs: '100%', sm: 280 } }} />
+        <Stack direction={{ xs: 'column', md: 'row' }} spacing={2} flexWrap="wrap" useFlexGap>
+          <CommonInput label="Equipment" value={equipmentNameFilter} onChange={updateEquipmentNameFilter} sx={{ minWidth: { xs: '100%', sm: 260 } }} />
           <CommonDropdown
             label="Site"
             value={siteFilter}
@@ -192,7 +192,7 @@ function EquipmentListPage() {
             clearable
             getOptionLabel={(site) => `${site.siteName} (${site.siteCode})`}
             getOptionValue={(site) => site.id}
-            sx={{ minWidth: { xs: '100%', sm: 280 } }}
+            sx={{ minWidth: { xs: '100%', sm: 240 } }}
           />
         </Stack>
       </Paper>

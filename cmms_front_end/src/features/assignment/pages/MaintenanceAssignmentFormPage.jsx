@@ -676,16 +676,28 @@ function MaintenanceAssignmentFormPage() {
     value: item.id,
     label: `${item.partCode} - ${item.partName} | Available: ${item.availableStock ?? item.currentStock} ${item.unit}`,
   })), [siteSpares]);
-  const assignmentStatusOptions = React.useMemo(() => [
-    { value: 'ASSIGNED', label: 'Assigned' },
-    { value: 'IN_PROGRESS', label: 'In Progress' },
-    {
-      value: 'COMPLETED',
-      label: 'Completed',
-      disabled: (checklistRows.length > 0 && !canCompleteChecklist) || !canCompleteWorkLogs,
-    },
-    { value: 'CANCELLED', label: 'Cancelled' },
-  ], [checklistRows.length, canCompleteChecklist, canCompleteWorkLogs]);
+  const assignmentStatusOptions = React.useMemo(() => {
+    const completedDisabledReasons = [];
+    if (checklistRows.length > 0 && !canCompleteChecklist) {
+      completedDisabledReasons.push('Complete all required checklist items and attach required proof.');
+    }
+    if (!canCompleteWorkLogs) {
+      completedDisabledReasons.push('Add at least one completed work log and close in-progress or follow-up work logs.');
+    }
+    const completedDisabled = completedDisabledReasons.length > 0;
+
+    return [
+      { value: 'ASSIGNED', label: 'Assigned' },
+      { value: 'IN_PROGRESS', label: 'In Progress' },
+      {
+        value: 'COMPLETED',
+        label: 'Completed',
+        disabled: completedDisabled,
+        disabledReason: completedDisabled ? completedDisabledReasons.join(' ') : '',
+      },
+      { value: 'CANCELLED', label: 'Cancelled' },
+    ];
+  }, [checklistRows.length, canCompleteChecklist, canCompleteWorkLogs]);
 
   return (
     <Box>

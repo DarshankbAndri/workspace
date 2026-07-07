@@ -56,6 +56,11 @@ public class EquipmentController {
         return ResponseFactory.ok(equipmentService.getSummary(id));
     }
 
+    @GetMapping("/{id}/health")
+    public ResponseEntity<ApiResponse<?>> getHealth(@PathVariable Long id) {
+        return ResponseFactory.ok(equipmentService.getHealth(id));
+    }
+
     @GetMapping("/{id}/documents")
     public ResponseEntity<ApiResponse<?>> getDocuments(@PathVariable Long id) {
         return ResponseFactory.ok(equipmentDocumentService.getDocuments(id));
