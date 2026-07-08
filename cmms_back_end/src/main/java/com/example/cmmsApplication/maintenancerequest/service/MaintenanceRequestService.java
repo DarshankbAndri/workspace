@@ -10,8 +10,11 @@ import com.example.cmmsApplication.site.service.SiteService;
 import com.example.cmmsApplication.maintenancerequest.dao.MaintenanceRequestDAO;
 import com.example.cmmsApplication.approval.dto.ApprovalRequestDTO;
 import com.example.cmmsApplication.maintenancerequest.dto.MaintenanceRequestDTO;
+import com.example.cmmsApplication.maintenancerequest.dto.MaintenanceRequestTransitionDTO;
 import com.example.cmmsApplication.equipment.entity.Equipment;
 import com.example.cmmsApplication.maintenancerequest.entity.MaintenanceRequest;
+import com.example.cmmsApplication.maintenancerequest.enums.MaintenanceRequestAction;
+import com.example.cmmsApplication.maintenancerequest.enums.MaintenanceRequestStatus;
 import com.example.cmmsApplication.site.entity.Site;
 import com.example.cmmsApplication.common.exception.InvalidOperationException;
 import com.example.cmmsApplication.common.exception.ResourceNotFoundException;
@@ -20,9 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 
@@ -30,8 +31,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Transactional
 public class MaintenanceRequestService {
-    private static final Set<String> STATUSES = Set.of("OPEN", "ASSIGNED", "IN_PROGRESS", "ON_HOLD", "CLOSED", "COMPLETED", "CANCELLED", "PENDING_APPROVAL", "CLOSE_PENDING_APPROVAL", "REJECTED");
-
     private final MaintenanceRequestDAO requestDAO;
     private final EquipmentService equipmentService;
     private final SiteService siteService;
@@ -50,9 +49,7 @@ public class MaintenanceRequestService {
             throw new InvalidOperationException("Request number already exists: " + request.getRequestNumber());
         }
         boolean approvalRequired = approvalWorkflowService.isApprovalEnabled(ApprovalWorkflowService.MAINTENANCE_REQUEST, ApprovalWorkflowService.CREATE);
-        if (approvalRequired) {
-            request.setStatus("PENDING_APPROVAL");
-        }
+        request.setStatus(approvalRequired ? MaintenanceRequestStatus.PENDING_APPROVAL.value() : MaintenanceRequestStatus.OPEN.value());
         MaintenanceRequest saved = requestDAO.save(request);
         MaintenanceRequestDTO result = toDTO(saved);
         if (approvalRequired) {
@@ -74,34 +71,22 @@ public class MaintenanceRequestService {
         MaintenanceRequest request = getEntity(id);
         accessControlService.validateSiteAccess(request.getSite() == null ? null : request.getSite().getId());
         accessControlService.validateSiteAccess(dto.getSiteId());
-        String previousStatus = request.getStatus();
+        String currentStatus = request.getStatus();
         apply(request, dto);
+        request.setStatus(currentStatus);
         if (requestDAO.existsByRequestNumberAndIdNot(request.getRequestNumber(), id)) {
             throw new InvalidOperationException("Request number already exists: " + request.getRequestNumber());
         }
-        boolean closeRequested = isCloseRequested(previousStatus, request.getStatus());
-        if (closeRequested) {
-            validateRequestCanClose(request);
-        }
-        boolean approvalRequired = closeRequested && approvalWorkflowService.isApprovalEnabled(ApprovalWorkflowService.MAINTENANCE_REQUEST, ApprovalWorkflowService.CLOSE);
-        String requestedStatus = request.getStatus();
-        if (approvalRequired) {
-            request.setStatus("CLOSE_PENDING_APPROVAL");
-        }
-        MaintenanceRequest saved = requestDAO.save(request);
-        MaintenanceRequestDTO result = toDTO(saved);
-        if (approvalRequired) {
-            ApprovalRequestDTO approval = approvalWorkflowService.createApprovalRequest(
-                    ApprovalWorkflowService.MAINTENANCE_REQUEST,
-                    ApprovalWorkflowService.CLOSE,
-                    saved.getId(),
-                    saved.getRequestNumber(),
-                    saved.getSite(),
-                    Map.of("previousStatus", previousStatus == null ? "IN_PROGRESS" : previousStatus, "targetStatus", requestedStatus),
-                    "Maintenance request closure pending approval"
-            );
-            applyApproval(result, approval);
-        }
+        return toDTO(requestDAO.save(request));
+    }
+
+    public MaintenanceRequestDTO transition(Long id, MaintenanceRequestTransitionDTO dto) {
+        MaintenanceRequest request = getEntity(id);
+        accessControlService.validateSiteAccess(request.getSite() == null ? null : request.getSite().getId());
+        MaintenanceRequestAction action = MaintenanceRequestAction.from(dto.getAction());
+        ApprovalRequestDTO approval = transition(request, action, dto.getReason(), false);
+        MaintenanceRequestDTO result = toDTO(requestDAO.save(request));
+        applyApproval(result, approval);
         return result;
     }
 
@@ -145,11 +130,29 @@ public class MaintenanceRequestService {
         if (request == null || request.getStatus() == null) {
             return;
         }
-        String status = request.getStatus();
-        if ("PENDING_APPROVAL".equalsIgnoreCase(status)
-                || "CLOSE_PENDING_APPROVAL".equalsIgnoreCase(status)
-                || "REJECTED".equalsIgnoreCase(status)) {
+        if (MaintenanceRequestStatus.from(request.getStatus()).blocksWork()) {
             throw new InvalidOperationException("Request must be approved/open before assignment or downtime can be created");
+        }
+    }
+
+    public void syncStatusFromAssignment(MaintenanceRequest request, String assignmentStatus) {
+        if (request == null || assignmentStatus == null || assignmentStatus.isBlank()) {
+            return;
+        }
+        if ("ASSIGNED".equalsIgnoreCase(assignmentStatus)) {
+            transition(request, MaintenanceRequestAction.ASSIGN, null, true);
+            return;
+        }
+        if ("IN_PROGRESS".equalsIgnoreCase(assignmentStatus)) {
+            advanceToInProgressFromAssignment(request);
+            return;
+        }
+        if ("COMPLETED".equalsIgnoreCase(assignmentStatus)) {
+            if (MaintenanceRequestStatus.COMPLETED == MaintenanceRequestStatus.from(request.getStatus())) {
+                return;
+            }
+            advanceToInProgressFromAssignment(request);
+            transition(request, MaintenanceRequestAction.COMPLETE, null, true);
         }
     }
 
@@ -167,7 +170,6 @@ public class MaintenanceRequestService {
         }
         request.setRequestType(dto.getRequestType() == null ? "BREAKDOWN" : dto.getRequestType());
         request.setPriority(dto.getPriority() == null ? "MEDIUM" : dto.getPriority());
-        request.setStatus(normalizeStatus(dto.getStatus()));
         request.setTitle(dto.getTitle());
         request.setDescription(dto.getDescription());
         request.setReportedBy(dto.getReportedBy());
@@ -213,23 +215,6 @@ public class MaintenanceRequestService {
         return dto;
     }
 
-    private boolean isCloseRequested(String previousStatus, String requestedStatus) {
-        if (requestedStatus == null) {
-            return false;
-        }
-        boolean targetClosed = "CLOSED".equalsIgnoreCase(requestedStatus) || "COMPLETED".equalsIgnoreCase(requestedStatus);
-        boolean alreadyClosed = "CLOSED".equalsIgnoreCase(previousStatus) || "COMPLETED".equalsIgnoreCase(previousStatus);
-        return targetClosed && !alreadyClosed;
-    }
-
-    private String normalizeStatus(String value) {
-        String status = value == null || value.isBlank() ? "OPEN" : value.trim().toUpperCase(Locale.ROOT);
-        if (!STATUSES.contains(status)) {
-            throw new InvalidOperationException("Request status must be OPEN, ASSIGNED, IN_PROGRESS, ON_HOLD, CLOSED, COMPLETED, CANCELLED, PENDING_APPROVAL, CLOSE_PENDING_APPROVAL, or REJECTED");
-        }
-        return status;
-    }
-
     private void validateRequestCanClose(MaintenanceRequest request) {
         List<MaintenanceAssignment> assignments = assignmentDAO.findByRequestId(request.getId());
         if (assignments.isEmpty()) {
@@ -239,6 +224,138 @@ public class MaintenanceRequestService {
         boolean hasOpenAssignment = assignments.stream().anyMatch((assignment) -> !("COMPLETED".equalsIgnoreCase(assignment.getStatus()) || "CANCELLED".equalsIgnoreCase(assignment.getStatus())));
         if (!hasCompletedAssignment || hasOpenAssignment) {
             throw new InvalidOperationException("All open assignments must be completed before closing the request");
+        }
+    }
+
+    private ApprovalRequestDTO transition(MaintenanceRequest request, MaintenanceRequestAction action, String reason, boolean systemTransition) {
+        MaintenanceRequestStatus current = MaintenanceRequestStatus.from(request.getStatus());
+        return switch (action) {
+            case ASSIGN -> assign(request, current, systemTransition);
+            case START -> start(request, current, systemTransition);
+            case HOLD -> hold(request, current, reason);
+            case RESUME -> resume(request, current);
+            case COMPLETE -> complete(request, current);
+            case REQUEST_CLOSE -> requestClose(request, current);
+            case CANCEL -> cancel(request, current, reason);
+            case REOPEN -> reopen(request, current, reason);
+        };
+    }
+
+    private void advanceToInProgressFromAssignment(MaintenanceRequest request) {
+        MaintenanceRequestStatus current = MaintenanceRequestStatus.from(request.getStatus());
+        if (current == MaintenanceRequestStatus.IN_PROGRESS || current == MaintenanceRequestStatus.COMPLETED) {
+            return;
+        }
+        if (current == MaintenanceRequestStatus.OPEN) {
+            transition(request, MaintenanceRequestAction.ASSIGN, null, true);
+            current = MaintenanceRequestStatus.from(request.getStatus());
+        }
+        MaintenanceRequestAction action = current == MaintenanceRequestStatus.ON_HOLD
+                ? MaintenanceRequestAction.RESUME
+                : MaintenanceRequestAction.START;
+        transition(request, action, null, true);
+    }
+
+    private ApprovalRequestDTO assign(MaintenanceRequest request, MaintenanceRequestStatus current, boolean systemTransition) {
+        if (current == MaintenanceRequestStatus.ASSIGNED || current == MaintenanceRequestStatus.IN_PROGRESS
+                || current == MaintenanceRequestStatus.ON_HOLD || current == MaintenanceRequestStatus.COMPLETED) {
+            return null;
+        }
+        requireCurrent(current, MaintenanceRequestAction.ASSIGN, MaintenanceRequestStatus.OPEN);
+        if (!systemTransition && assignmentDAO.findByRequestId(request.getId()).isEmpty()) {
+            throw new InvalidOperationException("Create an assignment before moving the request to assigned");
+        }
+        request.setStatus(MaintenanceRequestStatus.ASSIGNED.value());
+        return null;
+    }
+
+    private ApprovalRequestDTO start(MaintenanceRequest request, MaintenanceRequestStatus current, boolean systemTransition) {
+        if (current == MaintenanceRequestStatus.IN_PROGRESS) {
+            return null;
+        }
+        requireCurrent(current, MaintenanceRequestAction.START, MaintenanceRequestStatus.ASSIGNED);
+        if (!systemTransition && assignmentDAO.findByRequestId(request.getId()).isEmpty()) {
+            throw new InvalidOperationException("Create an assignment before starting work");
+        }
+        request.setStatus(MaintenanceRequestStatus.IN_PROGRESS.value());
+        return null;
+    }
+
+    private ApprovalRequestDTO hold(MaintenanceRequest request, MaintenanceRequestStatus current, String reason) {
+        requireReason(reason, "Hold reason is required");
+        requireCurrent(current, MaintenanceRequestAction.HOLD, MaintenanceRequestStatus.IN_PROGRESS);
+        request.setStatus(MaintenanceRequestStatus.ON_HOLD.value());
+        return null;
+    }
+
+    private ApprovalRequestDTO resume(MaintenanceRequest request, MaintenanceRequestStatus current) {
+        requireCurrent(current, MaintenanceRequestAction.RESUME, MaintenanceRequestStatus.ON_HOLD);
+        request.setStatus(MaintenanceRequestStatus.IN_PROGRESS.value());
+        return null;
+    }
+
+    private ApprovalRequestDTO complete(MaintenanceRequest request, MaintenanceRequestStatus current) {
+        requireCurrent(current, MaintenanceRequestAction.COMPLETE, MaintenanceRequestStatus.IN_PROGRESS, MaintenanceRequestStatus.ON_HOLD);
+        validateRequestCanClose(request);
+        request.setStatus(MaintenanceRequestStatus.COMPLETED.value());
+        return null;
+    }
+
+    private ApprovalRequestDTO requestClose(MaintenanceRequest request, MaintenanceRequestStatus current) {
+        requireCurrent(current, MaintenanceRequestAction.REQUEST_CLOSE, MaintenanceRequestStatus.COMPLETED);
+        boolean approvalRequired = approvalWorkflowService.isApprovalEnabled(ApprovalWorkflowService.MAINTENANCE_REQUEST, ApprovalWorkflowService.CLOSE);
+        if (!approvalRequired) {
+            request.setStatus(MaintenanceRequestStatus.CLOSED.value());
+            return null;
+        }
+        request.setStatus(MaintenanceRequestStatus.CLOSE_PENDING_APPROVAL.value());
+        return approvalWorkflowService.createApprovalRequest(
+                ApprovalWorkflowService.MAINTENANCE_REQUEST,
+                ApprovalWorkflowService.CLOSE,
+                request.getId(),
+                request.getRequestNumber(),
+                request.getSite(),
+                Map.of("previousStatus", MaintenanceRequestStatus.COMPLETED.value(), "targetStatus", MaintenanceRequestStatus.CLOSED.value()),
+                "Maintenance request closure pending approval"
+        );
+    }
+
+    private ApprovalRequestDTO cancel(MaintenanceRequest request, MaintenanceRequestStatus current, String reason) {
+        requireReason(reason, "Cancellation reason is required");
+        requireCurrent(current, MaintenanceRequestAction.CANCEL,
+                MaintenanceRequestStatus.OPEN,
+                MaintenanceRequestStatus.ASSIGNED,
+                MaintenanceRequestStatus.IN_PROGRESS,
+                MaintenanceRequestStatus.ON_HOLD);
+        boolean hasCompletedAssignment = assignmentDAO.findByRequestId(request.getId()).stream()
+                .anyMatch((assignment) -> MaintenanceRequestStatus.COMPLETED.value().equalsIgnoreCase(assignment.getStatus()));
+        if (hasCompletedAssignment) {
+            throw new InvalidOperationException("Requests with completed assignments cannot be cancelled");
+        }
+        request.setStatus(MaintenanceRequestStatus.CANCELLED.value());
+        return null;
+    }
+
+    private ApprovalRequestDTO reopen(MaintenanceRequest request, MaintenanceRequestStatus current, String reason) {
+        requireReason(reason, "Reopen reason is required");
+        requireCurrent(current, MaintenanceRequestAction.REOPEN, MaintenanceRequestStatus.CANCELLED);
+        request.setStatus(MaintenanceRequestStatus.OPEN.value());
+        return null;
+    }
+
+    private void requireCurrent(MaintenanceRequestStatus current, MaintenanceRequestAction action, MaintenanceRequestStatus... allowed) {
+        for (MaintenanceRequestStatus status : allowed) {
+            if (current == status) {
+                return;
+            }
+        }
+        throw new InvalidOperationException("Cannot " + action.name().toLowerCase().replace('_', ' ')
+                + " request while status is " + current.value());
+    }
+
+    private void requireReason(String reason, String message) {
+        if (reason == null || reason.isBlank()) {
+            throw new InvalidOperationException(message);
         }
     }
 

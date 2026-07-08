@@ -1,11 +1,12 @@
 import React from 'react';
-import { Alert, Box, Button, Chip, Grid, Skeleton, Stack, Typography } from '@mui/material';
-import { Edit } from '@mui/icons-material';
+import { Alert, Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Skeleton, Snackbar, Stack, Typography } from '@mui/material';
+import { Cancel, CheckCircle, Edit, Lock, Pause, PlayArrow, Replay } from '@mui/icons-material';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getMaintenanceRequestById } from '../services/maintenanceRequestService';
+import { getMaintenanceRequestById, transitionMaintenanceRequest } from '../services/maintenanceRequestService';
 import { useAuth } from '../../../shared/context/AuthContext';
 import CommonFormActions from '../../../shared/components/common/CommonFormActions';
 import CommonFormCard from '../../../shared/components/common/CommonFormCard';
+import CommonTextArea from '../../../shared/components/common/CommonTextArea';
 
 function MaintenanceRequestViewPage() {
   const { id } = useParams();
@@ -14,6 +15,10 @@ function MaintenanceRequestViewPage() {
   const [request, setRequest] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState('');
+  const [success, setSuccess] = React.useState('');
+  const [transitioning, setTransitioning] = React.useState(false);
+  const [pendingAction, setPendingAction] = React.useState(null);
+  const [reason, setReason] = React.useState('');
 
   React.useEffect(() => {
     setLoading(true);
@@ -25,6 +30,38 @@ function MaintenanceRequestViewPage() {
   }, [id]);
 
   const canEdit = hasPermission('REQUEST_UPDATE');
+  const actions = canEdit && request ? getAvailableActions(request.status) : [];
+
+  const submitTransition = async (action, actionReason = '') => {
+    setTransitioning(true);
+    setError('');
+    try {
+      const data = await transitionMaintenanceRequest(id, { action, reason: actionReason });
+      setRequest(data);
+      setSuccess('Request status updated.');
+      setPendingAction(null);
+      setReason('');
+    } catch (err) {
+      setError(err.response?.data?.message || 'Unable to update request status.');
+    } finally {
+      setTransitioning(false);
+    }
+  };
+
+  const handleAction = (action) => {
+    if (action.requiresReason) {
+      setPendingAction(action);
+      setReason('');
+      return;
+    }
+    submitTransition(action.value);
+  };
+
+  const confirmReasonAction = () => {
+    if (!pendingAction) return;
+    submitTransition(pendingAction.value, reason);
+  };
+
   const fields = [
     { label: 'Site', value: formatSite(request) },
     { label: 'Equipment', value: formatEquipment(request) },
@@ -45,11 +82,25 @@ function MaintenanceRequestViewPage() {
           <Typography variant="h4" fontWeight={800}>View Request</Typography>
           <Typography variant="body2" color="text.secondary">{request?.title || 'Maintenance request details'}</Typography>
         </Box>
-        {canEdit && (
-          <Button variant="contained" startIcon={<Edit />} onClick={() => navigate(`/maintenance/requests/${id}/edit`)}>
-            Edit
-          </Button>
-        )}
+        <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+          {actions.map((action) => (
+            <Button
+              key={action.value}
+              variant={action.variant || 'outlined'}
+              color={action.color || 'primary'}
+              startIcon={action.icon}
+              disabled={transitioning}
+              onClick={() => handleAction(action)}
+            >
+              {action.label}
+            </Button>
+          ))}
+          {canEdit && (
+            <Button variant="contained" startIcon={<Edit />} onClick={() => navigate(`/maintenance/requests/${id}/edit`)}>
+              Edit
+            </Button>
+          )}
+        </Stack>
       </Stack>
 
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
@@ -79,8 +130,64 @@ function MaintenanceRequestViewPage() {
           cancelLabel="Back"
         />
       </CommonFormCard>
+      <Dialog open={Boolean(pendingAction)} onClose={() => setPendingAction(null)} fullWidth maxWidth="sm">
+        <DialogTitle>{pendingAction?.label}</DialogTitle>
+        <DialogContent>
+          <CommonTextArea
+            autoFocus
+            label="Reason"
+            value={reason}
+            onChange={(event) => setReason(event.target.value)}
+            minRows={3}
+            sx={{ mt: 1 }}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setPendingAction(null)}>Cancel</Button>
+          <Button variant="contained" disabled={transitioning || !reason.trim()} onClick={confirmReasonAction}>
+            Submit
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Snackbar open={Boolean(success)} autoHideDuration={3000} onClose={() => setSuccess('')} message={success} />
     </Box>
   );
+}
+
+function getAvailableActions(status) {
+  switch (status) {
+    case 'ASSIGNED':
+      return [
+        { value: 'START', label: 'Start', icon: <PlayArrow fontSize="small" />, variant: 'contained' },
+        { value: 'CANCEL', label: 'Cancel', icon: <Cancel fontSize="small" />, color: 'error', requiresReason: true },
+      ];
+    case 'IN_PROGRESS':
+      return [
+        { value: 'HOLD', label: 'Hold', icon: <Pause fontSize="small" />, color: 'warning', requiresReason: true },
+        { value: 'COMPLETE', label: 'Complete', icon: <CheckCircle fontSize="small" />, variant: 'contained', color: 'success' },
+        { value: 'CANCEL', label: 'Cancel', icon: <Cancel fontSize="small" />, color: 'error', requiresReason: true },
+      ];
+    case 'ON_HOLD':
+      return [
+        { value: 'RESUME', label: 'Resume', icon: <Replay fontSize="small" />, variant: 'contained' },
+        { value: 'COMPLETE', label: 'Complete', icon: <CheckCircle fontSize="small" />, color: 'success' },
+        { value: 'CANCEL', label: 'Cancel', icon: <Cancel fontSize="small" />, color: 'error', requiresReason: true },
+      ];
+    case 'COMPLETED':
+      return [
+        { value: 'REQUEST_CLOSE', label: 'Close', icon: <Lock fontSize="small" />, variant: 'contained' },
+      ];
+    case 'CANCELLED':
+      return [
+        { value: 'REOPEN', label: 'Reopen', icon: <Replay fontSize="small" />, requiresReason: true },
+      ];
+    case 'OPEN':
+      return [
+        { value: 'CANCEL', label: 'Cancel', icon: <Cancel fontSize="small" />, color: 'error', requiresReason: true },
+      ];
+    default:
+      return [];
+  }
 }
 
 function DetailItem({ label, value, variant }) {

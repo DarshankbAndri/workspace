@@ -219,13 +219,10 @@ public class MaintenanceAssignmentService {
         if (request == null || request.getStatus() == null) {
             return;
         }
-        String requestStatus = request.getStatus().toUpperCase(Locale.ROOT);
-        if ("ASSIGNED".equalsIgnoreCase(assignment.getStatus()) && "OPEN".equals(requestStatus)) {
-            request.setStatus("ASSIGNED");
-        }
-        if ("IN_PROGRESS".equalsIgnoreCase(assignment.getStatus())
-                && Set.of("OPEN", "ASSIGNED", "ON_HOLD").contains(requestStatus)) {
-            request.setStatus("IN_PROGRESS");
+        if ("ASSIGNED".equalsIgnoreCase(assignment.getStatus())
+                || "IN_PROGRESS".equalsIgnoreCase(assignment.getStatus())
+                || "COMPLETED".equalsIgnoreCase(assignment.getStatus())) {
+            requestService.syncStatusFromAssignment(request, assignment.getStatus());
         }
     }
 }

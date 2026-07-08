@@ -38,15 +38,6 @@ const PRIORITY_OPTIONS = [
   { value: 'URGENT', label: 'Urgent' },
 ];
 
-const REQUEST_STATUS_OPTIONS = [
-  { value: 'OPEN', label: 'Open' },
-  { value: 'ASSIGNED', label: 'Assigned' },
-  { value: 'IN_PROGRESS', label: 'In Progress' },
-  { value: 'ON_HOLD', label: 'On Hold' },
-  { value: 'CLOSED', label: 'Closed' },
-  { value: 'CANCELLED', label: 'Cancelled' },
-];
-
 function MaintenanceRequestFormPage() {
   const { id } = useParams();
   const location = useLocation();
@@ -85,7 +76,8 @@ function MaintenanceRequestFormPage() {
     setSaving(true);
     setError('');
     try {
-      const payload = { ...form, siteId: Number(form.siteId), equipmentId: Number(form.equipmentId) };
+      const { status, approvalRequestId, approvalStatus, createdAt, updatedAt, ...editableForm } = form;
+      const payload = { ...editableForm, siteId: Number(form.siteId), equipmentId: Number(form.equipmentId) };
       if (isEdit) {
         await updateMaintenanceRequest(id, payload);
       } else {
@@ -126,12 +118,9 @@ function MaintenanceRequestFormPage() {
             <Grid item xs={12} md={3}>
               <CommonDropdown disabled={isView} label="Priority" value={form.priority || 'MEDIUM'} onChange={updateField('priority')} options={PRIORITY_OPTIONS} />
             </Grid>
-            <Grid item xs={12} md={3}>
-              <CommonDropdown disabled={isView} label="Status" value={form.status || 'OPEN'} onChange={updateField('status')} options={REQUEST_STATUS_OPTIONS} />
-            </Grid>
             <Grid item xs={12} md={3}><CommonDatePicker disabled={isView} label="Requested Date" value={form.requestedDate || ''} onChange={updateField('requestedDate')} /></Grid>
             <Grid item xs={12} md={3}><CommonDatePicker disabled={isView} label="Target Completion" value={form.targetCompletionDate || ''} onChange={updateField('targetCompletionDate')} /></Grid>
-            <Grid item xs={12} md={9}><CommonTextArea required disabled={isView} minRows={2} label="Description" value={form.description || ''} onChange={updateField('description')} /></Grid>
+            <Grid item xs={12} md={12}><CommonTextArea required disabled={isView} minRows={2} label="Description" value={form.description || ''} onChange={updateField('description')} /></Grid>
           </Grid>
           <CommonFormActions
             saving={saving}

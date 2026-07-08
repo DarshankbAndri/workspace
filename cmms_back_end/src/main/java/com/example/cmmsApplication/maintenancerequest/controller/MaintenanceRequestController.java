@@ -7,6 +7,7 @@ import com.example.cmmsApplication.common.response.ResponseFactory;
 import com.example.cmmsApplication.maintenancerequest.entity.MaintenanceRequest;
 import com.example.cmmsApplication.common.search.dto.PageProperties;
 import com.example.cmmsApplication.maintenancerequest.dto.MaintenanceRequestDTO;
+import com.example.cmmsApplication.maintenancerequest.dto.MaintenanceRequestTransitionDTO;
 import com.example.cmmsApplication.common.search.dto.SearchDTO;
 import com.example.cmmsApplication.common.search.service.ListSearchService;
 import com.example.cmmsApplication.maintenancerequest.service.MaintenanceRequestService;
@@ -31,6 +32,11 @@ public class MaintenanceRequestController {
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<?>> update(@PathVariable Long id, @Valid @RequestBody MaintenanceRequestDTO dto) {
         return ResponseFactory.ok(requestService.update(id, dto));
+    }
+
+    @PostMapping("/{id}/transition")
+    public ResponseEntity<ApiResponse<?>> transition(@PathVariable Long id, @Valid @RequestBody MaintenanceRequestTransitionDTO dto) {
+        return ResponseFactory.ok(requestService.transition(id, dto));
     }
 
     @DeleteMapping("/{id}")

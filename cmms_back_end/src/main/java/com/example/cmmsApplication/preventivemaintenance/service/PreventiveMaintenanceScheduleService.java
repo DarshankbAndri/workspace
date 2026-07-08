@@ -19,6 +19,7 @@ import com.example.cmmsApplication.preventivemaintenance.dto.PreventiveMaintenan
 import com.example.cmmsApplication.equipment.entity.Equipment;
 import com.example.cmmsApplication.assignment.entity.MaintenanceAssignment;
 import com.example.cmmsApplication.maintenancerequest.entity.MaintenanceRequest;
+import com.example.cmmsApplication.maintenancerequest.enums.MaintenanceRequestStatus;
 import com.example.cmmsApplication.preventivemaintenance.entity.PmScheduleChecklistItem;
 import com.example.cmmsApplication.preventivemaintenance.entity.PreventiveMaintenanceSchedule;
 import com.example.cmmsApplication.site.entity.Site;
@@ -270,7 +271,7 @@ public PreventiveMaintenanceScheduleDTO create(PreventiveMaintenanceScheduleDTO 
         request.setPmSchedule(schedule);
         request.setRequestType("PREVENTIVE");
         request.setPriority(schedule.getPriority());
-        request.setStatus("OPEN");
+        request.setStatus(MaintenanceRequestStatus.OPEN.value());
         request.setTitle(schedule.getTitle());
         request.setDescription(schedule.getDescription());
         request.setReportedBy("PM Scheduler");

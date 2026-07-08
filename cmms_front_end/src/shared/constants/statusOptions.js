@@ -13,8 +13,12 @@ export const MAINTENANCE_REQUEST_STATUS_OPTIONS = [
   { value: 'ASSIGNED', label: 'Assigned' },
   { value: 'IN_PROGRESS', label: 'In Progress' },
   { value: 'ON_HOLD', label: 'On Hold' },
+  { value: 'COMPLETED', label: 'Completed' },
   { value: 'CLOSED', label: 'Closed' },
   { value: 'CANCELLED', label: 'Cancelled' },
+  { value: 'PENDING_APPROVAL', label: 'Pending Approval' },
+  { value: 'CLOSE_PENDING_APPROVAL', label: 'Close Pending Approval' },
+  { value: 'REJECTED', label: 'Rejected' },
 ];
 
 export const ASSIGNMENT_STATUS_OPTIONS = [

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Paper, Snackbar, Stack, TextField, Tooltip, Typography } from '@mui/material';
+import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Paper, Snackbar, Stack, Tooltip, Typography } from '@mui/material';
 import { Add, Delete } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { deleteMaintenanceRequest, searchMaintenanceRequests } from '../services/maintenanceRequestService';
@@ -9,6 +9,7 @@ import { commonSearchFilter, createSearchPayload, equalFilter } from '../../../s
 import CommonDropdown from '../../../shared/components/common/CommonDropdown';
 import CommonList from '../../../shared/components/common/CommonList';
 import CommonStatusDropdown from '../../../shared/components/common/CommonStatusDropdown';
+import CommonInput from '../../../shared/components/common/CommonInput';
 import { MAINTENANCE_REQUEST_STATUS_OPTIONS, PRIORITY_OPTIONS } from '../../../shared/constants/statusOptions';
 
 function MaintenanceRequestListPage() {
@@ -144,7 +145,7 @@ function MaintenanceRequestListPage() {
             clearable
             sx={{ minWidth: 180 }}
           />
-          <TextField label="Search" value={filters.search} onChange={updateFilter('search')} fullWidth />
+          <CommonInput label="Search" value={filters.search} onChange={updateFilter('search')} fullWidth />
         </Stack>
       </Paper>
       <CommonList

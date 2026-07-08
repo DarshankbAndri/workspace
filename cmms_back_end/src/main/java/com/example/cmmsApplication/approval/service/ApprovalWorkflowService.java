@@ -20,6 +20,7 @@ import com.example.cmmsApplication.approval.entity.ApprovalAction;
 import com.example.cmmsApplication.approval.entity.ApprovalConfig;
 import com.example.cmmsApplication.approval.entity.ApprovalRequest;
 import com.example.cmmsApplication.maintenancerequest.entity.MaintenanceRequest;
+import com.example.cmmsApplication.maintenancerequest.enums.MaintenanceRequestStatus;
 import com.example.cmmsApplication.preventivemaintenance.entity.PreventiveMaintenanceSchedule;
 import com.example.cmmsApplication.site.entity.Site;
 import com.example.cmmsApplication.user.entity.User;
@@ -551,13 +552,13 @@ public class ApprovalWorkflowService {
     private void applyApprovedBusinessAction(ApprovalRequest request) {
         if (MAINTENANCE_REQUEST.equals(request.getModuleCode()) && CREATE.equals(request.getActionCode())) {
             MaintenanceRequest maintenanceRequest = getMaintenanceRequest(request.getReferenceId());
-            maintenanceRequest.setStatus("OPEN");
+            maintenanceRequest.setStatus(MaintenanceRequestStatus.OPEN.value());
             maintenanceRequestDAO.save(maintenanceRequest);
             return;
         }
         if (MAINTENANCE_REQUEST.equals(request.getModuleCode()) && CLOSE.equals(request.getActionCode())) {
             MaintenanceRequest maintenanceRequest = getMaintenanceRequest(request.getReferenceId());
-            maintenanceRequest.setStatus("CLOSED");
+            maintenanceRequest.setStatus(MaintenanceRequestStatus.CLOSED.value());
             maintenanceRequestDAO.save(maintenanceRequest);
             return;
         }
@@ -580,13 +581,13 @@ public class ApprovalWorkflowService {
     private void applyRejectedBusinessAction(ApprovalRequest request) {
         if (MAINTENANCE_REQUEST.equals(request.getModuleCode()) && CREATE.equals(request.getActionCode())) {
             MaintenanceRequest maintenanceRequest = getMaintenanceRequest(request.getReferenceId());
-            maintenanceRequest.setStatus("REJECTED");
+            maintenanceRequest.setStatus(MaintenanceRequestStatus.REJECTED.value());
             maintenanceRequestDAO.save(maintenanceRequest);
             return;
         }
         if (MAINTENANCE_REQUEST.equals(request.getModuleCode()) && CLOSE.equals(request.getActionCode())) {
             MaintenanceRequest maintenanceRequest = getMaintenanceRequest(request.getReferenceId());
-            maintenanceRequest.setStatus(previousStatus(request.getPayloadJson(), "IN_PROGRESS"));
+            maintenanceRequest.setStatus(previousStatus(request.getPayloadJson(), MaintenanceRequestStatus.COMPLETED.value()));
             maintenanceRequestDAO.save(maintenanceRequest);
             return;
         }

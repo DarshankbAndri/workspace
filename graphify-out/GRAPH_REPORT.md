@@ -1,16 +1,16 @@
-# Graph Report - andritz_cmms  (2026-07-07)
+# Graph Report - andritz_cmms  (2026-07-08)
 
 ## Corpus Check
-- 403 files · ~167,131 words
+- 407 files · ~168,593 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 5853 nodes · 12734 edges · 328 communities (273 shown, 55 thin omitted)
-- Extraction: 91% EXTRACTED · 9% INFERRED · 0% AMBIGUOUS · INFERRED: 1094 edges (avg confidence: 0.8)
+- 5887 nodes · 12852 edges · 341 communities (284 shown, 57 thin omitted)
+- Extraction: 91% EXTRACTED · 9% INFERRED · 0% AMBIGUOUS · INFERRED: 1101 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `8ee9313f`
+- Built from commit: `d7c8c2b5`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -315,25 +315,37 @@
 - [[_COMMUNITY_Community 306|Community 306]]
 - [[_COMMUNITY_Community 307|Community 307]]
 - [[_COMMUNITY_Community 308|Community 308]]
+- [[_COMMUNITY_Community 309|Community 309]]
 - [[_COMMUNITY_Community 310|Community 310]]
+- [[_COMMUNITY_Community 311|Community 311]]
+- [[_COMMUNITY_Community 312|Community 312]]
 - [[_COMMUNITY_Community 313|Community 313]]
 - [[_COMMUNITY_Community 314|Community 314]]
 - [[_COMMUNITY_Community 315|Community 315]]
 - [[_COMMUNITY_Community 316|Community 316]]
 - [[_COMMUNITY_Community 317|Community 317]]
 - [[_COMMUNITY_Community 318|Community 318]]
+- [[_COMMUNITY_Community 319|Community 319]]
 - [[_COMMUNITY_Community 320|Community 320]]
 - [[_COMMUNITY_Community 321|Community 321]]
 - [[_COMMUNITY_Community 322|Community 322]]
 - [[_COMMUNITY_Community 323|Community 323]]
+- [[_COMMUNITY_Community 324|Community 324]]
 - [[_COMMUNITY_Community 325|Community 325]]
 - [[_COMMUNITY_Community 326|Community 326]]
 - [[_COMMUNITY_Community 327|Community 327]]
 - [[_COMMUNITY_Community 328|Community 328]]
 - [[_COMMUNITY_Community 329|Community 329]]
 - [[_COMMUNITY_Community 330|Community 330]]
+- [[_COMMUNITY_Community 331|Community 331]]
+- [[_COMMUNITY_Community 332|Community 332]]
+- [[_COMMUNITY_Community 333|Community 333]]
 - [[_COMMUNITY_Community 334|Community 334]]
 - [[_COMMUNITY_Community 335|Community 335]]
+- [[_COMMUNITY_Community 336|Community 336]]
+- [[_COMMUNITY_Community 337|Community 337]]
+- [[_COMMUNITY_Community 338|Community 338]]
+- [[_COMMUNITY_Community 339|Community 339]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `useAuth()` - 68 edges
@@ -362,7 +374,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (328 total, 55 thin omitted)
+## Communities (341 total, 57 thin omitted)
 
 ### Community 1 - "Community 1"
 Cohesion: 0.08
@@ -381,16 +393,16 @@ Cohesion: 0.06
 Nodes (32): ApiResponse, GetMapping, Long, ResponseEntity, Long, Collection, Equipment, List (+24 more)
 
 ### Community 5 - "Community 5"
-Cohesion: 0.10
-Nodes (3): Long, String, MaintenanceAssignmentDTO
+Cohesion: 0.08
+Nodes (5): BigDecimal, LocalDate, LocalDateTime, String, MaintenanceAssignmentDTO
 
 ### Community 6 - "Community 6"
 Cohesion: 0.33
 Nodes (3): PrePersist, PreUpdate, Site
 
 ### Community 7 - "Community 7"
-Cohesion: 0.05
-Nodes (20): Collection, EquipmentDowntime, List, Long, Optional, BigDecimal, Boolean, LocalDateTime (+12 more)
+Cohesion: 0.07
+Nodes (13): BigDecimal, Boolean, LocalDateTime, Long, String, EquipmentDowntime, EquipmentDowntimeDTO, List (+5 more)
 
 ### Community 9 - "Community 9"
 Cohesion: 0.05
@@ -401,8 +413,8 @@ Cohesion: 0.05
 Nodes (42): API Features, Approval Request, Approval Workflow, approvals table, Claim, Claim Endpoints, Claim Management, claims table (+34 more)
 
 ### Community 11 - "Community 11"
-Cohesion: 0.08
-Nodes (10): BigDecimal, Employee, LocalDate, LocalDateTime, Long, MaintenanceRequest, PrePersist, PreUpdate (+2 more)
+Cohesion: 0.07
+Nodes (11): BigDecimal, Employee, LocalDate, LocalDateTime, Long, MaintenanceRequest, PrePersist, PreUpdate (+3 more)
 
 ### Community 12 - "Community 12"
 Cohesion: 0.08
@@ -474,15 +486,15 @@ Nodes (8): LocalDateTime, Long, PrePersist, PreUpdate, Site, String, User, Notif
 
 ### Community 30 - "Community 30"
 Cohesion: 0.06
-Nodes (46): CommonDatePicker(), ASSET_CONDITION_OPTIONS, CRITICALITY_OPTIONS, DEPRECIATION_METHOD_OPTIONS, EquipmentFormPage(), initialForm, LIFECYCLE_STATUS_OPTIONS, OPERATING_STATUS_OPTIONS (+38 more)
+Nodes (49): CommonDatePicker(), ASSET_CONDITION_OPTIONS, CRITICALITY_OPTIONS, DEPRECIATION_METHOD_OPTIONS, EquipmentFormPage(), initialForm, LIFECYCLE_STATUS_OPTIONS, OPERATING_STATUS_OPTIONS (+41 more)
 
 ### Community 31 - "Community 31"
 Cohesion: 0.07
 Nodes (28): 1. Dependencies Added, 1. Start the Backend, 2. Configuration Class, 2. Open Swagger UI, 3. Alternative Access Points, 3. API Documentation Annotations, Accessing Swagger UI, API Documentation Files Generated (+20 more)
 
 ### Community 32 - "Community 32"
-Cohesion: 0.10
-Nodes (4): Integer, Long, String, EmployeeDTO
+Cohesion: 0.07
+Nodes (7): Integer, LocalDate, LocalDateTime, Long, String, UserRole, EmployeeDTO
 
 ### Community 33 - "Community 33"
 Cohesion: 0.09
@@ -517,8 +529,8 @@ Cohesion: 0.15
 Nodes (5): Boolean, LocalDate, Long, String, EmployeeSiteAssignmentDTO
 
 ### Community 42 - "Community 42"
-Cohesion: 0.28
-Nodes (10): ApiResponse, DeleteMapping, GetMapping, Long, PostMapping, PreventiveMaintenanceScheduleDTO, PutMapping, ResponseEntity (+2 more)
+Cohesion: 0.25
+Nodes (12): ApiResponse, T, ApiResponse, DeleteMapping, GetMapping, Long, PostMapping, PreventiveMaintenanceScheduleDTO (+4 more)
 
 ### Community 43 - "Community 43"
 Cohesion: 0.10
@@ -529,8 +541,8 @@ Cohesion: 0.32
 Nodes (11): ApiResponse, ApiResponses, GetMapping, Long, Operation, PostMapping, PutMapping, ResponseEntity (+3 more)
 
 ### Community 45 - "Community 45"
-Cohesion: 0.05
-Nodes (34): String, List, Class, JpaSpecificationExecutor, PageProperties, SearchDTO, T, Class (+26 more)
+Cohesion: 0.13
+Nodes (22): String, Class, CriteriaBuilder, JpaSpecificationExecutor, List, Object, Override, PageProperties (+14 more)
 
 ### Community 46 - "Community 46"
 Cohesion: 0.11
@@ -541,20 +553,20 @@ Cohesion: 0.06
 Nodes (9): DocumentPreview(), PermissionListPage(), API_TIMEOUT, downloadDocument(), fileApi, getGroupedPermissions(), isApiEnvelope(), normalizeApiError() (+1 more)
 
 ### Community 48 - "Community 48"
-Cohesion: 0.25
-Nodes (11): ApiResponse, DeleteMapping, GetMapping, Long, MaintenanceRequestDTO, PostMapping, PutMapping, ResponseEntity (+3 more)
+Cohesion: 0.24
+Nodes (12): ApiResponse, DeleteMapping, GetMapping, Long, MaintenanceRequestDTO, MaintenanceRequestTransitionDTO, PostMapping, PutMapping (+4 more)
 
 ### Community 49 - "Community 49"
 Cohesion: 0.25
 Nodes (11): ApiResponse, DeleteMapping, GetMapping, Long, PostMapping, PutMapping, ResponseEntity, SearchDTO (+3 more)
 
 ### Community 50 - "Community 50"
-Cohesion: 0.14
-Nodes (15): Collection, List, Long, MaintenanceAssignment, Optional, BigDecimal, Collection, List (+7 more)
+Cohesion: 0.27
+Nodes (9): BigDecimal, Collection, List, LocalDate, Long, MaintenanceAssignment, Query, String (+1 more)
 
 ### Community 51 - "Community 51"
-Cohesion: 0.07
-Nodes (58): CommonDropdown(), CommonList(), CommonStatusDropdown(), CommonVendorDropdown(), searchVendors(), ConfirmDialog(), ACTIVE_STATUS_OPTIONS, APPROVAL_ACTION_OPTIONS (+50 more)
+Cohesion: 0.08
+Nodes (50): CommonList(), CommonStatusDropdown(), CommonVendorDropdown(), searchVendors(), ConfirmDialog(), ACTIVE_STATUS_OPTIONS, APPROVAL_ACTION_OPTIONS, APPROVAL_MODULE_OPTIONS (+42 more)
 
 ### Community 52 - "Community 52"
 Cohesion: 0.10
@@ -569,8 +581,8 @@ Cohesion: 0.27
 Nodes (10): ApiResponse, DeleteMapping, EmployeeDTO, GetMapping, Long, PostMapping, PutMapping, ResponseEntity (+2 more)
 
 ### Community 55 - "Community 55"
-Cohesion: 0.12
-Nodes (18): EquipmentDocument, List, Long, Optional, Equipment, EquipmentDocument, List, LocalDate (+10 more)
+Cohesion: 0.08
+Nodes (21): EquipmentDocument, List, Long, Optional, Equipment, EquipmentDocument, List, LocalDate (+13 more)
 
 ### Community 56 - "Community 56"
 Cohesion: 0.28
@@ -589,12 +601,12 @@ Cohesion: 0.16
 Nodes (11): List, Long, VendorSiteAssignment, EntityGraph, List, Long, String, VendorSiteAssignment (+3 more)
 
 ### Community 60 - "Community 60"
-Cohesion: 0.16
+Cohesion: 0.17
 Nodes (3): Long, String, EmployeeRoleAssignmentDTO
 
 ### Community 61 - "Community 61"
-Cohesion: 0.20
-Nodes (11): ApprovalRequestDTO, List, Long, MaintenanceRequest, MaintenanceRequestDTO, Site, String, Transactional (+3 more)
+Cohesion: 0.08
+Nodes (31): ApprovalConfig, ApprovalConfigDTO, List, Long, String, Transactional, MaintenanceRequestAction, String (+23 more)
 
 ### Community 63 - "Community 63"
 Cohesion: 0.09
@@ -625,16 +637,16 @@ Cohesion: 0.16
 Nodes (13): ApiResponse, Bean, String, Boolean, LocalDateTime, Long, String, UserRole (+5 more)
 
 ### Community 70 - "Community 70"
-Cohesion: 0.06
-Nodes (64): AuthContext, AuthProvider(), useAuth(), Navbar(), LoginPage(), formatStockValue(), getSparePartQrValue(), getSparePartViewPath() (+56 more)
+Cohesion: 0.08
+Nodes (39): formatStockValue(), getSparePartQrValue(), getSparePartViewPath(), initialHistoryDialog, initialImportDialog, initialLabelDialog, initialReorderDialog, initialStockDialog (+31 more)
 
 ### Community 71 - "Community 71"
 Cohesion: 0.14
 Nodes (13): 🐛 Common Issues & Solutions, 📊 Component Statistics, 📚 Documentation Files, File Structure (15 Components/Pages), If you need help:, 🚀 Next Steps, Project Location, ✅ React Frontend - Complete Implementation (+5 more)
 
 ### Community 72 - "Community 72"
-Cohesion: 0.21
-Nodes (9): Collection, Boolean, Employee, EmployeeDTO, List, Long, String, Transactional (+1 more)
+Cohesion: 0.15
+Nodes (14): Boolean, Employee, EmployeeDTO, EmployeeRoleAssignmentDTO, EmployeeSiteAssignment, EmployeeSiteAssignmentDTO, List, LocalDate (+6 more)
 
 ### Community 74 - "Community 74"
 Cohesion: 0.20
@@ -650,7 +662,7 @@ Nodes (11): AuthContext, Component Documentation, Components, CreateClaimPage, D
 
 ### Community 77 - "Community 77"
 Cohesion: 0.12
-Nodes (12): PageProperties, SearchDTO, Object, String, List, PagePropertiesDTO, SearchCriteriaDTO, String (+4 more)
+Nodes (14): List, PageProperties, SearchCriteriaDTO, SearchDTO, Specification, Object, String, List (+6 more)
 
 ### Community 78 - "Community 78"
 Cohesion: 0.18
@@ -693,8 +705,8 @@ Cohesion: 0.22
 Nodes (9): 📦 Configuration (1 class), 📦 Controller Layer (2 classes), Core Application Code (26 Java Classes), 📦 DTO Layer (4 classes), 📦 Entity Layer (6 classes), 📦 Exception Handling (5 classes), Main Application, 📦 Repository Layer (3 classes) (+1 more)
 
 ### Community 88 - "Community 88"
-Cohesion: 0.13
-Nodes (23): CommonFileUpload(), adminGroups, hrGroups, operationGroups, SidebarLayout(), TopNavbar(), CompanyFormPage(), initialForm (+15 more)
+Cohesion: 0.07
+Nodes (43): CommonFileUpload(), AuthContext, AuthProvider(), useAuth(), Navbar(), adminGroups, hrGroups, operationGroups (+35 more)
 
 ### Community 89 - "Community 89"
 Cohesion: 0.36
@@ -746,11 +758,11 @@ Nodes (5): 📱 API Complete, 🎓 Best Practices, 🔐 Database Complete, ✨ K
 
 ### Community 104 - "Community 104"
 Cohesion: 0.07
-Nodes (37): DashboardPage(), metricCards, statusColors, DowntimeAnalysisPage(), equipmentColumns, EquipmentCostReportPage(), formatMoney(), groupedColumns (+29 more)
+Nodes (41): CommonDropdown(), DashboardPage(), metricCards, statusColors, DowntimeAnalysisPage(), equipmentColumns, EquipmentCostReportPage(), formatMoney() (+33 more)
 
 ### Community 105 - "Community 105"
 Cohesion: 0.17
-Nodes (18): initialForm, MaintenanceRequestFormPage(), PRIORITY_OPTIONS, REQUEST_STATUS_OPTIONS, REQUEST_TYPE_OPTIONS, DetailItem(), displayValue(), formatDate() (+10 more)
+Nodes (19): initialForm, MaintenanceRequestFormPage(), PRIORITY_OPTIONS, REQUEST_TYPE_OPTIONS, DetailItem(), displayValue(), formatDate(), formatEquipment() (+11 more)
 
 ### Community 106 - "Community 106"
 Cohesion: 0.11
@@ -985,19 +997,19 @@ Cohesion: 0.15
 Nodes (4): Instant, String, T, ApiResponse
 
 ### Community 168 - "Community 168"
-Cohesion: 0.14
-Nodes (13): ApprovalRequest, ApprovalRequestDTO, Class, CriteriaBuilder, List, Long, Object, Path (+5 more)
+Cohesion: 0.13
+Nodes (14): ApprovalRequest, ApprovalRequestDTO, Class, CriteriaBuilder, LocalDateTime, Long, Object, Path (+6 more)
 
 ### Community 169 - "Community 169"
-Cohesion: 0.05
-Nodes (51): User, String, BigDecimal, PrePersist, PreUpdate, ApprovalRequestDTO, BigDecimal, List (+43 more)
+Cohesion: 0.11
+Nodes (20): String, BigDecimal, List, Long, MaintenanceRequest, MultipartFile, PageProperties, SearchDTO (+12 more)
 
 ### Community 170 - "Community 170"
 Cohesion: 0.23
 Nodes (7): Collection, List, Long, RolePermission, String, RolePermissionDAO, RolePermissionRepository
 
 ### Community 172 - "Community 172"
-Cohesion: 0.23
+Cohesion: 0.24
 Nodes (6): List, Long, MaintenanceAssignmentWorkLog, MaintenanceAssignmentWorkLogAttachment, Optional, MaintenanceAssignmentWorkLogDAO
 
 ### Community 173 - "Community 173"
@@ -1013,16 +1025,16 @@ Cohesion: 0.12
 Nodes (15): List, Long, MaintenanceSpareUsage, Optional, String, BigDecimal, List, Long (+7 more)
 
 ### Community 177 - "Community 177"
-Cohesion: 0.10
-Nodes (7): List, String, Notification, ApprovalRequest, NotificationProperties, ObjectProvider, EmailNotificationService
+Cohesion: 0.08
+Nodes (10): List, String, Notification, ApprovalRequest, LocalDate, MaintenanceRequest, PreventiveMaintenanceSchedule, NotificationProperties (+2 more)
 
 ### Community 178 - "Community 178"
-Cohesion: 0.09
-Nodes (25): ApprovalActionDAO, ApprovalRequestDAO, ApprovalAction, ApprovalActionDTO, EventListener, LocalDateTime, MaintenanceRequest, ObjectMapper (+17 more)
+Cohesion: 0.10
+Nodes (23): ApprovalActionDAO, ApprovalConfigDAO, ApprovalRequestDAO, ApprovalAction, ApprovalActionDTO, EventListener, MaintenanceRequest, ObjectMapper (+15 more)
 
 ### Community 179 - "Community 179"
 Cohesion: 0.22
-Nodes (4): Integer, String, PagePropertiesDTO, PagePropertiesDTO
+Nodes (3): Integer, String, PagePropertiesDTO
 
 ### Community 180 - "Community 180"
 Cohesion: 0.20
@@ -1034,7 +1046,7 @@ Nodes (6): BigDecimal, LocalDate, LocalDateTime, Long, String, MaintenanceAssign
 
 ### Community 182 - "Community 182"
 Cohesion: 0.16
-Nodes (11): AuthAccessDTO, AllowedSiteDTO, List, Long, Set, String, User, UserDTO (+3 more)
+Nodes (12): AuthAccessDTO, AllowedSiteDTO, Collection, List, Long, Set, String, User (+4 more)
 
 ### Community 183 - "Community 183"
 Cohesion: 0.11
@@ -1045,7 +1057,7 @@ Cohesion: 0.12
 Nodes (6): BigDecimal, Boolean, LocalDateTime, Long, String, EquipmentDowntimeList
 
 ### Community 185 - "Community 185"
-Cohesion: 0.19
+Cohesion: 0.17
 Nodes (8): EventListener, List, NotificationSetting, NotificationSettingDTO, String, User, LocalTime, NotificationSettingsService
 
 ### Community 188 - "Community 188"
@@ -1057,8 +1069,8 @@ Cohesion: 0.14
 Nodes (5): LocalDate, LocalDateTime, Long, String, MaintenanceRequestList
 
 ### Community 191 - "Community 191"
-Cohesion: 0.21
-Nodes (11): Class, List, Long, Object, PageProperties, SearchCriteriaDTO, SearchDTO, Set (+3 more)
+Cohesion: 0.19
+Nodes (12): Class, List, Long, Object, PageProperties, PagePropertiesDTO, SearchCriteriaDTO, SearchDTO (+4 more)
 
 ### Community 192 - "Community 192"
 Cohesion: 0.20
@@ -1081,24 +1093,24 @@ Cohesion: 0.14
 Nodes (12): ApprovalConfigRepository, ApprovalConfig, List, Long, Optional, String, ApprovalConfig, Long (+4 more)
 
 ### Community 197 - "Community 197"
-Cohesion: 0.08
-Nodes (11): LocalDateTime, Long, String, ApprovalRequest, LocalDateTime, Long, PrePersist, String (+3 more)
+Cohesion: 0.14
+Nodes (7): ApprovalRequest, LocalDateTime, Long, PrePersist, String, User, ApprovalAction
 
 ### Community 198 - "Community 198"
 Cohesion: 0.14
 Nodes (11): ApprovalActionRepository, ApprovalAction, List, Long, String, ApprovalAction, List, Long (+3 more)
 
 ### Community 199 - "Community 199"
-Cohesion: 0.22
-Nodes (9): Company, CompanyDTO, Long, MultipartFile, Path, Resource, String, Transactional (+1 more)
+Cohesion: 0.12
+Nodes (20): ApiResponse, CompanyDTO, GetMapping, Long, MultipartFile, PostMapping, PutMapping, Resource (+12 more)
 
 ### Community 200 - "Community 200"
 Cohesion: 0.16
 Nodes (13): Employee, EmployeeSiteAssignment, List, Long, MaintenanceAssignment, MaintenanceAssignmentWorkLog, MaintenanceAssignmentWorkLogAttachment, MaintenanceAssignmentWorkLogDTO (+5 more)
 
 ### Community 201 - "Community 201"
-Cohesion: 0.26
-Nodes (11): ApprovalDecisionDTO, ApiResponse, GetMapping, Long, PostMapping, ResponseEntity, SearchDTO, String (+3 more)
+Cohesion: 0.31
+Nodes (9): ApprovalDecisionDTO, ApiResponse, GetMapping, Long, PostMapping, ResponseEntity, SearchDTO, String (+1 more)
 
 ### Community 210 - "Community 210"
 Cohesion: 0.17
@@ -1117,20 +1129,20 @@ Cohesion: 0.40
 Nodes (4): LocalDateTime, Long, String, EquipmentHistoryRowDTO
 
 ### Community 214 - "Community 214"
-Cohesion: 0.13
-Nodes (17): Collection, Integer, List, LocalDate, Long, MaintenanceRequest, Notification, NotificationDTO (+9 more)
+Cohesion: 0.15
+Nodes (15): Collection, Integer, List, Long, Notification, NotificationDTO, NotificationSettingDTO, Site (+7 more)
 
 ### Community 215 - "Community 215"
-Cohesion: 0.26
-Nodes (11): ApiResponse, CompanyDTO, GetMapping, Long, MultipartFile, PostMapping, PutMapping, Resource (+3 more)
+Cohesion: 0.21
+Nodes (7): BigDecimal, Long, MaintenanceSpareUsage, MaintenanceSpareUsageDTO, String, Transactional, MaintenanceSpareUsageService
 
 ### Community 217 - "Community 217"
-Cohesion: 0.05
-Nodes (59): CommonFormActions(), CommonFormCard(), CommonInput(), CommonTextArea(), DowntimeFormPage(), initialForm, DetailItem(), displayValue() (+51 more)
+Cohesion: 0.06
+Nodes (57): CommonFormActions(), CommonFormCard(), CommonInput(), CommonTextArea(), DowntimeFormPage(), initialForm, DetailItem(), displayValue() (+49 more)
 
 ### Community 218 - "Community 218"
-Cohesion: 0.25
-Nodes (10): ApiResponse, GetMapping, Integer, Long, PutMapping, ResponseEntity, SseEmitter, String (+2 more)
+Cohesion: 0.28
+Nodes (9): ApiResponse, GetMapping, Integer, Long, PutMapping, ResponseEntity, SseEmitter, String (+1 more)
 
 ### Community 219 - "Community 219"
 Cohesion: 0.22
@@ -1141,16 +1153,16 @@ Cohesion: 0.13
 Nodes (14): Admin UI, Approval Pending Alert, Common Configuration Scenarios, Current Configuration, Daily Scan Time Examples, Email Notifications, How Each Notification Type Works, Important Notes (+6 more)
 
 ### Community 221 - "Community 221"
-Cohesion: 0.28
-Nodes (8): ApprovalConfigDAO, ApprovalConfig, ApprovalConfigDTO, List, Long, String, Transactional, ApprovalConfigService
+Cohesion: 0.20
+Nodes (12): User, BigDecimal, List, Long, SparePartReorderDTO, SparePartReorderRequest, SparePartSiteStock, SparePartTransactionDTO (+4 more)
 
 ### Community 222 - "Community 222"
 Cohesion: 0.39
 Nodes (5): Override, ScheduledTaskRegistrar, SchedulingConfigurer, NotificationSchedulerService, Trigger
 
 ### Community 224 - "Community 224"
-Cohesion: 0.21
-Nodes (7): NotificationSetting, Optional, NotificationSetting, Optional, NotificationSettingDAO, NotificationSettingRepository, NotificationSettingRepository
+Cohesion: 0.32
+Nodes (4): NotificationSetting, Optional, NotificationSettingDAO, NotificationSettingRepository
 
 ### Community 225 - "Community 225"
 Cohesion: 0.19
@@ -1177,12 +1189,12 @@ Cohesion: 0.32
 Nodes (7): Long, NotificationDTO, Object, Scheduled, SseEmitter, String, NotificationStreamService
 
 ### Community 232 - "Community 232"
-Cohesion: 0.17
-Nodes (10): Collection, List, LocalDate, Long, Optional, PreventiveMaintenanceSchedule, String, Scheduled (+2 more)
+Cohesion: 0.21
+Nodes (9): Collection, List, LocalDate, Long, Optional, PreventiveMaintenanceSchedule, String, PreventiveMaintenanceScheduleDAO (+1 more)
 
 ### Community 233 - "Community 233"
-Cohesion: 0.13
-Nodes (16): List, Long, Optional, String, User, UserRole, Employee, EmployeeDTO (+8 more)
+Cohesion: 0.21
+Nodes (9): Employee, EmployeeDTO, List, Long, String, Transactional, User, UserDTO (+1 more)
 
 ### Community 234 - "Community 234"
 Cohesion: 0.18
@@ -1193,7 +1205,7 @@ Cohesion: 0.18
 Nodes (11): AfterEach, BeforeEach, Long, RoleMaster, RolePermission, Site, String, Test (+3 more)
 
 ### Community 236 - "Community 236"
-Cohesion: 0.28
+Cohesion: 0.26
 Nodes (8): Collection, List, LocalDate, Long, PreventiveMaintenanceSchedule, Query, String, PreventiveMaintenanceScheduleRepository
 
 ### Community 237 - "Community 237"
@@ -1201,16 +1213,16 @@ Cohesion: 0.50
 Nodes (3): DowntimeAnalysisSummaryDTO, PageProperties, DowntimeAnalysisPageDTO
 
 ### Community 238 - "Community 238"
-Cohesion: 0.14
-Nodes (3): LocalDate, LocalDateTime, UserRole
+Cohesion: 0.22
+Nodes (11): ApprovalRequest, ApprovalRequestRepository, Collection, List, Long, Optional, Page, Pageable (+3 more)
 
 ### Community 241 - "Community 241"
-Cohesion: 0.17
-Nodes (14): Exception, FilterChain, HttpServletRequest, HttpServletResponse, Override, String, FilterChain, HttpServletRequest (+6 more)
+Cohesion: 0.33
+Nodes (7): Exception, FilterChain, HttpServletRequest, HttpServletResponse, Override, String, RequestLoggingFilter
 
 ### Community 242 - "Community 242"
-Cohesion: 0.19
-Nodes (13): ApiErrorResponse, Bean, Exception, HttpServletRequest, HttpServletResponse, ObjectMapper, SecurityConfig, CorsConfigurationSource (+5 more)
+Cohesion: 0.20
+Nodes (12): ApiErrorResponse, Bean, Exception, HttpServletRequest, HttpServletResponse, ObjectMapper, SecurityConfig, CorsConfigurationSource (+4 more)
 
 ### Community 243 - "Community 243"
 Cohesion: 0.36
@@ -1225,8 +1237,8 @@ Cohesion: 0.33
 Nodes (3): PrePersist, PreUpdate, SparePart
 
 ### Community 246 - "Community 246"
-Cohesion: 0.08
-Nodes (27): ApprovalRequest, ApprovalRequestRepository, Collection, List, Long, Optional, Page, Pageable (+19 more)
+Cohesion: 0.20
+Nodes (9): ApprovalRequestRepository, Long, PostConstruct, SparePartSiteStockRepository, String, Duration, MeterRegistry, ObservabilityMetrics (+1 more)
 
 ### Community 248 - "Community 248"
 Cohesion: 0.24
@@ -1237,15 +1249,15 @@ Cohesion: 0.39
 Nodes (3): MultipartFile, Path, MaintenanceAssignmentWorkLogAttachmentDTO
 
 ### Community 250 - "Community 250"
-Cohesion: 0.24
-Nodes (10): ApiErrorCode, FilterChain, HttpServletRequest, HttpServletResponse, HttpStatus, Override, String, ObservabilityMetrics (+2 more)
+Cohesion: 0.32
+Nodes (8): ApiErrorCode, FilterChain, HttpServletRequest, HttpServletResponse, HttpStatus, Override, String, JwtFilter
 
 ### Community 251 - "Community 251"
 Cohesion: 0.06
-Nodes (66): CommonDateTimePicker(), checklistResponseTypes, checklistStatusOptions, initialChecklistForm, initialForm, initialSpareEditDialog, initialWorkLogForm, MaintenanceAssignmentFormPage() (+58 more)
+Nodes (67): CommonDateTimePicker(), checklistResponseTypes, checklistStatusOptions, initialChecklistForm, initialForm, initialSpareEditDialog, initialWorkLogForm, MaintenanceAssignmentFormPage() (+59 more)
 
 ### Community 252 - "Community 252"
-Cohesion: 0.36
+Cohesion: 0.31
 Nodes (5): List, Long, MaintenanceAssignmentWorkLog, String, MaintenanceAssignmentWorkLogRepository
 
 ### Community 253 - "Community 253"
@@ -1253,8 +1265,8 @@ Cohesion: 0.14
 Nodes (13): Actual migration, Adding more entities, APIs used (verified against `cmms_back_end`), CMMS Data Migration Utility, Configure, Dry run (no data written), Error handling, Folder structure (+5 more)
 
 ### Community 254 - "Community 254"
-Cohesion: 0.17
-Nodes (14): ChangePasswordRequest, Claims, ApiResponse, ApiResponses, GetMapping, HttpServletRequest, Operation, PostMapping (+6 more)
+Cohesion: 0.13
+Nodes (17): ChangePasswordRequest, Claims, ApiResponse, ApiResponses, GetMapping, HttpServletRequest, Operation, PostMapping (+9 more)
 
 ### Community 255 - "Community 255"
 Cohesion: 0.33
@@ -1265,8 +1277,8 @@ Cohesion: 0.24
 Nodes (6): List, String, Test, Endpoint, Mapping, ApiPermissionMappingCsvCoverageTest
 
 ### Community 257 - "Community 257"
-Cohesion: 0.17
-Nodes (12): ApprovalRequestDTO, List, LocalDate, Long, MaintenanceRequest, PmScheduleChecklistItem, PreventiveMaintenanceScheduleDTO, Site (+4 more)
+Cohesion: 0.14
+Nodes (14): ApprovalRequestDTO, List, LocalDate, Long, MaintenanceRequest, PmScheduleChecklistItem, PreventiveMaintenanceSchedule, PreventiveMaintenanceScheduleDTO (+6 more)
 
 ### Community 258 - "Community 258"
 Cohesion: 0.19
@@ -1283,6 +1295,10 @@ Nodes (6): Long, Optional, SparePart, String, SparePartDAO, SparePartRepository
 ### Community 262 - "Community 262"
 Cohesion: 0.47
 Nodes (3): PrePersist, PreUpdate, MaintenanceAssignmentChecklistItem
+
+### Community 263 - "Community 263"
+Cohesion: 0.24
+Nodes (7): Collection, EquipmentDowntime, List, Long, Optional, EquipmentDowntimeDAO, EquipmentDowntimeRepository
 
 ### Community 264 - "Community 264"
 Cohesion: 0.12
@@ -1304,6 +1320,10 @@ Nodes (5): Long, Optional, SparePart, String, SparePartRepository
 Cohesion: 0.29
 Nodes (5): List, PostConstruct, String, CmmsSecurityProperties, Logger
 
+### Community 271 - "Community 271"
+Cohesion: 0.18
+Nodes (4): LocalDateTime, Long, String, ApprovalActionDTO
+
 ### Community 272 - "Community 272"
 Cohesion: 0.20
 Nodes (10): P2 Enterprise Requirements, REQ-P2-001: Multi-site and organization support, REQ-P2-002: Audit log and compliance history, REQ-P2-003: Advanced reporting and KPI dashboard, REQ-P2-004: ERP integration, REQ-P2-005: HR/identity integration, REQ-P2-006: Data import governance, REQ-P2-007: Backup, restore, and disaster recovery (+2 more)
@@ -1321,8 +1341,8 @@ Cohesion: 0.12
 Nodes (17): BigDecimal, Double, Equipment, EquipmentDTO, Integer, List, LocalDate, LocalDateTime (+9 more)
 
 ### Community 282 - "Community 282"
-Cohesion: 0.28
-Nodes (6): EmployeeRoleAssignmentDTO, EmployeeSiteAssignment, EmployeeSiteAssignmentDTO, LocalDate, User, UserRoleAssignment
+Cohesion: 0.30
+Nodes (7): ApprovalRequest, Collection, List, LocalDateTime, Long, String, ApprovalRequestRepository
 
 ### Community 283 - "Community 283"
 Cohesion: 0.25
@@ -1339,6 +1359,10 @@ Nodes (5): P3 Strategic Requirements, REQ-P3-001: Predictive maintenance readine
 ### Community 287 - "Community 287"
 Cohesion: 0.47
 Nodes (3): PrePersist, PreUpdate, MaintenanceAssignmentWorkLog
+
+### Community 288 - "Community 288"
+Cohesion: 0.29
+Nodes (7): List, Long, Optional, String, User, UserRole, UserRepository
 
 ### Community 291 - "Community 291"
 Cohesion: 0.33
@@ -1376,11 +1400,15 @@ Nodes (8): Logging setup for the migration utility.  Creates a run-scoped logger
 Cohesion: 0.61
 Nodes (3): Override, String, PermissionApiMappingRepositoryImpl
 
+### Community 309 - "Community 309"
+Cohesion: 0.32
+Nodes (6): Collection, List, Long, MaintenanceAssignment, Optional, MaintenanceAssignmentDAO
+
 ### Community 310 - "Community 310"
 Cohesion: 0.27
 Nodes (12): build_employee(), build_equipment(), build_payload(), build_site(), build_vendor(), _pick(), Build backend request payloads from CSV rows.  Each entity has a dedicated build, Raised when a required parent reference (siteCode/vendorCode) cannot be resolved (+4 more)
 
-### Community 313 - "Community 313"
+### Community 312 - "Community 312"
 Cohesion: 0.14
 Nodes (13): Best First Sprint, Equipment Production-Level Improvement Implementation Plan, Phase 10: ERP Asset Finance Fields, Phase 1: Equipment Lifecycle and Soft Delete, Phase 2: Equipment QR Label, Phase 3: Equipment Detail Dashboard, Phase 4: Equipment Documents, Phase 5: Equipment Spare BOM (+5 more)
 
@@ -1400,17 +1428,25 @@ Nodes (6): ApiResponse, GetMapping, LocalDate, Long, ResponseEntity, PreventiveM
 Cohesion: 0.47
 Nodes (3): PrePersist, PreUpdate, EquipmentSpareBom
 
+### Community 319 - "Community 319"
+Cohesion: 0.18
+Nodes (8): ApprovalRequestDTO, List, MaintenanceAssignment, Set, SparePartReorderDTO, SparePartReorderRequest, SparePartSiteStock, User
+
 ### Community 323 - "Community 323"
 Cohesion: 0.21
-Nodes (11): Exception, ApiClient, ApiError, Thin HTTP client for the CMMS backend.  Wraps ``requests`` with a shared session, Raised for transport-level problems (timeout, connection refused, ...)., AuthError, _find_token(), login() (+3 more)
+Nodes (10): ApiClient, ApiError, Thin HTTP client for the CMMS backend.  Wraps ``requests`` with a shared session, Raised for transport-level problems (timeout, connection refused, ...)., AuthError, _find_token(), login(), Login flow for the migration utility.  Calls ``POST /api/auth/login`` with usern (+2 more)
+
+### Community 324 - "Community 324"
+Cohesion: 0.33
+Nodes (7): FilterChain, HttpServletRequest, HttpServletResponse, Override, String, OncePerRequestFilter, CorrelationIdFilter
 
 ### Community 326 - "Community 326"
 Cohesion: 0.38
 Nodes (3): EmployeeRoleAssignmentDTO, EmployeeSiteAssignmentDTO, List
 
 ### Community 328 - "Community 328"
-Cohesion: 0.20
-Nodes (10): ApiClient, check_required_values(), CsvValidationError, CSV reading and validation helpers.  Uses pandas to read files, then normalises, Raised for structural problems: missing file, empty file, missing columns., Read a CSV into a list of dict rows (all values str or None).      Raises CsvVal, Return a list of column names that are required but blank in this row., Cross-file validation before migration.      Verifies, for every file that decla (+2 more)
+Cohesion: 0.22
+Nodes (10): Exception, check_required_values(), CsvValidationError, CSV reading and validation helpers.  Uses pandas to read files, then normalises, Raised for structural problems: missing file, empty file, missing columns., Read a CSV into a list of dict rows (all values str or None).      Raises CsvVal, Return a list of column names that are required but blank in this row., Cross-file validation before migration.      Verifies, for every file that decla (+2 more)
 
 ### Community 329 - "Community 329"
 Cohesion: 0.27
@@ -1420,22 +1456,38 @@ Nodes (3): MigrationRunner, Orchestrates the end-to-end migration.  Flow:   1. O
 Cohesion: 0.43
 Nodes (4): Cacheable, Long, String, ApiPermissionService
 
+### Community 331 - "Community 331"
+Cohesion: 0.36
+Nodes (6): Class, JpaSpecificationExecutor, PageProperties, SearchDTO, T, SearchService
+
+### Community 332 - "Community 332"
+Cohesion: 0.43
+Nodes (7): DetailItem(), displayValue(), formatDate(), formatEquipment(), formatSite(), PreventiveMaintenanceViewPage(), getPMScheduleById()
+
+### Community 333 - "Community 333"
+Cohesion: 0.29
+Nodes (4): BigDecimal, PrePersist, PreUpdate, SparePartSiteStock
+
+### Community 336 - "Community 336"
+Cohesion: 0.60
+Nodes (3): NotificationSetting, Optional, NotificationSettingRepository
+
 ## Knowledge Gaps
-- **944 isolated node(s):** `String`, `PutMapping`, `DeleteMapping`, `GetMapping`, `PutMapping` (+939 more)
+- **946 isolated node(s):** `String`, `PutMapping`, `DeleteMapping`, `GetMapping`, `PutMapping` (+941 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **55 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **57 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `ResourceNotFoundException` connect `Community 61` to `Community 257`, `Community 7`, `Community 135`, `Community 281`, `Community 282`, `Community 26`, `Community 38`, `Community 169`, `Community 46`, `Community 178`, `Community 53`, `Community 55`, `Community 314`, `Community 193`, `Community 66`, `Community 67`, `Community 199`, `Community 200`, `Community 214`, `Community 221`, `Community 233`, `Community 254`?**
-  _High betweenness centrality (0.017) - this node is a cross-community bridge._
-- **Why does `NotificationPageDTO` connect `Community 45` to `Community 55`?**
-  _High betweenness centrality (0.017) - this node is a cross-community bridge._
+- **Why does `ResourceNotFoundException` connect `Community 61` to `Community 257`, `Community 7`, `Community 135`, `Community 281`, `Community 26`, `Community 38`, `Community 169`, `Community 46`, `Community 178`, `Community 53`, `Community 55`, `Community 314`, `Community 319`, `Community 193`, `Community 66`, `Community 67`, `Community 199`, `Community 72`, `Community 200`, `Community 214`, `Community 221`, `Community 233`, `Community 254`?**
+  _High betweenness centrality (0.018) - this node is a cross-community bridge._
+- **Why does `NotificationService` connect `Community 214` to `Community 177`, `Community 185`?**
+  _High betweenness centrality (0.018) - this node is a cross-community bridge._
 - **Why does `Duration` connect `Community 246` to `Community 16`, `Community 257`?**
   _High betweenness centrality (0.015) - this node is a cross-community bridge._
 - **What connects `String`, `PutMapping`, `DeleteMapping` to the rest of the system?**
-  _968 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _970 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 1` be split into smaller, more focused modules?**
   _Cohesion score 0.07781649245063879 - nodes in this community are weakly interconnected._
 - **Should `Community 2` be split into smaller, more focused modules?**

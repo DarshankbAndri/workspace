@@ -59,6 +59,7 @@ REQUEST_CREATE,/api/hr/sites,GET,Create maintenance request site helper data
 REQUEST_CREATE,/api/equipment/**,GET,Create maintenance request equipment helper data
 REQUEST_CREATE,/api/equipment,GET,Create maintenance request equipment helper data
 REQUEST_UPDATE,/api/maintenance/requests/**,PUT,Update maintenance request
+REQUEST_UPDATE,/api/maintenance/requests/*/transition,POST,Transition maintenance request status
 REQUEST_UPDATE,/api/hr/sites/**,GET,Update maintenance request site helper data
 REQUEST_UPDATE,/api/hr/sites,GET,Update maintenance request site helper data
 REQUEST_UPDATE,/api/equipment/**,GET,Update maintenance request equipment helper data
