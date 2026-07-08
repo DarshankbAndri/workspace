@@ -19,6 +19,7 @@ import com.example.cmmsApplication.equipment.entity.Equipment;
 import com.example.cmmsApplication.maintenancerequest.repository.MaintenanceRequestRepository;
 import com.example.cmmsApplication.preventivemaintenance.repository.PreventiveMaintenanceScheduleRepository;
 import com.example.cmmsApplication.site.entity.Site;
+import com.example.cmmsApplication.spareparts.repository.MaintenanceSpareUsageRepository;
 import com.example.cmmsApplication.common.exception.InvalidOperationException;
 import com.example.cmmsApplication.common.exception.ResourceNotFoundException;
 import com.example.cmmsApplication.equipment.repository.EquipmentListRepository;
@@ -62,7 +63,10 @@ public class EquipmentService {
             "operatingStatus",
             "ownershipType",
             "commissioningDate",
-            "decommissionDate"
+            "decommissionDate",
+            "assetNumber",
+            "costCenter",
+            "department"
     );
     private static final Set<String> EQUIPMENT_STATUSES = Set.of("ACTIVE", "INACTIVE", "UNDER_MAINTENANCE", "RETIRED");
     private static final Set<String> LIFECYCLE_STATUSES = Set.of("DRAFT", "COMMISSIONED", "ACTIVE", "STANDBY", "UNDER_MAINTENANCE", "BREAKDOWN", "DECOMMISSIONED", "SCRAPPED");
@@ -98,13 +102,21 @@ public class EquipmentService {
             "commissioningDate",
             "decommissionDate",
             "manufacturer",
-            "modelNumber"
+            "modelNumber",
+            "assetNumber",
+            "purchaseDate",
+            "purchaseCost",
+            "capitalizationDate",
+            "depreciationMethod",
+            "costCenter",
+            "department"
     );
 
     private final EquipmentDAO equipmentDAO;
     private final EquipmentListRepository equipmentListRepository;
     private final MaintenanceRequestRepository maintenanceRequestRepository;
     private final MaintenanceAssignmentRepository maintenanceAssignmentRepository;
+    private final MaintenanceSpareUsageRepository maintenanceSpareUsageRepository;
     private final PreventiveMaintenanceScheduleRepository preventiveMaintenanceScheduleRepository;
     private final EquipmentDowntimeRepository equipmentDowntimeRepository;
     private final SearchService searchService;
@@ -185,6 +197,11 @@ public class EquipmentService {
         Long monthlyDowntime = equipmentDowntimeRepository.sumDowntimeMinutesByEquipmentIdAndDowntimeStartBetween(id, monthStart, nextMonthStart);
         LocalDate lastMaintenanceDate = maintenanceAssignmentRepository.findLastCompletedMaintenanceDateByEquipmentId(id);
         LocalDate nextPmDate = preventiveMaintenanceScheduleRepository.findNextDueDateByEquipmentId(id);
+        BigDecimal purchaseCost = money(equipment.getPurchaseCost());
+        BigDecimal maintenanceCost = money(maintenanceAssignmentRepository.sumMaintenanceCostByEquipmentId(id));
+        BigDecimal spareMaterialCost = money(maintenanceSpareUsageRepository.sumMaterialCostByEquipmentId(id));
+        BigDecimal downtimeCost = BigDecimal.ZERO;
+        BigDecimal totalCostOfOwnership = purchaseCost.add(maintenanceCost).add(spareMaterialCost).add(downtimeCost);
 
         return EquipmentSummaryDTO.builder()
                 .equipmentId(id)
@@ -198,6 +215,11 @@ public class EquipmentService {
                 .nextPmDate(nextPmDate)
                 .healthScore(health.getHealthScore())
                 .healthStatus(health.getHealthStatus())
+                .purchaseCost(purchaseCost)
+                .maintenanceCost(maintenanceCost)
+                .spareMaterialCost(spareMaterialCost)
+                .downtimeCost(downtimeCost)
+                .totalCostOfOwnership(totalCostOfOwnership)
                 .build();
     }
 
@@ -261,7 +283,15 @@ public class EquipmentService {
         equipment.setOperatingStatus(normalizeAllowed(dto.getOperatingStatus(), defaultOperatingStatus(equipment.getStatus(), equipment.getLifecycleStatus()), OPERATING_STATUSES, "Operating status"));
         equipment.setOwnershipType(normalizeAllowed(dto.getOwnershipType(), "OWNED", OWNERSHIP_TYPES, "Ownership type"));
         equipment.setCriticality(dto.getCriticality() == null ? "MEDIUM" : dto.getCriticality());
+        equipment.setAssetNumber(trimToNull(dto.getAssetNumber()));
+        equipment.setPurchaseDate(dto.getPurchaseDate());
+        equipment.setPurchaseCost(nonNegativeMoney(dto.getPurchaseCost(), "Purchase cost"));
+        equipment.setCapitalizationDate(dto.getCapitalizationDate());
+        equipment.setDepreciationMethod(trimToNull(dto.getDepreciationMethod()));
+        equipment.setCostCenter(trimToNull(dto.getCostCenter()));
+        equipment.setDepartment(trimToNull(dto.getDepartment()));
         validateLifecycleDates(equipment);
+        validateFinanceDates(equipment);
         applyRetiredCompatibility(equipment);
     }
 
@@ -481,6 +511,14 @@ public class EquipmentService {
         }
     }
 
+    private void validateFinanceDates(Equipment equipment) {
+        LocalDate purchaseDate = equipment.getPurchaseDate();
+        LocalDate capitalizationDate = equipment.getCapitalizationDate();
+        if (purchaseDate != null && capitalizationDate != null && capitalizationDate.isBefore(purchaseDate)) {
+            throw new InvalidOperationException("Capitalization date cannot be before purchase date.");
+        }
+    }
+
     private void applyRetiredCompatibility(Equipment equipment) {
         if ("RETIRED".equalsIgnoreCase(equipment.getStatus()) || "INACTIVE".equalsIgnoreCase(equipment.getStatus())) {
             equipment.setStatus("INACTIVE");
@@ -501,6 +539,27 @@ public class EquipmentService {
             throw new InvalidOperationException(label + " must be one of: " + String.join(", ", allowed));
         }
         return normalized;
+    }
+
+    private BigDecimal nonNegativeMoney(BigDecimal value, String label) {
+        if (value == null) {
+            return null;
+        }
+        if (value.compareTo(BigDecimal.ZERO) < 0) {
+            throw new InvalidOperationException(label + " cannot be negative.");
+        }
+        return value.setScale(2, RoundingMode.HALF_UP);
+    }
+
+    private BigDecimal money(BigDecimal value) {
+        return value == null ? BigDecimal.ZERO : value.setScale(2, RoundingMode.HALF_UP);
+    }
+
+    private String trimToNull(String value) {
+        if (value == null || value.trim().isEmpty()) {
+            return null;
+        }
+        return value.trim();
     }
 
     private String defaultOperatingStatus(String status, String lifecycleStatus) {
@@ -543,6 +602,13 @@ public class EquipmentService {
         dto.setOperatingStatus(equipment.getOperatingStatus());
         dto.setOwnershipType(equipment.getOwnershipType());
         dto.setCriticality(equipment.getCriticality());
+        dto.setAssetNumber(equipment.getAssetNumber());
+        dto.setPurchaseDate(equipment.getPurchaseDate());
+        dto.setPurchaseCost(equipment.getPurchaseCost());
+        dto.setCapitalizationDate(equipment.getCapitalizationDate());
+        dto.setDepreciationMethod(equipment.getDepreciationMethod());
+        dto.setCostCenter(equipment.getCostCenter());
+        dto.setDepartment(equipment.getDepartment());
         dto.setCreatedAt(equipment.getCreatedAt());
         dto.setUpdatedAt(equipment.getUpdatedAt());
         return dto;

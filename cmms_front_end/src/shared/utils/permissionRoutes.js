@@ -67,6 +67,7 @@ export const AUTHORIZED_ROUTES = [
   { path: '/approvals/history', permission: PERMISSIONS.APPROVAL_VIEW },
   { path: '/reports/equipment-history', permission: PERMISSIONS.REPORT_VIEW },
   { path: '/reports/downtime-analysis', permission: PERMISSIONS.REPORT_VIEW },
+  { path: '/reports/equipment-cost', permission: PERMISSIONS.REPORT_VIEW },
   { path: '/inventory/spare-parts', permission: PERMISSIONS.SPARE_PART_VIEW },
   { path: '/inventory/spare-approvals', permission: PERMISSIONS.SPARE_USAGE_MANAGER_APPROVE },
   { path: '/inventory/spare-requests', permission: PERMISSIONS.SPARE_USAGE_STORE_PROCESS },

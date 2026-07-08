@@ -6,6 +6,7 @@ import com.example.cmmsApplication.site.entity.Site;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.Data;
@@ -48,6 +49,15 @@ public class EquipmentDTO {
     private String operatingStatus;
     private String ownershipType;
     private String criticality;
+    private String assetNumber;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate purchaseDate;
+    private BigDecimal purchaseCost;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate capitalizationDate;
+    private String depreciationMethod;
+    private String costCenter;
+    private String department;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -99,6 +109,20 @@ public class EquipmentDTO {
     public void setOwnershipType(String ownershipType) { this.ownershipType = ownershipType; }
     public String getCriticality() { return criticality; }
     public void setCriticality(String criticality) { this.criticality = criticality; }
+    public String getAssetNumber() { return assetNumber; }
+    public void setAssetNumber(String assetNumber) { this.assetNumber = assetNumber; }
+    public LocalDate getPurchaseDate() { return purchaseDate; }
+    public void setPurchaseDate(LocalDate purchaseDate) { this.purchaseDate = purchaseDate; }
+    public BigDecimal getPurchaseCost() { return purchaseCost; }
+    public void setPurchaseCost(BigDecimal purchaseCost) { this.purchaseCost = purchaseCost; }
+    public LocalDate getCapitalizationDate() { return capitalizationDate; }
+    public void setCapitalizationDate(LocalDate capitalizationDate) { this.capitalizationDate = capitalizationDate; }
+    public String getDepreciationMethod() { return depreciationMethod; }
+    public void setDepreciationMethod(String depreciationMethod) { this.depreciationMethod = depreciationMethod; }
+    public String getCostCenter() { return costCenter; }
+    public void setCostCenter(String costCenter) { this.costCenter = costCenter; }
+    public String getDepartment() { return department; }
+    public void setDepartment(String department) { this.department = department; }
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
     public LocalDateTime getUpdatedAt() { return updatedAt; }

@@ -301,6 +301,13 @@ function EquipmentViewPage() {
     { label: 'Warranty Expiry', value: formatDate(equipment?.warrantyExpiryDate) },
     { label: 'Decommission Date', value: formatDate(equipment?.decommissionDate) },
     { label: 'Criticality', value: equipment?.criticality, variant: 'chip' },
+    { label: 'Asset Number', value: equipment?.assetNumber },
+    { label: 'Purchase Date', value: formatDate(equipment?.purchaseDate) },
+    { label: 'Purchase Cost', value: formatMoney(equipment?.purchaseCost) },
+    { label: 'Capitalization Date', value: formatDate(equipment?.capitalizationDate) },
+    { label: 'Depreciation Method', value: formatLabel(equipment?.depreciationMethod) },
+    { label: 'Cost Center', value: equipment?.costCenter },
+    { label: 'Department', value: equipment?.department },
   ];
 
   return (
@@ -424,14 +431,14 @@ function EquipmentViewPage() {
 
             {activeTab === 'cost' && (
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={6} md={3}><Metric label="Health Score" value={health?.healthScore == null ? '' : `${health.healthScore}%`} /></Grid>
-                <Grid item xs={12} sm={6} md={3}><Metric label="Health Status" value={health?.healthStatus} variant={healthVariant(health?.healthStatus)} /></Grid>
-                <Grid item xs={12} sm={6} md={3}><Metric label="Downtime This Month" value={formatMinutes(summary?.totalDowntimeMinutesThisMonth)} /></Grid>
-                <Grid item xs={12} sm={6} md={3}><Metric label="Open Requests" value={summary?.openRequestCount} /></Grid>
-                <Grid item xs={12} sm={6} md={3}><Metric label="MTBF" value={formatHours(health?.mtbfHours)} /></Grid>
-                <Grid item xs={12} sm={6} md={3}><Metric label="MTTR" value={formatHours(health?.mttrHours)} /></Grid>
-                <Grid item xs={12} sm={6} md={3}><Metric label="Repeated Failures" value={health?.repeatedFailureCount} /></Grid>
-                <Grid item xs={12} sm={6} md={3}><Metric label="Overdue PM" value={health?.overduePmCount} /></Grid>
+                <Grid item xs={12} sm={6} md={3}><Metric label="Purchase Cost" value={formatMoney(summary?.purchaseCost)} /></Grid>
+                <Grid item xs={12} sm={6} md={3}><Metric label="Maintenance Cost" value={formatMoney(summary?.maintenanceCost)} /></Grid>
+                <Grid item xs={12} sm={6} md={3}><Metric label="Spare/Material Cost" value={formatMoney(summary?.spareMaterialCost)} /></Grid>
+                <Grid item xs={12} sm={6} md={3}><Metric label="Downtime Cost" value={formatMoney(summary?.downtimeCost)} /></Grid>
+                <Grid item xs={12} sm={6} md={3}><Metric label="Total Cost of Ownership" value={formatMoney(summary?.totalCostOfOwnership)} /></Grid>
+                <Grid item xs={12} sm={6} md={3}><Metric label="Asset Number" value={equipment?.assetNumber} /></Grid>
+                <Grid item xs={12} sm={6} md={3}><Metric label="Cost Center" value={equipment?.costCenter} /></Grid>
+                <Grid item xs={12} sm={6} md={3}><Metric label="Department" value={equipment?.department} /></Grid>
               </Grid>
             )}
           </>
@@ -940,6 +947,13 @@ function formatNumber(value) {
   const number = Number(value);
   if (!Number.isFinite(number)) return String(value);
   return Number.isInteger(number) ? String(number) : number.toFixed(3).replace(/0+$/, '').replace(/\.$/, '');
+}
+
+function formatMoney(value) {
+  if (value === null || value === undefined || value === '') return '';
+  const number = Number(value);
+  if (!Number.isFinite(number)) return '';
+  return number.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
 function formatFileSize(value) {

@@ -8,6 +8,7 @@ import org.hibernate.annotations.Subselect;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.math.BigDecimal;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
@@ -41,6 +42,13 @@ import lombok.NoArgsConstructor;
             e.ownership_type AS ownership_type,
             e.commissioning_date AS commissioning_date,
             e.decommission_date AS decommission_date,
+            e.asset_number AS asset_number,
+            e.purchase_date AS purchase_date,
+            e.purchase_cost AS purchase_cost,
+            e.capitalization_date AS capitalization_date,
+            e.depreciation_method AS depreciation_method,
+            e.cost_center AS cost_center,
+            e.department AS department,
             e.created_at AS created_at,
             e.updated_at AS last_modified_on
         FROM equipment_master e
@@ -121,6 +129,26 @@ public class EquipmentList {
     @Column(name = "decommission_date")
     private LocalDate decommissionDate;
 
+    @Column(name = "asset_number")
+    private String assetNumber;
+
+    @Column(name = "purchase_date")
+    private LocalDate purchaseDate;
+
+    @Column(name = "purchase_cost")
+    private BigDecimal purchaseCost;
+
+    @Column(name = "capitalization_date")
+    private LocalDate capitalizationDate;
+
+    @Column(name = "depreciation_method")
+    private String depreciationMethod;
+
+    @Column(name = "cost_center")
+    private String costCenter;
+
+    private String department;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
@@ -152,6 +180,13 @@ public class EquipmentList {
     public String getOwnershipType() { return ownershipType; }
     public LocalDate getCommissioningDate() { return commissioningDate; }
     public LocalDate getDecommissionDate() { return decommissionDate; }
+    public String getAssetNumber() { return assetNumber; }
+    public LocalDate getPurchaseDate() { return purchaseDate; }
+    public BigDecimal getPurchaseCost() { return purchaseCost; }
+    public LocalDate getCapitalizationDate() { return capitalizationDate; }
+    public String getDepreciationMethod() { return depreciationMethod; }
+    public String getCostCenter() { return costCenter; }
+    public String getDepartment() { return department; }
     public LocalDateTime getCreatedAt() { return createdAt; }
     public LocalDateTime getLastModifiedOn() { return lastModifiedOn; }
 }

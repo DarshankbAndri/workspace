@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -24,4 +25,9 @@ public class EquipmentSummaryDTO {
     private LocalDate nextPmDate;
     private Integer healthScore;
     private String healthStatus;
+    private BigDecimal purchaseCost;
+    private BigDecimal maintenanceCost;
+    private BigDecimal spareMaterialCost;
+    private BigDecimal downtimeCost;
+    private BigDecimal totalCostOfOwnership;
 }

@@ -37,4 +37,33 @@ public class ReportController {
                                                                        @RequestParam(required = false) Integer size) {
         return ResponseFactory.ok(reportService.getDowntimeAnalysis(equipmentId, siteId, page, size));
     }
+
+    @GetMapping("/equipment-maintenance-cost")
+    public ResponseEntity<ApiResponse<?>> getEquipmentMaintenanceCost(@RequestParam(required = false) Long equipmentId,
+                                                                      @RequestParam(required = false) Long siteId,
+                                                                      @RequestParam(required = false) Integer page,
+                                                                      @RequestParam(required = false) Integer size) {
+        return ResponseFactory.ok(reportService.getEquipmentMaintenanceCost(equipmentId, siteId, page, size));
+    }
+
+    @GetMapping("/equipment-cost-by-site")
+    public ResponseEntity<ApiResponse<?>> getEquipmentCostBySite(@RequestParam(required = false) Long siteId,
+                                                                 @RequestParam(required = false) Integer page,
+                                                                 @RequestParam(required = false) Integer size) {
+        return ResponseFactory.ok(reportService.getEquipmentCostByGroup("site", siteId, page, size));
+    }
+
+    @GetMapping("/equipment-cost-by-category")
+    public ResponseEntity<ApiResponse<?>> getEquipmentCostByCategory(@RequestParam(required = false) Long siteId,
+                                                                     @RequestParam(required = false) Integer page,
+                                                                     @RequestParam(required = false) Integer size) {
+        return ResponseFactory.ok(reportService.getEquipmentCostByGroup("category", siteId, page, size));
+    }
+
+    @GetMapping("/equipment-cost-by-criticality")
+    public ResponseEntity<ApiResponse<?>> getEquipmentCostByCriticality(@RequestParam(required = false) Long siteId,
+                                                                       @RequestParam(required = false) Integer page,
+                                                                       @RequestParam(required = false) Integer size) {
+        return ResponseFactory.ok(reportService.getEquipmentCostByGroup("criticality", siteId, page, size));
+    }
 }

@@ -3,6 +3,7 @@ package com.example.cmmsApplication.equipment.entity;
 
 import com.example.cmmsApplication.site.entity.Site;
 import jakarta.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.Getter;
@@ -74,6 +75,27 @@ public class Equipment {
     @Column(name = "criticality", nullable = false, length = 30)
     private String criticality = "MEDIUM";
 
+    @Column(name = "asset_number", length = 80)
+    private String assetNumber;
+
+    @Column(name = "purchase_date")
+    private LocalDate purchaseDate;
+
+    @Column(name = "purchase_cost", precision = 14, scale = 2)
+    private BigDecimal purchaseCost;
+
+    @Column(name = "capitalization_date")
+    private LocalDate capitalizationDate;
+
+    @Column(name = "depreciation_method", length = 80)
+    private String depreciationMethod;
+
+    @Column(name = "cost_center", length = 100)
+    private String costCenter;
+
+    @Column(name = "department", length = 100)
+    private String department;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
@@ -129,6 +151,20 @@ public class Equipment {
     public void setOwnershipType(String ownershipType) { this.ownershipType = ownershipType; }
     public String getCriticality() { return criticality; }
     public void setCriticality(String criticality) { this.criticality = criticality; }
+    public String getAssetNumber() { return assetNumber; }
+    public void setAssetNumber(String assetNumber) { this.assetNumber = assetNumber; }
+    public LocalDate getPurchaseDate() { return purchaseDate; }
+    public void setPurchaseDate(LocalDate purchaseDate) { this.purchaseDate = purchaseDate; }
+    public BigDecimal getPurchaseCost() { return purchaseCost; }
+    public void setPurchaseCost(BigDecimal purchaseCost) { this.purchaseCost = purchaseCost; }
+    public LocalDate getCapitalizationDate() { return capitalizationDate; }
+    public void setCapitalizationDate(LocalDate capitalizationDate) { this.capitalizationDate = capitalizationDate; }
+    public String getDepreciationMethod() { return depreciationMethod; }
+    public void setDepreciationMethod(String depreciationMethod) { this.depreciationMethod = depreciationMethod; }
+    public String getCostCenter() { return costCenter; }
+    public void setCostCenter(String costCenter) { this.costCenter = costCenter; }
+    public String getDepartment() { return department; }
+    public void setDepartment(String department) { this.department = department; }
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
     public LocalDateTime getUpdatedAt() { return updatedAt; }

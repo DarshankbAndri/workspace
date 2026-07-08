@@ -104,6 +104,7 @@ const operationGroups = [
     items: [
       { label: 'Equipment History', path: '/reports/equipment-history', icon: <History />, permission: 'REPORT_VIEW' },
       { label: 'Downtime Analysis', path: '/reports/downtime-analysis', icon: <Timeline />, permission: 'REPORT_VIEW' },
+      { label: 'Equipment Cost', path: '/reports/equipment-cost', icon: <Timeline />, permission: 'REPORT_VIEW' },
     ],
   },
 ];

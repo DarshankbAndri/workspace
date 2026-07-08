@@ -28,6 +28,13 @@ const initialForm = {
   operatingStatus: 'RUNNING',
   ownershipType: 'OWNED',
   criticality: 'MEDIUM',
+  assetNumber: '',
+  purchaseDate: '',
+  purchaseCost: '',
+  capitalizationDate: '',
+  depreciationMethod: '',
+  costCenter: '',
+  department: '',
 };
 
 const STATUS_OPTIONS = [
@@ -78,6 +85,13 @@ const OWNERSHIP_TYPE_OPTIONS = [
   { value: 'CUSTOMER_SUPPLIED', label: 'Customer Supplied' },
 ];
 
+const DEPRECIATION_METHOD_OPTIONS = [
+  { value: 'STRAIGHT_LINE', label: 'Straight Line' },
+  { value: 'DECLINING_BALANCE', label: 'Declining Balance' },
+  { value: 'UNITS_OF_PRODUCTION', label: 'Units of Production' },
+  { value: 'NOT_APPLICABLE', label: 'Not Applicable' },
+];
+
 function EquipmentFormPage() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -104,7 +118,11 @@ function EquipmentFormPage() {
     setSaving(true);
     setError('');
     try {
-      const payload = { ...form, siteId: Number(form.siteId) };
+      const payload = {
+        ...form,
+        siteId: Number(form.siteId),
+        purchaseCost: form.purchaseCost === '' ? null : Number(form.purchaseCost),
+      };
       if (isEdit) {
         await updateEquipment(id, payload);
       } else {
@@ -161,6 +179,18 @@ function EquipmentFormPage() {
           <Grid item xs={12} md={4}>
             <CommonDropdown label="Criticality" value={form.criticality || 'MEDIUM'} onChange={updateField('criticality')} options={CRITICALITY_OPTIONS} />
           </Grid>
+          <Grid item xs={12}>
+            <Typography variant="subtitle1" fontWeight={800} sx={{ mt: 1 }}>ERP Finance</Typography>
+          </Grid>
+          <Grid item xs={12} md={4}><CommonInput label="Asset Number" value={form.assetNumber || ''} onChange={updateField('assetNumber')} /></Grid>
+          <Grid item xs={12} md={4}><CommonDatePicker label="Purchase Date" value={form.purchaseDate || ''} onChange={updateField('purchaseDate')} /></Grid>
+          <Grid item xs={12} md={4}><CommonInput label="Purchase Cost" type="number" value={form.purchaseCost ?? ''} onChange={updateField('purchaseCost')} /></Grid>
+          <Grid item xs={12} md={4}><CommonDatePicker label="Capitalization Date" value={form.capitalizationDate || ''} onChange={updateField('capitalizationDate')} /></Grid>
+          <Grid item xs={12} md={4}>
+            <CommonDropdown label="Depreciation Method" value={form.depreciationMethod || ''} onChange={updateField('depreciationMethod')} options={DEPRECIATION_METHOD_OPTIONS} clearable />
+          </Grid>
+          <Grid item xs={12} md={4}><CommonInput label="Cost Center" value={form.costCenter || ''} onChange={updateField('costCenter')} /></Grid>
+          <Grid item xs={12} md={4}><CommonInput label="Department" value={form.department || ''} onChange={updateField('department')} /></Grid>
         </Grid>
         <CommonFormActions saving={saving} onCancel={() => navigate('/equipment')} />
       </CommonFormCard>

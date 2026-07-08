@@ -4,6 +4,7 @@ import com.example.cmmsApplication.assignment.entity.MaintenanceAssignment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
@@ -22,4 +23,12 @@ public interface MaintenanceAssignmentRepository extends JpaRepository<Maintenan
               and upper(assignment.status) = 'COMPLETED'
             """)
     LocalDate findLastCompletedMaintenanceDateByEquipmentId(Long equipmentId);
+
+    @Query("""
+            select coalesce(sum(coalesce(assignment.actualCost, assignment.estimatedCost, 0)), 0)
+            from MaintenanceAssignment assignment
+            where assignment.request.equipment.id = :equipmentId
+              and upper(assignment.status) <> 'CANCELLED'
+            """)
+    BigDecimal sumMaintenanceCostByEquipmentId(Long equipmentId);
 }

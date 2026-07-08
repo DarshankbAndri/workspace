@@ -84,4 +84,28 @@
             <column name="operating_status"/>
         </createIndex>
     </changeSet>
+
+    <changeSet id="equipment-006-add-erp-finance-columns" author="DARSHAN">
+        <addColumn tableName="equipment_master">
+            <column name="asset_number" type="VARCHAR(80)"/>
+            <column name="purchase_date" type="DATE"/>
+            <column name="purchase_cost" type="DECIMAL(14,2)"/>
+            <column name="capitalization_date" type="DATE"/>
+            <column name="depreciation_method" type="VARCHAR(80)"/>
+            <column name="cost_center" type="VARCHAR(100)"/>
+            <column name="department" type="VARCHAR(100)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="equipment-007-add-erp-finance-indexes" author="DARSHAN">
+        <createIndex indexName="idx_equipment_asset_number" tableName="equipment_master">
+            <column name="asset_number"/>
+        </createIndex>
+        <createIndex indexName="idx_equipment_cost_center" tableName="equipment_master">
+            <column name="cost_center"/>
+        </createIndex>
+        <createIndex indexName="idx_equipment_department" tableName="equipment_master">
+            <column name="department"/>
+        </createIndex>
+    </changeSet>
 </databaseChangeLog>
