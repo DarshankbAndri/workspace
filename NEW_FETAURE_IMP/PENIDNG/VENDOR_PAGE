@@ -1,0 +1,68 @@
+I checked the current vendor module. Today it mainly supports vendor master data + site assignment + active/inactive + service category, and it is already used by maintenance assignment and spare reorder flows. Key files: [VendorService.java (line 1)](C:/andritz_cmms/cmms_back_end/src/main/java/com/example/cmmsApplication/vendor/service/VendorService.java:1), [Vendor.java (line 1)](C:/andritz_cmms/cmms_back_end/src/main/java/com/example/cmmsApplication/vendor/entity/Vendor.java:1), [VendorViewPage.jsx (line 1)](C:/andritz_cmms/cmms_front_end/src/features/vendor/pages/VendorViewPage.jsx:1).
+For production CMMS/ERP, the strongest new feature is:
+Vendor Contract, Compliance & Performance Management
+This turns vendor from a simple master record into a real operational/vendor-control module.
+Highest Impact Features
+Vendor onboarding and approval workflow
+New vendors should not become usable immediately. Flow:
+DRAFT -> SUBMITTED -> UNDER_REVIEW -> APPROVED -> ACTIVE -> SUSPENDED -> BLACKLISTED
+Store GST/tax details, company registration, contact persons, bank/payment details, service categories, supported sites, approval history.
+
+Contract and SLA management
+Add vendor contracts per client/site/category:
+response time, resolution time, working hours, emergency support, penalty rules, contract start/end date, renewal reminder.
+Example:
+emergency breakdown vendor must respond within 2 hours for Site A, but within 6 hours for Site B.
+
+Vendor compliance documents
+Track documents with expiry:
+insurance, safety certificate, labor license, NDA, GST/tax certificate, ISO certificate, work permit eligibility.
+Block assignment if required compliance is expired.
+
+Vendor qualification by site and service
+Current vendor site assignment is basic. Production should support:
+site, service category, equipment category, skill/certification, contract coverage, priority vendor, backup vendor.
+Example:
+Vendor A can repair compressors at Chennai site, but not electrical panels.
+
+Vendor performance scorecard
+Auto-calculate:
+average response time, average resolution time, SLA breaches, repeat failures, first-time-fix rate, rejected work count, safety incidents, cost variance.
+This helps procurement and maintenance teams decide renewals.
+
+Vendor work order / external service flow
+For outsourced work:
+assignment created -> vendor accepts -> technician visits -> work proof uploaded -> supervisor verifies -> invoice allowed.
+Add vendor acknowledgement and vendor completion submission.
+
+Vendor portal
+External vendors can log in and only see their assigned jobs. They can:
+accept/reject job, update ETA, upload photos, add service report, request spares, submit invoice.
+
+Quotation and rate card
+For non-contract jobs:
+request quotation from multiple vendors, compare price/ETA/warranty, approve one vendor, convert to assignment or purchase request.
+
+Invoice and payment matching
+Match vendor invoice against:
+work order, contract rate, spare usage, approved completion, penalties, taxes.
+This is important for ERP integration.
+
+Multi-client vendor isolation
+   Since multiple clients will use the ERP, vendor records may need tenant/client ownership:
+   global vendor, client-specific vendor, site-specific approval, client-specific contract terms.
+
+   Same vendor may be approved for one client and blocked for another.
+My Top 3 To Implement First
+Vendor compliance + expiry tracking
+This gives immediate production control and prevents expired/unqualified vendors from being assigned.
+
+Vendor contract/SLA per site and service category
+This connects vendor directly to maintenance execution quality.
+
+Vendor performance scorecard
+This gives management real data: who is reliable, who delays, who causes repeat failures.
+
+Best First Feature Name
+Vendor Compliance & Contract Control
+It fits your current module cleanly because you already have vendor master, site assignment, maintenance assignment, spare reorder, approval, and permissions. This feature would make vendor selection safer and more realistic for actual CMMS operations.

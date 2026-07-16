@@ -39,3 +39,13 @@ export const getDowntimeEntryById = (id) => api.get(`/maintenance/downtime/${id}
 export const createDowntimeEntry = (data) => api.post('/maintenance/downtime', data).then((response) => response.data);
 export const updateDowntimeEntry = (id, data) => api.put(`/maintenance/downtime/${id}`, data).then((response) => response.data);
 export const deleteDowntimeEntry = (id) => api.delete(`/maintenance/downtime/${id}`);
+export const confirmDowntimeEntry = (id, data = {}) => api.post(`/maintenance/downtime/${id}/confirm`, data).then((response) => response.data);
+export const startDowntimeMaintenance = (id, data = {}) => api.post(`/maintenance/downtime/${id}/start-maintenance`, data).then((response) => response.data);
+export const restoreDowntimeEntry = (id, data = {}) => api.post(`/maintenance/downtime/${id}/restore`, data).then((response) => response.data);
+export const verifyDowntimeEntry = (id, data = {}) => api.post(`/maintenance/downtime/${id}/verify`, data).then((response) => response.data);
+export const closeDowntimeEntry = (id, data = {}) => api.post(`/maintenance/downtime/${id}/close`, data).then((response) => response.data);
+export const reopenDowntimeEntry = (id, data = {}) => api.post(`/maintenance/downtime/${id}/reopen`, data).then((response) => response.data);
+export const getDowntimeTimeline = (id) => api.get(`/maintenance/downtime/${id}/timeline`).then((response) => response.data);
+export const getDowntimeRcaActions = (id) => api.get(`/maintenance/downtime/${id}/rca-actions`).then((response) => response.data);
+export const addDowntimeRcaAction = (id, data) => api.post(`/maintenance/downtime/${id}/rca-actions`, data).then((response) => response.data);
+export const updateDowntimeRcaAction = (id, actionId, data) => api.put(`/maintenance/downtime/${id}/rca-actions/${actionId}`, data).then((response) => response.data);

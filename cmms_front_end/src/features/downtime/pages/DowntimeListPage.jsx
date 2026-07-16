@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Paper, Snackbar, Stack, TextField, Tooltip, Typography } from '@mui/material';
+import { Alert, Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Paper, Snackbar, Stack, Tooltip, Typography } from '@mui/material';
 import { Add, Delete } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { deleteDowntimeEntry, getMaintenanceRequests, searchDowntimeEntries } from '../../maintenance/services/maintenanceService';
@@ -8,9 +8,29 @@ import { getSites } from '../../site/services/siteService';
 import { useAuth } from '../../../shared/context/AuthContext';
 import { commonSearchFilter, createSearchPayload, equalFilter, rangeFilter } from '../../../shared/utils/searchPayload';
 import CommonDropdown from '../../../shared/components/common/CommonDropdown';
+import CommonInput from '../../../shared/components/common/CommonInput';
 import CommonList from '../../../shared/components/common/CommonList';
 
 const formatDuration = (value) => value ?? '-';
+const formatLabel = (value) => value ? String(value).replaceAll('_', ' ') : '-';
+const formatMoney = (value) => {
+  if (value === null || value === undefined || value === '') return '-';
+  return Number(value).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+};
+
+const statusOptions = ['OPEN', 'CONFIRMED', 'UNDER_MAINTENANCE', 'RESTORED', 'VERIFIED', 'CLOSED', 'REOPENED', 'CANCELLED']
+  .map((value) => ({ value, label: formatLabel(value) }));
+
+const statusColors = {
+  OPEN: 'warning',
+  CONFIRMED: 'info',
+  UNDER_MAINTENANCE: 'primary',
+  RESTORED: 'secondary',
+  VERIFIED: 'success',
+  CLOSED: 'default',
+  REOPENED: 'warning',
+  CANCELLED: 'default',
+};
 
 function DowntimeListPage() {
   const navigate = useNavigate();
@@ -19,7 +39,7 @@ function DowntimeListPage() {
   const [sites, setSites] = React.useState([]);
   const [equipments, setEquipments] = React.useState([]);
   const [requests, setRequests] = React.useState([]);
-  const [filters, setFilters] = React.useState({ siteId: '', equipmentId: '', requestId: '', dateFrom: '', dateTo: '', search: '' });
+  const [filters, setFilters] = React.useState({ siteId: '', equipmentId: '', requestId: '', status: '', dateFrom: '', dateTo: '', search: '' });
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState('');
   const [success, setSuccess] = React.useState('');
@@ -35,6 +55,7 @@ function DowntimeListPage() {
         equalFilter('siteId', filters.siteId, 'NUMBER'),
         equalFilter('equipmentId', filters.equipmentId, 'NUMBER'),
         equalFilter('requestId', filters.requestId, 'NUMBER'),
+        equalFilter('status', filters.status, 'STRING'),
         rangeFilter('downtimeStart', filters.dateFrom ? `${filters.dateFrom}T00:00:00` : '', 'gte', 'DATETIME'),
         rangeFilter('downtimeStart', filters.dateTo ? `${filters.dateTo}T23:59:59` : '', 'lte', 'DATETIME'),
         commonSearchFilter(filters.search),
@@ -95,11 +116,20 @@ function DowntimeListPage() {
     { field: 'equipmentName', headerName: 'Equipment', minWidth: 190, flex: 1 },
     { field: 'siteName', headerName: 'Site', minWidth: 170, flex: 0.9 },
     { field: 'requestNumber', headerName: 'Request', minWidth: 160, flex: 0.8 },
+    {
+      field: 'status',
+      headerName: 'Status',
+      minWidth: 150,
+      flex: 0.7,
+      renderCell: ({ value }) => <Chip size="small" label={formatLabel(value)} color={statusColors[value] || 'default'} />,
+    },
     { field: 'downtimeStart', headerName: 'Start Time', minWidth: 170, flex: 0.9 },
     { field: 'downtimeEnd', headerName: 'End Time', minWidth: 170, flex: 0.9, valueFormatter: ({ value }) => value || '-' },
     { field: 'downtimeMinutes', headerName: 'Minutes', minWidth: 100, flex: 0.5, valueFormatter: ({ value }) => formatDuration(value) },
-    { field: 'downtimeHours', headerName: 'Hours', minWidth: 100, flex: 0.5, valueFormatter: ({ value }) => formatDuration(value) },
+    { field: 'reasonCategory', headerName: 'Category', minWidth: 150, flex: 0.7, valueFormatter: ({ value }) => formatLabel(value) },
     { field: 'reason', headerName: 'Reason', minWidth: 180, flex: 1 },
+    { field: 'lostQuantity', headerName: 'Lost Qty', minWidth: 110, flex: 0.5, valueFormatter: ({ value }) => formatDuration(value) },
+    { field: 'lostAmount', headerName: 'Lost Amount', minWidth: 130, flex: 0.6, valueFormatter: ({ value }) => formatMoney(value) },
     {
       field: 'actions',
       headerName: '',
@@ -172,9 +202,18 @@ function DowntimeListPage() {
             getOptionValue={(item) => item.id}
             sx={{ minWidth: 220 }}
           />
-          <TextField type="date" label="Date From" value={filters.dateFrom} onChange={updateFilter('dateFrom')} InputLabelProps={{ shrink: true }} sx={{ minWidth: 170 }} />
-          <TextField type="date" label="Date To" value={filters.dateTo} onChange={updateFilter('dateTo')} InputLabelProps={{ shrink: true }} sx={{ minWidth: 170 }} />
-          <TextField label="Search" value={filters.search} onChange={updateFilter('search')} fullWidth />
+          <CommonDropdown
+            label="Status"
+            value={filters.status}
+            onChange={updateFilter('status')}
+            options={statusOptions}
+            placeholder="All Status"
+            clearable
+            sx={{ minWidth: 190 }}
+          />
+          <CommonInput type="date" label="Date From" value={filters.dateFrom} onChange={updateFilter('dateFrom')} InputLabelProps={{ shrink: true }} sx={{ minWidth: 170 }} />
+          <CommonInput type="date" label="Date To" value={filters.dateTo} onChange={updateFilter('dateTo')} InputLabelProps={{ shrink: true }} sx={{ minWidth: 170 }} />
+          <CommonInput label="Search" value={filters.search} onChange={updateFilter('search')} fullWidth />
         </Stack>
       </Paper>
       <CommonList

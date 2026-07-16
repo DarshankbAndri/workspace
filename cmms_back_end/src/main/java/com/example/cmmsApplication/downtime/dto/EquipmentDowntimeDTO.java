@@ -36,8 +36,24 @@ public class EquipmentDowntimeDTO {
     private Long downtimeMinutes;
     private BigDecimal downtimeHours;
     private BigDecimal downtimeDays;
+    private String status;
     @NotBlank(message = "Reason is required")
     private String reason;
+    private String reasonCategory;
+    private String reasonCode;
+    private String rootCause;
+    private String productionLine;
+    private String shiftName;
+    private String operatorName;
+    private BigDecimal expectedOutputPerHour;
+    private BigDecimal lossRatePerUnit;
+    private BigDecimal lostQuantity;
+    private BigDecimal lostAmount;
+    private Long verifiedByUserId;
+    private String verifiedByName;
+    private LocalDateTime verifiedAt;
+    private LocalDateTime closedAt;
+    private String closureRemarks;
     private Boolean planned;
     private String remarks;
     private LocalDateTime createdAt;
@@ -73,8 +89,40 @@ public class EquipmentDowntimeDTO {
     public void setDowntimeHours(BigDecimal downtimeHours) { this.downtimeHours = downtimeHours; }
     public BigDecimal getDowntimeDays() { return downtimeDays; }
     public void setDowntimeDays(BigDecimal downtimeDays) { this.downtimeDays = downtimeDays; }
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
     public String getReason() { return reason; }
     public void setReason(String reason) { this.reason = reason; }
+    public String getReasonCategory() { return reasonCategory; }
+    public void setReasonCategory(String reasonCategory) { this.reasonCategory = reasonCategory; }
+    public String getReasonCode() { return reasonCode; }
+    public void setReasonCode(String reasonCode) { this.reasonCode = reasonCode; }
+    public String getRootCause() { return rootCause; }
+    public void setRootCause(String rootCause) { this.rootCause = rootCause; }
+    public String getProductionLine() { return productionLine; }
+    public void setProductionLine(String productionLine) { this.productionLine = productionLine; }
+    public String getShiftName() { return shiftName; }
+    public void setShiftName(String shiftName) { this.shiftName = shiftName; }
+    public String getOperatorName() { return operatorName; }
+    public void setOperatorName(String operatorName) { this.operatorName = operatorName; }
+    public BigDecimal getExpectedOutputPerHour() { return expectedOutputPerHour; }
+    public void setExpectedOutputPerHour(BigDecimal expectedOutputPerHour) { this.expectedOutputPerHour = expectedOutputPerHour; }
+    public BigDecimal getLossRatePerUnit() { return lossRatePerUnit; }
+    public void setLossRatePerUnit(BigDecimal lossRatePerUnit) { this.lossRatePerUnit = lossRatePerUnit; }
+    public BigDecimal getLostQuantity() { return lostQuantity; }
+    public void setLostQuantity(BigDecimal lostQuantity) { this.lostQuantity = lostQuantity; }
+    public BigDecimal getLostAmount() { return lostAmount; }
+    public void setLostAmount(BigDecimal lostAmount) { this.lostAmount = lostAmount; }
+    public Long getVerifiedByUserId() { return verifiedByUserId; }
+    public void setVerifiedByUserId(Long verifiedByUserId) { this.verifiedByUserId = verifiedByUserId; }
+    public String getVerifiedByName() { return verifiedByName; }
+    public void setVerifiedByName(String verifiedByName) { this.verifiedByName = verifiedByName; }
+    public LocalDateTime getVerifiedAt() { return verifiedAt; }
+    public void setVerifiedAt(LocalDateTime verifiedAt) { this.verifiedAt = verifiedAt; }
+    public LocalDateTime getClosedAt() { return closedAt; }
+    public void setClosedAt(LocalDateTime closedAt) { this.closedAt = closedAt; }
+    public String getClosureRemarks() { return closureRemarks; }
+    public void setClosureRemarks(String closureRemarks) { this.closureRemarks = closureRemarks; }
     public Boolean getPlanned() { return planned; }
     public void setPlanned(Boolean planned) { this.planned = planned; }
     public String getRemarks() { return remarks; }

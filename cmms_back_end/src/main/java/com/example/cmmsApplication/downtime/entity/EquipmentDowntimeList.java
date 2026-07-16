@@ -31,7 +31,23 @@ import lombok.NoArgsConstructor;
             d.downtime_minutes AS downtime_minutes,
             CAST(ROUND(d.downtime_minutes / 60.0, 2) AS NUMERIC(12,2)) AS downtime_hours,
             CAST(ROUND(d.downtime_minutes / 1440.0, 2) AS NUMERIC(12,2)) AS downtime_days,
+            d.status AS status,
             d.reason AS reason,
+            d.reason_category AS reason_category,
+            d.reason_code AS reason_code,
+            d.root_cause AS root_cause,
+            d.production_line AS production_line,
+            d.shift_name AS shift_name,
+            d.operator_name AS operator_name,
+            d.expected_output_per_hour AS expected_output_per_hour,
+            d.loss_rate_per_unit AS loss_rate_per_unit,
+            d.lost_quantity AS lost_quantity,
+            d.lost_amount AS lost_amount,
+            d.verified_by_user_id AS verified_by_user_id,
+            CONCAT(u.first_name, ' ', u.last_name) AS verified_by_name,
+            d.verified_at AS verified_at,
+            d.closed_at AS closed_at,
+            d.closure_remarks AS closure_remarks,
             d.planned AS planned,
             d.remarks AS remarks,
             d.created_at AS created_at,
@@ -40,6 +56,7 @@ import lombok.NoArgsConstructor;
         LEFT JOIN equipment_master e ON e.id = d.equipment_id
         LEFT JOIN site_master s ON s.site_id = d.site_id
         LEFT JOIN maintenance_request mr ON mr.id = d.request_id
+        LEFT JOIN users u ON u.id = d.verified_by_user_id
         """)
 @Getter
 @Setter
@@ -75,7 +92,38 @@ public class EquipmentDowntimeList {
     private BigDecimal downtimeHours;
     @Column(name = "downtime_days")
     private BigDecimal downtimeDays;
+    private String status;
     private String reason;
+    @Column(name = "reason_category")
+    private String reasonCategory;
+    @Column(name = "reason_code")
+    private String reasonCode;
+    @Column(name = "root_cause")
+    private String rootCause;
+    @Column(name = "production_line")
+    private String productionLine;
+    @Column(name = "shift_name")
+    private String shiftName;
+    @Column(name = "operator_name")
+    private String operatorName;
+    @Column(name = "expected_output_per_hour")
+    private BigDecimal expectedOutputPerHour;
+    @Column(name = "loss_rate_per_unit")
+    private BigDecimal lossRatePerUnit;
+    @Column(name = "lost_quantity")
+    private BigDecimal lostQuantity;
+    @Column(name = "lost_amount")
+    private BigDecimal lostAmount;
+    @Column(name = "verified_by_user_id")
+    private Long verifiedByUserId;
+    @Column(name = "verified_by_name")
+    private String verifiedByName;
+    @Column(name = "verified_at")
+    private LocalDateTime verifiedAt;
+    @Column(name = "closed_at")
+    private LocalDateTime closedAt;
+    @Column(name = "closure_remarks")
+    private String closureRemarks;
     private Boolean planned;
     private String remarks;
     @Column(name = "created_at")
@@ -98,7 +146,23 @@ public class EquipmentDowntimeList {
     public Long getDowntimeMinutes() { return downtimeMinutes; }
     public BigDecimal getDowntimeHours() { return downtimeHours; }
     public BigDecimal getDowntimeDays() { return downtimeDays; }
+    public String getStatus() { return status; }
     public String getReason() { return reason; }
+    public String getReasonCategory() { return reasonCategory; }
+    public String getReasonCode() { return reasonCode; }
+    public String getRootCause() { return rootCause; }
+    public String getProductionLine() { return productionLine; }
+    public String getShiftName() { return shiftName; }
+    public String getOperatorName() { return operatorName; }
+    public BigDecimal getExpectedOutputPerHour() { return expectedOutputPerHour; }
+    public BigDecimal getLossRatePerUnit() { return lossRatePerUnit; }
+    public BigDecimal getLostQuantity() { return lostQuantity; }
+    public BigDecimal getLostAmount() { return lostAmount; }
+    public Long getVerifiedByUserId() { return verifiedByUserId; }
+    public String getVerifiedByName() { return verifiedByName; }
+    public LocalDateTime getVerifiedAt() { return verifiedAt; }
+    public LocalDateTime getClosedAt() { return closedAt; }
+    public String getClosureRemarks() { return closureRemarks; }
     public Boolean getPlanned() { return planned; }
     public String getRemarks() { return remarks; }
     public LocalDateTime getCreatedAt() { return createdAt; }

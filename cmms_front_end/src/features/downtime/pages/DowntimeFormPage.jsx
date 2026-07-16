@@ -13,6 +13,24 @@ import CommonFormCard from '../../../shared/components/common/CommonFormCard';
 
 const nowLocal = () => new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 16);
 
+const reasonCategoryOptions = [
+  'MECHANICAL',
+  'ELECTRICAL',
+  'INSTRUMENTATION',
+  'UTILITY_FAILURE',
+  'MATERIAL_SHORTAGE',
+  'OPERATOR_ERROR',
+  'PLANNED_SHUTDOWN',
+  'CHANGEOVER',
+  'SAFETY_STOP',
+  'OTHER',
+].map((value) => ({ value, label: value.replaceAll('_', ' ') }));
+
+const plannedOptions = [
+  { value: false, label: 'Unplanned' },
+  { value: true, label: 'Planned' },
+];
+
 const initialForm = {
   siteId: '',
   equipmentId: '',
@@ -20,7 +38,17 @@ const initialForm = {
   downtimeStart: nowLocal(),
   downtimeEnd: '',
   reason: '',
+  reasonCategory: '',
+  reasonCode: '',
+  rootCause: '',
+  productionLine: '',
+  shiftName: '',
+  operatorName: '',
+  expectedOutputPerHour: '',
+  lossRatePerUnit: '',
+  planned: false,
   remarks: '',
+  closureRemarks: '',
 };
 
 const calculateDuration = (start, end) => {
@@ -29,6 +57,17 @@ const calculateDuration = (start, end) => {
   if (!Number.isFinite(minutes) || minutes <= 0) return null;
   return { minutes, hours: Number((minutes / 60).toFixed(2)), days: Number((minutes / 1440).toFixed(2)) };
 };
+
+const calculateLoss = (duration, expectedOutputPerHour, lossRatePerUnit) => {
+  const output = Number(expectedOutputPerHour || 0);
+  const rate = Number(lossRatePerUnit || 0);
+  if (!duration || !output) return { lostQuantity: '', lostAmount: '' };
+  const lostQuantity = Number((duration.hours * output).toFixed(2));
+  const lostAmount = rate ? Number((lostQuantity * rate).toFixed(2)) : '';
+  return { lostQuantity, lostAmount };
+};
+
+const toNumberOrNull = (value) => (value === '' || value === null || value === undefined ? null : Number(value));
 
 function DowntimeFormPage() {
   const { id } = useParams();
@@ -43,6 +82,7 @@ function DowntimeFormPage() {
   const [error, setError] = React.useState('');
   const [saving, setSaving] = React.useState(false);
   const duration = React.useMemo(() => calculateDuration(form.downtimeStart, form.downtimeEnd), [form.downtimeStart, form.downtimeEnd]);
+  const loss = React.useMemo(() => calculateLoss(duration, form.expectedOutputPerHour, form.lossRatePerUnit), [duration, form.expectedOutputPerHour, form.lossRatePerUnit]);
 
   React.useEffect(() => {
     Promise.all([getSites(), getEquipments(), getMaintenanceRequests()])
@@ -65,6 +105,9 @@ function DowntimeFormPage() {
           requestId: data.requestId || '',
           downtimeStart: data.downtimeStart?.slice(0, 16) || '',
           downtimeEnd: data.downtimeEnd?.slice(0, 16) || '',
+          planned: Boolean(data.planned),
+          expectedOutputPerHour: data.expectedOutputPerHour ?? '',
+          lossRatePerUnit: data.lossRatePerUnit ?? '',
         }))
         .catch((err) => setError(err.response?.data?.message || 'Unable to load downtime entry.'));
     }
@@ -94,7 +137,9 @@ function DowntimeFormPage() {
         equipmentId: Number(form.equipmentId),
         requestId: form.requestId ? Number(form.requestId) : null,
         downtimeEnd: form.downtimeEnd || null,
-        planned: false,
+        expectedOutputPerHour: toNumberOrNull(form.expectedOutputPerHour),
+        lossRatePerUnit: toNumberOrNull(form.lossRatePerUnit),
+        planned: Boolean(form.planned),
       };
       if (isEdit) {
         await updateDowntimeEntry(id, payload);
@@ -132,12 +177,22 @@ function DowntimeFormPage() {
             <Grid item xs={12} md={4}>
               <CommonDropdown disabled={isView || !form.siteId || !form.equipmentId} label="Maintenance Request" value={form.requestId} onChange={updateField('requestId')} options={requestOptions} />
             </Grid>
+            <Grid item xs={12} md={4}><CommonDropdown disabled={isView} label="Downtime Type" value={form.planned} onChange={updateField('planned')} options={plannedOptions} /></Grid>
+            <Grid item xs={12} md={4}><CommonDropdown disabled={isView} label="Reason Category" value={form.reasonCategory || ''} onChange={updateField('reasonCategory')} options={reasonCategoryOptions} clearable /></Grid>
+            <Grid item xs={12} md={4}><CommonInput disabled={isView} label="Reason Code" value={form.reasonCode || ''} onChange={updateField('reasonCode')} /></Grid>
             <Grid item xs={12} md={4}><CommonInput required disabled={isView} label="Reason" value={form.reason || ''} onChange={updateField('reason')} /></Grid>
             <Grid item xs={12} md={4}><CommonDateTimePicker required disabled={isView} label="Start Time" value={form.downtimeStart || ''} onChange={updateField('downtimeStart')} /></Grid>
             <Grid item xs={12} md={4}><CommonDateTimePicker disabled={isView} label="End Time" value={form.downtimeEnd || ''} onChange={updateField('downtimeEnd')} /></Grid>
+            <Grid item xs={12} md={4}><CommonInput disabled={isView} label="Production Line" value={form.productionLine || ''} onChange={updateField('productionLine')} /></Grid>
+            <Grid item xs={12} md={4}><CommonInput disabled={isView} label="Shift" value={form.shiftName || ''} onChange={updateField('shiftName')} /></Grid>
+            <Grid item xs={12} md={4}><CommonInput disabled={isView} label="Operator" value={form.operatorName || ''} onChange={updateField('operatorName')} /></Grid>
+            <Grid item xs={12} md={4}><CommonInput disabled={isView} type="number" label="Expected Output / Hour" value={form.expectedOutputPerHour || ''} onChange={updateField('expectedOutputPerHour')} inputProps={{ min: 0, step: '0.01' }} /></Grid>
+            <Grid item xs={12} md={4}><CommonInput disabled={isView} type="number" label="Loss Rate / Unit" value={form.lossRatePerUnit || ''} onChange={updateField('lossRatePerUnit')} inputProps={{ min: 0, step: '0.01' }} /></Grid>
+            <Grid item xs={12} md={4}><CommonInput label="Lost Quantity" value={loss.lostQuantity || form.lostQuantity || ''} InputProps={{ readOnly: true }} /></Grid>
             <Grid item xs={12} md={4}><CommonInput label="Minutes" value={duration?.minutes ?? form.downtimeMinutes ?? ''} InputProps={{ readOnly: true }} /></Grid>
             <Grid item xs={12} md={4}><CommonInput label="Hours" value={duration?.hours ?? form.downtimeHours ?? ''} InputProps={{ readOnly: true }} /></Grid>
-            <Grid item xs={12} md={4}><CommonInput label="Days" value={duration?.days ?? form.downtimeDays ?? ''} InputProps={{ readOnly: true }} /></Grid>
+            <Grid item xs={12} md={4}><CommonInput label="Lost Amount" value={loss.lostAmount || form.lostAmount || ''} InputProps={{ readOnly: true }} /></Grid>
+            <Grid item xs={12}><CommonTextArea disabled={isView} minRows={2} label="Root Cause" value={form.rootCause || ''} onChange={updateField('rootCause')} /></Grid>
             <Grid item xs={12}><CommonTextArea disabled={isView} minRows={2} label="Remarks" value={form.remarks || ''} onChange={updateField('remarks')} /></Grid>
           </Grid>
           <CommonFormActions

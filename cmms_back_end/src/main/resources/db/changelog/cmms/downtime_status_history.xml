@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="downtime-status-history-001-create-table" author="Codex">
+        <createTable tableName="downtime_status_history">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="downtime_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="from_status" type="VARCHAR(30)"/>
+            <column name="to_status" type="VARCHAR(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="action" type="VARCHAR(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="comment" type="VARCHAR(1000)"/>
+            <column name="changed_by_user_id" type="BIGINT"/>
+            <column name="changed_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint constraintName="fk_downtime_history_downtime"
+                                 baseTableName="downtime_status_history"
+                                 baseColumnNames="downtime_id"
+                                 referencedTableName="equipment_downtime"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+        <addForeignKeyConstraint constraintName="fk_downtime_history_changed_by"
+                                 baseTableName="downtime_status_history"
+                                 baseColumnNames="changed_by_user_id"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"/>
+        <createIndex indexName="idx_downtime_history_downtime" tableName="downtime_status_history">
+            <column name="downtime_id"/>
+        </createIndex>
+        <createIndex indexName="idx_downtime_history_changed_at" tableName="downtime_status_history">
+            <column name="changed_at"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>

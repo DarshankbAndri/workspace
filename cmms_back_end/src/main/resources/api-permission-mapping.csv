@@ -129,6 +129,14 @@ DOWNTIME_UPDATE,/api/maintenance/downtime/**,PUT,Update downtime
 DOWNTIME_UPDATE,/api/equipment/**,GET,Update downtime equipment helper data
 DOWNTIME_UPDATE,/api/equipment,GET,Update downtime equipment helper data
 DOWNTIME_DELETE,/api/maintenance/downtime/*,DELETE,Delete downtime
+DOWNTIME_CONFIRM,/api/maintenance/downtime/*/confirm,POST,Confirm downtime
+DOWNTIME_CONFIRM,/api/maintenance/downtime/*/start-maintenance,POST,Start downtime maintenance
+DOWNTIME_VERIFY,/api/maintenance/downtime/*/restore,POST,Restore downtime
+DOWNTIME_VERIFY,/api/maintenance/downtime/*/verify,POST,Verify downtime
+DOWNTIME_CLOSE,/api/maintenance/downtime/*/close,POST,Close downtime
+DOWNTIME_REOPEN,/api/maintenance/downtime/*/reopen,POST,Reopen downtime
+DOWNTIME_RCA_MANAGE,/api/maintenance/downtime/*/rca-actions,POST,Create downtime RCA action
+DOWNTIME_RCA_MANAGE,/api/maintenance/downtime/*/rca-actions/*,PUT,Update downtime RCA action
 REPORT_VIEW,/api/reports/**,GET,View reports
 REPORT_VIEW,/api/equipment/**,GET,Report equipment helper data
 REPORT_VIEW,/api/equipment,GET,Report equipment helper data

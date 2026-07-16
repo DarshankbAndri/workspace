@@ -75,7 +75,11 @@ public class ListSearchService {
             "commonSearch", "id", "equipmentId", "equipmentCode", "equipmentName", "siteId",
             "siteCode", "siteName", "requestId", "requestNumber", "requestTitle",
             "downtimeStart", "downtimeEnd", "downtimeMinutes", "downtimeHours",
-            "downtimeDays", "reason", "planned", "remarks", "createdAt", "updatedAt"
+            "downtimeDays", "status", "reason", "reasonCategory", "reasonCode",
+            "rootCause", "productionLine", "shiftName", "operatorName",
+            "expectedOutputPerHour", "lossRatePerUnit", "lostQuantity", "lostAmount",
+            "verifiedByUserId", "verifiedByName", "verifiedAt", "closedAt",
+            "closureRemarks", "planned", "remarks", "createdAt", "updatedAt"
     );
     private static final Set<String> PM_FILTERS = Set.of(
             "commonSearch", "id", "scheduleCode", "siteId", "siteCode", "siteName",

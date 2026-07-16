@@ -121,4 +121,16 @@
             ON CONFLICT (permission_code) DO NOTHING;
         </sql>
     </changeSet>
+
+    <changeSet id="permission-master-008-seed-downtime-workflow" author="Codex">
+        <sql>
+            INSERT INTO permission_master (permission_code, permission_name, module_name, action_name, status, created_at, updated_at) VALUES
+            ('DOWNTIME_CONFIRM', 'Confirm Downtime', 'Downtime', 'CONFIRM', 'ACTIVE', NOW(), NOW()),
+            ('DOWNTIME_VERIFY', 'Verify Downtime', 'Downtime', 'VERIFY', 'ACTIVE', NOW(), NOW()),
+            ('DOWNTIME_CLOSE', 'Close Downtime', 'Downtime', 'CLOSE', 'ACTIVE', NOW(), NOW()),
+            ('DOWNTIME_REOPEN', 'Reopen Downtime', 'Downtime', 'REOPEN', 'ACTIVE', NOW(), NOW()),
+            ('DOWNTIME_RCA_MANAGE', 'Manage Downtime RCA', 'Downtime', 'RCA_MANAGE', 'ACTIVE', NOW(), NOW())
+            ON CONFLICT (permission_code) DO NOTHING;
+        </sql>
+    </changeSet>
 </databaseChangeLog>

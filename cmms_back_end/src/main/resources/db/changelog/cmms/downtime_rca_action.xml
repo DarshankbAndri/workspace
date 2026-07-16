@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="downtime-rca-action-001-create-table" author="Codex">
+        <createTable tableName="downtime_rca_action">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="downtime_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="action_type" type="VARCHAR(30)" defaultValue="CORRECTIVE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(1000)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="responsible_employee_id" type="BIGINT"/>
+            <column name="target_date" type="DATE"/>
+            <column name="status" type="VARCHAR(30)" defaultValue="OPEN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="completed_at" type="TIMESTAMP"/>
+            <column name="verified_by_user_id" type="BIGINT"/>
+            <column name="verified_at" type="TIMESTAMP"/>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint constraintName="fk_downtime_rca_downtime"
+                                 baseTableName="downtime_rca_action"
+                                 baseColumnNames="downtime_id"
+                                 referencedTableName="equipment_downtime"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+        <addForeignKeyConstraint constraintName="fk_downtime_rca_employee"
+                                 baseTableName="downtime_rca_action"
+                                 baseColumnNames="responsible_employee_id"
+                                 referencedTableName="employee_master"
+                                 referencedColumnNames="employee_id"/>
+        <addForeignKeyConstraint constraintName="fk_downtime_rca_verified_by"
+                                 baseTableName="downtime_rca_action"
+                                 baseColumnNames="verified_by_user_id"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"/>
+        <createIndex indexName="idx_downtime_rca_downtime" tableName="downtime_rca_action">
+            <column name="downtime_id"/>
+        </createIndex>
+        <createIndex indexName="idx_downtime_rca_status" tableName="downtime_rca_action">
+            <column name="status"/>
+        </createIndex>
+        <createIndex indexName="idx_downtime_rca_target_date" tableName="downtime_rca_action">
+            <column name="target_date"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>
