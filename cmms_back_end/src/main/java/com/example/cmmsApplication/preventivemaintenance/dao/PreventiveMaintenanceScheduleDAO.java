@@ -24,6 +24,7 @@ public class PreventiveMaintenanceScheduleDAO {
     public boolean existsByScheduleCodeAndIdNot(String scheduleCode, Long id) { return repository.existsByScheduleCodeAndIdNot(scheduleCode, id); }
     public List<PreventiveMaintenanceSchedule> findDue(LocalDate date) { return repository.findByActiveTrueAndNextDueDateLessThanEqualOrderByNextDueDateAsc(date); }
     public List<PreventiveMaintenanceSchedule> findUpcoming(LocalDate start, LocalDate end) { return repository.findByActiveTrueAndNextDueDateBetweenOrderByNextDueDateAsc(start, end); }
+    public List<PreventiveMaintenanceSchedule> findByAmcContractId(Long amcContractId) { return repository.findByAmcContractIdOrderByNextDueDateAsc(amcContractId); }
     public List<PreventiveMaintenanceSchedule> findCalendar(LocalDate start, LocalDate end, Long siteId, Long equipmentId, boolean admin, Collection<Long> allowedSiteIds) {
         return repository.findCalendar(start, end, siteId, equipmentId, admin, allowedSiteIds);
     }

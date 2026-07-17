@@ -1,10 +1,10 @@
 import React from 'react';
 import { Alert, Box, Button, Chip, Grid, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
-import { Edit } from '@mui/icons-material';
+import { Edit, Visibility } from '@mui/icons-material';
 import { useNavigate, useParams } from 'react-router-dom';
 import CommonFormActions from '../../../shared/components/common/CommonFormActions';
 import CommonFormCard from '../../../shared/components/common/CommonFormCard';
-import { getVendorAmcContract } from '../services/vendorAmcService';
+import { getVendorAmcContract, getVendorAmcPmSchedules } from '../services/vendorAmcService';
 import { useAuth } from '../../../shared/context/AuthContext';
 import { PERMISSIONS } from '../../../shared/utils/permissionRoutes';
 
@@ -13,11 +13,15 @@ function VendorAmcViewPage() {
   const navigate = useNavigate();
   const { hasPermission } = useAuth();
   const [contract, setContract] = React.useState(null);
+  const [pmSchedules, setPmSchedules] = React.useState([]);
   const [error, setError] = React.useState('');
 
   React.useEffect(() => {
-    getVendorAmcContract(id)
-      .then(setContract)
+    Promise.all([getVendorAmcContract(id), getVendorAmcPmSchedules(id)])
+      .then(([contractData, pmRows]) => {
+        setContract(contractData);
+        setPmSchedules(pmRows || []);
+      })
       .catch((err) => setError(err.response?.data?.message || 'Unable to load AMC contract.'));
   }, [id]);
 
@@ -101,6 +105,46 @@ function VendorAmcViewPage() {
               </Table>
             </TableContainer>
           </Box>
+          <Box>
+            <Typography variant="h6" sx={{ mb: 1 }}>Linked Preventive Maintenance</Typography>
+            <TableContainer>
+              <Table size="small">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Schedule</TableCell>
+                    <TableCell>Equipment</TableCell>
+                    <TableCell>PM Task</TableCell>
+                    <TableCell>Frequency</TableCell>
+                    <TableCell>Next Due</TableCell>
+                    <TableCell>End Date</TableCell>
+                    <TableCell>Status</TableCell>
+                    <TableCell align="right">View</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {pmSchedules.length === 0 ? (
+                    <TableRow><TableCell colSpan={8}>No preventive maintenance schedules linked to this AMC.</TableCell></TableRow>
+                  ) : pmSchedules.map((schedule) => (
+                    <TableRow
+                      key={schedule.id}
+                      hover
+                      sx={{ cursor: 'pointer' }}
+                      onClick={() => navigate(`/maintenance/preventive/${schedule.id}/view`)}
+                    >
+                      <TableCell>{display(schedule.scheduleCode)}</TableCell>
+                      <TableCell>{formatEquipment(schedule)}</TableCell>
+                      <TableCell>{display(schedule.title)}</TableCell>
+                      <TableCell>{formatLabel(schedule.frequency)}</TableCell>
+                      <TableCell>{display(schedule.nextDueDate)}</TableCell>
+                      <TableCell>{display(schedule.endDate)}</TableCell>
+                      <TableCell>{schedule.active === false ? 'Inactive' : display(schedule.status || 'Active')}</TableCell>
+                      <TableCell align="right"><Visibility fontSize="small" /></TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Box>
         </Stack>
         <CommonFormActions showSave={false} onCancel={() => navigate('/vendor-amc')} cancelLabel="Back" />
       </CommonFormCard>
@@ -120,6 +164,13 @@ function formatMoney(value) {
   const number = Number(value);
   if (!Number.isFinite(number)) return '-';
   return number.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+function formatEquipment(schedule) {
+  if (!schedule?.equipmentName && !schedule?.equipmentCode) return '-';
+  if (!schedule.equipmentCode) return schedule.equipmentName;
+  if (!schedule.equipmentName) return schedule.equipmentCode;
+  return `${schedule.equipmentCode} - ${schedule.equipmentName}`;
 }
 
 function statusColor(value) {

@@ -35,6 +35,7 @@ VENDOR_DELETE,/api/vendors/*,DELETE,Delete vendor
 VENDOR_AMC_VIEW,/api/vendor-amc/dashboard,GET,View AMC dashboard summary
 VENDOR_AMC_VIEW,/api/vendor-amc/*,GET,View AMC contract
 VENDOR_AMC_VIEW,/api/vendor-amc/*/equipment,GET,View AMC equipment mappings
+VENDOR_AMC_VIEW,/api/vendor-amc/*/pm-schedules,GET,View AMC linked preventive maintenance schedules
 VENDOR_AMC_VIEW,/api/vendor-amc/search,POST,Search AMC contracts
 VENDOR_AMC_VIEW,/api/vendors/*/amc-contracts,GET,View vendor AMC contracts
 VENDOR_AMC_VIEW,/api/equipment/*/active-amc,GET,View equipment active AMC

@@ -11,6 +11,8 @@ import com.example.cmmsApplication.equipment.entity.Equipment;
 import com.example.cmmsApplication.equipment.service.EquipmentService;
 import com.example.cmmsApplication.maintenancerequest.dao.MaintenanceRequestDAO;
 import com.example.cmmsApplication.notification.service.NotificationService;
+import com.example.cmmsApplication.preventivemaintenance.dao.PreventiveMaintenanceScheduleDAO;
+import com.example.cmmsApplication.preventivemaintenance.entity.PreventiveMaintenanceSchedule;
 import com.example.cmmsApplication.vendor.entity.Vendor;
 import com.example.cmmsApplication.vendor.service.VendorService;
 import com.example.cmmsApplication.vendoramc.dao.EquipmentAmcMappingDAO;
@@ -18,6 +20,7 @@ import com.example.cmmsApplication.vendoramc.dao.VendorAmcContractDAO;
 import com.example.cmmsApplication.vendoramc.dto.EquipmentAmcMappingDTO;
 import com.example.cmmsApplication.vendoramc.dto.VendorAmcContractDTO;
 import com.example.cmmsApplication.vendoramc.dto.VendorAmcDashboardDTO;
+import com.example.cmmsApplication.vendoramc.dto.VendorAmcPmScheduleDTO;
 import com.example.cmmsApplication.vendoramc.entity.EquipmentAmcMapping;
 import com.example.cmmsApplication.vendoramc.entity.VendorAmcContract;
 import com.example.cmmsApplication.vendoramc.enums.VendorAmcStatus;
@@ -49,6 +52,7 @@ public class VendorAmcService {
     private final EquipmentService equipmentService;
     private final EquipmentDAO equipmentDAO;
     private final MaintenanceRequestDAO requestDAO;
+    private final PreventiveMaintenanceScheduleDAO pmScheduleDAO;
     private final AccessControlService accessControlService;
     private final NotificationService notificationService;
 
@@ -150,6 +154,16 @@ public class VendorAmcService {
     public List<EquipmentAmcMappingDTO> getContractEquipment(Long contractId) {
         getEntity(contractId);
         return mappingDAO.findByContractId(contractId).stream().map(mapper::toDTO).toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<VendorAmcPmScheduleDTO> getLinkedPmSchedules(Long contractId) {
+        getEntity(contractId);
+        return pmScheduleDAO.findByAmcContractId(contractId).stream()
+                .filter((schedule) -> accessControlService.isAdmin()
+                        || (schedule.getSite() != null && accessControlService.getAllowedSiteIds().contains(schedule.getSite().getId())))
+                .map(this::toPmScheduleDTO)
+                .toList();
     }
 
     @Transactional(readOnly = true)
@@ -257,6 +271,24 @@ public class VendorAmcService {
         if (start.isBefore(contract.getStartDate()) || end.isAfter(contract.getEndDate())) {
             throw new InvalidOperationException("Equipment coverage dates must remain within AMC contract dates");
         }
+    }
+
+    private VendorAmcPmScheduleDTO toPmScheduleDTO(PreventiveMaintenanceSchedule schedule) {
+        return VendorAmcPmScheduleDTO.builder()
+                .id(schedule.getId())
+                .scheduleCode(schedule.getScheduleCode())
+                .siteName(schedule.getSite() == null ? null : schedule.getSite().getSiteName())
+                .equipmentCode(schedule.getEquipment() == null ? null : schedule.getEquipment().getEquipmentCode())
+                .equipmentName(schedule.getEquipment() == null ? null : schedule.getEquipment().getEquipmentName())
+                .title(schedule.getTitle())
+                .frequency(schedule.getFrequency())
+                .priority(schedule.getPriority())
+                .startDate(schedule.getStartDate())
+                .endDate(schedule.getEndDate())
+                .nextDueDate(schedule.getNextDueDate())
+                .active(schedule.getActive())
+                .status(schedule.getStatus())
+                .build();
     }
 
     private boolean matches(VendorAmcContract contract, List<SearchCriteriaDTO> criteriaList) {

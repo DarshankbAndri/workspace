@@ -59,6 +59,11 @@ public class VendorAmcController {
         return ResponseFactory.ok(vendorAmcService.getContractEquipment(id));
     }
 
+    @GetMapping("/{id}/pm-schedules")
+    public ResponseEntity<ApiResponse<?>> getPmSchedules(@PathVariable Long id) {
+        return ResponseFactory.ok(vendorAmcService.getLinkedPmSchedules(id));
+    }
+
     @PostMapping("/{id}/renew")
     public ResponseEntity<ApiResponse<?>> renew(@PathVariable Long id, @Valid @RequestBody VendorAmcContractDTO dto) {
         return ResponseFactory.created(vendorAmcService.renewAmcContract(id, dto));
