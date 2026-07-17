@@ -78,4 +78,30 @@
             <column name="pm_schedule_id"/>
         </createIndex>
     </changeSet>
+
+    <changeSet id="maintenance-request-004-add-amc-fields" author="Codex">
+        <addColumn tableName="maintenance_request">
+            <column name="amc_contract_id" type="BIGINT"/>
+            <column name="amc_covered" type="BOOLEAN" defaultValueBoolean="false"/>
+            <column name="external_vendor_assignment" type="BOOLEAN" defaultValueBoolean="false"/>
+            <column name="vendor_id" type="BIGINT"/>
+            <column name="vendor_reference_number" type="VARCHAR(120)"/>
+        </addColumn>
+        <addForeignKeyConstraint constraintName="fk_request_amc_contract"
+                                 baseTableName="maintenance_request"
+                                 baseColumnNames="amc_contract_id"
+                                 referencedTableName="vendor_amc_contract"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_request_vendor"
+                                 baseTableName="maintenance_request"
+                                 baseColumnNames="vendor_id"
+                                 referencedTableName="vendor_master"
+                                 referencedColumnNames="id"/>
+        <createIndex indexName="idx_request_amc_contract" tableName="maintenance_request">
+            <column name="amc_contract_id"/>
+        </createIndex>
+        <createIndex indexName="idx_request_vendor" tableName="maintenance_request">
+            <column name="vendor_id"/>
+        </createIndex>
+    </changeSet>
 </databaseChangeLog>

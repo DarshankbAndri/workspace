@@ -21,6 +21,7 @@ public interface MaintenanceRequestRepository extends JpaRepository<MaintenanceR
     List<MaintenanceRequest> findByTargetCompletionDateBeforeAndStatusNotInOrderByTargetCompletionDateAsc(LocalDate date, Collection<String> statuses);
     long countByPmScheduleId(Long pmScheduleId);
     long countByPmScheduleIdAndStatusIn(Long pmScheduleId, Collection<String> statuses);
+    long countByAmcContractId(Long amcContractId);
     long countByEquipmentIdAndStatusNotIn(Long equipmentId, Collection<String> statuses);
     long countByEquipmentIdAndPriorityInAndStatusNotIn(Long equipmentId, Collection<String> priorities, Collection<String> statuses);
 }

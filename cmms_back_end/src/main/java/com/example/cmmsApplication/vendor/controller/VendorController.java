@@ -12,6 +12,7 @@ import com.example.cmmsApplication.common.search.dto.SearchDTO;
 import com.example.cmmsApplication.vendor.dto.VendorDTO;
 import com.example.cmmsApplication.common.search.service.ListSearchService;
 import com.example.cmmsApplication.vendor.service.VendorService;
+import com.example.cmmsApplication.vendoramc.service.VendorAmcService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,7 @@ import java.util.List;
 public class VendorController {
     private final VendorService vendorService;
     private final ListSearchService listSearchService;
+    private final VendorAmcService vendorAmcService;
 
 @PostMapping
     public ResponseEntity<ApiResponse<?>> create(@Valid @RequestBody VendorDTO dto) {
@@ -60,5 +62,10 @@ public class VendorController {
     @PostMapping("/search")
     public ResponseEntity<ApiResponse<?>> search(@RequestBody SearchDTO searchDTO) {
         return ResponseFactory.ok(listSearchService.searchVendors(searchDTO));
+    }
+
+    @GetMapping("/{vendorId}/amc-contracts")
+    public ResponseEntity<ApiResponse<?>> getAmcContracts(@PathVariable Long vendorId) {
+        return ResponseFactory.ok(vendorAmcService.getVendorAmcContracts(vendorId));
     }
 }

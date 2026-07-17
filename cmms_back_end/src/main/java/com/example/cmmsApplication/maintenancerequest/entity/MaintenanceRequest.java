@@ -4,6 +4,8 @@ package com.example.cmmsApplication.maintenancerequest.entity;
 import com.example.cmmsApplication.equipment.entity.Equipment;
 import com.example.cmmsApplication.preventivemaintenance.entity.PreventiveMaintenanceSchedule;
 import com.example.cmmsApplication.site.entity.Site;
+import com.example.cmmsApplication.vendor.entity.Vendor;
+import com.example.cmmsApplication.vendoramc.entity.VendorAmcContract;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -60,6 +62,23 @@ public class MaintenanceRequest {
     @JoinColumn(name = "pm_schedule_id")
     private PreventiveMaintenanceSchedule pmSchedule;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "amc_contract_id")
+    private VendorAmcContract amcContract;
+
+    @Column(name = "amc_covered")
+    private Boolean amcCovered = false;
+
+    @Column(name = "external_vendor_assignment")
+    private Boolean externalVendorAssignment = false;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "vendor_id")
+    private Vendor vendor;
+
+    @Column(name = "vendor_reference_number", length = 120)
+    private String vendorReferenceNumber;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
@@ -106,6 +125,16 @@ public class MaintenanceRequest {
     public void setTargetCompletionDate(LocalDate targetCompletionDate) { this.targetCompletionDate = targetCompletionDate; }
     public PreventiveMaintenanceSchedule getPmSchedule() { return pmSchedule; }
     public void setPmSchedule(PreventiveMaintenanceSchedule pmSchedule) { this.pmSchedule = pmSchedule; }
+    public VendorAmcContract getAmcContract() { return amcContract; }
+    public void setAmcContract(VendorAmcContract amcContract) { this.amcContract = amcContract; }
+    public Boolean getAmcCovered() { return amcCovered; }
+    public void setAmcCovered(Boolean amcCovered) { this.amcCovered = amcCovered; }
+    public Boolean getExternalVendorAssignment() { return externalVendorAssignment; }
+    public void setExternalVendorAssignment(Boolean externalVendorAssignment) { this.externalVendorAssignment = externalVendorAssignment; }
+    public Vendor getVendor() { return vendor; }
+    public void setVendor(Vendor vendor) { this.vendor = vendor; }
+    public String getVendorReferenceNumber() { return vendorReferenceNumber; }
+    public void setVendorReferenceNumber(String vendorReferenceNumber) { this.vendorReferenceNumber = vendorReferenceNumber; }
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
     public LocalDateTime getUpdatedAt() { return updatedAt; }

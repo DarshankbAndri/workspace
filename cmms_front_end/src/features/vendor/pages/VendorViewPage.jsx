@@ -15,9 +15,10 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import { Edit } from '@mui/icons-material';
+import { Add, Edit } from '@mui/icons-material';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getVendorById } from '../services/vendorService';
+import { getVendorAmcContracts } from '../../vendorAmc/services/vendorAmcService';
 import { useAuth } from '../../../shared/context/AuthContext';
 import { PERMISSIONS } from '../../../shared/utils/permissionRoutes';
 import CommonFormActions from '../../../shared/components/common/CommonFormActions';
@@ -28,6 +29,7 @@ function VendorViewPage() {
   const navigate = useNavigate();
   const { hasPermission } = useAuth();
   const [vendor, setVendor] = React.useState(null);
+  const [amcContracts, setAmcContracts] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState('');
 
@@ -39,6 +41,13 @@ function VendorViewPage() {
       .catch(() => setError('Unable to load vendor.'))
       .finally(() => setLoading(false));
   }, [id]);
+
+  React.useEffect(() => {
+    if (!hasPermission(PERMISSIONS.VENDOR_AMC_VIEW)) return;
+    getVendorAmcContracts(id)
+      .then((data) => setAmcContracts(data || []))
+      .catch(() => setAmcContracts([]));
+  }, [hasPermission, id]);
 
   const canEdit = hasPermission(PERMISSIONS.VENDOR_UPDATE);
   const fields = [
@@ -114,6 +123,49 @@ function VendorViewPage() {
                 </TableBody>
               </Table>
             </TableContainer>
+
+            {hasPermission(PERMISSIONS.VENDOR_AMC_VIEW) && (
+              <Box sx={{ mt: 3 }}>
+                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.5} justifyContent="space-between" alignItems={{ xs: 'flex-start', sm: 'center' }} sx={{ mb: 1 }}>
+                  <Typography variant="h6">AMC Contracts</Typography>
+                  {hasPermission(PERMISSIONS.VENDOR_AMC_CREATE) && (
+                    <Button variant="outlined" startIcon={<Add />} onClick={() => navigate('/vendor-amc/create')}>
+                      Create AMC
+                    </Button>
+                  )}
+                </Stack>
+                <TableContainer>
+                  <Table size="small">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Contract Number</TableCell>
+                        <TableCell>Contract Name</TableCell>
+                        <TableCell>Start Date</TableCell>
+                        <TableCell>End Date</TableCell>
+                        <TableCell>Status</TableCell>
+                        <TableCell>Equipment</TableCell>
+                        <TableCell>Value</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {amcContracts.length === 0 ? (
+                        <TableRow><TableCell colSpan={7}>No AMC contracts.</TableCell></TableRow>
+                      ) : amcContracts.map((contract) => (
+                        <TableRow key={contract.id} hover onClick={() => navigate(`/vendor-amc/view/${contract.id}`)} sx={{ cursor: 'pointer' }}>
+                          <TableCell>{contract.contractNumber}</TableCell>
+                          <TableCell>{contract.contractName}</TableCell>
+                          <TableCell>{contract.startDate}</TableCell>
+                          <TableCell>{contract.endDate}</TableCell>
+                          <TableCell><Chip size="small" label={displayValue(contract.status).replaceAll('_', ' ')} variant="outlined" /></TableCell>
+                          <TableCell>{contract.coveredEquipmentCount || 0}</TableCell>
+                          <TableCell>{formatMoney(contract.contractValue)}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Box>
+            )}
           </>
         )}
 
@@ -154,6 +206,12 @@ function formatSite(assignment) {
   if (!assignment.siteCode) return assignment.siteName;
   if (!assignment.siteName) return assignment.siteCode;
   return `${assignment.siteName} (${assignment.siteCode})`;
+}
+
+function formatMoney(value) {
+  const number = Number(value);
+  if (!Number.isFinite(number)) return '-';
+  return number.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
 export default VendorViewPage;

@@ -32,6 +32,32 @@ VENDOR_UPDATE,/api/vendors/**,PUT,Update vendor
 VENDOR_UPDATE,/api/hr/sites/**,GET,Update vendor site helper data
 VENDOR_UPDATE,/api/hr/sites,GET,Update vendor site helper data
 VENDOR_DELETE,/api/vendors/*,DELETE,Delete vendor
+VENDOR_AMC_VIEW,/api/vendor-amc/dashboard,GET,View AMC dashboard summary
+VENDOR_AMC_VIEW,/api/vendor-amc/*,GET,View AMC contract
+VENDOR_AMC_VIEW,/api/vendor-amc/*/equipment,GET,View AMC equipment mappings
+VENDOR_AMC_VIEW,/api/vendor-amc/search,POST,Search AMC contracts
+VENDOR_AMC_VIEW,/api/vendors/*/amc-contracts,GET,View vendor AMC contracts
+VENDOR_AMC_VIEW,/api/equipment/*/active-amc,GET,View equipment active AMC
+REQUEST_CREATE,/api/equipment/*/active-amc,GET,Create request AMC helper data
+REQUEST_UPDATE,/api/equipment/*/active-amc,GET,Update request AMC helper data
+VENDOR_AMC_CREATE,/api/vendor-amc,POST,Create AMC contract
+VENDOR_AMC_CREATE,/api/vendors/**,GET,Create AMC vendor helper data
+VENDOR_AMC_CREATE,/api/vendors,GET,Create AMC vendor helper data
+VENDOR_AMC_CREATE,/api/equipment/**,GET,Create AMC equipment helper data
+VENDOR_AMC_CREATE,/api/equipment,GET,Create AMC equipment helper data
+VENDOR_AMC_CREATE,/api/hr/sites/**,GET,Create AMC site helper data
+VENDOR_AMC_CREATE,/api/hr/sites,GET,Create AMC site helper data
+VENDOR_AMC_UPDATE,/api/vendor-amc/*,PUT,Update AMC contract
+VENDOR_AMC_UPDATE,/api/vendors/**,GET,Update AMC vendor helper data
+VENDOR_AMC_UPDATE,/api/vendors,GET,Update AMC vendor helper data
+VENDOR_AMC_UPDATE,/api/equipment/**,GET,Update AMC equipment helper data
+VENDOR_AMC_UPDATE,/api/equipment,GET,Update AMC equipment helper data
+VENDOR_AMC_UPDATE,/api/hr/sites/**,GET,Update AMC site helper data
+VENDOR_AMC_UPDATE,/api/hr/sites,GET,Update AMC site helper data
+VENDOR_AMC_DELETE,/api/vendor-amc/*,DELETE,Delete AMC contract
+VENDOR_AMC_ASSIGN_EQUIPMENT,/api/vendor-amc/*/equipment,POST,Assign equipment to AMC
+VENDOR_AMC_ASSIGN_EQUIPMENT,/api/vendor-amc/*/equipment/*,DELETE,Remove equipment from AMC
+VENDOR_AMC_RENEW,/api/vendor-amc/*/renew,POST,Renew AMC contract
 EQUIPMENT_VIEW,/api/equipment/**,GET,View equipment
 EQUIPMENT_VIEW,/api/equipment,GET,View equipment list
 EQUIPMENT_VIEW,/api/equipment/search,POST,Search equipment

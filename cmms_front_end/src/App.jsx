@@ -14,6 +14,9 @@ import EquipmentViewPage from './features/equipment/pages/EquipmentViewPage';
 import VendorListPage from './features/vendor/pages/VendorListPage';
 import VendorFormPage from './features/vendor/pages/VendorFormPage';
 import VendorViewPage from './features/vendor/pages/VendorViewPage';
+import VendorAmcListPage from './features/vendorAmc/pages/VendorAmcListPage';
+import VendorAmcFormPage from './features/vendorAmc/pages/VendorAmcFormPage';
+import VendorAmcViewPage from './features/vendorAmc/pages/VendorAmcViewPage';
 import MaintenanceRequestListPage from './features/maintenanceRequest/pages/MaintenanceRequestListPage';
 import MaintenanceRequestFormPage from './features/maintenanceRequest/pages/MaintenanceRequestFormPage';
 import MaintenanceRequestViewPage from './features/maintenanceRequest/pages/MaintenanceRequestViewPage';
@@ -125,6 +128,10 @@ function App() {
           <Route path="/vendors/:id/edit" element={protectedPage(<VendorFormPage />, 'VENDOR_UPDATE')} />
           <Route path="/vendors/edit/:id" element={protectedPage(<VendorFormPage />, 'VENDOR_UPDATE')} />
           <Route path="/vendors/:id" element={protectedPage(<VendorFormPage />, 'VENDOR_UPDATE')} />
+          <Route path="/vendor-amc" element={protectedPage(<VendorAmcListPage />, 'VENDOR_AMC_VIEW')} />
+          <Route path="/vendor-amc/create" element={protectedPage(<VendorAmcFormPage />, 'VENDOR_AMC_CREATE')} />
+          <Route path="/vendor-amc/view/:id" element={protectedPage(<VendorAmcViewPage />, 'VENDOR_AMC_VIEW')} />
+          <Route path="/vendor-amc/edit/:id" element={protectedPage(<VendorAmcFormPage />, 'VENDOR_AMC_UPDATE')} />
           <Route path="/maintenance/requests" element={protectedPage(<MaintenanceRequestListPage />, 'REQUEST_VIEW')} />
           <Route path="/maintenance/requests/new" element={protectedPage(<MaintenanceRequestFormPage />, 'REQUEST_CREATE')} />
           <Route path="/maintenance/requests/:id/edit" element={protectedPage(<MaintenanceRequestFormPage />, 'REQUEST_UPDATE')} />

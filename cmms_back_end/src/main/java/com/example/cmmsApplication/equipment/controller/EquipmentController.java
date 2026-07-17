@@ -11,6 +11,7 @@ import com.example.cmmsApplication.equipment.entity.EquipmentDocument;
 import com.example.cmmsApplication.equipment.service.EquipmentDocumentService;
 import com.example.cmmsApplication.equipment.service.EquipmentService;
 import com.example.cmmsApplication.equipment.service.EquipmentSpareBomService;
+import com.example.cmmsApplication.vendoramc.service.VendorAmcService;
 import jakarta.validation.Valid;
 import java.time.LocalDate;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,7 @@ public class EquipmentController {
     private final EquipmentService equipmentService;
     private final EquipmentDocumentService equipmentDocumentService;
     private final EquipmentSpareBomService equipmentSpareBomService;
+    private final VendorAmcService vendorAmcService;
 
     @PostMapping
     public ResponseEntity<ApiResponse<?>> create(@Valid @RequestBody EquipmentDTO dto) {
@@ -69,6 +71,11 @@ public class EquipmentController {
     @GetMapping("/{id}/spare-bom")
     public ResponseEntity<ApiResponse<?>> getSpareBom(@PathVariable Long id) {
         return ResponseFactory.ok(equipmentSpareBomService.getByEquipment(id));
+    }
+
+    @GetMapping("/{id}/active-amc")
+    public ResponseEntity<ApiResponse<?>> getActiveAmc(@PathVariable Long id) {
+        return ResponseFactory.ok(vendorAmcService.getActiveAmcForEquipment(id));
     }
 
     @PostMapping("/{id}/spare-bom")

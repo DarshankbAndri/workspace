@@ -34,7 +34,9 @@ import {
   YAxis,
 } from 'recharts';
 import { getDashboardData } from '../services/dashboardService';
+import { getVendorAmcDashboard } from '../../vendorAmc/services/vendorAmcService';
 import { getSites } from '../../site/services/siteService';
+import { useAuth } from '../../../shared/context/AuthContext';
 import CommonDropdown from '../../../shared/components/common/CommonDropdown';
 import CommonEmptyState from '../../../shared/components/common/CommonEmptyState';
 import CommonPageHeader from '../../../shared/components/common/CommonPageHeader';
@@ -112,7 +114,9 @@ function ChartCard({ title, subtitle, children }) {
 
 function DashboardPage() {
   const theme = useTheme();
+  const { hasPermission } = useAuth();
   const [dashboard, setDashboard] = React.useState(null);
+  const [amcDashboard, setAmcDashboard] = React.useState(null);
   const [sites, setSites] = React.useState([]);
   const [siteId, setSiteId] = React.useState('');
   const [loading, setLoading] = React.useState(true);
@@ -152,6 +156,13 @@ function DashboardPage() {
       })
       .catch(() => setSites([]));
   }, []);
+
+  React.useEffect(() => {
+    if (!hasPermission('VENDOR_AMC_VIEW')) return;
+    getVendorAmcDashboard()
+      .then(setAmcDashboard)
+      .catch(() => setAmcDashboard(null));
+  }, [hasPermission]);
 
   const summary = dashboard?.summary ?? {};
   const equipmentStatus = dashboard?.equipmentStatus ?? [];
@@ -247,6 +258,28 @@ function DashboardPage() {
                       {card.icon}
                     </Box>
                   </Box>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+
+          {hasPermission('VENDOR_AMC_VIEW') && amcDashboard && [
+            { key: 'activeContracts', label: 'Active AMC Contracts', helper: 'Contracts currently covering equipment', color: 'success' },
+            { key: 'expiringContracts', label: 'AMC Expiring in 30 Days', helper: 'Contracts needing renewal attention', color: 'warning' },
+            { key: 'expiredContracts', label: 'Expired AMC Contracts', helper: 'Contracts past end date', color: 'error' },
+            { key: 'coveredEquipment', label: 'AMC Covered Equipment', helper: 'Assets with active AMC coverage', color: 'primary' },
+            { key: 'equipmentWithoutAmc', label: 'Equipment Without AMC', helper: 'Assets without active AMC coverage', color: 'info' },
+          ].map((card) => (
+            <Grid item xs={12} sm={6} lg={3} key={card.key}>
+              <Card sx={{ height: '100%', borderRadius: 1, border: '1px solid', borderColor: 'divider', boxShadow: 'none' }}>
+                <CardContent sx={{ p: 2.5 }}>
+                  <Typography variant="body2" color="text.secondary" fontWeight={700}>{card.label}</Typography>
+                  <Typography variant="h4" fontWeight={900} sx={{ mt: 1, lineHeight: 1, color: `${card.color}.main` }}>
+                    {formatMetric(amcDashboard[card.key])}
+                  </Typography>
+                  <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 1.25 }}>
+                    {card.helper}
+                  </Typography>
                 </CardContent>
               </Card>
             </Grid>

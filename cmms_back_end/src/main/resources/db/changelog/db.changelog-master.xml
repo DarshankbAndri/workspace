@@ -14,6 +14,8 @@
     <include file="db/changelog/cmms/company_master.xml"/>
     <include file="db/changelog/cmms/vendor_master.xml"/>
     <include file="db/changelog/cmms/equipment_master.xml"/>
+    <include file="db/changelog/cmms/vendor_amc_contract.xml"/>
+    <include file="db/changelog/cmms/equipment_amc_mapping.xml"/>
     <include file="db/changelog/cmms/equipment_document.xml"/>
     <include file="db/changelog/cmms/employee_site_assignment.xml"/>
     <include file="db/changelog/cmms/role_permission.xml"/>

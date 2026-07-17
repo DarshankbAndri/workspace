@@ -178,4 +178,29 @@
             ON CONFLICT (role_id, permission_id) DO NOTHING;
         </sql>
     </changeSet>
+
+    <changeSet id="role-permission-011-seed-vendor-amc" author="Codex">
+        <sql>
+            INSERT INTO role_permission (role_id, permission_id)
+            SELECT r.role_id, p.permission_id
+            FROM role_master r
+            JOIN permission_master p ON p.permission_code IN (
+                'VENDOR_AMC_VIEW',
+                'VENDOR_AMC_CREATE',
+                'VENDOR_AMC_UPDATE',
+                'VENDOR_AMC_DELETE',
+                'VENDOR_AMC_ASSIGN_EQUIPMENT',
+                'VENDOR_AMC_RENEW'
+            )
+            WHERE r.role_code IN ('SUPER_ADMIN', 'ADMIN', 'SITE_MANAGER', 'MAINTENANCE_MANAGER')
+            ON CONFLICT (role_id, permission_id) DO NOTHING;
+
+            INSERT INTO role_permission (role_id, permission_id)
+            SELECT r.role_id, p.permission_id
+            FROM role_master r
+            JOIN permission_master p ON p.permission_code = 'VENDOR_AMC_VIEW'
+            WHERE r.role_code IN ('TECHNICIAN', 'VIEWER')
+            ON CONFLICT (role_id, permission_id) DO NOTHING;
+        </sql>
+    </changeSet>
 </databaseChangeLog>

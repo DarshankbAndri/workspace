@@ -54,3 +54,6 @@ SLA/escalation
 Mobile technician execution flow
 Smart auto-assignment
 The highest-value first feature is the Assignment Lifecycle + Dispatch Board, because it improves real maintenance operations immediately and fits well with your existing assignment, checklist, work log, spare, request, and approval modules.
+
+
+checklist assainmnet

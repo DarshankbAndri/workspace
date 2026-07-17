@@ -7,6 +7,8 @@ import com.example.cmmsApplication.assignment.entity.MaintenanceAssignment;
 import com.example.cmmsApplication.common.security.service.AccessControlService;
 import com.example.cmmsApplication.equipment.service.EquipmentService;
 import com.example.cmmsApplication.site.service.SiteService;
+import com.example.cmmsApplication.vendor.service.VendorService;
+import com.example.cmmsApplication.vendoramc.service.VendorAmcService;
 import com.example.cmmsApplication.maintenancerequest.dao.MaintenanceRequestDAO;
 import com.example.cmmsApplication.approval.dto.ApprovalRequestDTO;
 import com.example.cmmsApplication.maintenancerequest.dto.MaintenanceRequestDTO;
@@ -16,6 +18,8 @@ import com.example.cmmsApplication.maintenancerequest.entity.MaintenanceRequest;
 import com.example.cmmsApplication.maintenancerequest.enums.MaintenanceRequestAction;
 import com.example.cmmsApplication.maintenancerequest.enums.MaintenanceRequestStatus;
 import com.example.cmmsApplication.site.entity.Site;
+import com.example.cmmsApplication.vendor.entity.Vendor;
+import com.example.cmmsApplication.vendoramc.entity.VendorAmcContract;
 import com.example.cmmsApplication.common.exception.InvalidOperationException;
 import com.example.cmmsApplication.common.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
@@ -37,6 +41,8 @@ public class MaintenanceRequestService {
     private final AccessControlService accessControlService;
     private final ApprovalWorkflowService approvalWorkflowService;
     private final MaintenanceAssignmentDAO assignmentDAO;
+    private final VendorAmcService vendorAmcService;
+    private final VendorService vendorService;
 
     public MaintenanceRequestDTO create(MaintenanceRequestDTO dto) {
         accessControlService.validateSiteAccess(dto.getSiteId());
@@ -175,6 +181,34 @@ public class MaintenanceRequestService {
         request.setReportedBy(dto.getReportedBy());
         request.setRequestedDate(dto.getRequestedDate());
         request.setTargetCompletionDate(dto.getTargetCompletionDate());
+        applyAmc(request, dto, equipment);
+    }
+
+    private void applyAmc(MaintenanceRequest request, MaintenanceRequestDTO dto, Equipment equipment) {
+        if (dto.getAmcContractId() == null) {
+            request.setAmcContract(null);
+            request.setAmcCovered(false);
+            request.setExternalVendorAssignment(false);
+            request.setVendor(null);
+            request.setVendorReferenceNumber(dto.getVendorReferenceNumber());
+            return;
+        }
+        VendorAmcContract amcContract = vendorAmcService.getEntity(dto.getAmcContractId());
+        if (amcContract.getVendor() == null) {
+            throw new InvalidOperationException("AMC contract does not have a vendor");
+        }
+        if (vendorAmcService.getActiveAmcForEquipment(equipment.getId()) == null
+                || !dto.getAmcContractId().equals(vendorAmcService.getActiveAmcForEquipment(equipment.getId()).getId())) {
+            throw new InvalidOperationException("Selected AMC is not active for this equipment");
+        }
+        Vendor vendor = Boolean.TRUE.equals(dto.getExternalVendorAssignment())
+                ? amcContract.getVendor()
+                : (dto.getVendorId() == null ? null : vendorService.getEntity(dto.getVendorId()));
+        request.setAmcContract(amcContract);
+        request.setAmcCovered(true);
+        request.setExternalVendorAssignment(Boolean.TRUE.equals(dto.getExternalVendorAssignment()));
+        request.setVendor(vendor);
+        request.setVendorReferenceNumber(dto.getVendorReferenceNumber());
     }
 
     private Site validateActiveSite(Long siteId) {
@@ -210,6 +244,13 @@ public class MaintenanceRequestService {
         dto.setReportedBy(request.getReportedBy());
         dto.setRequestedDate(request.getRequestedDate());
         dto.setTargetCompletionDate(request.getTargetCompletionDate());
+        dto.setAmcContractId(request.getAmcContract() == null ? null : request.getAmcContract().getId());
+        dto.setAmcContractNumber(request.getAmcContract() == null ? null : request.getAmcContract().getContractNumber());
+        dto.setAmcCovered(request.getAmcCovered());
+        dto.setExternalVendorAssignment(request.getExternalVendorAssignment());
+        dto.setVendorId(request.getVendor() == null ? null : request.getVendor().getId());
+        dto.setVendorName(request.getVendor() == null ? null : request.getVendor().getVendorName());
+        dto.setVendorReferenceNumber(request.getVendorReferenceNumber());
         dto.setCreatedAt(request.getCreatedAt());
         dto.setUpdatedAt(request.getUpdatedAt());
         return dto;

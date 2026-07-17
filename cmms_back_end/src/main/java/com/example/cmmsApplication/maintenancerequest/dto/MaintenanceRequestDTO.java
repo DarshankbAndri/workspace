@@ -43,6 +43,13 @@ public class MaintenanceRequestDTO {
     private LocalDateTime updatedAt;
     private Long approvalRequestId;
     private String approvalStatus;
+    private Long amcContractId;
+    private String amcContractNumber;
+    private Boolean amcCovered;
+    private Boolean externalVendorAssignment;
+    private Long vendorId;
+    private String vendorName;
+    private String vendorReferenceNumber;
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -84,4 +91,18 @@ public class MaintenanceRequestDTO {
     public void setApprovalRequestId(Long approvalRequestId) { this.approvalRequestId = approvalRequestId; }
     public String getApprovalStatus() { return approvalStatus; }
     public void setApprovalStatus(String approvalStatus) { this.approvalStatus = approvalStatus; }
+    public Long getAmcContractId() { return amcContractId; }
+    public void setAmcContractId(Long amcContractId) { this.amcContractId = amcContractId; }
+    public String getAmcContractNumber() { return amcContractNumber; }
+    public void setAmcContractNumber(String amcContractNumber) { this.amcContractNumber = amcContractNumber; }
+    public Boolean getAmcCovered() { return amcCovered; }
+    public void setAmcCovered(Boolean amcCovered) { this.amcCovered = amcCovered; }
+    public Boolean getExternalVendorAssignment() { return externalVendorAssignment; }
+    public void setExternalVendorAssignment(Boolean externalVendorAssignment) { this.externalVendorAssignment = externalVendorAssignment; }
+    public Long getVendorId() { return vendorId; }
+    public void setVendorId(Long vendorId) { this.vendorId = vendorId; }
+    public String getVendorName() { return vendorName; }
+    public void setVendorName(String vendorName) { this.vendorName = vendorName; }
+    public String getVendorReferenceNumber() { return vendorReferenceNumber; }
+    public void setVendorReferenceNumber(String vendorReferenceNumber) { this.vendorReferenceNumber = vendorReferenceNumber; }
 }

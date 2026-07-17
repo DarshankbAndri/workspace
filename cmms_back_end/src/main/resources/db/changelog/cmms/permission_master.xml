@@ -133,4 +133,17 @@
             ON CONFLICT (permission_code) DO NOTHING;
         </sql>
     </changeSet>
+
+    <changeSet id="permission-master-009-seed-vendor-amc" author="Codex">
+        <sql>
+            INSERT INTO permission_master (permission_code, permission_name, module_name, action_name, status, created_at, updated_at) VALUES
+            ('VENDOR_AMC_VIEW', 'View Vendor AMC Contracts', 'Vendor AMC', 'VIEW', 'ACTIVE', NOW(), NOW()),
+            ('VENDOR_AMC_CREATE', 'Create Vendor AMC Contracts', 'Vendor AMC', 'CREATE', 'ACTIVE', NOW(), NOW()),
+            ('VENDOR_AMC_UPDATE', 'Update Vendor AMC Contracts', 'Vendor AMC', 'UPDATE', 'ACTIVE', NOW(), NOW()),
+            ('VENDOR_AMC_DELETE', 'Delete Vendor AMC Contracts', 'Vendor AMC', 'DELETE', 'ACTIVE', NOW(), NOW()),
+            ('VENDOR_AMC_ASSIGN_EQUIPMENT', 'Assign Equipment to Vendor AMC', 'Vendor AMC', 'ASSIGN_EQUIPMENT', 'ACTIVE', NOW(), NOW()),
+            ('VENDOR_AMC_RENEW', 'Renew Vendor AMC Contracts', 'Vendor AMC', 'RENEW', 'ACTIVE', NOW(), NOW())
+            ON CONFLICT (permission_code) DO NOTHING;
+        </sql>
+    </changeSet>
 </databaseChangeLog>

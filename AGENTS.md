@@ -184,3 +184,14 @@ Current frontend feature folders include `admin`, `approval`, `assignment`, `aut
 13. For a fresh first-time setup, keep the schema clean instead of preserving unnecessary incremental changes.
 14. Always test Liquibase changes by dropping or clearing the local database and running migrations from scratch.
 15. Always run `mvn clean install` from `cmms_back_end` after Liquibase changes.
+
+## Vendor AMC Rules
+
+1. AMC contracts must be stored separately from vendor master.
+2. Equipment must be mapped using `equipment_amc_mapping`.
+3. Do not overwrite expired AMC history during renewal.
+4. Use renewal linkage through `renewed_from_contract_id`.
+5. Maintenance requests linked to AMC must preserve contract and vendor references.
+6. Every AMC API must be added to the API permission mapping CSV.
+7. All frontend AMC pages must use common components.
+8. Frontend and backend permission checks must be maintained.

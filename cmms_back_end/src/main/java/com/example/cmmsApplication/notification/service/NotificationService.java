@@ -16,6 +16,7 @@ import com.example.cmmsApplication.site.entity.Site;
 import com.example.cmmsApplication.spareparts.entity.SparePartSiteStock;
 import com.example.cmmsApplication.user.entity.User;
 import com.example.cmmsApplication.user.enums.UserRole;
+import com.example.cmmsApplication.vendoramc.entity.VendorAmcContract;
 import com.example.cmmsApplication.common.exception.ResourceNotFoundException;
 import com.example.cmmsApplication.common.exception.UnauthorizedAccessException;
 import com.example.cmmsApplication.user.repository.UserRepository;
@@ -178,6 +179,20 @@ public class NotificationService {
                 "SPARE_PART", stock.getId(), partCode,
                 "/inventory/spare-parts", "HIGH", "LOW_STOCK:" + stock.getId() + ":" + stock.getCurrentStock());
         observabilityMetrics.recordStockoutAlert("low_stock");
+    }
+
+    public void createAmcExpiryAlert(VendorAmcContract contract, String type, LocalDate runDate) {
+        NotificationSettingDTO settings = notificationSettingsService.getRuntimeSettings();
+        if (!isEnabled(settings) || contract == null) {
+            return;
+        }
+        String contractNumber = contract.getContractNumber();
+        String title = "AMC_EXPIRED".equals(type) ? "AMC contract expired" : "AMC contract expiring soon";
+        String message = contractNumber + " - " + contract.getContractName() + " ends on " + contract.getEndDate() + ".";
+        notifyRoleRecipients(settings, List.of("ADMIN", "SUPER_ADMIN", "MAINTENANCE_MANAGER", "STORE_MANAGER"),
+                null, type, title, message,
+                "VENDOR_AMC", contract.getId(), contractNumber,
+                "/vendor-amc/view/" + contract.getId(), "HIGH", type + ":" + contract.getId() + ":" + runDate);
     }
 
     private void notifyRoleRecipients(NotificationSettingDTO settings, Collection<String> roleCodes, Site site, String type, String title, String message,

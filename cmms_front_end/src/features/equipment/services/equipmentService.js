@@ -5,6 +5,7 @@ export const searchEquipments = (data) => api.post('/equipment/search', data).th
 export const getEquipmentById = (id) => api.get(`/equipment/${id}`).then((response) => response.data);
 export const getEquipmentSummary = (id) => api.get(`/equipment/${id}/summary`).then((response) => response.data);
 export const getEquipmentHealth = (id) => api.get(`/equipment/${id}/health`).then((response) => response.data);
+export const getEquipmentActiveAmc = (id) => api.get(`/equipment/${id}/active-amc`).then((response) => response.data);
 export const getEquipmentSpareBom = (id) => api.get(`/equipment/${id}/spare-bom`).then((response) => response.data);
 export const createEquipmentSpareBom = (id, data) => api.post(`/equipment/${id}/spare-bom`, data).then((response) => response.data);
 export const updateEquipmentSpareBom = (id, bomId, data) => api.put(`/equipment/${id}/spare-bom/${bomId}`, data).then((response) => response.data);

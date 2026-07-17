@@ -31,6 +31,7 @@ public class MaintenanceRequestDAO {
     public long countOpenRequestsBySiteId(Long siteId) { return repository.countBySiteIdAndStatusIn(siteId, Arrays.asList("OPEN", "IN_PROGRESS", "ON_HOLD")); }
     public long countByPmScheduleId(Long pmScheduleId) { return repository.countByPmScheduleId(pmScheduleId); }
     public long countCompletedByPmScheduleId(Long pmScheduleId) { return repository.countByPmScheduleIdAndStatusIn(pmScheduleId, Arrays.asList("COMPLETED", "CLOSED")); }
+    public long countByAmcContractId(Long amcContractId) { return repository.countByAmcContractId(amcContractId); }
     public boolean existsByRequestNumber(String requestNumber) { return repository.existsByRequestNumber(requestNumber); }
     public boolean existsByRequestNumberAndIdNot(String requestNumber, Long id) { return repository.existsByRequestNumberAndIdNot(requestNumber, id); }
 }

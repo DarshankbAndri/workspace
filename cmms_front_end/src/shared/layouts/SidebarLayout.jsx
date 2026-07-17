@@ -42,6 +42,7 @@ import {
   Security,
   ShoppingCart,
   Rule,
+  Handshake,
   Timeline,
 } from '@mui/icons-material';
 import { useAuth } from '../context/AuthContext';
@@ -56,10 +57,11 @@ const operationGroups = [
     key: 'masters',
     label: 'Masters',
     icon: <Business />,
-    paths: ['/equipment', '/vendors'],
+    paths: ['/equipment', '/vendors', '/vendor-amc'],
     items: [
       { label: 'Equipment', path: '/equipment', icon: <PrecisionManufacturing />, permission: 'EQUIPMENT_VIEW' },
       { label: 'Vendors', path: '/vendors', icon: <People />, permission: 'VENDOR_VIEW' },
+      { label: 'Vendor AMC', path: '/vendor-amc', icon: <Handshake />, permission: 'VENDOR_AMC_VIEW' },
     ],
   },
   {
@@ -253,7 +255,7 @@ function SidebarLayout({ children, mode, onToggleMode }) {
   const visibleOperationGroups = React.useMemo(() => filterGroups(operationGroups), [filterGroups]);
   const visibleHrGroups = React.useMemo(() => filterGroups(hrGroups), [filterGroups]);
   const visibleAdminGroups = React.useMemo(() => filterGroups(adminGroups), [filterGroups]);
-  const canShowOperation = hasAnyPermission(['DASHBOARD_VIEW', 'EQUIPMENT_VIEW', 'VENDOR_VIEW', 'REQUEST_VIEW', 'PM_CALENDAR_VIEW', 'ASSIGNMENT_VIEW', 'DOWNTIME_VIEW', 'SPARE_PART_VIEW', 'SPARE_USAGE_MANAGER_APPROVE', 'SPARE_USAGE_STORE_PROCESS', 'REORDER_VIEW', 'REPORT_VIEW', 'APPROVAL_VIEW']);
+  const canShowOperation = hasAnyPermission(['DASHBOARD_VIEW', 'EQUIPMENT_VIEW', 'VENDOR_VIEW', 'VENDOR_AMC_VIEW', 'REQUEST_VIEW', 'PM_CALENDAR_VIEW', 'ASSIGNMENT_VIEW', 'DOWNTIME_VIEW', 'SPARE_PART_VIEW', 'SPARE_USAGE_MANAGER_APPROVE', 'SPARE_USAGE_STORE_PROCESS', 'REORDER_VIEW', 'REPORT_VIEW', 'APPROVAL_VIEW']);
   const canShowHr = hasAnyPermission(['SITE_VIEW', 'EMPLOYEE_VIEW']);
   const canShowAdmin = hasAnyPermission(['ROLE_VIEW', 'PERMISSION_VIEW', 'USER_ROLE_VIEW', 'APPROVAL_CONFIG_VIEW', 'NOTIFICATION_CONFIG_VIEW', 'COMPANY_VIEW']);
 

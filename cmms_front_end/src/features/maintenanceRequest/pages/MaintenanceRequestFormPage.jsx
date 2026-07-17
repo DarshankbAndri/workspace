@@ -4,6 +4,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { createMaintenanceRequest, getMaintenanceRequestById, updateMaintenanceRequest } from '../services/maintenanceRequestService';
 import { getEquipments } from '../../equipment/services/equipmentService';
 import { getSites } from '../../site/services/siteService';
+import { getEquipmentActiveAmc } from '../../vendorAmc/services/vendorAmcService';
 import CommonInput from '../../../shared/components/common/CommonInput';
 import CommonTextArea from '../../../shared/components/common/CommonTextArea';
 import CommonDatePicker from '../../../shared/components/common/CommonDatePicker';
@@ -22,6 +23,11 @@ const initialForm = {
   reportedBy: '',
   requestedDate: new Date().toISOString().slice(0, 10),
   targetCompletionDate: '',
+  amcContractId: '',
+  amcCovered: false,
+  externalVendorAssignment: false,
+  vendorId: '',
+  vendorReferenceNumber: '',
 };
 
 const REQUEST_TYPE_OPTIONS = [
@@ -47,6 +53,7 @@ function MaintenanceRequestFormPage() {
   const [form, setForm] = React.useState(initialForm);
   const [sites, setSites] = React.useState([]);
   const [equipments, setEquipments] = React.useState([]);
+  const [activeAmc, setActiveAmc] = React.useState(null);
   const [error, setError] = React.useState('');
   const [saving, setSaving] = React.useState(false);
 
@@ -67,17 +74,67 @@ function MaintenanceRequestFormPage() {
     }
   }, [id]);
 
+  React.useEffect(() => {
+    if (!form.equipmentId) {
+      setActiveAmc(null);
+      return;
+    }
+    getEquipmentActiveAmc(form.equipmentId)
+      .then((data) => setActiveAmc(data || null))
+      .catch(() => setActiveAmc(null));
+  }, [form.equipmentId]);
+
   const formEquipments = equipments.filter((equipment) => String(equipment.siteId || '') === String(form.siteId || ''));
   const updateField = (field) => (event) => setForm((current) => ({ ...current, [field]: event.target.value }));
-  const updateSite = (event) => setForm((current) => ({ ...current, siteId: event.target.value, equipmentId: '' }));
+  const updateSite = (event) => {
+    setActiveAmc(null);
+    setForm((current) => ({ ...current, siteId: event.target.value, equipmentId: '', amcContractId: '', amcCovered: false, externalVendorAssignment: false, vendorId: '' }));
+  };
+  const updateEquipment = (event) => {
+    const equipmentId = event.target.value;
+    setActiveAmc(null);
+    setForm((current) => ({ ...current, equipmentId, amcContractId: '', amcCovered: false, externalVendorAssignment: false, vendorId: '' }));
+    if (equipmentId) {
+      getEquipmentActiveAmc(equipmentId)
+        .then((data) => {
+          setActiveAmc(data || null);
+          if (data) {
+            setForm((current) => ({
+              ...current,
+              amcContractId: data.id,
+              amcCovered: true,
+            }));
+          }
+        })
+        .catch(() => setActiveAmc(null));
+    }
+  };
+  const updateAssignToAmcVendor = (event) => {
+    const enabled = event.target.value === true || event.target.value === 'true';
+    setForm((current) => ({
+      ...current,
+      externalVendorAssignment: enabled,
+      vendorId: enabled ? activeAmc?.vendorId || '' : '',
+      amcContractId: enabled ? activeAmc?.id || current.amcContractId : current.amcContractId,
+      amcCovered: enabled || Boolean(activeAmc),
+    }));
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setSaving(true);
     setError('');
     try {
-      const { status, approvalRequestId, approvalStatus, createdAt, updatedAt, ...editableForm } = form;
-      const payload = { ...editableForm, siteId: Number(form.siteId), equipmentId: Number(form.equipmentId) };
+      const { status, approvalRequestId, approvalStatus, createdAt, updatedAt, vendorName, amcContractNumber, ...editableForm } = form;
+      const payload = {
+        ...editableForm,
+        siteId: Number(form.siteId),
+        equipmentId: Number(form.equipmentId),
+        amcContractId: form.amcContractId ? Number(form.amcContractId) : null,
+        vendorId: form.vendorId ? Number(form.vendorId) : null,
+        amcCovered: Boolean(form.amcContractId),
+        externalVendorAssignment: Boolean(form.externalVendorAssignment),
+      };
       if (isEdit) {
         await updateMaintenanceRequest(id, payload);
       } else {
@@ -108,8 +165,39 @@ function MaintenanceRequestFormPage() {
               <CommonDropdown required disabled={isView} label="Site" value={form.siteId} onChange={updateSite} options={siteOptions} />
             </Grid>
             <Grid item xs={12} md={4}>
-              <CommonDropdown required disabled={isView || !form.siteId} label="Equipment" value={form.equipmentId} onChange={updateField('equipmentId')} options={equipmentOptions} />
+              <CommonDropdown required disabled={isView || !form.siteId} label="Equipment" value={form.equipmentId} onChange={updateEquipment} options={equipmentOptions} />
             </Grid>
+            {activeAmc && (
+              <Grid item xs={12}>
+                <Alert severity="info">
+                  <Typography fontWeight={800}>AMC Available: Yes</Typography>
+                  <Typography variant="body2">
+                    {activeAmc.vendorName} | {activeAmc.contractNumber} | Valid until {activeAmc.endDate} | Response SLA {activeAmc.responseTimeHours || '-'} hr | Resolution SLA {activeAmc.resolutionTimeHours || '-'} hr | Labor {activeAmc.includesLabor ? 'Yes' : 'No'} | Spares {activeAmc.includesSpares ? 'Yes' : 'No'}
+                  </Typography>
+                </Alert>
+              </Grid>
+            )}
+            {activeAmc && (
+              <Grid item xs={12} md={4}>
+                <CommonDropdown
+                  disabled={isView}
+                  label="Assign to AMC Vendor"
+                  value={form.externalVendorAssignment}
+                  onChange={updateAssignToAmcVendor}
+                  options={[{ value: true, label: 'Yes' }, { value: false, label: 'No' }]}
+                />
+              </Grid>
+            )}
+            {activeAmc && form.externalVendorAssignment && (
+              <Grid item xs={12} md={4}>
+                <CommonInput disabled label="AMC Vendor" value={activeAmc.vendorName || ''} />
+              </Grid>
+            )}
+            {activeAmc && (
+              <Grid item xs={12} md={4}>
+                <CommonInput disabled={isView} label="Vendor Reference Number" value={form.vendorReferenceNumber || ''} onChange={updateField('vendorReferenceNumber')} />
+              </Grid>
+            )}
             <Grid item xs={12} md={4}><CommonInput required disabled={isView} label="Title" value={form.title || ''} onChange={updateField('title')} /></Grid>
             <Grid item xs={12} md={4}><CommonInput disabled={isView} label="Reported By" value={form.reportedBy || ''} onChange={updateField('reportedBy')} /></Grid>
             <Grid item xs={12} md={3}>

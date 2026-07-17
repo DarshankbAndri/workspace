@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="equipment-amc-mapping-001-create-table" author="Codex">
+        <createTable tableName="equipment_amc_mapping">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="amc_contract_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="equipment_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="coverage_type" type="VARCHAR(80)"/>
+            <column name="coverage_start_date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="coverage_end_date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="remarks" type="VARCHAR(1000)"/>
+            <column name="active" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="VARCHAR(120)"/>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="VARCHAR(120)"/>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addUniqueConstraint tableName="equipment_amc_mapping"
+                             columnNames="amc_contract_id, equipment_id"
+                             constraintName="uk_equipment_amc_contract_equipment"/>
+        <createIndex tableName="equipment_amc_mapping" indexName="idx_equipment_amc_contract">
+            <column name="amc_contract_id"/>
+        </createIndex>
+        <createIndex tableName="equipment_amc_mapping" indexName="idx_equipment_amc_equipment">
+            <column name="equipment_id"/>
+        </createIndex>
+        <createIndex tableName="equipment_amc_mapping" indexName="idx_equipment_amc_active">
+            <column name="active"/>
+        </createIndex>
+        <addForeignKeyConstraint constraintName="fk_equipment_amc_contract"
+                                 baseTableName="equipment_amc_mapping"
+                                 baseColumnNames="amc_contract_id"
+                                 referencedTableName="vendor_amc_contract"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_equipment_amc_equipment"
+                                 baseTableName="equipment_amc_mapping"
+                                 baseColumnNames="equipment_id"
+                                 referencedTableName="equipment_master"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+</databaseChangeLog>

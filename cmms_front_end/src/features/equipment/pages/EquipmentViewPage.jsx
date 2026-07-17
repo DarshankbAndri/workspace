@@ -29,6 +29,7 @@ import {
   deleteEquipmentSpareBom,
   downloadEquipmentDocument,
   getEquipmentById,
+  getEquipmentActiveAmc,
   getEquipmentDocuments,
   getEquipmentHealth,
   getEquipmentSpareBom,
@@ -93,6 +94,7 @@ function EquipmentViewPage() {
   const [equipment, setEquipment] = React.useState(null);
   const [summary, setSummary] = React.useState(null);
   const [health, setHealth] = React.useState(null);
+  const [activeAmc, setActiveAmc] = React.useState(null);
   const [spareBomRows, setSpareBomRows] = React.useState([]);
   const [siteSpares, setSiteSpares] = React.useState([]);
   const [spareBomForm, setSpareBomForm] = React.useState(initialSpareBomForm);
@@ -124,6 +126,13 @@ function EquipmentViewPage() {
       .catch(() => setError('Unable to load equipment dashboard.'))
       .finally(() => setLoading(false));
   }, [id]);
+
+  React.useEffect(() => {
+    if (!hasPermission(PERMISSIONS.VENDOR_AMC_VIEW)) return;
+    getEquipmentActiveAmc(id)
+      .then((data) => setActiveAmc(data || null))
+      .catch(() => setActiveAmc(null));
+  }, [hasPermission, id]);
 
   const canEdit = hasPermission(PERMISSIONS.EQUIPMENT_UPDATE);
   const canDelete = hasPermission(PERMISSIONS.EQUIPMENT_DELETE);
@@ -347,6 +356,7 @@ function EquipmentViewPage() {
               <Tab value="overview" label="Overview" />
               <Tab value="requests" label="Open Requests" />
               <Tab value="pm" label="PM Schedule" />
+              {hasPermission(PERMISSIONS.VENDOR_AMC_VIEW) && <Tab value="amc" label="AMC Details" />}
               <Tab value="downtime" label="Downtime History" />
               <Tab value="spares" label="Spare BOM" />
               <Tab value="documents" label="Documents" />
@@ -381,6 +391,28 @@ function EquipmentViewPage() {
                 <Grid item xs={12} sm={6} md={3}><Metric label="Next PM Date" value={formatDate(summary?.nextPmDate)} /></Grid>
                 <Grid item xs={12} sm={6} md={3}><Metric label="Last Maintenance" value={formatDate(summary?.lastMaintenanceDate)} /></Grid>
               </Grid>
+            )}
+
+            {activeTab === 'amc' && hasPermission(PERMISSIONS.VENDOR_AMC_VIEW) && (
+              activeAmc ? (
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={6} md={3}><Metric label="AMC Status" value={activeAmc.status} variant={activeAmc.status === 'ACTIVE' ? 'success-chip' : 'warning-chip'} /></Grid>
+                  <Grid item xs={12} sm={6} md={3}><Metric label="Vendor" value={activeAmc.vendorName} /></Grid>
+                  <Grid item xs={12} sm={6} md={3}><Metric label="Contract Number" value={activeAmc.contractNumber} /></Grid>
+                  <Grid item xs={12} sm={6} md={3}><Metric label="Contract Name" value={activeAmc.contractName} /></Grid>
+                  <Grid item xs={12} sm={6} md={3}><Metric label="Coverage Period" value={`${activeAmc.startDate || '-'} to ${activeAmc.endDate || '-'}`} /></Grid>
+                  <Grid item xs={12} sm={6} md={3}><Metric label="Coverage Type" value={activeAmc.equipmentMappings?.[0]?.coverageType || 'FULL'} /></Grid>
+                  <Grid item xs={12} sm={6} md={3}><Metric label="Labor Included" value={activeAmc.includesLabor ? 'Yes' : 'No'} /></Grid>
+                  <Grid item xs={12} sm={6} md={3}><Metric label="Spares Included" value={activeAmc.includesSpares ? 'Yes' : 'No'} /></Grid>
+                  <Grid item xs={12} sm={6} md={3}><Metric label="Response SLA" value={activeAmc.responseTimeHours ? `${activeAmc.responseTimeHours} hr` : '-'} /></Grid>
+                  <Grid item xs={12} sm={6} md={3}><Metric label="Resolution SLA" value={activeAmc.resolutionTimeHours ? `${activeAmc.resolutionTimeHours} hr` : '-'} /></Grid>
+                  <Grid item xs={12} sm={6} md={3}><Metric label="Contact Person" value={activeAmc.contactPerson} /></Grid>
+                  <Grid item xs={12} sm={6} md={3}><Metric label="Contact Phone" value={activeAmc.contactPhone} /></Grid>
+                  <Grid item xs={12} sm={6} md={3}><Metric label="Days Remaining" value={activeAmc.daysRemaining} /></Grid>
+                </Grid>
+              ) : (
+                <EmptyPanel title="AMC Details" value="No active AMC is available for this equipment." />
+              )
             )}
 
             {activeTab === 'downtime' && (
