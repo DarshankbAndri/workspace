@@ -30,8 +30,8 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/App.jsx": {
-    "mtime": 1783428328.2115927,
-    "ast_hash": "735998788e71fee44676eff9dec74d32",
+    "mtime": 1784261798.566377,
+    "ast_hash": "38e414d1beba2a7fe30e5e5d05127e98",
     "semantic_hash": ""
   },
   "cmms_front_end/src/index.js": {
@@ -1265,8 +1265,8 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/approval/pages/ApprovalInboxPage.jsx": {
-    "mtime": 1782908689.0045848,
-    "ast_hash": "cfe40427e359db158ffc16aa3d0d064f",
+    "mtime": 1784261798.5784035,
+    "ast_hash": "c13d085a41e73f2272390479f7152936",
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/approval/services/approvalConfigService.js": {
@@ -1295,8 +1295,8 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/auth/pages/LoginPage.jsx": {
-    "mtime": 1784011600.5731008,
-    "ast_hash": "a75d3e6252488a793344265f287dac1c",
+    "mtime": 1784262828.7912433,
+    "ast_hash": "c92ef630e8ecc96bbe3570305061522e",
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/company/pages/CompanyFormPage.jsx": {
@@ -1310,8 +1310,8 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/dashboard/pages/DashboardPage.jsx": {
-    "mtime": 1782467373.9221976,
-    "ast_hash": "a7de2dc8e0530990ac448d1de4955194",
+    "mtime": 1784261798.5981224,
+    "ast_hash": "ad83b91fcab1f62559e38a99bf968c4e",
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/dashboard/services/dashboardService.js": {
@@ -1355,8 +1355,8 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/equipment/pages/EquipmentListPage.jsx": {
-    "mtime": 1783425057.711179,
-    "ast_hash": "c6f944898ac76a11e6644a9a04c9fc63",
+    "mtime": 1784261798.6506813,
+    "ast_hash": "8af3b2fe406203afa69707b9577464b2",
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/equipment/services/equipmentService.js": {
@@ -1385,8 +1385,8 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/notification/pages/NotificationCenterPage.jsx": {
-    "mtime": 1782814117.762007,
-    "ast_hash": "77e6c4db687ecb664d9c7e3acf41884a",
+    "mtime": 1784261798.6883216,
+    "ast_hash": "fdc056384e80297765178adac9b53984",
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/notification/pages/NotificationSettingsPage.jsx": {
@@ -1525,13 +1525,13 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/shared/layouts/SidebarLayout.jsx": {
-    "mtime": 1783428332.118832,
-    "ast_hash": "8404bcbc26f8bec68ae1045cce159891",
+    "mtime": 1784261799.1622403,
+    "ast_hash": "064d137a1e70b042da29bef416f1566c",
     "semantic_hash": ""
   },
   "cmms_front_end/src/shared/layouts/TopNavbar.jsx": {
-    "mtime": 1782467374.6825497,
-    "ast_hash": "623c19e41364ec936507e3cba902319c",
+    "mtime": 1784261799.2141645,
+    "ast_hash": "01a12a62646e681f3bc9c227790c2fec",
     "semantic_hash": ""
   },
   "cmms_front_end/src/shared/services/api.js": {
@@ -1800,8 +1800,8 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/shared/components/common/CommonList.jsx": {
-    "mtime": 1782908276.7061517,
-    "ast_hash": "f3f94091da773a13896e365cf9fbb444",
+    "mtime": 1784261798.7793968,
+    "ast_hash": "05d5a78ab6748360738bfc72b3feea06",
     "semantic_hash": ""
   },
   "cmms_front_end/src/shared/components/common/CommonStatusDropdown.jsx": {
@@ -1830,8 +1830,8 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/shared/components/common/CommonDatePicker.jsx": {
-    "mtime": 1782976137.0512092,
-    "ast_hash": "85e4704b9d54bb00290ddc14b278c071",
+    "mtime": 1784261798.6979945,
+    "ast_hash": "836c517bdbd3ec7354eabbd2883213bc",
     "semantic_hash": ""
   },
   "cmms_front_end/src/shared/components/common/CommonDateTimePicker.jsx": {
@@ -1840,23 +1840,23 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/shared/components/common/CommonFileUpload.jsx": {
-    "mtime": 1782976137.0603495,
-    "ast_hash": "4da2b9f060071ce8a9d5c796fe0aa5ba",
+    "mtime": 1784261798.715623,
+    "ast_hash": "fcef0a85f5f346a90b71918429da10e4",
     "semantic_hash": ""
   },
   "cmms_front_end/src/shared/components/common/CommonFormActions.jsx": {
-    "mtime": 1782976137.0512092,
-    "ast_hash": "34851256588a5f7683d164821e4a78e6",
+    "mtime": 1784261798.7503352,
+    "ast_hash": "ad9e70194538d72012b284b78e278201",
     "semantic_hash": ""
   },
   "cmms_front_end/src/shared/components/common/CommonFormCard.jsx": {
-    "mtime": 1782976137.054348,
-    "ast_hash": "5740f0546f96436827b46378fd2f876b",
+    "mtime": 1784261798.7553444,
+    "ast_hash": "65fe433abe3080f2f6436af4150a557b",
     "semantic_hash": ""
   },
   "cmms_front_end/src/shared/components/common/CommonInput.jsx": {
-    "mtime": 1782976137.0437696,
-    "ast_hash": "472cab8f3ef8ee23fc7986b2a22f0ceb",
+    "mtime": 1784261798.7683725,
+    "ast_hash": "42676a5fa905e300e33cbfba217cf0c9",
     "semantic_hash": ""
   },
   "cmms_front_end/src/shared/components/common/CommonTextArea.jsx": {
@@ -2107,6 +2107,51 @@
   "NEW_FETAURE_IMP/PENIDNG/aasainment_page.md": {
     "mtime": 1783592520.254982,
     "ast_hash": "cec654f954bca6d4367bd202e32cd2f6",
+    "semantic_hash": ""
+  },
+  "cmms_front_end/src/shared/components/common/CommonEmptyState.jsx": {
+    "mtime": 1784261798.7010126,
+    "ast_hash": "62a90bb7d84a735e23858bfe06eef685",
+    "semantic_hash": ""
+  },
+  "cmms_front_end/src/shared/components/common/CommonErrorState.jsx": {
+    "mtime": 1784261798.7045996,
+    "ast_hash": "66d21bc6790450502922852cae456285",
+    "semantic_hash": ""
+  },
+  "cmms_front_end/src/shared/components/common/CommonFilterPanel.jsx": {
+    "mtime": 1784261798.720633,
+    "ast_hash": "834b9e224a36518d4775616f5b6cf8e7",
+    "semantic_hash": ""
+  },
+  "cmms_front_end/src/shared/components/common/CommonPageContainer.jsx": {
+    "mtime": 1784261798.801895,
+    "ast_hash": "edf129d9f185e8d51e9c62d8b668262d",
+    "semantic_hash": ""
+  },
+  "cmms_front_end/src/shared/components/common/CommonPageHeader.jsx": {
+    "mtime": 1784261798.8309715,
+    "ast_hash": "746f1cbabd919025a79ea399f7dec51e",
+    "semantic_hash": ""
+  },
+  "cmms_front_end/src/shared/components/common/CommonSectionCard.jsx": {
+    "mtime": 1784261798.852538,
+    "ast_hash": "13e4e85e3cd293faf40e5b8212887470",
+    "semantic_hash": ""
+  },
+  "cmms_front_end/src/shared/components/common/CommonStatusChip.jsx": {
+    "mtime": 1784261799.0039654,
+    "ast_hash": "2d13927bfd368eeb6ed82ddf9547d7e1",
+    "semantic_hash": ""
+  },
+  "cmms_front_end/src/shared/utils/formatters.js": {
+    "mtime": 1784261799.219344,
+    "ast_hash": "9c0ea53a1b33df1796e09d1b37988b90",
+    "semantic_hash": ""
+  },
+  "cmms_front_end/src/theme/appTheme.js": {
+    "mtime": 1784261799.2265036,
+    "ast_hash": "bac85f1da931faf26846264a533fdaef",
     "semantic_hash": ""
   }
 }

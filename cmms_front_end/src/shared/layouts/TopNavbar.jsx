@@ -29,6 +29,7 @@ import {
   subscribeToNotificationStream,
 } from '../../features/notification/services/notificationService';
 import { getCurrentCompany, resolveCompanyLogoUrl } from '../../features/company/services/companyService';
+import { formatDateTime } from '../utils/formatters';
 
 function TopNavbar({ onMenuClick }) {
   const navigate = useNavigate();
@@ -193,7 +194,7 @@ function TopNavbar({ onMenuClick }) {
               <ListItemButton key={notification.id} onClick={() => openNotification(notification)} sx={{ alignItems: 'flex-start', borderRadius: 1 }}>
                 <ListItemText
                   primary={notification.title}
-                  secondary={`${notification.message}${notification.createdAt ? ` - ${new Date(notification.createdAt).toLocaleString()}` : ''}`}
+                  secondary={`${notification.message}${notification.createdAt ? ` - ${formatDateTime(notification.createdAt)}` : ''}`}
                   primaryTypographyProps={{ fontSize: 14, fontWeight: notification.status === 'UNREAD' ? 800 : 600 }}
                   secondaryTypographyProps={{ fontSize: 12 }}
                 />

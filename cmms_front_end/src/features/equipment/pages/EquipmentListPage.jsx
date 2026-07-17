@@ -25,6 +25,9 @@ import { PERMISSIONS } from '../../../shared/utils/permissionRoutes';
 import CommonDropdown from '../../../shared/components/common/CommonDropdown';
 import CommonInput from '../../../shared/components/common/CommonInput';
 import CommonList from '../../../shared/components/common/CommonList';
+import CommonFilterPanel from '../../../shared/components/common/CommonFilterPanel';
+import CommonPageHeader from '../../../shared/components/common/CommonPageHeader';
+import CommonStatusChip from '../../../shared/components/common/CommonStatusChip';
 
 const initialQrDialog = { open: false, row: null };
 
@@ -131,10 +134,10 @@ function EquipmentListPage() {
     { field: 'siteName', headerName: 'Site', minWidth: 180, flex: 1 },
     { field: 'category', headerName: 'Category', minWidth: 120, flex: 0.8 },
     { field: 'location', headerName: 'Location', minWidth: 130, flex: 0.8 },
-    { field: 'status', headerName: 'Status', minWidth: 110, flex: 0.6 },
-    { field: 'lifecycleStatus', headerName: 'Lifecycle', minWidth: 150, flex: 0.75 },
-    { field: 'operatingStatus', headerName: 'Operating', minWidth: 160, flex: 0.8 },
-    { field: 'criticality', headerName: 'Criticality', minWidth: 120, flex: 0.7 },
+    { field: 'status', headerName: 'Status', minWidth: 130, flex: 0.6, renderCell: ({ value }) => <CommonStatusChip value={value} /> },
+    { field: 'lifecycleStatus', headerName: 'Lifecycle', minWidth: 160, flex: 0.75, renderCell: ({ value }) => <CommonStatusChip value={value} /> },
+    { field: 'operatingStatus', headerName: 'Operating', minWidth: 170, flex: 0.8, renderCell: ({ value }) => <CommonStatusChip value={value} /> },
+    { field: 'criticality', headerName: 'Criticality', minWidth: 130, flex: 0.7, renderCell: ({ value }) => <CommonStatusChip value={value} /> },
     {
       field: 'actions',
       headerName: '',
@@ -172,17 +175,22 @@ function EquipmentListPage() {
 
   return (
     <Box>
-      <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" alignItems={{ xs: 'flex-start', sm: 'center' }} spacing={2} sx={{ mb: 2 }}>
-        <Box>
-          <Typography variant="h4" fontWeight={800}>Equipment</Typography>
-          <Typography variant="body2" color="text.secondary">Maintain plant assets and operating status.</Typography>
-        </Box>
-        {hasPermission(PERMISSIONS.EQUIPMENT_CREATE) && <Button variant="contained" startIcon={<Add />} onClick={() => navigate('/equipment/new')}>Add Equipment</Button>}
-      </Stack>
+      <CommonPageHeader
+        title="Equipment"
+        subtitle="Maintain plant assets and operating status."
+        primaryAction={hasPermission(PERMISSIONS.EQUIPMENT_CREATE) ? {
+          label: 'Add Equipment',
+          icon: <Add />,
+          onClick: () => navigate('/equipment/new'),
+          'data-testid': 'equipment-add-button',
+        } : undefined}
+        sx={{ mb: 2 }}
+        data-testid="equipment-page-header"
+      />
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
-      <Paper sx={{ p: 2, mb: 2, borderRadius: 1 }}>
+      <CommonFilterPanel sx={{ mb: 2 }}>
         <Stack direction={{ xs: 'column', md: 'row' }} spacing={2} flexWrap="wrap" useFlexGap>
-          <CommonInput label="Equipment" value={equipmentNameFilter} onChange={updateEquipmentNameFilter} sx={{ minWidth: { xs: '100%', sm: 260 } }} />
+          <CommonInput label="Equipment" value={equipmentNameFilter} onChange={updateEquipmentNameFilter} sx={{ minWidth: { xs: '100%', sm: 260 } }} data-testid="equipment-search-field" />
           <CommonDropdown
             label="Site"
             value={siteFilter}
@@ -193,9 +201,10 @@ function EquipmentListPage() {
             getOptionLabel={(site) => `${site.siteName} (${site.siteCode})`}
             getOptionValue={(site) => site.id}
             sx={{ minWidth: { xs: '100%', sm: 240 } }}
+            data-testid="equipment-site-filter"
           />
         </Stack>
-      </Paper>
+      </CommonFilterPanel>
       <CommonList
         rows={rows}
         columns={columns}
@@ -218,6 +227,9 @@ function EquipmentListPage() {
             },
           },
         }}
+        onRetry={loadRows}
+        emptyMessage="No equipment found."
+        tableTestId="equipment-table"
       />
 
       <Dialog open={qrDialog.open} onClose={() => setQrDialog(initialQrDialog)} maxWidth="xs" fullWidth>

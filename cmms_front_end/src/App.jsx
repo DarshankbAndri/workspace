@@ -1,9 +1,10 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { ThemeProvider, createTheme, CssBaseline, useMediaQuery, Box, Paper, Typography } from '@mui/material';
+import { ThemeProvider, CssBaseline, useMediaQuery, Box, Paper, Typography } from '@mui/material';
 import { useAuth } from './shared/context/AuthContext';
 import SidebarLayout from './shared/layouts/SidebarLayout';
 import { getFirstAllowedPath } from './shared/utils/permissionRoutes';
+import createAppTheme from './theme/appTheme';
 import LoginPage from './features/auth/pages/LoginPage';
 import UserManagementPage from './features/user/pages/UserManagementPage';
 import DashboardPage from './features/dashboard/pages/DashboardPage';
@@ -50,70 +51,6 @@ import UserRoleAssignmentPage from './features/admin/pages/UserRoleAssignmentPag
 import ApprovalConfigPage from './features/approval/pages/ApprovalConfigPage';
 import NotificationSettingsPage from './features/notification/pages/NotificationSettingsPage';
 import CompanyFormPage from './features/company/pages/CompanyFormPage';
-
-const createAppTheme = (mode) => createTheme({
-  palette: {
-    mode,
-    primary: {
-      main: '#003da5',
-      light: '#1565c0',
-      dark: '#002c7a',
-    },
-    secondary: {
-      main: '#ffc107',
-      light: '#ffeb3b',
-      dark: '#ffb300',
-    },
-    success: {
-      main: '#4caf50',
-    },
-    error: {
-      main: '#f44336',
-    },
-    warning: {
-      main: '#ff9800',
-    },
-    background: {
-      default: mode === 'dark' ? '#0f172a' : '#f5f7fb',
-      paper: mode === 'dark' ? '#111827' : '#ffffff',
-    },
-  },
-  typography: {
-    fontFamily: 'Roboto, "Helvetica Neue", Arial, sans-serif',
-    h4: {
-      fontWeight: 700,
-    },
-    h5: {
-      fontWeight: 600,
-    },
-  },
-  components: {
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          textTransform: 'none',
-          fontWeight: 600,
-          borderRadius: 6,
-        },
-      },
-    },
-    MuiPaper: {
-      styleOverrides: {
-        root: {
-          backgroundImage: 'none',
-        },
-      },
-    },
-    MuiAppBar: {
-      styleOverrides: {
-        root: {
-          backgroundColor: '#003da5',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-        },
-      },
-    },
-  },
-});
 
 function AccessDenied() {
   return (

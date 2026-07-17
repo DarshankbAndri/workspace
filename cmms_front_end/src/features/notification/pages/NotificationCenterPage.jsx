@@ -1,11 +1,14 @@
 import React from 'react';
-import { Alert, Box, Button, Chip, IconButton, Paper, Snackbar, Stack, Tab, Tabs, TextField, Tooltip, Typography } from '@mui/material';
+import { Alert, Box, IconButton, Paper, Snackbar, Stack, Tab, Tabs, TextField, Tooltip } from '@mui/material';
 import { Archive, DoneAll, OpenInNew, Refresh, Search } from '@mui/icons-material';
-import { DataGrid } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
 import { archiveNotification, getNotifications, markAllNotificationsRead, markNotificationRead } from '../services/notificationService';
 import { useAuth } from '../../../shared/context/AuthContext';
 import { PERMISSIONS } from '../../../shared/utils/permissionRoutes';
+import CommonList from '../../../shared/components/common/CommonList';
+import CommonPageHeader from '../../../shared/components/common/CommonPageHeader';
+import CommonStatusChip from '../../../shared/components/common/CommonStatusChip';
+import { formatDateTime } from '../../../shared/utils/formatters';
 
 const notificationTabs = [
   { key: 'all', label: 'All', filter: {} },
@@ -103,15 +106,15 @@ function NotificationCenterPage() {
       field: 'status',
       headerName: 'Status',
       width: 120,
-      renderCell: ({ value }) => <Chip size="small" label={value} color={value === 'UNREAD' ? 'primary' : 'default'} />,
+      renderCell: ({ value }) => <CommonStatusChip value={value} />,
     },
     { field: 'type', headerName: 'Type', minWidth: 170, flex: 0.8 },
     { field: 'title', headerName: 'Title', minWidth: 220, flex: 1 },
     { field: 'message', headerName: 'Message', minWidth: 360, flex: 1.6 },
     { field: 'siteName', headerName: 'Site', minWidth: 150, flex: 0.7 },
     { field: 'referenceCode', headerName: 'Reference', minWidth: 150, flex: 0.7 },
-    { field: 'priority', headerName: 'Priority', minWidth: 110, flex: 0.5 },
-    { field: 'createdAt', headerName: 'Created', minWidth: 180, flex: 0.8, valueFormatter: ({ value }) => value ? new Date(value).toLocaleString() : '' },
+    { field: 'priority', headerName: 'Priority', minWidth: 110, flex: 0.5, renderCell: ({ value }) => <CommonStatusChip value={value} /> },
+    { field: 'createdAt', headerName: 'Created', minWidth: 180, flex: 0.8, valueFormatter: ({ value }) => formatDateTime(value, '') },
     {
       field: 'actions',
       headerName: 'Actions',
@@ -135,16 +138,14 @@ function NotificationCenterPage() {
 
   return (
     <Box>
-      <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" alignItems={{ xs: 'stretch', sm: 'center' }} spacing={2} sx={{ mb: 2 }}>
-        <Box>
-          <Typography variant="h4" fontWeight={800}>Notifications</Typography>
-          <Typography variant="body2" color="text.secondary">PM reminders, overdue alerts, and approval updates.</Typography>
-        </Box>
-        <Stack direction="row" spacing={1}>
-          <Button variant="outlined" startIcon={<Refresh />} onClick={loadRows}>Refresh</Button>
-          {hasPermission(PERMISSIONS.NOTIFICATION_UPDATE) && <Button variant="contained" startIcon={<DoneAll />} onClick={markAllRead}>Mark All Read</Button>}
-        </Stack>
-      </Stack>
+      <CommonPageHeader
+        title="Notifications"
+        subtitle="PM reminders, overdue alerts, and approval updates."
+        secondaryActions={[{ label: 'Refresh', icon: <Refresh />, onClick: loadRows }]}
+        primaryAction={hasPermission(PERMISSIONS.NOTIFICATION_UPDATE) ? { label: 'Mark All Read', icon: <DoneAll />, onClick: markAllRead } : undefined}
+        sx={{ mb: 2 }}
+        data-testid="notifications-header"
+      />
       {error && <Alert severity="error" sx={{ mb: 2 }} onClose={() => setError('')}>{error}</Alert>}
       <Paper sx={{ borderRadius: 1, overflow: 'hidden' }}>
         <Stack direction={{ xs: 'column', md: 'row' }} justifyContent="space-between" alignItems={{ xs: 'stretch', md: 'center' }} spacing={2} sx={{ p: 2, borderBottom: 1, borderColor: 'divider' }}>
@@ -166,19 +167,21 @@ function NotificationCenterPage() {
             sx={{ width: { xs: '100%', md: 280 } }}
           />
         </Stack>
-        <Box sx={{ height: 620 }}>
-          <DataGrid
+        <CommonList
             rows={rows}
             columns={columns}
             loading={loading}
-            disableRowSelectionOnClick
-            pageSizeOptions={[10, 25, 50]}
-            paginationMode="server"
-            rowCount={rowCount}
-            paginationModel={paginationModel}
-            onPaginationModelChange={setPaginationModel}
+            height={620}
+            emptyMessage="No notifications found."
+            tableTestId="notifications-table"
+            dataGridProps={{
+              pageSizeOptions: [10, 25, 50],
+              paginationMode: 'server',
+              rowCount,
+              paginationModel,
+              onPaginationModelChange: setPaginationModel,
+            }}
           />
-        </Box>
       </Paper>
       <Snackbar open={Boolean(success)} autoHideDuration={3000} message={success} onClose={() => setSuccess('')} />
     </Box>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Paper, Snackbar, Stack, TextField, Typography } from '@mui/material';
+import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Snackbar, Stack, TextField, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { CheckCircle, Cancel, Visibility } from '@mui/icons-material';
 import { getPendingApprovals, approveApproval, rejectApproval } from '../services/approvalService';
 import { getSites } from '../../site/services/siteService';
@@ -7,9 +7,14 @@ import { useAuth } from '../../../shared/context/AuthContext';
 import { PERMISSIONS } from '../../../shared/utils/permissionRoutes';
 import CommonDropdown from '../../../shared/components/common/CommonDropdown';
 import CommonList from '../../../shared/components/common/CommonList';
+import CommonFilterPanel from '../../../shared/components/common/CommonFilterPanel';
+import CommonPageHeader from '../../../shared/components/common/CommonPageHeader';
+import CommonStatusChip from '../../../shared/components/common/CommonStatusChip';
 import { APPROVAL_ACTION_OPTIONS, APPROVAL_MODULE_OPTIONS } from '../../../shared/constants/statusOptions';
 
 function ApprovalInboxPage() {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const { hasPermission } = useAuth();
   const [rows, setRows] = React.useState([]);
   const [sites, setSites] = React.useState([]);
@@ -70,7 +75,7 @@ function ApprovalInboxPage() {
     { field: 'siteName', headerName: 'Site', minWidth: 170, flex: 0.8 },
     { field: 'requestedByName', headerName: 'Requested By', minWidth: 160, flex: 0.8 },
     { field: 'requestedAt', headerName: 'Requested At', minWidth: 180, flex: 0.8, valueFormatter: ({ value }) => value ? new Date(value).toLocaleString() : '' },
-    { field: 'approvalStatus', headerName: 'Status', minWidth: 130, flex: 0.6 },
+    { field: 'approvalStatus', headerName: 'Status', minWidth: 140, flex: 0.6, renderCell: ({ value }) => <CommonStatusChip value={value} /> },
     {
       field: 'actions',
       headerName: 'Actions',
@@ -89,9 +94,9 @@ function ApprovalInboxPage() {
 
   return (
     <Box>
-      <Typography variant="h4" fontWeight={800} sx={{ mb: 2 }}>Pending Approvals</Typography>
+      <CommonPageHeader title="Pending Approvals" subtitle="Review and decide workflow requests waiting for action." sx={{ mb: 2 }} data-testid="approval-inbox-header" />
       {error && <Alert severity="error" sx={{ mb: 2 }} onClose={() => setError('')}>{error}</Alert>}
-      <Paper sx={{ p: 2, mb: 2, borderRadius: 1 }}>
+      <CommonFilterPanel sx={{ mb: 2 }}>
         <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
           <CommonDropdown label="Module" value={filters.moduleCode} onChange={updateFilter('moduleCode')} options={APPROVAL_MODULE_OPTIONS} placeholder="All Modules" clearable sx={{ minWidth: 210 }} />
           <CommonDropdown label="Action" value={filters.actionCode} onChange={updateFilter('actionCode')} options={APPROVAL_ACTION_OPTIONS} placeholder="All Actions" clearable sx={{ minWidth: 160 }} />
@@ -109,14 +114,17 @@ function ApprovalInboxPage() {
           <TextField type="date" label="Requested From" value={filters.requestedFrom} onChange={updateFilter('requestedFrom')} InputLabelProps={{ shrink: true }} sx={{ minWidth: 170 }} />
           <TextField type="date" label="Requested To" value={filters.requestedTo} onChange={updateFilter('requestedTo')} InputLabelProps={{ shrink: true }} sx={{ minWidth: 170 }} />
         </Stack>
-      </Paper>
+      </CommonFilterPanel>
       <CommonList
         rows={visibleRows}
         columns={columns}
         loading={loading}
+        emptyMessage="No pending approvals found."
+        onRetry={loadRows}
+        tableTestId="approval-inbox-table"
         dataGridProps={{ initialState: { pagination: { paginationModel: { pageSize: 10 } } } }}
       />
-      <Dialog open={Boolean(decision)} onClose={() => setDecision(null)} maxWidth="sm" fullWidth>
+      <Dialog open={Boolean(decision)} onClose={() => setDecision(null)} maxWidth="sm" fullWidth fullScreen={isMobile}>
         <DialogTitle>{decision?.type === 'VIEW' ? 'Approval Details' : `${decision?.type === 'APPROVE' ? 'Approve' : 'Reject'} Approval`}</DialogTitle>
         <DialogContent>
           {decision?.row && (

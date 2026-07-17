@@ -6,9 +6,7 @@ import {
   CardContent,
   CircularProgress,
   Grid,
-  MenuItem,
   Stack,
-  TextField,
   Typography,
   alpha,
   useTheme,
@@ -37,6 +35,11 @@ import {
 } from 'recharts';
 import { getDashboardData } from '../services/dashboardService';
 import { getSites } from '../../site/services/siteService';
+import CommonDropdown from '../../../shared/components/common/CommonDropdown';
+import CommonEmptyState from '../../../shared/components/common/CommonEmptyState';
+import CommonPageHeader from '../../../shared/components/common/CommonPageHeader';
+import CommonSectionCard from '../../../shared/components/common/CommonSectionCard';
+import { formatNumber } from '../../../shared/utils/formatters';
 
 const metricCards = [
   {
@@ -44,43 +47,41 @@ const metricCards = [
     label: 'Total Equipments',
     helper: 'Registered production assets',
     icon: <PrecisionManufacturing />,
-    color: '#003da5',
+    color: 'primary',
   },
   {
     key: 'activeVendors',
     label: 'Active Vendors',
     helper: 'Approved maintenance partners',
     icon: <Business />,
-    color: '#2e7d32',
+    color: 'success',
   },
   {
     key: 'openRequests',
     label: 'Open Maintenance Requests',
     helper: 'Work orders needing action',
     icon: <Build />,
-    color: '#ed6c02',
+    color: 'warning',
   },
   {
     key: 'lowStockSpareParts',
     label: 'Low Stock Spare Parts',
     helper: 'Inventory items below minimum level',
     icon: <WarningAmber />,
-    color: '#c62828',
+    color: 'error',
   },
   {
     key: 'totalDowntimeHours',
     label: 'Total Downtime Hours',
     helper: 'Recorded equipment impact',
     icon: <Timeline />,
-    color: '#6d4c41',
+    color: 'info',
   },
 ];
 
-const statusColors = ['#003da5', '#2e7d32', '#ed6c02', '#c62828', '#6a1b9a', '#00838f'];
-
 const formatMetric = (value) => {
   const number = Number(value ?? 0);
-  return Number.isInteger(number) ? number.toLocaleString() : number.toFixed(2);
+  return Number.isInteger(number) ? formatNumber(number, { maximumFractionDigits: 0 }, '0') : formatNumber(number, { minimumFractionDigits: 2, maximumFractionDigits: 2 }, '0.00');
 };
 
 function EmptyChart({ label }) {
@@ -96,22 +97,16 @@ function EmptyChart({ label }) {
         bgcolor: 'action.hover',
       }}
     >
-      <Typography variant="body2" color="text.secondary">{label}</Typography>
+      <CommonEmptyState title={label} sx={{ minHeight: 280 }} />
     </Box>
   );
 }
 
 function ChartCard({ title, subtitle, children }) {
   return (
-    <Card sx={{ height: '100%', borderRadius: 1, border: '1px solid', borderColor: 'divider', boxShadow: 'none' }}>
-      <CardContent sx={{ p: 2.5 }}>
-        <Box sx={{ mb: 2 }}>
-          <Typography variant="h6" fontWeight={800}>{title}</Typography>
-          <Typography variant="body2" color="text.secondary">{subtitle}</Typography>
-        </Box>
+    <CommonSectionCard title={title} subtitle={subtitle} sx={{ height: '100%' }} contentSx={{ mt: 2 }}>
         {children}
-      </CardContent>
-    </Card>
+    </CommonSectionCard>
   );
 }
 
@@ -161,21 +156,38 @@ function DashboardPage() {
   const vendorPerformance = dashboard?.vendorPerformance ?? [];
   const upcomingMaintenance = dashboard?.upcomingMaintenance ?? [];
   const hasDowntime = monthlyDowntime.some((item) => item.hours > 0);
+  const statusColors = [
+    theme.palette.primary.main,
+    theme.palette.success.main,
+    theme.palette.warning.main,
+    theme.palette.error.main,
+    theme.palette.info.main,
+    theme.palette.secondary.main,
+  ];
+  const siteOptions = React.useMemo(
+    () => sites.map((site) => ({ value: site.id, label: `${site.siteName} (${site.siteCode})` })),
+    [sites],
+  );
 
   return (
     <Box>
-      <Stack direction={{ xs: 'column', md: 'row' }} justifyContent="space-between" spacing={1.5} sx={{ mb: 3 }}>
-        <Box>
-          <Typography variant="h4" fontWeight={800}>CMMS Dashboard</Typography>
-          <Typography variant="body2" color="text.secondary">
-            Enterprise maintenance overview for assets, vendors, work orders, and downtime.
-          </Typography>
-        </Box>
+      <CommonPageHeader
+        title="CMMS Dashboard"
+        subtitle="Enterprise maintenance overview for assets, vendors, work orders, and downtime."
+        sx={{ mb: 3 }}
+        data-testid="dashboard-header"
+      >
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.5} alignItems={{ xs: 'stretch', sm: 'center' }}>
-          <TextField select size="small" label="Site" value={siteId} onChange={(event) => setSiteId(event.target.value)} sx={{ minWidth: 240 }}>
-            <MenuItem value="">All Sites</MenuItem>
-            {sites.map((site) => <MenuItem key={site.id} value={site.id}>{site.siteName} ({site.siteCode})</MenuItem>)}
-          </TextField>
+          <CommonDropdown
+            label="Site"
+            value={siteId}
+            onChange={(event) => setSiteId(event.target.value)}
+            options={siteOptions}
+            placeholder="All Sites"
+            clearable
+            sx={{ minWidth: { xs: '100%', sm: 240 } }}
+            data-testid="dashboard-site-filter"
+          />
           <Box
             sx={{
               alignSelf: { xs: 'flex-start', md: 'center' },
@@ -193,7 +205,7 @@ function DashboardPage() {
             <Typography variant="caption" fontWeight={800}>Live API Metrics</Typography>
           </Box>
         </Stack>
-      </Stack>
+      </CommonPageHeader>
 
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
 
@@ -224,8 +236,8 @@ function DashboardPage() {
                         borderRadius: 1,
                         display: 'grid',
                         placeItems: 'center',
-                        color: card.color,
-                        bgcolor: alpha(card.color, 0.12),
+                        color: `${card.color}.main`,
+                        bgcolor: alpha(theme.palette[card.color].main, 0.12),
                         flexShrink: 0,
                       }}
                     >

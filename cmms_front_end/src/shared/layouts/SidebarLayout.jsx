@@ -46,6 +46,7 @@ import {
 } from '@mui/icons-material';
 import { useAuth } from '../context/AuthContext';
 import TopNavbar from './TopNavbar';
+import CommonPageContainer from '../components/common/CommonPageContainer';
 
 const drawerWidth = 280;
 const collapsedWidth = 76;
@@ -458,8 +459,10 @@ function SidebarLayout({ children, mode, onToggleMode }) {
       )}
       <Box component="main" sx={{ flex: 1, minWidth: 0 }}>
         <TopNavbar onMenuClick={() => setMobileOpen(true)} />
-        <Box sx={{ p: { xs: 2, md: 3 } }}>
-          {children}
+        <Box sx={{ p: { xs: 1.5, sm: 2, md: 3 }, minWidth: 0 }}>
+          <CommonPageContainer>
+            {children}
+          </CommonPageContainer>
         </Box>
       </Box>
     </Box>
