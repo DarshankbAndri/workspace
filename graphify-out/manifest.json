@@ -585,8 +585,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/controller/DashboardController.java": {
-    "mtime": 1782467371.2610414,
-    "ast_hash": "72376c08d2efeb11323a1951753a62b7",
+    "mtime": 1784264444.108246,
+    "ast_hash": "fef0b892989b3d3f2b1220f8931a0074",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/dto/DashboardDTO.java": {
@@ -595,8 +595,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/service/DashboardService.java": {
-    "mtime": 1782717518.1775894,
-    "ast_hash": "aefa02393e3176eef004166324ff8da6",
+    "mtime": 1784264456.9291804,
+    "ast_hash": "8ef057c6df01c8143e0acc8e8c7f5d0a",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/downtime/controller/EquipmentDowntimeController.java": {
@@ -1310,13 +1310,13 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/dashboard/pages/DashboardPage.jsx": {
-    "mtime": 1784261798.5981224,
-    "ast_hash": "ad83b91fcab1f62559e38a99bf968c4e",
+    "mtime": 1784263665.792336,
+    "ast_hash": "3cc362b55d8e678ba1132acf91e39895",
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/dashboard/services/dashboardService.js": {
-    "mtime": 1782720590.7897859,
-    "ast_hash": "6420d0c7d91a1b6ba3e175dc848898d7",
+    "mtime": 1784264444.118793,
+    "ast_hash": "a82f37fb4220c7aef6cd7538f566861d",
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/downtime/pages/DowntimeFormPage.jsx": {
@@ -2152,6 +2152,11 @@
   "cmms_front_end/src/theme/appTheme.js": {
     "mtime": 1784261799.2265036,
     "ast_hash": "bac85f1da931faf26846264a533fdaef",
+    "semantic_hash": ""
+  },
+  "cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/dto/DashboardOverviewDTO.java": {
+    "mtime": 1784264444.101848,
+    "ast_hash": "d300c58a9cb65f2225982d450f657f84",
     "semantic_hash": ""
   }
 }

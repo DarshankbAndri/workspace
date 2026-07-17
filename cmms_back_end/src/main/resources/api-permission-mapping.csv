@@ -1,5 +1,7 @@
 permissionCode,apiPath,httpMethod,description
 DASHBOARD_VIEW,/api/dashboard/**,GET,View dashboard summary
+DASHBOARD_VIEW,/api/hr/sites/**,GET,Dashboard site filter helper data
+DASHBOARD_VIEW,/api/hr/sites,GET,Dashboard site filter helper data
 SITE_VIEW,/api/hr/sites/**,GET,View sites
 SITE_VIEW,/api/hr/sites,GET,View site list
 SITE_VIEW,/api/hr/sites/search,POST,Search sites

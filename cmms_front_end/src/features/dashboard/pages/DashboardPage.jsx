@@ -146,8 +146,11 @@ function DashboardPage() {
 
   React.useEffect(() => {
     getSites()
-      .then((data) => setSites(data.filter((site) => site.status !== 'INACTIVE')))
-      .catch(() => setError('Unable to load sites for dashboard filter.'));
+      .then((data) => {
+        const siteList = Array.isArray(data) ? data : [];
+        setSites(siteList.filter((site) => site.status !== 'INACTIVE'));
+      })
+      .catch(() => setSites([]));
   }, []);
 
   const summary = dashboard?.summary ?? {};

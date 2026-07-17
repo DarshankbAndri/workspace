@@ -3,7 +3,6 @@ package com.example.cmmsApplication.dashboard.controller;
 import com.example.cmmsApplication.common.response.ApiResponse;
 import com.example.cmmsApplication.common.response.ResponseFactory;
 
-import com.example.cmmsApplication.dashboard.dto.DashboardDTO;
 import com.example.cmmsApplication.dashboard.service.DashboardService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,5 +20,10 @@ public class DashboardController {
     @GetMapping("/summary")
     public ResponseEntity<ApiResponse<?>> getSummary(@RequestParam(required = false) Long siteId) {
         return ResponseFactory.ok(dashboardService.getSummary(siteId));
+    }
+
+    @GetMapping("/overview")
+    public ResponseEntity<ApiResponse<?>> getOverview(@RequestParam(required = false) Long siteId) {
+        return ResponseFactory.ok(dashboardService.getOverview(siteId));
     }
 }
