@@ -89,8 +89,12 @@ function PreventiveMaintenanceListPage() {
     setError('');
     setSuccess('');
     try {
-      await generatePMWorkOrder(row.id);
-      setSuccess('Work order generated and vendor notification recorded.');
+      const result = await generatePMWorkOrder(row.id);
+      if (result?.status === 'COMPLETED' && result?.active === false) {
+        setSuccess('PM schedule completed. No work order was generated because the end date has passed.');
+      } else {
+        setSuccess('Work order generated and vendor notification recorded.');
+      }
       loadRows();
     } catch (err) {
       setError(err.response?.data?.message || 'Unable to generate work order.');
@@ -118,6 +122,8 @@ function PreventiveMaintenanceListPage() {
     { field: 'priority', headerName: 'Priority', minWidth: 120, flex: 0.6 },
     { field: 'status', headerName: 'Approval Status', minWidth: 150, flex: 0.7, valueFormatter: ({ value }) => value || 'ACTIVE' },
     { field: 'nextDueDate', headerName: 'Next Due', minWidth: 130, flex: 0.6 },
+    { field: 'endDate', headerName: 'End Date', minWidth: 130, flex: 0.6, valueFormatter: ({ value }) => value || '-' },
+    { field: 'amcContractNumber', headerName: 'AMC', minWidth: 150, flex: 0.7, valueFormatter: ({ value }) => value || '-' },
     { field: 'vendorName', headerName: 'Vendor', minWidth: 180, flex: 0.9, valueFormatter: ({ value }) => value || '-' },
     {
       field: 'completionPercentage',

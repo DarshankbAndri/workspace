@@ -13,6 +13,7 @@ import com.example.cmmsApplication.assignment.dao.MaintenanceAssignmentDAO;
 import com.example.cmmsApplication.maintenancerequest.dao.MaintenanceRequestDAO;
 import com.example.cmmsApplication.preventivemaintenance.dao.PmScheduleChecklistItemDAO;
 import com.example.cmmsApplication.preventivemaintenance.dao.PreventiveMaintenanceScheduleDAO;
+import com.example.cmmsApplication.vendoramc.dao.EquipmentAmcMappingDAO;
 import com.example.cmmsApplication.approval.dto.ApprovalRequestDTO;
 import com.example.cmmsApplication.preventivemaintenance.dto.PmScheduleChecklistItemDTO;
 import com.example.cmmsApplication.preventivemaintenance.dto.PreventiveMaintenanceScheduleDTO;
@@ -24,6 +25,9 @@ import com.example.cmmsApplication.preventivemaintenance.entity.PmScheduleCheckl
 import com.example.cmmsApplication.preventivemaintenance.entity.PreventiveMaintenanceSchedule;
 import com.example.cmmsApplication.site.entity.Site;
 import com.example.cmmsApplication.vendor.entity.Vendor;
+import com.example.cmmsApplication.vendoramc.entity.EquipmentAmcMapping;
+import com.example.cmmsApplication.vendoramc.entity.VendorAmcContract;
+import com.example.cmmsApplication.vendoramc.service.VendorAmcService;
 import com.example.cmmsApplication.common.exception.InvalidOperationException;
 import com.example.cmmsApplication.common.exception.ResourceNotFoundException;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -36,6 +40,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -51,13 +56,16 @@ import java.util.stream.Collectors;
 public class PreventiveMaintenanceScheduleService {
     private static final List<String> FREQUENCIES = Arrays.asList("DAILY", "WEEKLY", "MONTHLY", "QUARTERLY", "YEARLY");
     private static final long MAX_CALENDAR_RANGE_DAYS = 370;
+    private static final Set<String> ACTIVE_AMC_STATUSES = Set.of("ACTIVE", "EXPIRING_SOON");
 
     private final PreventiveMaintenanceScheduleDAO scheduleDAO;
     private final PmScheduleChecklistItemDAO checklistItemDAO;
     private final MaintenanceRequestDAO requestDAO;
     private final MaintenanceAssignmentDAO assignmentDAO;
+    private final EquipmentAmcMappingDAO equipmentAmcMappingDAO;
     private final EquipmentService equipmentService;
     private final VendorService vendorService;
+    private final VendorAmcService vendorAmcService;
     private final SiteService siteService;
     private final AccessControlService accessControlService;
     private final ApprovalWorkflowService approvalWorkflowService;
@@ -183,9 +191,14 @@ public PreventiveMaintenanceScheduleDTO create(PreventiveMaintenanceScheduleDTO 
     public List<PreventiveMaintenanceScheduleDTO> generateDueWorkOrders() {
         Instant started = Instant.now();
         try {
-            List<PreventiveMaintenanceScheduleDTO> generated = scheduleDAO.findDue(LocalDate.now()).stream()
-                    .map(this::generateWorkOrder)
-                    .collect(Collectors.toList());
+            List<PreventiveMaintenanceScheduleDTO> generated = new ArrayList<>();
+            for (PreventiveMaintenanceSchedule schedule : scheduleDAO.findDue(LocalDate.now())) {
+                if (isPastEndDate(schedule)) {
+                    completeSchedule(schedule);
+                } else {
+                    generated.add(generateWorkOrder(schedule));
+                }
+            }
             observabilityMetrics.recordPmGeneration("success", generated.size(), Duration.between(started, Instant.now()));
             return generated;
         } catch (RuntimeException ex) {
@@ -201,8 +214,12 @@ public PreventiveMaintenanceScheduleDTO create(PreventiveMaintenanceScheduleDTO 
         try {
             List<PreventiveMaintenanceSchedule> dueSchedules = scheduleDAO.findDue(LocalDate.now());
             for (PreventiveMaintenanceSchedule schedule : dueSchedules) {
-                generateWorkOrderNow(schedule);
-                generated++;
+                if (isPastEndDate(schedule)) {
+                    completeSchedule(schedule);
+                } else {
+                    generateWorkOrderNow(schedule);
+                    generated++;
+                }
             }
             observabilityMetrics.recordPmGeneration("success", generated, Duration.between(started, Instant.now()));
         } catch (RuntimeException ex) {
@@ -243,6 +260,9 @@ public PreventiveMaintenanceScheduleDTO create(PreventiveMaintenanceScheduleDTO 
         if (!Boolean.TRUE.equals(schedule.getActive()) || "PENDING_APPROVAL".equalsIgnoreCase(schedule.getStatus()) || "REJECTED".equalsIgnoreCase(schedule.getStatus())) {
             throw new InvalidOperationException("PM schedule must be active and approved before work order generation");
         }
+        if (isPastEndDate(schedule)) {
+            return toDTO(completeSchedule(schedule));
+        }
         boolean approvalRequired = approvalWorkflowService.isApprovalEnabled(ApprovalWorkflowService.PM_WORK_ORDER, ApprovalWorkflowService.GENERATE);
         if (approvalRequired) {
             schedule.setLastNotificationStatus("WORK_ORDER_GENERATION_PENDING_APPROVAL");
@@ -264,6 +284,9 @@ public PreventiveMaintenanceScheduleDTO create(PreventiveMaintenanceScheduleDTO 
     }
 
     private PreventiveMaintenanceSchedule generateWorkOrderNow(PreventiveMaintenanceSchedule schedule) {
+        if (isPastEndDate(schedule)) {
+            return completeSchedule(schedule);
+        }
         MaintenanceRequest request = new MaintenanceRequest();
         request.setRequestNumber(generateRequestNumber(schedule));
         request.setSite(schedule.getSite());
@@ -277,6 +300,14 @@ public PreventiveMaintenanceScheduleDTO create(PreventiveMaintenanceScheduleDTO 
         request.setReportedBy("PM Scheduler");
         request.setRequestedDate(schedule.getNextDueDate());
         request.setTargetCompletionDate(schedule.getNextDueDate());
+        if (schedule.getAmcContract() != null) {
+            request.setAmcContract(schedule.getAmcContract());
+            request.setAmcCovered(true);
+            request.setExternalVendorAssignment(true);
+            request.setVendor(schedule.getAmcContract().getVendor());
+        } else {
+            request.setVendor(schedule.getVendor());
+        }
         MaintenanceRequest savedRequest = requestDAO.save(request);
 
         if (schedule.getVendor() != null || (schedule.getAssignedTo() != null && !schedule.getAssignedTo().isBlank())) {
@@ -296,6 +327,12 @@ public PreventiveMaintenanceScheduleDTO create(PreventiveMaintenanceScheduleDTO 
         notifyVendor(schedule, savedRequest);
         schedule.setLastGeneratedDate(schedule.getNextDueDate());
         schedule.setNextDueDate(nextDate(schedule.getNextDueDate(), schedule.getFrequency()));
+        if (isPastEndDate(schedule)) {
+            schedule.setActive(false);
+            schedule.setStatus("COMPLETED");
+            schedule.setLastNotificationStatus("PM_SCHEDULE_COMPLETED");
+            schedule.setLastNotificationAt(LocalDateTime.now());
+        }
         return scheduleDAO.save(schedule);
     }
 
@@ -304,7 +341,9 @@ public PreventiveMaintenanceScheduleDTO create(PreventiveMaintenanceScheduleDTO 
         Equipment equipment = equipmentService.getEntity(dto.getEquipmentId());
         equipmentService.validateCanReceiveWork(equipment);
         Vendor vendor = dto.getVendorId() == null ? null : vendorService.getEntity(dto.getVendorId());
+        VendorAmcContract amcContract = dto.getAmcContractId() == null ? null : validateAmcContract(dto.getAmcContractId(), equipment, dto.getStartDate(), dto.getEndDate(), dto.getNextDueDate());
         String frequency = normalizeFrequency(dto.getFrequency());
+        LocalDate nextDueDate = dto.getNextDueDate() == null ? dto.getStartDate() : dto.getNextDueDate();
 
         if (equipment.getSite() == null || !site.getId().equals(equipment.getSite().getId())) {
             throw new InvalidOperationException("Selected equipment does not belong to selected site");
@@ -312,10 +351,23 @@ public PreventiveMaintenanceScheduleDTO create(PreventiveMaintenanceScheduleDTO 
         if (vendor != null && !vendorService.isVendorAssignedToSite(vendor.getId(), site.getId())) {
             throw new InvalidOperationException("Selected vendor is not assigned to selected site");
         }
+        if (dto.getStartDate() == null) {
+            throw new InvalidOperationException("Start date is required");
+        }
+        if (dto.getEndDate() != null && dto.getEndDate().isBefore(dto.getStartDate())) {
+            throw new InvalidOperationException("PM end date must be on or after start date");
+        }
+        if (dto.getEndDate() != null && nextDueDate != null && nextDueDate.isAfter(dto.getEndDate())) {
+            throw new InvalidOperationException("Next due date must be on or before PM end date");
+        }
+        if (amcContract != null) {
+            vendor = amcContract.getVendor();
+        }
 
         schedule.setSite(site);
         schedule.setEquipment(equipment);
         schedule.setVendor(vendor);
+        schedule.setAmcContract(amcContract);
         if (dto.getScheduleCode() != null && !dto.getScheduleCode().isBlank()) {
             schedule.setScheduleCode(dto.getScheduleCode());
         }
@@ -325,9 +377,45 @@ public PreventiveMaintenanceScheduleDTO create(PreventiveMaintenanceScheduleDTO 
         schedule.setPriority(dto.getPriority() == null ? "MEDIUM" : dto.getPriority());
         schedule.setAssignedTo(dto.getAssignedTo());
         schedule.setStartDate(dto.getStartDate());
-        schedule.setNextDueDate(dto.getNextDueDate() == null ? dto.getStartDate() : dto.getNextDueDate());
+        schedule.setEndDate(dto.getEndDate());
+        schedule.setNextDueDate(nextDueDate);
         schedule.setActive(dto.getActive() == null || dto.getActive());
         schedule.setStatus(dto.getStatus() == null || dto.getStatus().isBlank() ? "ACTIVE" : dto.getStatus());
+    }
+
+    private VendorAmcContract validateAmcContract(Long amcContractId, Equipment equipment, LocalDate startDate, LocalDate endDate, LocalDate nextDueDate) {
+        VendorAmcContract contract = vendorAmcService.getEntity(amcContractId);
+        if (!ACTIVE_AMC_STATUSES.contains((contract.getStatus() == null ? "" : contract.getStatus()).toUpperCase(Locale.ROOT))) {
+            throw new InvalidOperationException("Selected AMC contract must be active or expiring soon");
+        }
+        EquipmentAmcMapping mapping = equipmentAmcMappingDAO.findByContractAndEquipment(amcContractId, equipment.getId())
+                .orElseThrow(() -> new InvalidOperationException("Selected AMC contract is not mapped to selected equipment"));
+        if (!Boolean.TRUE.equals(mapping.getActive())) {
+            throw new InvalidOperationException("Selected AMC equipment coverage is inactive");
+        }
+        LocalDate coverageStart = startDate == null ? nextDueDate : startDate;
+        LocalDate coverageEnd = endDate == null ? (nextDueDate == null ? coverageStart : nextDueDate) : endDate;
+        if (coverageStart == null || coverageEnd == null) {
+            throw new InvalidOperationException("PM dates are required before linking AMC");
+        }
+        if (mapping.getCoverageStartDate().isAfter(coverageStart) || mapping.getCoverageEndDate().isBefore(coverageEnd)) {
+            throw new InvalidOperationException("Selected AMC coverage must fully cover the PM schedule dates");
+        }
+        return contract;
+    }
+
+    private boolean isPastEndDate(PreventiveMaintenanceSchedule schedule) {
+        return schedule.getEndDate() != null
+                && schedule.getNextDueDate() != null
+                && schedule.getNextDueDate().isAfter(schedule.getEndDate());
+    }
+
+    private PreventiveMaintenanceSchedule completeSchedule(PreventiveMaintenanceSchedule schedule) {
+        schedule.setActive(false);
+        schedule.setStatus("COMPLETED");
+        schedule.setLastNotificationStatus("PM_SCHEDULE_COMPLETED");
+        schedule.setLastNotificationAt(LocalDateTime.now());
+        return scheduleDAO.save(schedule);
     }
 
     private Site validateActiveSite(Long siteId) {
@@ -409,12 +497,16 @@ public PreventiveMaintenanceScheduleDTO create(PreventiveMaintenanceScheduleDTO 
         dto.setEquipmentName(schedule.getEquipment().getEquipmentName());
         dto.setVendorId(schedule.getVendor() == null ? null : schedule.getVendor().getId());
         dto.setVendorName(schedule.getVendor() == null ? null : schedule.getVendor().getVendorName());
+        dto.setAmcContractId(schedule.getAmcContract() == null ? null : schedule.getAmcContract().getId());
+        dto.setAmcContractNumber(schedule.getAmcContract() == null ? null : schedule.getAmcContract().getContractNumber());
+        dto.setAmcVendorName(schedule.getAmcContract() == null || schedule.getAmcContract().getVendor() == null ? null : schedule.getAmcContract().getVendor().getVendorName());
         dto.setTitle(schedule.getTitle());
         dto.setDescription(schedule.getDescription());
         dto.setFrequency(schedule.getFrequency());
         dto.setPriority(schedule.getPriority());
         dto.setAssignedTo(schedule.getAssignedTo());
         dto.setStartDate(schedule.getStartDate());
+        dto.setEndDate(schedule.getEndDate());
         dto.setNextDueDate(schedule.getNextDueDate());
         dto.setLastGeneratedDate(schedule.getLastGeneratedDate());
         dto.setActive(schedule.getActive());

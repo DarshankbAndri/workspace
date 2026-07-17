@@ -84,7 +84,8 @@ public class ListSearchService {
     private static final Set<String> PM_FILTERS = Set.of(
             "commonSearch", "id", "scheduleCode", "siteId", "siteCode", "siteName",
             "equipmentId", "equipmentCode", "equipmentName", "vendorId", "vendorName",
-            "title", "description", "frequency", "priority", "assignedTo", "startDate",
+            "amcContractId", "amcContractNumber", "amcVendorName",
+            "title", "description", "frequency", "priority", "assignedTo", "startDate", "endDate",
             "nextDueDate", "lastGeneratedDate", "active", "status", "lastNotificationStatus",
             "lastNotificationAt", "generatedWorkOrders", "completedWorkOrders",
             "completionPercentage", "createdAt", "updatedAt"

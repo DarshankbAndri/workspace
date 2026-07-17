@@ -5,6 +5,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { getEquipments } from '../../equipment/services/equipmentService';
 import { getSites } from '../../site/services/siteService';
 import { getVendorsBySite } from '../../vendor/services/vendorService';
+import { getEquipmentActiveAmc } from '../../vendorAmc/services/vendorAmcService';
 import { createPMSchedule, getPMScheduleById, updatePMSchedule } from '../services/preventiveMaintenanceService';
 import CommonInput from '../../../shared/components/common/CommonInput';
 import CommonTextArea from '../../../shared/components/common/CommonTextArea';
@@ -19,12 +20,14 @@ const initialForm = {
   siteId: '',
   equipmentId: '',
   vendorId: '',
+  amcContractId: '',
   title: '',
   description: '',
   frequency: 'MONTHLY',
   priority: 'MEDIUM',
   assignedTo: '',
   startDate: today(),
+  endDate: '',
   nextDueDate: today(),
   active: 'true',
   status: 'ACTIVE',
@@ -44,6 +47,7 @@ const PM_ACTIVE_OPTIONS = [
 ];
 const PM_STATUS_OPTIONS = [
   { value: 'ACTIVE', label: 'Active' },
+  { value: 'COMPLETED', label: 'Completed' },
   { value: 'APPROVED', label: 'Approved' },
   { value: 'PENDING_APPROVAL', label: 'Pending Approval' },
   { value: 'REJECTED', label: 'Rejected' },
@@ -66,6 +70,8 @@ function PreventiveMaintenanceFormPage() {
   const [sites, setSites] = React.useState([]);
   const [equipments, setEquipments] = React.useState([]);
   const [vendors, setVendors] = React.useState([]);
+  const [activeAmc, setActiveAmc] = React.useState(null);
+  const [amcLoading, setAmcLoading] = React.useState(false);
   const [error, setError] = React.useState('');
   const [saving, setSaving] = React.useState(false);
 
@@ -87,7 +93,9 @@ function PreventiveMaintenanceFormPage() {
           siteId: data.siteId || '',
           equipmentId: data.equipmentId || '',
           vendorId: data.vendorId || '',
+          amcContractId: data.amcContractId || '',
           startDate: data.startDate || today(),
+          endDate: data.endDate || '',
           nextDueDate: data.nextDueDate || data.startDate || today(),
           active: data.active === false ? 'false' : 'true',
           status: data.status || 'ACTIVE',
@@ -107,6 +115,19 @@ function PreventiveMaintenanceFormPage() {
       .catch(() => setError('Unable to load vendors for selected site.'));
   }, [form.siteId]);
 
+  React.useEffect(() => {
+    if (!form.equipmentId) {
+      setActiveAmc(null);
+      setAmcLoading(false);
+      return;
+    }
+    setAmcLoading(true);
+    getEquipmentActiveAmc(form.equipmentId)
+      .then((data) => setActiveAmc(data || null))
+      .catch(() => setActiveAmc(null))
+      .finally(() => setAmcLoading(false));
+  }, [form.equipmentId]);
+
   const filteredEquipments = equipments.filter((equipment) => String(equipment.siteId || '') === String(form.siteId || ''));
   const updateField = (field) => (event) => {
     const value = event.target.value;
@@ -116,7 +137,16 @@ function PreventiveMaintenanceFormPage() {
       ...(field === 'startDate' && !isEdit ? { nextDueDate: value } : {}),
     }));
   };
-  const updateSite = (event) => setForm((current) => ({ ...current, siteId: event.target.value, equipmentId: '', vendorId: '' }));
+  const updateSite = (event) => setForm((current) => ({ ...current, siteId: event.target.value, equipmentId: '', vendorId: '', amcContractId: '' }));
+  const updateEquipment = (event) => setForm((current) => ({ ...current, equipmentId: event.target.value, amcContractId: '' }));
+  const updateAmcContract = (event) => {
+    const value = event.target.value;
+    setForm((current) => ({
+      ...current,
+      amcContractId: value,
+      ...(value && activeAmc ? { vendorId: activeAmc.vendorId || current.vendorId } : {}),
+    }));
+  };
   const updateChecklistItem = (index, field, value) => {
     setForm((current) => ({
       ...current,
@@ -166,6 +196,8 @@ function PreventiveMaintenanceFormPage() {
         siteId: Number(form.siteId),
         equipmentId: Number(form.equipmentId),
         vendorId: form.vendorId ? Number(form.vendorId) : null,
+        amcContractId: form.amcContractId ? Number(form.amcContractId) : null,
+        endDate: form.endDate || null,
         active: form.active !== 'false',
         status: form.status || 'ACTIVE',
         checklistItems: (form.checklistItems || [])
@@ -199,6 +231,16 @@ function PreventiveMaintenanceFormPage() {
     { value: '', label: 'Internal team' },
     ...vendors.map((v) => ({ value: v.id, label: v.vendorName })),
   ], [vendors]);
+  const amcOptions = React.useMemo(() => {
+    const options = [{ value: '', label: amcLoading ? 'Checking AMC...' : 'Do not link AMC' }];
+    if (activeAmc?.id) {
+      options.push({ value: activeAmc.id, label: `${activeAmc.contractNumber || 'AMC'} - ${activeAmc.vendorName || 'Vendor'}` });
+    }
+    if (form.amcContractId && String(form.amcContractId) !== String(activeAmc?.id || '')) {
+      options.push({ value: form.amcContractId, label: `${form.amcContractNumber || 'Linked AMC'} - ${form.amcVendorName || form.vendorName || 'Vendor'}` });
+    }
+    return options;
+  }, [activeAmc, amcLoading, form.amcContractId, form.amcContractNumber, form.amcVendorName, form.vendorName]);
 
   return (
     <Box>
@@ -219,9 +261,19 @@ function PreventiveMaintenanceFormPage() {
                 disabled={isView || !form.siteId}
                 label="Equipment"
                 value={form.equipmentId}
-                onChange={updateField('equipmentId')}
+                onChange={updateEquipment}
                 options={equipmentOptions}
                 helperText={form.siteId && filteredEquipments.length === 0 ? 'No equipment found for this site.' : ''}
+              />
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <CommonDropdown
+                disabled={isView || !form.equipmentId || amcLoading || (!activeAmc && !form.amcContractId)}
+                label="AMC Coverage"
+                value={form.amcContractId}
+                onChange={updateAmcContract}
+                options={amcOptions}
+                helperText={form.equipmentId && !amcLoading && !activeAmc && !form.amcContractId ? 'No active AMC found for this equipment.' : ''}
               />
             </Grid>
             <Grid item xs={12} md={4}>
@@ -249,8 +301,9 @@ function PreventiveMaintenanceFormPage() {
               <CommonDropdown disabled={isView} label="Approval Status" value={form.status || 'ACTIVE'} onChange={updateField('status')} options={PM_STATUS_OPTIONS} />
             </Grid>
             <Grid item xs={12} md={3}><CommonDatePicker required disabled={isView} label="Start Date" value={form.startDate || ''} onChange={updateField('startDate')} /></Grid>
+            <Grid item xs={12} md={3}><CommonDatePicker disabled={isView} label="End Date" value={form.endDate || ''} onChange={updateField('endDate')} /></Grid>
             <Grid item xs={12} md={3}><CommonDatePicker required disabled={isView} label="Next Due Date" value={form.nextDueDate || ''} onChange={updateField('nextDueDate')} /></Grid>
-            <Grid item xs={12} md={6}><CommonTextArea required disabled={isView} minRows={2} label="Description" value={form.description || ''} onChange={updateField('description')} /></Grid>
+            <Grid item xs={12}><CommonTextArea required disabled={isView} minRows={2} label="Description" value={form.description || ''} onChange={updateField('description')} /></Grid>
             <Grid item xs={12}>
               <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" alignItems={{ xs: 'stretch', sm: 'center' }} spacing={1} sx={{ mt: 1 }}>
                 <Typography variant="h6" fontWeight={800}>Checklist</Typography>

@@ -7,6 +7,7 @@ import lombok.Getter;
 import com.example.cmmsApplication.equipment.entity.Equipment;
 import com.example.cmmsApplication.site.entity.Site;
 import com.example.cmmsApplication.vendor.entity.Vendor;
+import com.example.cmmsApplication.vendoramc.entity.VendorAmcContract;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -33,6 +34,10 @@ public class PreventiveMaintenanceSchedule {
     @JoinColumn(name = "vendor_id")
     private Vendor vendor;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "amc_contract_id")
+    private VendorAmcContract amcContract;
+
     @Column(name = "schedule_code", nullable = false, unique = true, length = 60)
     private String scheduleCode;
 
@@ -53,6 +58,9 @@ public class PreventiveMaintenanceSchedule {
 
     @Column(name = "start_date", nullable = false)
     private LocalDate startDate;
+
+    @Column(name = "end_date")
+    private LocalDate endDate;
 
     @Column(name = "next_due_date", nullable = false)
     private LocalDate nextDueDate;

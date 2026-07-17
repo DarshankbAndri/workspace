@@ -28,12 +28,16 @@ import java.time.LocalDateTime;
             e.equipment_name AS equipment_name,
             p.vendor_id AS vendor_id,
             v.vendor_name AS vendor_name,
+            p.amc_contract_id AS amc_contract_id,
+            amc.contract_number AS amc_contract_number,
+            amc_vendor.vendor_name AS amc_vendor_name,
             p.title AS title,
             p.description AS description,
             p.frequency AS frequency,
             p.priority AS priority,
             p.assigned_to AS assigned_to,
             p.start_date AS start_date,
+            p.end_date AS end_date,
             p.next_due_date AS next_due_date,
             p.last_generated_date AS last_generated_date,
             p.active AS active,
@@ -52,6 +56,8 @@ import java.time.LocalDateTime;
         LEFT JOIN site_master s ON s.site_id = p.site_id
         LEFT JOIN equipment_master e ON e.id = p.equipment_id
         LEFT JOIN vendor_master v ON v.id = p.vendor_id
+        LEFT JOIN vendor_amc_contract amc ON amc.id = p.amc_contract_id
+        LEFT JOIN vendor_master amc_vendor ON amc_vendor.id = amc.vendor_id
         LEFT JOIN (
             SELECT pm_schedule_id,
                    COUNT(*) AS generated_work_orders,
@@ -85,6 +91,12 @@ public class PreventiveMaintenanceScheduleList {
     private Long vendorId;
     @Column(name = "vendor_name")
     private String vendorName;
+    @Column(name = "amc_contract_id")
+    private Long amcContractId;
+    @Column(name = "amc_contract_number")
+    private String amcContractNumber;
+    @Column(name = "amc_vendor_name")
+    private String amcVendorName;
     private String title;
     private String description;
     private String frequency;
@@ -93,6 +105,8 @@ public class PreventiveMaintenanceScheduleList {
     private String assignedTo;
     @Column(name = "start_date")
     private LocalDate startDate;
+    @Column(name = "end_date")
+    private LocalDate endDate;
     @Column(name = "next_due_date")
     private LocalDate nextDueDate;
     @Column(name = "last_generated_date")

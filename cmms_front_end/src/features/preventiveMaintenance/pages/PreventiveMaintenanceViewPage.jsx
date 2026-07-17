@@ -51,7 +51,10 @@ function PreventiveMaintenanceViewPage() {
     { label: 'Status', value: schedule?.active === false ? 'Inactive' : 'Active', variant: 'chip' },
     { label: 'Approval Status', value: schedule?.status || 'ACTIVE', variant: 'chip' },
     { label: 'Start Date', value: formatDate(schedule?.startDate) },
+    { label: 'End Date', value: formatDate(schedule?.endDate) },
     { label: 'Next Due Date', value: formatDate(schedule?.nextDueDate) },
+    { label: 'AMC Contract', value: schedule?.amcContractNumber },
+    { label: 'AMC Vendor', value: schedule?.amcVendorName },
     { label: 'Description', value: schedule?.description, size: 12 },
   ];
 

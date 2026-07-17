@@ -31,6 +31,9 @@ public class PreventiveMaintenanceScheduleDTO {
     private String equipmentName;
     private Long vendorId;
     private String vendorName;
+    private Long amcContractId;
+    private String amcContractNumber;
+    private String amcVendorName;
     @NotBlank(message = "Title is required")
     private String title;
     @NotBlank(message = "Description is required")
@@ -42,6 +45,8 @@ public class PreventiveMaintenanceScheduleDTO {
     @NotNull(message = "Start date is required")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate endDate;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate nextDueDate;
     @JsonFormat(pattern = "yyyy-MM-dd")
