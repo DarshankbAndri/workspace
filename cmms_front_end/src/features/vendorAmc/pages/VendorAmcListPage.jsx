@@ -7,6 +7,7 @@ import CommonDropdown from '../../../shared/components/common/CommonDropdown';
 import ConfirmDialog from '../../../shared/components/common/ConfirmDialog';
 import { commonSearchFilter, createSearchPayload, equalFilter } from '../../../shared/utils/searchPayload';
 import { deleteVendorAmcContract, searchVendorAmcContracts } from '../services/vendorAmcService';
+import { getSites } from '../../site/services/siteService';
 import { useAuth } from '../../../shared/context/AuthContext';
 import { PERMISSIONS } from '../../../shared/utils/permissionRoutes';
 
@@ -22,6 +23,8 @@ function VendorAmcListPage() {
   const [error, setError] = React.useState('');
   const [search, setSearch] = React.useState('');
   const [status, setStatus] = React.useState('');
+  const [siteId, setSiteId] = React.useState('');
+  const [sites, setSites] = React.useState([]);
   const [paginationModel, setPaginationModel] = React.useState({ page: 0, pageSize: 10 });
   const [sortModel, setSortModel] = React.useState([]);
   const [deleteId, setDeleteId] = React.useState(null);
@@ -30,7 +33,7 @@ function VendorAmcListPage() {
     setLoading(true);
     setError('');
     const payload = createSearchPayload({
-      filters: [commonSearchFilter(search), equalFilter('status', status)],
+      filters: [commonSearchFilter(search), equalFilter('status', status), equalFilter('siteId', siteId)],
       paginationModel,
       sortModel,
     });
@@ -41,9 +44,15 @@ function VendorAmcListPage() {
       })
       .catch((err) => setError(err.response?.data?.message || 'Unable to load AMC contracts.'))
       .finally(() => setLoading(false));
-  }, [paginationModel, search, sortModel, status]);
+  }, [paginationModel, search, siteId, sortModel, status]);
 
   React.useEffect(() => { loadRows(); }, [loadRows]);
+
+  React.useEffect(() => {
+    getSites()
+      .then((data) => setSites((data || []).filter((site) => site.status !== 'INACTIVE')))
+      .catch(() => setSites([]));
+  }, []);
 
   const resetPage = () => setPaginationModel((current) => ({ ...current, page: 0 }));
 
@@ -60,6 +69,7 @@ function VendorAmcListPage() {
   const columns = [
     { field: 'contractNumber', headerName: 'Contract No.', minWidth: 150, flex: 0.8 },
     { field: 'contractName', headerName: 'Contract', minWidth: 220, flex: 1.2 },
+    { field: 'siteName', headerName: 'Site', minWidth: 160, flex: 0.8 },
     { field: 'vendorName', headerName: 'Vendor', minWidth: 180, flex: 1 },
     { field: 'startDate', headerName: 'Start', minWidth: 120, flex: 0.6 },
     { field: 'endDate', headerName: 'End', minWidth: 120, flex: 0.6 },
@@ -86,6 +96,7 @@ function VendorAmcListPage() {
       ),
     },
   ];
+  const siteOptions = React.useMemo(() => sites.map((site) => ({ value: site.id, label: `${site.siteName} (${site.siteCode})` })), [sites]);
 
   return (
     <>
@@ -102,14 +113,24 @@ function VendorAmcListPage() {
         searchValue={search}
         onSearchChange={(event) => { setSearch(event.target.value); resetPage(); }}
         filters={(
-          <CommonDropdown
-            label="Status"
-            value={status}
-            options={statusOptions}
-            onChange={(event) => { setStatus(event.target.value); resetPage(); }}
-            clearable
-            sx={{ minWidth: 220 }}
-          />
+          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.5}>
+            <CommonDropdown
+              label="Site"
+              value={siteId}
+              options={siteOptions}
+              onChange={(event) => { setSiteId(event.target.value); resetPage(); }}
+              clearable
+              sx={{ minWidth: 220 }}
+            />
+            <CommonDropdown
+              label="Status"
+              value={status}
+              options={statusOptions}
+              onChange={(event) => { setStatus(event.target.value); resetPage(); }}
+              clearable
+              sx={{ minWidth: 220 }}
+            />
+          </Stack>
         )}
         dataGridProps={{
           paginationMode: 'server',

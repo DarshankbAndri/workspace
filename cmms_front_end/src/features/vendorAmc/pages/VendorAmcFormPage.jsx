@@ -1,14 +1,15 @@
 import React from 'react';
 import { Alert, Box, Grid, Stack, Typography } from '@mui/material';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import CommonDropdown from '../../../shared/components/common/CommonDropdown';
 import CommonInput from '../../../shared/components/common/CommonInput';
 import CommonDatePicker from '../../../shared/components/common/CommonDatePicker';
 import CommonTextArea from '../../../shared/components/common/CommonTextArea';
 import CommonFormCard from '../../../shared/components/common/CommonFormCard';
 import CommonFormActions from '../../../shared/components/common/CommonFormActions';
-import { getVendors } from '../../vendor/services/vendorService';
+import { getVendorsBySite } from '../../vendor/services/vendorService';
 import { getEquipments } from '../../equipment/services/equipmentService';
+import { getSites } from '../../site/services/siteService';
 import {
   createVendorAmcContract,
   getVendorAmcContract,
@@ -19,6 +20,7 @@ import {
 } from '../services/vendorAmcService';
 
 const initialForm = {
+  siteId: '',
   vendorId: '',
   contractNumber: '',
   contractName: '',
@@ -46,20 +48,31 @@ const yesNoOptions = [{ value: true, label: 'Yes' }, { value: false, label: 'No'
 function VendorAmcFormPage() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const isEdit = Boolean(id);
-  const [form, setForm] = React.useState(initialForm);
+  const queryDefaults = React.useMemo(() => {
+    const params = new URLSearchParams(location.search);
+    const siteId = params.get('siteId') || '';
+    const equipmentId = params.get('equipmentId') || '';
+    return {
+      siteId,
+      equipmentIds: equipmentId ? [Number(equipmentId)] : [],
+    };
+  }, [location.search]);
+  const [form, setForm] = React.useState(() => ({
+    ...initialForm,
+    ...queryDefaults,
+  }));
+  const [sites, setSites] = React.useState([]);
   const [vendors, setVendors] = React.useState([]);
   const [equipments, setEquipments] = React.useState([]);
   const [error, setError] = React.useState('');
   const [saving, setSaving] = React.useState(false);
 
   React.useEffect(() => {
-    Promise.all([getVendors({ status: 'ACTIVE' }), getEquipments()])
-      .then(([vendorRows, equipmentRows]) => {
-        setVendors((vendorRows || []).filter((vendor) => vendor.active !== false));
-        setEquipments((equipmentRows || []).filter((equipment) => equipment.status !== 'INACTIVE'));
-      })
-      .catch(() => setError('Unable to load vendor or equipment options.'));
+    getSites()
+      .then((rows) => setSites((rows || []).filter((site) => site.status !== 'INACTIVE')))
+      .catch(() => setError('Unable to load site options.'));
   }, []);
 
   React.useEffect(() => {
@@ -68,6 +81,7 @@ function VendorAmcFormPage() {
       .then((data) => setForm({
         ...initialForm,
         ...data,
+        siteId: data.siteId || '',
         vendorId: data.vendorId || '',
         contractValue: data.contractValue ?? '',
         responseTimeHours: data.responseTimeHours ?? '',
@@ -77,7 +91,36 @@ function VendorAmcFormPage() {
       .catch((err) => setError(err.response?.data?.message || 'Unable to load AMC contract.'));
   }, [id, isEdit]);
 
+  React.useEffect(() => {
+    if (!form.siteId) {
+      setVendors([]);
+      setEquipments([]);
+      return;
+    }
+    Promise.all([getVendorsBySite(form.siteId), getEquipments(form.siteId)])
+      .then(([vendorRows, equipmentRows]) => {
+        const activeVendors = (vendorRows || []).filter((vendor) => vendor.active !== false);
+        const activeEquipment = (equipmentRows || []).filter((equipment) => equipment.status !== 'INACTIVE');
+        setVendors(activeVendors);
+        setEquipments(activeEquipment);
+        setForm((current) => ({
+          ...current,
+          vendorId: activeVendors.some((vendor) => String(vendor.id) === String(current.vendorId)) ? current.vendorId : '',
+          equipmentIds: (current.equipmentIds || []).filter((equipmentId) => (
+            activeEquipment.some((equipment) => String(equipment.id) === String(equipmentId))
+          )),
+        }));
+      })
+      .catch(() => setError('Unable to load site-wise vendor or equipment options.'));
+  }, [form.siteId]);
+
   const updateField = (field) => (event) => setForm((current) => ({ ...current, [field]: event.target.value }));
+  const updateSite = (event) => setForm((current) => ({
+    ...current,
+    siteId: event.target.value,
+    vendorId: '',
+    equipmentIds: [],
+  }));
   const updateBoolean = (field) => (event) => setForm((current) => ({ ...current, [field]: event.target.value === true || event.target.value === 'true' }));
 
   const handleSubmit = async (event) => {
@@ -100,6 +143,7 @@ function VendorAmcFormPage() {
 
   const vendorOptions = React.useMemo(() => vendors.map((vendor) => ({ value: vendor.id, label: `${vendor.vendorCode} - ${vendor.vendorName}` })), [vendors]);
   const equipmentOptions = React.useMemo(() => equipments.map((equipment) => ({ value: equipment.id, label: `${equipment.equipmentCode} - ${equipment.equipmentName}` })), [equipments]);
+  const siteOptions = React.useMemo(() => sites.map((site) => ({ value: site.id, label: `${site.siteName} (${site.siteCode})` })), [sites]);
 
   return (
     <Box>
@@ -111,6 +155,7 @@ function VendorAmcFormPage() {
       <Box component="form" onSubmit={handleSubmit}>
         <CommonFormCard>
           <Grid container spacing={2}>
+            <Grid item xs={12} md={4}><CommonDropdown required label="Site" value={form.siteId} onChange={updateSite} options={siteOptions} disabled={isEdit && Boolean(form.siteId)} /></Grid>
             <Grid item xs={12} md={4}><CommonDropdown required label="Vendor" value={form.vendorId} onChange={updateField('vendorId')} options={vendorOptions} /></Grid>
             <Grid item xs={12} md={4}><CommonInput required label="Contract Number" value={form.contractNumber} onChange={updateField('contractNumber')} /></Grid>
             <Grid item xs={12} md={4}><CommonInput required label="Contract Name" value={form.contractName} onChange={updateField('contractName')} /></Grid>
@@ -140,6 +185,7 @@ function VendorAmcFormPage() {
 function toPayload(form) {
   return {
     ...form,
+    siteId: Number(form.siteId),
     vendorId: Number(form.vendorId),
     contractValue: form.contractValue === '' ? null : Number(form.contractValue),
     responseTimeHours: form.responseTimeHours === '' ? null : Number(form.responseTimeHours),

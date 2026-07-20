@@ -127,15 +127,19 @@ function EquipmentViewPage() {
       .finally(() => setLoading(false));
   }, [id]);
 
+  const canViewAmc = hasPermission(PERMISSIONS.VENDOR_AMC_VIEW);
+  const canCreateAmc = hasPermission(PERMISSIONS.VENDOR_AMC_CREATE);
+
   React.useEffect(() => {
-    if (!hasPermission(PERMISSIONS.VENDOR_AMC_VIEW)) return;
+    if (!canViewAmc) return;
     getEquipmentActiveAmc(id)
       .then((data) => setActiveAmc(data || null))
       .catch(() => setActiveAmc(null));
-  }, [hasPermission, id]);
+  }, [canViewAmc, id]);
 
   const canEdit = hasPermission(PERMISSIONS.EQUIPMENT_UPDATE);
   const canDelete = hasPermission(PERMISSIONS.EQUIPMENT_DELETE);
+  const canViewSpareParts = hasPermission(PERMISSIONS.SPARE_PART_VIEW);
 
   const loadSpareBom = React.useCallback(() => {
     setSpareBomLoading(true);
@@ -356,7 +360,7 @@ function EquipmentViewPage() {
               <Tab value="overview" label="Overview" />
               <Tab value="requests" label="Open Requests" />
               <Tab value="pm" label="PM Schedule" />
-              {hasPermission(PERMISSIONS.VENDOR_AMC_VIEW) && <Tab value="amc" label="AMC Details" />}
+              {(canViewAmc || canCreateAmc) && <Tab value="amc" label="AMC Details" />}
               <Tab value="downtime" label="Downtime History" />
               <Tab value="spares" label="Spare BOM" />
               <Tab value="documents" label="Documents" />
@@ -393,7 +397,7 @@ function EquipmentViewPage() {
               </Grid>
             )}
 
-            {activeTab === 'amc' && hasPermission(PERMISSIONS.VENDOR_AMC_VIEW) && (
+            {activeTab === 'amc' && (canViewAmc || canCreateAmc) && (
               activeAmc ? (
                 <Grid container spacing={2}>
                   <Grid item xs={12} sm={6} md={3}><Metric label="AMC Status" value={activeAmc.status} variant={activeAmc.status === 'ACTIVE' ? 'success-chip' : 'warning-chip'} /></Grid>
@@ -409,9 +413,22 @@ function EquipmentViewPage() {
                   <Grid item xs={12} sm={6} md={3}><Metric label="Contact Person" value={activeAmc.contactPerson} /></Grid>
                   <Grid item xs={12} sm={6} md={3}><Metric label="Contact Phone" value={activeAmc.contactPhone} /></Grid>
                   <Grid item xs={12} sm={6} md={3}><Metric label="Days Remaining" value={activeAmc.daysRemaining} /></Grid>
+                  <Grid item xs={12}>
+                    <Button variant="outlined" onClick={() => navigate(`/vendor-amc/view/${activeAmc.id}`)}>
+                      View AMC Contract
+                    </Button>
+                  </Grid>
                 </Grid>
               ) : (
-                <EmptyPanel title="AMC Details" value="No active AMC is available for this equipment." />
+                <EmptyPanel
+                  title="AMC Details"
+                  value="No active AMC is available for this equipment."
+                  action={canCreateAmc ? (
+                    <Button variant="contained" onClick={() => navigate(getCreateAmcPath(equipment))}>
+                      Create AMC
+                    </Button>
+                  ) : null}
+                />
               )
             )}
 
@@ -435,6 +452,7 @@ function EquipmentViewPage() {
                 editingBomId={editingBomId}
                 canEdit={canEdit}
                 canDelete={canDelete}
+                canViewSpareParts={canViewSpareParts}
                 onFieldChange={updateSpareBomField}
                 onSave={handleSaveSpareBom}
                 onCancel={resetSpareBomForm}
@@ -516,6 +534,7 @@ function EquipmentSpareBomTab({
   editingBomId,
   canEdit,
   canDelete,
+  canViewSpareParts,
   onFieldChange,
   onSave,
   onCancel,
@@ -644,53 +663,67 @@ function EquipmentSpareBomTab({
                     <Typography variant="body2" color="text.secondary">No spare BOM records available.</Typography>
                   </TableCell>
                 </TableRow>
-              ) : rows.map((row) => (
-                <TableRow key={row.bomId} hover selected={editingBomId === row.bomId}>
-                  <TableCell>
-                    <Typography variant="body2" fontWeight={700}>{row.partCode} - {row.partName}</Typography>
-                    <Typography variant="caption" color="text.secondary">{row.category || '-'} | {row.unit || '-'}</Typography>
-                  </TableCell>
-                  <TableCell>{formatNumber(row.recommendedQty)} {row.unit || ''}</TableCell>
-                  <TableCell>{formatNumber(row.availableStock)} {row.unit || ''}</TableCell>
-                  <TableCell>
-                    <Chip size="small" label={formatLabel(row.criticality)} color={criticalityColor(row.criticality)} />
-                  </TableCell>
-                  <TableCell>{row.replacementFrequency || '-'}</TableCell>
-                  <TableCell>
-                    <Chip size="small" label={formatLabel(row.status)} color={row.status === 'ACTIVE' ? 'success' : 'default'} variant="outlined" />
-                  </TableCell>
-                  <TableCell sx={{ maxWidth: 220 }}>
-                    <Typography variant="body2" sx={{ wordBreak: 'break-word' }}>{row.remarks || '-'}</Typography>
-                  </TableCell>
-                  <TableCell align="right">
-                    <Tooltip title="View spare part">
-                      <IconButton aria-label="View spare part" onClick={() => navigate(`/inventory/spare-parts/${row.stockId}/view`)}>
-                        <Visibility fontSize="small" />
-                      </IconButton>
-                    </Tooltip>
-                    {canEdit && (
-                      <Tooltip title="Edit">
-                        <IconButton aria-label="Edit spare BOM" onClick={() => onEdit(row)}>
-                          <Edit fontSize="small" />
-                        </IconButton>
+              ) : rows.map((row) => {
+                const sparePartStockId = getSparePartStockId(row);
+                const canOpenSparePart = canViewSpareParts && Boolean(sparePartStockId);
+                return (
+                  <TableRow key={row.bomId} hover selected={editingBomId === row.bomId}>
+                    <TableCell>
+                      <Typography variant="body2" fontWeight={700}>{row.partCode} - {row.partName}</Typography>
+                      <Typography variant="caption" color="text.secondary">{row.category || '-'} | {row.unit || '-'}</Typography>
+                    </TableCell>
+                    <TableCell>{formatNumber(row.recommendedQty)} {row.unit || ''}</TableCell>
+                    <TableCell>{formatNumber(row.availableStock)} {row.unit || ''}</TableCell>
+                    <TableCell>
+                      <Chip size="small" label={formatLabel(row.criticality)} color={criticalityColor(row.criticality)} />
+                    </TableCell>
+                    <TableCell>{row.replacementFrequency || '-'}</TableCell>
+                    <TableCell>
+                      <Chip size="small" label={formatLabel(row.status)} color={row.status === 'ACTIVE' ? 'success' : 'default'} variant="outlined" />
+                    </TableCell>
+                    <TableCell sx={{ maxWidth: 220 }}>
+                      <Typography variant="body2" sx={{ wordBreak: 'break-word' }}>{row.remarks || '-'}</Typography>
+                    </TableCell>
+                    <TableCell align="right">
+                      <Tooltip title={canViewSpareParts ? 'View spare part' : 'Spare part view permission required'}>
+                        <span>
+                          <IconButton
+                            aria-label="View spare part"
+                            disabled={!canOpenSparePart}
+                            onClick={() => navigate(`/inventory/spare-parts/${sparePartStockId}/view`)}
+                          >
+                            <Visibility fontSize="small" />
+                          </IconButton>
+                        </span>
                       </Tooltip>
-                    )}
-                    {canDelete && (
-                      <Tooltip title="Delete">
-                        <IconButton aria-label="Delete spare BOM" color="error" onClick={() => onDelete(row)}>
-                          <Delete fontSize="small" />
-                        </IconButton>
-                      </Tooltip>
-                    )}
-                  </TableCell>
-                </TableRow>
-              ))}
+                      {canEdit && (
+                        <Tooltip title="Edit">
+                          <IconButton aria-label="Edit spare BOM" onClick={() => onEdit(row)}>
+                            <Edit fontSize="small" />
+                          </IconButton>
+                        </Tooltip>
+                      )}
+                      {canDelete && (
+                        <Tooltip title="Delete">
+                          <IconButton aria-label="Delete spare BOM" color="error" onClick={() => onDelete(row)}>
+                            <Delete fontSize="small" />
+                          </IconButton>
+                        </Tooltip>
+                      )}
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
             </TableBody>
           </Table>
         </TableContainer>
       )}
     </Stack>
   );
+}
+
+function getSparePartStockId(row) {
+  return row?.stockId ?? row?.id ?? row?.sparePartStockId ?? row?.spareStockId ?? '';
 }
 
 function EquipmentDocumentsTab({
@@ -893,13 +926,22 @@ function Metric({ label, value, variant }) {
   );
 }
 
-function EmptyPanel({ title, value }) {
+function EmptyPanel({ title, value, action }) {
   return (
     <Box sx={{ border: 1, borderColor: 'divider', borderRadius: 1, p: 2 }}>
       <Typography variant="subtitle1" fontWeight={800}>{title}</Typography>
       <Typography variant="body2" color="text.secondary">{value}</Typography>
+      {action && <Box sx={{ mt: 2 }}>{action}</Box>}
     </Box>
   );
+}
+
+function getCreateAmcPath(equipment) {
+  const params = new URLSearchParams();
+  if (equipment?.siteId) params.set('siteId', equipment.siteId);
+  if (equipment?.id) params.set('equipmentId', equipment.id);
+  const query = params.toString();
+  return query ? `/vendor-amc/create?${query}` : '/vendor-amc/create';
 }
 
 function DetailItem({ label, value, variant }) {

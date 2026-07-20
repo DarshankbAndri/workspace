@@ -1,6 +1,7 @@
 package com.example.cmmsApplication.vendoramc.entity;
 
 import com.example.cmmsApplication.vendor.entity.Vendor;
+import com.example.cmmsApplication.site.entity.Site;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,6 +24,10 @@ public class VendorAmcContract {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vendor_id", nullable = false)
     private Vendor vendor;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "site_id", nullable = false)
+    private Site site;
 
     @Column(name = "contract_number", nullable = false, unique = true, length = 80)
     private String contractNumber;

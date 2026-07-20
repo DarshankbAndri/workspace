@@ -16,6 +16,7 @@ public class EquipmentAmcMappingDAO {
     private final EquipmentAmcMappingRepository repository;
 
     public EquipmentAmcMapping save(EquipmentAmcMapping mapping) { return repository.save(mapping); }
+    public List<EquipmentAmcMapping> findAll() { return repository.findAll(); }
     public Optional<EquipmentAmcMapping> findByContractAndEquipment(Long contractId, Long equipmentId) { return repository.findByAmcContractIdAndEquipmentId(contractId, equipmentId); }
     public List<EquipmentAmcMapping> findByContractId(Long contractId) { return repository.findByAmcContractIdOrderByEquipmentEquipmentNameAsc(contractId); }
     public boolean existsByContractAndEquipment(Long contractId, Long equipmentId) { return repository.existsByAmcContractIdAndEquipmentId(contractId, equipmentId); }

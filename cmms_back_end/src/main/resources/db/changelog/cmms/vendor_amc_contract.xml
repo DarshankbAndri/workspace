@@ -12,6 +12,7 @@
             <column name="vendor_id" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
+            <column name="site_id" type="BIGINT"/>
             <column name="contract_number" type="VARCHAR(80)">
                 <constraints nullable="false"/>
             </column>
@@ -58,6 +59,9 @@
         <createIndex tableName="vendor_amc_contract" indexName="idx_vendor_amc_vendor">
             <column name="vendor_id"/>
         </createIndex>
+        <createIndex tableName="vendor_amc_contract" indexName="idx_vendor_amc_site">
+            <column name="site_id"/>
+        </createIndex>
         <createIndex tableName="vendor_amc_contract" indexName="idx_vendor_amc_status">
             <column name="status"/>
         </createIndex>
@@ -69,10 +73,34 @@
                                  baseColumnNames="vendor_id"
                                  referencedTableName="vendor_master"
                                  referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_vendor_amc_site"
+                                 baseTableName="vendor_amc_contract"
+                                 baseColumnNames="site_id"
+                                 referencedTableName="site_master"
+                                 referencedColumnNames="site_id"/>
         <addForeignKeyConstraint constraintName="fk_vendor_amc_renewed_from"
                                  baseTableName="vendor_amc_contract"
                                  baseColumnNames="renewed_from_contract_id"
                                  referencedTableName="vendor_amc_contract"
                                  referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="vendor-amc-contract-002-add-site-existing-schema" author="Codex">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="vendor_amc_contract" columnName="site_id"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="vendor_amc_contract">
+            <column name="site_id" type="BIGINT"/>
+        </addColumn>
+        <createIndex tableName="vendor_amc_contract" indexName="idx_vendor_amc_site">
+            <column name="site_id"/>
+        </createIndex>
+        <addForeignKeyConstraint constraintName="fk_vendor_amc_site"
+                                 baseTableName="vendor_amc_contract"
+                                 baseColumnNames="site_id"
+                                 referencedTableName="site_master"
+                                 referencedColumnNames="site_id"/>
     </changeSet>
 </databaseChangeLog>

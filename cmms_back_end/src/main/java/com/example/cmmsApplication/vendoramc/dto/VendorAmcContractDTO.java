@@ -20,6 +20,10 @@ import java.util.List;
 @Builder
 public class VendorAmcContractDTO {
     private Long id;
+    @NotNull(message = "Site is required")
+    private Long siteId;
+    private String siteCode;
+    private String siteName;
     @NotNull(message = "Vendor is required")
     private Long vendorId;
     private String vendorName;

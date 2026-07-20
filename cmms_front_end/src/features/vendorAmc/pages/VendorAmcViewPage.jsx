@@ -26,6 +26,7 @@ function VendorAmcViewPage() {
   }, [id]);
 
   const fields = [
+    ['Site', formatSite(contract)],
     ['Vendor', contract?.vendorName],
     ['Contract Number', contract?.contractNumber],
     ['Contract Name', contract?.contractName],
@@ -171,6 +172,13 @@ function formatEquipment(schedule) {
   if (!schedule.equipmentCode) return schedule.equipmentName;
   if (!schedule.equipmentName) return schedule.equipmentCode;
   return `${schedule.equipmentCode} - ${schedule.equipmentName}`;
+}
+
+function formatSite(contract) {
+  if (!contract?.siteName && !contract?.siteCode) return '-';
+  if (!contract.siteCode) return contract.siteName;
+  if (!contract.siteName) return contract.siteCode;
+  return `${contract.siteName} (${contract.siteCode})`;
 }
 
 function statusColor(value) {

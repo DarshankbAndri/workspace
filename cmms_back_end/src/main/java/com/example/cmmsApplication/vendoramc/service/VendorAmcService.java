@@ -13,6 +13,8 @@ import com.example.cmmsApplication.maintenancerequest.dao.MaintenanceRequestDAO;
 import com.example.cmmsApplication.notification.service.NotificationService;
 import com.example.cmmsApplication.preventivemaintenance.dao.PreventiveMaintenanceScheduleDAO;
 import com.example.cmmsApplication.preventivemaintenance.entity.PreventiveMaintenanceSchedule;
+import com.example.cmmsApplication.site.dao.SiteDAO;
+import com.example.cmmsApplication.site.entity.Site;
 import com.example.cmmsApplication.vendor.entity.Vendor;
 import com.example.cmmsApplication.vendor.service.VendorService;
 import com.example.cmmsApplication.vendoramc.dao.EquipmentAmcMappingDAO;
@@ -51,6 +53,7 @@ public class VendorAmcService {
     private final VendorService vendorService;
     private final EquipmentService equipmentService;
     private final EquipmentDAO equipmentDAO;
+    private final SiteDAO siteDAO;
     private final MaintenanceRequestDAO requestDAO;
     private final PreventiveMaintenanceScheduleDAO pmScheduleDAO;
     private final AccessControlService accessControlService;
@@ -95,6 +98,7 @@ public class VendorAmcService {
         int page = effective.getPagination() == null ? 0 : Math.max(effective.getPagination().getPageNumber(), 0);
         int size = effective.getPagination() == null ? 10 : Math.max(effective.getPagination().getRecordsPerPage(), 1);
         List<VendorAmcContractDTO> filtered = contractDAO.findAll().stream()
+                .filter(this::isAllowedContract)
                 .filter((contract) -> matches(contract, effective.getSearchCriteriaList()))
                 .sorted(Comparator.comparing(VendorAmcContract::getEndDate, Comparator.nullsLast(Comparator.reverseOrder())))
                 .map((contract) -> mapper.toDTO(contract, mappingDAO.findByContractId(contract.getId())))
@@ -120,6 +124,7 @@ public class VendorAmcService {
             throw new InvalidOperationException("Expired, terminated, renewed, or draft AMC cannot accept equipment mappings");
         }
         Equipment equipment = equipmentService.getEntity(dto.getEquipmentId());
+        validateEquipmentBelongsToContractSite(contract, equipment);
         if (!"ACTIVE".equalsIgnoreCase(equipment.getStatus())) {
             throw new InvalidOperationException("Equipment must be active for AMC mapping");
         }
@@ -170,6 +175,7 @@ public class VendorAmcService {
     public List<VendorAmcContractDTO> getVendorAmcContracts(Long vendorId) {
         vendorService.getEntity(vendorId);
         return contractDAO.findByVendorId(vendorId).stream()
+                .filter(this::isAllowedContract)
                 .map((contract) -> mapper.toDTO(contract, mappingDAO.findByContractId(contract.getId())))
                 .toList();
     }
@@ -202,11 +208,27 @@ public class VendorAmcService {
 
     @Transactional(readOnly = true)
     public VendorAmcDashboardDTO getDashboard() {
-        long active = contractDAO.countByStatus(VendorAmcStatus.ACTIVE.name()) + contractDAO.countByStatus(VendorAmcStatus.EXPIRING_SOON.name());
-        long expiring = contractDAO.countByStatus(VendorAmcStatus.EXPIRING_SOON.name());
-        long expired = contractDAO.countByStatus(VendorAmcStatus.EXPIRED.name());
-        long covered = contractDAO.countCoveredEquipment(ACTIVE_CONTRACT_STATUSES);
-        long equipmentWithoutAmc = Math.max(equipmentDAO.count() - covered, 0);
+        List<VendorAmcContract> allowedContracts = contractDAO.findAll().stream()
+                .filter(this::isAllowedContract)
+                .toList();
+        long active = countContractsByStatus(allowedContracts, VendorAmcStatus.ACTIVE.name())
+                + countContractsByStatus(allowedContracts, VendorAmcStatus.EXPIRING_SOON.name());
+        long expiring = countContractsByStatus(allowedContracts, VendorAmcStatus.EXPIRING_SOON.name());
+        long expired = countContractsByStatus(allowedContracts, VendorAmcStatus.EXPIRED.name());
+        Set<Long> activeContractIds = allowedContracts.stream()
+                .filter((contract) -> ACTIVE_CONTRACT_STATUSES.contains(normalizeStatus(contract.getStatus())))
+                .map(VendorAmcContract::getId)
+                .collect(Collectors.toSet());
+        long covered = activeContractIds.isEmpty() ? 0 : mappingDAO.findAll().stream()
+                .filter((mapping) -> Boolean.TRUE.equals(mapping.getActive()))
+                .filter((mapping) -> mapping.getAmcContract() != null && activeContractIds.contains(mapping.getAmcContract().getId()))
+                .filter((mapping) -> LocalDate.now().compareTo(mapping.getCoverageStartDate()) >= 0 && LocalDate.now().compareTo(mapping.getCoverageEndDate()) <= 0)
+                .map((mapping) -> mapping.getEquipment() == null ? null : mapping.getEquipment().getId())
+                .filter(java.util.Objects::nonNull)
+                .distinct()
+                .count();
+        long equipmentCount = scopedEquipmentCount();
+        long equipmentWithoutAmc = Math.max(equipmentCount - covered, 0);
         return VendorAmcDashboardDTO.builder()
                 .activeContracts(active)
                 .expiringContracts(expiring)
@@ -233,18 +255,29 @@ public class VendorAmcService {
 
     @Transactional(readOnly = true)
     public VendorAmcContract getEntity(Long id) {
-        return contractDAO.findById(id)
+        VendorAmcContract contract = contractDAO.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("AMC contract not found with id: " + id));
+        if (contract.getSite() != null) {
+            accessControlService.validateSiteAccess(contract.getSite().getId());
+        }
+        return contract;
     }
 
     private void apply(VendorAmcContract contract, VendorAmcContractDTO dto, boolean update) {
+        Site site = siteDAO.findById(dto.getSiteId())
+                .orElseThrow(() -> new ResourceNotFoundException("Site not found with id: " + dto.getSiteId()));
+        accessControlService.validateSiteAccess(site.getId());
         Vendor vendor = vendorService.getEntity(dto.getVendorId());
         if (!Boolean.TRUE.equals(vendor.getActive())) {
             throw new InvalidOperationException("Vendor must be active for AMC contract");
         }
+        if (!vendorService.isVendorAssignedToSite(vendor.getId(), site.getId())) {
+            throw new InvalidOperationException("Vendor must be assigned to the selected AMC site");
+        }
         if (dto.getEndDate() == null || dto.getStartDate() == null || !dto.getEndDate().isAfter(dto.getStartDate())) {
             throw new InvalidOperationException("AMC end date must be after start date");
         }
+        contract.setSite(site);
         contract.setVendor(vendor);
         contract.setContractNumber(dto.getContractNumber());
         contract.setContractName(dto.getContractName());
@@ -321,7 +354,44 @@ public class VendorAmcService {
         if ("vendorId".equals(key)) {
             return contract.getVendor() != null && String.valueOf(contract.getVendor().getId()).equals(value);
         }
+        if ("siteId".equals(key)) {
+            return contract.getSite() != null && String.valueOf(contract.getSite().getId()).equals(value);
+        }
         return true;
+    }
+
+    private boolean isAllowedContract(VendorAmcContract contract) {
+        if (contract == null || contract.getSite() == null || accessControlService.isAdmin()) {
+            return true;
+        }
+        return accessControlService.getAllowedSiteIds().contains(contract.getSite().getId());
+    }
+
+    private void validateEquipmentBelongsToContractSite(VendorAmcContract contract, Equipment equipment) {
+        Long contractSiteId = contract.getSite() == null ? null : contract.getSite().getId();
+        Long equipmentSiteId = equipment.getSite() == null ? null : equipment.getSite().getId();
+        if (contractSiteId == null || equipmentSiteId == null || !contractSiteId.equals(equipmentSiteId)) {
+            throw new InvalidOperationException("AMC equipment must belong to the selected AMC site");
+        }
+    }
+
+    private long countContractsByStatus(List<VendorAmcContract> contracts, String status) {
+        return contracts.stream()
+                .filter((contract) -> status.equalsIgnoreCase(contract.getStatus()))
+                .count();
+    }
+
+    private long scopedEquipmentCount() {
+        if (accessControlService.isAdmin()) {
+            return equipmentDAO.count();
+        }
+        return accessControlService.getAllowedSiteIds().stream()
+                .mapToLong(equipmentDAO::countBySiteId)
+                .sum();
+    }
+
+    private String normalizeStatus(String status) {
+        return status == null ? "" : status.trim().toUpperCase(Locale.ROOT);
     }
 
     private String defaultText(String value, String fallback) {

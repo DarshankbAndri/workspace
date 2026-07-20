@@ -1,6 +1,7 @@
 package com.example.cmmsApplication.vendoramc.mapper;
 
 import com.example.cmmsApplication.equipment.entity.Equipment;
+import com.example.cmmsApplication.site.entity.Site;
 import com.example.cmmsApplication.vendor.entity.Vendor;
 import com.example.cmmsApplication.vendoramc.dto.EquipmentAmcMappingDTO;
 import com.example.cmmsApplication.vendoramc.dto.VendorAmcContractDTO;
@@ -19,9 +20,13 @@ public class VendorAmcMapper {
             return null;
         }
         Vendor vendor = contract.getVendor();
+        Site site = contract.getSite();
         List<EquipmentAmcMappingDTO> mappingDTOs = mappings == null ? List.of() : mappings.stream().map(this::toDTO).toList();
         return VendorAmcContractDTO.builder()
                 .id(contract.getId())
+                .siteId(site == null ? null : site.getId())
+                .siteCode(site == null ? null : site.getSiteCode())
+                .siteName(site == null ? null : site.getSiteName())
                 .vendorId(vendor == null ? null : vendor.getId())
                 .vendorName(vendor == null ? null : vendor.getVendorName())
                 .contractNumber(contract.getContractNumber())
