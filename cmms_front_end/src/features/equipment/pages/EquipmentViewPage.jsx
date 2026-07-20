@@ -364,7 +364,6 @@ function EquipmentViewPage() {
               <Tab value="downtime" label="Downtime History" />
               <Tab value="spares" label="Spare BOM" />
               <Tab value="documents" label="Documents" />
-              <Tab value="meters" label="Meter Readings" />
               <Tab value="cost" label="Cost Summary" />
             </Tabs>
 
@@ -477,8 +476,6 @@ function EquipmentViewPage() {
                 onDelete={setDeleteDocumentRow}
               />
             )}
-            {activeTab === 'meters' && <EmptyPanel title="Meter Readings" value="No meter readings recorded." />}
-
             {activeTab === 'cost' && (
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6} md={3}><Metric label="Purchase Cost" value={formatMoney(summary?.purchaseCost)} /></Grid>
