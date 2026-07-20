@@ -45,6 +45,21 @@ public class MaintenanceRequestController {
         return ResponseFactory.ok(null);
     }
 
+    @GetMapping("/context")
+    public ResponseEntity<ApiResponse<?>> getContext(@RequestParam Long equipmentId) {
+        return ResponseFactory.ok(requestService.getContext(equipmentId));
+    }
+
+    @GetMapping("/queue-summary")
+    public ResponseEntity<ApiResponse<?>> getQueueSummary(@RequestParam(required = false) Long siteId) {
+        return ResponseFactory.ok(requestService.getQueueSummary(siteId));
+    }
+
+    @GetMapping("/{id}/related-records")
+    public ResponseEntity<ApiResponse<?>> getRelatedRecords(@PathVariable Long id) {
+        return ResponseFactory.ok(requestService.getRelatedRecords(id));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<?>> getById(@PathVariable Long id) {
         return ResponseFactory.ok(requestService.getById(id));

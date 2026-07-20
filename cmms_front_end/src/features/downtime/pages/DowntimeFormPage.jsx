@@ -1,7 +1,7 @@
 import React from 'react';
 import { Alert, Box, Grid, Typography } from '@mui/material';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { createDowntimeEntry, getDowntimeEntryById, getMaintenanceRequests, updateDowntimeEntry } from '../../maintenance/services/maintenanceService';
+import { createDowntimeEntry, getDowntimeEntryById, getMaintenanceRequestById, getMaintenanceRequests, updateDowntimeEntry } from '../../maintenance/services/maintenanceService';
 import { getEquipments } from '../../equipment/services/equipmentService';
 import { getSites } from '../../site/services/siteService';
 import CommonInput from '../../../shared/components/common/CommonInput';
@@ -75,6 +75,7 @@ function DowntimeFormPage() {
   const navigate = useNavigate();
   const isEdit = Boolean(id) && !location.pathname.endsWith('/view');
   const isView = location.pathname.endsWith('/view');
+  const requestIdFromQuery = React.useMemo(() => new URLSearchParams(location.search).get('requestId') || '', [location.search]);
   const [form, setForm] = React.useState(initialForm);
   const [sites, setSites] = React.useState([]);
   const [equipments, setEquipments] = React.useState([]);
@@ -112,6 +113,22 @@ function DowntimeFormPage() {
         .catch((err) => setError(err.response?.data?.message || 'Unable to load downtime entry.'));
     }
   }, [id]);
+
+  React.useEffect(() => {
+    if (id || !requestIdFromQuery) {
+      return;
+    }
+    getMaintenanceRequestById(requestIdFromQuery)
+      .then((request) => setForm((current) => ({
+        ...current,
+        siteId: request.siteId || '',
+        equipmentId: request.equipmentId || '',
+        requestId: request.id || requestIdFromQuery,
+        reason: current.reason || request.title || '',
+        remarks: current.remarks || request.description || '',
+      })))
+      .catch(() => setError('Unable to load selected request for downtime.'));
+  }, [id, requestIdFromQuery]);
 
   const formEquipments = equipments.filter((equipment) => String(equipment.siteId || '') === String(form.siteId || ''));
   const formRequests = requests.filter((request) => (

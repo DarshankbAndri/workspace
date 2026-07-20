@@ -8,12 +8,14 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface MaintenanceAssignmentRepository extends JpaRepository<MaintenanceAssignment, Long> {
     List<MaintenanceAssignment> findByRequestSiteId(Long siteId);
     List<MaintenanceAssignment> findByRequestSiteIdIn(Collection<Long> siteIds);
     List<MaintenanceAssignment> findByRequestId(Long requestId);
+    Optional<MaintenanceAssignment> findTopByRequestIdOrderByCreatedAtDescIdDesc(Long requestId);
     long countByRequestEquipmentIdAndStatusNotIn(Long equipmentId, Collection<String> statuses);
 
     @Query("""

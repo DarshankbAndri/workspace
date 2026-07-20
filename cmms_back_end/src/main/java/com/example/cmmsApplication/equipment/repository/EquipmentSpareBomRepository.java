@@ -16,6 +16,8 @@ public interface EquipmentSpareBomRepository extends JpaRepository<EquipmentSpar
 
     Optional<EquipmentSpareBom> findByBomIdAndStockId(Long bomId, Long stockId);
 
+    long countByEquipmentId(Long equipmentId);
+
     boolean existsByEquipmentIdAndStockId(Long equipmentId, Long stockId);
 
     boolean existsByEquipmentIdAndStockIdAndBomIdNot(Long equipmentId, Long stockId, Long bomId);

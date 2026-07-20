@@ -14,6 +14,7 @@ public interface MaintenanceSpareUsageRepository extends JpaRepository<Maintenan
     List<MaintenanceSpareUsage> findAllByOrderByCreatedAtDesc();
     List<MaintenanceSpareUsage> findByStatusOrderByCreatedAtDesc(String status);
     List<MaintenanceSpareUsage> findByAssignmentIdOrderByCreatedAtDesc(Long assignmentId);
+    List<MaintenanceSpareUsage> findByAssignmentRequestIdOrderByCreatedAtDesc(Long requestId);
     Optional<MaintenanceSpareUsage> findByIdAndAssignmentId(Long id, Long assignmentId);
     boolean existsByAssignmentIdAndStockId(Long assignmentId, Long stockId);
 

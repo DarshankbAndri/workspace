@@ -20,5 +20,6 @@ public class MaintenanceAssignmentDAO {
     public List<MaintenanceAssignment> findBySiteId(Long siteId) { return repository.findByRequestSiteId(siteId); }
     public List<MaintenanceAssignment> findBySiteIds(Collection<Long> siteIds) { return repository.findByRequestSiteIdIn(siteIds); }
     public List<MaintenanceAssignment> findByRequestId(Long requestId) { return repository.findByRequestId(requestId); }
+    public Optional<MaintenanceAssignment> findLatestByRequestId(Long requestId) { return repository.findTopByRequestIdOrderByCreatedAtDescIdDesc(requestId); }
     public void deleteById(Long id) { repository.deleteById(id); }
 }

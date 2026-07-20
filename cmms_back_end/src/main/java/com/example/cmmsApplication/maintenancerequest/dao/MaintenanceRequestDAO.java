@@ -27,8 +27,26 @@ public class MaintenanceRequestDAO {
     public List<MaintenanceRequest> findBySiteIdAndStatus(Long siteId, String status) { return repository.findBySiteIdAndStatus(siteId, status); }
     public List<MaintenanceRequest> findOverdue(LocalDate date) { return repository.findByTargetCompletionDateBeforeAndStatusNotInOrderByTargetCompletionDateAsc(date, Arrays.asList("CLOSED", "COMPLETED", "CANCELLED", "REJECTED")); }
     public void deleteById(Long id) { repository.deleteById(id); }
+    public long countAll() { return repository.count(); }
+    public long countByStatus(String status) { return repository.countByStatus(status); }
+    public long countBySiteIds(Collection<Long> siteIds) { return repository.countBySiteIdIn(siteIds); }
+    public long countBySiteIdsAndStatus(Collection<Long> siteIds, String status) { return repository.countBySiteIdInAndStatus(siteIds, status); }
     public long countOpenRequests() { return repository.countByStatusIn(Arrays.asList("OPEN", "IN_PROGRESS", "ON_HOLD")); }
     public long countOpenRequestsBySiteId(Long siteId) { return repository.countBySiteIdAndStatusIn(siteId, Arrays.asList("OPEN", "IN_PROGRESS", "ON_HOLD")); }
+    public long countOpenRequestsByEquipmentId(Long equipmentId) { return repository.countByEquipmentIdAndStatusNotIn(equipmentId, Arrays.asList("CLOSED", "COMPLETED", "CANCELLED", "REJECTED")); }
+    public Optional<MaintenanceRequest> findLatestOpenByEquipmentId(Long equipmentId) { return repository.findTopByEquipmentIdAndStatusNotInOrderByRequestedDateDescIdDesc(equipmentId, Arrays.asList("CLOSED", "COMPLETED", "CANCELLED", "REJECTED")); }
+    public long countCritical(Collection<Long> siteIds, boolean allSites) {
+        List<String> priorities = Arrays.asList("CRITICAL", "URGENT", "HIGH");
+        List<String> closed = Arrays.asList("CLOSED", "COMPLETED", "CANCELLED", "REJECTED");
+        return allSites ? repository.countByPriorityInAndStatusNotIn(priorities, closed) : repository.countBySiteIdInAndPriorityInAndStatusNotIn(siteIds, priorities, closed);
+    }
+    public long countOverdue(Collection<Long> siteIds, boolean allSites, LocalDate date) {
+        List<String> closed = Arrays.asList("CLOSED", "COMPLETED", "CANCELLED", "REJECTED");
+        return allSites ? repository.countByTargetCompletionDateBeforeAndStatusNotIn(date, closed) : repository.countBySiteIdInAndTargetCompletionDateBeforeAndStatusNotIn(siteIds, date, closed);
+    }
+    public long countUnassigned(Collection<Long> siteIds, boolean allSites) {
+        return allSites ? repository.countUnassignedOpenRequests() : repository.countUnassignedOpenRequestsBySiteIds(siteIds);
+    }
     public long countByPmScheduleId(Long pmScheduleId) { return repository.countByPmScheduleId(pmScheduleId); }
     public long countCompletedByPmScheduleId(Long pmScheduleId) { return repository.countByPmScheduleIdAndStatusIn(pmScheduleId, Arrays.asList("COMPLETED", "CLOSED")); }
     public long countByAmcContractId(Long amcContractId) { return repository.countByAmcContractId(amcContractId); }

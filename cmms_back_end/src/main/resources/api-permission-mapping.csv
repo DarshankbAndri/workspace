@@ -99,6 +99,9 @@ EQUIPMENT_DELETE,/api/equipment/*/documents/*,DELETE,Delete equipment document
 EQUIPMENT_DELETE,/api/equipment/*/spare-bom/*,DELETE,Delete equipment spare BOM
 REQUEST_VIEW,/api/maintenance/requests/**,GET,View maintenance requests
 REQUEST_VIEW,/api/maintenance/requests,GET,View maintenance request list
+REQUEST_VIEW,/api/maintenance/requests/context,GET,View maintenance request equipment context
+REQUEST_VIEW,/api/maintenance/requests/queue-summary,GET,View maintenance request queue summary
+REQUEST_VIEW,/api/maintenance/requests/*/related-records,GET,View maintenance request related records
 REQUEST_VIEW,/api/maintenance/requests/search,POST,Search maintenance requests
 REQUEST_VIEW,/api/hr/sites/**,GET,Maintenance request site helper data
 REQUEST_VIEW,/api/hr/sites,GET,Maintenance request site helper data

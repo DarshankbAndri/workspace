@@ -5,13 +5,23 @@ import com.example.cmmsApplication.approval.service.ApprovalWorkflowService;
 import com.example.cmmsApplication.assignment.dao.MaintenanceAssignmentDAO;
 import com.example.cmmsApplication.assignment.entity.MaintenanceAssignment;
 import com.example.cmmsApplication.common.security.service.AccessControlService;
+import com.example.cmmsApplication.downtime.entity.EquipmentDowntime;
+import com.example.cmmsApplication.downtime.repository.EquipmentDowntimeRepository;
+import com.example.cmmsApplication.equipment.dto.EquipmentSummaryDTO;
+import com.example.cmmsApplication.equipment.repository.EquipmentSpareBomRepository;
 import com.example.cmmsApplication.equipment.service.EquipmentService;
+import com.example.cmmsApplication.spareparts.dao.MaintenanceSpareUsageDAO;
+import com.example.cmmsApplication.spareparts.entity.MaintenanceSpareUsage;
 import com.example.cmmsApplication.site.service.SiteService;
 import com.example.cmmsApplication.vendor.service.VendorService;
+import com.example.cmmsApplication.vendoramc.dto.VendorAmcContractDTO;
 import com.example.cmmsApplication.vendoramc.service.VendorAmcService;
 import com.example.cmmsApplication.maintenancerequest.dao.MaintenanceRequestDAO;
 import com.example.cmmsApplication.approval.dto.ApprovalRequestDTO;
+import com.example.cmmsApplication.maintenancerequest.dto.MaintenanceRequestContextDTO;
 import com.example.cmmsApplication.maintenancerequest.dto.MaintenanceRequestDTO;
+import com.example.cmmsApplication.maintenancerequest.dto.MaintenanceRequestQueueSummaryDTO;
+import com.example.cmmsApplication.maintenancerequest.dto.MaintenanceRequestRelatedRecordsDTO;
 import com.example.cmmsApplication.maintenancerequest.dto.MaintenanceRequestTransitionDTO;
 import com.example.cmmsApplication.equipment.entity.Equipment;
 import com.example.cmmsApplication.maintenancerequest.entity.MaintenanceRequest;
@@ -26,8 +36,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 
@@ -43,6 +55,9 @@ public class MaintenanceRequestService {
     private final MaintenanceAssignmentDAO assignmentDAO;
     private final VendorAmcService vendorAmcService;
     private final VendorService vendorService;
+    private final EquipmentSpareBomRepository equipmentSpareBomRepository;
+    private final EquipmentDowntimeRepository equipmentDowntimeRepository;
+    private final MaintenanceSpareUsageDAO spareUsageDAO;
 
     public MaintenanceRequestDTO create(MaintenanceRequestDTO dto) {
         accessControlService.validateSiteAccess(dto.getSiteId());
@@ -118,6 +133,89 @@ public class MaintenanceRequestService {
             requests = accessControlService.isAdmin() ? requestDAO.findAll() : requestDAO.findBySiteIds(accessControlService.getAllowedSiteIds());
         }
         return requests.stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public MaintenanceRequestContextDTO getContext(Long equipmentId) {
+        if (equipmentId == null) {
+            throw new InvalidOperationException("Equipment is required");
+        }
+        Equipment equipment = equipmentService.getEntity(equipmentId);
+        accessControlService.validateSiteAccess(equipment.getSite() == null ? null : equipment.getSite().getId());
+        EquipmentSummaryDTO summary = equipmentService.getSummary(equipmentId);
+        VendorAmcContractDTO activeAmc = vendorAmcService.getActiveAmcForEquipment(equipmentId);
+        MaintenanceRequest latestOpen = requestDAO.findLatestOpenByEquipmentId(equipmentId).orElse(null);
+        Long openRequestCount = requestDAO.countOpenRequestsByEquipmentId(equipmentId);
+
+        return MaintenanceRequestContextDTO.builder()
+                .equipmentId(equipment.getId())
+                .equipmentCode(equipment.getEquipmentCode())
+                .equipmentName(equipment.getEquipmentName())
+                .equipmentStatus(equipment.getStatus())
+                .operatingStatus(equipment.getOperatingStatus())
+                .siteId(equipment.getSite() == null ? null : equipment.getSite().getId())
+                .siteCode(equipment.getSite() == null ? null : equipment.getSite().getSiteCode())
+                .siteName(equipment.getSite() == null ? null : equipment.getSite().getSiteName())
+                .openRequestCount(openRequestCount)
+                .latestOpenRequestId(latestOpen == null ? null : latestOpen.getId())
+                .latestOpenRequestNumber(latestOpen == null ? null : latestOpen.getRequestNumber())
+                .activeAmcContractId(activeAmc == null ? null : activeAmc.getId())
+                .activeAmcContractNumber(activeAmc == null ? null : activeAmc.getContractNumber())
+                .vendorId(activeAmc == null ? null : activeAmc.getVendorId())
+                .vendorName(activeAmc == null ? null : activeAmc.getVendorName())
+                .responseTimeHours(activeAmc == null ? null : activeAmc.getResponseTimeHours())
+                .resolutionTimeHours(activeAmc == null ? null : activeAmc.getResolutionTimeHours())
+                .amcEndDate(activeAmc == null ? null : activeAmc.getEndDate())
+                .lastMaintenanceDate(summary.getLastMaintenanceDate())
+                .nextPmDate(summary.getNextPmDate())
+                .spareBomCount(equipmentSpareBomRepository.countByEquipmentId(equipmentId))
+                .healthScore(summary.getHealthScore())
+                .healthStatus(summary.getHealthStatus())
+                .build();
+    }
+
+    @Transactional(readOnly = true)
+    public MaintenanceRequestQueueSummaryDTO getQueueSummary(Long siteId) {
+        Scope scope = queueScope(siteId);
+        if (!scope.allSites() && scope.siteIds().isEmpty()) {
+            return emptyQueueSummary();
+        }
+        return MaintenanceRequestQueueSummaryDTO.builder()
+                .all(count(scope, null))
+                .pendingApproval(count(scope, MaintenanceRequestStatus.PENDING_APPROVAL.value())
+                        + count(scope, MaintenanceRequestStatus.CLOSE_PENDING_APPROVAL.value()))
+                .open(count(scope, MaintenanceRequestStatus.OPEN.value()))
+                .unassigned(requestDAO.countUnassigned(scope.siteIds(), scope.allSites()))
+                .assigned(count(scope, MaintenanceRequestStatus.ASSIGNED.value()))
+                .inProgress(count(scope, MaintenanceRequestStatus.IN_PROGRESS.value()))
+                .overdue(requestDAO.countOverdue(scope.siteIds(), scope.allSites(), LocalDate.now()))
+                .critical(requestDAO.countCritical(scope.siteIds(), scope.allSites()))
+                .completed(count(scope, MaintenanceRequestStatus.COMPLETED.value()))
+                .closed(count(scope, MaintenanceRequestStatus.CLOSED.value()))
+                .build();
+    }
+
+    @Transactional(readOnly = true)
+    public MaintenanceRequestRelatedRecordsDTO getRelatedRecords(Long id) {
+        MaintenanceRequest request = getEntity(id);
+        accessControlService.validateSiteAccess(request.getSite() == null ? null : request.getSite().getId());
+        MaintenanceAssignment latestAssignment = assignmentDAO.findLatestByRequestId(id).orElse(null);
+        ApprovalRequestDTO latestApproval = approvalWorkflowService.getApprovalHistory(ApprovalWorkflowService.MAINTENANCE_REQUEST, id)
+                .stream()
+                .findFirst()
+                .orElse(null);
+        EquipmentDowntime latestDowntime = equipmentDowntimeRepository.findTopByRequestIdOrderByDowntimeStartDescIdDesc(id).orElse(null);
+        List<MaintenanceRequestRelatedRecordsDTO.RelatedSpareUsageDTO> spareUsages = spareUsageDAO.findByRequestId(id).stream()
+                .limit(10)
+                .map(this::toRelatedSpareUsage)
+                .toList();
+
+        return MaintenanceRequestRelatedRecordsDTO.builder()
+                .assignment(toRelatedAssignment(latestAssignment))
+                .approval(toRelatedApproval(latestApproval))
+                .downtime(toRelatedDowntime(latestDowntime))
+                .spareUsages(spareUsages)
+                .build();
     }
 
     public void delete(Long id) {
@@ -407,4 +505,107 @@ public class MaintenanceRequestService {
         dto.setApprovalRequestId(approval.getId());
         dto.setApprovalStatus(approval.getApprovalStatus());
     }
+
+    private Scope queueScope(Long siteId) {
+        if (siteId != null) {
+            accessControlService.validateSiteAccess(siteId);
+            return new Scope(List.of(siteId), false);
+        }
+        if (accessControlService.isAdmin()) {
+            return new Scope(Collections.emptyList(), true);
+        }
+        return new Scope(accessControlService.getAllowedSiteIds(), false);
+    }
+
+    private long count(Scope scope, String status) {
+        if (scope.allSites()) {
+            return status == null ? requestDAO.countAll() : requestDAO.countByStatus(status);
+        }
+        return status == null ? requestDAO.countBySiteIds(scope.siteIds()) : requestDAO.countBySiteIdsAndStatus(scope.siteIds(), status);
+    }
+
+    private MaintenanceRequestQueueSummaryDTO emptyQueueSummary() {
+        return MaintenanceRequestQueueSummaryDTO.builder()
+                .all(0L)
+                .pendingApproval(0L)
+                .open(0L)
+                .unassigned(0L)
+                .assigned(0L)
+                .inProgress(0L)
+                .overdue(0L)
+                .critical(0L)
+                .completed(0L)
+                .closed(0L)
+                .build();
+    }
+
+    private MaintenanceRequestRelatedRecordsDTO.RelatedAssignmentDTO toRelatedAssignment(MaintenanceAssignment assignment) {
+        if (assignment == null) {
+            return null;
+        }
+        return MaintenanceRequestRelatedRecordsDTO.RelatedAssignmentDTO.builder()
+                .id(assignment.getId())
+                .status(assignment.getStatus())
+                .assignedTo(assignment.getAssignedTo())
+                .assignedEmployeeId(assignment.getAssignedEmployee() == null ? null : assignment.getAssignedEmployee().getId())
+                .assignedEmployeeName(assignment.getAssignedEmployee() == null ? null : fullName(
+                        assignment.getAssignedEmployee().getFirstName(),
+                        assignment.getAssignedEmployee().getLastName()))
+                .vendorId(assignment.getVendor() == null ? null : assignment.getVendor().getId())
+                .vendorName(assignment.getVendor() == null ? null : assignment.getVendor().getVendorName())
+                .assignedDate(assignment.getAssignedDate())
+                .plannedEndDate(assignment.getPlannedEndDate())
+                .build();
+    }
+
+    private MaintenanceRequestRelatedRecordsDTO.RelatedApprovalDTO toRelatedApproval(ApprovalRequestDTO approval) {
+        if (approval == null) {
+            return null;
+        }
+        return MaintenanceRequestRelatedRecordsDTO.RelatedApprovalDTO.builder()
+                .id(approval.getId())
+                .status(approval.getApprovalStatus())
+                .actionCode(approval.getActionCode())
+                .requestedAt(approval.getRequestedAt())
+                .requestedByName(approval.getRequestedByName())
+                .build();
+    }
+
+    private MaintenanceRequestRelatedRecordsDTO.RelatedDowntimeDTO toRelatedDowntime(EquipmentDowntime downtime) {
+        if (downtime == null) {
+            return null;
+        }
+        return MaintenanceRequestRelatedRecordsDTO.RelatedDowntimeDTO.builder()
+                .id(downtime.getId())
+                .status(downtime.getStatus())
+                .reason(downtime.getReason())
+                .durationMinutes(downtime.getDowntimeMinutes())
+                .downtimeStart(downtime.getDowntimeStart())
+                .downtimeEnd(downtime.getDowntimeEnd())
+                .build();
+    }
+
+    private MaintenanceRequestRelatedRecordsDTO.RelatedSpareUsageDTO toRelatedSpareUsage(MaintenanceSpareUsage usage) {
+        return MaintenanceRequestRelatedRecordsDTO.RelatedSpareUsageDTO.builder()
+                .id(usage.getId())
+                .assignmentId(usage.getAssignment() == null ? null : usage.getAssignment().getId())
+                .sparePartId(usage.getSparePart() == null ? null : usage.getSparePart().getId())
+                .partCode(usage.getSparePart() == null ? null : usage.getSparePart().getPartCode())
+                .partName(usage.getSparePart() == null ? null : usage.getSparePart().getPartName())
+                .requestedQty(usage.getQuantityUsed())
+                .issuedQty(usage.getIssuedQty())
+                .status(usage.getStatus())
+                .totalCost(usage.getTotalCost())
+                .requestedAt(usage.getRequestedAt())
+                .build();
+    }
+
+    private String fullName(String firstName, String lastName) {
+        return List.of(firstName, lastName).stream()
+                .filter(Objects::nonNull)
+                .filter((value) -> !value.isBlank())
+                .collect(Collectors.joining(" "));
+    }
+
+    private record Scope(List<Long> siteIds, boolean allSites) {}
 }

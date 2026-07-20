@@ -27,7 +27,7 @@ import {
   uploadAssignmentChecklistProof,
   uploadAssignmentWorkLogAttachment,
 } from '../services/assignmentService';
-import { getRequestsBySite } from '../../maintenanceRequest/services/maintenanceRequestService';
+import { getMaintenanceRequestById, getRequestsBySite } from '../../maintenanceRequest/services/maintenanceRequestService';
 import {
   addAssignmentSpare,
   cancelAssignmentSpare,
@@ -129,6 +129,7 @@ function MaintenanceAssignmentFormPage() {
     const targetTab = new URLSearchParams(location.search).get('tab');
     return workflowTabByQuery[targetTab] ?? 0;
   }, [location.search]);
+  const requestIdFromQuery = React.useMemo(() => new URLSearchParams(location.search).get('requestId') || '', [location.search]);
   const [form, setForm] = React.useState(initialForm);
   const [sites, setSites] = React.useState([]);
   const [requests, setRequests] = React.useState([]);
@@ -163,6 +164,20 @@ function MaintenanceAssignmentFormPage() {
         .catch((err) => setError(err.response?.data?.message || 'Unable to load assignment.'));
     }
   }, [id]);
+
+  React.useEffect(() => {
+    if (id || !requestIdFromQuery) {
+      return;
+    }
+    getMaintenanceRequestById(requestIdFromQuery)
+      .then((request) => setForm((current) => ({
+        ...current,
+        siteId: request.siteId || '',
+        requestId: request.id || requestIdFromQuery,
+        vendorId: request.externalVendorAssignment ? request.vendorId || '' : current.vendorId,
+      })))
+      .catch(() => setError('Unable to load selected request for assignment.'));
+  }, [id, requestIdFromQuery]);
 
   React.useEffect(() => {
     if (!form.siteId) {

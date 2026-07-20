@@ -18,6 +18,7 @@ public interface EquipmentDowntimeRepository extends JpaRepository<EquipmentDown
     List<EquipmentDowntime> findBySiteIdIn(Collection<Long> siteIds);
     List<EquipmentDowntime> findBySiteIdAndEquipmentId(Long siteId, Long equipmentId);
     List<EquipmentDowntime> findBySiteIdInAndEquipmentId(Collection<Long> siteIds, Long equipmentId);
+    Optional<EquipmentDowntime> findTopByRequestIdOrderByDowntimeStartDescIdDesc(Long requestId);
     long countByEquipmentIdAndDowntimeEndIsNull(Long equipmentId);
     Optional<EquipmentDowntime> findTopByEquipmentIdOrderByDowntimeStartDescIdDesc(Long equipmentId);
     Optional<EquipmentDowntime> findTopByEquipmentIdAndPlannedFalseOrderByDowntimeStartDescIdDesc(Long equipmentId);

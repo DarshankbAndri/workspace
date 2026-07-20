@@ -32,6 +32,13 @@ export const equalFilter = (filterKey, value, dataType = 'VARCHAR') => ({
   operation: 'equal',
 });
 
+export const inFilter = (filterKey, value, dataType = 'VARCHAR') => ({
+  filterKey,
+  dataType,
+  value,
+  operation: 'in',
+});
+
 export const rangeFilter = (filterKey, value, operation, dataType = 'DATE') => ({
   filterKey,
   dataType,
