@@ -61,6 +61,8 @@ VENDOR_AMC_VIEW,/api/vendor-amc/*/pm-schedules,GET,View AMC linked preventive ma
 VENDOR_AMC_VIEW,/api/vendor-amc/search,POST,Search AMC contracts
 VENDOR_AMC_VIEW,/api/vendors/*/amc-contracts,GET,View vendor AMC contracts
 VENDOR_AMC_VIEW,/api/equipment/*/active-amc,GET,View equipment active AMC
+EQUIPMENT_VIEW,/api/equipment/*/amc-contracts,GET,View equipment AMC contracts
+VENDOR_AMC_VIEW,/api/equipment/*/amc-contracts,GET,View equipment AMC contracts
 REQUEST_CREATE,/api/equipment/*/active-amc,GET,Create request AMC helper data
 REQUEST_UPDATE,/api/equipment/*/active-amc,GET,Update request AMC helper data
 VENDOR_AMC_CREATE,/api/vendor-amc,POST,Create AMC contract

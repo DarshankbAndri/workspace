@@ -78,6 +78,11 @@ public class EquipmentController {
         return ResponseFactory.ok(vendorAmcService.getActiveAmcForEquipment(id));
     }
 
+    @GetMapping("/{id}/amc-contracts")
+    public ResponseEntity<ApiResponse<?>> getAmcContracts(@PathVariable Long id) {
+        return ResponseFactory.ok(vendorAmcService.getAmcContractsForEquipment(id));
+    }
+
     @PostMapping("/{id}/spare-bom")
     public ResponseEntity<ApiResponse<?>> createSpareBom(@PathVariable Long id, @RequestBody EquipmentSpareBomDTO dto) {
         return ResponseFactory.created(equipmentSpareBomService.create(id, dto));

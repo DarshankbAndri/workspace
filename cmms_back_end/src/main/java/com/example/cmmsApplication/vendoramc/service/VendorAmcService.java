@@ -195,8 +195,25 @@ public class VendorAmcService {
         }
         EquipmentAmcMapping mapping = mappings.get(0);
         VendorAmcContractDTO dto = mapper.toDTO(mapping.getAmcContract(), List.of(mapping));
-        dto.setCoveredEquipmentCount(mappingDAO.findByContractId(mapping.getAmcContract().getId()).size());
+        dto.setCoveredEquipmentCount((int) mappingDAO.countByContractId(mapping.getAmcContract().getId()));
         return dto;
+    }
+
+    @Transactional(readOnly = true)
+    public List<VendorAmcContractDTO> getAmcContractsForEquipment(Long equipmentId) {
+        Equipment equipment = equipmentService.getEntity(equipmentId);
+        if (equipment.getSite() != null) {
+            accessControlService.validateSiteAccess(equipment.getSite().getId());
+        }
+        return mappingDAO.findByEquipmentId(equipmentId).stream()
+                .filter((mapping) -> mapping.getAmcContract() != null)
+                .filter((mapping) -> isAllowedContract(mapping.getAmcContract()))
+                .map((mapping) -> {
+                    VendorAmcContractDTO dto = mapper.toDTO(mapping.getAmcContract(), List.of(mapping));
+                    dto.setCoveredEquipmentCount((int) mappingDAO.countByContractId(mapping.getAmcContract().getId()));
+                    return dto;
+                })
+                .toList();
     }
 
     public VendorAmcContractDTO renewAmcContract(Long id, VendorAmcContractDTO dto) {

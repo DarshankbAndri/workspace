@@ -30,6 +30,7 @@ import {
   downloadEquipmentDocument,
   getEquipmentById,
   getEquipmentActiveAmc,
+  getEquipmentAmcContracts,
   getEquipmentDocuments,
   getEquipmentHealth,
   getEquipmentSpareBom,
@@ -95,6 +96,7 @@ function EquipmentViewPage() {
   const [summary, setSummary] = React.useState(null);
   const [health, setHealth] = React.useState(null);
   const [activeAmc, setActiveAmc] = React.useState(null);
+  const [amcContracts, setAmcContracts] = React.useState([]);
   const [spareBomRows, setSpareBomRows] = React.useState([]);
   const [siteSpares, setSiteSpares] = React.useState([]);
   const [spareBomForm, setSpareBomForm] = React.useState(initialSpareBomForm);
@@ -129,13 +131,22 @@ function EquipmentViewPage() {
 
   const canViewAmc = hasPermission(PERMISSIONS.VENDOR_AMC_VIEW);
   const canCreateAmc = hasPermission(PERMISSIONS.VENDOR_AMC_CREATE);
+  const canShowEquipmentAmc = hasPermission(PERMISSIONS.EQUIPMENT_VIEW) || canViewAmc || canCreateAmc;
 
   React.useEffect(() => {
-    if (!canViewAmc) return;
-    getEquipmentActiveAmc(id)
-      .then((data) => setActiveAmc(data || null))
-      .catch(() => setActiveAmc(null));
-  }, [canViewAmc, id]);
+    if (!canShowEquipmentAmc) {
+      setActiveAmc(null);
+      setAmcContracts([]);
+      return;
+    }
+    Promise.all([
+      getEquipmentActiveAmc(id).catch(() => null),
+      getEquipmentAmcContracts(id).catch(() => []),
+    ]).then(([activeAmcData, contractRows]) => {
+      setActiveAmc(activeAmcData || null);
+      setAmcContracts(contractRows || []);
+    });
+  }, [canShowEquipmentAmc, id]);
 
   const canEdit = hasPermission(PERMISSIONS.EQUIPMENT_UPDATE);
   const canDelete = hasPermission(PERMISSIONS.EQUIPMENT_DELETE);
@@ -360,7 +371,7 @@ function EquipmentViewPage() {
               <Tab value="overview" label="Overview" />
               <Tab value="requests" label="Open Requests" />
               <Tab value="pm" label="PM Schedule" />
-              {(canViewAmc || canCreateAmc) && <Tab value="amc" label="AMC Details" />}
+              {canShowEquipmentAmc && <Tab value="amc" label="AMC Details" />}
               <Tab value="downtime" label="Downtime History" />
               <Tab value="spares" label="Spare BOM" />
               <Tab value="documents" label="Documents" />
@@ -396,39 +407,48 @@ function EquipmentViewPage() {
               </Grid>
             )}
 
-            {activeTab === 'amc' && (canViewAmc || canCreateAmc) && (
-              activeAmc ? (
-                <Grid container spacing={2}>
-                  <Grid item xs={12} sm={6} md={3}><Metric label="AMC Status" value={activeAmc.status} variant={activeAmc.status === 'ACTIVE' ? 'success-chip' : 'warning-chip'} /></Grid>
-                  <Grid item xs={12} sm={6} md={3}><Metric label="Vendor" value={activeAmc.vendorName} /></Grid>
-                  <Grid item xs={12} sm={6} md={3}><Metric label="Contract Number" value={activeAmc.contractNumber} /></Grid>
-                  <Grid item xs={12} sm={6} md={3}><Metric label="Contract Name" value={activeAmc.contractName} /></Grid>
-                  <Grid item xs={12} sm={6} md={3}><Metric label="Coverage Period" value={`${activeAmc.startDate || '-'} to ${activeAmc.endDate || '-'}`} /></Grid>
-                  <Grid item xs={12} sm={6} md={3}><Metric label="Coverage Type" value={activeAmc.equipmentMappings?.[0]?.coverageType || 'FULL'} /></Grid>
-                  <Grid item xs={12} sm={6} md={3}><Metric label="Labor Included" value={activeAmc.includesLabor ? 'Yes' : 'No'} /></Grid>
-                  <Grid item xs={12} sm={6} md={3}><Metric label="Spares Included" value={activeAmc.includesSpares ? 'Yes' : 'No'} /></Grid>
-                  <Grid item xs={12} sm={6} md={3}><Metric label="Response SLA" value={activeAmc.responseTimeHours ? `${activeAmc.responseTimeHours} hr` : '-'} /></Grid>
-                  <Grid item xs={12} sm={6} md={3}><Metric label="Resolution SLA" value={activeAmc.resolutionTimeHours ? `${activeAmc.resolutionTimeHours} hr` : '-'} /></Grid>
-                  <Grid item xs={12} sm={6} md={3}><Metric label="Contact Person" value={activeAmc.contactPerson} /></Grid>
-                  <Grid item xs={12} sm={6} md={3}><Metric label="Contact Phone" value={activeAmc.contactPhone} /></Grid>
-                  <Grid item xs={12} sm={6} md={3}><Metric label="Days Remaining" value={activeAmc.daysRemaining} /></Grid>
-                  <Grid item xs={12}>
-                    <Button variant="outlined" onClick={() => navigate(`/vendor-amc/view/${activeAmc.id}`)}>
-                      View AMC Contract
-                    </Button>
+            {activeTab === 'amc' && canShowEquipmentAmc && (
+              <Stack spacing={2.5}>
+                {activeAmc ? (
+                  <Grid container spacing={2}>
+                    <Grid item xs={12} sm={6} md={3}><Metric label="AMC Status" value={activeAmc.status} variant={activeAmc.status === 'ACTIVE' ? 'success-chip' : 'warning-chip'} /></Grid>
+                    <Grid item xs={12} sm={6} md={3}><Metric label="Vendor" value={activeAmc.vendorName} /></Grid>
+                    <Grid item xs={12} sm={6} md={3}><Metric label="Contract Number" value={activeAmc.contractNumber} /></Grid>
+                    <Grid item xs={12} sm={6} md={3}><Metric label="Contract Name" value={activeAmc.contractName} /></Grid>
+                    <Grid item xs={12} sm={6} md={3}><Metric label="Coverage Period" value={`${activeAmc.startDate || '-'} to ${activeAmc.endDate || '-'}`} /></Grid>
+                    <Grid item xs={12} sm={6} md={3}><Metric label="Coverage Type" value={activeAmc.equipmentMappings?.[0]?.coverageType || 'FULL'} /></Grid>
+                    <Grid item xs={12} sm={6} md={3}><Metric label="Labor Included" value={activeAmc.includesLabor ? 'Yes' : 'No'} /></Grid>
+                    <Grid item xs={12} sm={6} md={3}><Metric label="Spares Included" value={activeAmc.includesSpares ? 'Yes' : 'No'} /></Grid>
+                    <Grid item xs={12} sm={6} md={3}><Metric label="Response SLA" value={activeAmc.responseTimeHours ? `${activeAmc.responseTimeHours} hr` : '-'} /></Grid>
+                    <Grid item xs={12} sm={6} md={3}><Metric label="Resolution SLA" value={activeAmc.resolutionTimeHours ? `${activeAmc.resolutionTimeHours} hr` : '-'} /></Grid>
+                    <Grid item xs={12} sm={6} md={3}><Metric label="Contact Person" value={activeAmc.contactPerson} /></Grid>
+                    <Grid item xs={12} sm={6} md={3}><Metric label="Contact Phone" value={activeAmc.contactPhone} /></Grid>
+                    <Grid item xs={12} sm={6} md={3}><Metric label="Days Remaining" value={activeAmc.daysRemaining} /></Grid>
+                    {canViewAmc && (
+                      <Grid item xs={12}>
+                        <Button variant="outlined" onClick={() => navigate(`/vendor-amc/view/${activeAmc.id}`)}>
+                          View AMC Contract
+                        </Button>
+                      </Grid>
+                    )}
                   </Grid>
-                </Grid>
-              ) : (
-                <EmptyPanel
-                  title="AMC Details"
-                  value="No active AMC is available for this equipment."
-                  action={canCreateAmc ? (
-                    <Button variant="contained" onClick={() => navigate(getCreateAmcPath(equipment))}>
-                      Create AMC
-                    </Button>
-                  ) : null}
+                ) : (
+                  <EmptyPanel
+                    title="AMC Details"
+                    value={amcContracts.length > 0 ? 'No active AMC is available. Linked AMC contract history is shown below.' : 'No AMC contract is mapped to this equipment.'}
+                    action={canCreateAmc ? (
+                      <Button variant="contained" onClick={() => navigate(getCreateAmcPath(equipment))}>
+                        Create AMC
+                      </Button>
+                    ) : null}
+                  />
+                )}
+                <EquipmentAmcContractsTable
+                  rows={amcContracts.length > 0 ? amcContracts : activeAmc ? [activeAmc] : []}
+                  canViewAmc={canViewAmc}
+                  onView={(contractId) => navigate(`/vendor-amc/view/${contractId}`)}
                 />
-              )
+              </Stack>
             )}
 
             {activeTab === 'downtime' && (
@@ -720,6 +740,78 @@ function EquipmentSpareBomTab({
   );
 }
 
+function EquipmentAmcContractsTable({ rows, canViewAmc, onView }) {
+  return (
+    <TableContainer component={Box}>
+      <Table size="small">
+        <TableHead>
+          <TableRow>
+            <TableCell>Contract</TableCell>
+            <TableCell>Vendor</TableCell>
+            <TableCell>Status</TableCell>
+            <TableCell>Contract Period</TableCell>
+            <TableCell>Equipment Coverage</TableCell>
+            <TableCell>SLA</TableCell>
+            <TableCell align="right">Actions</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {rows.length === 0 ? (
+            <TableRow>
+              <TableCell colSpan={7}>
+                <Typography variant="body2" color="text.secondary">No AMC contract records available.</Typography>
+              </TableCell>
+            </TableRow>
+          ) : rows.map((row) => {
+            const mapping = row.equipmentMappings?.[0] || {};
+            return (
+              <TableRow key={row.id} hover>
+                <TableCell>
+                  <Typography variant="body2" fontWeight={700}>{row.contractNumber || '-'}</Typography>
+                  <Typography variant="caption" color="text.secondary">{row.contractName || '-'}</Typography>
+                </TableCell>
+                <TableCell>{row.vendorName || '-'}</TableCell>
+                <TableCell>
+                  <Chip
+                    size="small"
+                    label={formatLabel(row.status)}
+                    color={amcStatusColor(row.status)}
+                    variant={row.status === 'ACTIVE' ? 'filled' : 'outlined'}
+                  />
+                </TableCell>
+                <TableCell>{formatDateRange(row.startDate, row.endDate)}</TableCell>
+                <TableCell>
+                  <Typography variant="body2">{formatDateRange(mapping.coverageStartDate, mapping.coverageEndDate)}</Typography>
+                  <Typography variant="caption" color="text.secondary">
+                    {formatLabel(mapping.coverageType || 'FULL')} | {mapping.active === false ? 'Inactive mapping' : 'Active mapping'}
+                  </Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography variant="body2">Response: {row.responseTimeHours ? `${row.responseTimeHours} hr` : '-'}</Typography>
+                  <Typography variant="caption" color="text.secondary">Resolution: {row.resolutionTimeHours ? `${row.resolutionTimeHours} hr` : '-'}</Typography>
+                </TableCell>
+                <TableCell align="right">
+                  <Tooltip title={canViewAmc ? 'View AMC contract' : 'AMC view permission required'}>
+                    <span>
+                      <IconButton
+                        aria-label="View AMC contract"
+                        disabled={!canViewAmc}
+                        onClick={() => onView(row.id)}
+                      >
+                        <Visibility fontSize="small" />
+                      </IconButton>
+                    </span>
+                  </Tooltip>
+                </TableCell>
+              </TableRow>
+            );
+          })}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
+}
+
 function getSparePartStockId(row) {
   return row?.stockId ?? row?.sparePartStockId ?? row?.spareStockId ?? '';
 }
@@ -974,6 +1066,13 @@ function criticalityColor(criticality) {
   return 'default';
 }
 
+function amcStatusColor(status) {
+  if (status === 'ACTIVE') return 'success';
+  if (status === 'EXPIRING_SOON') return 'warning';
+  if (status === 'EXPIRED' || status === 'TERMINATED') return 'error';
+  return 'default';
+}
+
 function healthVariant(status) {
   if (status === 'GOOD') return 'success-chip';
   if (status === 'WARNING') return 'warning-chip';
@@ -994,6 +1093,11 @@ function formatSite(equipment) {
 
 function formatDate(value) {
   return value || '';
+}
+
+function formatDateRange(startDate, endDate) {
+  if (!startDate && !endDate) return '-';
+  return `${startDate || '-'} to ${endDate || '-'}`;
 }
 
 function formatDateTime(value) {

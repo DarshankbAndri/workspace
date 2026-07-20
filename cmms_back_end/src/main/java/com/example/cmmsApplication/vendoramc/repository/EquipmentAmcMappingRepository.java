@@ -16,6 +16,7 @@ public interface EquipmentAmcMappingRepository extends JpaRepository<EquipmentAm
     boolean existsByAmcContractIdAndEquipmentId(Long amcContractId, Long equipmentId);
     Optional<EquipmentAmcMapping> findByAmcContractIdAndEquipmentId(Long amcContractId, Long equipmentId);
     List<EquipmentAmcMapping> findByAmcContractIdOrderByEquipmentEquipmentNameAsc(Long amcContractId);
+    List<EquipmentAmcMapping> findByEquipmentIdOrderByCoverageEndDateDescIdDesc(Long equipmentId);
     long countByAmcContractId(Long amcContractId);
 
     @Modifying
