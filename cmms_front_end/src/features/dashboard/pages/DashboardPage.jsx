@@ -7,6 +7,8 @@ import {
   CircularProgress,
   Grid,
   Stack,
+  Tab,
+  Tabs,
   Typography,
   alpha,
   useTheme,
@@ -33,10 +35,7 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
-import { getDashboardData } from '../services/dashboardService';
-import { getVendorAmcDashboard } from '../../vendorAmc/services/vendorAmcService';
-import { getSites } from '../../site/services/siteService';
-import { useAuth } from '../../../shared/context/AuthContext';
+import { getDashboardMetadata, getDashboardWidget } from '../services/dashboardService';
 import CommonDropdown from '../../../shared/components/common/CommonDropdown';
 import CommonEmptyState from '../../../shared/components/common/CommonEmptyState';
 import CommonPageHeader from '../../../shared/components/common/CommonPageHeader';
@@ -81,6 +80,23 @@ const metricCards = [
   },
 ];
 
+const WIDGETS = {
+  KPI_SUMMARY: 'DASHBOARD_WIDGET_OVERVIEW_KPI_SUMMARY',
+  EQUIPMENT_STATUS: 'DASHBOARD_WIDGET_EQUIPMENT_STATUS',
+  DOWNTIME_SUMMARY: 'DASHBOARD_WIDGET_REPORT_DOWNTIME_SUMMARY',
+  VENDOR_PERFORMANCE: 'DASHBOARD_WIDGET_VENDOR_PERFORMANCE',
+  PM_DUE: 'DASHBOARD_WIDGET_MAINTENANCE_PM_DUE',
+  AMC_ACTIVE: 'DASHBOARD_WIDGET_VENDOR_AMC_ACTIVE',
+};
+
+const amcMetricCards = [
+  { key: 'activeContracts', label: 'Active AMC Contracts', helper: 'Contracts currently covering equipment', color: 'success' },
+  { key: 'expiringContracts', label: 'AMC Expiring in 30 Days', helper: 'Contracts needing renewal attention', color: 'warning' },
+  { key: 'expiredContracts', label: 'Expired AMC Contracts', helper: 'Contracts past end date', color: 'error' },
+  { key: 'coveredEquipment', label: 'AMC Covered Equipment', helper: 'Assets with active AMC coverage', color: 'primary' },
+  { key: 'equipmentWithoutAmc', label: 'Equipment Without AMC', helper: 'Assets without active AMC coverage', color: 'info' },
+];
+
 const formatMetric = (value) => {
   const number = Number(value ?? 0);
   return Number.isInteger(number) ? formatNumber(number, { maximumFractionDigits: 0 }, '0') : formatNumber(number, { minimumFractionDigits: 2, maximumFractionDigits: 2 }, '0.00');
@@ -114,10 +130,9 @@ function ChartCard({ title, subtitle, children }) {
 
 function DashboardPage() {
   const theme = useTheme();
-  const { hasPermission } = useAuth();
-  const [dashboard, setDashboard] = React.useState(null);
-  const [amcDashboard, setAmcDashboard] = React.useState(null);
-  const [sites, setSites] = React.useState([]);
+  const [metadata, setMetadata] = React.useState(null);
+  const [widgetData, setWidgetData] = React.useState({});
+  const [activeDepartment, setActiveDepartment] = React.useState('');
   const [siteId, setSiteId] = React.useState('');
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState('');
@@ -126,15 +141,16 @@ function DashboardPage() {
     let mounted = true;
 
     setLoading(true);
-    getDashboardData(siteId || undefined)
+    getDashboardMetadata()
       .then((data) => {
         if (mounted) {
-          setDashboard(data);
+          setMetadata(data);
+          setActiveDepartment(data.defaultDepartment || data.departments?.[0]?.code || '');
         }
       })
       .catch(() => {
         if (mounted) {
-          setError('Unable to load dashboard data from the CMMS APIs.');
+          setError('Unable to load dashboard configuration from the CMMS APIs.');
         }
       })
       .finally(() => {
@@ -146,29 +162,75 @@ function DashboardPage() {
     return () => {
       mounted = false;
     };
-  }, [siteId]);
-
-  React.useEffect(() => {
-    getSites()
-      .then((data) => {
-        const siteList = Array.isArray(data) ? data : [];
-        setSites(siteList.filter((site) => site.status !== 'INACTIVE'));
-      })
-      .catch(() => setSites([]));
   }, []);
 
   React.useEffect(() => {
-    if (!hasPermission('VENDOR_AMC_VIEW')) return;
-    getVendorAmcDashboard()
-      .then(setAmcDashboard)
-      .catch(() => setAmcDashboard(null));
-  }, [hasPermission]);
+    if (!metadata) return;
+    let mounted = true;
+    const activeWidgets = (metadata.departments || [])
+      .find((department) => department.code === activeDepartment)?.widgets || [];
 
-  const summary = dashboard?.summary ?? {};
-  const equipmentStatus = dashboard?.equipmentStatus ?? [];
-  const monthlyDowntime = dashboard?.monthlyDowntime ?? [];
-  const vendorPerformance = dashboard?.vendorPerformance ?? [];
-  const upcomingMaintenance = dashboard?.upcomingMaintenance ?? [];
+    if (!activeWidgets.length) {
+      setWidgetData({});
+      setLoading(false);
+      return () => {
+        mounted = false;
+      };
+    }
+
+    setLoading(true);
+    setError('');
+    Promise.all(
+      activeWidgets.map((widget) => (
+        getDashboardWidget(widget.apiPath, siteId ? { siteId } : {})
+          .then((data) => [widget.code, data])
+          .catch(() => [widget.code, null])
+      )),
+    )
+      .then((entries) => {
+        if (mounted) {
+          setWidgetData(Object.fromEntries(entries.filter(([, data]) => data)));
+        }
+      })
+      .catch(() => {
+        if (mounted) {
+          setError('Unable to load dashboard widget data from the CMMS APIs.');
+        }
+      })
+      .finally(() => {
+        if (mounted) {
+          setLoading(false);
+        }
+      });
+
+    return () => {
+      mounted = false;
+    };
+  }, [metadata, activeDepartment, siteId]);
+
+  const departments = React.useMemo(
+    () => metadata?.departments || [],
+    [metadata],
+  );
+
+  const activeWidgets = React.useMemo(
+    () => departments.find((department) => department.code === activeDepartment)?.widgets || [],
+    [departments, activeDepartment],
+  );
+
+  const visibleWidgetCodes = React.useMemo(
+    () => new Set(activeWidgets.map((widget) => widget.code)),
+    [activeWidgets],
+  );
+  const isVisible = (widgetCode) => visibleWidgetCodes.has(widgetCode);
+  const widgetPayload = (widgetCode, fallback) => widgetData[widgetCode]?.data ?? fallback;
+
+  const summary = widgetPayload(WIDGETS.KPI_SUMMARY, {});
+  const equipmentStatus = widgetPayload(WIDGETS.EQUIPMENT_STATUS, []);
+  const monthlyDowntime = widgetPayload(WIDGETS.DOWNTIME_SUMMARY, []);
+  const vendorPerformance = widgetPayload(WIDGETS.VENDOR_PERFORMANCE, []);
+  const upcomingMaintenance = widgetPayload(WIDGETS.PM_DUE, []);
+  const amcDashboard = widgetPayload(WIDGETS.AMC_ACTIVE, null);
   const hasDowntime = monthlyDowntime.some((item) => item.hours > 0);
   const statusColors = [
     theme.palette.primary.main,
@@ -179,8 +241,8 @@ function DashboardPage() {
     theme.palette.secondary.main,
   ];
   const siteOptions = React.useMemo(
-    () => sites.map((site) => ({ value: site.id, label: `${site.siteName} (${site.siteCode})` })),
-    [sites],
+    () => (metadata?.allowedSites || []).map((site) => ({ value: site.siteId, label: `${site.siteName} (${site.siteCode})` })),
+    [metadata],
   );
 
   return (
@@ -223,13 +285,29 @@ function DashboardPage() {
 
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
 
+      {departments.length > 1 && (
+        <Tabs
+          value={activeDepartment}
+          onChange={(_, value) => setActiveDepartment(value)}
+          variant="scrollable"
+          scrollButtons="auto"
+          sx={{ mb: 2, borderBottom: 1, borderColor: 'divider' }}
+        >
+          {departments.map((department) => (
+            <Tab key={department.code} value={department.code} label={department.label} />
+          ))}
+        </Tabs>
+      )}
+
       {loading ? (
         <Box sx={{ minHeight: 360, display: 'grid', placeItems: 'center' }}>
           <CircularProgress />
         </Box>
+      ) : !visibleWidgetCodes.size ? (
+        <CommonEmptyState title="No dashboard widgets assigned" sx={{ minHeight: 360 }} />
       ) : (
         <Grid container spacing={2.5}>
-          {metricCards.map((card) => (
+          {isVisible(WIDGETS.KPI_SUMMARY) && metricCards.map((card) => (
             <Grid item xs={12} sm={6} lg={3} key={card.key}>
               <Card sx={{ height: '100%', borderRadius: 1, border: '1px solid', borderColor: 'divider', boxShadow: 'none' }}>
                 <CardContent sx={{ p: 2.5 }}>
@@ -263,13 +341,7 @@ function DashboardPage() {
             </Grid>
           ))}
 
-          {hasPermission('VENDOR_AMC_VIEW') && amcDashboard && [
-            { key: 'activeContracts', label: 'Active AMC Contracts', helper: 'Contracts currently covering equipment', color: 'success' },
-            { key: 'expiringContracts', label: 'AMC Expiring in 30 Days', helper: 'Contracts needing renewal attention', color: 'warning' },
-            { key: 'expiredContracts', label: 'Expired AMC Contracts', helper: 'Contracts past end date', color: 'error' },
-            { key: 'coveredEquipment', label: 'AMC Covered Equipment', helper: 'Assets with active AMC coverage', color: 'primary' },
-            { key: 'equipmentWithoutAmc', label: 'Equipment Without AMC', helper: 'Assets without active AMC coverage', color: 'info' },
-          ].map((card) => (
+          {isVisible(WIDGETS.AMC_ACTIVE) && amcDashboard && amcMetricCards.map((card) => (
             <Grid item xs={12} sm={6} lg={3} key={card.key}>
               <Card sx={{ height: '100%', borderRadius: 1, border: '1px solid', borderColor: 'divider', boxShadow: 'none' }}>
                 <CardContent sx={{ p: 2.5 }}>
@@ -285,7 +357,7 @@ function DashboardPage() {
             </Grid>
           ))}
 
-          <Grid item xs={12} lg={4}>
+          {isVisible(WIDGETS.EQUIPMENT_STATUS) && <Grid item xs={12} lg={4}>
             <ChartCard title="Equipment Status" subtitle="Asset availability by current condition">
               {equipmentStatus.length ? (
                 <Box sx={{ height: 300 }}>
@@ -305,9 +377,9 @@ function DashboardPage() {
                 <EmptyChart label="No equipment status data available" />
               )}
             </ChartCard>
-          </Grid>
+          </Grid>}
 
-          <Grid item xs={12} lg={8}>
+          {isVisible(WIDGETS.DOWNTIME_SUMMARY) && <Grid item xs={12} lg={8}>
             <ChartCard title="Monthly Downtime" subtitle={`${new Date().getFullYear()} downtime hours by month`}>
               {hasDowntime ? (
                 <Box sx={{ height: 300 }}>
@@ -325,9 +397,9 @@ function DashboardPage() {
                 <EmptyChart label="No downtime recorded for this year" />
               )}
             </ChartCard>
-          </Grid>
+          </Grid>}
 
-          <Grid item xs={12} lg={4}>
+          {isVisible(WIDGETS.PM_DUE) && <Grid item xs={12} lg={4}>
             <ChartCard title="Upcoming Maintenance" subtitle="PM schedules due in the next 30 days">
               {upcomingMaintenance.length ? (
                 <Stack spacing={1.25} sx={{ minHeight: 340 }}>
@@ -372,9 +444,9 @@ function DashboardPage() {
                 <EmptyChart label="No PM schedules due in the next 30 days" />
               )}
             </ChartCard>
-          </Grid>
+          </Grid>}
 
-          <Grid item xs={12} lg={8}>
+          {isVisible(WIDGETS.VENDOR_PERFORMANCE) && <Grid item xs={12} lg={8}>
             <ChartCard title="Vendor Performance" subtitle="Completed maintenance assignments by vendor">
               {vendorPerformance.length ? (
                 <Box sx={{ height: 340 }}>
@@ -396,7 +468,7 @@ function DashboardPage() {
                 <EmptyChart label="No vendor assignment data available" />
               )}
             </ChartCard>
-          </Grid>
+          </Grid>}
         </Grid>
       )}
     </Box>

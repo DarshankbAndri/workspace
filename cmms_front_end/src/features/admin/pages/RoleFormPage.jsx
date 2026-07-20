@@ -38,18 +38,27 @@ const initialForm = {
 
 const permissionCategories = [
   { key: 'operation', label: 'Operation' },
+  { key: 'dashboardWidgets', label: 'Dashboard Widgets' },
   { key: 'hr', label: 'HR' },
   { key: 'admin', label: 'Admin' },
 ];
 
 const categoryGroupOrder = {
   operation: ['Dashboard', 'Masters', 'Maintenance', 'Inventory', 'Approvals', 'Notifications', 'Reports'],
+  dashboardWidgets: ['Overview', 'Maintenance', 'Technician Work', 'Inventory / Store', 'Equipment', 'AMC / Vendor', 'Approvals', 'Reports', 'HR', 'Administration'],
   hr: ['Creation'],
   admin: ['Access Control', 'Configuration', 'Company'],
 };
 
 const subGroupOrder = {
   Dashboard: ['Dashboard'],
+  Overview: ['Widgets'],
+  'Technician Work': ['Widgets'],
+  'Inventory / Store': ['Widgets'],
+  Equipment: ['Widgets'],
+  'AMC / Vendor': ['Widgets'],
+  HR: ['Widgets'],
+  Administration: ['Widgets'],
   Masters: ['Equipment', 'Vendors'],
   Maintenance: ['Requests', 'Assignments', 'Downtime'],
   Inventory: ['Spare Parts', 'Stock Transactions', 'Spare Usage', 'Reorders'],
@@ -64,6 +73,12 @@ const subGroupOrder = {
 
 const permissionCodeOrder = [
   'DASHBOARD_VIEW',
+  'DASHBOARD_WIDGET_OVERVIEW_KPI_SUMMARY',
+  'DASHBOARD_WIDGET_EQUIPMENT_STATUS',
+  'DASHBOARD_WIDGET_REPORT_DOWNTIME_SUMMARY',
+  'DASHBOARD_WIDGET_VENDOR_PERFORMANCE',
+  'DASHBOARD_WIDGET_MAINTENANCE_PM_DUE',
+  'DASHBOARD_WIDGET_VENDOR_AMC_ACTIVE',
   'EQUIPMENT_VIEW',
   'EQUIPMENT_CREATE',
   'EQUIPMENT_UPDATE',
@@ -151,9 +166,26 @@ const permissionCodeOrder = [
   'COMPANY_UPDATE',
 ];
 
+function getDashboardWidgetDepartment(code) {
+  if (code.startsWith('DASHBOARD_WIDGET_OVERVIEW_')) return 'Overview';
+  if (code.startsWith('DASHBOARD_WIDGET_MAINTENANCE_')) return 'Maintenance';
+  if (code.startsWith('DASHBOARD_WIDGET_TECHNICIAN_')) return 'Technician Work';
+  if (code.startsWith('DASHBOARD_WIDGET_INVENTORY_')) return 'Inventory / Store';
+  if (code.startsWith('DASHBOARD_WIDGET_EQUIPMENT_')) return 'Equipment';
+  if (code.startsWith('DASHBOARD_WIDGET_VENDOR_')) return 'AMC / Vendor';
+  if (code.startsWith('DASHBOARD_WIDGET_APPROVAL_')) return 'Approvals';
+  if (code.startsWith('DASHBOARD_WIDGET_REPORT_')) return 'Reports';
+  if (code.startsWith('DASHBOARD_WIDGET_HR_')) return 'HR';
+  if (code.startsWith('DASHBOARD_WIDGET_ADMIN_')) return 'Administration';
+  return 'Overview';
+}
+
 function getPermissionCategory(permission) {
   const code = permission.permissionCode || '';
   const moduleName = (permission.moduleName || '').toLowerCase();
+  if (code.startsWith('DASHBOARD_WIDGET_')) {
+    return 'dashboardWidgets';
+  }
   if (
     moduleName.includes('site') ||
     moduleName.includes('employee') ||
@@ -181,6 +213,9 @@ function getPermissionCategory(permission) {
 
 function getPermissionGroupLabel(permission, category) {
   const code = permission.permissionCode || '';
+  if (category === 'dashboardWidgets') {
+    return getDashboardWidgetDepartment(code);
+  }
   if (category === 'operation') {
     if (code === 'DASHBOARD_VIEW') return 'Dashboard';
     if (code.startsWith('EQUIPMENT_') || code.startsWith('VENDOR_')) return 'Masters';
@@ -201,6 +236,9 @@ function getPermissionGroupLabel(permission, category) {
 
 function getPermissionSubGroupLabel(permission, category) {
   const code = permission.permissionCode || '';
+  if (category === 'dashboardWidgets') {
+    return 'Widgets';
+  }
   if (category === 'operation') {
     if (code === 'DASHBOARD_VIEW') return 'Dashboard';
     if (code.startsWith('EQUIPMENT_')) return 'Equipment';
@@ -239,7 +277,8 @@ function groupPermissionsBySubGroup(permissions, category, groupLabel) {
     return groups;
   }, {});
   const ordered = {};
-  for (const subGroupLabel of subGroupOrder[groupLabel] || Object.keys(grouped)) {
+  const orderedSubGroups = category === 'dashboardWidgets' ? ['Widgets'] : (subGroupOrder[groupLabel] || Object.keys(grouped));
+  for (const subGroupLabel of orderedSubGroups) {
     if (grouped[subGroupLabel]?.length) {
       ordered[subGroupLabel] = sortPermissions(grouped[subGroupLabel]);
     }

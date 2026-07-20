@@ -1,5 +1,22 @@
 permissionCode,apiPath,httpMethod,description
-DASHBOARD_VIEW,/api/dashboard/**,GET,View dashboard summary
+DASHBOARD_VIEW,/api/dashboard/summary,GET,View dashboard summary
+DASHBOARD_VIEW,/api/dashboard/overview,GET,View dashboard overview
+DASHBOARD_VIEW,/api/dashboard/me,GET,View dashboard metadata
+EQUIPMENT_VIEW,/api/dashboard/widgets/overview/kpi-summary,GET,Dashboard overview equipment KPI summary
+VENDOR_VIEW,/api/dashboard/widgets/overview/kpi-summary,GET,Dashboard overview vendor KPI summary
+REQUEST_VIEW,/api/dashboard/widgets/overview/kpi-summary,GET,Dashboard overview request KPI summary
+ASSIGNMENT_VIEW,/api/dashboard/widgets/overview/kpi-summary,GET,Dashboard overview assignment KPI summary
+SPARE_PART_VIEW,/api/dashboard/widgets/overview/kpi-summary,GET,Dashboard overview spare KPI summary
+APPROVAL_VIEW,/api/dashboard/widgets/overview/kpi-summary,GET,Dashboard overview approval KPI summary
+VENDOR_AMC_VIEW,/api/dashboard/widgets/overview/kpi-summary,GET,Dashboard overview AMC KPI summary
+DOWNTIME_VIEW,/api/dashboard/widgets/overview/kpi-summary,GET,Dashboard overview downtime KPI summary
+PM_CALENDAR_VIEW,/api/dashboard/widgets/overview/kpi-summary,GET,Dashboard overview PM KPI summary
+EQUIPMENT_VIEW,/api/dashboard/widgets/equipment/status,GET,Dashboard widget equipment status
+REPORT_VIEW,/api/dashboard/widgets/reports/downtime-summary,GET,Dashboard widget downtime summary
+VENDOR_VIEW,/api/dashboard/widgets/vendor-amc/performance,GET,Dashboard widget vendor performance
+PM_CALENDAR_VIEW,/api/dashboard/widgets/maintenance/pm-due,GET,Dashboard widget preventive maintenance due
+REQUEST_VIEW,/api/dashboard/widgets/maintenance/pm-due,GET,Dashboard widget preventive maintenance due
+VENDOR_AMC_VIEW,/api/dashboard/widgets/vendor-amc/active-contracts,GET,Dashboard widget active AMC contracts
 DASHBOARD_VIEW,/api/hr/sites/**,GET,Dashboard site filter helper data
 DASHBOARD_VIEW,/api/hr/sites,GET,Dashboard site filter helper data
 SITE_VIEW,/api/hr/sites/**,GET,View sites

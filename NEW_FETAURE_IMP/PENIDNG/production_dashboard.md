@@ -1,112 +1,63 @@
-# Production Dashboard Plan - Separate Widget Permissions And APIs
+# Production Dashboard Plan - Department And Permission Based
 
 ## Main Decision
 
-Dashboard widgets must have their own permissions and their own backend APIs.
+Do not build dashboard visibility using fixed role names like `SITE_MANAGER`, `TECHNICIAN`, or `STORE`.
 
-Do not decide dashboard widgets from role names.
+In production, the customer/admin can create any role name they want:
 
-Do not depend only on existing module permissions like `EQUIPMENT_VIEW`, `ASSIGNMENT_VIEW`, or `SPARE_PART_VIEW` to show dashboard widgets.
+- Shift Incharge
+- Electrical Supervisor
+- Mechanical Technician
+- Store Keeper
+- Plant Head
+- Vendor Coordinator
+- Safety Officer
+- Any custom role
 
-Correct production model:
+Because of that, dashboard access must be based on permissions, not role names.
 
-```text
-Custom Role Name
-  -> Admin assigns dashboard widget permissions
-  -> Frontend shows only widgets with assigned permission
-  -> Frontend calls only APIs for visible widgets
-  -> Backend API permission mapping blocks direct API access also
-```
+The dashboard should be organized by department/work area, and every widget should have required permissions. If the logged-in user has the required permission, they see the widget. If not, the widget is hidden.
 
-Example:
+## Recommended Model
 
-```text
-Role Name: Electrical Supervisor
-Permissions:
-  DASHBOARD_VIEW
-  DASHBOARD_WIDGET_MAINTENANCE_OPEN_REQUESTS
-  DASHBOARD_WIDGET_MAINTENANCE_ASSIGNMENT_QUEUE
-  DASHBOARD_WIDGET_EQUIPMENT_BREAKDOWN
-
-Result:
-  User sees only those dashboard widgets.
-  User can call only those widget APIs.
-```
-
-## Why Separate Dashboard Widget Permissions
-
-Existing module permissions control module pages and actions.
-
-Example:
-
-- `EQUIPMENT_VIEW` controls equipment page access.
-- `ASSIGNMENT_UPDATE` controls assignment update action.
-- `SPARE_USAGE_STORE_PROCESS` controls store spare processing.
-
-Dashboard widgets are different. A user may need to see a summary without opening the full module page.
-
-Example:
-
-- A plant head may see downtime KPIs but not edit downtime records.
-- A store supervisor may see low stock widgets but not update spare part master.
-- A safety user may see critical breakdown alerts but not create assignments.
-
-So dashboard needs separate read permissions:
+Use one route:
 
 ```text
-DASHBOARD_WIDGET_*
+/dashboard
 ```
 
-Action buttons inside widgets should still use existing module/action permissions.
-
-## Permission Layers
-
-### Layer 1: Dashboard Page Access
-
-Required to open dashboard route:
+Dashboard page should load:
 
 ```text
-DASHBOARD_VIEW
+GET /api/dashboard/me
 ```
 
-### Layer 2: Dashboard Widget View Permission
+Backend returns:
 
-Required to see a widget and call its API:
+- User permissions.
+- Allowed sites.
+- Available dashboard departments.
+- Available widgets.
+- Default department tab.
+- Quick actions allowed for the user.
 
-```text
-DASHBOARD_WIDGET_MAINTENANCE_OPEN_REQUESTS
-DASHBOARD_WIDGET_INVENTORY_LOW_STOCK
-DASHBOARD_WIDGET_EQUIPMENT_STATUS
+The frontend does not ask, "What role is this user?"
+
+The frontend asks:
+
+```js
+hasPermission('EQUIPMENT_VIEW')
+hasPermission('ASSIGNMENT_VIEW')
+hasPermission('SPARE_USAGE_STORE_PROCESS')
+hasPermission('ROLE_VIEW')
 ```
 
-### Layer 3: Widget Action Permission
+Then it shows the correct dashboard widgets.
 
-Required to show action buttons inside the widget:
+## Department Dashboard Tabs
 
-```text
-REQUEST_CREATE
-ASSIGNMENT_UPDATE
-SPARE_USAGE_STORE_PROCESS
-REORDER_CREATE
-```
-
-Example:
-
-```text
-Widget: Low Stock Spares
-Widget API Permission: DASHBOARD_WIDGET_INVENTORY_LOW_STOCK
-Action Button: Create Reorder
-Action Permission: REORDER_CREATE
-```
-
-If user has widget permission but not action permission:
-
-- Show low stock data.
-- Hide `Create Reorder` button.
-
-## Department Dashboard Structure
-
-Dashboard should be grouped by department/work area:
+Dashboard should have permission-based department tabs:
 
 ```text
 Overview
@@ -121,304 +72,422 @@ HR
 Administration
 ```
 
-Show a department tab only if the user has at least one widget permission for that department.
+Only show a tab if the user has at least one widget permission inside that tab.
 
-## Permission Naming Standard
+Example:
 
-Use this format:
+- A custom role called `Electrical Day Shift` may have `DASHBOARD_VIEW`, `ASSIGNMENT_VIEW`, `ASSIGNMENT_UPDATE`, `SPARE_USAGE_CREATE`.
+- That user should see `Overview`, `Maintenance`, and `Technician Work`.
+- They should not see `Administration`, `HR`, or `AMC / Vendor`.
 
-```text
-DASHBOARD_WIDGET_{DEPARTMENT}_{WIDGET_NAME}
-```
+## Dashboard Permission Rules
 
-Examples:
-
-```text
-DASHBOARD_WIDGET_OVERVIEW_KPI_SUMMARY
-DASHBOARD_WIDGET_MAINTENANCE_OPEN_REQUESTS
-DASHBOARD_WIDGET_TECHNICIAN_MY_JOBS
-DASHBOARD_WIDGET_INVENTORY_LOW_STOCK
-DASHBOARD_WIDGET_EQUIPMENT_STATUS
-DASHBOARD_WIDGET_VENDOR_AMC_EXPIRING
-DASHBOARD_WIDGET_APPROVAL_PENDING
-DASHBOARD_WIDGET_REPORT_DOWNTIME_SUMMARY
-DASHBOARD_WIDGET_HR_EMPLOYEE_SETUP
-DASHBOARD_WIDGET_ADMIN_ACCESS_HEALTH
-```
-
-Use `module_name = Dashboard - {Department}` in `permission_master`.
-
-Use `action_name = WIDGET_VIEW`.
-
-## Backend API Standard
-
-Each widget should have a separate API.
-
-Use endpoint shape:
-
-```text
-GET /api/dashboard/widgets/{department}/{widget}
-```
-
-Examples:
-
-```text
-GET /api/dashboard/widgets/maintenance/open-requests
-GET /api/dashboard/widgets/maintenance/assignment-queue
-GET /api/dashboard/widgets/inventory/low-stock
-GET /api/dashboard/widgets/equipment/status
-GET /api/dashboard/widgets/vendor-amc/expiring
-GET /api/dashboard/widgets/admin/access-health
-```
-
-Each API must be mapped in:
-
-```text
-cmms_back_end/src/main/resources/api-permission-mapping.csv
-```
-
-This makes direct API access secure. If a user does not have the widget permission, the backend blocks the API before controller/service execution.
-
-## Dashboard Metadata API
-
-Use one metadata API to tell frontend which widgets exist and which APIs to call.
-
-```text
-GET /api/dashboard/me
-```
-
-Permission:
+Base permission:
 
 ```text
 DASHBOARD_VIEW
 ```
 
-Response example:
+Without `DASHBOARD_VIEW`, user cannot open `/dashboard`.
+
+Every widget also needs one or more module permissions.
+
+Widget rule:
+
+```text
+show widget only when user has all requiredPermissions
+```
+
+Alternative for mixed widgets:
+
+```text
+show widget when user has any one permission from anyOfPermissions
+hide action buttons when action permission is missing
+```
+
+Example:
 
 ```json
 {
-  "defaultDepartment": "MAINTENANCE",
-  "departments": [
+  "widgetCode": "MAINTENANCE_OPEN_ASSIGNMENTS",
+  "department": "MAINTENANCE",
+  "requiredPermissions": ["ASSIGNMENT_VIEW"],
+  "actions": [
     {
-      "code": "MAINTENANCE",
-      "label": "Maintenance",
-      "widgets": [
-        {
-          "code": "DASHBOARD_WIDGET_MAINTENANCE_OPEN_REQUESTS",
-          "title": "Open Requests",
-          "type": "KPI",
-          "apiPath": "/api/dashboard/widgets/maintenance/open-requests",
-          "refreshSeconds": 60,
-          "targetPath": "/maintenance/requests?status=OPEN",
-          "actionPermissions": ["REQUEST_CREATE", "REQUEST_UPDATE"]
-        }
-      ]
+      "label": "Assign",
+      "permission": "ASSIGNMENT_UPDATE"
     }
   ]
 }
 ```
 
-Backend should include only widgets where the logged-in user has the widget permission.
+## Department 1: Overview Dashboard
 
-Frontend should not hardcode role names.
+Purpose:
 
-## Department Widget Permissions And APIs
+- Give a common summary to any dashboard user.
+- Show only high-level numbers allowed by permissions.
 
-### 1. Overview Widgets
+Widgets:
 
-| Widget | Permission | API |
+| Widget | Permission |
+|---|---|
+| Total Equipment | `EQUIPMENT_VIEW` |
+| Open Maintenance Requests | `REQUEST_VIEW` |
+| My Assigned Work | `ASSIGNMENT_VIEW` |
+| Low Stock Spares | `SPARE_PART_VIEW` |
+| Pending Approvals | `APPROVAL_VIEW` |
+| AMC Expiring | `VENDOR_AMC_VIEW` |
+| Downtime This Month | `DOWNTIME_VIEW` |
+| PM Due Soon | `PM_CALENDAR_VIEW` or `REQUEST_VIEW` |
+
+Layout:
+
+```text
+Header: Dashboard + site filter + date range + refresh
+Row 1: Permission-based KPI cards
+Row 2: Alerts user can act on
+Row 3: Trends allowed by permission
+```
+
+## Department 2: Maintenance Dashboard
+
+Purpose:
+
+- Manage maintenance request and assignment execution.
+
+Visible when user has any:
+
+```text
+REQUEST_VIEW
+ASSIGNMENT_VIEW
+DOWNTIME_VIEW
+PM_CALENDAR_VIEW
+```
+
+Widgets:
+
+| Widget | View Permission | Action Permission |
 |---|---|---|
-| KPI Summary | `DASHBOARD_WIDGET_OVERVIEW_KPI_SUMMARY` | `GET /api/dashboard/widgets/overview/kpi-summary` |
-| Critical Alerts | `DASHBOARD_WIDGET_OVERVIEW_CRITICAL_ALERTS` | `GET /api/dashboard/widgets/overview/critical-alerts` |
-| Today Work Summary | `DASHBOARD_WIDGET_OVERVIEW_TODAY_WORK` | `GET /api/dashboard/widgets/overview/today-work` |
-| Site Health Summary | `DASHBOARD_WIDGET_OVERVIEW_SITE_HEALTH` | `GET /api/dashboard/widgets/overview/site-health` |
+| Open Requests | `REQUEST_VIEW` | `REQUEST_UPDATE` |
+| Critical Requests | `REQUEST_VIEW` | `REQUEST_UPDATE` |
+| Unassigned Requests | `REQUEST_VIEW` + `ASSIGNMENT_VIEW` | `ASSIGNMENT_CREATE` |
+| Assignment Queue | `ASSIGNMENT_VIEW` | `ASSIGNMENT_UPDATE` |
+| Overdue Assignments | `ASSIGNMENT_VIEW` | `ASSIGNMENT_UPDATE` |
+| Jobs On Hold | `ASSIGNMENT_VIEW` | `ASSIGNMENT_UPDATE` |
+| PM Due This Week | `PM_CALENDAR_VIEW` | `REQUEST_CREATE` |
+| Downtime Open | `DOWNTIME_VIEW` | `DOWNTIME_UPDATE` |
+| SLA Breaches | `REQUEST_VIEW` or `ASSIGNMENT_VIEW` | `ASSIGNMENT_UPDATE` |
 
-### 2. Maintenance Widgets
+Quick actions:
 
-| Widget | Permission | API |
-|---|---|---|
-| Open Requests | `DASHBOARD_WIDGET_MAINTENANCE_OPEN_REQUESTS` | `GET /api/dashboard/widgets/maintenance/open-requests` |
-| Critical Requests | `DASHBOARD_WIDGET_MAINTENANCE_CRITICAL_REQUESTS` | `GET /api/dashboard/widgets/maintenance/critical-requests` |
-| Unassigned Work | `DASHBOARD_WIDGET_MAINTENANCE_UNASSIGNED_WORK` | `GET /api/dashboard/widgets/maintenance/unassigned-work` |
-| Assignment Queue | `DASHBOARD_WIDGET_MAINTENANCE_ASSIGNMENT_QUEUE` | `GET /api/dashboard/widgets/maintenance/assignment-queue` |
-| Overdue Assignments | `DASHBOARD_WIDGET_MAINTENANCE_OVERDUE_ASSIGNMENTS` | `GET /api/dashboard/widgets/maintenance/overdue-assignments` |
-| SLA Breaches | `DASHBOARD_WIDGET_MAINTENANCE_SLA_BREACHES` | `GET /api/dashboard/widgets/maintenance/sla-breaches` |
-| PM Due This Week | `DASHBOARD_WIDGET_MAINTENANCE_PM_DUE` | `GET /api/dashboard/widgets/maintenance/pm-due` |
-| Downtime Open | `DASHBOARD_WIDGET_MAINTENANCE_DOWNTIME_OPEN` | `GET /api/dashboard/widgets/maintenance/downtime-open` |
-
-Action buttons inside maintenance widgets:
-
-| Action | Existing Action Permission |
+| Action | Permission |
 |---|---|
 | Create Request | `REQUEST_CREATE` |
 | Edit Request | `REQUEST_UPDATE` |
 | Create Assignment | `ASSIGNMENT_CREATE` |
 | Reassign Job | `ASSIGNMENT_UPDATE` |
-| Verify Downtime | `DOWNTIME_VERIFY` |
 | Close Downtime | `DOWNTIME_CLOSE` |
+| Verify Downtime | `DOWNTIME_VERIFY` |
 
-### 3. Technician Work Widgets
+Recommended first screen:
 
-| Widget | Permission | API |
-|---|---|---|
-| My Jobs | `DASHBOARD_WIDGET_TECHNICIAN_MY_JOBS` | `GET /api/dashboard/widgets/technician/my-jobs` |
-| Current Job | `DASHBOARD_WIDGET_TECHNICIAN_CURRENT_JOB` | `GET /api/dashboard/widgets/technician/current-job` |
-| Due Today | `DASHBOARD_WIDGET_TECHNICIAN_DUE_TODAY` | `GET /api/dashboard/widgets/technician/due-today` |
-| Overdue Jobs | `DASHBOARD_WIDGET_TECHNICIAN_OVERDUE_JOBS` | `GET /api/dashboard/widgets/technician/overdue-jobs` |
-| Checklist Pending | `DASHBOARD_WIDGET_TECHNICIAN_CHECKLIST_PENDING` | `GET /api/dashboard/widgets/technician/checklist-pending` |
-| Work Log Pending | `DASHBOARD_WIDGET_TECHNICIAN_WORK_LOG_PENDING` | `GET /api/dashboard/widgets/technician/work-log-pending` |
-| My Spare Requests | `DASHBOARD_WIDGET_TECHNICIAN_SPARE_REQUESTS` | `GET /api/dashboard/widgets/technician/spare-requests` |
+```text
+Maintenance Dashboard
+  KPI: Open Requests
+  KPI: Unassigned
+  KPI: Overdue
+  KPI: SLA Breach
+  Table: Work Queue
+  Board: Assignment Status
+  Panel: PM Due Soon
+```
 
-Action buttons:
+## Department 3: Technician Work Dashboard
 
-| Action | Existing Action Permission |
+Purpose:
+
+- Give hands-on users a fast work execution screen.
+- This is not role-based. Any user with assignment execution permissions can see it.
+
+Visible when user has any:
+
+```text
+ASSIGNMENT_VIEW
+ASSIGNMENT_WORK_LOG_CREATE
+ASSIGNMENT_CHECKLIST_UPDATE
+SPARE_USAGE_CREATE
+```
+
+Widgets:
+
+| Widget | Permission |
+|---|---|
+| My Assigned Jobs | `ASSIGNMENT_VIEW` |
+| My Due Today | `ASSIGNMENT_VIEW` |
+| My Overdue Jobs | `ASSIGNMENT_VIEW` |
+| Current Job | `ASSIGNMENT_VIEW` |
+| Checklist Pending | `ASSIGNMENT_CHECKLIST_VIEW` |
+| Proof Upload Pending | `ASSIGNMENT_CHECKLIST_PROOF_UPLOAD` |
+| Work Log Required | `ASSIGNMENT_WORK_LOG_VIEW` |
+| Spare Requests For My Jobs | `SPARE_USAGE_VIEW` |
+
+Actions:
+
+| Action | Permission |
 |---|---|
 | Acknowledge Job | `ASSIGNMENT_UPDATE` |
 | Start Job | `ASSIGNMENT_UPDATE` |
-| Pause / Hold Job | `ASSIGNMENT_UPDATE` |
+| Put On Hold | `ASSIGNMENT_UPDATE` |
 | Add Work Log | `ASSIGNMENT_WORK_LOG_CREATE` |
 | Upload Proof | `ASSIGNMENT_CHECKLIST_PROOF_UPLOAD` |
 | Request Spare | `SPARE_USAGE_CREATE` |
 | Mark Complete | `ASSIGNMENT_UPDATE` |
 
-Important:
+Mobile rule:
 
-- Technician widget APIs must filter data by logged-in user/employee assignment.
-- Do not return other technicians' jobs unless a separate supervisor widget permission exists.
+- This dashboard should be action-first.
+- First visible card should be "Current Job" or "Next Job".
+- Charts should be minimal for this department.
 
-### 4. Inventory / Store Widgets
+## Department 4: Inventory / Store Dashboard
 
-| Widget | Permission | API |
+Purpose:
+
+- Manage spare availability, spare issue, reorder, stock movement.
+
+Visible when user has any:
+
+```text
+SPARE_PART_VIEW
+STOCK_TRANSACTION_VIEW
+SPARE_USAGE_VIEW
+SPARE_USAGE_STORE_PROCESS
+REORDER_VIEW
+```
+
+Widgets:
+
+| Widget | View Permission | Action Permission |
 |---|---|---|
-| Low Stock Spares | `DASHBOARD_WIDGET_INVENTORY_LOW_STOCK` | `GET /api/dashboard/widgets/inventory/low-stock` |
-| Out Of Stock Spares | `DASHBOARD_WIDGET_INVENTORY_OUT_OF_STOCK` | `GET /api/dashboard/widgets/inventory/out-of-stock` |
-| Pending Spare Issues | `DASHBOARD_WIDGET_INVENTORY_PENDING_ISSUES` | `GET /api/dashboard/widgets/inventory/pending-issues` |
-| Reserved Stock | `DASHBOARD_WIDGET_INVENTORY_RESERVED_STOCK` | `GET /api/dashboard/widgets/inventory/reserved-stock` |
-| Reorder Queue | `DASHBOARD_WIDGET_INVENTORY_REORDER_QUEUE` | `GET /api/dashboard/widgets/inventory/reorder-queue` |
-| Stock Transactions Today | `DASHBOARD_WIDGET_INVENTORY_STOCK_TRANSACTIONS` | `GET /api/dashboard/widgets/inventory/stock-transactions` |
-| Fast Moving Spares | `DASHBOARD_WIDGET_INVENTORY_FAST_MOVING` | `GET /api/dashboard/widgets/inventory/fast-moving` |
+| Low Stock Parts | `SPARE_PART_VIEW` | `REORDER_CREATE` |
+| Out Of Stock Parts | `SPARE_PART_VIEW` | `REORDER_CREATE` |
+| Pending Spare Requests | `SPARE_USAGE_VIEW` | `SPARE_USAGE_STORE_PROCESS` |
+| Reserved Stock | `SPARE_PART_VIEW` | `SPARE_USAGE_ISSUE` |
+| Reorder Queue | `REORDER_VIEW` | `REORDER_UPDATE` |
+| Stock Transactions Today | `STOCK_TRANSACTION_VIEW` | `STOCK_TRANSACTION_CREATE` |
+| Fast Moving Spares | `SPARE_PART_VIEW` | none |
+| Parts Without Vendor | `SPARE_PART_VIEW` | `SPARE_PART_UPDATE` |
 
-Action buttons:
+Actions:
 
-| Action | Existing Action Permission |
+| Action | Permission |
 |---|---|
+| Create Spare Part | `SPARE_PART_CREATE` |
+| Update Spare Part | `SPARE_PART_UPDATE` |
 | Issue Spare | `SPARE_USAGE_ISSUE` or `SPARE_USAGE_STORE_PROCESS` |
 | Reserve Spare | `SPARE_USAGE_RESERVE` |
 | Return Spare | `SPARE_USAGE_RETURN` |
 | Create Reorder | `REORDER_CREATE` |
-| Receive Stock | `REORDER_UPDATE` |
+| Receive Stock | `REORDER_UPDATE` or `STOCK_TRANSACTION_CREATE` |
 | Adjust Stock | `STOCK_TRANSACTION_CREATE` |
 
-### 5. Equipment Widgets
+## Department 5: Equipment Dashboard
 
-| Widget | Permission | API |
-|---|---|---|
-| Equipment Status | `DASHBOARD_WIDGET_EQUIPMENT_STATUS` | `GET /api/dashboard/widgets/equipment/status` |
-| Breakdown Equipment | `DASHBOARD_WIDGET_EQUIPMENT_BREAKDOWN` | `GET /api/dashboard/widgets/equipment/breakdown` |
-| Equipment Without AMC | `DASHBOARD_WIDGET_EQUIPMENT_WITHOUT_AMC` | `GET /api/dashboard/widgets/equipment/without-amc` |
-| Top Downtime Equipment | `DASHBOARD_WIDGET_EQUIPMENT_TOP_DOWNTIME` | `GET /api/dashboard/widgets/equipment/top-downtime` |
-| High Cost Equipment | `DASHBOARD_WIDGET_EQUIPMENT_HIGH_COST` | `GET /api/dashboard/widgets/equipment/high-cost` |
-| Document Expiry | `DASHBOARD_WIDGET_EQUIPMENT_DOCUMENT_EXPIRY` | `GET /api/dashboard/widgets/equipment/document-expiry` |
-| Spare BOM Gaps | `DASHBOARD_WIDGET_EQUIPMENT_SPARE_BOM_GAPS` | `GET /api/dashboard/widgets/equipment/spare-bom-gaps` |
+Purpose:
 
-Action buttons:
+- Track asset condition, history, AMC coverage, maintenance cost, and downtime impact.
 
-| Action | Existing Action Permission |
+Visible when user has:
+
+```text
+EQUIPMENT_VIEW
+```
+
+Widgets:
+
+| Widget | Permission |
+|---|---|
+| Equipment Status | `EQUIPMENT_VIEW` |
+| Breakdown Equipment | `EQUIPMENT_VIEW` |
+| Equipment Without AMC | `EQUIPMENT_VIEW` + `VENDOR_AMC_VIEW` |
+| Top Downtime Equipment | `EQUIPMENT_VIEW` + `DOWNTIME_VIEW` |
+| High Cost Equipment | `EQUIPMENT_VIEW` + `REPORT_VIEW` |
+| Equipment Documents Expiring | `EQUIPMENT_VIEW` |
+| Equipment Spare BOM Gaps | `EQUIPMENT_VIEW` + `SPARE_PART_VIEW` |
+
+Actions:
+
+| Action | Permission |
 |---|---|
 | Add Equipment | `EQUIPMENT_CREATE` |
 | Edit Equipment | `EQUIPMENT_UPDATE` |
-| Create Maintenance Request | `REQUEST_CREATE` |
-| Open Equipment History | `REPORT_VIEW` |
+| Upload Document | `EQUIPMENT_UPDATE` |
+| View History | `REPORT_VIEW` |
+| Create Request | `REQUEST_CREATE` |
 
-### 6. AMC / Vendor Widgets
+## Department 6: AMC / Vendor Dashboard
 
-| Widget | Permission | API |
-|---|---|---|
-| Active Vendors | `DASHBOARD_WIDGET_VENDOR_ACTIVE_VENDORS` | `GET /api/dashboard/widgets/vendor-amc/active-vendors` |
-| Vendor Performance | `DASHBOARD_WIDGET_VENDOR_PERFORMANCE` | `GET /api/dashboard/widgets/vendor-amc/performance` |
-| Active AMC Contracts | `DASHBOARD_WIDGET_VENDOR_AMC_ACTIVE` | `GET /api/dashboard/widgets/vendor-amc/active-contracts` |
-| AMC Expiring | `DASHBOARD_WIDGET_VENDOR_AMC_EXPIRING` | `GET /api/dashboard/widgets/vendor-amc/expiring` |
-| Expired AMC | `DASHBOARD_WIDGET_VENDOR_AMC_EXPIRED` | `GET /api/dashboard/widgets/vendor-amc/expired` |
-| Vendor Jobs Pending | `DASHBOARD_WIDGET_VENDOR_PENDING_JOBS` | `GET /api/dashboard/widgets/vendor-amc/pending-jobs` |
+Purpose:
 
-Action buttons:
+- Track vendor support, AMC expiry, vendor performance, and uncovered equipment.
 
-| Action | Existing Action Permission |
+Visible when user has any:
+
+```text
+VENDOR_VIEW
+VENDOR_AMC_VIEW
+```
+
+Widgets:
+
+| Widget | Permission |
 |---|---|
-| Create Vendor | `VENDOR_CREATE` |
+| Active Vendors | `VENDOR_VIEW` |
+| Vendor Performance | `VENDOR_VIEW` + `ASSIGNMENT_VIEW` |
+| Active AMC Contracts | `VENDOR_AMC_VIEW` |
+| AMC Expiring In 30 Days | `VENDOR_AMC_VIEW` |
+| Expired AMC Contracts | `VENDOR_AMC_VIEW` |
+| Equipment Without AMC | `VENDOR_AMC_VIEW` + `EQUIPMENT_VIEW` |
+| Vendor Jobs Pending | `VENDOR_VIEW` + `ASSIGNMENT_VIEW` |
+
+Actions:
+
+| Action | Permission |
+|---|---|
+| Add Vendor | `VENDOR_CREATE` |
 | Update Vendor | `VENDOR_UPDATE` |
 | Create AMC | `VENDOR_AMC_CREATE` |
+| Update AMC | `VENDOR_AMC_UPDATE` |
 | Renew AMC | `VENDOR_AMC_RENEW` |
-| Assign Equipment | `VENDOR_AMC_ASSIGN_EQUIPMENT` |
+| Assign Equipment To AMC | `VENDOR_AMC_ASSIGN_EQUIPMENT` |
 
-### 7. Approval Widgets
+## Department 7: Approvals Dashboard
 
-| Widget | Permission | API |
+Purpose:
+
+- Show approvals and pending decisions.
+
+Visible when user has any:
+
+```text
+APPROVAL_VIEW
+SPARE_USAGE_MANAGER_APPROVE
+```
+
+Widgets:
+
+| Widget | View Permission | Action Permission |
 |---|---|---|
-| Pending Approvals | `DASHBOARD_WIDGET_APPROVAL_PENDING` | `GET /api/dashboard/widgets/approvals/pending` |
-| Approval Ageing | `DASHBOARD_WIDGET_APPROVAL_AGEING` | `GET /api/dashboard/widgets/approvals/ageing` |
-| Spare Approval Pending | `DASHBOARD_WIDGET_APPROVAL_SPARE_PENDING` | `GET /api/dashboard/widgets/approvals/spare-pending` |
-| My Approval History | `DASHBOARD_WIDGET_APPROVAL_MY_HISTORY` | `GET /api/dashboard/widgets/approvals/my-history` |
+| Pending Approvals | `APPROVAL_VIEW` | `APPROVAL_APPROVE` / `APPROVAL_REJECT` |
+| Approval Ageing | `APPROVAL_VIEW` | none |
+| Spare Requests Waiting Manager | `SPARE_USAGE_VIEW` | `SPARE_USAGE_MANAGER_APPROVE` |
+| My Approval History | `APPROVAL_VIEW` | none |
 
-Action buttons:
+Actions:
 
-| Action | Existing Action Permission |
+| Action | Permission |
 |---|---|
 | Approve | `APPROVAL_APPROVE` |
 | Reject | `APPROVAL_REJECT` |
 | Approve Spare Request | `SPARE_USAGE_MANAGER_APPROVE` |
 
-### 8. Reports Widgets
+## Department 8: Reports Dashboard
 
-| Widget | Permission | API |
-|---|---|---|
-| Downtime Summary | `DASHBOARD_WIDGET_REPORT_DOWNTIME_SUMMARY` | `GET /api/dashboard/widgets/reports/downtime-summary` |
-| Equipment History Summary | `DASHBOARD_WIDGET_REPORT_EQUIPMENT_HISTORY` | `GET /api/dashboard/widgets/reports/equipment-history` |
-| Equipment Cost Summary | `DASHBOARD_WIDGET_REPORT_EQUIPMENT_COST` | `GET /api/dashboard/widgets/reports/equipment-cost` |
-| Spare Consumption Summary | `DASHBOARD_WIDGET_REPORT_SPARE_CONSUMPTION` | `GET /api/dashboard/widgets/reports/spare-consumption` |
+Purpose:
 
-Action buttons:
+- Give read-only analytics for managers/auditors.
 
-| Action | Existing Action Permission |
+Visible when user has:
+
+```text
+REPORT_VIEW
+```
+
+Widgets:
+
+| Widget | Permission |
 |---|---|
-| Open Reports | `REPORT_VIEW` |
+| Downtime Analysis Summary | `REPORT_VIEW` + `DOWNTIME_VIEW` |
+| Equipment History Summary | `REPORT_VIEW` + `EQUIPMENT_VIEW` |
+| Equipment Cost Summary | `REPORT_VIEW` + `EQUIPMENT_VIEW` |
+| Maintenance Cost Trend | `REPORT_VIEW` |
+| Spare Consumption Summary | `REPORT_VIEW` + `SPARE_PART_VIEW` |
+
+Actions:
+
+| Action | Permission |
+|---|---|
+| Open Equipment History Report | `REPORT_VIEW` |
+| Open Downtime Analysis Report | `REPORT_VIEW` |
+| Open Equipment Cost Report | `REPORT_VIEW` |
 | Export Report | `REPORT_VIEW` |
 
-### 9. HR Widgets
+## Department 9: HR Dashboard
 
-| Widget | Permission | API |
+Purpose:
+
+- Track employee/site master readiness.
+
+Visible when user has any:
+
+```text
+SITE_VIEW
+EMPLOYEE_VIEW
+```
+
+Widgets:
+
+| Widget | View Permission | Action Permission |
 |---|---|---|
-| Site Summary | `DASHBOARD_WIDGET_HR_SITE_SUMMARY` | `GET /api/dashboard/widgets/hr/site-summary` |
-| Employee Summary | `DASHBOARD_WIDGET_HR_EMPLOYEE_SUMMARY` | `GET /api/dashboard/widgets/hr/employee-summary` |
-| Employees Without User | `DASHBOARD_WIDGET_HR_EMPLOYEES_WITHOUT_USER` | `GET /api/dashboard/widgets/hr/employees-without-user` |
-| Employees Without Manager | `DASHBOARD_WIDGET_HR_EMPLOYEES_WITHOUT_MANAGER` | `GET /api/dashboard/widgets/hr/employees-without-manager` |
-| Site Manpower | `DASHBOARD_WIDGET_HR_SITE_MANPOWER` | `GET /api/dashboard/widgets/hr/site-manpower` |
+| Total Sites | `SITE_VIEW` | `SITE_CREATE` |
+| Active Employees | `EMPLOYEE_VIEW` | `EMPLOYEE_UPDATE` |
+| Employees Without User Account | `EMPLOYEE_VIEW` | `USER_ROLE_ASSIGN` |
+| Employees Without Manager | `EMPLOYEE_VIEW` | `EMPLOYEE_UPDATE` |
+| Site Manpower Summary | `SITE_VIEW` + `EMPLOYEE_VIEW` | none |
 
-Action buttons:
+Actions:
 
-| Action | Existing Action Permission |
+| Action | Permission |
 |---|---|
 | Create Site | `SITE_CREATE` |
 | Update Site | `SITE_UPDATE` |
 | Create Employee | `EMPLOYEE_CREATE` |
 | Update Employee | `EMPLOYEE_UPDATE` |
-| Assign User Role | `USER_ROLE_ASSIGN` |
+| Create User / Assign User Role | `USER_ROLE_ASSIGN` |
 
-### 10. Administration Widgets
+## Department 10: Administration Dashboard
 
-| Widget | Permission | API |
+Purpose:
+
+- Track user access, role setup, permissions, company config, notification config, and approval config.
+
+Visible when user has any:
+
+```text
+ROLE_VIEW
+PERMISSION_VIEW
+USER_ROLE_VIEW
+APPROVAL_CONFIG_VIEW
+NOTIFICATION_CONFIG_VIEW
+COMPANY_VIEW
+```
+
+Widgets:
+
+| Widget | View Permission | Action Permission |
 |---|---|---|
-| Access Health | `DASHBOARD_WIDGET_ADMIN_ACCESS_HEALTH` | `GET /api/dashboard/widgets/admin/access-health` |
-| Roles Summary | `DASHBOARD_WIDGET_ADMIN_ROLES_SUMMARY` | `GET /api/dashboard/widgets/admin/roles-summary` |
-| Users Without Roles | `DASHBOARD_WIDGET_ADMIN_USERS_WITHOUT_ROLES` | `GET /api/dashboard/widgets/admin/users-without-roles` |
-| Permission Mapping Health | `DASHBOARD_WIDGET_ADMIN_PERMISSION_MAPPING` | `GET /api/dashboard/widgets/admin/permission-mapping` |
-| Approval Config Status | `DASHBOARD_WIDGET_ADMIN_APPROVAL_CONFIG` | `GET /api/dashboard/widgets/admin/approval-config` |
-| Notification Config Status | `DASHBOARD_WIDGET_ADMIN_NOTIFICATION_CONFIG` | `GET /api/dashboard/widgets/admin/notification-config` |
-| Company Master Status | `DASHBOARD_WIDGET_ADMIN_COMPANY_MASTER` | `GET /api/dashboard/widgets/admin/company-master` |
+| Roles Count | `ROLE_VIEW` | `ROLE_CREATE` / `ROLE_UPDATE` |
+| Users Without Roles | `USER_ROLE_VIEW` | `USER_ROLE_ASSIGN` |
+| Permission List Health | `PERMISSION_VIEW` | none |
+| Approval Config Status | `APPROVAL_CONFIG_VIEW` | `APPROVAL_CONFIG_UPDATE` |
+| Notification Config Status | `NOTIFICATION_CONFIG_VIEW` | `NOTIFICATION_CONFIG_UPDATE` |
+| Company Master Status | `COMPANY_VIEW` | `COMPANY_UPDATE` |
+| API Permission Mapping Health | `PERMISSION_VIEW` | none |
 
-Action buttons:
+Actions:
 
-| Action | Existing Action Permission |
+| Action | Permission |
 |---|---|
 | Create Role | `ROLE_CREATE` |
 | Update Role | `ROLE_UPDATE` |
@@ -427,97 +496,102 @@ Action buttons:
 | Update Notification Settings | `NOTIFICATION_CONFIG_UPDATE` |
 | Update Company Master | `COMPANY_UPDATE` |
 
-## Permission Seed Plan
+## Widget Configuration Model
 
-Add a new Liquibase changeset in `permission_master.xml` or a new dashboard-specific permission changelog included in `db.changelog-master.xml`.
+Create a frontend/backend widget catalog.
 
-Recommended file:
+Example:
+
+```json
+{
+  "widgetCode": "INV_LOW_STOCK_SPARES",
+  "department": "INVENTORY",
+  "title": "Low Stock Spares",
+  "requiredPermissions": ["SPARE_PART_VIEW"],
+  "actionPermissions": ["REORDER_CREATE"],
+  "targetPath": "/inventory/spare-parts?stock=LOW",
+  "size": "small",
+  "refreshSeconds": 60
+}
+```
+
+Widget visibility:
+
+```js
+const canShowWidget = (widget, hasPermission) => (
+  widget.requiredPermissions.every(hasPermission)
+);
+```
+
+Action visibility:
+
+```js
+const visibleActions = widget.actions.filter((action) => hasPermission(action.permission));
+```
+
+Department tab visibility:
+
+```js
+const canShowDepartment = (department) => (
+  department.widgets.some((widget) => canShowWidget(widget, hasPermission))
+);
+```
+
+## Backend API Plan
+
+Keep dashboard under existing module:
 
 ```text
-cmms_back_end/src/main/resources/db/changelog/cmms/dashboard_widget_permissions.xml
+cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/
 ```
 
-Seed permissions like:
+Recommended APIs:
 
-```xml
-<changeSet id="dashboard-widget-permissions-001-seed" author="Codex">
-    <sql>
-        INSERT INTO permission_master (permission_code, permission_name, module_name, action_name, status, created_at, updated_at) VALUES
-        ('DASHBOARD_WIDGET_OVERVIEW_KPI_SUMMARY', 'Dashboard Widget - Overview KPI Summary', 'Dashboard - Overview', 'WIDGET_VIEW', 'ACTIVE', NOW(), NOW()),
-        ('DASHBOARD_WIDGET_MAINTENANCE_OPEN_REQUESTS', 'Dashboard Widget - Maintenance Open Requests', 'Dashboard - Maintenance', 'WIDGET_VIEW', 'ACTIVE', NOW(), NOW()),
-        ('DASHBOARD_WIDGET_INVENTORY_LOW_STOCK', 'Dashboard Widget - Inventory Low Stock', 'Dashboard - Inventory', 'WIDGET_VIEW', 'ACTIVE', NOW(), NOW())
-        ON CONFLICT (permission_code) DO NOTHING;
-    </sql>
-</changeSet>
+```text
+GET /api/dashboard/me
+GET /api/dashboard/overview
+GET /api/dashboard/maintenance
+GET /api/dashboard/technician-work
+GET /api/dashboard/inventory
+GET /api/dashboard/equipment
+GET /api/dashboard/vendor-amc
+GET /api/dashboard/approvals
+GET /api/dashboard/reports
+GET /api/dashboard/hr
+GET /api/dashboard/admin
 ```
 
-In final implementation, include all widget permissions listed in this plan.
+All APIs should return `ApiResponse<T>` through `ResponseFactory`.
 
-## API Permission Mapping Plan
-
-Add one row per widget API in:
+All protected APIs should be in:
 
 ```text
 cmms_back_end/src/main/resources/api-permission-mapping.csv
 ```
 
-Example:
-
-```csv
-DASHBOARD_VIEW,/api/dashboard/me,GET,View dashboard metadata
-DASHBOARD_WIDGET_MAINTENANCE_OPEN_REQUESTS,/api/dashboard/widgets/maintenance/open-requests,GET,Dashboard widget maintenance open requests
-DASHBOARD_WIDGET_MAINTENANCE_ASSIGNMENT_QUEUE,/api/dashboard/widgets/maintenance/assignment-queue,GET,Dashboard widget maintenance assignment queue
-DASHBOARD_WIDGET_INVENTORY_LOW_STOCK,/api/dashboard/widgets/inventory/low-stock,GET,Dashboard widget inventory low stock
-DASHBOARD_WIDGET_EQUIPMENT_STATUS,/api/dashboard/widgets/equipment/status,GET,Dashboard widget equipment status
-```
-
-Important:
-
-- Do not use only `DASHBOARD_VIEW,/api/dashboard/**,GET` for all widget APIs.
-- Each widget API must have its own permission mapping.
-- This ensures users cannot call hidden widget APIs directly.
-
-## Backend Structure
-
-Use existing dashboard module structure:
+Suggested mapping:
 
 ```text
-cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/
-    controller/
-    service/
-    dto/
+DASHBOARD_VIEW,/api/dashboard/**,GET,View dashboard
 ```
 
-Recommended controllers:
+This can remain broad, because each widget still checks module permissions before returning sensitive counts/actions.
 
-```text
-DashboardController.java
-DashboardWidgetController.java
-```
+Service-level rule:
 
-Recommended service classes:
+- Do not return a widget if the user lacks required permission.
+- Do not return action buttons if the user lacks action permission.
+- Apply site access with `AccessControlService`.
+- For technician work, filter by current user/employee/assignment mapping.
 
-```text
-DashboardMetadataService.java
-DashboardOverviewWidgetService.java
-DashboardMaintenanceWidgetService.java
-DashboardTechnicianWidgetService.java
-DashboardInventoryWidgetService.java
-DashboardEquipmentWidgetService.java
-DashboardVendorAmcWidgetService.java
-DashboardApprovalWidgetService.java
-DashboardReportWidgetService.java
-DashboardHrWidgetService.java
-DashboardAdminWidgetService.java
-```
+## Dashboard DTO Plan
 
 Recommended DTOs:
 
 ```text
 DashboardMeDTO
 DashboardDepartmentDTO
-DashboardWidgetDefinitionDTO
-DashboardWidgetResponseDTO
+DashboardWidgetDTO
 DashboardKpiDTO
 DashboardActionDTO
 DashboardAlertDTO
@@ -528,308 +602,322 @@ DashboardTrendDTO
 DashboardFilterDTO
 ```
 
-All successful JSON APIs must return:
-
-```text
-ApiResponse<T>
-```
-
-Use:
-
-```text
-ResponseFactory
-```
-
-## Backend Security Rule
-
-Authorization must stay centralized in:
-
-```text
-JwtFilter
-ApiPermissionService
-api-permission-mapping.csv
-```
-
-Do not add controller/service permission checks for normal API permission validation.
-
-Service checks are still needed for:
-
-- Site access.
-- Record-level access.
-- Current user's own technician jobs.
-- Business restrictions.
-
-Example:
-
-```java
-accessControlService.validateSiteAccess(siteId);
-```
-
-## Frontend Structure
-
-Use existing dashboard feature folder:
-
-```text
-cmms_front_end/src/features/dashboard/
-    pages/
-    components/
-    services/
-    constants/
-    hooks/
-```
-
-Recommended files:
-
-```text
-pages/DashboardPage.jsx
-components/DashboardShell.jsx
-components/DashboardDepartmentTabs.jsx
-components/DashboardWidgetGrid.jsx
-components/DashboardKpiWidget.jsx
-components/DashboardTableWidget.jsx
-components/DashboardChartWidget.jsx
-components/DashboardAlertWidget.jsx
-components/DashboardWidgetError.jsx
-services/dashboardService.js
-constants/dashboardWidgetCatalog.js
-hooks/useDashboardMetadata.js
-hooks/useDashboardWidget.js
-```
-
-Frontend flow:
-
-1. User opens `/dashboard`.
-2. Frontend calls `GET /api/dashboard/me`.
-3. Backend returns only widgets the user has widget permissions for.
-4. Frontend renders department tabs from returned widgets.
-5. For each visible widget, frontend calls that widget's API.
-6. If API returns `403`, show no data or a small "Not allowed" placeholder and remove widget on next refresh.
-
-## Frontend Service Example
-
-```js
-export const getDashboardMetadata = () => api.get('/dashboard/me').then((response) => response.data);
-
-export const getDashboardWidget = (apiPath, params = {}) => (
-  api.get(apiPath.replace(/^\/api/, ''), { params }).then((response) => response.data)
-);
-```
-
-## Widget Response Format
-
-Each widget API should return a consistent shape.
-
-KPI widget:
+Example response:
 
 ```json
 {
-  "widgetCode": "DASHBOARD_WIDGET_INVENTORY_LOW_STOCK",
-  "type": "KPI",
-  "title": "Low Stock Spares",
-  "value": 14,
-  "severity": "WARNING",
-  "targetPath": "/inventory/spare-parts?stock=LOW",
-  "actions": [
+  "defaultDepartment": "MAINTENANCE",
+  "departments": [
     {
-      "label": "Create Reorder",
-      "targetPath": "/inventory/reorders",
-      "permissionCode": "REORDER_CREATE"
+      "code": "MAINTENANCE",
+      "label": "Maintenance",
+      "widgets": [
+        {
+          "code": "MAINT_OPEN_ASSIGNMENTS",
+          "title": "Open Assignments",
+          "type": "KPI",
+          "value": 18,
+          "severity": "WARNING",
+          "targetPath": "/maintenance/assignments?status=OPEN",
+          "actions": [
+            {
+              "label": "Create Assignment",
+              "targetPath": "/maintenance/assignments/new"
+            }
+          ]
+        }
+      ]
     }
   ],
-  "generatedAt": "2026-07-20T10:30:00"
+  "generatedAt": "2026-07-20T10:30:00",
+  "refreshAfterSeconds": 60
 }
 ```
 
-Table widget:
+## Frontend Plan
 
-```json
-{
-  "widgetCode": "DASHBOARD_WIDGET_MAINTENANCE_ASSIGNMENT_QUEUE",
-  "type": "TABLE",
-  "title": "Assignment Queue",
-  "columns": [
-    { "field": "assignmentId", "label": "ID" },
-    { "field": "equipmentName", "label": "Equipment" },
-    { "field": "priority", "label": "Priority" },
-    { "field": "status", "label": "Status" }
-  ],
-  "rows": [],
-  "targetPath": "/maintenance/assignments",
-  "generatedAt": "2026-07-20T10:30:00"
-}
-```
-
-## Role Form Improvement
-
-Because these are new permissions, they should appear in role creation/update.
-
-In role permission grouping, add a new top category:
+Files:
 
 ```text
-Dashboard Widgets
+cmms_front_end/src/features/dashboard/pages/DashboardPage.jsx
+cmms_front_end/src/features/dashboard/services/dashboardService.js
+cmms_front_end/src/features/dashboard/components/DashboardShell.jsx
+cmms_front_end/src/features/dashboard/components/DashboardDepartmentTabs.jsx
+cmms_front_end/src/features/dashboard/components/DashboardWidgetGrid.jsx
+cmms_front_end/src/features/dashboard/components/DashboardKpiWidget.jsx
+cmms_front_end/src/features/dashboard/components/DashboardTableWidget.jsx
+cmms_front_end/src/features/dashboard/components/DashboardChartWidget.jsx
+cmms_front_end/src/features/dashboard/components/DashboardAlertWidget.jsx
+cmms_front_end/src/features/dashboard/constants/dashboardWidgets.js
 ```
 
-Sub groups:
+Frontend render logic:
 
-```text
-Overview
-Maintenance
-Technician Work
-Inventory / Store
-Equipment
-AMC / Vendor
-Approvals
-Reports
-HR
-Administration
+```js
+const departments = dashboard.departments.filter((department) => department.widgets.length > 0);
 ```
-
-Admin can create any role name and assign exact dashboard widgets.
-
-Example:
-
-```text
-Role Name: Plant Head
-Dashboard Widget Permissions:
-  DASHBOARD_WIDGET_OVERVIEW_KPI_SUMMARY
-  DASHBOARD_WIDGET_OVERVIEW_CRITICAL_ALERTS
-  DASHBOARD_WIDGET_EQUIPMENT_STATUS
-  DASHBOARD_WIDGET_MAINTENANCE_SLA_BREACHES
-  DASHBOARD_WIDGET_VENDOR_AMC_EXPIRING
-```
-
-Example:
-
-```text
-Role Name: Store Keeper
-Dashboard Widget Permissions:
-  DASHBOARD_WIDGET_INVENTORY_LOW_STOCK
-  DASHBOARD_WIDGET_INVENTORY_PENDING_ISSUES
-  DASHBOARD_WIDGET_INVENTORY_REORDER_QUEUE
-```
-
-## API Call Pattern
-
-Do not load one big dashboard payload for everything.
-
-Recommended:
-
-```text
-GET /api/dashboard/me
-GET /api/dashboard/widgets/overview/kpi-summary
-GET /api/dashboard/widgets/maintenance/open-requests
-GET /api/dashboard/widgets/inventory/low-stock
-```
-
-Benefits:
-
-- Backend security is clear per widget.
-- Frontend loads only allowed widgets.
-- Heavy widgets can refresh slower.
-- One broken widget does not break the full dashboard.
-- Easy to add/remove widgets later.
-
-## Site Scoping
-
-Every widget API must respect site access.
 
 Rules:
 
-- Site filter should list only allowed sites.
-- Widget counts must use allowed sites.
-- If `siteId` is passed, validate access to that site.
-- If no `siteId` is passed, aggregate only over allowed sites for non-global users.
-- Technician widgets must return only current user's work unless the widget is a supervisor/team widget with its own permission.
+- Keep one dashboard page.
+- Tabs are departments, not roles.
+- Widget visibility is permission-based.
+- Actions inside widgets are permission-based.
+- Use shared common components for filters.
+- Use tables for work queues and action queues.
+- Use charts for trends only.
+- Do not show empty department tabs.
+
+## Role And Permission Page Impact
+
+Because users can create role names freely, the Role page should help admins understand dashboard access through permissions.
+
+Recommended improvement in Role Form:
+
+Current permission categories:
+
+```text
+Operation
+HR
+Admin
+```
+
+Add dashboard helper labels in the existing groups:
+
+```text
+Dashboard Access
+Maintenance Dashboard Widgets
+Technician Work Widgets
+Inventory Dashboard Widgets
+Equipment Dashboard Widgets
+Vendor / AMC Dashboard Widgets
+Approval Dashboard Widgets
+HR Dashboard Widgets
+Admin Dashboard Widgets
+Report Dashboard Widgets
+```
+
+Do not create these as hardcoded roles. They are only permission guidance.
+
+Example admin flow:
+
+1. Admin creates role `Electrical Supervisor`.
+2. Admin selects:
+   - `DASHBOARD_VIEW`
+   - `EQUIPMENT_VIEW`
+   - `REQUEST_VIEW`
+   - `ASSIGNMENT_VIEW`
+   - `ASSIGNMENT_UPDATE`
+   - `DOWNTIME_VIEW`
+3. User with this role sees:
+   - Overview tab
+   - Maintenance tab
+   - Equipment tab
+   - Downtime widgets
+   - Assignment actions allowed by `ASSIGNMENT_UPDATE`
+
+Example store flow:
+
+1. Admin creates role `Main Store Night Shift`.
+2. Admin selects:
+   - `DASHBOARD_VIEW`
+   - `SPARE_PART_VIEW`
+   - `STOCK_TRANSACTION_VIEW`
+   - `SPARE_USAGE_VIEW`
+   - `SPARE_USAGE_STORE_PROCESS`
+   - `REORDER_VIEW`
+3. User sees:
+   - Overview tab
+   - Inventory / Store tab
+   - Pending spare issue queue
+   - Low stock widgets
+   - Reorder widgets
+
+## Permission-Based Default Department
+
+When a user opens `/dashboard`, choose default tab by permission priority.
+
+No role names needed.
+
+Recommended logic:
+
+```js
+if (hasPermission('ROLE_VIEW') || hasPermission('USER_ROLE_VIEW')) return 'ADMIN';
+if (hasPermission('SPARE_USAGE_STORE_PROCESS')) return 'INVENTORY';
+if (hasPermission('ASSIGNMENT_WORK_LOG_CREATE') || hasPermission('ASSIGNMENT_CHECKLIST_UPDATE')) return 'TECHNICIAN_WORK';
+if (hasPermission('ASSIGNMENT_VIEW') || hasPermission('REQUEST_VIEW')) return 'MAINTENANCE';
+if (hasPermission('EQUIPMENT_VIEW')) return 'EQUIPMENT';
+if (hasPermission('VENDOR_AMC_VIEW') || hasPermission('VENDOR_VIEW')) return 'VENDOR_AMC';
+if (hasPermission('EMPLOYEE_VIEW') || hasPermission('SITE_VIEW')) return 'HR';
+if (hasPermission('REPORT_VIEW')) return 'REPORTS';
+return 'OVERVIEW';
+```
+
+If multiple departments are available, show tabs so the user can switch.
+
+## Site Scoping
+
+Every dashboard metric must respect allowed sites.
+
+Rules:
+
+- Admin/global users can see all sites only if existing access service allows it.
+- Non-admin users see only assigned/allowed sites.
+- Site filter should only list allowed sites.
+- Counts must be calculated from the same allowed site list.
+- Dashboard must not leak totals from sites the user cannot access.
+
+## Alerts
+
+Alerts should also be permission-based.
+
+Alert examples:
+
+| Alert | Permission |
+|---|---|
+| Critical request unassigned | `REQUEST_VIEW` + `ASSIGNMENT_VIEW` |
+| Assignment SLA breach | `ASSIGNMENT_VIEW` |
+| Low stock spare | `SPARE_PART_VIEW` |
+| Spare request waiting issue | `SPARE_USAGE_STORE_PROCESS` |
+| AMC expiring | `VENDOR_AMC_VIEW` |
+| Downtime not verified | `DOWNTIME_VERIFY` |
+| Employee missing manager | `EMPLOYEE_VIEW` |
+| User without role | `USER_ROLE_VIEW` |
 
 ## Implementation Phases
 
-### Phase 1: Permission And API Foundation
+### Phase 1: Permission-Based Shell
 
 Build:
 
-- `dashboard_widget_permissions.xml`
-- Permission seed for widget permissions.
-- `api-permission-mapping.csv` entries per widget API.
-- `GET /api/dashboard/me`.
-- Widget metadata DTOs.
+- `GET /api/dashboard/me`
+- Dashboard department tabs.
+- Widget catalog.
+- Permission-based frontend widget visibility.
+- Move current dashboard cards/charts into permission-based widgets.
 
 Deliverable:
 
-- Role admin can assign dashboard widget permissions.
-- Dashboard metadata returns only allowed widgets.
+- Dashboard no longer depends on role names.
 
-### Phase 2: Existing Dashboard Split Into Widgets
-
-Convert current dashboard into separate widget APIs:
-
-- KPI summary.
-- Equipment status.
-- Monthly downtime.
-- Vendor performance.
-- Upcoming maintenance.
-- AMC summary.
-
-Each widget gets its own permission and API.
-
-### Phase 3: Maintenance And Technician Widgets
+### Phase 2: Maintenance And Technician Widgets
 
 Build:
 
-- Open requests.
-- Assignment queue.
-- Overdue assignments.
-- SLA breaches.
-- My jobs.
-- Current job.
-- Checklist pending.
-- Work log pending.
+- Maintenance queue widgets.
+- Assignment ageing.
+- My jobs widgets.
+- Checklist/proof/work-log pending widgets.
+- SLA countdown chip.
 
-### Phase 4: Inventory / Store Widgets
+Deliverable:
+
+- Maintenance and technician users get operational dashboard based on permissions.
+
+### Phase 3: Inventory / Store Widgets
 
 Build:
 
-- Low stock.
-- Out of stock.
-- Pending spare issues.
+- Low stock queue.
+- Pending spare request queue.
 - Reorder queue.
-- Stock transactions.
+- Stock transaction summary.
 
-### Phase 5: Admin, HR, Reports Widgets
+Deliverable:
+
+- Store users get inventory dashboard based on permissions.
+
+### Phase 4: Equipment, AMC, Approvals, Reports
 
 Build:
 
-- Access health.
-- Users without roles.
+- Equipment health widgets.
+- AMC risk widgets.
+- Approval ageing.
+- Report summary widgets.
+
+Deliverable:
+
+- Management dashboards become useful without requiring fixed manager roles.
+
+### Phase 5: Admin And HR Widgets
+
+Build:
+
+- User role health.
 - Permission mapping health.
-- Employee setup.
-- Site manpower.
-- Report summaries.
+- Employee setup gaps.
+- Site manpower summary.
+
+Deliverable:
+
+- Admin/HR dashboards are driven by admin and HR permissions.
 
 ### Phase 6: Production Enhancements
 
 Build:
 
-- Auto refresh per widget.
-- Widget loading skeleton.
-- Widget error boundary.
-- Saved widget order.
-- User hidden widgets.
-- Dashboard alert persistence.
-- Metric caching for heavy widgets.
+- Auto refresh.
+- Saved user dashboard preference.
+- Widget ordering.
+- Drill-down links.
+- Export.
+- Alert severity.
+- Dashboard metric caching for heavy widgets.
 
-## Final MVP
+## Database Tables Only If Needed
 
-Build this first:
+Start without new tables if possible.
+
+Optional later tables:
 
 ```text
-1. DASHBOARD_VIEW base page permission
-2. DASHBOARD_WIDGET_* permissions
-3. /api/dashboard/me metadata API
-4. Separate /api/dashboard/widgets/... APIs
-5. api-permission-mapping.csv row per widget API
-6. Frontend renders only metadata widgets
-7. Role form groups dashboard widget permissions clearly
+dashboard_user_preference
+dashboard_widget_config
+dashboard_alert
+dashboard_metric_snapshot
 ```
 
-This is the clean production design because both UI visibility and direct API access are controlled by explicit dashboard widget permissions.
+Recommended first table only when personalization is needed:
+
+```text
+dashboard_user_preference
+```
+
+Fields:
+
+- `id`
+- `user_id`
+- `default_department`
+- `site_id`
+- `date_range`
+- `widget_order_json`
+- `hidden_widget_codes_json`
+- `created_at`
+- `updated_at`
+
+Use Liquibase XML if adding this table.
+
+## Final MVP Recommendation
+
+Build first:
+
+1. Permission-based `GET /api/dashboard/me`.
+2. Department tabs based on visible widgets.
+3. Overview widgets from existing dashboard data.
+4. Maintenance widgets using `REQUEST_*`, `ASSIGNMENT_*`, `DOWNTIME_*`.
+5. Technician Work widgets using assignment checklist/work-log/spare permissions.
+6. Inventory widgets using spare/reorder/store permissions.
+
+Best production behavior:
+
+```text
+Custom Role Name
+  -> Permissions assigned by admin
+  -> Dashboard departments unlocked by permissions
+  -> Widgets shown by permissions
+  -> Actions shown by action permissions
+```
+
+This matches the real role/permission model: the customer can create any role name, and the dashboard still works correctly because permissions are the source of truth.
 

@@ -550,8 +550,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/common/security/service/AccessControlService.java": {
-    "mtime": 1784527144.7700582,
-    "ast_hash": "381d13bb3e80d474f2b677be861cf391",
+    "mtime": 1784529244.18585,
+    "ast_hash": "0c3430465f1eda40ac879c95271ae572",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/company/controller/CompanyController.java": {
@@ -585,8 +585,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/controller/DashboardController.java": {
-    "mtime": 1784264626.1648207,
-    "ast_hash": "985bf91631952dc543f104a068c1944a",
+    "mtime": 1784529244.1687412,
+    "ast_hash": "e5b43946f7015f46d3f49887b28669f1",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/dto/DashboardDTO.java": {
@@ -595,8 +595,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/service/DashboardService.java": {
-    "mtime": 1784264626.1738367,
-    "ast_hash": "38948fd969696aec1c6393e51748a018",
+    "mtime": 1784536678.6746593,
+    "ast_hash": "79bbb32a006c26a22e9cab67e7ff8022",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/downtime/controller/EquipmentDowntimeController.java": {
@@ -1225,8 +1225,8 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/admin/pages/RoleFormPage.jsx": {
-    "mtime": 1783594086.3392842,
-    "ast_hash": "154058b42ff5a726b657099eae4e488b",
+    "mtime": 1784529652.3610828,
+    "ast_hash": "bf5986371024d95e74d1d6032e773a95",
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/admin/pages/RoleListPage.jsx": {
@@ -1310,13 +1310,13 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/dashboard/pages/DashboardPage.jsx": {
-    "mtime": 1784265832.5275807,
-    "ast_hash": "723f5bc13e28ad1b3de227c2808b7657",
+    "mtime": 1784536728.167864,
+    "ast_hash": "28b4c4588bab7ec4c9415dbd379b5b50",
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/dashboard/services/dashboardService.js": {
-    "mtime": 1784264444.118793,
-    "ast_hash": "a82f37fb4220c7aef6cd7538f566861d",
+    "mtime": 1784529338.6420743,
+    "ast_hash": "687d3d029fe531a5ad72e82974dfc9da",
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/downtime/pages/DowntimeFormPage.jsx": {
@@ -2220,8 +2220,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/vendoramc/service/VendorAmcService.java": {
-    "mtime": 1784527137.9572077,
-    "ast_hash": "bd63fd4ca6eb1b011b789c42d024598e",
+    "mtime": 1784529244.1753197,
+    "ast_hash": "084bdb7740c53abe49d34f06dce34b41",
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/vendorAmc/pages/VendorAmcFormPage.jsx": {
@@ -2250,8 +2250,33 @@
     "semantic_hash": ""
   },
   "NEW_FETAURE_IMP/PENIDNG/production_dashboard.md": {
-    "mtime": 1784526692.1210423,
-    "ast_hash": "3a6d07ce2c96c52bca02ae80e303ba0a",
+    "mtime": 1784536346.441926,
+    "ast_hash": "0d961f14dbf8cb554976bc3f31788c57",
+    "semantic_hash": ""
+  },
+  "cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/dto/DashboardDepartmentDTO.java": {
+    "mtime": 1784529244.1420333,
+    "ast_hash": "f610af8c148f22b568b104c153af3579",
+    "semantic_hash": ""
+  },
+  "cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/dto/DashboardMeDTO.java": {
+    "mtime": 1784536590.84883,
+    "ast_hash": "ce1c4a613c836e267de8ae8fe3ed1c96",
+    "semantic_hash": ""
+  },
+  "cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/dto/DashboardWidgetDefinitionDTO.java": {
+    "mtime": 1784536590.8558433,
+    "ast_hash": "6fd3aecba52e691fa53d276510a0d5cb",
+    "semantic_hash": ""
+  },
+  "cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/dto/DashboardWidgetResponseDTO.java": {
+    "mtime": 1784536590.863842,
+    "ast_hash": "b1f37a0bdc03bb3588c2a7134d80848a",
+    "semantic_hash": ""
+  },
+  "cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/dto/DashboardActionDTO.java": {
+    "mtime": 1784536590.8417056,
+    "ast_hash": "a6bc51f0c33c703227bdafe3271dbc0c",
     "semantic_hash": ""
   }
 }

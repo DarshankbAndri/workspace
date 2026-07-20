@@ -146,4 +146,17 @@
             ON CONFLICT (permission_code) DO NOTHING;
         </sql>
     </changeSet>
+
+    <changeSet id="permission-master-010-seed-dashboard-widget-permissions" author="Codex">
+        <sql>
+            INSERT INTO permission_master (permission_code, permission_name, module_name, action_name, status, created_at, updated_at) VALUES
+            ('DASHBOARD_WIDGET_OVERVIEW_KPI_SUMMARY', 'Dashboard Widget - Overview KPI Summary', 'Dashboard - Overview', 'WIDGET_VIEW', 'ACTIVE', NOW(), NOW()),
+            ('DASHBOARD_WIDGET_EQUIPMENT_STATUS', 'Dashboard Widget - Equipment Status', 'Dashboard - Equipment', 'WIDGET_VIEW', 'ACTIVE', NOW(), NOW()),
+            ('DASHBOARD_WIDGET_REPORT_DOWNTIME_SUMMARY', 'Dashboard Widget - Downtime Summary', 'Dashboard - Reports', 'WIDGET_VIEW', 'ACTIVE', NOW(), NOW()),
+            ('DASHBOARD_WIDGET_VENDOR_PERFORMANCE', 'Dashboard Widget - Vendor Performance', 'Dashboard - AMC / Vendor', 'WIDGET_VIEW', 'ACTIVE', NOW(), NOW()),
+            ('DASHBOARD_WIDGET_MAINTENANCE_PM_DUE', 'Dashboard Widget - PM Due This Month', 'Dashboard - Maintenance', 'WIDGET_VIEW', 'ACTIVE', NOW(), NOW()),
+            ('DASHBOARD_WIDGET_VENDOR_AMC_ACTIVE', 'Dashboard Widget - Active AMC Contracts', 'Dashboard - AMC / Vendor', 'WIDGET_VIEW', 'ACTIVE', NOW(), NOW())
+            ON CONFLICT (permission_code) DO NOTHING;
+        </sql>
+    </changeSet>
 </databaseChangeLog>

@@ -3,6 +3,7 @@ package com.example.cmmsApplication.dashboard.service;
 
 import com.example.cmmsApplication.assignment.dao.MaintenanceAssignmentDAO;
 import com.example.cmmsApplication.assignment.entity.MaintenanceAssignment;
+import com.example.cmmsApplication.common.exception.UnauthorizedAccessException;
 import com.example.cmmsApplication.common.security.service.AccessControlService;
 import com.example.cmmsApplication.equipment.entity.Equipment;
 import com.example.cmmsApplication.preventivemaintenance.dao.PreventiveMaintenanceScheduleDAO;
@@ -13,15 +14,23 @@ import com.example.cmmsApplication.downtime.entity.EquipmentDowntime;
 import com.example.cmmsApplication.maintenancerequest.dao.MaintenanceRequestDAO;
 import com.example.cmmsApplication.spareparts.dao.SparePartSiteStockDAO;
 import com.example.cmmsApplication.vendor.dao.VendorDAO;
+import com.example.cmmsApplication.dashboard.dto.DashboardActionDTO;
 import com.example.cmmsApplication.dashboard.dto.DashboardDTO;
+import com.example.cmmsApplication.dashboard.dto.DashboardDepartmentDTO;
+import com.example.cmmsApplication.dashboard.dto.DashboardMeDTO;
 import com.example.cmmsApplication.dashboard.dto.DashboardOverviewDTO;
+import com.example.cmmsApplication.dashboard.dto.DashboardWidgetDefinitionDTO;
+import com.example.cmmsApplication.dashboard.dto.DashboardWidgetResponseDTO;
+import com.example.cmmsApplication.vendoramc.service.VendorAmcService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.format.TextStyle;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
@@ -44,6 +53,19 @@ public class DashboardService {
     private final AccessControlService accessControlService;
     private final MaintenanceAssignmentDAO assignmentDAO;
     private final PreventiveMaintenanceScheduleDAO scheduleDAO;
+    private final VendorAmcService vendorAmcService;
+
+    private static final String WIDGET_OVERVIEW_KPI_SUMMARY = "DASHBOARD_WIDGET_OVERVIEW_KPI_SUMMARY";
+    private static final String WIDGET_EQUIPMENT_STATUS = "DASHBOARD_WIDGET_EQUIPMENT_STATUS";
+    private static final String WIDGET_REPORT_DOWNTIME_SUMMARY = "DASHBOARD_WIDGET_REPORT_DOWNTIME_SUMMARY";
+    private static final String WIDGET_VENDOR_PERFORMANCE = "DASHBOARD_WIDGET_VENDOR_PERFORMANCE";
+    private static final String WIDGET_MAINTENANCE_PM_DUE = "DASHBOARD_WIDGET_MAINTENANCE_PM_DUE";
+    private static final String WIDGET_VENDOR_AMC_ACTIVE = "DASHBOARD_WIDGET_VENDOR_AMC_ACTIVE";
+
+    private static final List<String> OVERVIEW_PERMISSIONS = List.of(
+            "EQUIPMENT_VIEW", "VENDOR_VIEW", "REQUEST_VIEW", "ASSIGNMENT_VIEW", "SPARE_PART_VIEW",
+            "APPROVAL_VIEW", "VENDOR_AMC_VIEW", "DOWNTIME_VIEW", "PM_CALENDAR_VIEW"
+    );
 
     public DashboardDTO getSummary(Long siteId) {
         if (siteId != null) {
@@ -89,6 +111,229 @@ public class DashboardService {
                 .vendorPerformance(getVendorPerformance(allowedSiteIds))
                 .upcomingMaintenance(getUpcomingMaintenance(allowedSiteIds))
                 .build();
+    }
+
+    public DashboardMeDTO getDashboardMetadata() {
+        List<DashboardDepartmentDTO> departments = new ArrayList<>();
+        addDepartment(departments, "OVERVIEW", "Overview", List.of(
+                widget(WIDGET_OVERVIEW_KPI_SUMMARY, "OVERVIEW", "KPI Summary", "KPI", "/api/dashboard/widgets/overview/kpi-summary", 60, "/dashboard", "large",
+                        List.of(), OVERVIEW_PERMISSIONS, List.of())
+        ));
+        addDepartment(departments, "EQUIPMENT", "Equipment", List.of(
+                widget(WIDGET_EQUIPMENT_STATUS, "EQUIPMENT", "Equipment Status", "CHART", "/api/dashboard/widgets/equipment/status", 120, "/equipment", "medium",
+                        List.of("EQUIPMENT_VIEW"), List.of(), List.of(action("EQUIPMENT_VIEW", "Open Equipment", "/equipment")))
+        ));
+        addDepartment(departments, "MAINTENANCE", "Maintenance", List.of(
+                widget(WIDGET_MAINTENANCE_PM_DUE, "MAINTENANCE", "PM Due This Month", "LIST", "/api/dashboard/widgets/maintenance/pm-due", 300, "/maintenance/preventive", "medium",
+                        List.of(), List.of("PM_CALENDAR_VIEW", "REQUEST_VIEW"), List.of(action("REQUEST_CREATE", "Create Request", "/maintenance/requests/new")))
+        ));
+        addDepartment(departments, "VENDOR_AMC", "AMC / Vendor", List.of(
+                widget(WIDGET_VENDOR_PERFORMANCE, "VENDOR_AMC", "Vendor Performance", "CHART", "/api/dashboard/widgets/vendor-amc/performance", 300, "/vendors", "large",
+                        List.of("VENDOR_VIEW", "ASSIGNMENT_VIEW"), List.of(), List.of(action("VENDOR_VIEW", "Open Vendors", "/vendors"))),
+                widget(WIDGET_VENDOR_AMC_ACTIVE, "VENDOR_AMC", "Active AMC Contracts", "KPI", "/api/dashboard/widgets/vendor-amc/active-contracts", 300, "/vendor-amc", "medium",
+                        List.of("VENDOR_AMC_VIEW"), List.of(), List.of(
+                                action("VENDOR_AMC_CREATE", "Create AMC", "/vendor-amc/new"),
+                                action("VENDOR_AMC_RENEW", "Renew AMC", "/vendor-amc")
+                        ))
+        ));
+        addDepartment(departments, "REPORTS", "Reports", List.of(
+                widget(WIDGET_REPORT_DOWNTIME_SUMMARY, "REPORTS", "Downtime Summary", "CHART", "/api/dashboard/widgets/reports/downtime-summary", 300, "/reports", "large",
+                        List.of("REPORT_VIEW", "DOWNTIME_VIEW"), List.of(), List.of(action("REPORT_VIEW", "Open Reports", "/reports")))
+        ));
+
+        return DashboardMeDTO.builder()
+                .defaultDepartment(defaultDepartment(departments))
+                .permissions(accessControlService.getPermissions())
+                .allowedSites(accessControlService.getAllowedSites())
+                .departments(departments)
+                .quickActions(visibleActions(List.of(
+                        action("REQUEST_CREATE", "Create Request", "/maintenance/requests/new"),
+                        action("ASSIGNMENT_CREATE", "Create Assignment", "/maintenance/assignments/new"),
+                        action("SPARE_PART_CREATE", "Create Spare Part", "/spare-parts/new"),
+                        action("VENDOR_AMC_CREATE", "Create AMC", "/vendor-amc/new"),
+                        action("ROLE_CREATE", "Create Role", "/admin/roles/new")
+                )))
+                .generatedAt(LocalDateTime.now())
+                .refreshAfterSeconds(60)
+                .build();
+    }
+
+    public DashboardWidgetResponseDTO getKpiSummaryWidget(Long siteId) {
+        assertAnyPermission(OVERVIEW_PERMISSIONS);
+        return widgetResponse(WIDGET_OVERVIEW_KPI_SUMMARY, "OVERVIEW", "KPI Summary", "KPI", getPermissionAwareSummary(siteId), "/dashboard", 60,
+                List.of());
+    }
+
+    public DashboardWidgetResponseDTO getEquipmentStatusWidget(Long siteId) {
+        assertAllPermissions(List.of("EQUIPMENT_VIEW"));
+        Collection<Long> siteIds = resolveAllowedSiteIdsWithValidation(siteId);
+        return widgetResponse(WIDGET_EQUIPMENT_STATUS, "EQUIPMENT", "Equipment Status", "CHART", getEquipmentStatus(siteIds), "/equipment", 120,
+                List.of(action("EQUIPMENT_VIEW", "Open Equipment", "/equipment")));
+    }
+
+    public DashboardWidgetResponseDTO getDowntimeSummaryWidget(Long siteId) {
+        assertAllPermissions(List.of("REPORT_VIEW", "DOWNTIME_VIEW"));
+        Collection<Long> siteIds = resolveAllowedSiteIdsWithValidation(siteId);
+        return widgetResponse(WIDGET_REPORT_DOWNTIME_SUMMARY, "REPORTS", "Downtime Summary", "CHART", getMonthlyDowntime(siteIds), "/reports", 300,
+                List.of(action("REPORT_VIEW", "Open Reports", "/reports")));
+    }
+
+    public DashboardWidgetResponseDTO getVendorPerformanceWidget(Long siteId) {
+        assertAllPermissions(List.of("VENDOR_VIEW", "ASSIGNMENT_VIEW"));
+        Collection<Long> siteIds = resolveAllowedSiteIdsWithValidation(siteId);
+        return widgetResponse(WIDGET_VENDOR_PERFORMANCE, "VENDOR_AMC", "Vendor Performance", "CHART", getVendorPerformance(siteIds), "/vendors", 300,
+                List.of(action("VENDOR_VIEW", "Open Vendors", "/vendors")));
+    }
+
+    public DashboardWidgetResponseDTO getPmDueWidget(Long siteId) {
+        assertAnyPermission(List.of("PM_CALENDAR_VIEW", "REQUEST_VIEW"));
+        Collection<Long> siteIds = resolveAllowedSiteIdsWithValidation(siteId);
+        return widgetResponse(WIDGET_MAINTENANCE_PM_DUE, "MAINTENANCE", "PM Due This Month", "LIST", getUpcomingMaintenance(siteIds), "/maintenance/preventive", 300,
+                List.of(action("REQUEST_CREATE", "Create Request", "/maintenance/requests/new")));
+    }
+
+    public DashboardWidgetResponseDTO getActiveAmcContractsWidget(Long siteId) {
+        assertAllPermissions(List.of("VENDOR_AMC_VIEW"));
+        return widgetResponse(WIDGET_VENDOR_AMC_ACTIVE, "VENDOR_AMC", "Active AMC Contracts", "KPI", vendorAmcService.getDashboard(siteId), "/vendor-amc", 300,
+                List.of(action("VENDOR_AMC_CREATE", "Create AMC", "/vendor-amc/new"), action("VENDOR_AMC_RENEW", "Renew AMC", "/vendor-amc")));
+    }
+
+    private Collection<Long> resolveAllowedSiteIdsWithValidation(Long siteId) {
+        if (siteId != null) {
+            accessControlService.validateSiteAccess(siteId);
+        }
+        return resolveAllowedSiteIds(siteId);
+    }
+
+    private void addDepartment(List<DashboardDepartmentDTO> departments, String code, String label, List<DashboardWidgetDefinitionDTO> widgets) {
+        List<DashboardWidgetDefinitionDTO> allowedWidgets = widgets.stream()
+                .filter(this::canShowWidget)
+                .toList();
+        if (!allowedWidgets.isEmpty()) {
+            departments.add(DashboardDepartmentDTO.builder()
+                    .code(code)
+                    .label(label)
+                    .widgets(allowedWidgets)
+                    .build());
+        }
+    }
+
+    private DashboardWidgetDefinitionDTO widget(String code, String department, String title, String type, String apiPath, Integer refreshSeconds,
+                                                String targetPath, String size, List<String> requiredPermissions, List<String> anyOfPermissions,
+                                                List<DashboardActionDTO> actions) {
+        List<DashboardActionDTO> visibleActions = visibleActions(actions);
+        return DashboardWidgetDefinitionDTO.builder()
+                .code(code)
+                .department(department)
+                .title(title)
+                .type(type)
+                .apiPath(apiPath)
+                .refreshSeconds(refreshSeconds)
+                .targetPath(targetPath)
+                .size(size)
+                .requiredPermissions(requiredPermissions)
+                .anyOfPermissions(anyOfPermissions)
+                .actionPermissions(visibleActions.stream().map(DashboardActionDTO::getPermissionCode).toList())
+                .actions(visibleActions)
+                .build();
+    }
+
+    private DashboardWidgetResponseDTO widgetResponse(String code, String department, String title, String type, Object data, String targetPath,
+                                                      Integer refreshSeconds, List<DashboardActionDTO> actions) {
+        List<DashboardActionDTO> visibleActions = visibleActions(actions);
+        return DashboardWidgetResponseDTO.builder()
+                .widgetCode(code)
+                .department(department)
+                .title(title)
+                .type(type)
+                .data(data)
+                .targetPath(targetPath)
+                .refreshSeconds(refreshSeconds)
+                .actionPermissions(visibleActions.stream().map(DashboardActionDTO::getPermissionCode).toList())
+                .actions(visibleActions)
+                .generatedAt(LocalDateTime.now())
+                .build();
+    }
+
+    private boolean canShowWidget(DashboardWidgetDefinitionDTO widget) {
+        return hasAllPermissions(widget.getRequiredPermissions()) && hasAnyPermission(widget.getAnyOfPermissions());
+    }
+
+    private boolean hasAllPermissions(Collection<String> permissions) {
+        if (permissions == null || permissions.isEmpty()) {
+            return true;
+        }
+        Set<String> current = accessControlService.getPermissions();
+        return permissions.stream().allMatch(current::contains);
+    }
+
+    private boolean hasAnyPermission(Collection<String> permissions) {
+        if (permissions == null || permissions.isEmpty()) {
+            return true;
+        }
+        Set<String> current = accessControlService.getPermissions();
+        return permissions.stream().anyMatch(current::contains);
+    }
+
+    private void assertAllPermissions(Collection<String> permissions) {
+        if (!hasAllPermissions(permissions)) {
+            throw new UnauthorizedAccessException("Missing dashboard widget permission");
+        }
+    }
+
+    private void assertAnyPermission(Collection<String> permissions) {
+        if (!hasAnyPermission(permissions)) {
+            throw new UnauthorizedAccessException("Missing dashboard widget permission");
+        }
+    }
+
+    private DashboardActionDTO action(String permissionCode, String label, String targetPath) {
+        return DashboardActionDTO.builder()
+                .code(permissionCode)
+                .label(label)
+                .targetPath(targetPath)
+                .permissionCode(permissionCode)
+                .build();
+    }
+
+    private List<DashboardActionDTO> visibleActions(List<DashboardActionDTO> actions) {
+        if (actions == null || actions.isEmpty()) {
+            return List.of();
+        }
+        Set<String> permissions = accessControlService.getPermissions();
+        return actions.stream()
+                .filter((action) -> action.getPermissionCode() == null || permissions.contains(action.getPermissionCode()))
+                .toList();
+    }
+
+    private String defaultDepartment(List<DashboardDepartmentDTO> departments) {
+        Set<String> visible = departments.stream().map(DashboardDepartmentDTO::getCode).collect(Collectors.toSet());
+        List<String> priority = List.of("ADMIN", "INVENTORY", "TECHNICIAN_WORK", "MAINTENANCE", "EQUIPMENT", "VENDOR_AMC", "HR", "REPORTS", "OVERVIEW");
+        return priority.stream()
+                .filter(visible::contains)
+                .findFirst()
+                .orElse(departments.isEmpty() ? null : departments.get(0).getCode());
+    }
+
+    private Map<String, Object> getPermissionAwareSummary(Long siteId) {
+        DashboardDTO summary = getSummary(siteId);
+        java.util.LinkedHashMap<String, Object> values = new java.util.LinkedHashMap<>();
+        if (accessControlService.hasPermission("EQUIPMENT_VIEW")) {
+            values.put("totalEquipments", summary.getTotalEquipments());
+        }
+        if (accessControlService.hasPermission("VENDOR_VIEW")) {
+            values.put("activeVendors", summary.getActiveVendors());
+        }
+        if (accessControlService.hasPermission("REQUEST_VIEW")) {
+            values.put("openRequests", summary.getOpenRequests());
+        }
+        if (accessControlService.hasPermission("SPARE_PART_VIEW")) {
+            values.put("lowStockSpareParts", summary.getLowStockSpareParts());
+        }
+        if (accessControlService.hasPermission("DOWNTIME_VIEW")) {
+            values.put("totalDowntimeHours", summary.getTotalDowntimeHours());
+        }
+        return values;
     }
 
     private Collection<Long> resolveAllowedSiteIds(Long siteId) {

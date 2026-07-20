@@ -26,4 +26,39 @@ public class DashboardController {
     public ResponseEntity<ApiResponse<?>> getOverview(@RequestParam(required = false) Long siteId) {
         return ResponseFactory.ok(dashboardService.getOverview(siteId));
     }
+
+    @GetMapping("/me")
+    public ResponseEntity<ApiResponse<?>> getDashboardMetadata() {
+        return ResponseFactory.ok(dashboardService.getDashboardMetadata());
+    }
+
+    @GetMapping("/widgets/overview/kpi-summary")
+    public ResponseEntity<ApiResponse<?>> getKpiSummaryWidget(@RequestParam(required = false) Long siteId) {
+        return ResponseFactory.ok(dashboardService.getKpiSummaryWidget(siteId));
+    }
+
+    @GetMapping("/widgets/equipment/status")
+    public ResponseEntity<ApiResponse<?>> getEquipmentStatusWidget(@RequestParam(required = false) Long siteId) {
+        return ResponseFactory.ok(dashboardService.getEquipmentStatusWidget(siteId));
+    }
+
+    @GetMapping("/widgets/reports/downtime-summary")
+    public ResponseEntity<ApiResponse<?>> getDowntimeSummaryWidget(@RequestParam(required = false) Long siteId) {
+        return ResponseFactory.ok(dashboardService.getDowntimeSummaryWidget(siteId));
+    }
+
+    @GetMapping("/widgets/vendor-amc/performance")
+    public ResponseEntity<ApiResponse<?>> getVendorPerformanceWidget(@RequestParam(required = false) Long siteId) {
+        return ResponseFactory.ok(dashboardService.getVendorPerformanceWidget(siteId));
+    }
+
+    @GetMapping("/widgets/maintenance/pm-due")
+    public ResponseEntity<ApiResponse<?>> getPmDueWidget(@RequestParam(required = false) Long siteId) {
+        return ResponseFactory.ok(dashboardService.getPmDueWidget(siteId));
+    }
+
+    @GetMapping("/widgets/vendor-amc/active-contracts")
+    public ResponseEntity<ApiResponse<?>> getActiveAmcContractsWidget(@RequestParam(required = false) Long siteId) {
+        return ResponseFactory.ok(dashboardService.getActiveAmcContractsWidget(siteId));
+    }
 }
