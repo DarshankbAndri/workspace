@@ -1880,8 +1880,8 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/equipment/pages/EquipmentViewPage.jsx": {
-    "mtime": 1784527074.4036288,
-    "ast_hash": "2970e00996ac44bcb1033ed7efe8584b",
+    "mtime": 1784537291.3681712,
+    "ast_hash": "b2ffdc2e798e276513e55dd272ec700e",
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/vendor/pages/VendorViewPage.jsx": {

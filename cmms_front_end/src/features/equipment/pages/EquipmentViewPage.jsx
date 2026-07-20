@@ -541,10 +541,11 @@ function EquipmentSpareBomTab({
   onEdit,
   onDelete,
 }) {
+  const navigate = useNavigate();
   const spareOptions = React.useMemo(() => siteSpares.map((item) => ({
-    value: item.id,
+    value: getSparePartStockId(item),
     label: `${item.partCode} - ${item.partName} | Available: ${formatNumber(item.availableStock ?? item.currentStock)} ${item.unit || ''}`,
-  })), [siteSpares]);
+  })).filter((item) => Boolean(item.value)), [siteSpares]);
 
   return (
     <Stack spacing={2.5}>
@@ -723,7 +724,7 @@ function EquipmentSpareBomTab({
 }
 
 function getSparePartStockId(row) {
-  return row?.stockId ?? row?.id ?? row?.sparePartStockId ?? row?.spareStockId ?? '';
+  return row?.stockId ?? row?.sparePartStockId ?? row?.spareStockId ?? '';
 }
 
 function EquipmentDocumentsTab({

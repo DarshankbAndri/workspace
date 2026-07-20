@@ -1,16 +1,16 @@
 # Graph Report - andritz_cmms  (2026-07-20)
 
 ## Corpus Check
-- 449 files · ~188,925 words
+- 449 files · ~188,929 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 6501 nodes · 14505 edges · 383 communities (304 shown, 79 thin omitted)
+- 6501 nodes · 14505 edges · 382 communities (303 shown, 79 thin omitted)
 - Extraction: 92% EXTRACTED · 8% INFERRED · 0% AMBIGUOUS · INFERRED: 1225 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `170afe45`
+- Built from commit: `5d55d202`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -351,7 +351,6 @@
 - [[_COMMUNITY_Community 343|Community 343]]
 - [[_COMMUNITY_Community 344|Community 344]]
 - [[_COMMUNITY_Community 345|Community 345]]
-- [[_COMMUNITY_Community 346|Community 346]]
 - [[_COMMUNITY_Community 347|Community 347]]
 - [[_COMMUNITY_Community 348|Community 348]]
 - [[_COMMUNITY_Community 349|Community 349]]
@@ -415,7 +414,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (383 total, 79 thin omitted)
+## Communities (382 total, 79 thin omitted)
 
 ### Community 1 - "Community 1"
 Cohesion: 0.08
@@ -526,8 +525,8 @@ Cohesion: 0.08
 Nodes (8): LocalDateTime, Long, PrePersist, PreUpdate, Site, String, User, Notification
 
 ### Community 30 - "Community 30"
-Cohesion: 0.08
-Nodes (35): EquipmentFormPage(), chipColor(), criticalityOptions, DetailItem(), displayValue(), documentTypeOptions, EquipmentViewPage(), formatDate() (+27 more)
+Cohesion: 0.09
+Nodes (32): chipColor(), criticalityOptions, DetailItem(), displayValue(), documentTypeOptions, EquipmentViewPage(), formatDate(), formatDateTime() (+24 more)
 
 ### Community 31 - "Community 31"
 Cohesion: 0.07
@@ -606,8 +605,8 @@ Cohesion: 0.05
 Nodes (49): ApiResponse, DeleteMapping, EquipmentAmcMappingDTO, GetMapping, Long, PostMapping, PutMapping, ResponseEntity (+41 more)
 
 ### Community 51 - "Community 51"
-Cohesion: 0.06
-Nodes (58): CommonEmptyState(), CommonErrorState(), CommonList(), CommonStatusDropdown(), CommonVendorDropdown(), searchVendors(), ACTIVE_STATUS_OPTIONS, APPROVAL_ACTION_OPTIONS (+50 more)
+Cohesion: 0.05
+Nodes (67): CommonDropdown(), CommonErrorState(), CommonList(), CommonStatusDropdown(), CommonVendorDropdown(), searchVendors(), ACTIVE_STATUS_OPTIONS, APPROVAL_ACTION_OPTIONS (+59 more)
 
 ### Community 52 - "Community 52"
 Cohesion: 0.10
@@ -802,8 +801,8 @@ Cohesion: 0.40
 Nodes (5): 📱 API Complete, 🎓 Best Practices, 🔐 Database Complete, ✨ Key Highlights, 🔄 Workflow Complete
 
 ### Community 104 - "Community 104"
-Cohesion: 0.10
-Nodes (26): CommonDropdown(), DowntimeAnalysisPage(), equipmentColumns, EquipmentCostReportPage(), formatMoney(), groupedColumns, REPORT_MODES, EquipmentHistoryPage() (+18 more)
+Cohesion: 0.11
+Nodes (25): DowntimeAnalysisPage(), equipmentColumns, EquipmentCostReportPage(), formatMoney(), groupedColumns, REPORT_MODES, EquipmentHistoryPage(), addDays() (+17 more)
 
 ### Community 106 - "Community 106"
 Cohesion: 0.11
@@ -1174,12 +1173,12 @@ Cohesion: 0.12
 Nodes (19): Collection, Integer, List, LocalDate, Long, MaintenanceRequest, Notification, NotificationDTO (+11 more)
 
 ### Community 215 - "Community 215"
-Cohesion: 0.08
-Nodes (37): CommonFileUpload(), CommonFilterPanel(), CommonPageHeader(), renderAction(), CommonStatusChip(), statusColorMap, TopNavbar(), ApprovalInboxPage() (+29 more)
+Cohesion: 0.09
+Nodes (32): CommonFileUpload(), CommonPageHeader(), renderAction(), CommonStatusChip(), statusColorMap, TopNavbar(), CompanyFormPage(), initialForm (+24 more)
 
 ### Community 217 - "Community 217"
 Cohesion: 0.04
-Nodes (76): CommonFormActions(), CommonFormCard(), CommonInput(), CommonSectionCard(), CommonTextArea(), DowntimeFormPage(), initialForm, plannedOptions (+68 more)
+Nodes (80): CommonFilterPanel(), CommonFormActions(), CommonFormCard(), CommonInput(), CommonSectionCard(), CommonTextArea(), DowntimeFormPage(), initialForm (+72 more)
 
 ### Community 218 - "Community 218"
 Cohesion: 0.28
@@ -1295,7 +1294,7 @@ Nodes (8): ApiErrorCode, FilterChain, HttpServletRequest, HttpServletResponse, H
 
 ### Community 251 - "Community 251"
 Cohesion: 0.05
-Nodes (70): CommonDatePicker(), CommonDateTimePicker(), ConfirmDialog(), checklistResponseTypes, checklistStatusOptions, initialChecklistForm, initialForm, initialSpareEditDialog (+62 more)
+Nodes (69): CommonDatePicker(), CommonDateTimePicker(), ConfirmDialog(), checklistResponseTypes, checklistStatusOptions, initialChecklistForm, initialForm, initialSpareEditDialog (+61 more)
 
 ### Community 252 - "Community 252"
 Cohesion: 0.36
@@ -1362,8 +1361,8 @@ Cohesion: 0.36
 Nodes (5): Cacheable, Long, String, Logger, ApiPermissionService
 
 ### Community 271 - "Community 271"
-Cohesion: 0.12
-Nodes (20): categoryGroupOrder, getDashboardWidgetDepartment(), getPermissionGroupLabel(), groupPermissionsBySubGroup(), initialForm, permissionCategories, permissionCodeOrder, ROLE_STATUS_OPTIONS (+12 more)
+Cohesion: 0.08
+Nodes (27): AUTH_ROLE_OPTIONS, EmployeeFormPage(), emptyAssignment, emptyRoleAssignment, GENDER_OPTIONS, initialForm, STATUS_OPTIONS, categoryGroupOrder (+19 more)
 
 ### Community 272 - "Community 272"
 Cohesion: 0.20
@@ -1435,7 +1434,7 @@ Nodes (3): Override, String, PermissionApiMappingRepositoryImpl
 
 ### Community 309 - "Community 309"
 Cohesion: 0.05
-Nodes (61): BOM_CRITICALITY_OPTIONS, initialBomForm, initialForm, SPARE_STATUS_OPTIONS, SparePartFormPage(), formatStockValue(), getSparePartQrValue(), getSparePartViewPath() (+53 more)
+Nodes (60): BOM_CRITICALITY_OPTIONS, initialBomForm, initialForm, SPARE_STATUS_OPTIONS, SparePartFormPage(), formatStockValue(), getSparePartQrValue(), getSparePartViewPath() (+52 more)
 
 ### Community 310 - "Community 310"
 Cohesion: 0.20
@@ -1498,8 +1497,8 @@ Cohesion: 0.36
 Nodes (6): Class, JpaSpecificationExecutor, PageProperties, SearchDTO, T, SearchService
 
 ### Community 333 - "Community 333"
-Cohesion: 0.21
-Nodes (12): amcMetricCards, DashboardPage(), formatMetric(), metricCards, WIDGETS, getDashboardData(), getDashboardMetadata(), getDashboardSummary() (+4 more)
+Cohesion: 0.18
+Nodes (13): CommonEmptyState(), amcMetricCards, DashboardPage(), formatMetric(), metricCards, WIDGETS, getDashboardData(), getDashboardMetadata() (+5 more)
 
 ### Community 334 - "Community 334"
 Cohesion: 0.20
@@ -1524,10 +1523,6 @@ Nodes (5): ChartSliceDTO, DashboardOverviewDTO, MonthlyDowntimeDTO, UpcomingMain
 ### Community 342 - "Community 342"
 Cohesion: 0.35
 Nodes (8): ApiResponse, GetMapping, List, Long, PutMapping, ResponseEntity, UserRoleAssignmentDTO, UserRoleAssignmentController
-
-### Community 346 - "Community 346"
-Cohesion: 0.17
-Nodes (10): AUTH_ROLE_OPTIONS, EmployeeFormPage(), emptyAssignment, emptyRoleAssignment, GENDER_OPTIONS, initialForm, STATUS_OPTIONS, createEmployee() (+2 more)
 
 ### Community 347 - "Community 347"
 Cohesion: 0.31

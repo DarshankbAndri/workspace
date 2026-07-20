@@ -48970,7 +48970,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_rolelistpage",
-      "community": 271,
+      "community": 51,
       "norm_label": "rolelistpage.jsx"
     },
     {
@@ -48980,7 +48980,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "pages_rolelistpage_rolelistpage",
-      "community": 271,
+      "community": 51,
       "norm_label": "rolelistpage()"
     },
     {
@@ -49080,7 +49080,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "services_roleservice_searchroles",
-      "community": 271,
+      "community": 51,
       "norm_label": "searchroles()"
     },
     {
@@ -49120,7 +49120,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "services_roleservice_deleterole",
-      "community": 271,
+      "community": 51,
       "norm_label": "deleterole()"
     },
     {
@@ -49190,7 +49190,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_approvalinboxpage",
-      "community": 215,
+      "community": 51,
       "norm_label": "approvalinboxpage.jsx"
     },
     {
@@ -49200,7 +49200,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "pages_approvalinboxpage_approvalinboxpage",
-      "community": 215,
+      "community": 51,
       "norm_label": "approvalinboxpage()"
     },
     {
@@ -49250,7 +49250,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "services_approvalservice",
-      "community": 215,
+      "community": 51,
       "norm_label": "approvalservice.js"
     },
     {
@@ -49260,7 +49260,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "services_approvalservice_getpendingapprovals",
-      "community": 215,
+      "community": 51,
       "norm_label": "getpendingapprovals()"
     },
     {
@@ -49270,7 +49270,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "services_approvalservice_getapprovalhistory",
-      "community": 215,
+      "community": 51,
       "norm_label": "getapprovalhistory()"
     },
     {
@@ -49300,7 +49300,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "services_approvalservice_approveapproval",
-      "community": 215,
+      "community": 51,
       "norm_label": "approveapproval()"
     },
     {
@@ -49310,7 +49310,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "services_approvalservice_rejectapproval",
-      "community": 215,
+      "community": 51,
       "norm_label": "rejectapproval()"
     },
     {
@@ -50580,7 +50580,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_employeeformpage",
-      "community": 346,
+      "community": 271,
       "norm_label": "employeeformpage.jsx"
     },
     {
@@ -50590,7 +50590,7 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "pages_employeeformpage_status_options",
-      "community": 346,
+      "community": 271,
       "norm_label": "status_options"
     },
     {
@@ -50600,7 +50600,7 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "pages_employeeformpage_gender_options",
-      "community": 346,
+      "community": 271,
       "norm_label": "gender_options"
     },
     {
@@ -50610,7 +50610,7 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "pages_employeeformpage_auth_role_options",
-      "community": 346,
+      "community": 271,
       "norm_label": "auth_role_options"
     },
     {
@@ -50620,7 +50620,7 @@
       "source_location": "L50",
       "_origin": "ast",
       "id": "pages_employeeformpage_emptyassignment",
-      "community": 346,
+      "community": 271,
       "norm_label": "emptyassignment"
     },
     {
@@ -50630,7 +50630,7 @@
       "source_location": "L59",
       "_origin": "ast",
       "id": "pages_employeeformpage_emptyroleassignment",
-      "community": 346,
+      "community": 271,
       "norm_label": "emptyroleassignment"
     },
     {
@@ -50640,7 +50640,7 @@
       "source_location": "L65",
       "_origin": "ast",
       "id": "pages_employeeformpage_initialform",
-      "community": 346,
+      "community": 271,
       "norm_label": "initialform"
     },
     {
@@ -50650,7 +50650,7 @@
       "source_location": "L88",
       "_origin": "ast",
       "id": "pages_employeeformpage_employeeformpage",
-      "community": 346,
+      "community": 271,
       "norm_label": "employeeformpage()"
     },
     {
@@ -50660,7 +50660,7 @@
       "source_location": "L450",
       "_origin": "ast",
       "id": "pages_employeeformpage_normalizeassignments",
-      "community": 346,
+      "community": 271,
       "norm_label": "normalizeassignments()"
     },
     {
@@ -50670,7 +50670,7 @@
       "source_location": "L465",
       "_origin": "ast",
       "id": "pages_employeeformpage_normalizeroleassignments",
-      "community": 346,
+      "community": 271,
       "norm_label": "normalizeroleassignments()"
     },
     {
@@ -50680,7 +50680,7 @@
       "source_location": "L475",
       "_origin": "ast",
       "id": "pages_employeeformpage_selectedsites",
-      "community": 346,
+      "community": 271,
       "norm_label": "selectedsites()"
     },
     {
@@ -50710,7 +50710,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "services_employeeservice",
-      "community": 346,
+      "community": 271,
       "norm_label": "employeeservice.js"
     },
     {
@@ -50720,7 +50720,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "services_employeeservice_getemployees",
-      "community": 346,
+      "community": 271,
       "norm_label": "getemployees()"
     },
     {
@@ -50740,7 +50740,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "services_employeeservice_getemployeebyid",
-      "community": 346,
+      "community": 271,
       "norm_label": "getemployeebyid()"
     },
     {
@@ -50750,7 +50750,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "services_employeeservice_createemployee",
-      "community": 346,
+      "community": 271,
       "norm_label": "createemployee()"
     },
     {
@@ -50760,7 +50760,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "services_employeeservice_updateemployee",
-      "community": 346,
+      "community": 271,
       "norm_label": "updateemployee()"
     },
     {
@@ -50870,7 +50870,7 @@
       "source_location": "L95",
       "_origin": "ast",
       "id": "pages_equipmentformpage_equipmentformpage",
-      "community": 30,
+      "community": 217,
       "norm_label": "equipmentformpage()"
     },
     {
@@ -51007,7 +51007,7 @@
       "label": "getSparePartStockId()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/features/equipment/pages/EquipmentViewPage.jsx",
-      "source_location": "L725",
+      "source_location": "L726",
       "_origin": "ast",
       "id": "pages_equipmentviewpage_getsparepartstockid",
       "community": 30,
@@ -51017,7 +51017,7 @@
       "label": "EquipmentDocumentsTab()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/features/equipment/pages/EquipmentViewPage.jsx",
-      "source_location": "L729",
+      "source_location": "L730",
       "_origin": "ast",
       "id": "pages_equipmentviewpage_equipmentdocumentstab",
       "community": 30,
@@ -51027,7 +51027,7 @@
       "label": "SummaryGrid()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/features/equipment/pages/EquipmentViewPage.jsx",
-      "source_location": "L881",
+      "source_location": "L882",
       "_origin": "ast",
       "id": "pages_equipmentviewpage_summarygrid",
       "community": 30,
@@ -51037,7 +51037,7 @@
       "label": "HealthGrid()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/features/equipment/pages/EquipmentViewPage.jsx",
-      "source_location": "L896",
+      "source_location": "L897",
       "_origin": "ast",
       "id": "pages_equipmentviewpage_healthgrid",
       "community": 30,
@@ -51047,7 +51047,7 @@
       "label": "Metric()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/features/equipment/pages/EquipmentViewPage.jsx",
-      "source_location": "L911",
+      "source_location": "L912",
       "_origin": "ast",
       "id": "pages_equipmentviewpage_metric",
       "community": 30,
@@ -51057,7 +51057,7 @@
       "label": "EmptyPanel()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/features/equipment/pages/EquipmentViewPage.jsx",
-      "source_location": "L929",
+      "source_location": "L930",
       "_origin": "ast",
       "id": "pages_equipmentviewpage_emptypanel",
       "community": 30,
@@ -51067,7 +51067,7 @@
       "label": "getCreateAmcPath()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/features/equipment/pages/EquipmentViewPage.jsx",
-      "source_location": "L939",
+      "source_location": "L940",
       "_origin": "ast",
       "id": "pages_equipmentviewpage_getcreateamcpath",
       "community": 30,
@@ -51077,7 +51077,7 @@
       "label": "DetailItem()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/features/equipment/pages/EquipmentViewPage.jsx",
-      "source_location": "L947",
+      "source_location": "L948",
       "_origin": "ast",
       "id": "pages_equipmentviewpage_detailitem",
       "community": 30,
@@ -51087,7 +51087,7 @@
       "label": "chipColor()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/features/equipment/pages/EquipmentViewPage.jsx",
-      "source_location": "L965",
+      "source_location": "L966",
       "_origin": "ast",
       "id": "pages_equipmentviewpage_chipcolor",
       "community": 30,
@@ -51097,7 +51097,7 @@
       "label": "criticalityColor()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/features/equipment/pages/EquipmentViewPage.jsx",
-      "source_location": "L972",
+      "source_location": "L973",
       "_origin": "ast",
       "id": "pages_equipmentviewpage_criticalitycolor",
       "community": 30,
@@ -51107,7 +51107,7 @@
       "label": "healthVariant()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/features/equipment/pages/EquipmentViewPage.jsx",
-      "source_location": "L979",
+      "source_location": "L980",
       "_origin": "ast",
       "id": "pages_equipmentviewpage_healthvariant",
       "community": 30,
@@ -51117,7 +51117,7 @@
       "label": "displayValue()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/features/equipment/pages/EquipmentViewPage.jsx",
-      "source_location": "L986",
+      "source_location": "L987",
       "_origin": "ast",
       "id": "pages_equipmentviewpage_displayvalue",
       "community": 30,
@@ -51127,7 +51127,7 @@
       "label": "formatSite()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/features/equipment/pages/EquipmentViewPage.jsx",
-      "source_location": "L990",
+      "source_location": "L991",
       "_origin": "ast",
       "id": "pages_equipmentviewpage_formatsite",
       "community": 30,
@@ -51137,7 +51137,7 @@
       "label": "formatDate()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/features/equipment/pages/EquipmentViewPage.jsx",
-      "source_location": "L997",
+      "source_location": "L998",
       "_origin": "ast",
       "id": "pages_equipmentviewpage_formatdate",
       "community": 30,
@@ -51147,7 +51147,7 @@
       "label": "formatDateTime()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/features/equipment/pages/EquipmentViewPage.jsx",
-      "source_location": "L1001",
+      "source_location": "L1002",
       "_origin": "ast",
       "id": "pages_equipmentviewpage_formatdatetime",
       "community": 30,
@@ -51157,7 +51157,7 @@
       "label": "formatLabel()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/features/equipment/pages/EquipmentViewPage.jsx",
-      "source_location": "L1005",
+      "source_location": "L1006",
       "_origin": "ast",
       "id": "pages_equipmentviewpage_formatlabel",
       "community": 30,
@@ -51167,7 +51167,7 @@
       "label": "formatMinutes()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/features/equipment/pages/EquipmentViewPage.jsx",
-      "source_location": "L1009",
+      "source_location": "L1010",
       "_origin": "ast",
       "id": "pages_equipmentviewpage_formatminutes",
       "community": 30,
@@ -51177,7 +51177,7 @@
       "label": "formatHours()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/features/equipment/pages/EquipmentViewPage.jsx",
-      "source_location": "L1017",
+      "source_location": "L1018",
       "_origin": "ast",
       "id": "pages_equipmentviewpage_formathours",
       "community": 30,
@@ -51187,7 +51187,7 @@
       "label": "formatNumber()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/features/equipment/pages/EquipmentViewPage.jsx",
-      "source_location": "L1024",
+      "source_location": "L1025",
       "_origin": "ast",
       "id": "pages_equipmentviewpage_formatnumber",
       "community": 30,
@@ -51197,7 +51197,7 @@
       "label": "formatMoney()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/features/equipment/pages/EquipmentViewPage.jsx",
-      "source_location": "L1031",
+      "source_location": "L1032",
       "_origin": "ast",
       "id": "pages_equipmentviewpage_formatmoney",
       "community": 30,
@@ -51207,7 +51207,7 @@
       "label": "formatFileSize()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/features/equipment/pages/EquipmentViewPage.jsx",
-      "source_location": "L1038",
+      "source_location": "L1039",
       "_origin": "ast",
       "id": "pages_equipmentviewpage_formatfilesize",
       "community": 30,
@@ -51217,7 +51217,7 @@
       "label": "renderExpiry()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/features/equipment/pages/EquipmentViewPage.jsx",
-      "source_location": "L1046",
+      "source_location": "L1047",
       "_origin": "ast",
       "id": "pages_equipmentviewpage_renderexpiry",
       "community": 30,
@@ -51227,7 +51227,7 @@
       "label": "formatApiError()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/features/equipment/pages/EquipmentViewPage.jsx",
-      "source_location": "L1052",
+      "source_location": "L1053",
       "_origin": "ast",
       "id": "pages_equipmentviewpage_formatapierror",
       "community": 30,
@@ -51237,7 +51237,7 @@
       "label": "downloadBlob()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/features/equipment/pages/EquipmentViewPage.jsx",
-      "source_location": "L1063",
+      "source_location": "L1064",
       "_origin": "ast",
       "id": "pages_equipmentviewpage_downloadblob",
       "community": 30,
@@ -51400,7 +51400,7 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "services_equipmentservice_createequipment",
-      "community": 30,
+      "community": 217,
       "norm_label": "createequipment()"
     },
     {
@@ -51410,7 +51410,7 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "services_equipmentservice_updateequipment",
-      "community": 30,
+      "community": 217,
       "norm_label": "updateequipment()"
     },
     {
@@ -51700,7 +51700,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "services_maintenanceservice_getmaintenancerequests",
-      "community": 251,
+      "community": 51,
       "norm_label": "getmaintenancerequests()"
     },
     {
@@ -54620,7 +54620,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "common_commondropdown_commondropdown",
-      "community": 104,
+      "community": 51,
       "norm_label": "commondropdown()"
     },
     {
@@ -54630,7 +54630,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "common_commonemptystate",
-      "community": 51,
+      "community": 333,
       "norm_label": "commonemptystate.jsx"
     },
     {
@@ -54640,7 +54640,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "common_commonemptystate_commonemptystate",
-      "community": 51,
+      "community": 333,
       "norm_label": "commonemptystate()"
     },
     {
@@ -54700,7 +54700,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "common_commonfilterpanel_commonfilterpanel",
-      "community": 215,
+      "community": 217,
       "norm_label": "commonfilterpanel()"
     },
     {
@@ -55730,7 +55730,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_permissionroutes_permissions",
-      "community": 309,
+      "community": 51,
       "norm_label": "permissions"
     },
     {
@@ -97005,9 +97005,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/service/DashboardService.java",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_dashboardservice",
-      "target": "unauthorizedaccessexception",
-      "confidence_score": 1.0
+      "target": "unauthorizedaccessexception"
     },
     {
       "relation": "imports",
@@ -115880,9 +115880,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/dto/DashboardActionDTO.java",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "dto_dashboardactiondto",
-      "target": "dto_dashboardactiondto_dashboardactiondto",
-      "confidence_score": 1.0
+      "target": "dto_dashboardactiondto_dashboardactiondto"
     },
     {
       "relation": "imports",
@@ -116255,9 +116255,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/service/DashboardService.java",
       "source_location": "L38",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_dashboardservice",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_dashboard_service_dashboardservice_java_map",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_dashboard_service_dashboardservice_java_map"
     },
     {
       "relation": "imports",
@@ -116277,9 +116277,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/service/DashboardService.java",
       "source_location": "L17",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_dashboardservice",
-      "target": "dashboardactiondto",
-      "confidence_score": 1.0
+      "target": "dashboardactiondto"
     },
     {
       "relation": "imports",
@@ -116363,9 +116363,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/service/DashboardService.java",
       "source_location": "L290",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice",
-      "target": "service_dashboardservice_dashboardservice_action",
-      "confidence_score": 1.0
+      "target": "service_dashboardservice_dashboardservice_action"
     },
     {
       "relation": "method",
@@ -116383,9 +116383,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/service/DashboardService.java",
       "source_location": "L278",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice",
-      "target": "service_dashboardservice_dashboardservice_assertallpermissions",
-      "confidence_score": 1.0
+      "target": "service_dashboardservice_dashboardservice_assertallpermissions"
     },
     {
       "relation": "method",
@@ -116393,9 +116393,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/service/DashboardService.java",
       "source_location": "L284",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice",
-      "target": "service_dashboardservice_dashboardservice_assertanypermission",
-      "confidence_score": 1.0
+      "target": "service_dashboardservice_dashboardservice_assertanypermission"
     },
     {
       "relation": "method",
@@ -116413,9 +116413,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/service/DashboardService.java",
       "source_location": "L258",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice",
-      "target": "service_dashboardservice_dashboardservice_canshowwidget",
-      "confidence_score": 1.0
+      "target": "service_dashboardservice_dashboardservice_canshowwidget"
     },
     {
       "relation": "method",
@@ -116423,9 +116423,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/service/DashboardService.java",
       "source_location": "L309",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice",
-      "target": "service_dashboardservice_dashboardservice_defaultdepartment",
-      "confidence_score": 1.0
+      "target": "service_dashboardservice_dashboardservice_defaultdepartment"
     },
     {
       "relation": "method",
@@ -116523,9 +116523,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/service/DashboardService.java",
       "source_location": "L318",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice",
-      "target": "service_dashboardservice_dashboardservice_getpermissionawaresummary",
-      "confidence_score": 1.0
+      "target": "service_dashboardservice_dashboardservice_getpermissionawaresummary"
     },
     {
       "relation": "method",
@@ -116583,9 +116583,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/service/DashboardService.java",
       "source_location": "L262",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice",
-      "target": "service_dashboardservice_dashboardservice_hasallpermissions",
-      "confidence_score": 1.0
+      "target": "service_dashboardservice_dashboardservice_hasallpermissions"
     },
     {
       "relation": "method",
@@ -116593,9 +116593,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/service/DashboardService.java",
       "source_location": "L270",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice",
-      "target": "service_dashboardservice_dashboardservice_hasanypermission",
-      "confidence_score": 1.0
+      "target": "service_dashboardservice_dashboardservice_hasanypermission"
     },
     {
       "relation": "method",
@@ -116683,9 +116683,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/service/DashboardService.java",
       "source_location": "L299",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice",
-      "target": "service_dashboardservice_dashboardservice_visibleactions",
-      "confidence_score": 1.0
+      "target": "service_dashboardservice_dashboardservice_visibleactions"
     },
     {
       "relation": "method",
@@ -116736,9 +116736,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/service/DashboardService.java",
       "source_location": "L319",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice_getpermissionawaresummary",
-      "target": "service_dashboardservice_dashboardservice_getsummary",
-      "confidence_score": 1.0
+      "target": "service_dashboardservice_dashboardservice_getsummary"
     },
     {
       "relation": "references",
@@ -116923,9 +116923,9 @@
       "source_location": "L318",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice_getpermissionawaresummary",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_dashboard_service_dashboardservice_java_long",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_dashboard_service_dashboardservice_java_long"
     },
     {
       "relation": "references",
@@ -117143,9 +117143,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/service/DashboardService.java",
       "source_location": "L124",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice_getdashboardmetadata",
-      "target": "service_dashboardservice_dashboardservice_action",
-      "confidence_score": 1.0
+      "target": "service_dashboardservice_dashboardservice_action"
     },
     {
       "relation": "calls",
@@ -117165,9 +117165,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/service/DashboardService.java",
       "source_location": "L144",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice_getdashboardmetadata",
-      "target": "service_dashboardservice_dashboardservice_defaultdepartment",
-      "confidence_score": 1.0
+      "target": "service_dashboardservice_dashboardservice_defaultdepartment"
     },
     {
       "relation": "calls",
@@ -117176,9 +117176,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/service/DashboardService.java",
       "source_location": "L149",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice_getdashboardmetadata",
-      "target": "service_dashboardservice_dashboardservice_visibleactions",
-      "confidence_score": 1.0
+      "target": "service_dashboardservice_dashboardservice_visibleactions"
     },
     {
       "relation": "calls",
@@ -117209,9 +117209,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/service/DashboardService.java",
       "source_location": "L162",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice_getkpisummarywidget",
-      "target": "service_dashboardservice_dashboardservice_assertanypermission",
-      "confidence_score": 1.0
+      "target": "service_dashboardservice_dashboardservice_assertanypermission"
     },
     {
       "relation": "calls",
@@ -117220,9 +117220,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/service/DashboardService.java",
       "source_location": "L163",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice_getkpisummarywidget",
-      "target": "service_dashboardservice_dashboardservice_getpermissionawaresummary",
-      "confidence_score": 1.0
+      "target": "service_dashboardservice_dashboardservice_getpermissionawaresummary"
     },
     {
       "relation": "calls",
@@ -117308,9 +117308,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/service/DashboardService.java",
       "source_location": "L171",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice_getequipmentstatuswidget",
-      "target": "service_dashboardservice_dashboardservice_action",
-      "confidence_score": 1.0
+      "target": "service_dashboardservice_dashboardservice_action"
     },
     {
       "relation": "calls",
@@ -117319,9 +117319,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/service/DashboardService.java",
       "source_location": "L168",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice_getequipmentstatuswidget",
-      "target": "service_dashboardservice_dashboardservice_assertallpermissions",
-      "confidence_score": 1.0
+      "target": "service_dashboardservice_dashboardservice_assertallpermissions"
     },
     {
       "relation": "calls",
@@ -117363,9 +117363,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/service/DashboardService.java",
       "source_location": "L178",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice_getdowntimesummarywidget",
-      "target": "service_dashboardservice_dashboardservice_action",
-      "confidence_score": 1.0
+      "target": "service_dashboardservice_dashboardservice_action"
     },
     {
       "relation": "calls",
@@ -117374,9 +117374,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/service/DashboardService.java",
       "source_location": "L175",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice_getdowntimesummarywidget",
-      "target": "service_dashboardservice_dashboardservice_assertallpermissions",
-      "confidence_score": 1.0
+      "target": "service_dashboardservice_dashboardservice_assertallpermissions"
     },
     {
       "relation": "calls",
@@ -117418,9 +117418,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/service/DashboardService.java",
       "source_location": "L185",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice_getvendorperformancewidget",
-      "target": "service_dashboardservice_dashboardservice_action",
-      "confidence_score": 1.0
+      "target": "service_dashboardservice_dashboardservice_action"
     },
     {
       "relation": "calls",
@@ -117429,9 +117429,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/service/DashboardService.java",
       "source_location": "L182",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice_getvendorperformancewidget",
-      "target": "service_dashboardservice_dashboardservice_assertallpermissions",
-      "confidence_score": 1.0
+      "target": "service_dashboardservice_dashboardservice_assertallpermissions"
     },
     {
       "relation": "calls",
@@ -117473,9 +117473,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/service/DashboardService.java",
       "source_location": "L192",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice_getpmduewidget",
-      "target": "service_dashboardservice_dashboardservice_action",
-      "confidence_score": 1.0
+      "target": "service_dashboardservice_dashboardservice_action"
     },
     {
       "relation": "calls",
@@ -117484,9 +117484,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/service/DashboardService.java",
       "source_location": "L189",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice_getpmduewidget",
-      "target": "service_dashboardservice_dashboardservice_assertanypermission",
-      "confidence_score": 1.0
+      "target": "service_dashboardservice_dashboardservice_assertanypermission"
     },
     {
       "relation": "calls",
@@ -117528,9 +117528,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/service/DashboardService.java",
       "source_location": "L198",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice_getactiveamccontractswidget",
-      "target": "service_dashboardservice_dashboardservice_action",
-      "confidence_score": 1.0
+      "target": "service_dashboardservice_dashboardservice_action"
     },
     {
       "relation": "calls",
@@ -117539,9 +117539,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/service/DashboardService.java",
       "source_location": "L196",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice_getactiveamccontractswidget",
-      "target": "service_dashboardservice_dashboardservice_assertallpermissions",
-      "confidence_score": 1.0
+      "target": "service_dashboardservice_dashboardservice_assertallpermissions"
     },
     {
       "relation": "calls",
@@ -117594,9 +117594,9 @@
       "source_location": "L278",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice_assertallpermissions",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_dashboard_service_dashboardservice_java_collection",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_dashboard_service_dashboardservice_java_collection"
     },
     {
       "relation": "references",
@@ -117605,9 +117605,9 @@
       "source_location": "L284",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice_assertanypermission",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_dashboard_service_dashboardservice_java_collection",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_dashboard_service_dashboardservice_java_collection"
     },
     {
       "relation": "references",
@@ -117671,9 +117671,9 @@
       "source_location": "L262",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice_hasallpermissions",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_dashboard_service_dashboardservice_java_collection",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_dashboard_service_dashboardservice_java_collection"
     },
     {
       "relation": "references",
@@ -117682,9 +117682,9 @@
       "source_location": "L270",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice_hasanypermission",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_dashboard_service_dashboardservice_java_collection",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_dashboard_service_dashboardservice_java_collection"
     },
     {
       "relation": "references",
@@ -117781,9 +117781,9 @@
       "source_location": "L309",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice_defaultdepartment",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_dashboard_service_dashboardservice_java_list",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_dashboard_service_dashboardservice_java_list"
     },
     {
       "relation": "references",
@@ -117869,9 +117869,9 @@
       "source_location": "L299",
       "weight": 1.0,
       "context": "return_type",
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice_visibleactions",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_dashboard_service_dashboardservice_java_list",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_dashboard_service_dashboardservice_java_list"
     },
     {
       "relation": "references",
@@ -117902,9 +117902,9 @@
       "source_location": "L309",
       "weight": 1.0,
       "context": "generic_arg",
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice_defaultdepartment",
-      "target": "dashboarddepartmentdto",
-      "confidence_score": 1.0
+      "target": "dashboarddepartmentdto"
     },
     {
       "relation": "references",
@@ -117913,9 +117913,9 @@
       "source_location": "L290",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice_action",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_dashboard_service_dashboardservice_java_string",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_dashboard_service_dashboardservice_java_string"
     },
     {
       "relation": "references",
@@ -117924,9 +117924,9 @@
       "source_location": "L278",
       "weight": 1.0,
       "context": "generic_arg",
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice_assertallpermissions",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_dashboard_service_dashboardservice_java_string",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_dashboard_service_dashboardservice_java_string"
     },
     {
       "relation": "references",
@@ -117935,9 +117935,9 @@
       "source_location": "L284",
       "weight": 1.0,
       "context": "generic_arg",
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice_assertanypermission",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_dashboard_service_dashboardservice_java_string",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_dashboard_service_dashboardservice_java_string"
     },
     {
       "relation": "references",
@@ -117946,9 +117946,9 @@
       "source_location": "L309",
       "weight": 1.0,
       "context": "return_type",
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice_defaultdepartment",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_dashboard_service_dashboardservice_java_string",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_dashboard_service_dashboardservice_java_string"
     },
     {
       "relation": "references",
@@ -117957,9 +117957,9 @@
       "source_location": "L318",
       "weight": 1.0,
       "context": "generic_arg",
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice_getpermissionawaresummary",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_dashboard_service_dashboardservice_java_string",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_dashboard_service_dashboardservice_java_string"
     },
     {
       "relation": "references",
@@ -117968,9 +117968,9 @@
       "source_location": "L262",
       "weight": 1.0,
       "context": "generic_arg",
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice_hasallpermissions",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_dashboard_service_dashboardservice_java_string",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_dashboard_service_dashboardservice_java_string"
     },
     {
       "relation": "references",
@@ -117979,9 +117979,9 @@
       "source_location": "L270",
       "weight": 1.0,
       "context": "generic_arg",
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice_hasanypermission",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_dashboard_service_dashboardservice_java_string",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_dashboard_service_dashboardservice_java_string"
     },
     {
       "relation": "references",
@@ -118034,9 +118034,9 @@
       "source_location": "L258",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice_canshowwidget",
-      "target": "dashboardwidgetdefinitiondto",
-      "confidence_score": 1.0
+      "target": "dashboardwidgetdefinitiondto"
     },
     {
       "relation": "references",
@@ -118067,9 +118067,9 @@
       "source_location": "L221",
       "weight": 1.0,
       "context": "generic_arg",
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice_widget",
-      "target": "dashboardactiondto",
-      "confidence_score": 1.0
+      "target": "dashboardactiondto"
     },
     {
       "relation": "calls",
@@ -118078,9 +118078,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/service/DashboardService.java",
       "source_location": "L224",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice_widget",
-      "target": "service_dashboardservice_dashboardservice_visibleactions",
-      "confidence_score": 1.0
+      "target": "service_dashboardservice_dashboardservice_visibleactions"
     },
     {
       "relation": "references",
@@ -118100,9 +118100,9 @@
       "source_location": "L290",
       "weight": 1.0,
       "context": "return_type",
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice_action",
-      "target": "dashboardactiondto",
-      "confidence_score": 1.0
+      "target": "dashboardactiondto"
     },
     {
       "relation": "references",
@@ -118111,9 +118111,9 @@
       "source_location": "L299",
       "weight": 1.0,
       "context": "generic_arg",
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice_visibleactions",
-      "target": "dashboardactiondto",
-      "confidence_score": 1.0
+      "target": "dashboardactiondto"
     },
     {
       "relation": "references",
@@ -118122,9 +118122,9 @@
       "source_location": "L241",
       "weight": 1.0,
       "context": "generic_arg",
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice_widgetresponse",
-      "target": "dashboardactiondto",
-      "confidence_score": 1.0
+      "target": "dashboardactiondto"
     },
     {
       "relation": "references",
@@ -118144,9 +118144,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/service/DashboardService.java",
       "source_location": "L243",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice_widgetresponse",
-      "target": "service_dashboardservice_dashboardservice_visibleactions",
-      "confidence_score": 1.0
+      "target": "service_dashboardservice_dashboardservice_visibleactions"
     },
     {
       "relation": "references",
@@ -118155,9 +118155,9 @@
       "source_location": "L318",
       "weight": 1.0,
       "context": "generic_arg",
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice_getpermissionawaresummary",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_dashboard_service_dashboardservice_java_object",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_dashboard_service_dashboardservice_java_object"
     },
     {
       "relation": "calls",
@@ -118166,9 +118166,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/service/DashboardService.java",
       "source_location": "L259",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice_canshowwidget",
-      "target": "service_dashboardservice_dashboardservice_hasallpermissions",
-      "confidence_score": 1.0
+      "target": "service_dashboardservice_dashboardservice_hasallpermissions"
     },
     {
       "relation": "calls",
@@ -118177,9 +118177,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/service/DashboardService.java",
       "source_location": "L259",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice_canshowwidget",
-      "target": "service_dashboardservice_dashboardservice_hasanypermission",
-      "confidence_score": 1.0
+      "target": "service_dashboardservice_dashboardservice_hasanypermission"
     },
     {
       "relation": "calls",
@@ -118188,9 +118188,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/service/DashboardService.java",
       "source_location": "L279",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice_assertallpermissions",
-      "target": "service_dashboardservice_dashboardservice_hasallpermissions",
-      "confidence_score": 1.0
+      "target": "service_dashboardservice_dashboardservice_hasallpermissions"
     },
     {
       "relation": "calls",
@@ -118199,9 +118199,9 @@
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/service/DashboardService.java",
       "source_location": "L285",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice_assertanypermission",
-      "target": "service_dashboardservice_dashboardservice_hasanypermission",
-      "confidence_score": 1.0
+      "target": "service_dashboardservice_dashboardservice_hasanypermission"
     },
     {
       "relation": "calls",
@@ -118221,9 +118221,9 @@
       "source_location": "L318",
       "weight": 1.0,
       "context": "return_type",
+      "confidence_score": 1.0,
       "source": "service_dashboardservice_dashboardservice_getpermissionawaresummary",
-      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_dashboard_service_dashboardservice_java_map",
-      "confidence_score": 1.0
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_dashboard_service_dashboardservice_java_map"
     },
     {
       "relation": "calls",
@@ -213466,9 +213466,9 @@
       "source_file": "NEW_FETAURE_IMP/PENIDNG/production_dashboard.md",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "penidng_production_dashboard",
-      "target": "penidng_production_dashboard_production_dashboard_plan_department_and_permission_based",
-      "confidence_score": 1.0
+      "target": "penidng_production_dashboard_production_dashboard_plan_department_and_permission_based"
     },
     {
       "relation": "contains",
@@ -213476,9 +213476,9 @@
       "source_file": "NEW_FETAURE_IMP/PENIDNG/production_dashboard.md",
       "source_location": "L770",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "penidng_production_dashboard_production_dashboard_plan_department_and_permission_based",
-      "target": "penidng_production_dashboard_alerts",
-      "confidence_score": 1.0
+      "target": "penidng_production_dashboard_alerts"
     },
     {
       "relation": "contains",
@@ -213486,9 +213486,9 @@
       "source_file": "NEW_FETAURE_IMP/PENIDNG/production_dashboard.md",
       "source_location": "L540",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "penidng_production_dashboard_production_dashboard_plan_department_and_permission_based",
-      "target": "penidng_production_dashboard_backend_api_plan",
-      "confidence_score": 1.0
+      "target": "penidng_production_dashboard_backend_api_plan"
     },
     {
       "relation": "contains",
@@ -213496,9 +213496,9 @@
       "source_file": "NEW_FETAURE_IMP/PENIDNG/production_dashboard.md",
       "source_location": "L587",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "penidng_production_dashboard_production_dashboard_plan_department_and_permission_based",
-      "target": "penidng_production_dashboard_dashboard_dto_plan",
-      "confidence_score": 1.0
+      "target": "penidng_production_dashboard_dashboard_dto_plan"
     },
     {
       "relation": "contains",
@@ -213506,9 +213506,9 @@
       "source_file": "NEW_FETAURE_IMP/PENIDNG/production_dashboard.md",
       "source_location": "L83",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "penidng_production_dashboard_production_dashboard_plan_department_and_permission_based",
-      "target": "penidng_production_dashboard_dashboard_permission_rules",
-      "confidence_score": 1.0
+      "target": "penidng_production_dashboard_dashboard_permission_rules"
     },
     {
       "relation": "contains",
@@ -213516,9 +213516,9 @@
       "source_file": "NEW_FETAURE_IMP/PENIDNG/production_dashboard.md",
       "source_location": "L868",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "penidng_production_dashboard_production_dashboard_plan_department_and_permission_based",
-      "target": "penidng_production_dashboard_database_tables_only_if_needed",
-      "confidence_score": 1.0
+      "target": "penidng_production_dashboard_database_tables_only_if_needed"
     },
     {
       "relation": "contains",
@@ -213526,9 +213526,9 @@
       "source_file": "NEW_FETAURE_IMP/PENIDNG/production_dashboard.md",
       "source_location": "L459",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "penidng_production_dashboard_production_dashboard_plan_department_and_permission_based",
-      "target": "penidng_production_dashboard_department_10_administration_dashboard",
-      "confidence_score": 1.0
+      "target": "penidng_production_dashboard_department_10_administration_dashboard"
     },
     {
       "relation": "contains",
@@ -213536,9 +213536,9 @@
       "source_file": "NEW_FETAURE_IMP/PENIDNG/production_dashboard.md",
       "source_location": "L124",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "penidng_production_dashboard_production_dashboard_plan_department_and_permission_based",
-      "target": "penidng_production_dashboard_department_1_overview_dashboard",
-      "confidence_score": 1.0
+      "target": "penidng_production_dashboard_department_1_overview_dashboard"
     },
     {
       "relation": "contains",
@@ -213546,9 +213546,9 @@
       "source_file": "NEW_FETAURE_IMP/PENIDNG/production_dashboard.md",
       "source_location": "L153",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "penidng_production_dashboard_production_dashboard_plan_department_and_permission_based",
-      "target": "penidng_production_dashboard_department_2_maintenance_dashboard",
-      "confidence_score": 1.0
+      "target": "penidng_production_dashboard_department_2_maintenance_dashboard"
     },
     {
       "relation": "contains",
@@ -213556,9 +213556,9 @@
       "source_file": "NEW_FETAURE_IMP/PENIDNG/production_dashboard.md",
       "source_location": "L206",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "penidng_production_dashboard_production_dashboard_plan_department_and_permission_based",
-      "target": "penidng_production_dashboard_department_3_technician_work_dashboard",
-      "confidence_score": 1.0
+      "target": "penidng_production_dashboard_department_3_technician_work_dashboard"
     },
     {
       "relation": "contains",
@@ -213566,9 +213566,9 @@
       "source_file": "NEW_FETAURE_IMP/PENIDNG/production_dashboard.md",
       "source_location": "L253",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "penidng_production_dashboard_production_dashboard_plan_department_and_permission_based",
-      "target": "penidng_production_dashboard_department_4_inventory_store_dashboard",
-      "confidence_score": 1.0
+      "target": "penidng_production_dashboard_department_4_inventory_store_dashboard"
     },
     {
       "relation": "contains",
@@ -213576,9 +213576,9 @@
       "source_file": "NEW_FETAURE_IMP/PENIDNG/production_dashboard.md",
       "source_location": "L295",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "penidng_production_dashboard_production_dashboard_plan_department_and_permission_based",
-      "target": "penidng_production_dashboard_department_5_equipment_dashboard",
-      "confidence_score": 1.0
+      "target": "penidng_production_dashboard_department_5_equipment_dashboard"
     },
     {
       "relation": "contains",
@@ -213586,9 +213586,9 @@
       "source_file": "NEW_FETAURE_IMP/PENIDNG/production_dashboard.md",
       "source_location": "L329",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "penidng_production_dashboard_production_dashboard_plan_department_and_permission_based",
-      "target": "penidng_production_dashboard_department_6_amc_vendor_dashboard",
-      "confidence_score": 1.0
+      "target": "penidng_production_dashboard_department_6_amc_vendor_dashboard"
     },
     {
       "relation": "contains",
@@ -213596,9 +213596,9 @@
       "source_file": "NEW_FETAURE_IMP/PENIDNG/production_dashboard.md",
       "source_location": "L365",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "penidng_production_dashboard_production_dashboard_plan_department_and_permission_based",
-      "target": "penidng_production_dashboard_department_7_approvals_dashboard",
-      "confidence_score": 1.0
+      "target": "penidng_production_dashboard_department_7_approvals_dashboard"
     },
     {
       "relation": "contains",
@@ -213606,9 +213606,9 @@
       "source_file": "NEW_FETAURE_IMP/PENIDNG/production_dashboard.md",
       "source_location": "L395",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "penidng_production_dashboard_production_dashboard_plan_department_and_permission_based",
-      "target": "penidng_production_dashboard_department_8_reports_dashboard",
-      "confidence_score": 1.0
+      "target": "penidng_production_dashboard_department_8_reports_dashboard"
     },
     {
       "relation": "contains",
@@ -213616,9 +213616,9 @@
       "source_file": "NEW_FETAURE_IMP/PENIDNG/production_dashboard.md",
       "source_location": "L426",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "penidng_production_dashboard_production_dashboard_plan_department_and_permission_based",
-      "target": "penidng_production_dashboard_department_9_hr_dashboard",
-      "confidence_score": 1.0
+      "target": "penidng_production_dashboard_department_9_hr_dashboard"
     },
     {
       "relation": "contains",
@@ -213626,9 +213626,9 @@
       "source_file": "NEW_FETAURE_IMP/PENIDNG/production_dashboard.md",
       "source_location": "L58",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "penidng_production_dashboard_production_dashboard_plan_department_and_permission_based",
-      "target": "penidng_production_dashboard_department_dashboard_tabs",
-      "confidence_score": 1.0
+      "target": "penidng_production_dashboard_department_dashboard_tabs"
     },
     {
       "relation": "contains",
@@ -213636,9 +213636,9 @@
       "source_file": "NEW_FETAURE_IMP/PENIDNG/production_dashboard.md",
       "source_location": "L901",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "penidng_production_dashboard_production_dashboard_plan_department_and_permission_based",
-      "target": "penidng_production_dashboard_final_mvp_recommendation",
-      "confidence_score": 1.0
+      "target": "penidng_production_dashboard_final_mvp_recommendation"
     },
     {
       "relation": "contains",
@@ -213646,9 +213646,9 @@
       "source_file": "NEW_FETAURE_IMP/PENIDNG/production_dashboard.md",
       "source_location": "L637",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "penidng_production_dashboard_production_dashboard_plan_department_and_permission_based",
-      "target": "penidng_production_dashboard_frontend_plan",
-      "confidence_score": 1.0
+      "target": "penidng_production_dashboard_frontend_plan"
     },
     {
       "relation": "contains",
@@ -213656,9 +213656,9 @@
       "source_file": "NEW_FETAURE_IMP/PENIDNG/production_dashboard.md",
       "source_location": "L787",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "penidng_production_dashboard_production_dashboard_plan_department_and_permission_based",
-      "target": "penidng_production_dashboard_implementation_phases",
-      "confidence_score": 1.0
+      "target": "penidng_production_dashboard_implementation_phases"
     },
     {
       "relation": "contains",
@@ -213666,9 +213666,9 @@
       "source_file": "NEW_FETAURE_IMP/PENIDNG/production_dashboard.md",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "penidng_production_dashboard_production_dashboard_plan_department_and_permission_based",
-      "target": "penidng_production_dashboard_main_decision",
-      "confidence_score": 1.0
+      "target": "penidng_production_dashboard_main_decision"
     },
     {
       "relation": "contains",
@@ -213676,9 +213676,9 @@
       "source_file": "NEW_FETAURE_IMP/PENIDNG/production_dashboard.md",
       "source_location": "L736",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "penidng_production_dashboard_production_dashboard_plan_department_and_permission_based",
-      "target": "penidng_production_dashboard_permission_based_default_department",
-      "confidence_score": 1.0
+      "target": "penidng_production_dashboard_permission_based_default_department"
     },
     {
       "relation": "contains",
@@ -213686,9 +213686,9 @@
       "source_file": "NEW_FETAURE_IMP/PENIDNG/production_dashboard.md",
       "source_location": "L22",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "penidng_production_dashboard_production_dashboard_plan_department_and_permission_based",
-      "target": "penidng_production_dashboard_recommended_model",
-      "confidence_score": 1.0
+      "target": "penidng_production_dashboard_recommended_model"
     },
     {
       "relation": "contains",
@@ -213696,9 +213696,9 @@
       "source_file": "NEW_FETAURE_IMP/PENIDNG/production_dashboard.md",
       "source_location": "L671",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "penidng_production_dashboard_production_dashboard_plan_department_and_permission_based",
-      "target": "penidng_production_dashboard_role_and_permission_page_impact",
-      "confidence_score": 1.0
+      "target": "penidng_production_dashboard_role_and_permission_page_impact"
     },
     {
       "relation": "contains",
@@ -213706,9 +213706,9 @@
       "source_file": "NEW_FETAURE_IMP/PENIDNG/production_dashboard.md",
       "source_location": "L758",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "penidng_production_dashboard_production_dashboard_plan_department_and_permission_based",
-      "target": "penidng_production_dashboard_site_scoping",
-      "confidence_score": 1.0
+      "target": "penidng_production_dashboard_site_scoping"
     },
     {
       "relation": "contains",
@@ -213716,9 +213716,9 @@
       "source_file": "NEW_FETAURE_IMP/PENIDNG/production_dashboard.md",
       "source_location": "L499",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "penidng_production_dashboard_production_dashboard_plan_department_and_permission_based",
-      "target": "penidng_production_dashboard_widget_configuration_model",
-      "confidence_score": 1.0
+      "target": "penidng_production_dashboard_widget_configuration_model"
     },
     {
       "relation": "contains",
@@ -213726,9 +213726,9 @@
       "source_file": "NEW_FETAURE_IMP/PENIDNG/production_dashboard.md",
       "source_location": "L789",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "penidng_production_dashboard_implementation_phases",
-      "target": "penidng_production_dashboard_phase_1_permission_based_shell",
-      "confidence_score": 1.0
+      "target": "penidng_production_dashboard_phase_1_permission_based_shell"
     },
     {
       "relation": "contains",
@@ -213736,9 +213736,9 @@
       "source_file": "NEW_FETAURE_IMP/PENIDNG/production_dashboard.md",
       "source_location": "L803",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "penidng_production_dashboard_implementation_phases",
-      "target": "penidng_production_dashboard_phase_2_maintenance_and_technician_widgets",
-      "confidence_score": 1.0
+      "target": "penidng_production_dashboard_phase_2_maintenance_and_technician_widgets"
     },
     {
       "relation": "contains",
@@ -213746,9 +213746,9 @@
       "source_file": "NEW_FETAURE_IMP/PENIDNG/production_dashboard.md",
       "source_location": "L817",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "penidng_production_dashboard_implementation_phases",
-      "target": "penidng_production_dashboard_phase_3_inventory_store_widgets",
-      "confidence_score": 1.0
+      "target": "penidng_production_dashboard_phase_3_inventory_store_widgets"
     },
     {
       "relation": "contains",
@@ -213756,9 +213756,9 @@
       "source_file": "NEW_FETAURE_IMP/PENIDNG/production_dashboard.md",
       "source_location": "L830",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "penidng_production_dashboard_implementation_phases",
-      "target": "penidng_production_dashboard_phase_4_equipment_amc_approvals_reports",
-      "confidence_score": 1.0
+      "target": "penidng_production_dashboard_phase_4_equipment_amc_approvals_reports"
     },
     {
       "relation": "contains",
@@ -213766,9 +213766,9 @@
       "source_file": "NEW_FETAURE_IMP/PENIDNG/production_dashboard.md",
       "source_location": "L843",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "penidng_production_dashboard_implementation_phases",
-      "target": "penidng_production_dashboard_phase_5_admin_and_hr_widgets",
-      "confidence_score": 1.0
+      "target": "penidng_production_dashboard_phase_5_admin_and_hr_widgets"
     },
     {
       "relation": "contains",
@@ -219952,5 +219952,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "170afe45526f68ae5bf38d36efe2a40cd9ea2604"
+  "built_at_commit": "5d55d2028f14d3a004eca7c8b3fe0e6009f6b29e"
 }
