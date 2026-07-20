@@ -11,8 +11,12 @@ import com.example.cmmsApplication.preventivemaintenance.entity.PreventiveMainte
 import com.example.cmmsApplication.equipment.dao.EquipmentDAO;
 import com.example.cmmsApplication.downtime.dao.EquipmentDowntimeDAO;
 import com.example.cmmsApplication.downtime.entity.EquipmentDowntime;
+import com.example.cmmsApplication.maintenancerequest.entity.MaintenanceRequest;
 import com.example.cmmsApplication.maintenancerequest.dao.MaintenanceRequestDAO;
 import com.example.cmmsApplication.spareparts.dao.SparePartSiteStockDAO;
+import com.example.cmmsApplication.spareparts.dao.SparePartReorderDAO;
+import com.example.cmmsApplication.spareparts.entity.SparePartReorderRequest;
+import com.example.cmmsApplication.spareparts.entity.SparePartSiteStock;
 import com.example.cmmsApplication.vendor.dao.VendorDAO;
 import com.example.cmmsApplication.dashboard.dto.DashboardActionDTO;
 import com.example.cmmsApplication.dashboard.dto.DashboardDTO;
@@ -50,6 +54,7 @@ public class DashboardService {
     private final MaintenanceRequestDAO requestDAO;
     private final EquipmentDowntimeDAO downtimeDAO;
     private final SparePartSiteStockDAO stockDAO;
+    private final SparePartReorderDAO reorderDAO;
     private final AccessControlService accessControlService;
     private final MaintenanceAssignmentDAO assignmentDAO;
     private final PreventiveMaintenanceScheduleDAO scheduleDAO;
@@ -61,6 +66,11 @@ public class DashboardService {
     private static final String WIDGET_VENDOR_PERFORMANCE = "DASHBOARD_WIDGET_VENDOR_PERFORMANCE";
     private static final String WIDGET_MAINTENANCE_PM_DUE = "DASHBOARD_WIDGET_MAINTENANCE_PM_DUE";
     private static final String WIDGET_VENDOR_AMC_ACTIVE = "DASHBOARD_WIDGET_VENDOR_AMC_ACTIVE";
+    private static final String WIDGET_MAINTENANCE_OPEN_REQUESTS = "DASHBOARD_WIDGET_MAINTENANCE_OPEN_REQUESTS";
+    private static final String WIDGET_MAINTENANCE_ASSIGNMENT_QUEUE = "DASHBOARD_WIDGET_MAINTENANCE_ASSIGNMENT_QUEUE";
+    private static final String WIDGET_TECHNICIAN_MY_JOBS = "DASHBOARD_WIDGET_TECHNICIAN_MY_JOBS";
+    private static final String WIDGET_INVENTORY_LOW_STOCK = "DASHBOARD_WIDGET_INVENTORY_LOW_STOCK";
+    private static final String WIDGET_INVENTORY_REORDER_QUEUE = "DASHBOARD_WIDGET_INVENTORY_REORDER_QUEUE";
 
     private static final List<String> OVERVIEW_PERMISSIONS = List.of(
             "EQUIPMENT_VIEW", "VENDOR_VIEW", "REQUEST_VIEW", "ASSIGNMENT_VIEW", "SPARE_PART_VIEW",
@@ -124,8 +134,25 @@ public class DashboardService {
                         List.of("EQUIPMENT_VIEW"), List.of(), List.of(action("EQUIPMENT_VIEW", "Open Equipment", "/equipment")))
         ));
         addDepartment(departments, "MAINTENANCE", "Maintenance", List.of(
+                widget(WIDGET_MAINTENANCE_OPEN_REQUESTS, "MAINTENANCE", "Open Requests", "KPI", "/api/dashboard/widgets/maintenance/open-requests", 60, "/maintenance/requests", "small",
+                        List.of("REQUEST_VIEW"), List.of(), List.of(action("REQUEST_CREATE", "Create Request", "/maintenance/requests/new"))),
+                widget(WIDGET_MAINTENANCE_ASSIGNMENT_QUEUE, "MAINTENANCE", "Assignment Queue", "TABLE", "/api/dashboard/widgets/maintenance/assignment-queue", 60, "/maintenance/assignments", "large",
+                        List.of("ASSIGNMENT_VIEW"), List.of(), List.of(action("ASSIGNMENT_CREATE", "Create Assignment", "/maintenance/assignments/new"))),
                 widget(WIDGET_MAINTENANCE_PM_DUE, "MAINTENANCE", "PM Due This Month", "LIST", "/api/dashboard/widgets/maintenance/pm-due", 300, "/maintenance/preventive", "medium",
                         List.of(), List.of("PM_CALENDAR_VIEW", "REQUEST_VIEW"), List.of(action("REQUEST_CREATE", "Create Request", "/maintenance/requests/new")))
+        ));
+        addDepartment(departments, "TECHNICIAN_WORK", "Technician Work", List.of(
+                widget(WIDGET_TECHNICIAN_MY_JOBS, "TECHNICIAN_WORK", "My Jobs", "TABLE", "/api/dashboard/widgets/technician/my-jobs", 60, "/maintenance/assignments", "large",
+                        List.of("ASSIGNMENT_VIEW"), List.of(), List.of(
+                                action("ASSIGNMENT_UPDATE", "Update Job", "/maintenance/assignments"),
+                                action("ASSIGNMENT_WORK_LOG_CREATE", "Add Work Log", "/maintenance/assignments")
+                        ))
+        ));
+        addDepartment(departments, "INVENTORY", "Inventory / Store", List.of(
+                widget(WIDGET_INVENTORY_LOW_STOCK, "INVENTORY", "Low Stock Spares", "TABLE", "/api/dashboard/widgets/inventory/low-stock", 120, "/inventory/spare-parts", "large",
+                        List.of("SPARE_PART_VIEW"), List.of(), List.of(action("REORDER_CREATE", "Create Reorder", "/inventory/reorders"))),
+                widget(WIDGET_INVENTORY_REORDER_QUEUE, "INVENTORY", "Reorder Queue", "TABLE", "/api/dashboard/widgets/inventory/reorder-queue", 120, "/inventory/reorders", "large",
+                        List.of("REORDER_VIEW"), List.of(), List.of(action("REORDER_UPDATE", "Update Reorder", "/inventory/reorders")))
         ));
         addDepartment(departments, "VENDOR_AMC", "AMC / Vendor", List.of(
                 widget(WIDGET_VENDOR_PERFORMANCE, "VENDOR_AMC", "Vendor Performance", "CHART", "/api/dashboard/widgets/vendor-amc/performance", 300, "/vendors", "large",
@@ -190,6 +217,41 @@ public class DashboardService {
         Collection<Long> siteIds = resolveAllowedSiteIdsWithValidation(siteId);
         return widgetResponse(WIDGET_MAINTENANCE_PM_DUE, "MAINTENANCE", "PM Due This Month", "LIST", getUpcomingMaintenance(siteIds), "/maintenance/preventive", 300,
                 List.of(action("REQUEST_CREATE", "Create Request", "/maintenance/requests/new")));
+    }
+
+    public DashboardWidgetResponseDTO getOpenRequestsWidget(Long siteId) {
+        assertAllPermissions(List.of("REQUEST_VIEW"));
+        Collection<Long> siteIds = resolveAllowedSiteIdsWithValidation(siteId);
+        return widgetResponse(WIDGET_MAINTENANCE_OPEN_REQUESTS, "MAINTENANCE", "Open Requests", "KPI", getMaintenanceOpenRequestSummary(siteIds), "/maintenance/requests", 60,
+                List.of(action("REQUEST_CREATE", "Create Request", "/maintenance/requests/new")));
+    }
+
+    public DashboardWidgetResponseDTO getAssignmentQueueWidget(Long siteId) {
+        assertAllPermissions(List.of("ASSIGNMENT_VIEW"));
+        Collection<Long> siteIds = resolveAllowedSiteIdsWithValidation(siteId);
+        return widgetResponse(WIDGET_MAINTENANCE_ASSIGNMENT_QUEUE, "MAINTENANCE", "Assignment Queue", "TABLE", getAssignmentQueue(siteIds), "/maintenance/assignments", 60,
+                List.of(action("ASSIGNMENT_CREATE", "Create Assignment", "/maintenance/assignments/new")));
+    }
+
+    public DashboardWidgetResponseDTO getTechnicianMyJobsWidget(Long siteId) {
+        assertAllPermissions(List.of("ASSIGNMENT_VIEW"));
+        Collection<Long> siteIds = resolveAllowedSiteIdsWithValidation(siteId);
+        return widgetResponse(WIDGET_TECHNICIAN_MY_JOBS, "TECHNICIAN_WORK", "My Jobs", "TABLE", getMyJobQueue(siteIds), "/maintenance/assignments", 60,
+                List.of(action("ASSIGNMENT_UPDATE", "Update Job", "/maintenance/assignments"), action("ASSIGNMENT_WORK_LOG_CREATE", "Add Work Log", "/maintenance/assignments")));
+    }
+
+    public DashboardWidgetResponseDTO getLowStockWidget(Long siteId) {
+        assertAllPermissions(List.of("SPARE_PART_VIEW"));
+        Collection<Long> siteIds = resolveAllowedSiteIdsWithValidation(siteId);
+        return widgetResponse(WIDGET_INVENTORY_LOW_STOCK, "INVENTORY", "Low Stock Spares", "TABLE", getLowStockSpares(siteIds), "/inventory/spare-parts", 120,
+                List.of(action("REORDER_CREATE", "Create Reorder", "/inventory/reorders")));
+    }
+
+    public DashboardWidgetResponseDTO getReorderQueueWidget(Long siteId) {
+        assertAllPermissions(List.of("REORDER_VIEW"));
+        Collection<Long> siteIds = resolveAllowedSiteIdsWithValidation(siteId);
+        return widgetResponse(WIDGET_INVENTORY_REORDER_QUEUE, "INVENTORY", "Reorder Queue", "TABLE", getReorderQueue(siteIds), "/inventory/reorders", 120,
+                List.of(action("REORDER_UPDATE", "Update Reorder", "/inventory/reorders")));
     }
 
     public DashboardWidgetResponseDTO getActiveAmcContractsWidget(Long siteId) {
@@ -374,6 +436,152 @@ public class DashboardService {
             return List.of();
         }
         return assignmentDAO.findBySiteIds(siteIds);
+    }
+
+    private List<MaintenanceRequest> scopedRequests(Collection<Long> siteIds) {
+        if (siteIds == null) {
+            return requestDAO.findAll();
+        }
+        if (siteIds.isEmpty()) {
+            return List.of();
+        }
+        return requestDAO.findBySiteIds(siteIds);
+    }
+
+    private List<SparePartSiteStock> scopedStocks(Collection<Long> siteIds) {
+        if (siteIds == null) {
+            return stockDAO.findAll();
+        }
+        if (siteIds.isEmpty()) {
+            return List.of();
+        }
+        return stockDAO.findBySiteIdInAndStatus(siteIds, "ACTIVE");
+    }
+
+    private List<SparePartReorderRequest> scopedReorders(Collection<Long> siteIds) {
+        if (siteIds == null) {
+            return reorderDAO.findAll();
+        }
+        if (siteIds.isEmpty()) {
+            return List.of();
+        }
+        return reorderDAO.findBySiteIds(siteIds);
+    }
+
+    private Map<String, Object> getMaintenanceOpenRequestSummary(Collection<Long> siteIds) {
+        List<MaintenanceRequest> requests = scopedRequests(siteIds).stream()
+                .filter((request) -> !isClosedStatus(request.getStatus()))
+                .toList();
+        long critical = requests.stream().filter((request) -> isPriority(request, "CRITICAL", "HIGH")).count();
+        long overdue = requests.stream()
+                .filter((request) -> request.getTargetCompletionDate() != null && request.getTargetCompletionDate().isBefore(LocalDate.now()))
+                .count();
+        long unassigned = requests.stream()
+                .filter((request) -> assignmentDAO.findByRequestId(request.getId()).isEmpty())
+                .count();
+        return mapOf(
+                "openRequests", requests.size(),
+                "criticalRequests", critical,
+                "unassignedRequests", unassigned,
+                "overdueRequests", overdue
+        );
+    }
+
+    private List<Map<String, Object>> getAssignmentQueue(Collection<Long> siteIds) {
+        return scopedAssignments(siteIds).stream()
+                .filter((assignment) -> !isClosedStatus(assignment.getStatus()))
+                .sorted(Comparator.comparing(MaintenanceAssignment::getPlannedEndDate, Comparator.nullsLast(Comparator.naturalOrder())))
+                .limit(8)
+                .map(this::assignmentRow)
+                .toList();
+    }
+
+    private List<Map<String, Object>> getMyJobQueue(Collection<Long> siteIds) {
+        Long employeeId = accessControlService.getCurrentEmployeeId();
+        if (employeeId == null) {
+            return List.of();
+        }
+        return scopedAssignments(siteIds).stream()
+                .filter((assignment) -> assignment.getAssignedEmployee() != null && employeeId.equals(assignment.getAssignedEmployee().getId()))
+                .filter((assignment) -> !isClosedStatus(assignment.getStatus()))
+                .sorted(Comparator.comparing(MaintenanceAssignment::getPlannedEndDate, Comparator.nullsLast(Comparator.naturalOrder())))
+                .limit(8)
+                .map(this::assignmentRow)
+                .toList();
+    }
+
+    private List<Map<String, Object>> getLowStockSpares(Collection<Long> siteIds) {
+        return scopedStocks(siteIds).stream()
+                .filter((stock) -> stock.getAvailableStock().compareTo(stock.getMinimumStock() == null ? BigDecimal.ZERO : stock.getMinimumStock()) <= 0)
+                .sorted(Comparator.comparing(SparePartSiteStock::getAvailableStock))
+                .limit(8)
+                .map(this::stockRow)
+                .toList();
+    }
+
+    private List<Map<String, Object>> getReorderQueue(Collection<Long> siteIds) {
+        return scopedReorders(siteIds).stream()
+                .filter((request) -> !isClosedStatus(request.getStatus()))
+                .limit(8)
+                .map(this::reorderRow)
+                .toList();
+    }
+
+    private Map<String, Object> assignmentRow(MaintenanceAssignment assignment) {
+        MaintenanceRequest request = assignment.getRequest();
+        Equipment equipment = request == null ? null : request.getEquipment();
+        return mapOf(
+                "id", assignment.getId(),
+                "requestId", request == null ? null : request.getId(),
+                "requestNumber", request == null ? null : request.getRequestNumber(),
+                "equipmentName", equipment == null ? null : equipment.getEquipmentName(),
+                "priority", request == null ? null : request.getPriority(),
+                "status", assignment.getStatus(),
+                "assignedTo", assignment.getAssignedTo(),
+                "plannedEndDate", assignment.getPlannedEndDate()
+        );
+    }
+
+    private Map<String, Object> stockRow(SparePartSiteStock stock) {
+        return mapOf(
+                "stockId", stock.getId(),
+                "partCode", stock.getSparePart() == null ? null : stock.getSparePart().getPartCode(),
+                "partName", stock.getSparePart() == null ? null : stock.getSparePart().getPartName(),
+                "siteName", stock.getSite() == null ? null : stock.getSite().getSiteName(),
+                "availableStock", stock.getAvailableStock(),
+                "minimumStock", stock.getMinimumStock(),
+                "unit", stock.getSparePart() == null ? null : stock.getSparePart().getUnit()
+        );
+    }
+
+    private Map<String, Object> reorderRow(SparePartReorderRequest request) {
+        return mapOf(
+                "id", request.getId(),
+                "stockId", request.getStock() == null ? null : request.getStock().getId(),
+                "partCode", request.getSparePart() == null ? null : request.getSparePart().getPartCode(),
+                "partName", request.getSparePart() == null ? null : request.getSparePart().getPartName(),
+                "siteName", request.getSite() == null ? null : request.getSite().getSiteName(),
+                "requestedQuantity", request.getRequestedQuantity(),
+                "status", request.getStatus(),
+                "expectedDate", request.getExpectedDate()
+        );
+    }
+
+    private boolean isClosedStatus(String status) {
+        return Set.of("CLOSED", "COMPLETED", "CANCELLED", "REJECTED").contains(normalizeStatus(status));
+    }
+
+    private boolean isPriority(MaintenanceRequest request, String... priorities) {
+        Set<String> allowed = java.util.Arrays.stream(priorities).map(this::normalizeStatus).collect(Collectors.toSet());
+        return allowed.contains(normalizeStatus(request.getPriority()));
+    }
+
+    private Map<String, Object> mapOf(Object... values) {
+        java.util.LinkedHashMap<String, Object> map = new java.util.LinkedHashMap<>();
+        for (int index = 0; index + 1 < values.length; index += 2) {
+            map.put(String.valueOf(values[index]), values[index + 1]);
+        }
+        return map;
     }
 
     private List<DashboardOverviewDTO.ChartSliceDTO> getEquipmentStatus(Collection<Long> siteIds) {

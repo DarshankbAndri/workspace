@@ -57,6 +57,31 @@ public class DashboardController {
         return ResponseFactory.ok(dashboardService.getPmDueWidget(siteId));
     }
 
+    @GetMapping("/widgets/maintenance/open-requests")
+    public ResponseEntity<ApiResponse<?>> getOpenRequestsWidget(@RequestParam(required = false) Long siteId) {
+        return ResponseFactory.ok(dashboardService.getOpenRequestsWidget(siteId));
+    }
+
+    @GetMapping("/widgets/maintenance/assignment-queue")
+    public ResponseEntity<ApiResponse<?>> getAssignmentQueueWidget(@RequestParam(required = false) Long siteId) {
+        return ResponseFactory.ok(dashboardService.getAssignmentQueueWidget(siteId));
+    }
+
+    @GetMapping("/widgets/technician/my-jobs")
+    public ResponseEntity<ApiResponse<?>> getTechnicianMyJobsWidget(@RequestParam(required = false) Long siteId) {
+        return ResponseFactory.ok(dashboardService.getTechnicianMyJobsWidget(siteId));
+    }
+
+    @GetMapping("/widgets/inventory/low-stock")
+    public ResponseEntity<ApiResponse<?>> getLowStockWidget(@RequestParam(required = false) Long siteId) {
+        return ResponseFactory.ok(dashboardService.getLowStockWidget(siteId));
+    }
+
+    @GetMapping("/widgets/inventory/reorder-queue")
+    public ResponseEntity<ApiResponse<?>> getReorderQueueWidget(@RequestParam(required = false) Long siteId) {
+        return ResponseFactory.ok(dashboardService.getReorderQueueWidget(siteId));
+    }
+
     @GetMapping("/widgets/vendor-amc/active-contracts")
     public ResponseEntity<ApiResponse<?>> getActiveAmcContractsWidget(@RequestParam(required = false) Long siteId) {
         return ResponseFactory.ok(dashboardService.getActiveAmcContractsWidget(siteId));

@@ -87,6 +87,11 @@ const WIDGETS = {
   VENDOR_PERFORMANCE: 'DASHBOARD_WIDGET_VENDOR_PERFORMANCE',
   PM_DUE: 'DASHBOARD_WIDGET_MAINTENANCE_PM_DUE',
   AMC_ACTIVE: 'DASHBOARD_WIDGET_VENDOR_AMC_ACTIVE',
+  MAINTENANCE_OPEN_REQUESTS: 'DASHBOARD_WIDGET_MAINTENANCE_OPEN_REQUESTS',
+  MAINTENANCE_ASSIGNMENT_QUEUE: 'DASHBOARD_WIDGET_MAINTENANCE_ASSIGNMENT_QUEUE',
+  TECHNICIAN_MY_JOBS: 'DASHBOARD_WIDGET_TECHNICIAN_MY_JOBS',
+  INVENTORY_LOW_STOCK: 'DASHBOARD_WIDGET_INVENTORY_LOW_STOCK',
+  INVENTORY_REORDER_QUEUE: 'DASHBOARD_WIDGET_INVENTORY_REORDER_QUEUE',
 };
 
 const amcMetricCards = [
@@ -95,6 +100,13 @@ const amcMetricCards = [
   { key: 'expiredContracts', label: 'Expired AMC Contracts', helper: 'Contracts past end date', color: 'error' },
   { key: 'coveredEquipment', label: 'AMC Covered Equipment', helper: 'Assets with active AMC coverage', color: 'primary' },
   { key: 'equipmentWithoutAmc', label: 'Equipment Without AMC', helper: 'Assets without active AMC coverage', color: 'info' },
+];
+
+const maintenanceMetricCards = [
+  { key: 'openRequests', label: 'Open Requests', helper: 'Active maintenance demand', color: 'warning' },
+  { key: 'criticalRequests', label: 'Critical Requests', helper: 'High priority work', color: 'error' },
+  { key: 'unassignedRequests', label: 'Unassigned Requests', helper: 'Needs assignment', color: 'info' },
+  { key: 'overdueRequests', label: 'Overdue Requests', helper: 'Past target date', color: 'error' },
 ];
 
 const formatMetric = (value) => {
@@ -124,6 +136,24 @@ function ChartCard({ title, subtitle, children }) {
   return (
     <CommonSectionCard title={title} subtitle={subtitle} sx={{ height: '100%' }} contentSx={{ mt: 2 }}>
         {children}
+    </CommonSectionCard>
+  );
+}
+
+function QueueWidget({ title, subtitle, rows, emptyLabel, renderRow }) {
+  return (
+    <CommonSectionCard title={title} subtitle={subtitle} sx={{ height: '100%' }} contentSx={{ mt: 2 }}>
+      {rows.length ? (
+        <Stack spacing={1.25}>
+          {rows.map((row) => (
+            <Box key={row.id || row.stockId || row.requestId} sx={{ p: 1.5, border: '1px solid', borderColor: 'divider', borderRadius: 1 }}>
+              {renderRow(row)}
+            </Box>
+          ))}
+        </Stack>
+      ) : (
+        <CommonEmptyState title={emptyLabel} sx={{ minHeight: 180 }} />
+      )}
     </CommonSectionCard>
   );
 }
@@ -231,6 +261,11 @@ function DashboardPage() {
   const vendorPerformance = widgetPayload(WIDGETS.VENDOR_PERFORMANCE, []);
   const upcomingMaintenance = widgetPayload(WIDGETS.PM_DUE, []);
   const amcDashboard = widgetPayload(WIDGETS.AMC_ACTIVE, null);
+  const maintenanceSummary = widgetPayload(WIDGETS.MAINTENANCE_OPEN_REQUESTS, {});
+  const assignmentQueue = widgetPayload(WIDGETS.MAINTENANCE_ASSIGNMENT_QUEUE, []);
+  const myJobs = widgetPayload(WIDGETS.TECHNICIAN_MY_JOBS, []);
+  const lowStockSpares = widgetPayload(WIDGETS.INVENTORY_LOW_STOCK, []);
+  const reorderQueue = widgetPayload(WIDGETS.INVENTORY_REORDER_QUEUE, []);
   const hasDowntime = monthlyDowntime.some((item) => item.hours > 0);
   const statusColors = [
     theme.palette.primary.main,
@@ -356,6 +391,94 @@ function DashboardPage() {
               </Card>
             </Grid>
           ))}
+
+          {isVisible(WIDGETS.MAINTENANCE_OPEN_REQUESTS) && maintenanceMetricCards.map((card) => (
+            <Grid item xs={12} sm={6} lg={3} key={card.key}>
+              <Card sx={{ height: '100%', borderRadius: 1, border: '1px solid', borderColor: 'divider', boxShadow: 'none' }}>
+                <CardContent sx={{ p: 2.5 }}>
+                  <Typography variant="body2" color="text.secondary" fontWeight={700}>{card.label}</Typography>
+                  <Typography variant="h4" fontWeight={900} sx={{ mt: 1, lineHeight: 1, color: `${card.color}.main` }}>
+                    {formatMetric(maintenanceSummary[card.key])}
+                  </Typography>
+                  <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 1.25 }}>
+                    {card.helper}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+
+          {isVisible(WIDGETS.MAINTENANCE_ASSIGNMENT_QUEUE) && <Grid item xs={12} lg={8}>
+            <QueueWidget
+              title="Assignment Queue"
+              subtitle="Open assignments by planned end date"
+              rows={assignmentQueue}
+              emptyLabel="No open assignments"
+              renderRow={(row) => (
+                <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" spacing={1}>
+                  <Box sx={{ minWidth: 0 }}>
+                    <Typography variant="body2" fontWeight={800} noWrap>{row.requestNumber || `Assignment #${row.id}`}</Typography>
+                    <Typography variant="caption" color="text.secondary" display="block" noWrap>{row.equipmentName || '-'}</Typography>
+                  </Box>
+                  <Typography variant="caption" color="text.secondary">{row.priority || '-'} | {row.status || '-'} | Due {row.plannedEndDate || '-'}</Typography>
+                </Stack>
+              )}
+            />
+          </Grid>}
+
+          {isVisible(WIDGETS.TECHNICIAN_MY_JOBS) && <Grid item xs={12} lg={8}>
+            <QueueWidget
+              title="My Jobs"
+              subtitle="Your open work queue"
+              rows={myJobs}
+              emptyLabel="No active jobs assigned"
+              renderRow={(row) => (
+                <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" spacing={1}>
+                  <Box sx={{ minWidth: 0 }}>
+                    <Typography variant="body2" fontWeight={800} noWrap>{row.requestNumber || `Assignment #${row.id}`}</Typography>
+                    <Typography variant="caption" color="text.secondary" display="block" noWrap>{row.equipmentName || '-'}</Typography>
+                  </Box>
+                  <Typography variant="caption" color="text.secondary">{row.status || '-'} | Due {row.plannedEndDate || '-'}</Typography>
+                </Stack>
+              )}
+            />
+          </Grid>}
+
+          {isVisible(WIDGETS.INVENTORY_LOW_STOCK) && <Grid item xs={12} lg={6}>
+            <QueueWidget
+              title="Low Stock Spares"
+              subtitle="Active stock at or below minimum level"
+              rows={lowStockSpares}
+              emptyLabel="No low stock spares"
+              renderRow={(row) => (
+                <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" spacing={1}>
+                  <Box sx={{ minWidth: 0 }}>
+                    <Typography variant="body2" fontWeight={800} noWrap>{row.partCode} - {row.partName}</Typography>
+                    <Typography variant="caption" color="text.secondary" display="block" noWrap>{row.siteName || '-'}</Typography>
+                  </Box>
+                  <Typography variant="caption" color="text.secondary">Available {formatMetric(row.availableStock)} / Min {formatMetric(row.minimumStock)} {row.unit || ''}</Typography>
+                </Stack>
+              )}
+            />
+          </Grid>}
+
+          {isVisible(WIDGETS.INVENTORY_REORDER_QUEUE) && <Grid item xs={12} lg={6}>
+            <QueueWidget
+              title="Reorder Queue"
+              subtitle="Open purchase/reorder requests"
+              rows={reorderQueue}
+              emptyLabel="No open reorder requests"
+              renderRow={(row) => (
+                <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" spacing={1}>
+                  <Box sx={{ minWidth: 0 }}>
+                    <Typography variant="body2" fontWeight={800} noWrap>{row.partCode} - {row.partName}</Typography>
+                    <Typography variant="caption" color="text.secondary" display="block" noWrap>{row.siteName || '-'}</Typography>
+                  </Box>
+                  <Typography variant="caption" color="text.secondary">{formatMetric(row.requestedQuantity)} requested | {row.status || '-'} | {row.expectedDate || '-'}</Typography>
+                </Stack>
+              )}
+            />
+          </Grid>}
 
           {isVisible(WIDGETS.EQUIPMENT_STATUS) && <Grid item xs={12} lg={4}>
             <ChartCard title="Equipment Status" subtitle="Asset availability by current condition">

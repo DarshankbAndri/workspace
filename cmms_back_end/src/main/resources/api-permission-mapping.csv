@@ -14,6 +14,11 @@ PM_CALENDAR_VIEW,/api/dashboard/widgets/overview/kpi-summary,GET,Dashboard overv
 EQUIPMENT_VIEW,/api/dashboard/widgets/equipment/status,GET,Dashboard widget equipment status
 REPORT_VIEW,/api/dashboard/widgets/reports/downtime-summary,GET,Dashboard widget downtime summary
 VENDOR_VIEW,/api/dashboard/widgets/vendor-amc/performance,GET,Dashboard widget vendor performance
+REQUEST_VIEW,/api/dashboard/widgets/maintenance/open-requests,GET,Dashboard widget maintenance open requests
+ASSIGNMENT_VIEW,/api/dashboard/widgets/maintenance/assignment-queue,GET,Dashboard widget maintenance assignment queue
+ASSIGNMENT_VIEW,/api/dashboard/widgets/technician/my-jobs,GET,Dashboard widget technician my jobs
+SPARE_PART_VIEW,/api/dashboard/widgets/inventory/low-stock,GET,Dashboard widget inventory low stock
+REORDER_VIEW,/api/dashboard/widgets/inventory/reorder-queue,GET,Dashboard widget inventory reorder queue
 PM_CALENDAR_VIEW,/api/dashboard/widgets/maintenance/pm-due,GET,Dashboard widget preventive maintenance due
 REQUEST_VIEW,/api/dashboard/widgets/maintenance/pm-due,GET,Dashboard widget preventive maintenance due
 VENDOR_AMC_VIEW,/api/dashboard/widgets/vendor-amc/active-contracts,GET,Dashboard widget active AMC contracts

@@ -585,8 +585,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/controller/DashboardController.java": {
-    "mtime": 1784529244.1687412,
-    "ast_hash": "e5b43946f7015f46d3f49887b28669f1",
+    "mtime": 1784537985.592798,
+    "ast_hash": "81a22ebf5774d94fabf8e8fba51653c3",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/dto/DashboardDTO.java": {
@@ -595,8 +595,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/dashboard/service/DashboardService.java": {
-    "mtime": 1784536678.6746593,
-    "ast_hash": "79bbb32a006c26a22e9cab67e7ff8022",
+    "mtime": 1784537985.5857718,
+    "ast_hash": "b01368c83b97a0158d46ede8500bd048",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/downtime/controller/EquipmentDowntimeController.java": {
@@ -1015,8 +1015,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/spareparts/dao/SparePartSiteStockDAO.java": {
-    "mtime": 1782467372.01231,
-    "ast_hash": "f6f61ca20988f0cd071d0f9be234cee9",
+    "mtime": 1784537985.599221,
+    "ast_hash": "66330d5203423b3557434f738539354f",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/spareparts/dao/SparePartTransactionDAO.java": {
@@ -1310,8 +1310,8 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/dashboard/pages/DashboardPage.jsx": {
-    "mtime": 1784536728.167864,
-    "ast_hash": "28b4c4588bab7ec4c9415dbd379b5b50",
+    "mtime": 1784538045.4222605,
+    "ast_hash": "b9f142d496d80a2f733ddd58d2834691",
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/dashboard/services/dashboardService.js": {

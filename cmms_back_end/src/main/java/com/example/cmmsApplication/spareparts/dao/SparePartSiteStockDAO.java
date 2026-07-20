@@ -17,6 +17,7 @@ public class SparePartSiteStockDAO {
     }
 
     public SparePartSiteStock save(SparePartSiteStock stock) { return repository.save(stock); }
+    public List<SparePartSiteStock> findAll() { return repository.findAll(); }
     public Optional<SparePartSiteStock> findById(Long id) { return repository.findById(id); }
     public Optional<SparePartSiteStock> findByIdForUpdate(Long id) { return repository.findByIdForUpdate(id); }
     public Optional<SparePartSiteStock> findBySparePartIdAndSiteId(Long sparePartId, Long siteId) { return repository.findBySparePartIdAndSiteId(sparePartId, siteId); }
