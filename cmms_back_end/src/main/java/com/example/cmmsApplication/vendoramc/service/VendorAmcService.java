@@ -208,8 +208,17 @@ public class VendorAmcService {
 
     @Transactional(readOnly = true)
     public VendorAmcDashboardDTO getDashboard() {
+        return getDashboard(null);
+    }
+
+    @Transactional(readOnly = true)
+    public VendorAmcDashboardDTO getDashboard(Long siteId) {
+        if (siteId != null) {
+            accessControlService.validateSiteAccess(siteId);
+        }
         List<VendorAmcContract> allowedContracts = contractDAO.findAll().stream()
                 .filter(this::isAllowedContract)
+                .filter((contract) -> belongsToSite(contract, siteId))
                 .toList();
         long active = countContractsByStatus(allowedContracts, VendorAmcStatus.ACTIVE.name())
                 + countContractsByStatus(allowedContracts, VendorAmcStatus.EXPIRING_SOON.name());
@@ -227,7 +236,7 @@ public class VendorAmcService {
                 .filter(java.util.Objects::nonNull)
                 .distinct()
                 .count();
-        long equipmentCount = scopedEquipmentCount();
+        long equipmentCount = scopedEquipmentCount(siteId);
         long equipmentWithoutAmc = Math.max(equipmentCount - covered, 0);
         return VendorAmcDashboardDTO.builder()
                 .activeContracts(active)
@@ -367,6 +376,13 @@ public class VendorAmcService {
         return accessControlService.getAllowedSiteIds().contains(contract.getSite().getId());
     }
 
+    private boolean belongsToSite(VendorAmcContract contract, Long siteId) {
+        if (siteId == null) {
+            return true;
+        }
+        return contract != null && contract.getSite() != null && siteId.equals(contract.getSite().getId());
+    }
+
     private void validateEquipmentBelongsToContractSite(VendorAmcContract contract, Equipment equipment) {
         Long contractSiteId = contract.getSite() == null ? null : contract.getSite().getId();
         Long equipmentSiteId = equipment.getSite() == null ? null : equipment.getSite().getId();
@@ -381,7 +397,10 @@ public class VendorAmcService {
                 .count();
     }
 
-    private long scopedEquipmentCount() {
+    private long scopedEquipmentCount(Long siteId) {
+        if (siteId != null) {
+            return equipmentDAO.countBySiteId(siteId);
+        }
         if (accessControlService.isAdmin()) {
             return equipmentDAO.count();
         }
