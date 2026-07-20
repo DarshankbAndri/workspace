@@ -16,6 +16,7 @@ public interface PreventiveMaintenanceScheduleRepository extends JpaRepository<P
     List<PreventiveMaintenanceSchedule> findByActiveTrueAndNextDueDateLessThanEqualOrderByNextDueDateAsc(LocalDate date);
     List<PreventiveMaintenanceSchedule> findByActiveTrueAndNextDueDateBetweenOrderByNextDueDateAsc(LocalDate start, LocalDate end);
     List<PreventiveMaintenanceSchedule> findByAmcContractIdOrderByNextDueDateAsc(Long amcContractId);
+    long countByAmcContractId(Long amcContractId);
     long countByEquipmentIdAndActiveTrue(Long equipmentId);
     long countByEquipmentIdAndActiveTrueAndNextDueDateBefore(Long equipmentId, LocalDate date);
 

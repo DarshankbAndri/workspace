@@ -2,6 +2,7 @@ package com.example.cmmsApplication.vendoramc.repository;
 
 import com.example.cmmsApplication.vendoramc.entity.EquipmentAmcMapping;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -15,6 +16,10 @@ public interface EquipmentAmcMappingRepository extends JpaRepository<EquipmentAm
     boolean existsByAmcContractIdAndEquipmentId(Long amcContractId, Long equipmentId);
     Optional<EquipmentAmcMapping> findByAmcContractIdAndEquipmentId(Long amcContractId, Long equipmentId);
     List<EquipmentAmcMapping> findByAmcContractIdOrderByEquipmentEquipmentNameAsc(Long amcContractId);
+    long countByAmcContractId(Long amcContractId);
+
+    @Modifying
+    void deleteByAmcContractId(Long amcContractId);
 
     @Query("""
             select mapping

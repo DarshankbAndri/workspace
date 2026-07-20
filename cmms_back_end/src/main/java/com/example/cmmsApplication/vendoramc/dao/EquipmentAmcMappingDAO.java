@@ -19,6 +19,8 @@ public class EquipmentAmcMappingDAO {
     public List<EquipmentAmcMapping> findAll() { return repository.findAll(); }
     public Optional<EquipmentAmcMapping> findByContractAndEquipment(Long contractId, Long equipmentId) { return repository.findByAmcContractIdAndEquipmentId(contractId, equipmentId); }
     public List<EquipmentAmcMapping> findByContractId(Long contractId) { return repository.findByAmcContractIdOrderByEquipmentEquipmentNameAsc(contractId); }
+    public long countByContractId(Long contractId) { return repository.countByAmcContractId(contractId); }
+    public void deleteByContractId(Long contractId) { repository.deleteByAmcContractId(contractId); }
     public boolean existsByContractAndEquipment(Long contractId, Long equipmentId) { return repository.existsByAmcContractIdAndEquipmentId(contractId, equipmentId); }
     public List<EquipmentAmcMapping> findActiveByEquipment(Long equipmentId, LocalDate date, Collection<String> statuses) { return repository.findActiveByEquipment(equipmentId, date, statuses); }
     public long countOverlappingActive(Long equipmentId, Long contractId, LocalDate start, LocalDate end, Collection<String> statuses) { return repository.countOverlappingActive(equipmentId, contractId, start, end, statuses); }

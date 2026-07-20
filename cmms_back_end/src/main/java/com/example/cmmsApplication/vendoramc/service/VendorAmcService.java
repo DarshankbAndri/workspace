@@ -114,6 +114,12 @@ public class VendorAmcService {
         if (requestDAO.countByAmcContractId(id) > 0) {
             throw new InvalidOperationException("AMC contracts linked to maintenance requests cannot be deleted");
         }
+        if (pmScheduleDAO.countByAmcContractId(id) > 0) {
+            throw new InvalidOperationException("AMC contracts linked to preventive maintenance schedules cannot be deleted");
+        }
+        if (mappingDAO.countByContractId(id) > 0) {
+            mappingDAO.deleteByContractId(id);
+        }
         contractDAO.deleteById(contract.getId());
     }
 
