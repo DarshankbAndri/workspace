@@ -10,7 +10,11 @@ import org.springframework.stereotype.Repository;
 public interface EquipmentSpareBomRepository extends JpaRepository<EquipmentSpareBom, Long> {
     List<EquipmentSpareBom> findByEquipmentIdOrderByCriticalityAscBomIdDesc(Long equipmentId);
 
+    List<EquipmentSpareBom> findByStockIdOrderByCriticalityAscBomIdDesc(Long stockId);
+
     Optional<EquipmentSpareBom> findByBomIdAndEquipmentId(Long bomId, Long equipmentId);
+
+    Optional<EquipmentSpareBom> findByBomIdAndStockId(Long bomId, Long stockId);
 
     boolean existsByEquipmentIdAndStockId(Long equipmentId, Long stockId);
 

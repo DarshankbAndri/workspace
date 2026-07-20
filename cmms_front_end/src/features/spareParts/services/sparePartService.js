@@ -7,6 +7,10 @@ export const createSparePart = (data) => api.post('/spare-parts', data).then((re
 export const updateSparePart = (stockId, data) => api.put(`/spare-parts/${stockId}`, data).then((response) => response.data);
 export const deleteSparePart = (stockId) => api.delete(`/spare-parts/${stockId}`);
 export const getSparePartTransactions = (stockId) => api.get(`/spare-parts/${stockId}/transactions`).then((response) => response.data);
+export const getSparePartEquipmentBom = (stockId) => api.get(`/spare-parts/${stockId}/equipment-bom`).then((response) => response.data);
+export const createSparePartEquipmentBom = (stockId, data) => api.post(`/spare-parts/${stockId}/equipment-bom`, data).then((response) => response.data);
+export const updateSparePartEquipmentBom = (stockId, bomId, data) => api.put(`/spare-parts/${stockId}/equipment-bom/${bomId}`, data).then((response) => response.data);
+export const deleteSparePartEquipmentBom = (stockId, bomId) => api.delete(`/spare-parts/${stockId}/equipment-bom/${bomId}`);
 export const stockIn = (stockId, data) => api.post(`/spare-parts/${stockId}/stock-in`, data).then((response) => response.data);
 export const adjustStock = (stockId, data) => api.post(`/spare-parts/${stockId}/adjust`, data).then((response) => response.data);
 export const transferStock = (stockId, data) => api.post(`/spare-parts/${stockId}/transfer`, data).then((response) => response.data);

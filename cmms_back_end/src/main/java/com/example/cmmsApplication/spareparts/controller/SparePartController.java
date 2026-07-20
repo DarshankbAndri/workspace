@@ -6,6 +6,8 @@ import com.example.cmmsApplication.common.response.ApiResponse;
 import com.example.cmmsApplication.common.response.ResponseFactory;
 
 
+import com.example.cmmsApplication.equipment.dto.EquipmentSpareBomDTO;
+import com.example.cmmsApplication.equipment.service.EquipmentSpareBomService;
 import com.example.cmmsApplication.site.entity.Site;
 import com.example.cmmsApplication.common.search.dto.PageProperties;
 import com.example.cmmsApplication.common.search.dto.SearchDTO;
@@ -27,6 +29,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SparePartController {
     private final SparePartService sparePartService;
+    private final EquipmentSpareBomService equipmentSpareBomService;
 
 @PostMapping
     public ResponseEntity<ApiResponse<?>> create(@Valid @RequestBody SparePartDTO dto) {
@@ -62,6 +65,31 @@ public class SparePartController {
     @GetMapping("/{stockId}/transactions")
     public ResponseEntity<ApiResponse<?>> getTransactions(@PathVariable Long stockId) {
         return ResponseFactory.ok(sparePartService.getTransactions(stockId));
+    }
+
+    @GetMapping("/{stockId}/equipment-bom")
+    public ResponseEntity<ApiResponse<?>> getEquipmentBom(@PathVariable Long stockId) {
+        return ResponseFactory.ok(equipmentSpareBomService.getByStock(stockId));
+    }
+
+    @PostMapping("/{stockId}/equipment-bom")
+    public ResponseEntity<ApiResponse<?>> createEquipmentBom(@PathVariable Long stockId,
+                                                             @RequestBody EquipmentSpareBomDTO dto) {
+        return ResponseFactory.created(equipmentSpareBomService.createForStock(stockId, dto));
+    }
+
+    @PutMapping("/{stockId}/equipment-bom/{bomId}")
+    public ResponseEntity<ApiResponse<?>> updateEquipmentBom(@PathVariable Long stockId,
+                                                             @PathVariable Long bomId,
+                                                             @RequestBody EquipmentSpareBomDTO dto) {
+        return ResponseFactory.ok(equipmentSpareBomService.updateForStock(stockId, bomId, dto));
+    }
+
+    @DeleteMapping("/{stockId}/equipment-bom/{bomId}")
+    public ResponseEntity<ApiResponse<?>> deleteEquipmentBom(@PathVariable Long stockId,
+                                                             @PathVariable Long bomId) {
+        equipmentSpareBomService.deleteForStock(stockId, bomId);
+        return ResponseFactory.ok(null);
     }
 
     @PostMapping("/{stockId}/stock-in")

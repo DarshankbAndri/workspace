@@ -214,13 +214,23 @@ NOTIFICATION_CONFIG_UPDATE,/api/admin/notification-settings/**,PUT,Update notifi
 SPARE_PART_VIEW,/api/spare-parts/**,GET,View spare parts
 SPARE_PART_VIEW,/api/spare-parts,GET,View spare part list
 SPARE_PART_VIEW,/api/spare-parts/search,POST,Search spare parts
+SPARE_PART_VIEW,/api/equipment,GET,Spare part linked equipment helper data
+SPARE_PART_VIEW,/api/equipment/**,GET,Spare part linked equipment helper data
 SPARE_PART_VIEW,/api/hr/sites/**,GET,Spare part site helper data
 SPARE_PART_VIEW,/api/hr/sites,GET,Spare part site helper data
 SPARE_PART_CREATE,/api/spare-parts,POST,Create spare part
+SPARE_PART_CREATE,/api/spare-parts/*/equipment-bom,POST,Create spare part equipment BOM link
 SPARE_PART_CREATE,/api/spare-parts/import,POST,Import spare parts
+SPARE_PART_CREATE,/api/equipment,GET,Create spare part equipment helper data
+SPARE_PART_CREATE,/api/equipment/**,GET,Create spare part equipment helper data
 SPARE_PART_CREATE,/api/hr/sites/**,GET,Create spare part site helper data
 SPARE_PART_CREATE,/api/hr/sites,GET,Create spare part site helper data
 SPARE_PART_UPDATE,/api/spare-parts/*,PUT,Update spare part
+SPARE_PART_UPDATE,/api/spare-parts/*/equipment-bom,POST,Add spare part equipment BOM link
+SPARE_PART_UPDATE,/api/spare-parts/*/equipment-bom/*,PUT,Update spare part equipment BOM link
+SPARE_PART_UPDATE,/api/spare-parts/*/equipment-bom/*,DELETE,Delete spare part equipment BOM link
+SPARE_PART_UPDATE,/api/equipment,GET,Update spare part equipment helper data
+SPARE_PART_UPDATE,/api/equipment/**,GET,Update spare part equipment helper data
 SPARE_PART_UPDATE,/api/hr/sites/**,GET,Update spare part site helper data
 SPARE_PART_UPDATE,/api/hr/sites,GET,Update spare part site helper data
 SPARE_PART_DELETE,/api/spare-parts/*,DELETE,Delete spare part

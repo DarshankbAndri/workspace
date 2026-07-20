@@ -21,7 +21,7 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { Delete, Download, Edit } from '@mui/icons-material';
+import { Delete, Download, Edit, Visibility } from '@mui/icons-material';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   createEquipmentSpareBom,
@@ -663,6 +663,11 @@ function EquipmentSpareBomTab({
                     <Typography variant="body2" sx={{ wordBreak: 'break-word' }}>{row.remarks || '-'}</Typography>
                   </TableCell>
                   <TableCell align="right">
+                    <Tooltip title="View spare part">
+                      <IconButton aria-label="View spare part" onClick={() => navigate(`/inventory/spare-parts/${row.stockId}/view`)}>
+                        <Visibility fontSize="small" />
+                      </IconButton>
+                    </Tooltip>
                     {canEdit && (
                       <Tooltip title="Edit">
                         <IconButton aria-label="Edit spare BOM" onClick={() => onEdit(row)}>

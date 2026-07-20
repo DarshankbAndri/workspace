@@ -14,6 +14,8 @@ import lombok.NoArgsConstructor;
 public class EquipmentSpareBomDTO {
     private Long bomId;
     private Long equipmentId;
+    private String equipmentCode;
+    private String equipmentName;
     private Long stockId;
     private Long sparePartId;
     private String partCode;

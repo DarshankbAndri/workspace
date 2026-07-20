@@ -39,6 +39,14 @@ public class EquipmentSpareBomService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
+    public List<EquipmentSpareBomDTO> getByStock(Long stockId) {
+        SparePartSiteStock stock = getAccessibleStock(stockId);
+        return bomRepository.findByStockIdOrderByCriticalityAscBomIdDesc(stock.getId()).stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
+    }
+
     public EquipmentSpareBomDTO create(Long equipmentId, EquipmentSpareBomDTO dto) {
         Equipment equipment = getAccessibleEquipment(equipmentId);
         SparePartSiteStock stock = getValidStock(dto == null ? null : dto.getStockId(), equipment);
@@ -51,6 +59,14 @@ public class EquipmentSpareBomService {
         bom.setSparePart(stock.getSparePart());
         apply(bom, dto);
         return toDTO(bomRepository.save(bom));
+    }
+
+    public EquipmentSpareBomDTO createForStock(Long stockId, EquipmentSpareBomDTO dto) {
+        if (dto == null || dto.getEquipmentId() == null) {
+            throw new InvalidOperationException("Equipment is required for spare BOM link.");
+        }
+        dto.setStockId(stockId);
+        return create(dto.getEquipmentId(), dto);
     }
 
     public EquipmentSpareBomDTO update(Long equipmentId, Long bomId, EquipmentSpareBomDTO dto) {
@@ -66,9 +82,25 @@ public class EquipmentSpareBomService {
         return toDTO(bomRepository.save(bom));
     }
 
+    public EquipmentSpareBomDTO updateForStock(Long stockId, Long bomId, EquipmentSpareBomDTO dto) {
+        if (dto == null) {
+            throw new InvalidOperationException("Equipment spare BOM details are required.");
+        }
+        getAccessibleStock(stockId);
+        EquipmentSpareBom bom = getOwnedBomForStock(stockId, bomId);
+        dto.setStockId(stockId);
+        return update(bom.getEquipment().getId(), bomId, dto);
+    }
+
     public void delete(Long equipmentId, Long bomId) {
         getAccessibleEquipment(equipmentId);
         EquipmentSpareBom bom = getOwnedBom(equipmentId, bomId);
+        bomRepository.delete(bom);
+    }
+
+    public void deleteForStock(Long stockId, Long bomId) {
+        getAccessibleStock(stockId);
+        EquipmentSpareBom bom = getOwnedBomForStock(stockId, bomId);
         bomRepository.delete(bom);
     }
 
@@ -77,10 +109,25 @@ public class EquipmentSpareBomService {
                 .orElseThrow(() -> new ResourceNotFoundException("Equipment spare BOM line not found with id: " + bomId));
     }
 
+    private EquipmentSpareBom getOwnedBomForStock(Long stockId, Long bomId) {
+        return bomRepository.findByBomIdAndStockId(bomId, stockId)
+                .orElseThrow(() -> new ResourceNotFoundException("Spare part equipment BOM line not found with id: " + bomId));
+    }
+
     private Equipment getAccessibleEquipment(Long equipmentId) {
         Equipment equipment = equipmentService.getEntity(equipmentId);
         accessControlService.validateSiteAccess(equipment.getSite() == null ? null : equipment.getSite().getId());
         return equipment;
+    }
+
+    private SparePartSiteStock getAccessibleStock(Long stockId) {
+        if (stockId == null) {
+            throw new InvalidOperationException("Spare part stock is required.");
+        }
+        SparePartSiteStock stock = stockDAO.findById(stockId)
+                .orElseThrow(() -> new ResourceNotFoundException("Spare part stock not found with id: " + stockId));
+        accessControlService.validateSiteAccess(stock.getSite() == null ? null : stock.getSite().getId());
+        return stock;
     }
 
     private SparePartSiteStock getValidStock(Long stockId, Equipment equipment) {
@@ -137,6 +184,8 @@ public class EquipmentSpareBomService {
         return EquipmentSpareBomDTO.builder()
                 .bomId(bom.getBomId())
                 .equipmentId(bom.getEquipment() == null ? null : bom.getEquipment().getId())
+                .equipmentCode(bom.getEquipment() == null ? null : bom.getEquipment().getEquipmentCode())
+                .equipmentName(bom.getEquipment() == null ? null : bom.getEquipment().getEquipmentName())
                 .stockId(stock == null ? null : stock.getId())
                 .sparePartId(part == null ? null : part.getId())
                 .partCode(part == null ? null : part.getPartCode())

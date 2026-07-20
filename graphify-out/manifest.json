@@ -985,8 +985,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/spareparts/controller/SparePartController.java": {
-    "mtime": 1782467371.7898588,
-    "ast_hash": "ea421eba9eadf1efffd6571d5939c997",
+    "mtime": 1784281577.2736664,
+    "ast_hash": "5234d9a00894a2ce7ca38b9794ecd890",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/spareparts/controller/SparePartReorderController.java": {
@@ -1455,8 +1455,8 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/spareParts/pages/SparePartFormPage.jsx": {
-    "mtime": 1782976137.065351,
-    "ast_hash": "0df8677fcbd970241e735a960c3c67a7",
+    "mtime": 1784281804.468598,
+    "ast_hash": "1676287f177a9b87097e59619e6f168c",
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/spareParts/pages/SparePartListPage.jsx": {
@@ -1480,8 +1480,8 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/spareParts/services/sparePartService.js": {
-    "mtime": 1782467374.385501,
-    "ast_hash": "ad263ea80413ea370aafc3a2a70917b2",
+    "mtime": 1784281608.4105506,
+    "ast_hash": "2aa1208213309c9e0f31c844a0579cac",
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/user/pages/UserManagementPage.jsx": {
@@ -1880,8 +1880,8 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/equipment/pages/EquipmentViewPage.jsx": {
-    "mtime": 1784265772.564862,
-    "ast_hash": "a5a67fd61dc5a18be47ed0baa116344a",
+    "mtime": 1784281705.454197,
+    "ast_hash": "ebb0c4904de54e9ea15dcf4cd5ae8e71",
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/vendor/pages/VendorViewPage.jsx": {
@@ -1960,8 +1960,8 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/spareParts/pages/SparePartViewPage.jsx": {
-    "mtime": 1783401397.603513,
-    "ast_hash": "670a6db8ec33d4aae31c9e2577feccf6",
+    "mtime": 1784281705.449638,
+    "ast_hash": "1ad938cd05402f4ea2aef2d5baaa0b8f",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/dto/EquipmentSummaryDTO.java": {
@@ -1990,8 +1990,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/dto/EquipmentSpareBomDTO.java": {
-    "mtime": 1783414988.282012,
-    "ast_hash": "cc93f01c2d1e975b23ca73aff08d3643",
+    "mtime": 1784281555.6878448,
+    "ast_hash": "2b38cac8dc544c18e87aa259551ef61e",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/entity/EquipmentSpareBom.java": {
@@ -2000,13 +2000,13 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/repository/EquipmentSpareBomRepository.java": {
-    "mtime": 1783414988.2886226,
-    "ast_hash": "a3e4795e3efa3a5838fade8824e15f5b",
+    "mtime": 1784281555.693211,
+    "ast_hash": "07bedcc29fe288bef8f71920e71435d7",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/service/EquipmentSpareBomService.java": {
-    "mtime": 1783414988.2941182,
-    "ast_hash": "94f97fbad21b81eebe23e5a80ac99cc5",
+    "mtime": 1784281584.4637752,
+    "ast_hash": "86ad27ea446e04253b9617f1c53ef1a3",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/equipment/dto/EquipmentHealthDTO.java": {

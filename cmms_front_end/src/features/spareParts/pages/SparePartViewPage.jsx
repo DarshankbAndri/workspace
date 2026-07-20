@@ -1,8 +1,8 @@
 import React from 'react';
-import { Alert, Box, Button, Chip, Grid, Skeleton, Stack, Typography } from '@mui/material';
-import { Edit } from '@mui/icons-material';
+import { Alert, Box, Button, Chip, Grid, Skeleton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
+import { Edit, Visibility } from '@mui/icons-material';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getSparePartById } from '../services/sparePartService';
+import { getSparePartById, getSparePartEquipmentBom } from '../services/sparePartService';
 import { useAuth } from '../../../shared/context/AuthContext';
 import { PERMISSIONS } from '../../../shared/utils/permissionRoutes';
 import CommonFormActions from '../../../shared/components/common/CommonFormActions';
@@ -13,14 +13,18 @@ function SparePartViewPage() {
   const navigate = useNavigate();
   const { hasPermission } = useAuth();
   const [sparePart, setSparePart] = React.useState(null);
+  const [equipmentBom, setEquipmentBom] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState('');
 
   React.useEffect(() => {
     setLoading(true);
     setError('');
-    getSparePartById(id)
-      .then((data) => setSparePart(data))
+    Promise.all([getSparePartById(id), getSparePartEquipmentBom(id)])
+      .then(([data, bomRows]) => {
+        setSparePart(data);
+        setEquipmentBom(bomRows || []);
+      })
       .catch((err) => setError(err.response?.data?.message || 'Unable to load spare part.'))
       .finally(() => setLoading(false));
   }, [id]);
@@ -73,13 +77,48 @@ function SparePartViewPage() {
             ))}
           </Grid>
         ) : (
-          <Grid container spacing={2.5}>
-            {fields.map((field) => (
-              <Grid item xs={12} sm={field.label === 'Description' ? 12 : 6} md={field.label === 'Description' ? 12 : 4} key={field.label}>
-                <DetailItem label={field.label} value={field.value} variant={field.variant} />
-              </Grid>
-            ))}
-          </Grid>
+          <Stack spacing={3}>
+            <Grid container spacing={2.5}>
+              {fields.map((field) => (
+                <Grid item xs={12} sm={field.label === 'Description' ? 12 : 6} md={field.label === 'Description' ? 12 : 4} key={field.label}>
+                  <DetailItem label={field.label} value={field.value} variant={field.variant} />
+                </Grid>
+              ))}
+            </Grid>
+            <Box>
+              <Typography variant="h6" fontWeight={800} sx={{ mb: 1 }}>Linked Equipment BOM</Typography>
+              <TableContainer>
+                <Table size="small">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Equipment</TableCell>
+                      <TableCell>Recommended</TableCell>
+                      <TableCell>Criticality</TableCell>
+                      <TableCell>Frequency</TableCell>
+                      <TableCell>Status</TableCell>
+                      <TableCell>Remarks</TableCell>
+                      <TableCell align="right">View</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {equipmentBom.length === 0 ? (
+                      <TableRow><TableCell colSpan={7}>No linked equipment BOM rows.</TableCell></TableRow>
+                    ) : equipmentBom.map((row) => (
+                      <TableRow key={row.bomId} hover sx={{ cursor: 'pointer' }} onClick={() => navigate(`/equipment/${row.equipmentId}/view`)}>
+                        <TableCell>{formatEquipment(row)}</TableCell>
+                        <TableCell>{formatQuantity(row.recommendedQty, sparePart?.unit)}</TableCell>
+                        <TableCell><Chip size="small" label={row.criticality || 'MEDIUM'} variant="outlined" /></TableCell>
+                        <TableCell>{row.replacementFrequency || '-'}</TableCell>
+                        <TableCell>{row.status || 'ACTIVE'}</TableCell>
+                        <TableCell>{row.remarks || '-'}</TableCell>
+                        <TableCell align="right"><Visibility fontSize="small" /></TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Box>
+          </Stack>
         )}
 
         <CommonFormActions
@@ -131,6 +170,13 @@ function formatQuantity(value, unit) {
   if (value === null || value === undefined || value === '') return '';
   const formatted = Number(value).toLocaleString(undefined, { maximumFractionDigits: 3 });
   return unit ? `${formatted} ${unit}` : formatted;
+}
+
+function formatEquipment(row) {
+  if (!row?.equipmentName && !row?.equipmentCode) return '-';
+  if (!row.equipmentCode) return row.equipmentName;
+  if (!row.equipmentName) return row.equipmentCode;
+  return `${row.equipmentCode} - ${row.equipmentName}`;
 }
 
 function formatMoney(value) {
