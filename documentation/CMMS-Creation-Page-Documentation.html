@@ -1,0 +1,623 @@
+﻿<!doctype html><html><head><meta charset="utf-8"><title>CMMS Creation Page Documentation</title><style>@page { size:A4; margin:20mm 16mm; } body{font-family:Calibri,Arial;font-size:10pt;color:#1f2937;line-height:1.35} h1{color:#003da5;font-size:25pt;text-align:center;margin-top:80pt;page-break-after:always} h2{color:#003da5;font-size:17pt;border-bottom:2px solid #003da5;padding-bottom:4pt;page-break-before:always} h3{color:#2457a7;font-size:13pt} table{border-collapse:collapse;width:100%;margin:8pt 0 14pt;font-size:8pt} th{background:#003da5;color:white} th,td{border:1px solid #9ca3af;padding:4pt;vertical-align:top} tr:nth-child(even) td{background:#f3f6fb} code{font-family:Consolas;background:#eef2f7;padding:1pt 2pt} pre{background:#eef2f7;border-left:4px solid #003da5;padding:8pt;white-space:pre-wrap} a{color:#003da5}</style></head><body><h1>CMMS Creation, Configuration, and Transaction Page Documentation</h1>
+<p><strong>Application:</strong> Solar Power Plant Computerized Maintenance Management System (CMMS)  </p>
+<p><strong>Document version:</strong> 1.0  </p>
+<p><strong>Verified against source:</strong> 21 July 2026  </p>
+<p><strong>Audience:</strong> Business users, plant operators, maintenance and store managers, administrators, developers, testers, and client/demo users</p>
+<hr>
+<h2>Document Control and Scope</h2>
+<p>This document describes every currently implemented route or embedded UI workflow that creates, edits, configures, approves, assigns, uploads, issues, consumes, returns, transfers, or submits application data. Field names, APIs, permissions, and database mappings are based on the current frontend, backend, Liquibase, and <code>api-permission-mapping.csv</code>.</p>
+<p>The application uses a standard JSON response envelope (<code>ApiResponse&lt;T&gt;</code>). API paths below include the configured <code>/api</code> servlet context. Site-filtered operations additionally apply record-level site access in backend services.</p>
+<h3>How to read field tables</h3>
+<ul>
+<li><strong>UI/Required</strong> identifies the visible control and whether the current UI requires it.</li>
+<li><strong>Technical mapping</strong> lists frontend property → DTO property → database column.</li>
+<li><strong>Source/Edit</strong> explains dropdown origin, defaults, dependencies, and edit restrictions.</li>
+<li>“Backend generated” means users do not enter the value.</li>
+</ul>
+<h2>Application Creation Order</h2>
+<pre><code>
+Company profile
+  → Sites
+  → Roles and permissions
+  → Employees/login accounts
+  → Vendors and AMC contracts
+  → Equipment
+  → PM schedules and maintenance requests
+  → Assignments
+  → Checklists, work logs, downtime, and spare requests
+  → Stock fulfilment, transfers, reorders, consumption, and reports
+</code></pre>
+<h2>Actual Role and Permission Model</h2>
+<p>Routes and buttons use permission codes rather than hard-coded business-role names. Roles are configurable; therefore “who uses this page” means users whose assigned role contains the stated permission. Common seeded/business-facing role codes referenced by current configuration include <code>SUPER_ADMIN</code>, <code>ADMIN</code>, <code>MAINTENANCE_MANAGER</code>, and <code>EMPLOYEE</code>, but clients can create additional roles.</p>
+<hr>
+<h2>1. Company Profile Create/Edit</h2>
+<h3>Purpose, users, and timing</h3>
+<p><strong>Navigation:</strong> Administration → Company  </p>
+<p><strong>Route:</strong> <code>/admin/company</code>  </p>
+<p><strong>Users:</strong> Company administrators with <code>COMPANY_VIEW</code>; saving requires <code>COMPANY_CREATE</code> for the first record or <code>COMPANY_UPDATE</code> afterward.  </p>
+<p><strong>Use when:</strong> initially configuring the tenant/company or changing its business identity and branding. Company name and logo are returned by the company APIs and used by application branding; report-specific use depends on each report implementation.</p>
+<p><strong>Prerequisites:</strong> Authenticated administrator. No company dropdown or multi-company selector exists on this page.</p>
+<h3>Fields</h3>
+<table><thead><tr><th>Field</th><th>Technical mapping</th><th>UI/Required</th><th>Purpose and usage</th><th>Solar example</th><th>Validation / source / edit behavior</th></tr></thead><tbody>
+<tr><td>Company Code</td><td><code>companyCode</code> → <code>companyCode</code> → <code>company_master.company_code</code></td><td>Text; mandatory</td><td>Stable business code used to identify the company record.</td><td><code>SUNOPS</code></td><td>UI rejects blank; backend DTO is not blank; persisted code is unique. Editable when user can persist.</td></tr>
+<tr><td>Company Name</td><td><code>companyName</code> → <code>companyName</code> → <code>company_master.company_name</code></td><td>Text; mandatory</td><td>Display/legal name used in company profile and branding.</td><td><code>Sunrise Solar Operations Pvt Ltd</code></td><td>UI rejects blank; backend not blank.</td></tr>
+<tr><td>Email</td><td><code>email</code> → <code>email</code> → <code>company_master.email</code></td><td>Email; optional</td><td>General company contact.</td><td><code>operations@sunrise.example</code></td><td>Browser email control plus backend email validation where configured.</td></tr>
+<tr><td>Phone Number</td><td><code>phoneNumber</code> → <code>phoneNumber</code> → <code>company_master.phone_number</code></td><td>Text; optional</td><td>Company contact number.</td><td><code>+91 98765 43210</code></td><td>No strict UI pattern; backend length applies.</td></tr>
+<tr><td>Status</td><td><code>status</code> → <code>status</code> → <code>company_master.status</code></td><td>Dropdown; optional</td><td>Enables/inactivates the company profile.</td><td><code>ACTIVE</code></td><td>Static options <code>ACTIVE</code>, <code>INACTIVE</code>; defaults to <code>ACTIVE</code>.</td></tr>
+<tr><td>Address</td><td><code>address</code> → <code>address</code> → <code>company_master.address</code></td><td>Text area; optional</td><td>Registered/operational address used as company reference data.</td><td><code>Solar Park Road, Jaisalmer, Rajasthan</code></td><td>Free text.</td></tr>
+<tr><td>Upload Logo</td><td>multipart <code>file</code> → stored logo metadata/path</td><td>File; optional</td><td>Replaces branding image.</td><td><code>sunrise-logo.png</code></td><td>Sent after company save to <code>/api/company/upload-logo</code>; file rules come from backend multipart/allowed-content implementation. Existing preview remains until replaced.</td></tr>
+</tbody></table>
+<h3>Save, edit, cancel, APIs, and database</h3>
+<ul>
+<li>Save calls <code>POST /api/company/create</code>; update calls <code>PUT /api/company/update/{id}</code>; logo upload follows with <code>POST /api/company/upload-logo</code>.</li>
+<li>The page remains on the company profile and reloads the saved response. Users without create/update permission see disabled fields.</li>
+<li>There is no destructive company delete action in the current UI/mapping.</li>
+<li>Main table: <code>company_master</code>; audit/status columns are defined in its Liquibase/entity mapping.</li>
+</ul>
+<p><strong>Tips:</strong> Use a stable short code and a landscape/transparent logo.  </p>
+<p><strong>Common errors:</strong> blank code/name, invalid image, or <code>COMPANY_VIEW</code> without the appropriate save permission.</p>
+<hr>
+<h2>2. Site Create/Edit/View</h2>
+<h3>Purpose, users, and timing</h3>
+<p><strong>Navigation:</strong> HR &amp; Sites → Sites → Add Site  </p>
+<p><strong>Routes:</strong> <code>/hr/sites/new</code>, <code>/hr/sites/{id}/edit</code>, <code>/hr/sites/{id}/view</code>  </p>
+<p><strong>Permissions:</strong> <code>SITE_VIEW</code>, <code>SITE_CREATE</code>, <code>SITE_UPDATE</code>, <code>SITE_DELETE</code>.  </p>
+<p>Creates the plant/site boundary used for equipment, employees, vendors, requests, downtime, inventory, reports, and record-level authorization.</p>
+<h3>Fields</h3>
+<table><thead><tr><th>Field</th><th>Technical mapping</th><th>UI/Required</th><th>Purpose and usage</th><th>Example</th><th>Validation / source / edit behavior</th></tr></thead><tbody>
+<tr><td>Site Code</td><td><code>siteCode</code> → <code>siteCode</code> → <code>site_master.site_code</code></td><td>Text; mandatory</td><td>Short unique plant identifier used in lists and references.</td><td><code>RJ-SP-01</code></td><td>Required; backend uniqueness/length applies. Editable on edit.</td></tr>
+<tr><td>Site Name</td><td><code>siteName</code> → <code>siteName</code> → <code>site_master.site_name</code></td><td>Text; mandatory</td><td>Human-readable plant name.</td><td><code>Rajasthan Solar Park</code></td><td>Required.</td></tr>
+<tr><td>Organization Name</td><td><code>organizationName</code> → same → <code>organization_name</code></td><td>Text; optional</td><td>Operating/legal organization associated with site.</td><td><code>Sunrise Solar O&amp;M</code></td><td>Free text. No Company dropdown exists here.</td></tr>
+<tr><td>Site Type</td><td><code>siteType</code> → same → <code>site_type</code></td><td>Text; optional</td><td>Classifies facility.</td><td><code>SOLAR_POWER_PLANT</code></td><td>Free text, not an enum/dropdown.</td></tr>
+<tr><td>Status</td><td><code>status</code> → same → <code>status</code></td><td>Dropdown; optional</td><td>Controls active use and helper lists.</td><td><code>ACTIVE</code></td><td>Static <code>ACTIVE</code>/<code>INACTIVE</code>; default active. Delete action marks inactive.</td></tr>
+<tr><td>Address Line 1/2</td><td><code>addressLine1</code>, <code>addressLine2</code> → same → corresponding columns</td><td>Text; optional</td><td>Physical site address.</td><td><code>Plot 14, Solar Park Road</code></td><td>Free text.</td></tr>
+<tr><td>City/State/Country/Pincode</td><td>matching properties → matching columns</td><td>Text; optional</td><td>Geographic and postal reference.</td><td><code>Jaisalmer</code>, <code>Rajasthan</code>, <code>India</code>, <code>345001</code></td><td>No dedicated country/state dropdown or pincode regex in UI.</td></tr>
+<tr><td>Contact Person</td><td><code>contactPerson</code> → same → <code>contact_person</code></td><td>Text; optional</td><td>Primary site contact.</td><td><code>Anita Sharma</code></td><td>Free text.</td></tr>
+<tr><td>Contact Mobile</td><td><code>contactMobile</code> → same → <code>contact_mobile</code></td><td>Text; optional</td><td>Site escalation number.</td><td><code>+91 99887 77665</code></td><td>No strict UI phone pattern.</td></tr>
+<tr><td>Contact Email</td><td><code>contactEmail</code> → same → <code>contact_email</code></td><td>Email; optional</td><td>Site email contact.</td><td><code>rjplant@sunrise.example</code></td><td>Browser email control/backend validation.</td></tr>
+<tr><td>Latitude/Longitude</td><td><code>latitude</code>, <code>longitude</code> → same → matching columns</td><td>Number; optional</td><td>Map/geographic coordinates.</td><td><code>26.9157</code>, <code>70.9083</code></td><td>Numeric UI; current page does not enforce geographic ranges.</td></tr>
+</tbody></table>
+<h3>Workflow and dependencies</h3>
+<p>1. Enter code/name and optional address/contact/location data.</p>
+<p>2. Save with <code>POST /api/hr/sites</code> or update with <code>PUT /api/hr/sites/{id}</code>.</p>
+<p>3. On success, return to <code>/hr/sites</code>.</p>
+<p>4. The site becomes available through <code>GET /api/hr/sites</code> to equipment, employee, vendor, AMC, maintenance, downtime, spare, dashboard, and report pages, filtered by authorization where applicable.</p>
+<p>Main table: <code>site_master</code>; primary key <code>site_id</code>. <code>DELETE /api/hr/sites/{id}</code> is exposed as “mark inactive,” preserving references. Cancel returns to the site list and discards unsaved changes without a custom confirmation.</p>
+<p><strong>Not implemented:</strong> Capacity and timezone fields requested in the expected specification are not present on the current site form/entity.</p>
+<hr>
+<h2>3. Employee, Login, Site, and Role Assignment Create/Edit</h2>
+<h3>Purpose and prerequisites</h3>
+<p><strong>Navigation:</strong> HR &amp; Sites → Employees → Add Employee  </p>
+<p><strong>Routes:</strong> <code>/hr/employees/new</code>, <code>/hr/employees/{id}/edit</code>, <code>/hr/employees/{id}/view</code>  </p>
+<p><strong>Permissions:</strong> <code>EMPLOYEE_VIEW</code>, <code>EMPLOYEE_CREATE</code>, <code>EMPLOYEE_UPDATE</code>, <code>EMPLOYEE_DELETE</code>. Helper APIs for sites are mapped to the respective page permissions. Role loading also requires an allowed role API mapping; see inconsistencies.</p>
+<p>Creates the employee master, optional login account, site responsibilities, and security-role assignments. At least one site assignment is mandatory. When login is enabled, username/password and at least one role assignment are required.</p>
+<h3>Identity and employment fields</h3>
+<table><thead><tr><th>Field</th><th>Technical mapping</th><th>UI/Required</th><th>Purpose / example</th><th>Validation and behavior</th></tr></thead><tbody>
+<tr><td>Employee Code</td><td><code>employeeCode</code> → same → <code>employee_master.employee_code</code></td><td>Text; mandatory</td><td>Stable workforce ID, e.g. <code>EMP-RJ-0042</code>.</td><td>UI required; backend unique/length rules.</td></tr>
+<tr><td>First Name</td><td><code>firstName</code> → same → <code>first_name</code></td><td>Text; UI mandatory</td><td><code>Ravi</code></td><td>Required in UI/backend.</td></tr>
+<tr><td>Last Name</td><td><code>lastName</code> → same → <code>last_name</code></td><td>Text; optional</td><td><code>Kumar</code></td><td>Optional.</td></tr>
+<tr><td>Mobile Number</td><td><code>mobileNumber</code> → same → <code>mobile_number</code></td><td>Text; mandatory</td><td>Technician/contact number.</td><td>UI rejects blank; backend rules apply.</td></tr>
+<tr><td>Email</td><td><code>email</code> → same → <code>email</code></td><td>Email; optional</td><td><code>ravi.kumar@sunrise.example</code></td><td>Email format where present; uniqueness may be enforced for linked users.</td></tr>
+<tr><td>Gender</td><td><code>gender</code> → same → <code>gender</code></td><td>Dropdown; optional</td><td><code>MALE</code>, <code>FEMALE</code>, <code>OTHER</code></td><td>Static options.</td></tr>
+<tr><td>Date of Birth</td><td><code>dateOfBirth</code> → same → <code>date_of_birth</code></td><td>Date; optional</td><td><code>1992-08-14</code></td><td>Date input; no age rule visible in UI.</td></tr>
+<tr><td>Date of Joining</td><td><code>dateOfJoining</code> → same → <code>date_of_joining</code></td><td>Date; optional</td><td><code>2026-04-01</code></td><td>Date input.</td></tr>
+<tr><td>Designation</td><td><code>designation</code> → same → <code>designation</code></td><td>Text; optional</td><td><code>Electrical Technician</code></td><td>Free text.</td></tr>
+<tr><td>Department</td><td><code>department</code> → same → <code>department</code></td><td>Text; optional</td><td><code>Operations &amp; Maintenance</code></td><td>Free text; no Team master exists.</td></tr>
+<tr><td>Status</td><td><code>status</code> → same → <code>status</code></td><td>Dropdown; optional</td><td><code>ACTIVE</code></td><td>Static active/inactive; default active.</td></tr>
+</tbody></table>
+<h3>Login fields</h3>
+<table><thead><tr><th>Field</th><th>Technical mapping</th><th>UI/Required</th><th>Purpose / example</th><th>Validation and behavior</th></tr></thead><tbody>
+<tr><td>Enable Login</td><td><code>loginEnabled</code></td><td>Switch; optional</td><td>Creates/maintains a linked application user.</td><td>When false, login fields are disabled.</td></tr>
+<tr><td>Username</td><td><code>username</code> → linked user username</td><td>Text; conditional</td><td><code>ravi.kumar</code></td><td>Required when login enabled; uniqueness enforced by user service/database.</td></tr>
+<tr><td>Auth Role</td><td><code>authRole</code> → linked user base role</td><td>Dropdown; conditional</td><td><code>EMPLOYEE</code></td><td>Static authentication role option; not a substitute for permission-role assignments.</td></tr>
+<tr><td>Account Status</td><td><code>accountStatus</code> → linked user status</td><td>Dropdown; conditional</td><td><code>ACTIVE</code></td><td>Active/inactive options.</td></tr>
+<tr><td>Reset Password</td><td>local UI flag</td><td>Checkbox; edit only</td><td>Reveals password controls for an existing linked account.</td><td>Not persisted as a database field.</td></tr>
+<tr><td>Password / Confirm Password</td><td><code>password</code>, <code>confirmPassword</code></td><td>Password; conditional</td><td>Temporary secret supplied securely</td><td>Required for new login; values must match; never documented/screenshot with real secrets and never returned.</td></tr>
+</tbody></table>
+<h3>Site assignment rows</h3>
+<table><thead><tr><th>Field</th><th>Mapping</th><th>Required</th><th>Source / use</th></tr></thead><tbody>
+<tr><td>Site</td><td><code>siteAssignments[].siteId</code> → <code>employee_site_assignment.site_id</code></td><td>Yes</td><td><code>GET /api/hr/sites</code>; only accessible/non-inactive sites should be offered.</td></tr>
+<tr><td>Role Name</td><td><code>siteAssignments[].roleName</code> → <code>role_name</code></td><td>Yes</td><td>Free text describing operational responsibility at that site.</td></tr>
+<tr><td>Primary Site</td><td><code>primarySite</code> → <code>primary_site</code></td><td>One primary expected</td><td>Checkbox; selecting one clears other primary flags.</td></tr>
+<tr><td>Effective From/To</td><td>matching properties → matching columns</td><td>Optional</td><td>Validity period for the site assignment.</td></tr>
+<tr><td>Status</td><td>assignment <code>status</code></td><td>Optional</td><td>Active/inactive static dropdown.</td></tr>
+</tbody></table>
+<h3>Permission-role assignment rows</h3>
+<table><thead><tr><th>Field</th><th>Mapping</th><th>Required</th><th>Source / use</th></tr></thead><tbody>
+<tr><td>Scope</td><td><code>scopeType</code>/<code>siteId</code></td><td>Conditional</td><td>Global or site-specific authorization scope.</td></tr>
+<tr><td>Role</td><td><code>roleId</code></td><td>Required when login enabled</td><td>Loaded from role service; selects permissions applied to the account.</td></tr>
+<tr><td>Status</td><td><code>status</code></td><td>Optional</td><td>Active/inactive role assignment.</td></tr>
+</tbody></table>
+<p>Save uses <code>POST /api/hr/employees</code>; update uses <code>PUT /api/hr/employees/{id}</code>; success returns to employee list. Main tables include <code>employee_master</code>, <code>employee_site_assignment</code>, linked <code>users</code>, and user-role assignment tables. The service validates duplicate sites, date ranges, roles, password rules, and site access.</p>
+<p><strong>Common mistakes:</strong> enabling login without a password/role, duplicate site rows, no primary site, password mismatch, or assigning an inaccessible site.</p>
+<hr>
+<h2>4. Role Create/Edit and Permission Assignment</h2>
+<p><strong>Navigation:</strong> Administration → Roles → Add Role  </p>
+<p><strong>Routes:</strong> <code>/admin/roles/new</code>, <code>/admin/roles/{id}/edit</code>; view has a separate read-only page.  </p>
+<p><strong>Permissions:</strong> <code>ROLE_VIEW</code>, <code>ROLE_CREATE</code>, <code>ROLE_UPDATE</code>, <code>ROLE_DELETE</code>; permission catalogue uses <code>PERMISSION_VIEW</code> APIs where mapped.</p>
+<p>Roles group permissions that control frontend routes/buttons and backend API authorization.</p>
+<table><thead><tr><th>Field</th><th>Mapping</th><th>UI/Required</th><th>Purpose / example</th><th>Validation/source/edit</th></tr></thead><tbody>
+<tr><td>Role Code</td><td><code>roleCode</code> → same → role table <code>role_code</code></td><td>Text; mandatory</td><td>Stable machine code, e.g. <code>SOLAR_TECHNICIAN</code>.</td><td>Required; normalized/unique by backend. Changing a used code can affect configuration references.</td></tr>
+<tr><td>Role Name</td><td><code>roleName</code> → same → <code>role_name</code></td><td>Text; mandatory</td><td>Display name, e.g. <code>Solar Technician</code>.</td><td>Required.</td></tr>
+<tr><td>Description</td><td><code>description</code> → same → <code>description</code></td><td>Text; optional</td><td>Explains intended responsibility.</td><td>Free text.</td></tr>
+<tr><td>Status</td><td><code>status</code> → same → <code>status</code></td><td>Dropdown; mandatory</td><td>Activates/inactivates role.</td><td>Static <code>ACTIVE</code>/<code>INACTIVE</code>.</td></tr>
+<tr><td>Permissions</td><td><code>permissionIds[]</code> → role-permission join table</td><td>Grouped checkboxes; optional</td><td>Grants page/action/API abilities.</td><td>Loaded from <code>GET /api/admin/permissions</code>; searchable and grouped. Existing selections load from role detail.</td></tr>
+</tbody></table>
+<p>Save: <code>POST /api/admin/roles</code>; update: <code>PUT /api/admin/roles/{id}</code>; cancel/success returns to <code>/admin/roles</code>. Role changes affect users assigned that role and cached API-permission evaluation; backend change flows should clear relevant cache as implemented.</p>
+<p><strong>Tip:</strong> Grant the smallest permission set and include helper API permissions required by a page. <strong>Mistake:</strong> granting only a route permission while omitting dropdown/helper API access.</p>
+<hr>
+<h2>5. Standalone User Account Creation</h2>
+<p><strong>Navigation/Route:</strong> <code>/create-user</code> (protected by <code>USER_ROLE_ASSIGN</code>)  </p>
+<p><strong>Purpose:</strong> Creates an application user through the HR-oriented user service. This is separate from the richer employee form and can produce identity duplication if governance is unclear.</p>
+<table><thead><tr><th>Field</th><th>Frontend/API property</th><th>UI/Required</th><th>Purpose/example</th><th>Validation/source</th></tr></thead><tbody>
+<tr><td>Username</td><td><code>username</code></td><td>Text; mandatory</td><td>Login ID, <code>plant.admin2</code>.</td><td>UI rejects blank; backend uniqueness.</td></tr>
+<tr><td>Email</td><td><code>email</code></td><td>Email; mandatory</td><td>Account contact/login recovery identity.</td><td>UI required/email control; backend email/uniqueness.</td></tr>
+<tr><td>First Name</td><td><code>firstName</code></td><td>Text; mandatory</td><td><code>Meera</code></td><td>UI required.</td></tr>
+<tr><td>Last Name</td><td><code>lastName</code></td><td>Text; mandatory</td><td><code>Singh</code></td><td>UI required.</td></tr>
+<tr><td>Department</td><td><code>department</code></td><td>Text; mandatory</td><td><code>Plant Administration</code></td><td>UI required.</td></tr>
+<tr><td>Role</td><td><code>role</code></td><td>Dropdown; mandatory</td><td>Base role assigned to account.</td><td>Static page options; default must be reviewed against backend accepted values.</td></tr>
+<tr><td>Manager ID</td><td><code>managerId</code></td><td>Number; optional</td><td>Links a manager by numeric user/employee identifier.</td><td>No dropdown; incorrect IDs may fail backend validation.</td></tr>
+</tbody></table>
+<p>The page first resolves the current HR user context and calls the user creation service, ultimately using the mapped user API (<code>POST /api/users</code>). Success shows a temporary-password message returned by the server and redirects to the first permitted route. Never expose that temporary password in documentation or screenshots.</p>
+<p><strong>Implementation issue:</strong> This page uses direct MUI fields rather than project common form components and overlaps employee login creation.</p>
+<hr>
+<h2>6. Vendor Create/Edit and Site Assignment</h2>
+<p><strong>Navigation:</strong> Vendors → Add Vendor  </p>
+<p><strong>Routes:</strong> <code>/vendors/new</code>, <code>/vendors/{id}/edit</code>  </p>
+<p><strong>Permissions:</strong> <code>VENDOR_VIEW</code>, <code>VENDOR_CREATE</code>, <code>VENDOR_UPDATE</code>, <code>VENDOR_DELETE</code>.</p>
+<p>Used for maintenance partners, equipment/service suppliers, AMC vendors, and reorder sourcing. At least one site assignment is required.</p>
+<table><thead><tr><th>Field</th><th>Mapping</th><th>UI/Required</th><th>Purpose/example</th><th>Validation/source/edit</th></tr></thead><tbody>
+<tr><td>Vendor Code</td><td><code>vendorCode</code> → same → <code>vendor_master.vendor_code</code></td><td>Text; mandatory</td><td>Stable ID, <code>INV-SVC-01</code>.</td><td>Required and unique.</td></tr>
+<tr><td>Vendor Name</td><td><code>vendorName</code> → same → <code>vendor_name</code></td><td>Text; mandatory</td><td><code>Solar Inverter Services India</code>.</td><td>Required.</td></tr>
+<tr><td>Contact Person</td><td><code>contactPerson</code> → same → <code>contact_person</code></td><td>Text; optional</td><td><code>Amit Patel</code></td><td>Free text.</td></tr>
+<tr><td>Email</td><td><code>email</code> → same → <code>email</code></td><td>Email; optional</td><td><code>support@vendor.example</code></td><td>Email format.</td></tr>
+<tr><td>Phone</td><td><code>phone</code> → same → <code>phone</code></td><td>Text; optional</td><td><code>+91 90000 10001</code></td><td>Backend length/no strict UI pattern.</td></tr>
+<tr><td>Service Category</td><td><code>serviceCategory</code> → same → <code>service_category</code></td><td>Text; optional</td><td><code>INVERTER_MAINTENANCE</code></td><td>Free text, not a managed services list.</td></tr>
+<tr><td>Active Vendor</td><td><code>active</code> → same → active/status column</td><td>Switch; optional</td><td>Controls selectable vendor availability.</td><td>Boolean default from form/entity.</td></tr>
+<tr><td>Address</td><td><code>address</code> → same → <code>address</code></td><td>Text area; optional</td><td>Registered/service address.</td><td>Free text.</td></tr>
+<tr><td>Assigned Site</td><td><code>siteAssignments[].siteId</code> → vendor-site table</td><td>Dropdown; mandatory per row</td><td>Site where vendor may be selected.</td><td><code>GET /api/hr/sites</code>; duplicate/site-access validation.</td></tr>
+<tr><td>Assignment Status</td><td>row <code>status</code></td><td>Dropdown; optional</td><td>Activates vendor at that site.</td><td>Static active/inactive.</td></tr>
+</tbody></table>
+<p>Save/update APIs are <code>POST /api/vendors</code> and <code>PUT /api/vendors/{id}</code>. Success returns to vendor list. Site assignment determines site-filtered vendor dropdowns in AMC, PM, and assignments. Main tables: <code>vendor_master</code> and vendor-site assignment table.</p>
+<hr>
+<h2>7. Vendor AMC Contract Create/Edit and Equipment Mapping</h2>
+<p><strong>Navigation:</strong> Vendors → AMC Contracts → Create  </p>
+<p><strong>Routes:</strong> <code>/vendor-amc/create</code>, <code>/vendor-amc/edit/{id}</code>  </p>
+<p><strong>Permissions:</strong> <code>VENDOR_AMC_VIEW</code>, <code>VENDOR_AMC_CREATE</code>, <code>VENDOR_AMC_UPDATE</code>, <code>VENDOR_AMC_DELETE</code>, <code>VENDOR_AMC_ASSIGN_EQUIPMENT</code>, <code>VENDOR_AMC_RENEW</code>.</p>
+<p>Creates a time-bound service contract, SLA, coverage, and equipment mappings used by maintenance requests and PM schedules.</p>
+<table><thead><tr><th>Field</th><th>Mapping</th><th>UI/Required</th><th>Purpose/example</th><th>Validation/source/edit</th></tr></thead><tbody>
+<tr><td>Site</td><td><code>siteId</code> → same → <code>vendor_amc_contract.site_id</code></td><td>Dropdown; mandatory</td><td>Contract operating site.</td><td><code>GET /api/hr/sites</code>; locked on edit; filters vendors/equipment.</td></tr>
+<tr><td>Vendor</td><td><code>vendorId</code> → same → <code>vendor_id</code></td><td>Dropdown; mandatory</td><td>Contracting service vendor.</td><td><code>GET /api/vendors</code>, filtered to selected site assignments.</td></tr>
+<tr><td>Contract Number</td><td><code>contractNumber</code> → same → <code>contract_number</code></td><td>Text; mandatory</td><td><code>AMC-INV-2026-001</code>.</td><td>Required, unique.</td></tr>
+<tr><td>Contract Name</td><td><code>contractName</code> → same → <code>contract_name</code></td><td>Text; mandatory</td><td><code>Inverter Comprehensive AMC FY26</code>.</td><td>Required.</td></tr>
+<tr><td>Contract Type</td><td><code>contractType</code> → same → <code>contract_type</code></td><td>Dropdown; optional</td><td><code>COMPREHENSIVE</code>.</td><td>Static options from page constants.</td></tr>
+<tr><td>Start/End Date</td><td>matching properties → matching columns</td><td>Dates; mandatory</td><td><code>2026-04-01</code> to <code>2027-03-31</code>.</td><td>End must not precede start; coverage mappings must fit contract dates.</td></tr>
+<tr><td>Status</td><td><code>status</code> → same → <code>status</code></td><td>Dropdown; optional</td><td><code>ACTIVE</code>, <code>DRAFT</code>, etc.</td><td>Enum/static options; lifecycle rules enforced by service.</td></tr>
+<tr><td>Contract Value</td><td><code>contractValue</code> → same → <code>contract_value</code></td><td>Number; optional</td><td><code>1250000.00</code>.</td><td>Non-negative money.</td></tr>
+<tr><td>Response Time</td><td><code>responseTimeHours</code> → same → <code>response_time_hours</code></td><td>Number; optional</td><td>Vendor acknowledgement SLA, e.g. <code>2</code>.</td><td>Non-negative.</td></tr>
+<tr><td>Resolution Time</td><td><code>resolutionTimeHours</code> → same → <code>resolution_time_hours</code></td><td>Number; optional</td><td>Restoration SLA, e.g. <code>8</code>.</td><td>Non-negative.</td></tr>
+<tr><td>Labor/Spares Included</td><td><code>includesLabor</code>, <code>includesSpares</code> → matching columns</td><td>Yes/No dropdowns</td><td>Defines commercial coverage shown on request/AMC views.</td><td>Boolean.</td></tr>
+<tr><td>Contact Person/Phone/Email</td><td>matching properties/columns</td><td>Inputs; optional</td><td>Contract-specific escalation contact.</td><td>Email control for email.</td></tr>
+<tr><td>Covered Equipment</td><td><code>equipmentIds[]</code> → <code>equipment_amc_mapping</code></td><td>Multi-select; optional</td><td>Assets covered by contract.</td><td>Equipment loaded by API and filtered to selected site; overlapping active coverage is blocked.</td></tr>
+<tr><td>Coverage Description</td><td><code>coverageDescription</code> → same column</td><td>Text area; optional</td><td>Included services/components.</td><td>Free text.</td></tr>
+<tr><td>Remarks</td><td><code>remarks</code> → same column</td><td>Text area; optional</td><td>Administrative notes.</td><td>Free text.</td></tr>
+</tbody></table>
+<p>Create calls <code>POST /api/vendor-amc</code> with equipment mappings. Edit calls <code>PUT /api/vendor-amc/{id}</code>, then synchronizes additions/removals using <code>POST /api/vendor-amc/{id}/equipment</code> and <code>DELETE /api/vendor-amc/{id}/equipment/{equipmentId}</code>. Success opens the AMC view page. Renewal uses a separate <code>POST /api/vendor-amc/{id}/renew</code> action and preserves historical contracts via <code>renewed_from_contract_id</code>.</p>
+<hr>
+<h2>8. Equipment Create/Edit</h2>
+<p><strong>Navigation:</strong> Equipment → Add Equipment  </p>
+<p><strong>Routes:</strong> <code>/equipment/new</code>, <code>/equipment/{id}/edit</code>  </p>
+<p><strong>Permissions:</strong> <code>EQUIPMENT_VIEW</code>, <code>EQUIPMENT_CREATE</code>, <code>EQUIPMENT_UPDATE</code>, <code>EQUIPMENT_DELETE</code>.</p>
+<p>Registers a maintainable asset used by requests, PM, downtime, AMC, spare BOM, documents, history, cost, and health calculations.</p>
+<table><thead><tr><th>Field</th><th>Mapping</th><th>UI/Required</th><th>Purpose/example</th><th>Validation/source/edit</th></tr></thead><tbody>
+<tr><td>Equipment Code</td><td><code>equipmentCode</code> → same → <code>equipment_master.equipment_code</code></td><td>Text; mandatory</td><td>Unique asset ID, <code>INV-B01-001</code>.</td><td>Required/unique; service trims/validates.</td></tr>
+<tr><td>Equipment Name</td><td><code>equipmentName</code> → same → <code>equipment_name</code></td><td>Text; mandatory</td><td><code>Central Inverter Block 01</code>.</td><td>Required.</td></tr>
+<tr><td>Site</td><td><code>siteId</code> → same → <code>site_id</code></td><td>Dropdown; mandatory</td><td>Ownership/security site.</td><td><code>GET /api/hr/sites</code>; only active/accessible values.</td></tr>
+<tr><td>Category</td><td><code>category</code> → same → <code>category</code></td><td>Text; mandatory</td><td><code>INVERTER</code>.</td><td>Required free text; no category master page exists.</td></tr>
+<tr><td>Location</td><td><code>location</code> → same → <code>location</code></td><td>Text; optional</td><td><code>Block 01 Inverter Room</code>.</td><td>Free text.</td></tr>
+<tr><td>Manufacturer</td><td><code>manufacturer</code> → same → <code>manufacturer</code></td><td>Text; optional</td><td><code>Sungrow</code>.</td><td>Free text.</td></tr>
+<tr><td>Model Number</td><td><code>modelNumber</code> → same → <code>model_number</code></td><td>Text; optional</td><td><code>SG3125HV</code>.</td><td>Free text.</td></tr>
+<tr><td>Serial Number</td><td><code>serialNumber</code> → same → <code>serial_number</code></td><td>Text; optional</td><td>Manufacturer serial.</td><td>Backend uniqueness if configured; optional UI.</td></tr>
+<tr><td>Status</td><td><code>status</code> → same → <code>status</code></td><td>Dropdown</td><td>Master status.</td><td><code>ACTIVE</code>, <code>INACTIVE</code>, <code>UNDER_MAINTENANCE</code>, <code>RETIRED</code>.</td></tr>
+<tr><td>Lifecycle Status</td><td><code>lifecycleStatus</code> → same → <code>lifecycle_status</code></td><td>Dropdown</td><td>Asset lifecycle.</td><td><code>DRAFT</code>, <code>COMMISSIONED</code>, <code>ACTIVE</code>, <code>STANDBY</code>, <code>UNDER_MAINTENANCE</code>, <code>BREAKDOWN</code>, <code>DECOMMISSIONED</code>, <code>SCRAPPED</code>.</td></tr>
+<tr><td>Operating Status</td><td><code>operatingStatus</code> → same → <code>operating_status</code></td><td>Dropdown</td><td>Current operating state used on dashboard/health.</td><td><code>RUNNING</code>, <code>STANDBY</code>, <code>STOPPED</code>, <code>UNDER_MAINTENANCE</code>, <code>BREAKDOWN</code>.</td></tr>
+<tr><td>Asset Condition</td><td><code>assetCondition</code> → same → <code>asset_condition</code></td><td>Dropdown</td><td>Inspection/health condition.</td><td><code>GOOD</code>, <code>FAIR</code>, <code>POOR</code>, <code>CRITICAL</code>, <code>UNKNOWN</code>.</td></tr>
+<tr><td>Ownership Type</td><td><code>ownershipType</code> → same → <code>ownership_type</code></td><td>Dropdown</td><td>Commercial ownership.</td><td><code>OWNED</code>, <code>LEASED</code>, <code>RENTED</code>, <code>CUSTOMER_SUPPLIED</code>.</td></tr>
+<tr><td>Installation/Commissioning Date</td><td>matching properties/columns</td><td>Dates; optional</td><td><code>2024-02-15</code>, <code>2024-03-01</code>.</td><td>Service validates lifecycle chronology.</td></tr>
+<tr><td>Warranty Expiry</td><td><code>warrantyExpiryDate</code> → same → <code>warranty_expiry_date</code></td><td>Date; optional</td><td><code>2029-02-14</code>.</td><td>Date validation relative to installation where implemented.</td></tr>
+<tr><td>Decommission Date</td><td><code>decommissionDate</code> → same → <code>decommission_date</code></td><td>Date; optional</td><td>Final service date.</td><td>Must align with lifecycle dates/status rules.</td></tr>
+<tr><td>Criticality</td><td><code>criticality</code> → same → <code>criticality</code></td><td>Dropdown</td><td>Risk prioritization.</td><td>Static low/medium/high/critical; default medium.</td></tr>
+<tr><td>Asset Number</td><td><code>assetNumber</code> → same → <code>asset_number</code></td><td>Text; optional</td><td>Finance asset ID.</td><td>Free text.</td></tr>
+<tr><td>Purchase Date/Cost</td><td>matching properties → matching columns</td><td>Date/number; optional</td><td><code>2024-01-10</code>, <code>8500000</code>.</td><td>Cost non-negative; chronology validated.</td></tr>
+<tr><td>Capitalization Date</td><td><code>capitalizationDate</code> → same column</td><td>Date; optional</td><td>Finance capitalization date.</td><td>Finance-date validation.</td></tr>
+<tr><td>Depreciation Method</td><td><code>depreciationMethod</code> → same column</td><td>Dropdown; optional</td><td><code>STRAIGHT_LINE</code>.</td><td>Static options; clearable.</td></tr>
+<tr><td>Cost Center</td><td><code>costCenter</code> → same column</td><td>Text; optional</td><td><code>RJ-INV-OPEX</code>.</td><td>Used in cost grouping/report.</td></tr>
+<tr><td>Department</td><td><code>department</code> → same column</td><td>Text; optional</td><td><code>Electrical O&amp;M</code>.</td><td>Used in ownership/cost reporting.</td></tr>
+</tbody></table>
+<p>Save calls <code>POST /api/equipment</code>; update calls <code>PUT /api/equipment/{id}</code>; success returns to equipment list. Equipment documents and spare BOM are separate embedded actions on the view page using <code>/documents</code> and <code>/spare-bom</code> APIs.</p>
+<p><strong>Not implemented on this form:</strong> equipment type master, parent equipment, vendor field, and meter configuration requested in the expected list.</p>
+<hr>
+<h2>9. Maintenance Request Create/Edit</h2>
+<p><strong>Navigation:</strong> Maintenance → Requests → Add Request  </p>
+<p><strong>Routes:</strong> <code>/maintenance/requests/new</code>, <code>/maintenance/requests/{id}/edit</code>  </p>
+<p><strong>Permissions:</strong> <code>REQUEST_VIEW</code>, <code>REQUEST_CREATE</code>, <code>REQUEST_UPDATE</code>, <code>REQUEST_DELETE</code>; transitions use <code>REQUEST_UPDATE</code>.</p>
+<p>Creates corrective, preventive, inspection, or calibration demand tied to a site/equipment. Requests feed assignment, downtime, AMC vendor handling, equipment history, approvals, and reports.</p>
+<table><thead><tr><th>Field</th><th>Mapping</th><th>UI/Required</th><th>Purpose/example</th><th>Validation/source/edit</th></tr></thead><tbody>
+<tr><td>Site</td><td><code>siteId</code> → same → <code>maintenance_request.site_id</code></td><td>Dropdown; mandatory</td><td>Plant responsible for request.</td><td><code>GET /api/hr/sites</code>; filters equipment.</td></tr>
+<tr><td>Equipment</td><td><code>equipmentId</code> → same → <code>equipment_id</code></td><td>Dropdown; mandatory</td><td>Affected asset.</td><td><code>GET /api/equipment</code>; filtered by selected site. Changing it rechecks AMC.</td></tr>
+<tr><td>AMC information</td><td>read-only from active AMC</td><td>Information</td><td>Shows contract/vendor/SLA/coverage.</td><td><code>GET /api/equipment/{id}/active-amc</code>.</td></tr>
+<tr><td>Assign to AMC Vendor</td><td><code>externalVendorAssignment</code></td><td>Yes/No; conditional</td><td>Routes request context to covered vendor.</td><td>Shown only with active AMC; populates vendor/contract.</td></tr>
+<tr><td>AMC Vendor</td><td>derived <code>vendorId</code></td><td>Read-only</td><td>Displays selected AMC vendor.</td><td>Derived from active contract.</td></tr>
+<tr><td>Vendor Reference Number</td><td><code>vendorReferenceNumber</code> → same column</td><td>Text; conditional</td><td>Vendor ticket/case reference.</td><td>Shown only with AMC.</td></tr>
+<tr><td>Title</td><td><code>title</code> → same → <code>title</code></td><td>Text; mandatory</td><td>Short issue, e.g. <code>Inverter communication failure</code>.</td><td>Required.</td></tr>
+<tr><td>Reported By</td><td><code>reportedBy</code> → same → <code>reported_by</code></td><td>Text; optional</td><td>Person/source reporting issue.</td><td>Free text, not current-user dropdown.</td></tr>
+<tr><td>Type</td><td><code>requestType</code> → same → <code>request_type</code></td><td>Dropdown</td><td><code>BREAKDOWN</code>, <code>PREVENTIVE</code>, <code>INSPECTION</code>, <code>CALIBRATION</code>.</td><td>Defaults <code>BREAKDOWN</code>.</td></tr>
+<tr><td>Priority</td><td><code>priority</code> → same → <code>priority</code></td><td>Dropdown</td><td><code>LOW</code>, <code>MEDIUM</code>, <code>HIGH</code>, <code>URGENT</code>.</td><td>Defaults medium.</td></tr>
+<tr><td>Requested Date</td><td><code>requestedDate</code> → same → <code>requested_date</code></td><td>Date; optional</td><td>Business request date.</td><td>Defaults today.</td></tr>
+<tr><td>Target Completion</td><td><code>targetCompletionDate</code> → same column</td><td>Date; optional</td><td>Due date used for overdue logic.</td><td>Should not precede request date; backend validation is authoritative.</td></tr>
+<tr><td>Description</td><td><code>description</code> → same → <code>description</code></td><td>Text area; mandatory</td><td>Full symptoms/impact.</td><td>Required.</td></tr>
+</tbody></table>
+<p>Create/update: <code>POST /api/maintenance/requests</code>, <code>PUT /api/maintenance/requests/{id}</code>. Success returns to request list. Status is excluded from normal edit payload; controlled workflow transitions use <code>POST /api/maintenance/requests/{id}/transition</code>. Request number, timestamps, approval metadata, and PM/AMC links are backend-generated/read-only.</p>
+<p><strong>Not implemented:</strong> failure-type dropdown and attachments on the request form.</p>
+<hr>
+<h2>10. Maintenance Assignment Create/Edit</h2>
+<p><strong>Navigation:</strong> Maintenance → Assignments → Add Assignment  </p>
+<p><strong>Routes:</strong> <code>/maintenance/assignments/new</code>, <code>/maintenance/assignments/{id}/edit</code>  </p>
+<p><strong>Permissions:</strong> <code>ASSIGNMENT_VIEW</code>, <code>ASSIGNMENT_CREATE</code>, <code>ASSIGNMENT_UPDATE</code>, <code>ASSIGNMENT_DELETE</code>.</p>
+<table><thead><tr><th>Field</th><th>Mapping</th><th>UI/Required</th><th>Purpose/example</th><th>Validation/source/edit</th></tr></thead><tbody>
+<tr><td>Site</td><td><code>siteId</code> (derived through request)</td><td>Dropdown; mandatory</td><td>Filters requests, vendors, employees, and spares.</td><td><code>GET /api/hr/sites</code>; site access enforced.</td></tr>
+<tr><td>Request</td><td><code>requestId</code> → same → <code>maintenance_assignment.request_id</code></td><td>Dropdown; mandatory</td><td>Work demand being assigned.</td><td>Maintenance request API, filtered by site.</td></tr>
+<tr><td>Vendor</td><td><code>vendorId</code> → same → <code>vendor_id</code></td><td>Dropdown; optional</td><td>External assignee.</td><td>Vendors filtered by site.</td></tr>
+<tr><td>Assigned Technician</td><td><code>assignedEmployeeId</code> → same → <code>assigned_employee_id</code></td><td>Dropdown; optional</td><td>Internal technician.</td><td>Employee search filtered to selected site/active records.</td></tr>
+<tr><td>Assigned To</td><td><code>assignedTo</code> → same → <code>assigned_to</code></td><td>Text; mandatory</td><td>Display assignee; auto-filled/locked when technician selected.</td><td>Required.</td></tr>
+<tr><td>Assigned Date</td><td><code>assignedDate</code> → same → <code>assigned_date</code></td><td>Date; optional</td><td>Assignment date; defaults today.</td><td>Backend fills today if omitted.</td></tr>
+<tr><td>Planned Start/End</td><td>matching properties/columns</td><td>Dates; optional</td><td>Scheduled work window.</td><td>End must not precede start.</td></tr>
+<tr><td>Status</td><td><code>status</code> → same → <code>status</code></td><td>Dropdown</td><td>Assignment lifecycle, default <code>ASSIGNED</code>.</td><td>Actual allowed statuses come from page/service rules.</td></tr>
+<tr><td>Actual Start/End</td><td>matching properties/columns</td><td>Dates; optional</td><td>Actual execution dates.</td><td>End must not precede start.</td></tr>
+<tr><td>Estimated Cost</td><td><code>estimatedCost</code> → same → <code>estimated_cost</code></td><td>Number; optional</td><td>Planned service cost.</td><td>Non-negative.</td></tr>
+<tr><td>Service/Vendor Cost</td><td><code>actualCost</code> → same → <code>actual_cost</code></td><td>Number; optional</td><td>Actual non-material cost.</td><td>Non-negative.</td></tr>
+<tr><td>Material Cost</td><td>calculated from spare usage</td><td>Read-only</td><td>Sum of qualifying consumed material.</td><td>Not editable.</td></tr>
+<tr><td>Total Actual Cost</td><td>service + material</td><td>Read-only</td><td>Total assignment cost.</td><td>Calculated UI value.</td></tr>
+<tr><td>Remarks</td><td><code>remarks</code> → same → <code>remarks</code></td><td>Text area; optional</td><td>Instructions/context.</td><td>Free text.</td></tr>
+</tbody></table>
+<p>Save/update uses <code>POST /api/maintenance/assignments</code> and <code>PUT /api/maintenance/assignments/{id}</code>. After an ID exists, Checklist, Work Logs, and Spare Parts tabs become available.</p>
+<hr>
+<h2>11. Assignment Checklist Add/Edit/Proof Upload</h2>
+<p><strong>Location:</strong> Assignment edit/view → Checklist tab  </p>
+<p><strong>Permissions:</strong> <code>ASSIGNMENT_CHECKLIST_VIEW</code>, <code>ASSIGNMENT_CHECKLIST_UPDATE</code>; the UI refers to proof-specific permission names, while CSV maps proof upload/delete under <code>ASSIGNMENT_CHECKLIST_UPDATE</code>—see inconsistencies.</p>
+<table><thead><tr><th>Field</th><th>Mapping</th><th>Required</th><th>Purpose/validation</th></tr></thead><tbody>
+<tr><td>Task</td><td><code>taskTitle</code> → checklist entity <code>task_title</code></td><td>Required for meaningful row</td><td>Work step, e.g. <code>Inspect DC terminal torque</code>.</td></tr>
+<tr><td>Instructions</td><td><code>instructions</code> → <code>instructions</code></td><td>No</td><td>Execution guidance.</td></tr>
+<tr><td>Response Type</td><td><code>responseType</code> → <code>response_type</code></td><td>Default checkbox</td><td><code>CHECKBOX</code>, <code>TEXT</code>, <code>NUMBER</code>, <code>PHOTO</code>.</td></tr>
+<tr><td>Required</td><td><code>required</code> → <code>required</code></td><td>Boolean</td><td>Required steps can block assignment completion.</td></tr>
+<tr><td>Proof Required</td><td><code>proofRequired</code> → <code>proof_required</code></td><td>Boolean</td><td>Requires file before completion when configuration enables it.</td></tr>
+<tr><td>Status</td><td>row <code>status</code></td><td>Yes during execution</td><td><code>PENDING</code>, <code>COMPLETED</code>, <code>NOT_APPLICABLE</code>.</td></tr>
+<tr><td>Reading/Response</td><td><code>responseValue</code> → <code>response_value</code></td><td>Conditional</td><td>Numeric/text/check response.</td></tr>
+<tr><td>Remarks</td><td><code>remarks</code> → <code>remarks</code></td><td>No</td><td>Technician evidence/context.</td></tr>
+<tr><td>Proof File</td><td>multipart file → checklist proof table</td><td>Conditional</td><td>Photo/PDF evidence; content type and 10 MB configured maximum.</td></tr>
+</tbody></table>
+<p>APIs: GET/POST <code>/api/maintenance/assignments/{assignmentId}/checklist</code>; PUT/DELETE row path; POST/DELETE proof paths. PM-generated assignments copy checklist template items, which cannot be deleted like manually added rows. Required/proof rules are enforced before completion.</p>
+<hr>
+<h2>12. Technician Work Log Create/Edit and Attachment Upload</h2>
+<p><strong>Location:</strong> Assignment edit/view → Work Logs tab  </p>
+<p><strong>Permissions:</strong> <code>ASSIGNMENT_WORK_LOG_VIEW</code>, <code>ASSIGNMENT_WORK_LOG_CREATE</code>, <code>ASSIGNMENT_WORK_LOG_UPDATE</code>, <code>ASSIGNMENT_WORK_LOG_DELETE</code>.</p>
+<table><thead><tr><th>Field</th><th>Mapping</th><th>UI/Required</th><th>Purpose/example</th><th>Validation/source</th></tr></thead><tbody>
+<tr><td>Technician</td><td><code>technicianEmployeeId</code> → <code>technician_employee_id</code></td><td>Dropdown; mandatory</td><td>Person performing work.</td><td>Active employees from assignment site.</td></tr>
+<tr><td>Start Time</td><td><code>startTime</code> → <code>start_time</code></td><td>Date-time; mandatory</td><td>Work start.</td><td>Required.</td></tr>
+<tr><td>End Time</td><td><code>endTime</code> → <code>end_time</code></td><td>Date-time; optional</td><td>Work finish.</td><td>Must not precede start.</td></tr>
+<tr><td>Status</td><td><code>completionStatus</code> → <code>completion_status</code></td><td>Dropdown</td><td><code>IN_PROGRESS</code>, <code>COMPLETED</code>, <code>FOLLOW_UP_REQUIRED</code>, <code>CANCELLED</code>.</td><td>Defaults in progress.</td></tr>
+<tr><td>Work Notes</td><td><code>workNotes</code> → <code>work_notes</code></td><td>Text; optional</td><td>Activity summary.</td><td>Free text.</td></tr>
+<tr><td>Issue Found</td><td><code>issueFound</code> → <code>issue_found</code></td><td>Text; optional</td><td>Diagnosis, e.g. <code>Cooling fan bearing seized</code>.</td><td>Free text.</td></tr>
+<tr><td>Action Taken</td><td><code>actionTaken</code> → <code>action_taken</code></td><td>Text; optional</td><td>Repair performed.</td><td>Free text.</td></tr>
+<tr><td>Attachment</td><td>multipart file → work-log attachment table</td><td>Optional</td><td>Photo/report evidence.</td><td>Backend file limits/content validation.</td></tr>
+</tbody></table>
+<p>APIs: POST <code>/api/maintenance/assignments/{id}/work-logs</code>; PUT/DELETE row paths; POST/DELETE attachment paths; GET/download operations require view authorization. Completion progress appears on the assignment.</p>
+<hr>
+<h2>13. Equipment Downtime Create/Edit</h2>
+<p><strong>Navigation:</strong> Maintenance → Downtime → Add Downtime  </p>
+<p><strong>Routes:</strong> <code>/maintenance/downtime/new</code>, <code>/maintenance/downtime/{id}/edit</code>  </p>
+<p><strong>Permissions:</strong> <code>DOWNTIME_VIEW</code>, <code>DOWNTIME_CREATE</code>, <code>DOWNTIME_UPDATE</code>, <code>DOWNTIME_DELETE</code> plus special workflow permissions.</p>
+<table><thead><tr><th>Field</th><th>Mapping</th><th>UI/Required</th><th>Purpose/example</th><th>Validation/source</th></tr></thead><tbody>
+<tr><td>Site</td><td><code>siteId</code> → same → <code>equipment_downtime.site_id</code></td><td>Dropdown; mandatory</td><td>Downtime site.</td><td>Site API; filters equipment.</td></tr>
+<tr><td>Equipment</td><td><code>equipmentId</code> → same → <code>equipment_id</code></td><td>Dropdown; mandatory</td><td>Failed/affected asset.</td><td>Equipment filtered by site.</td></tr>
+<tr><td>Maintenance Request</td><td><code>requestId</code> → same → <code>request_id</code></td><td>Dropdown; optional</td><td>Links corrective request.</td><td>Requests filtered by site/equipment.</td></tr>
+<tr><td>Downtime Type</td><td><code>planned</code> → same → <code>planned</code></td><td>Dropdown</td><td>Planned/unplanned flag.</td><td>Boolean options.</td></tr>
+<tr><td>Reason Category</td><td><code>reasonCategory</code> → same → <code>reason_category</code></td><td>Dropdown; optional</td><td>Standard cause group.</td><td>Static service-approved categories.</td></tr>
+<tr><td>Reason Code</td><td><code>reasonCode</code> → same → <code>reason_code</code></td><td>Text; optional</td><td>Local code.</td><td>Free text.</td></tr>
+<tr><td>Reason</td><td><code>reason</code> → same → <code>reason</code></td><td>Text; mandatory</td><td>Immediate reason, e.g. <code>Transformer oil leakage</code>.</td><td>Required.</td></tr>
+<tr><td>Start/End Time</td><td><code>downtimeStart</code>, <code>downtimeEnd</code> → matching columns</td><td>Date-time; start mandatory</td><td>Downtime interval.</td><td>End must be after start; overlapping records are rejected.</td></tr>
+<tr><td>Production Line/Shift/Operator</td><td>matching properties/columns</td><td>Text; optional</td><td>Operational context.</td><td>Free text.</td></tr>
+<tr><td>Expected Output / Hour</td><td><code>expectedOutputPerHour</code> → same column</td><td>Number; optional</td><td>Expected production rate.</td><td>Non-negative.</td></tr>
+<tr><td>Loss Rate / Unit</td><td><code>lossRatePerUnit</code> → same column</td><td>Number; optional</td><td>Monetary value per lost unit.</td><td>Non-negative.</td></tr>
+<tr><td>Lost Quantity/Minutes/Hours/Lost Amount</td><td>calculated entity/UI values</td><td>Read-only</td><td>Production and duration impact.</td><td>Derived from interval/rates.</td></tr>
+<tr><td>Root Cause</td><td><code>rootCause</code> → same → <code>root_cause</code></td><td>Text area; optional initially</td><td>Confirmed cause.</td><td>Required before closing major downtime.</td></tr>
+<tr><td>Remarks</td><td><code>remarks</code> → same → <code>remarks</code></td><td>Text area; optional</td><td>Operational notes.</td><td>Free text.</td></tr>
+</tbody></table>
+<p>Create/update APIs: <code>POST /api/maintenance/downtime</code>, <code>PUT /api/maintenance/downtime/{id}</code>. Status starts <code>OPEN</code> unless valid initial state. Workflow actions: confirm, start maintenance, restore, verify, close, and reopen use their specific POST APIs/permissions. Main table <code>equipment_downtime</code> stores loss, verification, closure, and audit fields.</p>
+<hr>
+<h2>14. Downtime RCA Action Add/Edit</h2>
+<p><strong>Location:</strong> Downtime view → RCA Actions  </p>
+<p><strong>Permission:</strong> <code>DOWNTIME_RCA_MANAGE</code>; unavailable after closed/cancelled.</p>
+<table><thead><tr><th>Field</th><th>Mapping</th><th>Required</th><th>Purpose/validation</th></tr></thead><tbody>
+<tr><td>Action Type</td><td><code>actionType</code> → RCA action column</td><td>No/default</td><td>Corrective/preventive action classification from static options.</td></tr>
+<tr><td>Target Date</td><td><code>targetDate</code> → target date column</td><td>Optional</td><td>Due date for RCA action.</td></tr>
+<tr><td>Status</td><td><code>status</code> → status column</td><td>Default</td><td>RCA action progress from static options.</td></tr>
+<tr><td>Action Description</td><td><code>description</code> → description column</td><td>Mandatory</td><td>Specific corrective/preventive action.</td></tr>
+</tbody></table>
+<p>POST <code>/api/maintenance/downtime/{id}/rca-actions</code>; PUT row path. Major downtime cannot close without a root cause and at least one RCA action. Timeline/history records transitions and action changes.</p>
+<hr>
+<h2>15. Preventive Maintenance Schedule and Checklist Create/Edit</h2>
+<p><strong>Navigation:</strong> Maintenance → Preventive Maintenance → Add Schedule  </p>
+<p><strong>Routes:</strong> <code>/maintenance/preventive/new</code>, <code>/maintenance/preventive/{id}/edit</code>  </p>
+<p><strong>Permissions:</strong> currently reused <code>REQUEST_VIEW</code>, <code>REQUEST_CREATE</code>, <code>REQUEST_UPDATE</code>, <code>REQUEST_DELETE</code>; calendar has <code>PM_CALENDAR_VIEW</code>.</p>
+<table><thead><tr><th>Field</th><th>Mapping</th><th>UI/Required</th><th>Purpose/example</th><th>Validation/source</th></tr></thead><tbody>
+<tr><td>Site</td><td><code>siteId</code> → same → PM table <code>site_id</code></td><td>Dropdown; mandatory</td><td>Plant/site.</td><td>Site API; filters equipment/vendors.</td></tr>
+<tr><td>Equipment</td><td><code>equipmentId</code> → same → <code>equipment_id</code></td><td>Dropdown; mandatory</td><td>Asset maintained.</td><td>Equipment filtered by site.</td></tr>
+<tr><td>AMC Coverage</td><td><code>amcContractId</code> → same → <code>amc_contract_id</code></td><td>Dropdown; optional</td><td>Contract covering PM.</td><td>Active AMC API; disabled if none; dates must be covered.</td></tr>
+<tr><td>Assigned Vendor</td><td><code>vendorId</code> → same → <code>vendor_id</code></td><td>Dropdown; optional</td><td>External PM performer.</td><td>Vendors assigned to site.</td></tr>
+<tr><td>Assigned To</td><td><code>assignedTo</code> → same → <code>assigned_to</code></td><td>Text; optional</td><td>Named internal/external assignee.</td><td>Free text.</td></tr>
+<tr><td>PM Task</td><td><code>title</code> → same → <code>title</code></td><td>Text; mandatory</td><td><code>Quarterly inverter cooling inspection</code>.</td><td>Required.</td></tr>
+<tr><td>Frequency</td><td><code>frequency</code> → same → <code>frequency</code></td><td>Dropdown; mandatory</td><td>Recurrence.</td><td>Static supported frequencies; default monthly.</td></tr>
+<tr><td>Priority</td><td><code>priority</code> → same → <code>priority</code></td><td>Dropdown</td><td>Risk priority.</td><td>Default medium.</td></tr>
+<tr><td>Status</td><td>UI <code>active</code> → entity <code>active</code></td><td>Dropdown</td><td>Enables recurrence.</td><td>Boolean active/inactive options.</td></tr>
+<tr><td>Approval Status</td><td><code>status</code> → same → <code>status</code></td><td>Dropdown</td><td>Approval/lifecycle state.</td><td>Creation/update can become pending approval according to configuration.</td></tr>
+<tr><td>Start/End/Next Due Date</td><td>matching properties/columns</td><td>Dates; start/next mandatory</td><td>Recurrence boundaries.</td><td>Next due cannot precede start or exceed end; end cannot precede start.</td></tr>
+<tr><td>Description</td><td><code>description</code> → same → <code>description</code></td><td>Text area; mandatory</td><td>Work scope.</td><td>Required.</td></tr>
+</tbody></table>
+<p>Checklist template fields: Step/task title (mandatory), Instructions, Response (<code>CHECKBOX</code>, <code>TEXT</code>, <code>NUMBER</code>, <code>PHOTO</code>), Required, Proof Required, Active, and sequence controlled by move-up/down. Template rows are copied to generated assignments.</p>
+<p>Create/update: <code>POST /api/preventive-maintenance/schedules</code>, <code>PUT /api/preventive-maintenance/schedules/{id}</code>. Work-order generation uses POST schedule action APIs and creates a maintenance request, optional assignment, and copied checklist. Schedule code is generated when absent and is not entered on the current UI.</p>
+<p><strong>Not implemented:</strong> runtime threshold/meter-triggered PM.</p>
+<hr>
+<h2>16. Spare Part/Site Stock Create/Edit and Equipment BOM Link</h2>
+<p><strong>Navigation:</strong> Inventory → Spare Parts → Add Spare Part  </p>
+<p><strong>Routes:</strong> <code>/inventory/spare-parts/new</code>, <code>/inventory/spare-parts/{id}/edit</code>  </p>
+<p><strong>Permissions:</strong> <code>SPARE_PART_VIEW</code>, <code>SPARE_PART_CREATE</code>, <code>SPARE_PART_UPDATE</code>, <code>SPARE_PART_DELETE</code>.</p>
+<table><thead><tr><th>Field</th><th>Mapping</th><th>UI/Required</th><th>Purpose/example</th><th>Validation/source/edit</th></tr></thead><tbody>
+<tr><td>Part Code</td><td><code>partCode</code> → same → <code>spare_part_master.part_code</code></td><td>Text; mandatory</td><td>Unique code, <code>IGBT-1700V-01</code>.</td><td>Required/unique; locked on edit.</td></tr>
+<tr><td>Part Name</td><td><code>partName</code> → same → <code>part_name</code></td><td>Text; mandatory</td><td><code>1700V IGBT Module</code>.</td><td>Required; shared master value across sites.</td></tr>
+<tr><td>Unit</td><td><code>unit</code> → same → <code>unit</code></td><td>Text; mandatory</td><td><code>EA</code>, <code>L</code>, <code>M</code>.</td><td>Required free text.</td></tr>
+<tr><td>Category</td><td><code>category</code> → same → <code>category</code></td><td>Text; optional</td><td><code>INVERTER_ELECTRONICS</code>.</td><td>No category master.</td></tr>
+<tr><td>Site</td><td><code>siteId</code> → same → <code>spare_part_site_stock.site_id</code></td><td>Dropdown; mandatory</td><td>Stock-owning site.</td><td>Site API; locked on edit.</td></tr>
+<tr><td>Preferred Vendor</td><td><code>preferredVendorId</code> → same → master vendor FK</td><td>Dropdown; optional</td><td>Suggested reorder supplier.</td><td>Vendors filtered to selected site.</td></tr>
+<tr><td>Opening Stock</td><td><code>currentStock</code> → same → <code>current_stock</code></td><td>Number; create only</td><td>Initial physical balance.</td><td>Non-negative; creates <code>OPENING_BALANCE</code> transaction; locked on edit.</td></tr>
+<tr><td>Minimum Stock</td><td><code>minimumStock</code> → same → <code>minimum_stock</code></td><td>Number; optional</td><td>Low-stock threshold.</td><td>Non-negative.</td></tr>
+<tr><td>Unit Cost</td><td><code>unitCost</code> → same → <code>unit_cost</code></td><td>Number; optional</td><td>Inventory/usage valuation.</td><td>Non-negative.</td></tr>
+<tr><td>Status</td><td><code>status</code> → stock status</td><td>Dropdown</td><td>Site-stock availability.</td><td>Active/inactive.</td></tr>
+<tr><td>Storage Location</td><td><code>storageLocation</code> → same column</td><td>Text; optional</td><td><code>Main Store/Rack A/Bin 03</code>.</td><td>Free text.</td></tr>
+<tr><td>Description</td><td><code>description</code> → master description</td><td>Text area; optional</td><td>Part specification.</td><td>Free text.</td></tr>
+</tbody></table>
+<p>Equipment BOM link fields: Equipment (mandatory, filtered by site), Recommended Qty (positive mandatory), Criticality, Replacement Frequency, Status, Remarks. Create/update/delete uses <code>/api/spare-parts/{stockId}/equipment-bom</code> APIs. The link associates the global part and site stock with compatible equipment.</p>
+<p>Save uses <code>POST /api/spare-parts</code>; edit <code>PUT /api/spare-parts/{stockId}</code>. Main tables: <code>spare_part_master</code>, <code>spare_part_site_stock</code>, <code>equipment_spare_bom</code>, and <code>spare_part_transaction</code> for opening balance.</p>
+<hr>
+<h2>17. Stock In, Adjustment, Transfer, and Import</h2>
+<p><strong>Location:</strong> Inventory → Spare Parts list action dialogs  </p>
+<p><strong>Permissions:</strong> <code>STOCK_TRANSACTION_CREATE</code>; import uses <code>SPARE_PART_CREATE</code>; history uses <code>STOCK_TRANSACTION_VIEW</code>.</p>
+<h3>Stock In / Adjustment fields</h3>
+<table><thead><tr><th>Field</th><th>API property</th><th>Required</th><th>Rules/use</th></tr></thead><tbody>
+<tr><td>Quantity to Add / New Stock Quantity</td><td><code>quantity</code></td><td>Yes</td><td>Stock-in must be positive; adjustment is a non-negative target balance and cannot be below reserved stock.</td></tr>
+<tr><td>Unit Cost</td><td><code>unitCost</code></td><td>Optional</td><td>Defaults to current cost; non-negative. Stock-in currently replaces current site cost.</td></tr>
+<tr><td>Remarks</td><td><code>remarks</code></td><td>Optional</td><td>Audit explanation. Strongly recommended for adjustment.</td></tr>
+</tbody></table>
+<p>APIs: POST <code>/api/spare-parts/{stockId}/stock-in</code> or <code>/adjust</code>. Both lock stock, update balance, write before/after transaction, and may trigger low-stock notification.</p>
+<h3>Site-to-site transfer fields</h3>
+<table><thead><tr><th>Field</th><th>API property</th><th>Required</th><th>Rules/use</th></tr></thead><tbody>
+<tr><td>Target Site</td><td><code>targetSiteId</code></td><td>Yes</td><td>Site API; excludes source; user needs access to both sites.</td></tr>
+<tr><td>Quantity</td><td><code>quantity</code></td><td>Yes</td><td>Positive and cannot exceed available (<code>current-reserved</code>).</td></tr>
+<tr><td>Target Storage Location</td><td><code>targetStorageLocation</code></td><td>Optional</td><td>Creates/updates destination location.</td></tr>
+<tr><td>Remarks</td><td><code>remarks</code></td><td>Optional</td><td>Transfer audit note.</td></tr>
+</tbody></table>
+<p>POST <code>/api/spare-parts/{sourceStockId}/transfer</code> immediately writes <code>TRANSFER_OUT</code> and <code>TRANSFER_IN</code>; there is no dispatch/receipt in-transit workflow.</p>
+<h3>Import</h3>
+<p>Accepts <code>.xlsx</code>, <code>.xls</code>, or <code>.csv</code> at POST <code>/api/spare-parts/import</code>; returns created/updated/failed counts and row errors. Import can create opening/adjustment transactions. Use sanitized templates and review site IDs/codes before upload.</p>
+<hr>
+<h2>18. Spare Request, Approval, Store Fulfilment, Consumption, and Return</h2>
+<h3>Request</h3>
+<p><strong>Location:</strong> Assignment edit → Spare Parts tab  </p>
+<p><strong>Permissions:</strong> <code>SPARE_USAGE_VIEW</code>, <code>SPARE_USAGE_CREATE</code>, <code>SPARE_USAGE_UPDATE</code>, <code>SPARE_USAGE_DELETE</code>.</p>
+<table><thead><tr><th>Field</th><th>Mapping</th><th>Required</th><th>Source/use</th></tr></thead><tbody>
+<tr><td>Spare Part</td><td><code>stockId</code> → site stock FK</td><td>Yes by backend</td><td>Site stock API, filtered to assignment site; equipment BOM recommendations may be loaded.</td></tr>
+<tr><td>Quantity / Requested Quantity</td><td><code>quantityUsed</code></td><td>Positive</td><td>Requested amount. One part/site-stock row per assignment due to unique constraint.</td></tr>
+<tr><td>Remarks</td><td><code>remarks</code></td><td>Optional</td><td>Need/reason/instructions.</td></tr>
+</tbody></table>
+<p>POST <code>/api/maintenance/assignments/{id}/spares</code> (or <code>/api/assignments/{id}/spare-requests</code> in the store-oriented flow). Initial status <code>REQUESTED</code>.</p>
+<h3>Manager approval</h3>
+<p><strong>Route:</strong> <code>/inventory/spare-approvals</code>; permission <code>SPARE_USAGE_MANAGER_APPROVE</code>. Fields: Approved Qty (positive, cannot exceed business limits enforced by service) and Remarks. POST manager approve/reject endpoints.</p>
+<h3>Store processing</h3>
+<p><strong>Route:</strong> <code>/inventory/spare-requests</code>. Actions and permissions:</p>
+<ul>
+<li>Check stock: <code>SPARE_USAGE_STORE_PROCESS</code>.</li>
+<li>Reserve: <code>SPARE_USAGE_RESERVE</code>.</li>
+<li>Issue: <code>SPARE_USAGE_ISSUE</code>.</li>
+<li>Create purchase request when unavailable: <code>REORDER_CREATE</code>.</li>
+<li>Consume/return: <code>SPARE_USAGE_CONSUME</code>.</li>
+</ul>
+<p>Consume/return fields are Issued Qty (read-only), Consumed Qty, Returned Qty, and Remarks. Consumed plus returned cannot exceed issued; returns restore stock and consumption sets material cost.</p>
+<pre><code>
+REQUESTED → MANAGER_APPROVED → STORE_REVIEW
+  → STOCK_AVAILABLE → RESERVED → ISSUED → CONSUMED/RETURNED
+  → STOCK_NOT_AVAILABLE → PURCHASE_REQUESTED → PURCHASE_RECEIVED → reserve/issue
+</code></pre>
+<p>Main table: <code>maintenance_spare_usage</code>; links assignment, stock, part, users performing each action, timestamps, quantities, costs, and reorder reference.</p>
+<hr>
+<h2>19. Reorder/Purchase Request Create, Edit, and Receipt</h2>
+<p><strong>Navigation:</strong> Inventory → Reorders; creation is also available from the spare list or stock-shortage flow.  </p>
+<p><strong>Permissions:</strong> <code>REORDER_VIEW</code>, <code>REORDER_CREATE</code>, <code>REORDER_UPDATE</code>.</p>
+<table><thead><tr><th>Field</th><th>Mapping</th><th>Required</th><th>Purpose/validation</th></tr></thead><tbody>
+<tr><td>Stock/Part/Site</td><td>derived from selected stock</td><td>System</td><td>Links purchase need to exact site inventory.</td></tr>
+<tr><td>Requested Quantity</td><td><code>requestedQuantity</code> → reorder table column</td><td>Positive mandatory</td><td>Quantity to source.</td></tr>
+<tr><td>Estimated Unit Cost</td><td><code>estimatedUnitCost</code> → matching column</td><td>Non-negative</td><td>Defaults to stock unit cost.</td></tr>
+<tr><td>Estimated Total Cost</td><td>calculated</td><td>Read-only</td><td>Quantity &#215; estimated unit cost.</td></tr>
+<tr><td>Vendor</td><td><code>vendorId</code> → vendor FK</td><td>Optional</td><td>Preferred/selected vendor must be assigned to site. Creation dialog currently defaults through service and does not expose vendor selection.</td></tr>
+<tr><td>Expected Date</td><td><code>expectedDate</code> → matching column</td><td>Optional</td><td>Planned arrival.</td></tr>
+<tr><td>Status</td><td><code>status</code> → status column</td><td>Default/request edit</td><td>Current reorder lifecycle; edit dialog exposes service-supported statuses.</td></tr>
+<tr><td>Remarks</td><td><code>remarks</code></td><td>Optional</td><td>Purchase justification/context.</td></tr>
+</tbody></table>
+<p>Create: <code>POST /api/spare-part-reorders</code>; edit: <code>PUT /api/spare-part-reorders/{id}</code>. Receipt dialog captures Received Quantity, Unit Cost, and Remarks and calls <code>POST /api/spare-part-reorders/{id}/receive-stock</code>, which posts stock-in and marks the request received.</p>
+<p><strong>Current limitation:</strong> any positive receipt marks the entire reorder <code>RECEIVED</code>; partial/multiple receiving is not modeled.</p>
+<hr>
+<h2>20. Approval Configuration and Approval Decisions</h2>
+<h3>Approval configuration</h3>
+<p><strong>Route:</strong> <code>/admin/approval-config</code>  </p>
+<p><strong>Permissions:</strong> <code>APPROVAL_CONFIG_VIEW</code>, <code>APPROVAL_CONFIG_UPDATE</code>.</p>
+<table><thead><tr><th>Field</th><th>Mapping</th><th>Required</th><th>Source/use</th></tr></thead><tbody>
+<tr><td>Module</td><td><code>moduleCode</code></td><td>Read-only in edit</td><td>Business module/action owner. Existing rows provide value.</td></tr>
+<tr><td>Action</td><td><code>actionCode</code></td><td>Read-only in edit</td><td>Operation requiring approval.</td></tr>
+<tr><td>Approval Required</td><td><code>approvalRequired</code></td><td>Switch</td><td>Enables workflow interception.</td></tr>
+<tr><td>Approver Role</td><td><code>approverRoleCode</code></td><td>Conditional</td><td>Roles API; recipients must hold role/scope.</td></tr>
+<tr><td>Minimum Approval Count</td><td><code>minApprovalCount</code></td><td>Minimum 1</td><td>Number of approvals needed.</td></tr>
+<tr><td>Status</td><td><code>status</code></td><td>Default active</td><td>Active/inactive config.</td></tr>
+</tbody></table>
+<p>GET/POST <code>/api/admin/approval-config</code>; PUT row path. The current dialog primarily edits seeded rows; create support exists in service but UI entry begins from a selected row.</p>
+<h3>Approve/reject</h3>
+<p><strong>Route:</strong> <code>/approvals/pending</code>; permissions <code>APPROVAL_VIEW</code>, <code>APPROVAL_APPROVE</code>, <code>APPROVAL_REJECT</code>. Decision form contains Comments; submit uses POST <code>/api/approvals/{id}/approve</code> or <code>/reject</code>. Approval result invokes the registered business transition. History is read-only/searchable.</p>
+<hr>
+<h2>21. Notification Configuration</h2>
+<p><strong>Route:</strong> <code>/admin/notification-settings</code>  </p>
+<p><strong>Permissions:</strong> <code>NOTIFICATION_CONFIG_VIEW</code>, <code>NOTIFICATION_CONFIG_UPDATE</code>.</p>
+<table><thead><tr><th>Field</th><th>Mapping</th><th>Required/default</th><th>Purpose/validation</th></tr></thead><tbody>
+<tr><td>Notifications Enabled</td><td><code>enabled</code></td><td>Boolean</td><td>Global notification switch.</td></tr>
+<tr><td>In-App Notifications</td><td><code>inAppEnabled</code></td><td>Boolean</td><td>Enables notification-center messages.</td></tr>
+<tr><td>Email Notifications</td><td><code>emailEnabled</code></td><td>Boolean</td><td>Enables email channel; SMTP must be configured.</td></tr>
+<tr><td>PM Due Reminders</td><td><code>pmDueReminderEnabled</code></td><td>Boolean</td><td>Sends upcoming-PM alerts.</td></tr>
+<tr><td>Overdue Request Alerts</td><td><code>overdueRequestEnabled</code></td><td>Boolean</td><td>Sends overdue request alerts.</td></tr>
+<tr><td>Approval Pending Alerts</td><td><code>approvalPendingEnabled</code></td><td>Boolean</td><td>Sends pending approval alerts.</td></tr>
+<tr><td>PM Reminder Days</td><td><code>pmReminderDays</code></td><td>Number</td><td>Lead days; non-negative/service validated.</td></tr>
+<tr><td>Daily Scan Time</td><td><code>dailyScanTime</code></td><td>Time</td><td>UI configuration value for scan time; deployment cron behavior must be verified when changed.</td></tr>
+<tr><td>PM Recipient Roles</td><td><code>pmRecipientRoleCodes[]</code></td><td>Multi-select</td><td>Roles receiving PM reminders.</td></tr>
+<tr><td>Overdue Recipient Roles</td><td><code>overdueRecipientRoleCodes[]</code></td><td>Multi-select</td><td>Roles receiving overdue alerts.</td></tr>
+<tr><td>Approval Fallback Roles</td><td><code>approvalFallbackRoleCodes[]</code></td><td>Multi-select</td><td>Recipients when configured approver cannot be resolved.</td></tr>
+</tbody></table>
+<p>GET/PUT <code>/api/admin/notification-settings</code>. Role options come from role service. Save remains on page and refreshes returned settings. Settings table/entity stores configuration; application properties provide defaults.</p>
+<hr>
+<h2>22. Permission Matrix</h2>
+<table><thead><tr><th>Page/workflow</th><th>View</th><th>Create</th><th>Update</th><th>Delete</th><th>Special actions</th></tr></thead><tbody>
+<tr><td>Company</td><td><code>COMPANY_VIEW</code></td><td><code>COMPANY_CREATE</code></td><td><code>COMPANY_UPDATE</code></td><td>—</td><td>Logo: <code>COMPANY_UPDATE</code></td></tr>
+<tr><td>Site</td><td><code>SITE_VIEW</code></td><td><code>SITE_CREATE</code></td><td><code>SITE_UPDATE</code></td><td><code>SITE_DELETE</code></td><td>Delete marks inactive</td></tr>
+<tr><td>Employee</td><td><code>EMPLOYEE_VIEW</code></td><td><code>EMPLOYEE_CREATE</code></td><td><code>EMPLOYEE_UPDATE</code></td><td><code>EMPLOYEE_DELETE</code></td><td>Login/roles included in save</td></tr>
+<tr><td>Role</td><td><code>ROLE_VIEW</code></td><td><code>ROLE_CREATE</code></td><td><code>ROLE_UPDATE</code></td><td><code>ROLE_DELETE</code></td><td>Catalogue: <code>PERMISSION_VIEW</code></td></tr>
+<tr><td>User account</td><td><code>USER_ROLE_VIEW</code></td><td><code>USER_ROLE_ASSIGN</code></td><td><code>USER_ROLE_UPDATE</code></td><td>—</td><td>Role assignment API</td></tr>
+<tr><td>Vendor</td><td><code>VENDOR_VIEW</code></td><td><code>VENDOR_CREATE</code></td><td><code>VENDOR_UPDATE</code></td><td><code>VENDOR_DELETE</code></td><td>Site assignment included</td></tr>
+<tr><td>AMC</td><td><code>VENDOR_AMC_VIEW</code></td><td><code>VENDOR_AMC_CREATE</code></td><td><code>VENDOR_AMC_UPDATE</code></td><td><code>VENDOR_AMC_DELETE</code></td><td>Assign equipment, renew</td></tr>
+<tr><td>Equipment</td><td><code>EQUIPMENT_VIEW</code></td><td><code>EQUIPMENT_CREATE</code></td><td><code>EQUIPMENT_UPDATE</code></td><td><code>EQUIPMENT_DELETE</code></td><td>Documents/BOM mapped to update/delete</td></tr>
+<tr><td>Request/PM</td><td><code>REQUEST_VIEW</code></td><td><code>REQUEST_CREATE</code></td><td><code>REQUEST_UPDATE</code></td><td><code>REQUEST_DELETE</code></td><td>PM calendar <code>PM_CALENDAR_VIEW</code></td></tr>
+<tr><td>Assignment</td><td><code>ASSIGNMENT_VIEW</code></td><td><code>ASSIGNMENT_CREATE</code></td><td><code>ASSIGNMENT_UPDATE</code></td><td><code>ASSIGNMENT_DELETE</code></td><td>Checklist/work-log permissions</td></tr>
+<tr><td>Downtime</td><td><code>DOWNTIME_VIEW</code></td><td><code>DOWNTIME_CREATE</code></td><td><code>DOWNTIME_UPDATE</code></td><td><code>DOWNTIME_DELETE</code></td><td>Confirm, verify, close, reopen, RCA</td></tr>
+<tr><td>Spare master</td><td><code>SPARE_PART_VIEW</code></td><td><code>SPARE_PART_CREATE</code></td><td><code>SPARE_PART_UPDATE</code></td><td><code>SPARE_PART_DELETE</code></td><td>Stock transaction permissions</td></tr>
+<tr><td>Spare usage</td><td><code>SPARE_USAGE_VIEW</code></td><td><code>SPARE_USAGE_CREATE</code></td><td><code>SPARE_USAGE_UPDATE</code></td><td><code>SPARE_USAGE_DELETE</code></td><td>Approve, reserve, issue, consume, return, reject, cancel</td></tr>
+<tr><td>Reorder</td><td><code>REORDER_VIEW</code></td><td><code>REORDER_CREATE</code></td><td><code>REORDER_UPDATE</code></td><td>—</td><td>Receipt uses update</td></tr>
+<tr><td>Approval config</td><td><code>APPROVAL_CONFIG_VIEW</code></td><td><code>APPROVAL_CONFIG_UPDATE</code></td><td><code>APPROVAL_CONFIG_UPDATE</code></td><td>—</td><td>Decisions use approve/reject</td></tr>
+<tr><td>Notification config</td><td><code>NOTIFICATION_CONFIG_VIEW</code></td><td>—</td><td><code>NOTIFICATION_CONFIG_UPDATE</code></td><td>—</td><td>—</td></tr>
+</tbody></table>
+<h2>23. API Dependency Summary</h2>
+<p>The authoritative row-level matrix is <a href="api-reference/API-Dependency-Matrix.md">API Dependency Matrix</a>. Important patterns:</p>
+<ul>
+<li>Create/edit pages require their write API plus all site/equipment/vendor/employee/role helper GET APIs.</li>
+<li>Backend paths in the permission CSV include <code>/api</code>, matching the configured servlet context.</li>
+<li><code>JwtFilter</code>/<code>ApiPermissionService</code> owns API permission authorization; services own record/site validation.</li>
+<li>Normal JSON endpoints return <code>ApiResponse&lt;T&gt;</code>; binary downloads are protocol exceptions.</li>
+</ul>
+<h2>24. Database Reference Summary</h2>
+<p>The authoritative page/table matrix is <a href="database-reference/Database-Reference.md">Database Reference</a>. Core tables include:</p>
+<ul>
+<li><code>company_master</code>, <code>site_master</code></li>
+<li>employee, employee-site, user, role, permission, and role-assignment tables</li>
+<li><code>vendor_master</code>, vendor-site assignment, <code>vendor_amc_contract</code>, <code>equipment_amc_mapping</code></li>
+<li><code>equipment_master</code>, equipment documents, <code>equipment_spare_bom</code></li>
+<li><code>maintenance_request</code>, <code>maintenance_assignment</code>, checklist/work-log and attachment tables</li>
+<li><code>equipment_downtime</code>, downtime history, and RCA action tables</li>
+<li><code>preventive_maintenance_schedule</code> and PM checklist items</li>
+<li><code>spare_part_master</code>, <code>spare_part_site_stock</code>, <code>spare_part_transaction</code></li>
+<li><code>maintenance_spare_usage</code>, <code>spare_part_reorder_request</code></li>
+<li>approval configuration/request/history and notification settings tables</li>
+</ul>
+<h2>25. Workflow Linkages</h2>
+<h3>Equipment maintenance</h3>
+<pre><code>
+Site → Equipment → PM Schedule / Maintenance Request
+→ Assignment → Checklist + Work Log + Spare Request
+→ Downtime / Cost / Equipment History / Reports
+</code></pre>
+<h3>Authorization</h3>
+<pre><code>
+Employee/Login → Role Assignment → Permission
+→ Frontend Route/Button → API Permission Mapping
+→ JwtFilter/API Permission Service → Site/record access
+</code></pre>
+<h3>Inventory</h3>
+<pre><code>
+Spare Master + Site Stock → Assignment Spare Request
+→ Manager Approval → Store Check → Reserve → Issue
+→ Consume or Return
+                └→ shortage → Reorder → Receipt → Reserve/Issue
+</code></pre>
+<h3>AMC</h3>
+<pre><code>
+Vendor + Site → AMC Contract → Equipment Mapping
+→ Active AMC lookup in Request/PM → Vendor context and SLA
+→ Renewal preserves expired contract history
+</code></pre>
+<h2>26. Expected Pages Not Currently Implemented</h2>
+<table><thead><tr><th>Expected page</th><th>Current finding</th></tr></thead><tbody>
+<tr><td>Team Create/Edit</td><td>No team route, form, controller, entity, or Liquibase table found. Department/site-role text is used instead.</td></tr>
+<tr><td>Equipment Category/Type masters</td><td>Category is free text on equipment; no standalone category/type pages.</td></tr>
+<tr><td>Meter Reading Create/Correction</td><td>No route/module/entity/API found.</td></tr>
+<tr><td>User Profile Update</td><td>Navbar displays identity but has no profile edit route.</td></tr>
+<tr><td>Change Password</td><td>Navbar links to <code>/change-password</code>, but <code>App.jsx</code> has no matching route/page; link falls through wildcard navigation.</td></tr>
+<tr><td>User Role Assignment editor</td><td><code>/admin/user-roles</code> exists but renders only an informational placeholder. APIs exist.</td></tr>
+<tr><td>Report Configuration</td><td>Reports have runtime filters only; no saved report configuration form.</td></tr>
+<tr><td>Store/Warehouse master</td><td>Storage location is free text; no store/bin master.</td></tr>
+<tr><td>Purchase Order/quotation</td><td>Reorder request exists; full procurement workflow does not.</td></tr>
+<tr><td>Request attachments</td><td>Not present on request creation; attachments exist for work logs/checklist/equipment documents.</td></tr>
+<tr><td>PM runtime/meter trigger</td><td>Calendar/date frequency exists; runtime threshold/meter type does not.</td></tr>
+</tbody></table>
+<h2>27. Inconsistencies and Implementation Issues Found</h2>
+<p>1. Navbar change-password link has no route/page.</p>
+<p>2. User Role Assignment page is a placeholder despite available APIs.</p>
+<p>3. Employee role dropdown API access is not clearly mapped under <code>EMPLOYEE_CREATE/UPDATE</code> in the CSV; test runtime with restriction enabled.</p>
+<p>4. Role form loads the permission catalogue, but <code>ROLE_CREATE/UPDATE</code> do not have explicit <code>GET /api/admin/permissions</code> helper rows; users may also need <code>PERMISSION_VIEW</code>.</p>
+<p>5. Notification settings load roles, but notification configuration permissions do not explicitly map role helper APIs.</p>
+<p>6. Assignment UI checks proof/attachment-specific permission names (<code>ASSIGNMENT_CHECKLIST_PROOF_UPLOAD</code>, etc.) while the CSV maps those APIs under broader checklist/work-log permissions. Button visibility and API authorization can diverge.</p>
+<p>7. PM routes reuse maintenance-request permission codes instead of dedicated PM create/update/view permissions.</p>
+<p>8. User Management and several dialog pages directly use MUI form fields rather than required common components.</p>
+<p>9. Site expected capacity/timezone fields are absent.</p>
+<p>10. Equipment expected type/vendor/parent/meter configuration fields are absent.</p>
+<p>11. Maintenance request expected failure type and attachments are absent.</p>
+<p>12. Reorder receipt marks the full request received after any positive receipt; partial receipts are not modeled.</p>
+<p>13. Spare part master and site stock fields share one edit form; editing one site&#39;s record can update shared master details.</p>
+<p>14. Transfer posts source-out/destination-in immediately; no in-transit/receipt confirmation.</p>
+<p>15. API restriction is currently configured <code>cmms.security.api-permission-restriction-enabled=false</code>; production should deliberately review this setting.</p>
+<h2>28. Common Validation and Troubleshooting</h2>
+<ul>
+<li>A 401 means authentication expired/missing; sign in again.</li>
+<li>A 403 usually means missing permission or site scope; compare route permission and helper API mapping.</li>
+<li>A 400 validation response should show <code>code</code>, <code>message</code>, <code>details[]</code>, and <code>correlationId</code>; correct the named field.</li>
+<li>“Unable to load form data” often indicates a blocked helper API, not a save failure.</li>
+<li>Date end values must not precede corresponding start values.</li>
+<li>Quantity/cost fields must be positive or non-negative as described.</li>
+<li>Unique business codes should be stable and should not be recycled.</li>
+<li>Do not enter real passwords in demos, screenshots, tickets, or documents.</li>
+</ul>
+<h2>29. Screenshot Register</h2>
+<p>Screenshots are stored under <code>documentation/screenshots/</code>. Capture status is recorded in <a href="screenshots/README.md">Screenshot Register</a>. Figures must contain sanitized demo data and no tokens/passwords.</p>
+<h2>30. Glossary</h2>
+<table><thead><tr><th>Term</th><th>Meaning</th></tr></thead><tbody>
+<tr><td>AMC</td><td>Annual Maintenance Contract</td></tr>
+<tr><td>BOM</td><td>Bill of Materials/compatible spare list</td></tr>
+<tr><td>CMMS</td><td>Computerized Maintenance Management System</td></tr>
+<tr><td>PM</td><td>Preventive Maintenance</td></tr>
+<tr><td>RCA</td><td>Root Cause Analysis</td></tr>
+<tr><td>SLA</td><td>Service Level Agreement</td></tr>
+<tr><td>Site scope</td><td>Set of plant sites a user is authorized to access</td></tr>
+<tr><td>Reservation</td><td>Stock quantity committed but not yet issued</td></tr>
+</tbody></table>
+<h2>31. Verification Checklist</h2>
+<ul>
+<li>[x] All routes in <code>App.jsx</code> reviewed.</li>
+<li>[x] All standalone create/edit/configuration forms reviewed.</li>
+<li>[x] Embedded checklist, work-log, downtime-RCA, stock, transfer, reorder, approval, issue, consume, return, import, and upload workflows reviewed.</li>
+<li>[x] Frontend fields checked against DTO/entity/service behavior.</li>
+<li>[x] Permission CSV reviewed.</li>
+<li>[x] Missing expected pages identified without inventing them.</li>
+<li>[ ] Authenticated screenshots: dependent on runnable local services/demo authentication; see screenshot register.</li>
+<li>[x] Markdown, Word, and PDF deliverables generated and validated during documentation build.</li>
+</ul></body></html>
