@@ -227,6 +227,8 @@ function PreventiveMaintenanceListPage() {
         rows={rows}
         columns={columns}
         loading={loading}
+        viewPermission="REQUEST_VIEW"
+        getRowViewPath={(row) => `/maintenance/preventive/${row.id}/view`}
         dataGridProps={{
           paginationMode: 'server',
           sortingMode: 'server',
@@ -237,12 +239,6 @@ function PreventiveMaintenanceListPage() {
           onSortModelChange: (model) => {
             setSortModel(model);
             setPaginationModel((current) => ({ ...current, page: 0 }));
-          },
-          onRowClick: ({ row }) => navigate(`/maintenance/preventive/${row.id}/view`),
-          sx: {
-            '& .MuiDataGrid-row': {
-              cursor: 'pointer',
-            },
           },
         }}
       />

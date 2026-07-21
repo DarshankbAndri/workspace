@@ -155,6 +155,17 @@ Shared frontend component rules:
 8. `CommonDropdown` uses MUI `Autocomplete` (typeahead). Pass `options` as `{value, label}` objects. Dynamic disabled options use `{value, label, disabled: true}` — the component already handles this via `getOptionDisabled`. `onChange` fires `(event, option)` where `event.target.value` is the option value, compatible with `updateField(field)` handlers.
 9. For table-cell inline dropdowns and inputs, pass `size="small"` to `CommonDropdown` and `CommonInput`.
 
+Frontend navigation rules:
+
+1. All applicable list pages must follow List -> View -> Edit flow.
+2. Clicking a list row must navigate to the View page.
+3. Do not add a separate View icon column unless explicitly requested.
+4. Do not place Edit actions directly on list pages.
+5. Edit actions must be available from the View page and protected by UPDATE permission.
+6. Interactive cells must stop row-click propagation.
+7. View routes require VIEW permission and Edit routes require UPDATE permission.
+8. Use the shared CommonList navigation capability where available.
+
 Current frontend feature folders include `admin`, `approval`, `assignment`, `auth`, `company`, `dashboard`, `downtime`, `employee`, `equipment`, `maintenance`, `maintenanceRequest`, `notification`, `preventiveMaintenance`, `report`, `site`, `spareParts`, `user`, and `vendor`.
 
 ## Lombok Rules

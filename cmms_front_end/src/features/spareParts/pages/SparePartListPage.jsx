@@ -20,7 +20,6 @@ import {
 import {
   Add,
   Delete,
-  Edit,
   History,
   Inventory,
   QrCode2,
@@ -28,7 +27,6 @@ import {
   SwapHoriz,
   Tune,
   UploadFile,
-  Visibility,
 } from '@mui/icons-material';
 import { DataGrid } from '@mui/x-data-grid';
 import { QRCodeSVG } from 'qrcode.react';
@@ -47,6 +45,7 @@ import {
   stockIn,
   transferStock,
 } from '../services/sparePartService';
+import CommonList from '../../../shared/components/common/CommonList';
 
 const initialStockDialog = { open: false, mode: 'STOCK_IN', row: null, quantity: '', unitCost: '', remarks: '' };
 const initialHistoryDialog = { open: false, row: null, rows: [], loading: false };
@@ -332,15 +331,13 @@ function SparePartListPage() {
       width: 340,
       renderCell: ({ row }) => (
         <Stack direction="row" spacing={0.25}>
-          <Tooltip title="View"><IconButton aria-label="View spare part" onClick={() => navigate(`/inventory/spare-parts/${row.id}/view`)}><Visibility fontSize="small" /></IconButton></Tooltip>
-          {hasPermission(PERMISSIONS.STOCK_TRANSACTION_VIEW) && <Tooltip title="History"><IconButton aria-label="History" onClick={() => openHistoryDialog(row)}><History fontSize="small" /></IconButton></Tooltip>}
-          {hasPermission(PERMISSIONS.STOCK_TRANSACTION_CREATE) && <Tooltip title="Transfer"><IconButton aria-label="Transfer stock" onClick={() => openTransferDialog(row)}><SwapHoriz fontSize="small" /></IconButton></Tooltip>}
-          {hasPermission(PERMISSIONS.REORDER_CREATE) && <Tooltip title="Reorder"><IconButton aria-label="Create reorder" onClick={() => openReorderDialog(row)}><ShoppingCart fontSize="small" /></IconButton></Tooltip>}
-          <Tooltip title="QR label"><IconButton aria-label="QR label" onClick={() => setLabelDialog({ open: true, row })}><QrCode2 fontSize="small" /></IconButton></Tooltip>
-          {hasPermission(PERMISSIONS.STOCK_TRANSACTION_CREATE) && <Tooltip title="Stock in"><IconButton aria-label="Stock in" onClick={() => openStockDialog(row, 'STOCK_IN')}><Inventory fontSize="small" /></IconButton></Tooltip>}
-          {hasPermission(PERMISSIONS.STOCK_TRANSACTION_CREATE) && <Tooltip title="Adjust"><IconButton aria-label="Adjust stock" onClick={() => openStockDialog(row, 'ADJUSTMENT')}><Tune fontSize="small" /></IconButton></Tooltip>}
-          {hasPermission(PERMISSIONS.SPARE_PART_UPDATE) && <Tooltip title="Edit"><IconButton aria-label="Edit spare part" onClick={() => navigate(`/inventory/spare-parts/${row.id}/edit`)}><Edit fontSize="small" /></IconButton></Tooltip>}
-          {hasPermission(PERMISSIONS.SPARE_PART_DELETE) && <Tooltip title="Delete"><IconButton aria-label="Delete spare part" color="error" onClick={() => handleDelete(row.id)}><Delete fontSize="small" /></IconButton></Tooltip>}
+          {hasPermission(PERMISSIONS.STOCK_TRANSACTION_VIEW) && <Tooltip title="History"><IconButton aria-label="History" onClick={(event) => { event.stopPropagation(); openHistoryDialog(row); }}><History fontSize="small" /></IconButton></Tooltip>}
+          {hasPermission(PERMISSIONS.STOCK_TRANSACTION_CREATE) && <Tooltip title="Transfer"><IconButton aria-label="Transfer stock" onClick={(event) => { event.stopPropagation(); openTransferDialog(row); }}><SwapHoriz fontSize="small" /></IconButton></Tooltip>}
+          {hasPermission(PERMISSIONS.REORDER_CREATE) && <Tooltip title="Reorder"><IconButton aria-label="Create reorder" onClick={(event) => { event.stopPropagation(); openReorderDialog(row); }}><ShoppingCart fontSize="small" /></IconButton></Tooltip>}
+          <Tooltip title="QR label"><IconButton aria-label="QR label" onClick={(event) => { event.stopPropagation(); setLabelDialog({ open: true, row }); }}><QrCode2 fontSize="small" /></IconButton></Tooltip>
+          {hasPermission(PERMISSIONS.STOCK_TRANSACTION_CREATE) && <Tooltip title="Stock in"><IconButton aria-label="Stock in" onClick={(event) => { event.stopPropagation(); openStockDialog(row, 'STOCK_IN'); }}><Inventory fontSize="small" /></IconButton></Tooltip>}
+          {hasPermission(PERMISSIONS.STOCK_TRANSACTION_CREATE) && <Tooltip title="Adjust"><IconButton aria-label="Adjust stock" onClick={(event) => { event.stopPropagation(); openStockDialog(row, 'ADJUSTMENT'); }}><Tune fontSize="small" /></IconButton></Tooltip>}
+          {hasPermission(PERMISSIONS.SPARE_PART_DELETE) && <Tooltip title="Delete"><IconButton aria-label="Delete spare part" color="error" onClick={(event) => { event.stopPropagation(); handleDelete(row.id); }}><Delete fontSize="small" /></IconButton></Tooltip>}
         </Stack>
       ),
     },
@@ -373,25 +370,27 @@ function SparePartListPage() {
           </TextField>
         </Stack>
       </Paper>
-      <Paper sx={{ height: 580, borderRadius: 1 }}>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          loading={loading}
-          disableRowSelectionOnClick
-          pageSizeOptions={[10, 25, 50, 100]}
-          paginationMode="server"
-          sortingMode="server"
-          rowCount={rowCount}
-          paginationModel={paginationModel}
-          onPaginationModelChange={updatePaginationModel}
-          sortModel={sortModel}
-          onSortModelChange={(model) => {
+      <CommonList
+        rows={rows}
+        columns={columns}
+        loading={loading}
+        height={580}
+        pageSizeOptions={[10, 25, 50, 100]}
+        viewPermission={PERMISSIONS.SPARE_PART_VIEW}
+        getRowViewPath={getSparePartViewPath}
+        dataGridProps={{
+          paginationMode: 'server',
+          sortingMode: 'server',
+          rowCount,
+          paginationModel,
+          onPaginationModelChange: updatePaginationModel,
+          sortModel,
+          onSortModelChange: (model) => {
             setSortModel(model);
             setPaginationModel((current) => ({ ...current, page: 0 }));
-          }}
-        />
-      </Paper>
+          },
+        }}
+      />
 
       <Dialog open={stockDialog.open} onClose={closeStockDialog} maxWidth="sm" fullWidth>
         <DialogTitle>{stockDialog.mode === 'STOCK_IN' ? 'Stock In' : 'Adjust Stock'}</DialogTitle>

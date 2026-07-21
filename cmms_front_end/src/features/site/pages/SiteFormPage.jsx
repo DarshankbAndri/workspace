@@ -1,11 +1,14 @@
 import React from 'react';
-import { Alert, Box, Grid, Snackbar, Typography } from '@mui/material';
+import { Alert, Box, Button, Grid, Snackbar, Stack, Typography } from '@mui/material';
+import { Edit } from '@mui/icons-material';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { createSite, getSiteById, updateSite } from '../services/siteService';
 import CommonInput from '../../../shared/components/common/CommonInput';
 import CommonDropdown from '../../../shared/components/common/CommonDropdown';
 import CommonFormActions from '../../../shared/components/common/CommonFormActions';
 import CommonFormCard from '../../../shared/components/common/CommonFormCard';
+import { useAuth } from '../../../shared/context/AuthContext';
+import { PERMISSIONS } from '../../../shared/utils/permissionRoutes';
 
 const initialForm = {
   siteCode: '',
@@ -35,8 +38,10 @@ function SiteFormPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
+  const { hasPermission } = useAuth();
   const isEdit = Boolean(id);
   const viewOnly = Boolean(location.state?.viewOnly) || location.pathname.endsWith('/view');
+  const canEdit = viewOnly && hasPermission(PERMISSIONS.SITE_UPDATE);
   const [form, setForm] = React.useState(initialForm);
   const [error, setError] = React.useState('');
   const [saving, setSaving] = React.useState(false);
@@ -76,7 +81,14 @@ function SiteFormPage() {
 
   return (
     <Box>
-      <Typography variant="h4" fontWeight={800} gutterBottom>{viewOnly ? 'View Site' : isEdit ? 'Edit Site' : 'Add Site'}</Typography>
+      <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" alignItems={{ xs: 'stretch', sm: 'center' }} spacing={2} sx={{ mb: 2 }}>
+        <Typography variant="h4" fontWeight={800}>{viewOnly ? 'View Site' : isEdit ? 'Edit Site' : 'Add Site'}</Typography>
+        {canEdit && (
+          <Button variant="contained" startIcon={<Edit />} onClick={() => navigate(`/hr/sites/${id}/edit`)}>
+            Edit
+          </Button>
+        )}
+      </Stack>
       {error && <Alert severity="error" sx={{ mb: 2 }} onClose={() => setError('')}>{error}</Alert>}
       <CommonFormCard component="form" onSubmit={handleSubmit}>
         <Grid container spacing={2}>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Alert, Box, Button, Chip, IconButton, Paper, Snackbar, Stack, Tooltip, Typography } from '@mui/material';
-import { Add, Clear, Delete, Visibility } from '@mui/icons-material';
+import { Add, Clear, Delete } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { deleteMaintenanceAssignment, searchMaintenanceAssignments } from '../services/assignmentService';
 import { getSites } from '../../site/services/siteService';
@@ -159,8 +159,20 @@ function MaintenanceAssignmentListPage() {
       width: 140,
       renderCell: ({ row }) => (
         <Stack direction="row" spacing={0.5}>
-          {hasPermission('ASSIGNMENT_VIEW') && <Tooltip title="View"><IconButton size="small" onClick={() => navigate(`/maintenance/assignments/${row.id}/view`)}><Visibility fontSize="small" /></IconButton></Tooltip>}
-          {hasPermission('ASSIGNMENT_DELETE') && <Tooltip title="Delete"><IconButton size="small" color="error" onClick={() => setDeleteRow(row)}><Delete fontSize="small" /></IconButton></Tooltip>}
+          {hasPermission('ASSIGNMENT_DELETE') && (
+            <Tooltip title="Delete">
+              <IconButton
+                size="small"
+                color="error"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  setDeleteRow(row);
+                }}
+              >
+                <Delete fontSize="small" />
+              </IconButton>
+            </Tooltip>
+          )}
         </Stack>
       ),
     },
@@ -222,6 +234,8 @@ function MaintenanceAssignmentListPage() {
         rows={rows}
         columns={columns}
         loading={loading}
+        viewPermission="ASSIGNMENT_VIEW"
+        getRowViewPath={(row) => `/maintenance/assignments/${row.id}/view`}
         dataGridProps={{
           paginationMode: 'server',
           sortingMode: 'server',
@@ -230,9 +244,6 @@ function MaintenanceAssignmentListPage() {
           onPaginationModelChange: (model) => setPaginationModel((current) => (model.pageSize !== current.pageSize ? { ...model, page: 0 } : model)),
           sortModel,
           onSortModelChange: (model) => { setSortModel(model); resetPage(); },
-          onRowDoubleClick: ({ row }) => {
-            if (hasPermission('ASSIGNMENT_VIEW')) navigate(`/maintenance/assignments/${row.id}/view`);
-          },
         }}
       />
       <ConfirmDialog

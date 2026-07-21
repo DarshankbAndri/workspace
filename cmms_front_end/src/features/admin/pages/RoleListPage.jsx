@@ -1,6 +1,6 @@
 import React from 'react';
 import { Alert, Box, Button, Chip, IconButton, Paper, Stack, TextField, Tooltip, Typography } from '@mui/material';
-import { Add, Delete, Edit, Visibility } from '@mui/icons-material';
+import { Add, Delete } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { deleteRole, searchRoles } from '../services/roleService';
 import { useAuth } from '../../../shared/context/AuthContext';
@@ -75,9 +75,20 @@ function RoleListPage() {
       filterable: false,
       renderCell: ({ row }) => (
         <Stack direction="row" spacing={0.5}>
-          {hasPermission('ROLE_VIEW') && <Tooltip title="View"><IconButton size="small" onClick={() => navigate(`/admin/roles/${row.id}/view`)}><Visibility fontSize="small" /></IconButton></Tooltip>}
-          {hasPermission('ROLE_UPDATE') && <Tooltip title="Edit"><IconButton size="small" onClick={() => navigate(`/admin/roles/${row.id}/edit`)}><Edit fontSize="small" /></IconButton></Tooltip>}
-          {hasPermission('ROLE_DELETE') && <Tooltip title="Inactivate"><IconButton size="small" color="error" onClick={() => handleDelete(row)}><Delete fontSize="small" /></IconButton></Tooltip>}
+          {hasPermission('ROLE_DELETE') && (
+            <Tooltip title="Inactivate">
+              <IconButton
+                size="small"
+                color="error"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  handleDelete(row);
+                }}
+              >
+                <Delete fontSize="small" />
+              </IconButton>
+            </Tooltip>
+          )}
         </Stack>
       ),
     },
@@ -100,6 +111,8 @@ function RoleListPage() {
         rows={roles}
         columns={columns}
         loading={loading}
+        viewPermission="ROLE_VIEW"
+        getRowViewPath={(row) => `/admin/roles/${row.id}/view`}
         dataGridProps={{
           paginationMode: 'server',
           sortingMode: 'server',

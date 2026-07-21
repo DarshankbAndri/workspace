@@ -17,7 +17,7 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import { Add, Delete } from '@mui/icons-material';
+import { Add, Delete, Edit } from '@mui/icons-material';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { createEmployee, getEmployeeById, updateEmployee } from '../services/employeeService';
 import { getSites } from '../../site/services/siteService';
@@ -27,6 +27,8 @@ import CommonDatePicker from '../../../shared/components/common/CommonDatePicker
 import CommonDropdown from '../../../shared/components/common/CommonDropdown';
 import CommonFormActions from '../../../shared/components/common/CommonFormActions';
 import CommonFormCard from '../../../shared/components/common/CommonFormCard';
+import { useAuth } from '../../../shared/context/AuthContext';
+import { PERMISSIONS } from '../../../shared/utils/permissionRoutes';
 
 const STATUS_OPTIONS = [
   { value: 'ACTIVE', label: 'ACTIVE' },
@@ -89,8 +91,10 @@ function EmployeeFormPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
+  const { hasPermission } = useAuth();
   const isEdit = Boolean(id);
   const viewOnly = Boolean(location.state?.viewOnly) || location.pathname.endsWith('/view');
+  const canEdit = viewOnly && hasPermission(PERMISSIONS.EMPLOYEE_UPDATE);
   const [form, setForm] = React.useState(initialForm);
   const [sites, setSites] = React.useState([]);
   const [roles, setRoles] = React.useState([]);
@@ -261,7 +265,14 @@ function EmployeeFormPage() {
 
   return (
     <Box>
-      <Typography variant="h4" fontWeight={800} gutterBottom>{viewOnly ? 'View Employee' : isEdit ? 'Edit Employee' : 'Add Employee'}</Typography>
+      <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" alignItems={{ xs: 'stretch', sm: 'center' }} spacing={2} sx={{ mb: 2 }}>
+        <Typography variant="h4" fontWeight={800}>{viewOnly ? 'View Employee' : isEdit ? 'Edit Employee' : 'Add Employee'}</Typography>
+        {canEdit && (
+          <Button variant="contained" startIcon={<Edit />} onClick={() => navigate(`/hr/employees/${id}/edit`)}>
+            Edit
+          </Button>
+        )}
+      </Stack>
       {error && <Alert severity="error" sx={{ mb: 2 }} onClose={() => setError('')}>{error}</Alert>}
       <Box component="form" onSubmit={handleSubmit}>
         <CommonFormCard title="Basic Information" sx={{ mb: 2 }}>

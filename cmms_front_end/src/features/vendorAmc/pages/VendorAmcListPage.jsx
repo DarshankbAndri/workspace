@@ -1,6 +1,6 @@
 import React from 'react';
 import { Chip, IconButton, Stack, Tooltip } from '@mui/material';
-import { Delete, Edit, Visibility } from '@mui/icons-material';
+import { Delete } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import CommonList from '../../../shared/components/common/CommonList';
 import CommonDropdown from '../../../shared/components/common/CommonDropdown';
@@ -89,9 +89,19 @@ function VendorAmcListPage() {
       width: 150,
       renderCell: ({ row }) => (
         <Stack direction="row" spacing={0.5}>
-          <Tooltip title="View"><IconButton onClick={() => navigate(`/vendor-amc/view/${row.id}`)}><Visibility fontSize="small" /></IconButton></Tooltip>
-          {hasPermission(PERMISSIONS.VENDOR_AMC_UPDATE) && <Tooltip title="Edit"><IconButton onClick={() => navigate(`/vendor-amc/edit/${row.id}`)}><Edit fontSize="small" /></IconButton></Tooltip>}
-          {hasPermission(PERMISSIONS.VENDOR_AMC_DELETE) && <Tooltip title="Delete"><IconButton color="error" onClick={() => setDeleteId(row.id)}><Delete fontSize="small" /></IconButton></Tooltip>}
+          {hasPermission(PERMISSIONS.VENDOR_AMC_DELETE) && (
+            <Tooltip title="Delete">
+              <IconButton
+                color="error"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  setDeleteId(row.id);
+                }}
+              >
+                <Delete fontSize="small" />
+              </IconButton>
+            </Tooltip>
+          )}
         </Stack>
       ),
     },
@@ -110,6 +120,8 @@ function VendorAmcListPage() {
         addLabel="Create AMC"
         onAdd={() => navigate('/vendor-amc/create')}
         canAdd={hasPermission(PERMISSIONS.VENDOR_AMC_CREATE)}
+        viewPermission={PERMISSIONS.VENDOR_AMC_VIEW}
+        getRowViewPath={(row) => `/vendor-amc/view/${row.id}`}
         searchValue={search}
         onSearchChange={(event) => { setSearch(event.target.value); resetPage(); }}
         filters={(
@@ -140,7 +152,6 @@ function VendorAmcListPage() {
           onPaginationModelChange: setPaginationModel,
           sortModel,
           onSortModelChange: setSortModel,
-          onRowDoubleClick: ({ row }) => navigate(`/vendor-amc/view/${row.id}`),
         }}
       />
       <ConfirmDialog open={Boolean(deleteId)} handleClose={() => setDeleteId(null)} title="Delete AMC contract?" message="Historical AMC contracts linked to requests cannot be deleted." handleAgree={confirmDelete} closebtn="Cancel" agreebtn="Delete" />

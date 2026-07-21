@@ -1,7 +1,9 @@
 import React from 'react';
-import { Box, Paper, Stack, TextField } from '@mui/material';
-import { Add } from '@mui/icons-material';
+import { Box, IconButton, Paper, Stack, TextField, Tooltip } from '@mui/material';
+import { Add, Visibility } from '@mui/icons-material';
 import { DataGrid } from '@mui/x-data-grid';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 import CommonEmptyState from './CommonEmptyState';
 import CommonErrorState from './CommonErrorState';
 import CommonFilterPanel from './CommonFilterPanel';
@@ -29,9 +31,89 @@ function CommonList({
   onRetry,
   headerProps = {},
   tableTestId,
+  rowNavigationPath,
+  getRowViewPath,
+  onRowView,
+  showViewAction = false,
+  viewPermission,
+  disableRowNavigation = false,
 }) {
+  const navigate = useNavigate();
+  const { hasPermission } = useAuth();
   const hasHeader = title || subtitle || (addLabel && onAdd && canAdd);
   const hasFilters = filters || onSearchChange;
+  const canView = !viewPermission || hasPermission(viewPermission);
+  const resolveViewPath = React.useCallback((row) => {
+    if (getRowViewPath) return getRowViewPath(row);
+    if (typeof rowNavigationPath === 'function') return rowNavigationPath(row);
+    if (rowNavigationPath) return rowNavigationPath.replace(':id', row?.id);
+    return '';
+  }, [getRowViewPath, rowNavigationPath]);
+  const openView = React.useCallback((row) => {
+    if (!row || !canView) return;
+    if (onRowView) {
+      onRowView(row);
+      return;
+    }
+    const path = resolveViewPath(row);
+    if (path) navigate(path);
+  }, [canView, navigate, onRowView, resolveViewPath]);
+  const shouldIgnoreRowClick = (event) => {
+    const target = event?.target;
+    if (!target?.closest) return false;
+    return Boolean(target.closest('button, a, input, textarea, select, [role="button"], [role="menuitem"], .MuiDataGrid-cellCheckbox'));
+  };
+  const viewColumn = React.useMemo(() => ({
+    field: '__viewAction',
+    headerName: '',
+    sortable: false,
+    filterable: false,
+    disableColumnMenu: true,
+    width: 56,
+    align: 'center',
+    renderCell: ({ row }) => (
+      <Tooltip title="View">
+        <span>
+          <IconButton
+            aria-label="View record"
+            size="small"
+            disabled={!canView}
+            onClick={(event) => {
+              event.stopPropagation();
+              openView(row);
+            }}
+          >
+            <Visibility fontSize="small" />
+          </IconButton>
+        </span>
+      </Tooltip>
+    ),
+  }), [canView, openView]);
+  const listColumns = showViewAction ? [viewColumn, ...columns] : columns;
+  const commonRowNavigationEnabled = !disableRowNavigation && canView && (onRowView || rowNavigationPath || getRowViewPath);
+  const handleRowClick = commonRowNavigationEnabled
+    ? (params, event, details) => {
+        if (shouldIgnoreRowClick(event)) return;
+        if (dataGridProps.onRowClick) {
+          dataGridProps.onRowClick(params, event, details);
+          return;
+        }
+        openView(params.row);
+      }
+    : dataGridProps.onRowClick;
+  const mergedSx = {
+    minWidth: 0,
+    '& .MuiDataGrid-cellContent': {
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+    },
+    ...(commonRowNavigationEnabled ? {
+      '& .MuiDataGrid-row': {
+        cursor: 'pointer',
+      },
+    } : {}),
+    ...(dataGridProps.sx || {}),
+  };
 
   return (
     <Box sx={{ minWidth: 0, ...sx }}>
@@ -81,7 +163,7 @@ function CommonList({
       >
         <DataGrid
           rows={rows}
-          columns={columns}
+          columns={listColumns}
           loading={loading}
           disableRowSelectionOnClick
           rowHeight={52}
@@ -94,14 +176,8 @@ function CommonList({
           }}
           localeText={{ noRowsLabel: emptyMessage, noResultsOverlayLabel: 'No matching records', ...(dataGridProps.localeText || {}) }}
           {...dataGridProps}
-          sx={{
-            minWidth: 0,
-            '& .MuiDataGrid-cellContent': {
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-            },
-            ...(dataGridProps.sx || {}),
-          }}
+          onRowClick={handleRowClick}
+          sx={mergedSx}
         />
       </Paper>
     </Box>

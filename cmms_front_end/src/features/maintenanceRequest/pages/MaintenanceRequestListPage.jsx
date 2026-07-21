@@ -210,6 +210,8 @@ function MaintenanceRequestListPage() {
         rows={rows}
         columns={columns}
         loading={loading}
+        viewPermission="REQUEST_VIEW"
+        getRowViewPath={(row) => `/maintenance/requests/${row.id}/view`}
         dataGridProps={{
           paginationMode: 'server',
           sortingMode: 'server',
@@ -218,11 +220,7 @@ function MaintenanceRequestListPage() {
           onPaginationModelChange: (model) => setPaginationModel((current) => (model.pageSize !== current.pageSize ? { ...model, page: 0 } : model)),
           sortModel,
           onSortModelChange: (model) => { setSortModel(model); resetPage(); },
-          onRowClick: ({ row }) => navigate(`/maintenance/requests/${row.id}/view`),
           sx: {
-            '& .MuiDataGrid-row': {
-              cursor: 'pointer',
-            },
             '& .request-row-critical': {
               bgcolor: 'rgba(211, 47, 47, 0.06)',
             },

@@ -220,6 +220,8 @@ function DowntimeListPage() {
         rows={rows}
         columns={columns}
         loading={loading}
+        viewPermission="DOWNTIME_VIEW"
+        getRowViewPath={(row) => `/maintenance/downtime/${row.id}/view`}
         dataGridProps={{
           paginationMode: 'server',
           sortingMode: 'server',
@@ -230,12 +232,6 @@ function DowntimeListPage() {
           onSortModelChange: (model) => {
             setSortModel(model);
             setPaginationModel((current) => ({ ...current, page: 0 }));
-          },
-          onRowClick: ({ row }) => navigate(`/maintenance/downtime/${row.id}/view`),
-          sx: {
-            '& .MuiDataGrid-row': {
-              cursor: 'pointer',
-            },
           },
         }}
       />

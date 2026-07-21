@@ -141,6 +141,7 @@ function App() {
           <Route path="/maintenance/assignments/new" element={protectedPage(<MaintenanceAssignmentFormPage />, 'ASSIGNMENT_CREATE')} />
           <Route path="/maintenance/assignments/:id/edit" element={protectedPage(<MaintenanceAssignmentFormPage />, 'ASSIGNMENT_UPDATE')} />
           <Route path="/maintenance/assignments/:id/view" element={protectedPage(<MaintenanceAssignmentViewPage />, 'ASSIGNMENT_VIEW')} />
+          <Route path="/maintenance/assignments/view/:id" element={protectedPage(<MaintenanceAssignmentViewPage />, 'ASSIGNMENT_VIEW')} />
           <Route path="/maintenance/downtime" element={protectedPage(<DowntimeListPage />, 'DOWNTIME_VIEW')} />
           <Route path="/maintenance/downtime/new" element={protectedPage(<DowntimeFormPage />, 'DOWNTIME_CREATE')} />
           <Route path="/maintenance/downtime/:id/edit" element={protectedPage(<DowntimeFormPage />, 'DOWNTIME_UPDATE')} />
@@ -170,14 +171,17 @@ function App() {
           <Route path="/hr/sites/new" element={protectedPage(<SiteFormPage />, 'SITE_CREATE')} />
           <Route path="/hr/sites/:id/edit" element={protectedPage(<SiteFormPage />, 'SITE_UPDATE')} />
           <Route path="/hr/sites/:id/view" element={protectedPage(<SiteFormPage />, 'SITE_VIEW')} />
+          <Route path="/hr/sites/view/:id" element={protectedPage(<SiteFormPage />, 'SITE_VIEW')} />
           <Route path="/hr/employees" element={protectedPage(<EmployeeListPage />, 'EMPLOYEE_VIEW')} />
           <Route path="/hr/employees/new" element={protectedPage(<EmployeeFormPage />, 'EMPLOYEE_CREATE')} />
           <Route path="/hr/employees/:id/edit" element={protectedPage(<EmployeeFormPage />, 'EMPLOYEE_UPDATE')} />
           <Route path="/hr/employees/:id/view" element={protectedPage(<EmployeeFormPage />, 'EMPLOYEE_VIEW')} />
+          <Route path="/hr/employees/view/:id" element={protectedPage(<EmployeeFormPage />, 'EMPLOYEE_VIEW')} />
           <Route path="/admin/roles" element={protectedPage(<RoleListPage />, 'ROLE_VIEW')} />
           <Route path="/admin/roles/new" element={protectedPage(<RoleFormPage />, 'ROLE_CREATE')} />
           <Route path="/admin/roles/:id/edit" element={protectedPage(<RoleFormPage />, 'ROLE_UPDATE')} />
           <Route path="/admin/roles/:id/view" element={protectedPage(<RoleViewPage />, 'ROLE_VIEW')} />
+          <Route path="/admin/roles/view/:id" element={protectedPage(<RoleViewPage />, 'ROLE_VIEW')} />
           <Route path="/admin/permissions" element={protectedPage(<PermissionListPage />, 'PERMISSION_VIEW')} />
           <Route path="/admin/user-roles" element={protectedPage(<UserRoleAssignmentPage />, 'USER_ROLE_VIEW')} />
           <Route path="/admin/approval-config" element={protectedPage(<ApprovalConfigPage />, 'APPROVAL_CONFIG_VIEW')} />

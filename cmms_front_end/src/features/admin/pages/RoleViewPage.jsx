@@ -1,11 +1,14 @@
 import React from 'react';
 import { Box, Button, Chip, Grid, Paper, Stack, Typography } from '@mui/material';
+import { Edit } from '@mui/icons-material';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getRoleById } from '../services/roleService';
+import { useAuth } from '../../../shared/context/AuthContext';
 
 function RoleViewPage() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { hasPermission } = useAuth();
   const [role, setRole] = React.useState(null);
 
   React.useEffect(() => {
@@ -27,7 +30,14 @@ function RoleViewPage() {
     <Box>
       <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" alignItems={{ xs: 'stretch', sm: 'center' }} spacing={2} sx={{ mb: 3 }}>
         <Typography variant="h4">View Role</Typography>
-        <Button variant="outlined" onClick={() => navigate('/admin/roles')}>Back</Button>
+        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1}>
+          <Button variant="outlined" onClick={() => navigate('/admin/roles')}>Back</Button>
+          {hasPermission('ROLE_UPDATE') && (
+            <Button variant="contained" startIcon={<Edit />} onClick={() => navigate(`/admin/roles/${id}/edit`)}>
+              Edit
+            </Button>
+          )}
+        </Stack>
       </Stack>
       <Paper sx={{ p: 3, borderRadius: 1, mb: 2 }}>
         <Grid container spacing={2}>

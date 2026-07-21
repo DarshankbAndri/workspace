@@ -209,6 +209,8 @@ function EquipmentListPage() {
         rows={rows}
         columns={columns}
         loading={loading}
+        viewPermission={PERMISSIONS.EQUIPMENT_VIEW}
+        getRowViewPath={getEquipmentViewPath}
         dataGridProps={{
           paginationMode: 'server',
           sortingMode: 'server',
@@ -219,12 +221,6 @@ function EquipmentListPage() {
           onSortModelChange: (model) => {
             setSortModel(model);
             setPaginationModel((current) => ({ ...current, page: 0 }));
-          },
-          onRowClick: ({ row }) => navigate(`/equipment/${row.id}/view`),
-          sx: {
-            '& .MuiDataGrid-row': {
-              cursor: 'pointer',
-            },
           },
         }}
         onRetry={loadRows}

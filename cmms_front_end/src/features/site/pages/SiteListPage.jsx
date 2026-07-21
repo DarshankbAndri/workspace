@@ -1,6 +1,6 @@
 import React from 'react';
 import { Alert, Box, Button, Chip, IconButton, Paper, Snackbar, Stack, TextField, Typography } from '@mui/material';
-import { Add, Delete, Edit, Visibility } from '@mui/icons-material';
+import { Add, Delete } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import ConfirmDialog from '../../../shared/components/common/ConfirmDialog';
 import CommonList from '../../../shared/components/common/CommonList';
@@ -80,9 +80,18 @@ function SiteListPage() {
       width: 150,
       renderCell: ({ row }) => (
         <Stack direction="row" spacing={0.5}>
-          {hasPermission(PERMISSIONS.SITE_VIEW) && <IconButton aria-label="View site" onClick={() => navigate(`/hr/sites/${row.id}/view`)}><Visibility fontSize="small" /></IconButton>}
-          {hasPermission(PERMISSIONS.SITE_UPDATE) && <IconButton aria-label="Edit site" onClick={() => navigate(`/hr/sites/${row.id}/edit`)}><Edit fontSize="small" /></IconButton>}
-          {hasPermission(PERMISSIONS.SITE_DELETE) && <IconButton aria-label="Mark site inactive" color="error" onClick={() => setDeleteId(row.id)}><Delete fontSize="small" /></IconButton>}
+          {hasPermission(PERMISSIONS.SITE_DELETE) && (
+            <IconButton
+              aria-label="Mark site inactive"
+              color="error"
+              onClick={(event) => {
+                event.stopPropagation();
+                setDeleteId(row.id);
+              }}
+            >
+              <Delete fontSize="small" />
+            </IconButton>
+          )}
         </Stack>
       ),
     },
@@ -108,6 +117,8 @@ function SiteListPage() {
         rows={rows}
         columns={columns}
         loading={loading}
+        viewPermission={PERMISSIONS.SITE_VIEW}
+        getRowViewPath={(row) => `/hr/sites/${row.id}/view`}
         dataGridProps={{
           paginationMode: 'server',
           sortingMode: 'server',

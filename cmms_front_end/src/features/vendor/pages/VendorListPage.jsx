@@ -121,6 +121,8 @@ function VendorListPage() {
         rows={rows}
         columns={columns}
         loading={loading}
+        viewPermission={PERMISSIONS.VENDOR_VIEW}
+        getRowViewPath={(row) => `/vendors/${row.id}/view`}
         dataGridProps={{
           paginationMode: 'server',
           sortingMode: 'server',
@@ -129,12 +131,6 @@ function VendorListPage() {
           onPaginationModelChange: (model) => setPaginationModel((current) => (model.pageSize !== current.pageSize ? { ...model, page: 0 } : model)),
           sortModel,
           onSortModelChange: (model) => { setSortModel(model); resetPage(); },
-          onRowClick: ({ row }) => navigate(`/vendors/${row.id}/view`),
-          sx: {
-            '& .MuiDataGrid-row': {
-              cursor: 'pointer',
-            },
-          },
         }}
       />
     </Box>
