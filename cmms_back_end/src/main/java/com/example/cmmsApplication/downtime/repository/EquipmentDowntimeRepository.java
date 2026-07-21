@@ -30,9 +30,19 @@ public interface EquipmentDowntimeRepository extends JpaRepository<EquipmentDown
               and (:excludeId is null or d.id <> :excludeId)
               and upper(d.status) not in ('CLOSED', 'CANCELLED')
               and (d.downtimeEnd is null or d.downtimeEnd > :start)
-              and (:end is null or d.downtimeStart < :end)
+              and d.downtimeStart < :end
             """)
     long countOverlappingActiveDowntime(Long equipmentId, Long excludeId, LocalDateTime start, LocalDateTime end);
+
+    @Query("""
+            select count(d)
+            from EquipmentDowntime d
+            where d.equipment.id = :equipmentId
+              and (:excludeId is null or d.id <> :excludeId)
+              and upper(d.status) not in ('CLOSED', 'CANCELLED')
+              and (d.downtimeEnd is null or d.downtimeEnd > :start)
+            """)
+    long countOverlappingActiveOpenEndedDowntime(Long equipmentId, Long excludeId, LocalDateTime start);
 
     @Query("select coalesce(sum(d.downtimeMinutes), 0) from EquipmentDowntime d")
     Long sumDowntimeMinutes();
