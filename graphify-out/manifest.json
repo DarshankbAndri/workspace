@@ -440,8 +440,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/common/config/OpenApiConfig.java": {
-    "mtime": 1782467371.072369,
-    "ast_hash": "cdc97246ec93e5592649aee0957c80cd",
+    "mtime": 1784627548.3025403,
+    "ast_hash": "0384983c967fd281cfccbf651d9ef176",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/common/config/SecurityConfig.java": {
@@ -2632,6 +2632,11 @@
   "cmms_back_end/src/main/java/com/example/cmmsApplication/common/config/CmmsCorsProperties.java": {
     "mtime": 1784626689.4231992,
     "ast_hash": "357592335794597797a4eca407bb7b61",
+    "semantic_hash": ""
+  },
+  "cmms_back_end/src/main/java/com/example/cmmsApplication/common/config/CmmsOpenApiProperties.java": {
+    "mtime": 1784627548.2957928,
+    "ast_hash": "a58d5baaf8905d808d571d844d3b40c0",
     "semantic_hash": ""
   }
 }
