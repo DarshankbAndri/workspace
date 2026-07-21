@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<publicApiPatterns>
+    <!-- Add new unauthenticated/public API patterns here. Keep both /api and non-/api forms when needed. -->
+    <pattern>/api/auth/**</pattern>
+    <pattern>/api/actuator/**</pattern>
+    <pattern>/api/swagger-ui/**</pattern>
+    <pattern>/api/swagger-ui.html</pattern>
+    <pattern>/api/swagger-resources/**</pattern>
+    <pattern>/api/v3/api-docs/**</pattern>
+    <pattern>/api/company/logo/**</pattern>
+    <pattern>/api/error</pattern>
+
+    <pattern>/</pattern>
+    <pattern>/index.html</pattern>
+    <pattern>/auth/**</pattern>
+    <pattern>/actuator/health</pattern>
+    <pattern>/actuator/health/liveness</pattern>
+    <pattern>/actuator/health/readiness</pattern>
+    <pattern>/swagger-ui/**</pattern>
+    <pattern>/swagger-ui.html</pattern>
+    <pattern>/swagger-resources/**</pattern>
+    <pattern>/v3/api-docs/**</pattern>
+    <pattern>/company/logo/**</pattern>
+    <pattern>/error</pattern>
+</publicApiPatterns>

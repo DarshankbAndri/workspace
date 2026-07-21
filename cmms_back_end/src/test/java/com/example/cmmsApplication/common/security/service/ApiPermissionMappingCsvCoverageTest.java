@@ -2,6 +2,7 @@ package com.example.cmmsApplication.common.security.service;
 
 import com.example.cmmsApplication.common.config.CmmsSecurityProperties;
 import org.junit.jupiter.api.Test;
+import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.util.AntPathMatcher;
 
 import java.io.BufferedReader;
@@ -33,7 +34,7 @@ class ApiPermissionMappingCsvCoverageTest {
 
     @Test
     void everyUiApiEndpointHasAtLeastOneMappingOrIsPublic() {
-        ApiPermissionService service = new ApiPermissionService(null, new CmmsSecurityProperties());
+        ApiPermissionService service = apiPermissionService();
         List<String> missing = uiEndpoints().stream()
                 .filter((endpoint) -> !service.isPublicApi(endpoint.path()))
                 .filter((endpoint) -> !isMapped(endpoint.method(), endpoint.path()))
@@ -73,7 +74,7 @@ class ApiPermissionMappingCsvCoverageTest {
 
     @Test
     void publicApiPatternsCoverSecurityPublicEndpoints() {
-        ApiPermissionService service = new ApiPermissionService(null, new CmmsSecurityProperties());
+        ApiPermissionService service = apiPermissionService();
 
         assertTrue(service.isPublicApi("/api/auth/login"));
         assertTrue(service.isPublicApi("/api/auth/me"));
@@ -83,6 +84,14 @@ class ApiPermissionMappingCsvCoverageTest {
         assertTrue(service.isPublicApi("/api/swagger-ui.html"));
         assertTrue(service.isPublicApi("/api/v3/api-docs"));
         assertTrue(service.isPublicApi("/api/company/logo/logo.png"));
+    }
+
+    private static ApiPermissionService apiPermissionService() {
+        CmmsSecurityProperties securityProperties = new CmmsSecurityProperties();
+        PublicApiPatternService publicApiPatternService =
+                new PublicApiPatternService(securityProperties, new DefaultResourceLoader());
+        publicApiPatternService.loadPatterns();
+        return new ApiPermissionService(null, securityProperties, publicApiPatternService);
     }
 
     private static boolean isMapped(String method, String path) {

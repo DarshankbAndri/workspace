@@ -25,8 +25,8 @@
     "semantic_hash": ""
   },
   "cmms_front_end/package.json": {
-    "mtime": 1782467373.4977207,
-    "ast_hash": "a761d1d487b619df4bd9979ec42c9ec9",
+    "mtime": 1784625099.7876544,
+    "ast_hash": "b4fc6ee1fbb9befeae38cd0bbb512bf7",
     "semantic_hash": ""
   },
   "cmms_front_end/src/App.jsx": {
@@ -45,8 +45,8 @@
     "semantic_hash": ""
   },
   "cmms_front_end/vite.config.js": {
-    "mtime": 1782467374.7150893,
-    "ast_hash": "fb959022c103e19140344ad8147db8bf",
+    "mtime": 1784625512.881138,
+    "ast_hash": "0891d4ca7417761cce961cc7804db4f0",
     "semantic_hash": ""
   },
   "AGENTS.md": {
@@ -425,8 +425,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/common/config/CmmsSecurityProperties.java": {
-    "mtime": 1782720033.774458,
-    "ast_hash": "313881b8f02234ccec2d3ae6299ae1cc",
+    "mtime": 1784626689.420689,
+    "ast_hash": "dc0933ace0b116ba0710efaf1b70ded5",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/common/config/FileStorageConfig.java": {
@@ -445,8 +445,8 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/common/config/SecurityConfig.java": {
-    "mtime": 1782720877.540714,
-    "ast_hash": "579f36ad9859030bf1e9684123d1b5b4",
+    "mtime": 1784626689.429643,
+    "ast_hash": "0c757001fa31a8688f43ef7775b5a3e3",
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/common/enums/SearchOperation.java": {
@@ -1515,8 +1515,8 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/shared/context/AuthContext.jsx": {
-    "mtime": 1782467374.5647717,
-    "ast_hash": "d104889447783c2aecb471ff0280bbe3",
+    "mtime": 1784624403.0221477,
+    "ast_hash": "3edcaa1bf063787d5c430722e58b9fbf",
     "semantic_hash": ""
   },
   "cmms_front_end/src/shared/layouts/Navbar.jsx": {
@@ -1535,8 +1535,8 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/shared/services/api.js": {
-    "mtime": 1782467374.690206,
-    "ast_hash": "53fcbafbb400f8aa5f8d65ee1adaa99e",
+    "mtime": 1784624397.3277557,
+    "ast_hash": "a5a30061e0f44ff9acc9d22d7bd08f9d",
     "semantic_hash": ""
   },
   "cmms_front_end/src/shared/utils/searchPayload.js": {
@@ -1775,18 +1775,18 @@
     "semantic_hash": ""
   },
   "cmms_back_end/src/main/java/com/example/cmmsApplication/common/security/service/ApiPermissionService.java": {
-    "mtime": 1782970166.4088893,
-    "ast_hash": "b71309789cbb8ca602006b3136f1c3b0",
+    "mtime": 1784626040.4537187,
+    "ast_hash": "d9713aad622367dfd896ea686941a2e0",
     "semantic_hash": ""
   },
   "cmms_back_end/src/test/java/com/example/cmmsApplication/common/security/service/ApiPermissionServiceTest.java": {
-    "mtime": 1782970328.6002102,
-    "ast_hash": "d8e6b3b5c8fdebb79dd68848dc89c8e4",
+    "mtime": 1784626062.0025165,
+    "ast_hash": "a9ba559b7ca6f2b8d24f834fc2adc694",
     "semantic_hash": ""
   },
   "cmms_back_end/src/test/java/com/example/cmmsApplication/common/security/service/ApiPermissionMappingCsvCoverageTest.java": {
-    "mtime": 1782720599.1817327,
-    "ast_hash": "0b387605cc4e282217d9b5e877f55ad1",
+    "mtime": 1784626062.0186732,
+    "ast_hash": "f3e5d6457dbb4006db46a63435df99d0",
     "semantic_hash": ""
   },
   "cmms_front_end/src/shared/utils/permissionRoutes.js": {
@@ -2617,6 +2617,21 @@
   "documentation/workflows/Spare-and-Inventory.md": {
     "mtime": 1784617547.0401583,
     "ast_hash": "0495a3e510ef10f02d4e026d63a1a995",
+    "semantic_hash": ""
+  },
+  "cmms_back_end/src/main/java/com/example/cmmsApplication/common/security/service/PublicApiPatternService.java": {
+    "mtime": 1784626023.4240592,
+    "ast_hash": "ada1138bb49dd24bbbf2ff2e456e8afc",
+    "semantic_hash": ""
+  },
+  "cmms_back_end/src/test/java/com/example/cmmsApplication/common/security/service/PublicApiPatternServiceTest.java": {
+    "mtime": 1784626187.87737,
+    "ast_hash": "43f0b83f6e1fc678a066c2bfda5250aa",
+    "semantic_hash": ""
+  },
+  "cmms_back_end/src/main/java/com/example/cmmsApplication/common/config/CmmsCorsProperties.java": {
+    "mtime": 1784626689.4231992,
+    "ast_hash": "357592335794597797a4eca407bb7b61",
     "semantic_hash": ""
   }
 }
