@@ -23,4 +23,4 @@
 
 ## Runtime limitation
 
-The frontend (`http://localhost:3500`), backend, and database were reachable, and demo authentication was verified through the backend. The installed Edge build successfully captures public pages but is prevented by workstation policy from exposing its browser-automation/debugging endpoint. Authenticated screenshots could not be captured without embedding a token or password in an intermediate artifact, which was intentionally not done. The remaining figures must be captured interactively on an approved workstation/session.
+The public frontend was rechecked at the requested `http://localhost:6200` on 21 July 2026 and returned HTTP 200. During that pass, the configured backend at `http://localhost:4111/api` was not listening, so authenticated capture could not begin. The existing safe login image is retained. No token or password was embedded in an intermediate artifact to bypass authentication; the remaining figures must be captured interactively after the backend is available on an approved workstation/session.

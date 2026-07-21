@@ -1,0 +1,341 @@
+﻿<!doctype html><html><head><meta charset="utf-8"><title>CMMS End-User Manual</title><style>@page { size:A4; margin:20mm 16mm; } body{font-family:Calibri,Arial;font-size:10pt;color:#1f2937;line-height:1.35} h1{color:#003da5;font-size:25pt;text-align:center;margin-top:80pt;page-break-after:always} h2{color:#003da5;font-size:17pt;border-bottom:2px solid #003da5;padding-bottom:4pt;page-break-before:always} h3{color:#2457a7;font-size:13pt} table{border-collapse:collapse;width:100%;margin:8pt 0 14pt;font-size:8pt} th{background:#003da5;color:white} th,td{border:1px solid #9ca3af;padding:4pt;vertical-align:top} tr:nth-child(even) td{background:#f3f6fb} code{font-family:Consolas;background:#eef2f7;padding:1pt 2pt} pre{background:#eef2f7;border-left:4px solid #003da5;padding:8pt;white-space:pre-wrap} a{color:#003da5}</style></head><body><h1>CMMS End-User Manual</h1>
+<p><strong>Application:</strong> Solar Power Plant Computerized Maintenance Management System  </p>
+<p><strong>Version:</strong> 1.0  </p>
+<p><strong>Verified:</strong> 21 July 2026  </p>
+<p><strong>Frontend reviewed:</strong> <code>http://localhost:6200</code>  </p>
+<p><strong>Audience:</strong> Plant, maintenance, operations, store, HR, administration, vendor-coordination, and demonstration users</p>
+<hr>
+<h2>Document control and scope</h2>
+<p>This manual explains the features that exist in the current CMMS, why they matter, who normally uses them, and how to complete daily work. Access is permission- and site-based, so two users may see different menus or buttons. A feature is called <strong>Partially Available</strong> when some source/API support exists but the complete user journey does not.</p>
+<p>No credentials, tokens, or private customer information are included. Detailed create/edit field definitions are available in <a href="CMMS-Creation-Page-Documentation.md">CMMS Creation Page Documentation</a>.</p>
+<h2>Contents</h2>
+<p>1. Getting started and security</p>
+<p>2. Dashboard</p>
+<p>3. Company, sites, employees, roles, and users</p>
+<p>4. Vendors, AMC, and equipment</p>
+<p>5. Maintenance requests, assignments, work logs, and downtime</p>
+<p>6. Preventive maintenance</p>
+<p>7. Spare parts, inventory, fulfilment, and reorders</p>
+<p>8. Approvals and notifications</p>
+<p>9. Reports</p>
+<p>10. Common page behavior</p>
+<p>11. Role quick guides</p>
+<p>12. End-to-end workflows</p>
+<p>13. Permissions and feature availability</p>
+<p>14. Troubleshooting and glossary</p>
+<hr>
+<h2>1. Getting Started</h2>
+<p>The CMMS keeps solar-plant equipment, maintenance work, downtime, vendor coverage, and spares in one controlled system. It helps teams answer: What failed? Who owns the work? Which parts were used? How long was production affected? What PM is due? Is the asset covered by AMC?</p>
+<h3>Sign in and navigate</h3>
+<p>1. Open <code>http://localhost:6200/login</code>.</p>
+<p>2. Enter the username and password issued by an administrator and select <strong>Login</strong>.</p>
+<p>3. The application opens the first page allowed by your permissions, normally <strong>Dashboard</strong>.</p>
+<p>4. Expand a sidebar group and select a page. On a phone, use the menu button.</p>
+<p>5. Use the site selector where available; it limits data to a permitted solar plant.</p>
+<p>6. Use the bell to open notifications. Use the profile menu to change theme or log out.</p>
+<p>The standard journey is <code>Login → module list → record view → permitted action</code>. A hidden menu or button normally means the role lacks its permission. Records can also be limited by the user&#39;s site assignments.</p>
+<h3>Main navigation</h3>
+<table><thead><tr><th>Group</th><th>Current pages</th><th>Typical users</th></tr></thead><tbody>
+<tr><td>Dashboard</td><td>Role-configured metrics and widgets</td><td>All operational users with access</td></tr>
+<tr><td>Masters</td><td>Equipment, Vendors, Vendor AMC</td><td>Engineering, managers, vendor coordinator</td></tr>
+<tr><td>Maintenance</td><td>Requests, Assignments, Downtime, Preventive Maintenance, PM Calendar</td><td>Maintenance and plant teams</td></tr>
+<tr><td>Inventory</td><td>Spare Parts, Spare Approval, Approved Spare Requests, Reorder Requests</td><td>Technician, manager, store</td></tr>
+<tr><td>Approvals</td><td>Pending Approvals, Approval History</td><td>Configured approvers</td></tr>
+<tr><td>Reports</td><td>Equipment History, Downtime Analysis, Equipment Cost</td><td>Managers and analysts</td></tr>
+<tr><td>Creation</td><td>Sites, Employees</td><td>HR and administrators</td></tr>
+<tr><td>Administration</td><td>Roles, Permissions, User Roles, Approval Configuration, Notification Settings, Company</td><td>Admin/Super Admin</td></tr>
+</tbody></table>
+<h3>Security and logout</h3>
+<p>Security follows <code>User → assigned role → permissions → permitted API</code>. Page access, action-button access, backend API access, and site access are separate checks. Seeing a page does not guarantee that every action or helper dropdown is permitted. A 403 response means the server denied the requested operation; contact an administrator with the correlation ID shown by the application.</p>
+<p>Select the profile menu and <strong>Logout</strong> when finished, especially on a shared workstation. Sessions return to login when authentication expires. <strong>Change Password is Partially Available:</strong> the navbar link exists, but the current router has no functional change-password page. First-login forced password change is not implemented in the inspected UI.</p>
+<hr>
+<h2>2. Dashboard</h2>
+<p><strong>Where:</strong> Dashboard &#183; <strong>Permission:</strong> <code>DASHBOARD_VIEW</code>  </p>
+<p>The dashboard is role-configurable and site-aware. An administrator can determine which widgets a role receives; a user may therefore see fewer widgets than those listed here.</p>
+<table><thead><tr><th>Widget</th><th>Meaning and management use</th></tr></thead><tbody>
+<tr><td>Total Equipments</td><td>Count of equipment in scope; opens no guaranteed filtered list in the current UI.</td></tr>
+<tr><td>Active Vendors</td><td>Active vendor count available to the selected scope.</td></tr>
+<tr><td>Open Maintenance Requests</td><td>Work not in a terminal state; use it to assess backlog.</td></tr>
+<tr><td>Low Stock Spare Parts</td><td>Site-stock lines below their configured minimum.</td></tr>
+<tr><td>Total Downtime Hours</td><td>Aggregated downtime duration for the dashboard scope.</td></tr>
+<tr><td>Active/Expiring/Expired AMC Contracts</td><td>Current contract health; expiring means within 30 days.</td></tr>
+<tr><td>AMC Covered/Without AMC Equipment</td><td>Identifies protection gaps before a failure occurs.</td></tr>
+<tr><td>Open/Critical/Unassigned/Overdue Requests</td><td>Maintenance demand requiring priority, assignment, or escalation.</td></tr>
+<tr><td>Assigned and overdue work lists</td><td>Immediate work responsibility and missed planned dates.</td></tr>
+<tr><td>Low-stock and reorder lists</td><td>Store action queues with available/minimum or requested quantities.</td></tr>
+<tr><td>Equipment Status</td><td>Asset condition distribution.</td></tr>
+<tr><td>Monthly Downtime</td><td>Current-year downtime hours by month.</td></tr>
+<tr><td>Upcoming Maintenance</td><td>PM schedules due in the next 30 days.</td></tr>
+<tr><td>Vendor Performance</td><td>Completed assignments grouped by vendor.</td></tr>
+</tbody></table>
+<p>Choose a site to refresh widgets within your authorized site list. A zero can mean no matching data; an error banner means one or more APIs failed. Example: a critical inverter communication failure appears in open/critical demand, while a cooling fan below minimum stock appears in the inventory widgets.</p>
+<hr>
+<h2>3. Company, Sites, Employees, Roles, and Users</h2>
+<h3>Company profile</h3>
+<p><strong>Where:</strong> Administration → Company &#183; <strong>Permissions:</strong> <code>COMPANY_VIEW</code>, save with <code>COMPANY_CREATE</code> or <code>COMPANY_UPDATE</code>.</p>
+<p>Use this page to maintain company code, name, contact details, address, status, and logo. Enter required code/name, optionally upload a safe image, and select <strong>Save</strong>. The record is refreshed after save; the logo is uploaded after the company record exists. There is no company delete action. Users without save permission see a read-only form.</p>
+<h3>Sites</h3>
+<p><strong>Where:</strong> Creation → Sites &#183; <strong>Permissions:</strong> <code>SITE_VIEW</code>, <code>SITE_CREATE</code>, <code>SITE_UPDATE</code>, <code>SITE_DELETE</code>.</p>
+<p>1. Select <strong>Add Site</strong>, enter Site Code and Site Name, then optional organization, type, address, contact, and coordinates.</p>
+<p>2. Select <strong>Save</strong>. The site becomes available to equipment, employees, vendors, maintenance, downtime, stock, dashboards, and reports.</p>
+<p>3. Open a row to view/edit it. Delete marks a site inactive rather than erasing referenced history.</p>
+<p>Capacity and timezone fields are not implemented. Assign users only to the sites they operate; site access controls both dropdowns and records.</p>
+<h3>Employees and login access</h3>
+<p><strong>Where:</strong> Creation → Employees &#183; <strong>Permissions:</strong> <code>EMPLOYEE_VIEW</code>, <code>EMPLOYEE_CREATE</code>, <code>EMPLOYEE_UPDATE</code>, <code>EMPLOYEE_DELETE</code>.</p>
+<p>Create identity/contact/employment details, add at least one site assignment, and identify the primary site. To create application access, enable login, provide a unique username and temporary password, and add at least one permission-role assignment. Never send a password through screenshots or tickets. Save returns to the employee list. Common failures are duplicate sites, no primary assignment, password mismatch, or an inaccessible role/site.</p>
+<p><strong>Teams are Not Available:</strong> department/designation and free-text site role exist, but there is no Team master or team-assignment page.</p>
+<h3>Roles, permissions, and user roles</h3>
+<p><strong>Where:</strong> Administration → Roles / Permissions / User Roles.</p>
+<ul>
+<li><code>ROLE_VIEW/CREATE/UPDATE/DELETE</code> controls role records. Create a code/name, status, and select permission checkboxes. Changes affect users assigned that role; a fresh login may be needed to refresh the UI session.</li>
+<li><code>PERMISSION_VIEW</code> opens the read-only permission catalogue.</li>
+<li><strong>User Roles is Partially Available:</strong> <code>USER_ROLE_VIEW</code> opens an informational placeholder. Backend role-assignment APIs exist, but the editor is not functional.</li>
+<li><strong>Create User</strong> exists at <code>/create-user</code> with <code>USER_ROLE_ASSIGN</code>; employee creation is the more complete site/role-aware onboarding path.</li>
+</ul>
+<p>Avoid granting create/update/delete simply because view is needed. Example: a technician can receive <code>EQUIPMENT_VIEW</code>, <code>REQUEST_VIEW</code>, and assignment/work-log permissions, while a store user receives spare and stock-processing permissions.</p>
+<hr>
+<h2>4. Vendors, AMC, and Equipment</h2>
+<h3>Vendors</h3>
+<p><strong>Where:</strong> Masters → Vendors &#183; <strong>Permissions:</strong> <code>VENDOR_VIEW/CREATE/UPDATE/DELETE</code>.</p>
+<p>Vendors represent inverter manufacturers, SCADA support firms, tracker providers, transformer specialists, and spare suppliers. Create a vendor with code, name, type, contacts, tax/address data, status, and supported sites. Save returns to the list. Open a row for details, related equipment, and available history; edit only with update permission. Inactive vendors should not be selected for new work.</p>
+<h3>Annual Maintenance Contracts (AMC)</h3>
+<p><strong>Where:</strong> Masters → Vendor AMC &#183; <strong>Permissions:</strong> <code>VENDOR_AMC_VIEW/CREATE/UPDATE/DELETE</code>; special actions <code>VENDOR_AMC_ASSIGN_EQUIPMENT</code>, <code>VENDOR_AMC_RENEW</code>.</p>
+<p>AMC means Annual Maintenance Contract. It connects a vendor, contract dates/SLA/coverage, and selected equipment.</p>
+<p>1. Select <strong>Create AMC</strong>, choose vendor/site, enter contract number, dates, SLA, coverage, value/status, and covered equipment.</p>
+<p>2. Save and open the contract view to inspect coverage.</p>
+<p>3. Use <strong>Renew</strong> to create linked renewal history; do not overwrite an expired contract.</p>
+<p>4. During a maintenance request, the system can retain AMC vendor/contract references for covered equipment.</p>
+<p>Expiry information is available in dashboard/notifications where configured. AMC approval is not a dedicated user workflow. Labor/spares are captured as coverage information; there is no full vendor portal.</p>
+<h3>Equipment</h3>
+<p><strong>Where:</strong> Masters → Equipment &#183; <strong>Permissions:</strong> <code>EQUIPMENT_VIEW/CREATE/UPDATE/DELETE</code>.</p>
+<p>Use equipment records for central/string inverters, transformers, trackers, combiner boxes, weather stations, pyranometers, SCADA servers, pumps, DG sets, and UPS units.</p>
+<p>1. Search/filter the list, then click a row or view icon.</p>
+<p>2. Review identity, site, category/type, vendor, model, serial number, criticality, status, warranty, and parent equipment.</p>
+<p>3. Select <strong>Edit</strong> if permitted, update fields, and save.</p>
+<p>4. Use view-page sections for AMC, maintenance, downtime, and spare-related context where data is exposed.</p>
+<p>Category and type values are entered/handled by the existing equipment form; separate category/type master pages do not exist. <strong>Meter Readings are Partially Available:</strong> backend meter-reading support exists, but the current frontend has no dedicated meter/runtime route or usable reading tab. Automatic SCADA/historian ingestion is Not Available.</p>
+<hr>
+<h2>5. Maintenance Requests, Assignments, Work Logs, and Downtime</h2>
+<h3>Maintenance requests</h3>
+<p><strong>Where:</strong> Maintenance → Requests &#183; <strong>Permissions:</strong> <code>REQUEST_VIEW/CREATE/UPDATE/DELETE</code>.</p>
+<p>Create a request when equipment needs corrective or inspection work—for example, inverter communication failure or transformer oil leakage. Select site/equipment, enter title and issue description, priority/type/status and relevant dates/attachments shown by the form, then save/submit. The request becomes visible to permitted site users and can enter approval or assignment according to configuration. Open a row to see details, edit in allowed states, and follow its assignments, work, downtime, and spares.</p>
+<p>Do not duplicate an open request for the same symptom. Use a clear observable problem, not only “not working.” The exact lifecycle is represented by the status shown on the record; action buttons are permission- and state-dependent.</p>
+<h3>Assignments and technician work</h3>
+<p><strong>Where:</strong> Maintenance → Assignments &#183; <strong>Permissions:</strong> <code>ASSIGNMENT_VIEW/CREATE/UPDATE/DELETE</code> plus action APIs exposed on the assignment view.</p>
+<p>1. Create an assignment from/for a maintenance request.</p>
+<p>2. Select responsible technician/employee or vendor as supported, planned start/end, priority, and instructions.</p>
+<p>3. Save; the assignee can open the record and perform available start/status actions.</p>
+<p>4. Add checklist responses and work logs. Record issue found, action taken, notes, time, attachments, and completion status.</p>
+<p>5. Request required spares from the assignment workflow; after work and checks are complete, complete the assignment/request using the available action.</p>
+<p>Multiple work logs can preserve the sequence of diagnosis and repair. Example: “Loose communication cable in inverter control panel” followed by “Cable reseated, terminal tightened, communication verified.” These records contribute to equipment maintenance history.</p>
+<h3>Downtime</h3>
+<p><strong>Where:</strong> Maintenance → Downtime &#183; <strong>Permissions:</strong> <code>DOWNTIME_VIEW/CREATE/UPDATE/DELETE</code>; actions <code>DOWNTIME_CONFIRM</code>, <code>DOWNTIME_VERIFY</code>, <code>DOWNTIME_CLOSE</code>, <code>DOWNTIME_REOPEN</code>, <code>DOWNTIME_RCA_MANAGE</code>.</p>
+<p>Create downtime with site/equipment, start time, type/reason/category, request linkage, and production-loss information available on the form. Leave end time open while the outage continues. Authorized users progress confirm/verify/close actions; closing requires the necessary end and review information. RCA captures cause and corrective/preventive action. Reopen only when closure was incorrect or the event continues.</p>
+<p>Downtime Analysis reports event count, unplanned events, and duration. Accurate timestamps are essential for production-impact reporting.</p>
+<hr>
+<h2>6. Preventive Maintenance</h2>
+<p><strong>Where:</strong> Maintenance → Preventive Maintenance / PM Calendar  </p>
+<p><strong>Current permissions:</strong> list/view uses <code>REQUEST_VIEW</code>, create uses <code>REQUEST_CREATE</code>, edit uses <code>REQUEST_UPDATE</code>; calendar uses <code>PM_CALENDAR_VIEW</code>.</p>
+<p>Preventive maintenance schedules recurring work before failure—for example monthly inverter inspection, quarterly transformer thermography, tracker lubrication, pyranometer calibration, module cleaning, or SCADA backup.</p>
+<p>1. Select <strong>New</strong>, choose site/equipment, provide schedule title/type, frequency and interval, start/next due information, responsibility, checklist, priority, and activation details exposed by the form.</p>
+<p>2. Save. The schedule appears in the PM list and calendar and contributes to upcoming-maintenance dashboard data.</p>
+<p>3. Open the schedule to review execution history and available actions.</p>
+<p>4. When due, create/execute the related maintenance work through the current request/assignment flow, complete checklist/work logs, and confirm the next due date is advanced.</p>
+<p>The calendar helps planners see date-based demand. Overdue means the due date passed without completion. <strong>Meter-based PM is Partially Available:</strong> backend meter capability exists, but there is no current end-user meter-reading page to operate the full threshold flow. <strong>PM spare-parts forecasting/BOM planning is Not Available</strong> in the current application; it remains a proposed future feature, not part of this manual&#39;s operating steps.</p>
+<hr>
+<h2>7. Spare Parts, Inventory, Fulfilment, and Reorders</h2>
+<h3>Spare master and stock</h3>
+<p><strong>Where:</strong> Inventory → Spare Parts &#183; <strong>Permissions:</strong> <code>SPARE_PART_VIEW/CREATE/UPDATE/DELETE</code>; transactions use <code>STOCK_TRANSACTION_VIEW/CREATE</code>.</p>
+<p>Create parts such as IGBT modules, DC fuses, cooling fans, tracker motors, communication cards, MC4 connectors, batteries, or bearings. Maintain part code/name, category, unit, compatible equipment, preferred vendor, minimum/reorder levels, unit cost, status, and site stock information exposed by the page.</p>
+<p>The view page provides stock and transaction actions such as receipt, adjustment, transfer, and movement history when permitted. Always choose the correct site and storage location. Available stock is calculated as:</p>
+<p><code>Available Stock = Current Stock − Reserved Stock</code></p>
+<p>A reservation prevents the same units being promised twice. An adjustment corrects a verified physical discrepancy; it is not a substitute for receipt, issue, return, or transfer.</p>
+<h3>Spare request and fulfilment</h3>
+<p><strong>Permissions:</strong> request/usage actions are embedded in maintenance/assignment views; manager page uses <code>SPARE_USAGE_MANAGER_APPROVE</code>; store page uses <code>SPARE_USAGE_STORE_PROCESS</code>; special actions use <code>SPARE_USAGE_RESERVE</code>, <code>SPARE_USAGE_ISSUE</code>, <code>SPARE_USAGE_CONSUME</code>.</p>
+<p>1. Technician requests a part and quantity against the maintenance work, with reason.</p>
+<p>2. Manager opens <strong>Spare Approval</strong> and approves or rejects.</p>
+<p>3. Store opens <strong>Approved Spare Requests</strong>, checks available stock, then reserves and issues with the relevant permissions.</p>
+<p>4. Technician/store records consumption or return from the supported action.</p>
+<p>5. Each action updates request status, reservation, and stock movement history.</p>
+<p><strong>Partial issue is Partially Available:</strong> quantity/status fields support fulfilment actions, but a robust multi-lot partial-issue user journey is not fully represented. Do not promise more than available stock. If unavailable, use a transfer when stock exists at another permitted site or create/manage a reorder.</p>
+<h3>Reorders and receipts</h3>
+<p><strong>Where:</strong> Inventory → Reorder Requests &#183; <strong>Permissions:</strong> <code>REORDER_VIEW/CREATE/UPDATE</code>.</p>
+<p>Create a reorder for a site/part, requested quantity, expected date, vendor/cost details and notes shown by the dialog. Progress its status and record receipt using the available action; a receipt creates stock movement and raises on-hand quantity. The current feature is a reorder/purchase-request-like workflow, not a complete purchase-order, quotation, invoice, or accounts-payable module.</p>
+<p>Inter-site stock transfer is available from stock operations where permitted. Automatic suggested transfers and automatic purchase requests based on upcoming PM/BOM shortages are Not Available.</p>
+<hr>
+<h2>8. Approvals and Notifications</h2>
+<h3>Approval inbox and history</h3>
+<p><strong>Where:</strong> Approvals → Pending Approvals / Approval History &#183; <strong>Permissions:</strong> <code>APPROVAL_VIEW</code>, <code>APPROVAL_APPROVE</code>, <code>APPROVAL_REJECT</code>.</p>
+<p>Filter pending work by module, action, site, status, and request date. Select <strong>View</strong> to inspect reference, requester, and remarks. Approve when the request is valid and within authority; reject with an actionable reason. The decision leaves the inbox and appears in history. Approval configuration controls module/action behavior and approver role where implemented.</p>
+<p><strong>Administration → Approval Configuration:</strong> <code>APPROVAL_CONFIG_VIEW/UPDATE</code>. The page edits configured approval rows. Creation exists at service level but the present UI is primarily edit-oriented.</p>
+<h3>Notification center</h3>
+<p><strong>Where:</strong> bell or <code>/notifications</code> &#183; <strong>Permissions:</strong> <code>NOTIFICATION_VIEW</code>, update actions with <code>NOTIFICATION_UPDATE</code>.</p>
+<p>Use tabs for All, Unread, Read, Archived, PM, Overdue, Approval, and High Priority. Opening an unread item can mark it read; use <strong>Mark All Read</strong> or archive when permitted. The application supports live event-stream updates when the connection is available.</p>
+<p>Notification Settings (<code>NOTIFICATION_CONFIG_VIEW/UPDATE</code>) configure event/role/channel behavior. Current notification types include PM due reminders, overdue requests, approval pending, and other configured workflow events. Email works only when server SMTP and settings are enabled; users cannot configure SMTP secrets in the UI. Low-stock and AMC expiry are visible in dashboard features and may produce notifications only where the backend event is configured.</p>
+<hr>
+<h2>9. Reports</h2>
+<p><strong>Where:</strong> Reports &#183; <strong>Permission:</strong> <code>REPORT_VIEW</code>.</p>
+<table><thead><tr><th>Report</th><th>Current purpose and filters</th></tr></thead><tbody>
+<tr><td>Equipment History</td><td>Select equipment/site as offered; review requests, assignments, and downtime events with pagination.</td></tr>
+<tr><td>Downtime Analysis</td><td>Filter by equipment/site; review event count, unplanned events, total hours/minutes, and event rows.</td></tr>
+<tr><td>Equipment Cost</td><td>Switch among Equipment Maintenance Cost, Cost by Site, Cost by Category, and Cost by Criticality; filter by site/equipment where available.</td></tr>
+</tbody></table>
+<p>Use Equipment History to prepare an inverter reliability review, Downtime Analysis for monthly production-loss meetings, and Equipment Cost to locate expensive asset classes. Results respect site access. <strong>Exports are Not Available</strong> in the inspected report pages: there is no current CSV/PDF/export action. PM compliance, inventory stock, low-stock, spare usage, vendor performance, AMC expiry, and technician-work reports are Not Available as dedicated report pages, although some of those indicators exist on dashboards or record views.</p>
+<hr>
+<h2>10. Common List, View, and Form Behavior</h2>
+<h3>Lists and views</h3>
+<ul>
+<li>Search and filters narrow data; clear them before assuming a record is missing.</li>
+<li>Pagination loads another result page. Sorting support depends on the current grid/column.</li>
+<li>Click a row or <strong>View</strong> icon to open details. Select <strong>Edit</strong> only when the button is visible and the record state permits it.</li>
+<li>Create, edit, delete, approve, issue, consume, return, and special buttons are independently permission-controlled.</li>
+<li>Loading indicators mean the request is in progress. An empty state means no matching accessible rows. An error banner means the API failed or access was denied.</li>
+<li>Delete may inactivate or soft-delete master data; it should not be used for historical transactions.</li>
+</ul>
+<h3>Forms</h3>
+<p>1. Complete fields marked required. Type in autocomplete fields and choose an offered record.</p>
+<p>2. Observe dependent fields: site selection often controls equipment, vendor, employee, stock, and maintenance options.</p>
+<p>3. Select <strong>Save/Submit</strong> once. Validation messages identify missing or invalid data.</p>
+<p>4. On success, the application normally shows a message and returns to the list or refreshes the saved view.</p>
+<p>5. <strong>Cancel</strong> discards current edits. There is no guaranteed unsaved-changes confirmation on every page.</p>
+<p>Disabled fields may be system-controlled, state-controlled, or read-only due to permission. Upload only business-safe files of accepted type/size. Do not use browser Back during an active save.</p>
+<hr>
+<h2>11. Role-Based Quick Guides</h2>
+<p>Roles are configurable; the following are recommended operating patterns, not guaranteed grants.</p>
+<h3>Admin / Super Admin</h3>
+<p>Daily path: Dashboard → review access/alerts → maintain company/sites/employees → roles/permissions → approval and notification settings. Keep least privilege, verify new users&#39; sites, and test permission changes with a non-admin account. Super Admin/Admin bypass behavior may broaden access; use these roles sparingly.</p>
+<h3>Plant Manager</h3>
+<p>Daily path: Dashboard → critical/overdue work → pending approvals → downtime → PM Calendar → reports. Approve only records for authorized sites and escalate production-impacting downtime.</p>
+<h3>Maintenance Manager / Engineer</h3>
+<p>Daily path: Requests → create/triage → Assignments → check work logs/spares → Downtime/RCA → PM list/calendar → close verified work. Ensure equipment, priority, planned dates, and root cause are meaningful.</p>
+<h3>Technician</h3>
+<p>Daily path: Assignments → open assigned work → record checklist/work log → request spare if needed → record action/evidence → complete. Technicians normally view masters but should not administer them.</p>
+<h3>Store Manager / Inventory Executive</h3>
+<p>Daily path: low-stock dashboard → Spare Approval or Approved Spare Requests → reserve → issue → receipt/return/consume → Reorder Requests → verify stock movements. Separate manager approval from physical store processing where staffing permits.</p>
+<h3>HR / Administrator</h3>
+<p>Daily path: Sites → Employees → login/site/role assignment. Confirm primary site, active status, and correct role before handing over access.</p>
+<h3>Viewer / Demo User</h3>
+<p>Use dashboard, permitted lists/views, notifications, and reports. Create/edit/action buttons should be absent. Never use production customer data in demonstrations.</p>
+<hr>
+<h2>12. End-to-End Workflows</h2>
+<h3>Equipment onboarding</h3>
+<p><code>Company → Site → Vendor → Equipment → AMC → PM Schedule</code></p>
+<p>Create foundations in that order so dropdown dependencies exist. Meter configuration is excluded because no complete current frontend flow exists.</p>
+<h3>Breakdown maintenance</h3>
+<p><code>Issue reported → Request → optional approval → Assignment → Work log/checklist → Spare request/issue/consume → Downtime closure/RCA → Work closure</code></p>
+<p>Each handoff preserves site/equipment references. If downtime is open, do not close the maintenance record without reconciling the event.</p>
+<h3>Preventive maintenance</h3>
+<p><code>PM schedule → dashboard/calendar reminder → maintenance execution/assignment → checklist/work log → completion → next due date</code></p>
+<p>Confirm the generated or linked work and next due date; otherwise a completed inspection can still appear overdue.</p>
+<h3>Spare and inventory</h3>
+<p><code>Spare master/site stock → technician request → manager approval → store reserve → issue → consume or return → movement history</code></p>
+<p>If short: <code>other-site stock transfer</code> or <code>reorder → receipt → stock update</code>.</p>
+<h3>AMC maintenance</h3>
+<p><code>Covered equipment issue → AMC identified → vendor-related assignment/support → SLA and work evidence → closure</code></p>
+<p>Preserve the contract/vendor reference for warranty and performance history.</p>
+<h3>Meter-based maintenance</h3>
+<p><strong>Partially Available:</strong> <code>Reading → threshold → PM due</code> has backend foundations, but the current UI does not provide an end-to-end reading/correction/threshold workflow.</p>
+<hr>
+<h2>13. Permission Guide</h2>
+<table><thead><tr><th>Feature</th><th>View</th><th>Create</th><th>Update</th><th>Delete</th><th>Special</th></tr></thead><tbody>
+<tr><td>Dashboard</td><td><code>DASHBOARD_VIEW</code></td><td>—</td><td>—</td><td>—</td><td>Role-configured widgets</td></tr>
+<tr><td>Company</td><td><code>COMPANY_VIEW</code></td><td><code>COMPANY_CREATE</code></td><td><code>COMPANY_UPDATE</code></td><td>—</td><td>Logo upload follows save</td></tr>
+<tr><td>Sites</td><td><code>SITE_VIEW</code></td><td><code>SITE_CREATE</code></td><td><code>SITE_UPDATE</code></td><td><code>SITE_DELETE</code></td><td>Site access applies</td></tr>
+<tr><td>Employees</td><td><code>EMPLOYEE_VIEW</code></td><td><code>EMPLOYEE_CREATE</code></td><td><code>EMPLOYEE_UPDATE</code></td><td><code>EMPLOYEE_DELETE</code></td><td>Login/site/role assignment embedded</td></tr>
+<tr><td>Roles</td><td><code>ROLE_VIEW</code></td><td><code>ROLE_CREATE</code></td><td><code>ROLE_UPDATE</code></td><td><code>ROLE_DELETE</code></td><td>Permission catalogue may also be required</td></tr>
+<tr><td>Permissions</td><td><code>PERMISSION_VIEW</code></td><td>—</td><td>—</td><td>—</td><td>Read-only catalogue</td></tr>
+<tr><td>User Roles</td><td><code>USER_ROLE_VIEW</code></td><td>—</td><td><code>USER_ROLE_ASSIGN</code></td><td>—</td><td>UI editor partial</td></tr>
+<tr><td>Vendors</td><td><code>VENDOR_VIEW</code></td><td><code>VENDOR_CREATE</code></td><td><code>VENDOR_UPDATE</code></td><td><code>VENDOR_DELETE</code></td><td>—</td></tr>
+<tr><td>Vendor AMC</td><td><code>VENDOR_AMC_VIEW</code></td><td><code>VENDOR_AMC_CREATE</code></td><td><code>VENDOR_AMC_UPDATE</code></td><td><code>VENDOR_AMC_DELETE</code></td><td><code>VENDOR_AMC_ASSIGN_EQUIPMENT</code>, <code>VENDOR_AMC_RENEW</code></td></tr>
+<tr><td>Equipment</td><td><code>EQUIPMENT_VIEW</code></td><td><code>EQUIPMENT_CREATE</code></td><td><code>EQUIPMENT_UPDATE</code></td><td><code>EQUIPMENT_DELETE</code></td><td>—</td></tr>
+<tr><td>Requests / PM</td><td><code>REQUEST_VIEW</code></td><td><code>REQUEST_CREATE</code></td><td><code>REQUEST_UPDATE</code></td><td><code>REQUEST_DELETE</code></td><td><code>PM_CALENDAR_VIEW</code> for calendar</td></tr>
+<tr><td>Assignments</td><td><code>ASSIGNMENT_VIEW</code></td><td><code>ASSIGNMENT_CREATE</code></td><td><code>ASSIGNMENT_UPDATE</code></td><td><code>ASSIGNMENT_DELETE</code></td><td>State/work-log/checklist APIs are mapped separately</td></tr>
+<tr><td>Downtime</td><td><code>DOWNTIME_VIEW</code></td><td><code>DOWNTIME_CREATE</code></td><td><code>DOWNTIME_UPDATE</code></td><td><code>DOWNTIME_DELETE</code></td><td>Confirm, verify, close, reopen, RCA permissions</td></tr>
+<tr><td>Spare Parts</td><td><code>SPARE_PART_VIEW</code></td><td><code>SPARE_PART_CREATE</code></td><td><code>SPARE_PART_UPDATE</code></td><td><code>SPARE_PART_DELETE</code></td><td><code>STOCK_TRANSACTION_VIEW/CREATE</code></td></tr>
+<tr><td>Spare fulfilment</td><td>—</td><td>Request embedded</td><td>—</td><td>—</td><td>Manager approve, store process, reserve, issue, consume</td></tr>
+<tr><td>Reorders</td><td><code>REORDER_VIEW</code></td><td><code>REORDER_CREATE</code></td><td><code>REORDER_UPDATE</code></td><td>—</td><td>Receipt/status actions use update mapping</td></tr>
+<tr><td>Approvals</td><td><code>APPROVAL_VIEW</code></td><td>—</td><td>—</td><td>—</td><td><code>APPROVAL_APPROVE</code>, <code>APPROVAL_REJECT</code></td></tr>
+<tr><td>Notifications</td><td><code>NOTIFICATION_VIEW</code></td><td>—</td><td><code>NOTIFICATION_UPDATE</code></td><td>—</td><td>Config uses <code>NOTIFICATION_CONFIG_VIEW/UPDATE</code></td></tr>
+<tr><td>Reports</td><td><code>REPORT_VIEW</code></td><td>—</td><td>—</td><td>—</td><td>Site access applies</td></tr>
+</tbody></table>
+<p>Backend access is checked separately using <code>api-permission-mapping.csv</code>; helper APIs needed for dropdowns must also be allowed. Site/record authorization may still deny an operation after permission passes.</p>
+<h3>Feature availability matrix</h3>
+<table><thead><tr><th>Module</th><th>Feature</th><th>Status</th><th>Notes</th></tr></thead><tbody>
+<tr><td>Authentication</td><td>Login/logout/session/access denied</td><td>Available</td><td>Change Password and forced first-login change are partial/not routed</td></tr>
+<tr><td>Dashboard</td><td>Role/site-aware metrics and widgets</td><td>Available</td><td>Card click-through is not consistently implemented</td></tr>
+<tr><td>Company/Site</td><td>Profile, logo, site CRUD</td><td>Available</td><td>Site capacity/timezone not implemented</td></tr>
+<tr><td>Employees</td><td>Employee, site, login, role assignment</td><td>Available</td><td>No Team master</td></tr>
+<tr><td>Access</td><td>Roles and permission catalogue</td><td>Available</td><td>User Roles editor Partially Available</td></tr>
+<tr><td>Vendor/AMC</td><td>Vendor CRUD, contracts, equipment coverage, renewal</td><td>Available</td><td>No vendor self-service portal</td></tr>
+<tr><td>Equipment</td><td>CRUD and linked operational context</td><td>Available</td><td>No separate category/type masters</td></tr>
+<tr><td>Requests</td><td>Create/view/edit and downstream work</td><td>Available</td><td>State-dependent actions vary</td></tr>
+<tr><td>Assignments</td><td>Assignment, checklist, work log, attachments/spares</td><td>Available</td><td>Technician acceptance is not a distinct documented feature</td></tr>
+<tr><td>Downtime</td><td>Event lifecycle, RCA, reporting</td><td>Available</td><td>—</td></tr>
+<tr><td>PM</td><td>Schedule, list, view, calendar</td><td>Available</td><td>Uses request permissions; meter PM partial</td></tr>
+<tr><td>Meter/runtime</td><td>Backend foundations</td><td>Partially Available</td><td>No usable frontend route; no SCADA ingestion UI</td></tr>
+<tr><td>Spares/stock</td><td>Master, site stock, movements, transfer</td><td>Available</td><td>Partial-issue journey incomplete</td></tr>
+<tr><td>Reorder/purchase request</td><td>Reorder, status, receipt</td><td>Available</td><td>Not a complete procurement/PO/invoice system</td></tr>
+<tr><td>Approvals</td><td>Inbox, decisions, history, config</td><td>Available</td><td>Config create journey edit-oriented</td></tr>
+<tr><td>Notifications</td><td>Bell/center/read/archive/settings/live stream</td><td>Available</td><td>Email depends on external SMTP/config</td></tr>
+<tr><td>Reports</td><td>Equipment history, downtime, equipment cost</td><td>Available</td><td>No export; other requested reports absent</td></tr>
+<tr><td>Profile</td><td>Navbar identity/logout/theme</td><td>Partially Available</td><td>No dedicated editable profile/change-password route</td></tr>
+<tr><td>PM spare planning</td><td>BOM-based forecast/transfers/purchase suggestions</td><td>Not Available</td><td>Proposed future feature only</td></tr>
+</tbody></table>
+<hr>
+<h2>14. Troubleshooting</h2>
+<table><thead><tr><th>Problem</th><th>Check and resolution</th></tr></thead><tbody>
+<tr><td>Page not visible</td><td>Role lacks view permission, user lacks site assignment, or menu is intentionally hidden. Ask admin to review role and sign in again.</td></tr>
+<tr><td>403 Access Denied</td><td>A page/action/helper API or record/site check failed. Give admin the action, time, URL, and correlation ID—never the token.</td></tr>
+<tr><td>Dropdown empty</td><td>Create/activate prerequisite master data, choose the parent site first, clear filters, and verify helper-API permission/site access.</td></tr>
+<tr><td>Save button absent/disabled</td><td>Create/update permission is missing, record state forbids editing, or the page is read-only.</td></tr>
+<tr><td>Record missing</td><td>Clear search/status/site filters, check pagination and site access, and confirm it was not inactivated.</td></tr>
+<tr><td>Validation message</td><td>Correct highlighted required, date, quantity, password, or dependent fields; do not repeatedly submit unchanged data.</td></tr>
+<tr><td>Stock unavailable</td><td>Check Current, Reserved, and Available. Release invalid reservations, return unused parts, transfer permitted stock, or reorder.</td></tr>
+<tr><td>Lower meter reading rejected</td><td>The full correction UI is not currently available; contact an authorized administrator/support team rather than entering false data.</td></tr>
+<tr><td>Notification absent</td><td>Verify notification setting, recipient role, site, browser/live connection, and email server configuration.</td></tr>
+<tr><td>Dashboard empty</td><td>Confirm the role has widgets assigned, choose a permitted site, and check whether source records exist.</td></tr>
+<tr><td>Change Password returns elsewhere</td><td>Current route is not implemented. Use the administrator-approved password reset process.</td></tr>
+</tbody></table>
+<h2>15. Glossary</h2>
+<table><thead><tr><th>Term</th><th>Plain-language meaning</th></tr></thead><tbody>
+<tr><td>CMMS</td><td>System for planning, recording, and analysing maintenance work.</td></tr>
+<tr><td>AMC</td><td>Annual Maintenance Contract with a service vendor.</td></tr>
+<tr><td>PM</td><td>Preventive Maintenance performed before failure.</td></tr>
+<tr><td>Downtime</td><td>Time when equipment cannot perform its intended operation.</td></tr>
+<tr><td>MTBF</td><td>Average operating time between failures; not a current dedicated report.</td></tr>
+<tr><td>MTTR</td><td>Average time to restore equipment; not a current dedicated report.</td></tr>
+<tr><td>SLA</td><td>Agreed service response/resolution target.</td></tr>
+<tr><td>SCADA</td><td>Supervisory system that monitors and controls plant equipment.</td></tr>
+<tr><td>Historian</td><td>Time-series store for operational readings; no current UI integration.</td></tr>
+<tr><td>Inverter</td><td>Converts solar DC power to AC power.</td></tr>
+<tr><td>String Combiner Box</td><td>Combines multiple PV string circuits before inversion.</td></tr>
+<tr><td>Criticality</td><td>Business/production importance of an asset.</td></tr>
+<tr><td>Reserved Stock</td><td>On-hand quantity promised to approved work but not yet issued.</td></tr>
+<tr><td>Available Stock</td><td>Current stock minus reserved stock.</td></tr>
+<tr><td>Work Log</td><td>Technician record of diagnosis, action, time, and evidence.</td></tr>
+<tr><td>Meter Reading</td><td>Cumulative runtime, energy, cycle, or count value for equipment.</td></tr>
+<tr><td>RCA</td><td>Root Cause Analysis explaining why an event happened and prevention action.</td></tr>
+</tbody></table>
+<h2>Appendix A — Screenshot index</h2>
+<table><thead><tr><th>Figure</th><th>File</th><th>Status</th></tr></thead><tbody>
+<tr><td>Figure 1.1 – Login page</td><td><a href="screenshots/01-login-page.png">01-login-page.png</a></td><td>Captured safely; public page</td></tr>
+<tr><td>Authenticated pages</td><td><a href="screenshots/README.md">Screenshot register</a></td><td>Pending approved interactive capture; backend was unavailable during the port-6200 pass</td></tr>
+</tbody></table>
+<p>The frontend at port 6200 was reachable and reviewed. Authenticated screenshots could not be regenerated because the backend on configured port 4111 was not running. Existing source-verified documentation and the safe login image were retained; no credentials were embedded to bypass authentication.</p>
+<h2>Appendix B — Known gaps and inconsistencies</h2>
+<p>1. Preventive Maintenance reuses maintenance-request permissions instead of dedicated PM CRUD permission codes.</p>
+<p>2. Navbar Change Password has no matching route/page.</p>
+<p>3. User Roles renders a placeholder although backend APIs exist.</p>
+<p>4. Meter-reading backend capability has no complete frontend route.</p>
+<p>5. Role create/update may need permission-catalogue helper access beyond its own page permissions.</p>
+<p>6. Reports do not expose export actions.</p>
+<p>7. Site capacity/timezone, Team master, equipment category/type masters, complete procurement, and PM BOM spare forecasting are not implemented.</p>
+<p>8. Some desired notification/report categories exist only as dashboard indicators, not dedicated user pages.</p>
+<h2>Appendix C — Related references</h2>
+<ul>
+<li><a href="CMMS-Creation-Page-Documentation.md">Creation and transaction field guide</a></li>
+<li><a href="api-reference/API-Dependency-Matrix.md">API dependency matrix</a></li>
+<li><a href="database-reference/Database-Reference.md">Database reference</a></li>
+<li><a href="database-reference/Field-Reference-Matrix.md">Field reference matrix</a></li>
+<li><a href="screenshots/README.md">Screenshot register</a></li>
+</ul></body></html>
