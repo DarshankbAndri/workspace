@@ -228,7 +228,18 @@ function EquipmentListPage() {
         tableTestId="equipment-table"
       />
 
-      <Dialog open={qrDialog.open} onClose={() => setQrDialog(initialQrDialog)} maxWidth="xs" fullWidth>
+      <Dialog
+        open={qrDialog.open}
+        onClose={() => setQrDialog(initialQrDialog)}
+        maxWidth={false}
+        fullWidth={false}
+        PaperProps={{
+          sx: {
+            mx: 2,
+            width: 'min(360px, calc(100vw - 32px))',
+          },
+        }}
+      >
         <GlobalStyles
           styles={{
             '@media print': {

@@ -21,11 +21,9 @@ import {
   Add,
   Delete,
   History,
-  Inventory,
   QrCode2,
   ShoppingCart,
   SwapHoriz,
-  Tune,
   UploadFile,
 } from '@mui/icons-material';
 import { DataGrid } from '@mui/x-data-grid';
@@ -36,19 +34,16 @@ import { useAuth } from '../../../shared/context/AuthContext';
 import { PERMISSIONS } from '../../../shared/utils/permissionRoutes';
 import { getSites } from '../../site/services/siteService';
 import {
-  adjustStock,
   createReorderRequest,
   deleteSparePart,
   getSparePartTransactions,
   importSpareParts,
   searchSpareParts,
-  stockIn,
   transferStock,
 } from '../services/sparePartService';
 import ConfirmDialog from '../../../shared/components/common/ConfirmDialog';
 import CommonList from '../../../shared/components/common/CommonList';
 
-const initialStockDialog = { open: false, mode: 'STOCK_IN', row: null, quantity: '', unitCost: '', remarks: '' };
 const initialHistoryDialog = { open: false, row: null, rows: [], loading: false };
 const initialTransferDialog = { open: false, row: null, targetSiteId: '', quantity: '', targetStorageLocation: '', remarks: '' };
 const initialReorderDialog = { open: false, row: null, requestedQuantity: '', estimatedUnitCost: '', expectedDate: '', remarks: '' };
@@ -80,7 +75,6 @@ function SparePartListPage() {
   const [sortModel, setSortModel] = React.useState([{ field: 'createdAt', sort: 'desc' }]);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState('');
-  const [stockDialog, setStockDialog] = React.useState(initialStockDialog);
   const [historyDialog, setHistoryDialog] = React.useState(initialHistoryDialog);
   const [transferDialog, setTransferDialog] = React.useState(initialTransferDialog);
   const [reorderDialog, setReorderDialog] = React.useState(initialReorderDialog);
@@ -127,17 +121,6 @@ function SparePartListPage() {
     }));
   };
 
-  const openStockDialog = (row, mode) => {
-    setStockDialog({
-      open: true,
-      mode,
-      row,
-      quantity: '',
-      unitCost: row.unitCost ?? '',
-      remarks: '',
-    });
-  };
-
   const openHistoryDialog = async (row) => {
     setHistoryDialog({ open: true, row, rows: [], loading: true });
     try {
@@ -166,30 +149,9 @@ function SparePartListPage() {
     });
   };
 
-  const closeStockDialog = () => setStockDialog(initialStockDialog);
   const closeTransferDialog = () => setTransferDialog(initialTransferDialog);
   const closeReorderDialog = () => setReorderDialog(initialReorderDialog);
   const closeImportDialog = () => setImportDialog(initialImportDialog);
-
-  const submitStockDialog = async () => {
-    setError('');
-    try {
-      const payload = {
-        quantity: Number(stockDialog.quantity),
-        unitCost: stockDialog.unitCost === '' ? null : Number(stockDialog.unitCost),
-        remarks: stockDialog.remarks,
-      };
-      if (stockDialog.mode === 'STOCK_IN') {
-        await stockIn(stockDialog.row.id, payload);
-      } else {
-        await adjustStock(stockDialog.row.id, payload);
-      }
-      closeStockDialog();
-      loadRows();
-    } catch (err) {
-      setError(err.response?.data?.message || 'Unable to update stock.');
-    }
-  };
 
   const submitTransferDialog = async () => {
     setError('');
@@ -339,8 +301,6 @@ function SparePartListPage() {
           {hasPermission(PERMISSIONS.STOCK_TRANSACTION_CREATE) && <Tooltip title="Transfer"><IconButton aria-label="Transfer stock" onClick={(event) => { event.stopPropagation(); openTransferDialog(row); }}><SwapHoriz fontSize="small" /></IconButton></Tooltip>}
           {hasPermission(PERMISSIONS.REORDER_CREATE) && <Tooltip title="Reorder"><IconButton aria-label="Create reorder" onClick={(event) => { event.stopPropagation(); openReorderDialog(row); }}><ShoppingCart fontSize="small" /></IconButton></Tooltip>}
           <Tooltip title="QR label"><IconButton aria-label="QR label" onClick={(event) => { event.stopPropagation(); setLabelDialog({ open: true, row }); }}><QrCode2 fontSize="small" /></IconButton></Tooltip>
-          {hasPermission(PERMISSIONS.STOCK_TRANSACTION_CREATE) && <Tooltip title="Stock in"><IconButton aria-label="Stock in" onClick={(event) => { event.stopPropagation(); openStockDialog(row, 'STOCK_IN'); }}><Inventory fontSize="small" /></IconButton></Tooltip>}
-          {hasPermission(PERMISSIONS.STOCK_TRANSACTION_CREATE) && <Tooltip title="Adjust"><IconButton aria-label="Adjust stock" onClick={(event) => { event.stopPropagation(); openStockDialog(row, 'ADJUSTMENT'); }}><Tune fontSize="small" /></IconButton></Tooltip>}
           {hasPermission(PERMISSIONS.SPARE_PART_DELETE) && <Tooltip title="Delete"><IconButton aria-label="Delete spare part" color="error" onClick={(event) => { event.stopPropagation(); setDeleteRow(row); }}><Delete fontSize="small" /></IconButton></Tooltip>}
         </Stack>
       ),
@@ -404,21 +364,6 @@ function SparePartListPage() {
         closebtn="Cancel"
         agreebtn="Deactivate"
       />
-
-      <Dialog open={stockDialog.open} onClose={closeStockDialog} maxWidth="sm" fullWidth>
-        <DialogTitle>{stockDialog.mode === 'STOCK_IN' ? 'Stock In' : 'Adjust Stock'}</DialogTitle>
-        <DialogContent sx={{ display: 'grid', gap: 2, pt: 2 }}>
-          <Typography variant="body2" color="text.secondary">{stockDialog.row?.partCode} - {stockDialog.row?.partName}</Typography>
-          <TextField required type="number" label={stockDialog.mode === 'STOCK_IN' ? 'Quantity to Add' : 'New Stock Quantity'} value={stockDialog.quantity} onChange={(event) => setStockDialog((current) => ({ ...current, quantity: event.target.value }))} />
-          <TextField type="number" label="Unit Cost" value={stockDialog.unitCost} onChange={(event) => setStockDialog((current) => ({ ...current, unitCost: event.target.value }))} />
-          <TextField multiline minRows={2} label="Remarks" value={stockDialog.remarks} onChange={(event) => setStockDialog((current) => ({ ...current, remarks: event.target.value }))} />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={closeStockDialog}>Cancel</Button>
-          <Button variant="contained" onClick={submitStockDialog}>Save</Button>
-        </DialogActions>
-      </Dialog>
-
       <Dialog open={historyDialog.open} onClose={() => setHistoryDialog(initialHistoryDialog)} maxWidth="lg" fullWidth>
         <DialogTitle>Stock Transaction History</DialogTitle>
         <DialogContent>
@@ -501,7 +446,18 @@ function SparePartListPage() {
         </DialogActions>
       </Dialog>
 
-      <Dialog open={labelDialog.open} onClose={() => setLabelDialog(initialLabelDialog)} maxWidth="xs" fullWidth>
+      <Dialog
+        open={labelDialog.open}
+        onClose={() => setLabelDialog(initialLabelDialog)}
+        maxWidth={false}
+        fullWidth={false}
+        PaperProps={{
+          sx: {
+            mx: 2,
+            width: 'min(360px, calc(100vw - 32px))',
+          },
+        }}
+      >
         <GlobalStyles
           styles={{
             '@media print': {

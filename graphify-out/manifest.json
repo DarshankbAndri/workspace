@@ -1355,8 +1355,8 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/equipment/pages/EquipmentListPage.jsx": {
-    "mtime": 1784612990.2001536,
-    "ast_hash": "9df3ca6f919786e1ea6f3911b6046e80",
+    "mtime": 1784713560.9871707,
+    "ast_hash": "ff3de1c4feab27c22c9bda37631f4a0b",
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/equipment/services/equipmentService.js": {
@@ -1460,8 +1460,8 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/spareParts/pages/SparePartListPage.jsx": {
-    "mtime": 1784699540.0386481,
-    "ast_hash": "9f54b38a66731df05a2eda6386f9e597",
+    "mtime": 1784714186.280085,
+    "ast_hash": "702de8a3ddb0d937a9f48857e4ed4869",
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/spareParts/pages/SparePartReorderPage.jsx": {
