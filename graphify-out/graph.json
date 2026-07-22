@@ -6550,7 +6550,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "repository_approvalrequestrepository",
-      "community": 15,
+      "community": 152,
       "norm_label": "approvalrequestrepository.java"
     },
     {
@@ -6560,7 +6560,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "repository_approvalrequestrepository_approvalrequestrepository",
-      "community": 15,
+      "community": 152,
       "norm_label": "approvalrequestrepository"
     },
     {
@@ -6570,7 +6570,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "repository_approvalrequestrepository_approvalrequestrepository_findbyapprovalstatusorderbyrequestedatdesc",
-      "community": 15,
+      "community": 152,
       "norm_label": ".findbyapprovalstatusorderbyrequestedatdesc()"
     },
     {
@@ -6580,7 +6580,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_approval_repository_approvalrequestrepository_java_string",
-      "community": 15,
+      "community": 152,
       "norm_label": "string"
     },
     {
@@ -6590,7 +6590,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_approval_repository_approvalrequestrepository_java_list",
-      "community": 15,
+      "community": 152,
       "norm_label": "list"
     },
     {
@@ -6600,7 +6600,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_approval_repository_approvalrequestrepository_java_approvalrequest",
-      "community": 15,
+      "community": 152,
       "norm_label": "approvalrequest"
     },
     {
@@ -6610,7 +6610,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "repository_approvalrequestrepository_approvalrequestrepository_findbysiteidinandapprovalstatusorderbyrequestedatdesc",
-      "community": 15,
+      "community": 152,
       "norm_label": ".findbysiteidinandapprovalstatusorderbyrequestedatdesc()"
     },
     {
@@ -6620,7 +6620,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_approval_repository_approvalrequestrepository_java_collection",
-      "community": 15,
+      "community": 152,
       "norm_label": "collection"
     },
     {
@@ -6630,7 +6630,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_approval_repository_approvalrequestrepository_java_long",
-      "community": 15,
+      "community": 152,
       "norm_label": "long"
     },
     {
@@ -6640,7 +6640,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "repository_approvalrequestrepository_approvalrequestrepository_findbymodulecodeandreferenceidorderbyrequestedatdesc",
-      "community": 15,
+      "community": 152,
       "norm_label": ".findbymodulecodeandreferenceidorderbyrequestedatdesc()"
     },
     {
@@ -6650,7 +6650,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "repository_approvalrequestrepository_approvalrequestrepository_findbysiteidinandmodulecodeandreferenceidorderbyrequestedatdesc",
-      "community": 15,
+      "community": 152,
       "norm_label": ".findbysiteidinandmodulecodeandreferenceidorderbyrequestedatdesc()"
     },
     {
@@ -6660,7 +6660,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "repository_approvalrequestrepository_approvalrequestrepository_countbyapprovalstatus",
-      "community": 15,
+      "community": 152,
       "norm_label": ".countbyapprovalstatus()"
     },
     {
@@ -6670,7 +6670,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "repository_approvalrequestrepository_approvalrequestrepository_countbymodulecodeandapprovalstatus",
-      "community": 15,
+      "community": 152,
       "norm_label": ".countbymodulecodeandapprovalstatus()"
     },
     {
@@ -6680,7 +6680,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "repository_approvalrequestrepository_approvalrequestrepository_countbyapprovalstatusandrequestedatbefore",
-      "community": 15,
+      "community": 152,
       "norm_label": ".countbyapprovalstatusandrequestedatbefore()"
     },
     {
@@ -6690,7 +6690,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_approval_repository_approvalrequestrepository_java_localdatetime",
-      "community": 15,
+      "community": 152,
       "norm_label": "localdatetime"
     },
     {
@@ -6700,7 +6700,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "repository_approvalrequestrepository_approvalrequestrepository_countbymodulecodeandapprovalstatusandrequestedatbefore",
-      "community": 15,
+      "community": 152,
       "norm_label": ".countbymodulecodeandapprovalstatusandrequestedatbefore()"
     },
     {
@@ -7160,7 +7160,7 @@
       "source_location": "L225",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_approval_service_approvalworkflowservice_java_searchdto",
-      "community": 48,
+      "community": 19,
       "norm_label": "searchdto"
     },
     {
@@ -7240,7 +7240,7 @@
       "source_location": "L284",
       "_origin": "ast",
       "id": "service_approvalworkflowservice_approvalworkflowservice_prepareapprovalhistorysearch",
-      "community": 48,
+      "community": 19,
       "norm_label": ".prepareapprovalhistorysearch()"
     },
     {
@@ -7250,7 +7250,7 @@
       "source_location": "L293",
       "_origin": "ast",
       "id": "service_approvalworkflowservice_approvalworkflowservice_normalizeapprovalhistorycriteria",
-      "community": 48,
+      "community": 19,
       "norm_label": ".normalizeapprovalhistorycriteria()"
     },
     {
@@ -7260,7 +7260,7 @@
       "source_location": "L293",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_approval_service_approvalworkflowservice_java_searchcriteriadto",
-      "community": 48,
+      "community": 19,
       "norm_label": "searchcriteriadto"
     },
     {
@@ -7290,7 +7290,7 @@
       "source_location": "L328",
       "_origin": "ast",
       "id": "service_approvalworkflowservice_approvalworkflowservice_applyapprovalhistorysiteaccess",
-      "community": 48,
+      "community": 19,
       "norm_label": ".applyapprovalhistorysiteaccess()"
     },
     {
@@ -7300,7 +7300,7 @@
       "source_location": "L346",
       "_origin": "ast",
       "id": "service_approvalworkflowservice_approvalworkflowservice_buildapprovalhistoryspecification",
-      "community": 48,
+      "community": 19,
       "norm_label": ".buildapprovalhistoryspecification()"
     },
     {
@@ -7410,7 +7410,7 @@
       "source_location": "L437",
       "_origin": "ast",
       "id": "expression",
-      "community": 19,
+      "community": 44,
       "norm_label": "expression"
     },
     {
@@ -7430,7 +7430,7 @@
       "source_location": "L442",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_approval_service_approvalworkflowservice_java_localdatetime",
-      "community": 19,
+      "community": 93,
       "norm_label": "localdatetime"
     },
     {
@@ -7470,7 +7470,7 @@
       "source_location": "L462",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_approval_service_approvalworkflowservice_java_user",
-      "community": 19,
+      "community": 109,
       "norm_label": "user"
     },
     {
@@ -7490,7 +7490,7 @@
       "source_location": "L485",
       "_origin": "ast",
       "id": "service_approvalworkflowservice_approvalworkflowservice_findcriterion",
-      "community": 48,
+      "community": 19,
       "norm_label": ".findcriterion()"
     },
     {
@@ -7690,7 +7690,7 @@
       "source_location": "L683",
       "_origin": "ast",
       "id": "service_approvalworkflowservice_approvalworkflowservice_username",
-      "community": 19,
+      "community": 109,
       "norm_label": ".username()"
     },
     {
@@ -8160,7 +8160,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "dao_maintenanceassignmentchecklistdao_maintenanceassignmentchecklistdao_saveitem",
-      "community": 83,
+      "community": 155,
       "norm_label": ".saveitem()"
     },
     {
@@ -8250,7 +8250,7 @@
       "source_location": "L58",
       "_origin": "ast",
       "id": "dao_maintenanceassignmentchecklistdao_maintenanceassignmentchecklistdao_deleteproofsbyitemid",
-      "community": 83,
+      "community": 214,
       "norm_label": ".deleteproofsbyitemid()"
     },
     {
@@ -8260,7 +8260,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dao_maintenanceassignmentdao",
-      "community": 152,
+      "community": 55,
       "norm_label": "maintenanceassignmentdao.java"
     },
     {
@@ -8270,7 +8270,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "dao_maintenanceassignmentdao_maintenanceassignmentdao",
-      "community": 152,
+      "community": 55,
       "norm_label": "maintenanceassignmentdao"
     },
     {
@@ -8280,7 +8280,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "dao_maintenanceassignmentdao_maintenanceassignmentdao_save",
-      "community": 152,
+      "community": 55,
       "norm_label": ".save()"
     },
     {
@@ -8290,7 +8290,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_dao_maintenanceassignmentdao_java_maintenanceassignment",
-      "community": 152,
+      "community": 55,
       "norm_label": "maintenanceassignment"
     },
     {
@@ -8300,7 +8300,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "dao_maintenanceassignmentdao_maintenanceassignmentdao_findbyid",
-      "community": 152,
+      "community": 55,
       "norm_label": ".findbyid()"
     },
     {
@@ -8310,7 +8310,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_dao_maintenanceassignmentdao_java_long",
-      "community": 152,
+      "community": 55,
       "norm_label": "long"
     },
     {
@@ -8320,7 +8320,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_dao_maintenanceassignmentdao_java_optional",
-      "community": 152,
+      "community": 55,
       "norm_label": "optional"
     },
     {
@@ -8330,7 +8330,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "dao_maintenanceassignmentdao_maintenanceassignmentdao_findall",
-      "community": 152,
+      "community": 55,
       "norm_label": ".findall()"
     },
     {
@@ -8340,7 +8340,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_dao_maintenanceassignmentdao_java_list",
-      "community": 152,
+      "community": 55,
       "norm_label": "list"
     },
     {
@@ -8350,7 +8350,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "dao_maintenanceassignmentdao_maintenanceassignmentdao_findbysiteid",
-      "community": 152,
+      "community": 55,
       "norm_label": ".findbysiteid()"
     },
     {
@@ -8360,7 +8360,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "dao_maintenanceassignmentdao_maintenanceassignmentdao_findbysiteids",
-      "community": 152,
+      "community": 55,
       "norm_label": ".findbysiteids()"
     },
     {
@@ -8370,7 +8370,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_dao_maintenanceassignmentdao_java_collection",
-      "community": 152,
+      "community": 55,
       "norm_label": "collection"
     },
     {
@@ -8380,7 +8380,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "dao_maintenanceassignmentdao_maintenanceassignmentdao_findbyrequestid",
-      "community": 152,
+      "community": 55,
       "norm_label": ".findbyrequestid()"
     },
     {
@@ -8390,7 +8390,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "dao_maintenanceassignmentdao_maintenanceassignmentdao_findlatestbyrequestid",
-      "community": 152,
+      "community": 55,
       "norm_label": ".findlatestbyrequestid()"
     },
     {
@@ -8400,7 +8400,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "dao_maintenanceassignmentdao_maintenanceassignmentdao_deletebyid",
-      "community": 152,
+      "community": 55,
       "norm_label": ".deletebyid()"
     },
     {
@@ -10850,7 +10850,7 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_service_maintenanceassignmentchecklistservice_java_maintenanceassignmentchecklistitemdto",
-      "community": 72,
+      "community": 155,
       "norm_label": "maintenanceassignmentchecklistitemdto"
     },
     {
@@ -10870,7 +10870,7 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "service_maintenanceassignmentchecklistservice_maintenanceassignmentchecklistservice_additem",
-      "community": 72,
+      "community": 155,
       "norm_label": ".additem()"
     },
     {
@@ -10880,7 +10880,7 @@
       "source_location": "L67",
       "_origin": "ast",
       "id": "service_maintenanceassignmentchecklistservice_maintenanceassignmentchecklistservice_updateitem",
-      "community": 72,
+      "community": 155,
       "norm_label": ".updateitem()"
     },
     {
@@ -10890,7 +10890,7 @@
       "source_location": "L83",
       "_origin": "ast",
       "id": "service_maintenanceassignmentchecklistservice_maintenanceassignmentchecklistservice_deleteitem",
-      "community": 83,
+      "community": 72,
       "norm_label": ".deleteitem()"
     },
     {
@@ -11020,7 +11020,7 @@
       "source_location": "L182",
       "_origin": "ast",
       "id": "service_maintenanceassignmentchecklistservice_maintenanceassignmentchecklistservice_apply",
-      "community": 72,
+      "community": 155,
       "norm_label": ".apply()"
     },
     {
@@ -11030,7 +11030,7 @@
       "source_location": "L182",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_service_maintenanceassignmentchecklistservice_java_maintenanceassignmentchecklistitem",
-      "community": 72,
+      "community": 155,
       "norm_label": "maintenanceassignmentchecklistitem"
     },
     {
@@ -11120,7 +11120,7 @@
       "source_location": "L256",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_service_maintenanceassignmentchecklistservice_java_string",
-      "community": 72,
+      "community": 155,
       "norm_label": "string"
     },
     {
@@ -11140,7 +11140,7 @@
       "source_location": "L272",
       "_origin": "ast",
       "id": "service_maintenanceassignmentchecklistservice_maintenanceassignmentchecklistservice_normalizestatus",
-      "community": 72,
+      "community": 155,
       "norm_label": ".normalizestatus()"
     },
     {
@@ -11150,7 +11150,7 @@
       "source_location": "L280",
       "_origin": "ast",
       "id": "service_maintenanceassignmentchecklistservice_maintenanceassignmentchecklistservice_defaultresponsetype",
-      "community": 72,
+      "community": 155,
       "norm_label": ".defaultresponsetype()"
     },
     {
@@ -11160,7 +11160,7 @@
       "source_location": "L288",
       "_origin": "ast",
       "id": "service_maintenanceassignmentchecklistservice_maintenanceassignmentchecklistservice_blanktonull",
-      "community": 72,
+      "community": 155,
       "norm_label": ".blanktonull()"
     },
     {
@@ -11170,7 +11170,7 @@
       "source_location": "L292",
       "_origin": "ast",
       "id": "service_maintenanceassignmentchecklistservice_maintenanceassignmentchecklistservice_todto",
-      "community": 72,
+      "community": 155,
       "norm_label": ".todto()"
     },
     {
@@ -11190,7 +11190,7 @@
       "source_location": "L328",
       "_origin": "ast",
       "id": "service_maintenanceassignmentchecklistservice_maintenanceassignmentchecklistservice_username",
-      "community": 72,
+      "community": 155,
       "norm_label": ".username()"
     },
     {
@@ -11200,7 +11200,7 @@
       "source_location": "L328",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_service_maintenanceassignmentchecklistservice_java_user",
-      "community": 72,
+      "community": 155,
       "norm_label": "user"
     },
     {
@@ -11450,7 +11450,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "service_maintenanceassignmentworklogservice",
-      "community": 79,
+      "community": 148,
       "norm_label": "maintenanceassignmentworklogservice.java"
     },
     {
@@ -11490,7 +11490,7 @@
       "source_location": "L50",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_service_maintenanceassignmentworklogservice_java_list",
-      "community": 79,
+      "community": 148,
       "norm_label": "list"
     },
     {
@@ -11510,7 +11510,7 @@
       "source_location": "L50",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_service_maintenanceassignmentworklogservice_java_transactional",
-      "community": 79,
+      "community": 148,
       "norm_label": "transactional"
     },
     {
@@ -11590,7 +11590,7 @@
       "source_location": "L102",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_service_maintenanceassignmentworklogservice_java_maintenanceassignmentworklogattachment",
-      "community": 79,
+      "community": 148,
       "norm_label": "maintenanceassignmentworklogattachment"
     },
     {
@@ -11600,7 +11600,7 @@
       "source_location": "L113",
       "_origin": "ast",
       "id": "service_maintenanceassignmentworklogservice_maintenanceassignmentworklogservice_getattachmentresource",
-      "community": 79,
+      "community": 148,
       "norm_label": ".getattachmentresource()"
     },
     {
@@ -11610,7 +11610,7 @@
       "source_location": "L113",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_service_maintenanceassignmentworklogservice_java_resource",
-      "community": 79,
+      "community": 148,
       "norm_label": "resource"
     },
     {
@@ -11700,7 +11700,7 @@
       "source_location": "L187",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_service_maintenanceassignmentworklogservice_java_employeesiteassignment",
-      "community": 79,
+      "community": 148,
       "norm_label": "employeesiteassignment"
     },
     {
@@ -11880,7 +11880,7 @@
       "source_location": "L325",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_service_maintenanceassignmentworklogservice_java_user",
-      "community": 79,
+      "community": 148,
       "norm_label": "user"
     },
     {
@@ -13020,7 +13020,7 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "resourcenotfoundexception",
-      "community": 184,
+      "community": 106,
       "norm_label": "resourcenotfoundexception"
     },
     {
@@ -13580,7 +13580,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "observability_observabilitymetrics",
-      "community": 15,
+      "community": 116,
       "norm_label": "observabilitymetrics.java"
     },
     {
@@ -13590,7 +13590,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "observability_observabilitymetrics_observabilitymetrics",
-      "community": 15,
+      "community": 116,
       "norm_label": "observabilitymetrics"
     },
     {
@@ -13600,7 +13600,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "observability_observabilitymetrics_observabilitymetrics_observabilitymetrics",
-      "community": 15,
+      "community": 116,
       "norm_label": ".observabilitymetrics()"
     },
     {
@@ -13610,7 +13610,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "meterregistry",
-      "community": 15,
+      "community": 116,
       "norm_label": "meterregistry"
     },
     {
@@ -13620,7 +13620,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_common_observability_observabilitymetrics_java_approvalrequestrepository",
-      "community": 15,
+      "community": 116,
       "norm_label": "approvalrequestrepository"
     },
     {
@@ -13630,7 +13630,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_common_observability_observabilitymetrics_java_sparepartsitestockrepository",
-      "community": 15,
+      "community": 116,
       "norm_label": "sparepartsitestockrepository"
     },
     {
@@ -13640,7 +13640,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "observability_observabilitymetrics_observabilitymetrics_registergauges",
-      "community": 15,
+      "community": 116,
       "norm_label": ".registergauges()"
     },
     {
@@ -13650,7 +13650,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_common_observability_observabilitymetrics_java_postconstruct",
-      "community": 15,
+      "community": 116,
       "norm_label": "postconstruct"
     },
     {
@@ -13660,7 +13660,7 @@
       "source_location": "L72",
       "_origin": "ast",
       "id": "observability_observabilitymetrics_observabilitymetrics_recordapirequest",
-      "community": 15,
+      "community": 116,
       "norm_label": ".recordapirequest()"
     },
     {
@@ -13670,7 +13670,7 @@
       "source_location": "L72",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_common_observability_observabilitymetrics_java_string",
-      "community": 15,
+      "community": 116,
       "norm_label": "string"
     },
     {
@@ -13680,7 +13680,7 @@
       "source_location": "L91",
       "_origin": "ast",
       "id": "observability_observabilitymetrics_observabilitymetrics_recordloginfailure",
-      "community": 15,
+      "community": 116,
       "norm_label": ".recordloginfailure()"
     },
     {
@@ -13690,7 +13690,7 @@
       "source_location": "L99",
       "_origin": "ast",
       "id": "observability_observabilitymetrics_observabilitymetrics_recordnotificationjob",
-      "community": 15,
+      "community": 116,
       "norm_label": ".recordnotificationjob()"
     },
     {
@@ -13700,7 +13700,7 @@
       "source_location": "L113",
       "_origin": "ast",
       "id": "observability_observabilitymetrics_observabilitymetrics_recordpmgeneration",
-      "community": 15,
+      "community": 116,
       "norm_label": ".recordpmgeneration()"
     },
     {
@@ -13720,7 +13720,7 @@
       "source_location": "L135",
       "_origin": "ast",
       "id": "observability_observabilitymetrics_observabilitymetrics_recordstockoutalert",
-      "community": 15,
+      "community": 116,
       "norm_label": ".recordstockoutalert()"
     },
     {
@@ -13730,7 +13730,7 @@
       "source_location": "L142",
       "_origin": "ast",
       "id": "observability_observabilitymetrics_observabilitymetrics_countpendingapprovals",
-      "community": 15,
+      "community": 116,
       "norm_label": ".countpendingapprovals()"
     },
     {
@@ -13740,7 +13740,7 @@
       "source_location": "L149",
       "_origin": "ast",
       "id": "observability_observabilitymetrics_observabilitymetrics_countoverdueapprovals",
-      "community": 15,
+      "community": 116,
       "norm_label": ".countoverdueapprovals()"
     },
     {
@@ -13750,7 +13750,7 @@
       "source_location": "L157",
       "_origin": "ast",
       "id": "observability_observabilitymetrics_observabilitymetrics_countsafely",
-      "community": 15,
+      "community": 116,
       "norm_label": ".countsafely()"
     },
     {
@@ -13760,7 +13760,7 @@
       "source_location": "L157",
       "_origin": "ast",
       "id": "supplier",
-      "community": 15,
+      "community": 116,
       "norm_label": "supplier"
     },
     {
@@ -13770,7 +13770,7 @@
       "source_location": "L157",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_common_observability_observabilitymetrics_java_long",
-      "community": 15,
+      "community": 116,
       "norm_label": "long"
     },
     {
@@ -13780,7 +13780,7 @@
       "source_location": "L165",
       "_origin": "ast",
       "id": "observability_observabilitymetrics_observabilitymetrics_safetag",
-      "community": 15,
+      "community": 116,
       "norm_label": ".safetag()"
     },
     {
@@ -13810,7 +13810,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "onceperrequestfilter",
-      "community": 499,
+      "community": 103,
       "norm_label": "onceperrequestfilter"
     },
     {
@@ -13820,7 +13820,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "observability_requestloggingfilter_requestloggingfilter_requestloggingfilter",
-      "community": 191,
+      "community": 120,
       "norm_label": ".requestloggingfilter()"
     },
     {
@@ -13830,7 +13830,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "observabilitymetrics",
-      "community": 191,
+      "community": 120,
       "norm_label": "observabilitymetrics"
     },
     {
@@ -13840,7 +13840,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "userrepository",
-      "community": 191,
+      "community": 120,
       "norm_label": "userrepository"
     },
     {
@@ -15030,7 +15030,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "dto_pagepropertiesdto_pagepropertiesdto_getsortby",
-      "community": 121,
+      "community": 48,
       "norm_label": ".getsortby()"
     },
     {
@@ -15110,7 +15110,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dto_searchcriteriadto",
-      "community": 48,
+      "community": 19,
       "norm_label": "searchcriteriadto.java"
     },
     {
@@ -15120,7 +15120,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "dto_searchcriteriadto_searchcriteriadto",
-      "community": 48,
+      "community": 19,
       "norm_label": "searchcriteriadto"
     },
     {
@@ -15130,7 +15130,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "dto_searchcriteriadto_searchcriteriadto_getfilterkey",
-      "community": 48,
+      "community": 19,
       "norm_label": ".getfilterkey()"
     },
     {
@@ -15140,7 +15140,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_common_search_dto_searchcriteriadto_java_string",
-      "community": 48,
+      "community": 19,
       "norm_label": "string"
     },
     {
@@ -15150,7 +15150,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "dto_searchcriteriadto_searchcriteriadto_setfilterkey",
-      "community": 48,
+      "community": 19,
       "norm_label": ".setfilterkey()"
     },
     {
@@ -15160,7 +15160,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "dto_searchcriteriadto_searchcriteriadto_getdatatype",
-      "community": 48,
+      "community": 19,
       "norm_label": ".getdatatype()"
     },
     {
@@ -15170,7 +15170,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "dto_searchcriteriadto_searchcriteriadto_setdatatype",
-      "community": 48,
+      "community": 19,
       "norm_label": ".setdatatype()"
     },
     {
@@ -15180,7 +15180,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "dto_searchcriteriadto_searchcriteriadto_getvalue",
-      "community": 48,
+      "community": 19,
       "norm_label": ".getvalue()"
     },
     {
@@ -15190,7 +15190,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_common_search_dto_searchcriteriadto_java_object",
-      "community": 48,
+      "community": 19,
       "norm_label": "object"
     },
     {
@@ -15200,7 +15200,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "dto_searchcriteriadto_searchcriteriadto_setvalue",
-      "community": 48,
+      "community": 19,
       "norm_label": ".setvalue()"
     },
     {
@@ -15210,7 +15210,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "dto_searchcriteriadto_searchcriteriadto_getoperation",
-      "community": 48,
+      "community": 19,
       "norm_label": ".getoperation()"
     },
     {
@@ -15220,7 +15220,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "dto_searchcriteriadto_searchcriteriadto_setoperation",
-      "community": 48,
+      "community": 19,
       "norm_label": ".setoperation()"
     },
     {
@@ -15520,7 +15520,7 @@
       "source_location": "L177",
       "_origin": "ast",
       "id": "service_listsearchservice_listsearchservice_normalizecriteria",
-      "community": 48,
+      "community": 73,
       "norm_label": ".normalizecriteria()"
     },
     {
@@ -15550,7 +15550,7 @@
       "source_location": "L199",
       "_origin": "ast",
       "id": "service_listsearchservice_listsearchservice_normalizepagination",
-      "community": 121,
+      "community": 73,
       "norm_label": ".normalizepagination()"
     },
     {
@@ -15980,7 +15980,7 @@
       "source_location": "L169",
       "_origin": "ast",
       "id": "field",
-      "community": 73,
+      "community": 44,
       "norm_label": "field"
     },
     {
@@ -17090,7 +17090,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "repository_permissionapimappingrepository",
-      "community": 211,
+      "community": 178,
       "norm_label": "permissionapimappingrepository.java"
     },
     {
@@ -17100,7 +17100,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "repository_permissionapimappingrepository_permissionapimappingrepository",
-      "community": 211,
+      "community": 178,
       "norm_label": "permissionapimappingrepository"
     },
     {
@@ -17110,7 +17110,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "repository_permissionapimappingrepository_permissionapimappingrepository_findbypermissioncodeandapipathandhttpmethod",
-      "community": 211,
+      "community": 178,
       "norm_label": ".findbypermissioncodeandapipathandhttpmethod()"
     },
     {
@@ -17120,7 +17120,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_common_security_repository_permissionapimappingrepository_java_string",
-      "community": 211,
+      "community": 178,
       "norm_label": "string"
     },
     {
@@ -17130,7 +17130,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_common_security_repository_permissionapimappingrepository_java_optional",
-      "community": 211,
+      "community": 178,
       "norm_label": "optional"
     },
     {
@@ -17140,7 +17140,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "permissionapimapping",
-      "community": 211,
+      "community": 178,
       "norm_label": "permissionapimapping"
     },
     {
@@ -17150,7 +17150,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "repository_permissionapimappingrepository_permissionapimappingrepository_countuserpermissionsforapipath",
-      "community": 211,
+      "community": 178,
       "norm_label": ".countuserpermissionsforapipath()"
     },
     {
@@ -17160,7 +17160,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_common_security_repository_permissionapimappingrepository_java_long",
-      "community": 211,
+      "community": 178,
       "norm_label": "long"
     },
     {
@@ -17170,7 +17170,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_common_security_repository_permissionapimappingrepository_java_query",
-      "community": 211,
+      "community": 178,
       "norm_label": "query"
     },
     {
@@ -17180,7 +17180,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "repository_permissionapimappingrepositorycustom",
-      "community": 211,
+      "community": 178,
       "norm_label": "permissionapimappingrepositorycustom.java"
     },
     {
@@ -17190,7 +17190,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "repository_permissionapimappingrepositorycustom_permissionapimappingrepositorycustom",
-      "community": 211,
+      "community": 178,
       "norm_label": "permissionapimappingrepositorycustom"
     },
     {
@@ -17200,7 +17200,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "repository_permissionapimappingrepositorycustom_permissionapimappingrepositorycustom_haspermission",
-      "community": 211,
+      "community": 178,
       "norm_label": ".haspermission()"
     },
     {
@@ -17210,7 +17210,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_common_security_repository_permissionapimappingrepositorycustom_java_string",
-      "community": 211,
+      "community": 178,
       "norm_label": "string"
     },
     {
@@ -17220,7 +17220,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "repository_permissionapimappingrepositorycustom_permissionapimappingrepositorycustom_hasactivemapping",
-      "community": 211,
+      "community": 178,
       "norm_label": ".hasactivemapping()"
     },
     {
@@ -17230,7 +17230,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "repository_permissionapimappingrepositoryimpl",
-      "community": 211,
+      "community": 178,
       "norm_label": "permissionapimappingrepositoryimpl.java"
     },
     {
@@ -17480,7 +17480,7 @@
       "source_location": "L154",
       "_origin": "ast",
       "id": "service_accesscontrolservice_accesscontrolservice_validatesiteaccess",
-      "community": 25,
+      "community": 87,
       "norm_label": ".validatesiteaccess()"
     },
     {
@@ -17690,7 +17690,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "service_apipermissionmappingcsvloader",
-      "community": 178,
+      "community": 125,
       "norm_label": "apipermissionmappingcsvloader.java"
     },
     {
@@ -17700,7 +17700,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "service_apipermissionmappingcsvloader_apipermissionmappingcsvloader",
-      "community": 178,
+      "community": 125,
       "norm_label": "apipermissionmappingcsvloader"
     },
     {
@@ -17710,7 +17710,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "applicationrunner",
-      "community": 178,
+      "community": 125,
       "norm_label": "applicationrunner"
     },
     {
@@ -17720,7 +17720,7 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "service_apipermissionmappingcsvloader_apipermissionmappingcsvloader_run",
-      "community": 178,
+      "community": 125,
       "norm_label": ".run()"
     },
     {
@@ -17730,7 +17730,7 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "applicationarguments",
-      "community": 178,
+      "community": 125,
       "norm_label": "applicationarguments"
     },
     {
@@ -17740,7 +17740,7 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_common_security_service_apipermissionmappingcsvloader_java_override",
-      "community": 178,
+      "community": 125,
       "norm_label": "override"
     },
     {
@@ -17750,7 +17750,7 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_common_security_service_apipermissionmappingcsvloader_java_transactional",
-      "community": 178,
+      "community": 125,
       "norm_label": "transactional"
     },
     {
@@ -17760,7 +17760,7 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_common_security_service_apipermissionmappingcsvloader_java_cacheevict",
-      "community": 178,
+      "community": 125,
       "norm_label": "cacheevict"
     },
     {
@@ -17770,7 +17770,7 @@
       "source_location": "L92",
       "_origin": "ast",
       "id": "service_apipermissionmappingcsvloader_apipermissionmappingcsvloader_parseline",
-      "community": 178,
+      "community": 125,
       "norm_label": ".parseline()"
     },
     {
@@ -17780,7 +17780,7 @@
       "source_location": "L92",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_common_security_service_apipermissionmappingcsvloader_java_string",
-      "community": 178,
+      "community": 125,
       "norm_label": "string"
     },
     {
@@ -17790,7 +17790,7 @@
       "source_location": "L96",
       "_origin": "ast",
       "id": "service_apipermissionmappingcsvloader_apipermissionmappingcsvloader_normalizepath",
-      "community": 178,
+      "community": 125,
       "norm_label": ".normalizepath()"
     },
     {
@@ -17800,7 +17800,7 @@
       "source_location": "L101",
       "_origin": "ast",
       "id": "service_apipermissionmappingcsvloader_apipermissionmappingcsvloader_isblank",
-      "community": 178,
+      "community": 125,
       "norm_label": ".isblank()"
     },
     {
@@ -17810,7 +17810,7 @@
       "source_location": "L105",
       "_origin": "ast",
       "id": "service_apipermissionmappingcsvloader_apipermissionmappingcsvloader_mappingkey",
-      "community": 178,
+      "community": 125,
       "norm_label": ".mappingkey()"
     },
     {
@@ -24930,7 +24930,7 @@
       "source_location": "L80",
       "_origin": "ast",
       "id": "dto_employeedto_employeedto_getassignedsitecount",
-      "community": 155,
+      "community": 21,
       "norm_label": ".getassignedsitecount()"
     },
     {
@@ -24940,7 +24940,7 @@
       "source_location": "L80",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_employee_dto_employeedto_java_integer",
-      "community": 155,
+      "community": 21,
       "norm_label": "integer"
     },
     {
@@ -24950,7 +24950,7 @@
       "source_location": "L81",
       "_origin": "ast",
       "id": "dto_employeedto_employeedto_setassignedsitecount",
-      "community": 155,
+      "community": 21,
       "norm_label": ".setassignedsitecount()"
     },
     {
@@ -25210,7 +25210,7 @@
       "source_location": "L102",
       "_origin": "ast",
       "id": "dto_employeedto_employeedto_getroleassignments",
-      "community": 265,
+      "community": 60,
       "norm_label": ".getroleassignments()"
     },
     {
@@ -25500,7 +25500,7 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "dto_employeesiteassignmentdto_employeesiteassignmentdto_setassignmentid",
-      "community": 116,
+      "community": 118,
       "norm_label": ".setassignmentid()"
     },
     {
@@ -26440,7 +26440,7 @@
       "source_location": "L65",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_employee_entity_employeesiteassignment_java_employee",
-      "community": 42,
+      "community": 106,
       "norm_label": "employee"
     },
     {
@@ -26450,7 +26450,7 @@
       "source_location": "L66",
       "_origin": "ast",
       "id": "entity_employeesiteassignment_employeesiteassignment_setemployee",
-      "community": 42,
+      "community": 106,
       "norm_label": ".setemployee()"
     },
     {
@@ -30620,7 +30620,7 @@
       "source_location": "L343",
       "_origin": "ast",
       "id": "service_equipmentservice_equipmentservice_applydefaultsort",
-      "community": 121,
+      "community": 48,
       "norm_label": ".applydefaultsort()"
     },
     {
@@ -30660,7 +30660,7 @@
       "source_location": "L376",
       "_origin": "ast",
       "id": "service_equipmentservice_equipmentservice_isemptyvalue",
-      "community": 24,
+      "community": 193,
       "norm_label": ".isemptyvalue()"
     },
     {
@@ -30670,7 +30670,7 @@
       "source_location": "L376",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_service_equipmentservice_java_object",
-      "community": 24,
+      "community": 193,
       "norm_label": "object"
     },
     {
@@ -39200,7 +39200,7 @@
       "source_location": "L191",
       "_origin": "ast",
       "id": "service_preventivemaintenancescheduleservice_preventivemaintenancescheduleservice_generatedueworkorders",
-      "community": 193,
+      "community": 69,
       "norm_label": ".generatedueworkorders()"
     },
     {
@@ -39210,7 +39210,7 @@
       "source_location": "L210",
       "_origin": "ast",
       "id": "service_preventivemaintenancescheduleservice_preventivemaintenancescheduleservice_generatedueworkordersdaily",
-      "community": 193,
+      "community": 69,
       "norm_label": ".generatedueworkordersdaily()"
     },
     {
@@ -39230,7 +39230,7 @@
       "source_location": "L231",
       "_origin": "ast",
       "id": "service_preventivemaintenancescheduleservice_preventivemaintenancescheduleservice_generateworkorder",
-      "community": 193,
+      "community": 69,
       "norm_label": ".generateworkorder()"
     },
     {
@@ -39260,7 +39260,7 @@
       "source_location": "L249",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_preventivemaintenance_service_preventivemaintenancescheduleservice_java_preventivemaintenanceschedule",
-      "community": 193,
+      "community": 69,
       "norm_label": "preventivemaintenanceschedule"
     },
     {
@@ -39280,7 +39280,7 @@
       "source_location": "L286",
       "_origin": "ast",
       "id": "service_preventivemaintenancescheduleservice_preventivemaintenancescheduleservice_generateworkordernow",
-      "community": 193,
+      "community": 69,
       "norm_label": ".generateworkordernow()"
     },
     {
@@ -39330,7 +39330,7 @@
       "source_location": "L407",
       "_origin": "ast",
       "id": "service_preventivemaintenancescheduleservice_preventivemaintenancescheduleservice_ispastenddate",
-      "community": 193,
+      "community": 69,
       "norm_label": ".ispastenddate()"
     },
     {
@@ -39340,7 +39340,7 @@
       "source_location": "L413",
       "_origin": "ast",
       "id": "service_preventivemaintenancescheduleservice_preventivemaintenancescheduleservice_completeschedule",
-      "community": 193,
+      "community": 69,
       "norm_label": ".completeschedule()"
     },
     {
@@ -39390,7 +39390,7 @@
       "source_location": "L440",
       "_origin": "ast",
       "id": "service_preventivemaintenancescheduleservice_preventivemaintenancescheduleservice_nextdate",
-      "community": 184,
+      "community": 69,
       "norm_label": ".nextdate()"
     },
     {
@@ -39400,7 +39400,7 @@
       "source_location": "L451",
       "_origin": "ast",
       "id": "service_preventivemaintenancescheduleservice_preventivemaintenancescheduleservice_resolveassignedto",
-      "community": 193,
+      "community": 69,
       "norm_label": ".resolveassignedto()"
     },
     {
@@ -39410,7 +39410,7 @@
       "source_location": "L461",
       "_origin": "ast",
       "id": "service_preventivemaintenancescheduleservice_preventivemaintenancescheduleservice_notifyvendor",
-      "community": 193,
+      "community": 69,
       "norm_label": ".notifyvendor()"
     },
     {
@@ -39440,7 +39440,7 @@
       "source_location": "L478",
       "_origin": "ast",
       "id": "service_preventivemaintenancescheduleservice_preventivemaintenancescheduleservice_generaterequestnumber",
-      "community": 193,
+      "community": 69,
       "norm_label": ".generaterequestnumber()"
     },
     {
@@ -43840,7 +43840,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "service_maintenancespareusageservice",
-      "community": 116,
+      "community": 20,
       "norm_label": "maintenancespareusageservice.java"
     },
     {
@@ -43860,7 +43860,7 @@
       "source_location": "L64",
       "_origin": "ast",
       "id": "service_maintenancespareusageservice_maintenancespareusageservice_getall",
-      "community": 116,
+      "community": 20,
       "norm_label": ".getall()"
     },
     {
@@ -43880,7 +43880,7 @@
       "source_location": "L64",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_spareparts_service_maintenancespareusageservice_java_list",
-      "community": 116,
+      "community": 20,
       "norm_label": "list"
     },
     {
@@ -43900,7 +43900,7 @@
       "source_location": "L64",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_spareparts_service_maintenancespareusageservice_java_transactional",
-      "community": 116,
+      "community": 20,
       "norm_label": "transactional"
     },
     {
@@ -44050,7 +44050,7 @@
       "source_location": "L226",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_spareparts_service_maintenancespareusageservice_java_sparepartreorderdto",
-      "community": 116,
+      "community": 87,
       "norm_label": "sparepartreorderdto"
     },
     {
@@ -44180,7 +44180,7 @@
       "source_location": "L383",
       "_origin": "ast",
       "id": "service_maintenancespareusageservice_maintenancespareusageservice_canaccess",
-      "community": 116,
+      "community": 20,
       "norm_label": ".canaccess()"
     },
     {
@@ -44190,7 +44190,7 @@
       "source_location": "L383",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_spareparts_service_maintenancespareusageservice_java_maintenanceassignment",
-      "community": 116,
+      "community": 20,
       "norm_label": "maintenanceassignment"
     },
     {
@@ -44210,7 +44210,7 @@
       "source_location": "L392",
       "_origin": "ast",
       "id": "service_maintenancespareusageservice_maintenancespareusageservice_validatesamesite",
-      "community": 116,
+      "community": 20,
       "norm_label": ".validatesamesite()"
     },
     {
@@ -44220,7 +44220,7 @@
       "source_location": "L392",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_spareparts_service_maintenancespareusageservice_java_sparepartsitestock",
-      "community": 116,
+      "community": 20,
       "norm_label": "sparepartsitestock"
     },
     {
@@ -44360,7 +44360,7 @@
       "source_location": "L495",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_spareparts_service_maintenancespareusageservice_java_approvalrequestdto",
-      "community": 116,
+      "community": 20,
       "norm_label": "approvalrequestdto"
     },
     {
@@ -44400,7 +44400,7 @@
       "source_location": "L529",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_spareparts_service_maintenancespareusageservice_java_set",
-      "community": 116,
+      "community": 20,
       "norm_label": "set"
     },
     {
@@ -44470,7 +44470,7 @@
       "source_location": "L610",
       "_origin": "ast",
       "id": "service_maintenancespareusageservice_maintenancespareusageservice_toreorderdto",
-      "community": 116,
+      "community": 87,
       "norm_label": ".toreorderdto()"
     },
     {
@@ -44480,7 +44480,7 @@
       "source_location": "L610",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_spareparts_service_maintenancespareusageservice_java_sparepartreorderrequest",
-      "community": 116,
+      "community": 87,
       "norm_label": "sparepartreorderrequest"
     },
     {
@@ -44710,7 +44710,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "service_sparepartservice",
-      "community": 125,
+      "community": 25,
       "norm_label": "sparepartservice.java"
     },
     {
@@ -44790,7 +44790,7 @@
       "source_location": "L122",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_spareparts_service_sparepartservice_java_transactional",
-      "community": 125,
+      "community": 25,
       "norm_label": "transactional"
     },
     {
@@ -44800,7 +44800,7 @@
       "source_location": "L129",
       "_origin": "ast",
       "id": "service_sparepartservice_sparepartservice_search",
-      "community": 125,
+      "community": 25,
       "norm_label": ".search()"
     },
     {
@@ -44810,7 +44810,7 @@
       "source_location": "L129",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_spareparts_service_sparepartservice_java_searchdto",
-      "community": 125,
+      "community": 25,
       "norm_label": "searchdto"
     },
     {
@@ -44820,7 +44820,7 @@
       "source_location": "L129",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_spareparts_service_sparepartservice_java_pageproperties",
-      "community": 125,
+      "community": 25,
       "norm_label": "pageproperties"
     },
     {
@@ -44860,7 +44860,7 @@
       "source_location": "L143",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_spareparts_service_sparepartservice_java_spareparttransactiondto",
-      "community": 125,
+      "community": 25,
       "norm_label": "spareparttransactiondto"
     },
     {
@@ -44890,7 +44890,7 @@
       "source_location": "L179",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_spareparts_service_sparepartservice_java_stocktransferdto",
-      "community": 125,
+      "community": 25,
       "norm_label": "stocktransferdto"
     },
     {
@@ -45060,7 +45060,7 @@
       "source_location": "L355",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_spareparts_service_sparepartservice_java_sparepart",
-      "community": 125,
+      "community": 25,
       "norm_label": "sparepart"
     },
     {
@@ -45160,7 +45160,7 @@
       "source_location": "L490",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_spareparts_service_sparepartservice_java_spareparttransaction",
-      "community": 125,
+      "community": 25,
       "norm_label": "spareparttransaction"
     },
     {
@@ -45250,7 +45250,7 @@
       "source_location": "L586",
       "_origin": "ast",
       "id": "service_sparepartservice_sparepartservice_totransactiondto",
-      "community": 125,
+      "community": 25,
       "norm_label": ".totransactiondto()"
     },
     {
@@ -45260,7 +45260,7 @@
       "source_location": "L614",
       "_origin": "ast",
       "id": "service_sparepartservice_sparepartservice_enrichtransactioncontext",
-      "community": 125,
+      "community": 25,
       "norm_label": ".enrichtransactioncontext()"
     },
     {
@@ -45270,7 +45270,7 @@
       "source_location": "L634",
       "_origin": "ast",
       "id": "service_sparepartservice_sparepartservice_enrichassignmentcontext",
-      "community": 125,
+      "community": 25,
       "norm_label": ".enrichassignmentcontext()"
     },
     {
@@ -45280,7 +45280,7 @@
       "source_location": "L648",
       "_origin": "ast",
       "id": "service_sparepartservice_sparepartservice_enrichtransfercontext",
-      "community": 125,
+      "community": 25,
       "norm_label": ".enrichtransfercontext()"
     },
     {
@@ -45290,7 +45290,7 @@
       "source_location": "L665",
       "_origin": "ast",
       "id": "service_sparepartservice_sparepartservice_enrichpurchaserequestcontext",
-      "community": 125,
+      "community": 25,
       "norm_label": ".enrichpurchaserequestcontext()"
     },
     {
@@ -45300,7 +45300,7 @@
       "source_location": "L678",
       "_origin": "ast",
       "id": "service_sparepartservice_sparepartservice_applymaintenancerequestcontext",
-      "community": 125,
+      "community": 25,
       "norm_label": ".applymaintenancerequestcontext()"
     },
     {
@@ -45310,7 +45310,7 @@
       "source_location": "L678",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_spareparts_service_sparepartservice_java_maintenancerequest",
-      "community": 125,
+      "community": 25,
       "norm_label": "maintenancerequest"
     },
     {
@@ -45320,7 +45320,7 @@
       "source_location": "L691",
       "_origin": "ast",
       "id": "service_sparepartservice_sparepartservice_applysite",
-      "community": 125,
+      "community": 25,
       "norm_label": ".applysite()"
     },
     {
@@ -45330,7 +45330,7 @@
       "source_location": "L691",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_spareparts_service_sparepartservice_java_site",
-      "community": 125,
+      "community": 25,
       "norm_label": "site"
     },
     {
@@ -45340,7 +45340,7 @@
       "source_location": "L704",
       "_origin": "ast",
       "id": "service_sparepartservice_sparepartservice_buildbusinessdescription",
-      "community": 125,
+      "community": 25,
       "norm_label": ".buildbusinessdescription()"
     },
     {
@@ -45350,7 +45350,7 @@
       "source_location": "L725",
       "_origin": "ast",
       "id": "service_sparepartservice_sparepartservice_nulltodash",
-      "community": 125,
+      "community": 25,
       "norm_label": ".nulltodash()"
     },
     {
@@ -52090,7 +52090,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_employeeformpage",
-      "community": 298,
+      "community": 17,
       "norm_label": "employeeformpage.jsx"
     },
     {
@@ -52100,7 +52100,7 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "pages_employeeformpage_status_options",
-      "community": 298,
+      "community": 17,
       "norm_label": "status_options"
     },
     {
@@ -52110,7 +52110,7 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "pages_employeeformpage_gender_options",
-      "community": 298,
+      "community": 17,
       "norm_label": "gender_options"
     },
     {
@@ -52120,7 +52120,7 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "pages_employeeformpage_auth_role_options",
-      "community": 298,
+      "community": 17,
       "norm_label": "auth_role_options"
     },
     {
@@ -52130,7 +52130,7 @@
       "source_location": "L52",
       "_origin": "ast",
       "id": "pages_employeeformpage_emptyassignment",
-      "community": 298,
+      "community": 17,
       "norm_label": "emptyassignment"
     },
     {
@@ -52140,7 +52140,7 @@
       "source_location": "L61",
       "_origin": "ast",
       "id": "pages_employeeformpage_emptyroleassignment",
-      "community": 298,
+      "community": 17,
       "norm_label": "emptyroleassignment"
     },
     {
@@ -52150,7 +52150,7 @@
       "source_location": "L67",
       "_origin": "ast",
       "id": "pages_employeeformpage_initialform",
-      "community": 298,
+      "community": 17,
       "norm_label": "initialform"
     },
     {
@@ -52160,7 +52160,7 @@
       "source_location": "L90",
       "_origin": "ast",
       "id": "pages_employeeformpage_employeeformpage",
-      "community": 298,
+      "community": 17,
       "norm_label": "employeeformpage()"
     },
     {
@@ -52170,7 +52170,7 @@
       "source_location": "L461",
       "_origin": "ast",
       "id": "pages_employeeformpage_normalizeassignments",
-      "community": 298,
+      "community": 17,
       "norm_label": "normalizeassignments()"
     },
     {
@@ -52180,7 +52180,7 @@
       "source_location": "L476",
       "_origin": "ast",
       "id": "pages_employeeformpage_normalizeroleassignments",
-      "community": 298,
+      "community": 17,
       "norm_label": "normalizeroleassignments()"
     },
     {
@@ -52190,7 +52190,7 @@
       "source_location": "L486",
       "_origin": "ast",
       "id": "pages_employeeformpage_selectedsites",
-      "community": 298,
+      "community": 17,
       "norm_label": "selectedsites()"
     },
     {
@@ -52220,7 +52220,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "services_employeeservice",
-      "community": 298,
+      "community": 17,
       "norm_label": "employeeservice.js"
     },
     {
@@ -52230,7 +52230,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "services_employeeservice_getemployees",
-      "community": 298,
+      "community": 17,
       "norm_label": "getemployees()"
     },
     {
@@ -52250,7 +52250,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "services_employeeservice_getemployeebyid",
-      "community": 298,
+      "community": 17,
       "norm_label": "getemployeebyid()"
     },
     {
@@ -52260,7 +52260,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "services_employeeservice_createemployee",
-      "community": 298,
+      "community": 17,
       "norm_label": "createemployee()"
     },
     {
@@ -52270,7 +52270,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "services_employeeservice_updateemployee",
-      "community": 298,
+      "community": 17,
       "norm_label": "updateemployee()"
     },
     {
@@ -54680,7 +54680,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_siteformpage",
-      "community": 2,
+      "community": 3,
       "norm_label": "siteformpage.jsx"
     },
     {
@@ -54690,7 +54690,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "pages_siteformpage_initialform",
-      "community": 2,
+      "community": 3,
       "norm_label": "initialform"
     },
     {
@@ -54700,7 +54700,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "pages_siteformpage_status_options",
-      "community": 2,
+      "community": 3,
       "norm_label": "status_options"
     },
     {
@@ -54710,7 +54710,7 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "pages_siteformpage_siteformpage",
-      "community": 2,
+      "community": 3,
       "norm_label": "siteformpage()"
     },
     {
@@ -54740,7 +54740,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "services_siteservice",
-      "community": 2,
+      "community": 3,
       "norm_label": "siteservice.js"
     },
     {
@@ -54770,7 +54770,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "services_siteservice_getsitebyid",
-      "community": 2,
+      "community": 3,
       "norm_label": "getsitebyid()"
     },
     {
@@ -54780,7 +54780,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "services_siteservice_createsite",
-      "community": 2,
+      "community": 3,
       "norm_label": "createsite()"
     },
     {
@@ -54790,7 +54790,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "services_siteservice_updatesite",
-      "community": 2,
+      "community": 3,
       "norm_label": "updatesite()"
     },
     {
@@ -54810,7 +54810,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_sparepartformpage",
-      "community": 3,
+      "community": 9,
       "norm_label": "sparepartformpage.jsx"
     },
     {
@@ -54820,7 +54820,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "pages_sparepartformpage_initialform",
-      "community": 3,
+      "community": 9,
       "norm_label": "initialform"
     },
     {
@@ -54830,7 +54830,7 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "pages_sparepartformpage_spare_status_options",
-      "community": 3,
+      "community": 9,
       "norm_label": "spare_status_options"
     },
     {
@@ -54840,7 +54840,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "pages_sparepartformpage_bom_criticality_options",
-      "community": 3,
+      "community": 9,
       "norm_label": "bom_criticality_options"
     },
     {
@@ -54850,7 +54850,7 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "pages_sparepartformpage_initialbomform",
-      "community": 3,
+      "community": 9,
       "norm_label": "initialbomform"
     },
     {
@@ -54860,37 +54860,37 @@
       "source_location": "L53",
       "_origin": "ast",
       "id": "pages_sparepartformpage_sparepartformpage",
-      "community": 3,
+      "community": 9,
       "norm_label": "sparepartformpage()"
     },
     {
       "label": "LinkedEquipmentBomSection()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/features/spareParts/pages/SparePartFormPage.jsx",
-      "source_location": "L292",
+      "source_location": "L299",
       "_origin": "ast",
       "id": "pages_sparepartformpage_linkedequipmentbomsection",
-      "community": 3,
+      "community": 9,
       "norm_label": "linkedequipmentbomsection()"
     },
     {
       "label": "equipmentSummary()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/features/spareParts/pages/SparePartFormPage.jsx",
-      "source_location": "L363",
+      "source_location": "L410",
       "_origin": "ast",
       "id": "pages_sparepartformpage_equipmentsummary",
-      "community": 3,
+      "community": 9,
       "norm_label": "equipmentsummary()"
     },
     {
       "label": "formatEquipment()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/features/spareParts/pages/SparePartFormPage.jsx",
-      "source_location": "L370",
+      "source_location": "L417",
       "_origin": "ast",
       "id": "pages_sparepartformpage_formatequipment",
-      "community": 3,
+      "community": 9,
       "norm_label": "formatequipment()"
     },
     {
@@ -54907,7 +54907,7 @@
       "label": "initialStockDialog",
       "file_type": "code",
       "source_file": "cmms_front_end/src/features/spareParts/pages/SparePartListPage.jsx",
-      "source_location": "L50",
+      "source_location": "L51",
       "_origin": "ast",
       "id": "pages_sparepartlistpage_initialstockdialog",
       "community": 9,
@@ -54917,7 +54917,7 @@
       "label": "initialHistoryDialog",
       "file_type": "code",
       "source_file": "cmms_front_end/src/features/spareParts/pages/SparePartListPage.jsx",
-      "source_location": "L51",
+      "source_location": "L52",
       "_origin": "ast",
       "id": "pages_sparepartlistpage_initialhistorydialog",
       "community": 9,
@@ -54927,7 +54927,7 @@
       "label": "initialTransferDialog",
       "file_type": "code",
       "source_file": "cmms_front_end/src/features/spareParts/pages/SparePartListPage.jsx",
-      "source_location": "L52",
+      "source_location": "L53",
       "_origin": "ast",
       "id": "pages_sparepartlistpage_initialtransferdialog",
       "community": 9,
@@ -54937,7 +54937,7 @@
       "label": "initialReorderDialog",
       "file_type": "code",
       "source_file": "cmms_front_end/src/features/spareParts/pages/SparePartListPage.jsx",
-      "source_location": "L53",
+      "source_location": "L54",
       "_origin": "ast",
       "id": "pages_sparepartlistpage_initialreorderdialog",
       "community": 9,
@@ -54947,7 +54947,7 @@
       "label": "initialImportDialog",
       "file_type": "code",
       "source_file": "cmms_front_end/src/features/spareParts/pages/SparePartListPage.jsx",
-      "source_location": "L54",
+      "source_location": "L55",
       "_origin": "ast",
       "id": "pages_sparepartlistpage_initialimportdialog",
       "community": 9,
@@ -54957,7 +54957,7 @@
       "label": "initialLabelDialog",
       "file_type": "code",
       "source_file": "cmms_front_end/src/features/spareParts/pages/SparePartListPage.jsx",
-      "source_location": "L55",
+      "source_location": "L56",
       "_origin": "ast",
       "id": "pages_sparepartlistpage_initiallabeldialog",
       "community": 9,
@@ -54967,7 +54967,7 @@
       "label": "getSparePartViewPath()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/features/spareParts/pages/SparePartListPage.jsx",
-      "source_location": "L57",
+      "source_location": "L58",
       "_origin": "ast",
       "id": "pages_sparepartlistpage_getsparepartviewpath",
       "community": 9,
@@ -54977,7 +54977,7 @@
       "label": "getSparePartQrValue()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/features/spareParts/pages/SparePartListPage.jsx",
-      "source_location": "L59",
+      "source_location": "L60",
       "_origin": "ast",
       "id": "pages_sparepartlistpage_getsparepartqrvalue",
       "community": 9,
@@ -54987,7 +54987,7 @@
       "label": "formatStockValue()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/features/spareParts/pages/SparePartListPage.jsx",
-      "source_location": "L66",
+      "source_location": "L67",
       "_origin": "ast",
       "id": "pages_sparepartlistpage_formatstockvalue",
       "community": 9,
@@ -54997,7 +54997,7 @@
       "label": "SparePartListPage()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/features/spareParts/pages/SparePartListPage.jsx",
-      "source_location": "L71",
+      "source_location": "L72",
       "_origin": "ast",
       "id": "pages_sparepartlistpage_sparepartlistpage",
       "community": 9,
@@ -55060,7 +55060,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_sparepartviewpage",
-      "community": 3,
+      "community": 9,
       "norm_label": "sparepartviewpage.jsx"
     },
     {
@@ -55070,7 +55070,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "pages_sparepartviewpage_sparepartviewpage",
-      "community": 3,
+      "community": 9,
       "norm_label": "sparepartviewpage()"
     },
     {
@@ -55080,7 +55080,7 @@
       "source_location": "L134",
       "_origin": "ast",
       "id": "pages_sparepartviewpage_detailitem",
-      "community": 3,
+      "community": 9,
       "norm_label": "detailitem()"
     },
     {
@@ -55090,7 +55090,7 @@
       "source_location": "L152",
       "_origin": "ast",
       "id": "pages_sparepartviewpage_displayvalue",
-      "community": 3,
+      "community": 9,
       "norm_label": "displayvalue()"
     },
     {
@@ -55100,7 +55100,7 @@
       "source_location": "L156",
       "_origin": "ast",
       "id": "pages_sparepartviewpage_chipcolor",
-      "community": 3,
+      "community": 9,
       "norm_label": "chipcolor()"
     },
     {
@@ -55110,7 +55110,7 @@
       "source_location": "L162",
       "_origin": "ast",
       "id": "pages_sparepartviewpage_formatsite",
-      "community": 3,
+      "community": 9,
       "norm_label": "formatsite()"
     },
     {
@@ -55120,7 +55120,7 @@
       "source_location": "L169",
       "_origin": "ast",
       "id": "pages_sparepartviewpage_formatquantity",
-      "community": 3,
+      "community": 9,
       "norm_label": "formatquantity()"
     },
     {
@@ -55130,7 +55130,7 @@
       "source_location": "L175",
       "_origin": "ast",
       "id": "pages_sparepartviewpage_formatequipment",
-      "community": 3,
+      "community": 9,
       "norm_label": "formatequipment()"
     },
     {
@@ -55140,7 +55140,7 @@
       "source_location": "L182",
       "_origin": "ast",
       "id": "pages_sparepartviewpage_formatmoney",
-      "community": 3,
+      "community": 9,
       "norm_label": "formatmoney()"
     },
     {
@@ -55150,7 +55150,7 @@
       "source_location": "L187",
       "_origin": "ast",
       "id": "pages_sparepartviewpage_formatdatetime",
-      "community": 3,
+      "community": 9,
       "norm_label": "formatdatetime()"
     },
     {
@@ -55260,7 +55260,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "services_sparepartservice_getsparepartbyid",
-      "community": 3,
+      "community": 9,
       "norm_label": "getsparepartbyid()"
     },
     {
@@ -55280,7 +55280,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "services_sparepartservice_createsparepart",
-      "community": 3,
+      "community": 9,
       "norm_label": "createsparepart()"
     },
     {
@@ -55290,7 +55290,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "services_sparepartservice_updatesparepart",
-      "community": 3,
+      "community": 9,
       "norm_label": "updatesparepart()"
     },
     {
@@ -55320,7 +55320,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "services_sparepartservice_getsparepartequipmentbom",
-      "community": 3,
+      "community": 9,
       "norm_label": "getsparepartequipmentbom()"
     },
     {
@@ -55330,7 +55330,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "services_sparepartservice_createsparepartequipmentbom",
-      "community": 3,
+      "community": 9,
       "norm_label": "createsparepartequipmentbom()"
     },
     {
@@ -55340,7 +55340,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "services_sparepartservice_updatesparepartequipmentbom",
-      "community": 3,
+      "community": 9,
       "norm_label": "updatesparepartequipmentbom()"
     },
     {
@@ -55350,7 +55350,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "services_sparepartservice_deletesparepartequipmentbom",
-      "community": 3,
+      "community": 9,
       "norm_label": "deletesparepartequipmentbom()"
     },
     {
@@ -58450,7 +58450,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "logger",
-      "community": 218,
+      "community": 229,
       "norm_label": "logger"
     },
     {
@@ -213254,6 +213254,28 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "cmms_front_end/src/features/spareParts/pages/SparePartListPage.jsx",
+      "source_location": "L48",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "pages_sparepartlistpage",
+      "target": "common_confirmdialog"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/features/spareParts/pages/SparePartListPage.jsx",
+      "source_location": "L48",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "pages_sparepartlistpage",
+      "target": "common_confirmdialog_confirmdialog"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_front_end/src/features/spareParts/pages/SparePartListPage.jsx",
       "source_location": "L35",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -232359,5 +232381,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "7f777a69daefaad169e15e2bd314e1511378743c"
+  "built_at_commit": "696c0219341cb836ac4abfe2efe24fee4be8c33a"
 }

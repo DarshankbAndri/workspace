@@ -19,6 +19,8 @@ export default function ConfirmDialog({
   return (
     <Dialog
       open={open}
+      fullWidth={false}
+      maxWidth={false}
       onClose={() => {
         if (!isOuterClick) {
           handleClose();
@@ -26,6 +28,12 @@ export default function ConfirmDialog({
       }}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
+      PaperProps={{
+        sx: {
+          mx: 2,
+          width: 'min(420px, calc(100vw - 32px))',
+        },
+      }}
     >
       <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
       <DialogContent>

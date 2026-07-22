@@ -45,6 +45,7 @@ import {
   stockIn,
   transferStock,
 } from '../services/sparePartService';
+import ConfirmDialog from '../../../shared/components/common/ConfirmDialog';
 import CommonList from '../../../shared/components/common/CommonList';
 
 const initialStockDialog = { open: false, mode: 'STOCK_IN', row: null, quantity: '', unitCost: '', remarks: '' };
@@ -85,6 +86,7 @@ function SparePartListPage() {
   const [reorderDialog, setReorderDialog] = React.useState(initialReorderDialog);
   const [importDialog, setImportDialog] = React.useState(initialImportDialog);
   const [labelDialog, setLabelDialog] = React.useState(initialLabelDialog);
+  const [deleteRow, setDeleteRow] = React.useState(null);
   const labelQrValue = React.useMemo(() => getSparePartQrValue(labelDialog.row), [labelDialog.row]);
 
   const loadRows = React.useCallback(() => {
@@ -238,13 +240,15 @@ function SparePartListPage() {
     }
   };
 
-  const handleDelete = async (id) => {
-    if (!window.confirm('Deactivate this spare part stock record?')) return;
+  const handleDelete = async () => {
+    if (!deleteRow?.id) return;
     try {
-      await deleteSparePart(id);
+      await deleteSparePart(deleteRow.id);
       loadRows();
     } catch (err) {
       setError(err.response?.data?.message || 'Unable to deactivate spare part.');
+    } finally {
+      setDeleteRow(null);
     }
   };
 
@@ -337,7 +341,7 @@ function SparePartListPage() {
           <Tooltip title="QR label"><IconButton aria-label="QR label" onClick={(event) => { event.stopPropagation(); setLabelDialog({ open: true, row }); }}><QrCode2 fontSize="small" /></IconButton></Tooltip>
           {hasPermission(PERMISSIONS.STOCK_TRANSACTION_CREATE) && <Tooltip title="Stock in"><IconButton aria-label="Stock in" onClick={(event) => { event.stopPropagation(); openStockDialog(row, 'STOCK_IN'); }}><Inventory fontSize="small" /></IconButton></Tooltip>}
           {hasPermission(PERMISSIONS.STOCK_TRANSACTION_CREATE) && <Tooltip title="Adjust"><IconButton aria-label="Adjust stock" onClick={(event) => { event.stopPropagation(); openStockDialog(row, 'ADJUSTMENT'); }}><Tune fontSize="small" /></IconButton></Tooltip>}
-          {hasPermission(PERMISSIONS.SPARE_PART_DELETE) && <Tooltip title="Delete"><IconButton aria-label="Delete spare part" color="error" onClick={(event) => { event.stopPropagation(); handleDelete(row.id); }}><Delete fontSize="small" /></IconButton></Tooltip>}
+          {hasPermission(PERMISSIONS.SPARE_PART_DELETE) && <Tooltip title="Delete"><IconButton aria-label="Delete spare part" color="error" onClick={(event) => { event.stopPropagation(); setDeleteRow(row); }}><Delete fontSize="small" /></IconButton></Tooltip>}
         </Stack>
       ),
     },
@@ -390,6 +394,15 @@ function SparePartListPage() {
             setPaginationModel((current) => ({ ...current, page: 0 }));
           },
         }}
+      />
+      <ConfirmDialog
+        open={Boolean(deleteRow)}
+        handleClose={() => setDeleteRow(null)}
+        title="Deactivate spare part?"
+        message={deleteRow ? `${deleteRow.partCode || 'This spare part'} will be deactivated.` : 'This spare part stock record will be deactivated.'}
+        handleAgree={handleDelete}
+        closebtn="Cancel"
+        agreebtn="Deactivate"
       />
 
       <Dialog open={stockDialog.open} onClose={closeStockDialog} maxWidth="sm" fullWidth>
