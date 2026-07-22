@@ -750,7 +750,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "dao_rolepermissiondao_rolepermissiondao_findbyrolecodes",
-      "community": 164,
+      "community": 42,
       "norm_label": ".findbyrolecodes()"
     },
     {
@@ -770,7 +770,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_admin_dao_rolepermissiondao_java_string",
-      "community": 164,
+      "community": 42,
       "norm_label": "string"
     },
     {
@@ -830,7 +830,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dao_userroleassignmentdao",
-      "community": 208,
+      "community": 94,
       "norm_label": "userroleassignmentdao.java"
     },
     {
@@ -840,7 +840,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "dao_userroleassignmentdao_userroleassignmentdao",
-      "community": 208,
+      "community": 94,
       "norm_label": "userroleassignmentdao"
     },
     {
@@ -850,7 +850,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "dao_userroleassignmentdao_userroleassignmentdao_userroleassignmentdao",
-      "community": 208,
+      "community": 94,
       "norm_label": ".userroleassignmentdao()"
     },
     {
@@ -860,7 +860,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "userroleassignmentrepository",
-      "community": 208,
+      "community": 94,
       "norm_label": "userroleassignmentrepository"
     },
     {
@@ -870,7 +870,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "dao_userroleassignmentdao_userroleassignmentdao_save",
-      "community": 208,
+      "community": 94,
       "norm_label": ".save()"
     },
     {
@@ -880,7 +880,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_admin_dao_userroleassignmentdao_java_userroleassignment",
-      "community": 208,
+      "community": 94,
       "norm_label": "userroleassignment"
     },
     {
@@ -900,7 +900,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_admin_dao_userroleassignmentdao_java_long",
-      "community": 208,
+      "community": 94,
       "norm_label": "long"
     },
     {
@@ -910,7 +910,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_admin_dao_userroleassignmentdao_java_list",
-      "community": 208,
+      "community": 94,
       "norm_label": "list"
     },
     {
@@ -920,7 +920,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "dao_userroleassignmentdao_userroleassignmentdao_findbyuserid",
-      "community": 208,
+      "community": 94,
       "norm_label": ".findbyuserid()"
     },
     {
@@ -930,7 +930,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "dao_userroleassignmentdao_userroleassignmentdao_existsactivebyuseridandroleid",
-      "community": 208,
+      "community": 94,
       "norm_label": ".existsactivebyuseridandroleid()"
     },
     {
@@ -940,7 +940,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "dao_userroleassignmentdao_userroleassignmentdao_deletebyuserid",
-      "community": 208,
+      "community": 94,
       "norm_label": ".deletebyuserid()"
     },
     {
@@ -2370,7 +2370,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "entity_rolepermission",
-      "community": 18,
+      "community": 116,
       "norm_label": "rolepermission.java"
     },
     {
@@ -2380,7 +2380,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "entity_rolepermission_rolepermission",
-      "community": 18,
+      "community": 116,
       "norm_label": "rolepermission"
     },
     {
@@ -2390,7 +2390,7 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "entity_rolepermission_rolepermission_oncreate",
-      "community": 18,
+      "community": 116,
       "norm_label": ".oncreate()"
     },
     {
@@ -2400,7 +2400,7 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_admin_entity_rolepermission_java_prepersist",
-      "community": 18,
+      "community": 116,
       "norm_label": "prepersist"
     },
     {
@@ -2410,7 +2410,7 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "entity_rolepermission_rolepermission_getid",
-      "community": 18,
+      "community": 116,
       "norm_label": ".getid()"
     },
     {
@@ -2420,7 +2420,7 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_admin_entity_rolepermission_java_long",
-      "community": 18,
+      "community": 116,
       "norm_label": "long"
     },
     {
@@ -2430,7 +2430,7 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "entity_rolepermission_rolepermission_setid",
-      "community": 18,
+      "community": 116,
       "norm_label": ".setid()"
     },
     {
@@ -2440,7 +2440,7 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "entity_rolepermission_rolepermission_getrole",
-      "community": 18,
+      "community": 116,
       "norm_label": ".getrole()"
     },
     {
@@ -2450,7 +2450,7 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_admin_entity_rolepermission_java_rolemaster",
-      "community": 18,
+      "community": 116,
       "norm_label": "rolemaster"
     },
     {
@@ -2460,7 +2460,7 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "entity_rolepermission_rolepermission_setrole",
-      "community": 18,
+      "community": 116,
       "norm_label": ".setrole()"
     },
     {
@@ -2470,7 +2470,7 @@
       "source_location": "L40",
       "_origin": "ast",
       "id": "entity_rolepermission_rolepermission_getpermission",
-      "community": 18,
+      "community": 42,
       "norm_label": ".getpermission()"
     },
     {
@@ -2480,7 +2480,7 @@
       "source_location": "L40",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_admin_entity_rolepermission_java_permissionmaster",
-      "community": 18,
+      "community": 116,
       "norm_label": "permissionmaster"
     },
     {
@@ -2490,7 +2490,7 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "entity_rolepermission_rolepermission_setpermission",
-      "community": 18,
+      "community": 116,
       "norm_label": ".setpermission()"
     },
     {
@@ -2500,7 +2500,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "entity_rolepermission_rolepermission_getcreatedat",
-      "community": 18,
+      "community": 116,
       "norm_label": ".getcreatedat()"
     },
     {
@@ -2510,7 +2510,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_admin_entity_rolepermission_java_localdatetime",
-      "community": 18,
+      "community": 116,
       "norm_label": "localdatetime"
     },
     {
@@ -2520,7 +2520,7 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "entity_rolepermission_rolepermission_setcreatedat",
-      "community": 18,
+      "community": 116,
       "norm_label": ".setcreatedat()"
     },
     {
@@ -3580,7 +3580,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "service_userroleassignmentservice",
-      "community": 158,
+      "community": 180,
       "norm_label": "userroleassignmentservice.java"
     },
     {
@@ -3590,7 +3590,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "service_userroleassignmentservice_userroleassignmentservice",
-      "community": 158,
+      "community": 180,
       "norm_label": "userroleassignmentservice"
     },
     {
@@ -3600,7 +3600,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "service_userroleassignmentservice_userroleassignmentservice_getbyuserid",
-      "community": 158,
+      "community": 180,
       "norm_label": ".getbyuserid()"
     },
     {
@@ -3610,7 +3610,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_admin_service_userroleassignmentservice_java_long",
-      "community": 158,
+      "community": 180,
       "norm_label": "long"
     },
     {
@@ -3620,7 +3620,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_admin_service_userroleassignmentservice_java_list",
-      "community": 158,
+      "community": 180,
       "norm_label": "list"
     },
     {
@@ -3630,7 +3630,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_admin_service_userroleassignmentservice_java_userroleassignmentdto",
-      "community": 158,
+      "community": 180,
       "norm_label": "userroleassignmentdto"
     },
     {
@@ -3640,7 +3640,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_admin_service_userroleassignmentservice_java_transactional",
-      "community": 158,
+      "community": 180,
       "norm_label": "transactional"
     },
     {
@@ -3650,7 +3650,7 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "service_userroleassignmentservice_userroleassignmentservice_replaceuserroles",
-      "community": 158,
+      "community": 180,
       "norm_label": ".replaceuserroles()"
     },
     {
@@ -3660,7 +3660,7 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_admin_service_userroleassignmentservice_java_cacheevict",
-      "community": 158,
+      "community": 180,
       "norm_label": "cacheevict"
     },
     {
@@ -3670,7 +3670,7 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "service_userroleassignmentservice_userroleassignmentservice_todto",
-      "community": 158,
+      "community": 180,
       "norm_label": ".todto()"
     },
     {
@@ -3680,7 +3680,7 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_admin_service_userroleassignmentservice_java_userroleassignment",
-      "community": 158,
+      "community": 180,
       "norm_label": "userroleassignment"
     },
     {
@@ -6550,7 +6550,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "repository_approvalrequestrepository",
-      "community": 172,
+      "community": 15,
       "norm_label": "approvalrequestrepository.java"
     },
     {
@@ -6560,7 +6560,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "repository_approvalrequestrepository_approvalrequestrepository",
-      "community": 172,
+      "community": 15,
       "norm_label": "approvalrequestrepository"
     },
     {
@@ -6570,7 +6570,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "repository_approvalrequestrepository_approvalrequestrepository_findbyapprovalstatusorderbyrequestedatdesc",
-      "community": 172,
+      "community": 15,
       "norm_label": ".findbyapprovalstatusorderbyrequestedatdesc()"
     },
     {
@@ -6580,7 +6580,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_approval_repository_approvalrequestrepository_java_string",
-      "community": 172,
+      "community": 15,
       "norm_label": "string"
     },
     {
@@ -6590,7 +6590,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_approval_repository_approvalrequestrepository_java_list",
-      "community": 172,
+      "community": 15,
       "norm_label": "list"
     },
     {
@@ -6600,7 +6600,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_approval_repository_approvalrequestrepository_java_approvalrequest",
-      "community": 172,
+      "community": 15,
       "norm_label": "approvalrequest"
     },
     {
@@ -6610,7 +6610,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "repository_approvalrequestrepository_approvalrequestrepository_findbysiteidinandapprovalstatusorderbyrequestedatdesc",
-      "community": 172,
+      "community": 15,
       "norm_label": ".findbysiteidinandapprovalstatusorderbyrequestedatdesc()"
     },
     {
@@ -6620,7 +6620,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_approval_repository_approvalrequestrepository_java_collection",
-      "community": 172,
+      "community": 15,
       "norm_label": "collection"
     },
     {
@@ -6630,7 +6630,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_approval_repository_approvalrequestrepository_java_long",
-      "community": 172,
+      "community": 15,
       "norm_label": "long"
     },
     {
@@ -6640,7 +6640,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "repository_approvalrequestrepository_approvalrequestrepository_findbymodulecodeandreferenceidorderbyrequestedatdesc",
-      "community": 172,
+      "community": 15,
       "norm_label": ".findbymodulecodeandreferenceidorderbyrequestedatdesc()"
     },
     {
@@ -6650,7 +6650,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "repository_approvalrequestrepository_approvalrequestrepository_findbysiteidinandmodulecodeandreferenceidorderbyrequestedatdesc",
-      "community": 172,
+      "community": 15,
       "norm_label": ".findbysiteidinandmodulecodeandreferenceidorderbyrequestedatdesc()"
     },
     {
@@ -6660,7 +6660,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "repository_approvalrequestrepository_approvalrequestrepository_countbyapprovalstatus",
-      "community": 172,
+      "community": 15,
       "norm_label": ".countbyapprovalstatus()"
     },
     {
@@ -6670,7 +6670,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "repository_approvalrequestrepository_approvalrequestrepository_countbymodulecodeandapprovalstatus",
-      "community": 172,
+      "community": 15,
       "norm_label": ".countbymodulecodeandapprovalstatus()"
     },
     {
@@ -6680,7 +6680,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "repository_approvalrequestrepository_approvalrequestrepository_countbyapprovalstatusandrequestedatbefore",
-      "community": 172,
+      "community": 15,
       "norm_label": ".countbyapprovalstatusandrequestedatbefore()"
     },
     {
@@ -6690,7 +6690,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_approval_repository_approvalrequestrepository_java_localdatetime",
-      "community": 172,
+      "community": 15,
       "norm_label": "localdatetime"
     },
     {
@@ -6700,7 +6700,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "repository_approvalrequestrepository_approvalrequestrepository_countbymodulecodeandapprovalstatusandrequestedatbefore",
-      "community": 172,
+      "community": 15,
       "norm_label": ".countbymodulecodeandapprovalstatusandrequestedatbefore()"
     },
     {
@@ -7170,7 +7170,7 @@
       "source_location": "L225",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_approval_service_approvalworkflowservice_java_pageproperties",
-      "community": 93,
+      "community": 48,
       "norm_label": "pageproperties"
     },
     {
@@ -7250,7 +7250,7 @@
       "source_location": "L293",
       "_origin": "ast",
       "id": "service_approvalworkflowservice_approvalworkflowservice_normalizeapprovalhistorycriteria",
-      "community": 48,
+      "community": 73,
       "norm_label": ".normalizeapprovalhistorycriteria()"
     },
     {
@@ -7260,7 +7260,7 @@
       "source_location": "L293",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_approval_service_approvalworkflowservice_java_searchcriteriadto",
-      "community": 48,
+      "community": 93,
       "norm_label": "searchcriteriadto"
     },
     {
@@ -7290,7 +7290,7 @@
       "source_location": "L328",
       "_origin": "ast",
       "id": "service_approvalworkflowservice_approvalworkflowservice_applyapprovalhistorysiteaccess",
-      "community": 48,
+      "community": 73,
       "norm_label": ".applyapprovalhistorysiteaccess()"
     },
     {
@@ -7310,7 +7310,7 @@
       "source_location": "L346",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_approval_service_approvalworkflowservice_java_specification",
-      "community": 93,
+      "community": 48,
       "norm_label": "specification"
     },
     {
@@ -7460,7 +7460,7 @@
       "source_location": "L462",
       "_origin": "ast",
       "id": "join",
-      "community": 32,
+      "community": 24,
       "norm_label": "join"
     },
     {
@@ -7490,7 +7490,7 @@
       "source_location": "L485",
       "_origin": "ast",
       "id": "service_approvalworkflowservice_approvalworkflowservice_findcriterion",
-      "community": 48,
+      "community": 19,
       "norm_label": ".findcriterion()"
     },
     {
@@ -8080,7 +8080,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dao_maintenanceassignmentchecklistdao",
-      "community": 236,
+      "community": 72,
       "norm_label": "maintenanceassignmentchecklistdao.java"
     },
     {
@@ -8090,7 +8090,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "dao_maintenanceassignmentchecklistdao_maintenanceassignmentchecklistdao",
-      "community": 236,
+      "community": 72,
       "norm_label": "maintenanceassignmentchecklistdao"
     },
     {
@@ -8100,7 +8100,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "dao_maintenanceassignmentchecklistdao_maintenanceassignmentchecklistdao_findbyassignmentid",
-      "community": 236,
+      "community": 72,
       "norm_label": ".findbyassignmentid()"
     },
     {
@@ -8110,7 +8110,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_dao_maintenanceassignmentchecklistdao_java_long",
-      "community": 236,
+      "community": 72,
       "norm_label": "long"
     },
     {
@@ -8120,7 +8120,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_dao_maintenanceassignmentchecklistdao_java_list",
-      "community": 236,
+      "community": 72,
       "norm_label": "list"
     },
     {
@@ -8130,7 +8130,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_dao_maintenanceassignmentchecklistdao_java_maintenanceassignmentchecklistitem",
-      "community": 236,
+      "community": 72,
       "norm_label": "maintenanceassignmentchecklistitem"
     },
     {
@@ -8140,7 +8140,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "dao_maintenanceassignmentchecklistdao_maintenanceassignmentchecklistdao_finditembyid",
-      "community": 236,
+      "community": 72,
       "norm_label": ".finditembyid()"
     },
     {
@@ -8150,7 +8150,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_dao_maintenanceassignmentchecklistdao_java_optional",
-      "community": 236,
+      "community": 72,
       "norm_label": "optional"
     },
     {
@@ -8160,7 +8160,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "dao_maintenanceassignmentchecklistdao_maintenanceassignmentchecklistdao_saveitem",
-      "community": 236,
+      "community": 72,
       "norm_label": ".saveitem()"
     },
     {
@@ -8170,7 +8170,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "dao_maintenanceassignmentchecklistdao_maintenanceassignmentchecklistdao_deleteitem",
-      "community": 236,
+      "community": 72,
       "norm_label": ".deleteitem()"
     },
     {
@@ -8180,7 +8180,7 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "dao_maintenanceassignmentchecklistdao_maintenanceassignmentchecklistdao_countitemsbyassignmentid",
-      "community": 236,
+      "community": 72,
       "norm_label": ".countitemsbyassignmentid()"
     },
     {
@@ -8190,7 +8190,7 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "dao_maintenanceassignmentchecklistdao_maintenanceassignmentchecklistdao_saveproof",
-      "community": 236,
+      "community": 72,
       "norm_label": ".saveproof()"
     },
     {
@@ -8200,7 +8200,7 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_dao_maintenanceassignmentchecklistdao_java_maintenanceassignmentchecklistproof",
-      "community": 236,
+      "community": 72,
       "norm_label": "maintenanceassignmentchecklistproof"
     },
     {
@@ -8210,7 +8210,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "dao_maintenanceassignmentchecklistdao_maintenanceassignmentchecklistdao_findproofbyid",
-      "community": 236,
+      "community": 72,
       "norm_label": ".findproofbyid()"
     },
     {
@@ -8220,7 +8220,7 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "dao_maintenanceassignmentchecklistdao_maintenanceassignmentchecklistdao_findproofsbyitemid",
-      "community": 236,
+      "community": 72,
       "norm_label": ".findproofsbyitemid()"
     },
     {
@@ -8230,7 +8230,7 @@
       "source_location": "L50",
       "_origin": "ast",
       "id": "dao_maintenanceassignmentchecklistdao_maintenanceassignmentchecklistdao_countproofsbyitemid",
-      "community": 298,
+      "community": 72,
       "norm_label": ".countproofsbyitemid()"
     },
     {
@@ -8240,7 +8240,7 @@
       "source_location": "L54",
       "_origin": "ast",
       "id": "dao_maintenanceassignmentchecklistdao_maintenanceassignmentchecklistdao_deleteproof",
-      "community": 236,
+      "community": 72,
       "norm_label": ".deleteproof()"
     },
     {
@@ -8250,7 +8250,7 @@
       "source_location": "L58",
       "_origin": "ast",
       "id": "dao_maintenanceassignmentchecklistdao_maintenanceassignmentchecklistdao_deleteproofsbyitemid",
-      "community": 236,
+      "community": 72,
       "norm_label": ".deleteproofsbyitemid()"
     },
     {
@@ -8640,7 +8640,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto",
-      "community": 23,
+      "community": 187,
       "norm_label": "maintenanceassignmentdto.java"
     },
     {
@@ -8657,57 +8657,57 @@
       "label": ".getId()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L53",
+      "source_location": "L55",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_getid",
-      "community": 180,
+      "community": 23,
       "norm_label": ".getid()"
     },
     {
       "label": "Long",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L53",
+      "source_location": "L55",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_dto_maintenanceassignmentdto_java_long",
-      "community": 180,
+      "community": 23,
       "norm_label": "long"
     },
     {
       "label": ".setId()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L54",
+      "source_location": "L56",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_setid",
-      "community": 180,
+      "community": 23,
       "norm_label": ".setid()"
     },
     {
       "label": ".getSiteId()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L55",
+      "source_location": "L57",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_getsiteid",
-      "community": 180,
+      "community": 23,
       "norm_label": ".getsiteid()"
     },
     {
       "label": ".setSiteId()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L56",
+      "source_location": "L58",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_setsiteid",
-      "community": 180,
+      "community": 23,
       "norm_label": ".setsiteid()"
     },
     {
       "label": ".getSiteCode()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L57",
+      "source_location": "L59",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_getsitecode",
       "community": 23,
@@ -8717,7 +8717,7 @@
       "label": "String",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L57",
+      "source_location": "L59",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_dto_maintenanceassignmentdto_java_string",
       "community": 23,
@@ -8727,7 +8727,7 @@
       "label": ".setSiteCode()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L58",
+      "source_location": "L60",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_setsitecode",
       "community": 23,
@@ -8737,7 +8737,7 @@
       "label": ".getSiteName()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L59",
+      "source_location": "L61",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_getsitename",
       "community": 23,
@@ -8747,7 +8747,7 @@
       "label": ".setSiteName()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L60",
+      "source_location": "L62",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_setsitename",
       "community": 23,
@@ -8757,27 +8757,27 @@
       "label": ".getRequestId()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L61",
+      "source_location": "L63",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_getrequestid",
-      "community": 180,
+      "community": 23,
       "norm_label": ".getrequestid()"
     },
     {
       "label": ".setRequestId()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L62",
+      "source_location": "L64",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_setrequestid",
-      "community": 180,
+      "community": 23,
       "norm_label": ".setrequestid()"
     },
     {
       "label": ".getRequestNumber()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L63",
+      "source_location": "L65",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_getrequestnumber",
       "community": 23,
@@ -8787,7 +8787,7 @@
       "label": ".setRequestNumber()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L64",
+      "source_location": "L66",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_setrequestnumber",
       "community": 23,
@@ -8797,7 +8797,7 @@
       "label": ".getRequestTitle()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L65",
+      "source_location": "L67",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_getrequesttitle",
       "community": 23,
@@ -8807,37 +8807,77 @@
       "label": ".setRequestTitle()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L66",
+      "source_location": "L68",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_setrequesttitle",
       "community": 23,
       "norm_label": ".setrequesttitle()"
     },
     {
+      "label": ".getRequestStatus()",
+      "file_type": "code",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
+      "source_location": "L69",
+      "_origin": "ast",
+      "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_getrequeststatus",
+      "community": 23,
+      "norm_label": ".getrequeststatus()"
+    },
+    {
+      "label": ".setRequestStatus()",
+      "file_type": "code",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
+      "source_location": "L70",
+      "_origin": "ast",
+      "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_setrequeststatus",
+      "community": 23,
+      "norm_label": ".setrequeststatus()"
+    },
+    {
+      "label": ".getRequestPriority()",
+      "file_type": "code",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
+      "source_location": "L71",
+      "_origin": "ast",
+      "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_getrequestpriority",
+      "community": 23,
+      "norm_label": ".getrequestpriority()"
+    },
+    {
+      "label": ".setRequestPriority()",
+      "file_type": "code",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
+      "source_location": "L72",
+      "_origin": "ast",
+      "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_setrequestpriority",
+      "community": 23,
+      "norm_label": ".setrequestpriority()"
+    },
+    {
       "label": ".getEquipmentId()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L67",
+      "source_location": "L73",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_getequipmentid",
-      "community": 180,
+      "community": 23,
       "norm_label": ".getequipmentid()"
     },
     {
       "label": ".setEquipmentId()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L68",
+      "source_location": "L74",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_setequipmentid",
-      "community": 180,
+      "community": 23,
       "norm_label": ".setequipmentid()"
     },
     {
       "label": ".getEquipmentCode()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L69",
+      "source_location": "L75",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_getequipmentcode",
       "community": 23,
@@ -8847,7 +8887,7 @@
       "label": ".setEquipmentCode()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L70",
+      "source_location": "L76",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_setequipmentcode",
       "community": 23,
@@ -8857,7 +8897,7 @@
       "label": ".getEquipmentName()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L71",
+      "source_location": "L77",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_getequipmentname",
       "community": 23,
@@ -8867,7 +8907,7 @@
       "label": ".setEquipmentName()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L72",
+      "source_location": "L78",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_setequipmentname",
       "community": 23,
@@ -8877,27 +8917,27 @@
       "label": ".getVendorId()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L73",
+      "source_location": "L79",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_getvendorid",
-      "community": 180,
+      "community": 23,
       "norm_label": ".getvendorid()"
     },
     {
       "label": ".setVendorId()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L74",
+      "source_location": "L80",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_setvendorid",
-      "community": 180,
+      "community": 23,
       "norm_label": ".setvendorid()"
     },
     {
       "label": ".getVendorName()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L75",
+      "source_location": "L81",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_getvendorname",
       "community": 23,
@@ -8907,7 +8947,7 @@
       "label": ".setVendorName()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L76",
+      "source_location": "L82",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_setvendorname",
       "community": 23,
@@ -8917,27 +8957,27 @@
       "label": ".getAssignedEmployeeId()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L77",
+      "source_location": "L83",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_getassignedemployeeid",
-      "community": 180,
+      "community": 23,
       "norm_label": ".getassignedemployeeid()"
     },
     {
       "label": ".setAssignedEmployeeId()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L78",
+      "source_location": "L84",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_setassignedemployeeid",
-      "community": 180,
+      "community": 23,
       "norm_label": ".setassignedemployeeid()"
     },
     {
       "label": ".getAssignedEmployeeCode()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L79",
+      "source_location": "L85",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_getassignedemployeecode",
       "community": 23,
@@ -8947,7 +8987,7 @@
       "label": ".setAssignedEmployeeCode()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L80",
+      "source_location": "L86",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_setassignedemployeecode",
       "community": 23,
@@ -8957,7 +8997,7 @@
       "label": ".getAssignedEmployeeName()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L81",
+      "source_location": "L87",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_getassignedemployeename",
       "community": 23,
@@ -8967,7 +9007,7 @@
       "label": ".setAssignedEmployeeName()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L82",
+      "source_location": "L88",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_setassignedemployeename",
       "community": 23,
@@ -8977,7 +9017,7 @@
       "label": ".getAssignedTo()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L83",
+      "source_location": "L89",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_getassignedto",
       "community": 23,
@@ -8987,7 +9027,7 @@
       "label": ".setAssignedTo()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L84",
+      "source_location": "L90",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_setassignedto",
       "community": 23,
@@ -8997,117 +9037,117 @@
       "label": ".getAssignedDate()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L85",
+      "source_location": "L91",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_getassigneddate",
-      "community": 23,
+      "community": 188,
       "norm_label": ".getassigneddate()"
     },
     {
       "label": "LocalDate",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L85",
+      "source_location": "L91",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_dto_maintenanceassignmentdto_java_localdate",
-      "community": 23,
+      "community": 188,
       "norm_label": "localdate"
     },
     {
       "label": ".setAssignedDate()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L86",
+      "source_location": "L92",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_setassigneddate",
-      "community": 23,
+      "community": 188,
       "norm_label": ".setassigneddate()"
     },
     {
       "label": ".getPlannedStartDate()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L87",
+      "source_location": "L93",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_getplannedstartdate",
-      "community": 23,
+      "community": 188,
       "norm_label": ".getplannedstartdate()"
     },
     {
       "label": ".setPlannedStartDate()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L88",
+      "source_location": "L94",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_setplannedstartdate",
-      "community": 23,
+      "community": 188,
       "norm_label": ".setplannedstartdate()"
     },
     {
       "label": ".getPlannedEndDate()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L89",
+      "source_location": "L95",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_getplannedenddate",
-      "community": 23,
+      "community": 188,
       "norm_label": ".getplannedenddate()"
     },
     {
       "label": ".setPlannedEndDate()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L90",
+      "source_location": "L96",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_setplannedenddate",
-      "community": 23,
+      "community": 188,
       "norm_label": ".setplannedenddate()"
     },
     {
       "label": ".getActualStartDate()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L91",
+      "source_location": "L97",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_getactualstartdate",
-      "community": 23,
+      "community": 188,
       "norm_label": ".getactualstartdate()"
     },
     {
       "label": ".setActualStartDate()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L92",
+      "source_location": "L98",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_setactualstartdate",
-      "community": 23,
+      "community": 188,
       "norm_label": ".setactualstartdate()"
     },
     {
       "label": ".getActualEndDate()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L93",
+      "source_location": "L99",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_getactualenddate",
-      "community": 23,
+      "community": 188,
       "norm_label": ".getactualenddate()"
     },
     {
       "label": ".setActualEndDate()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L94",
+      "source_location": "L100",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_setactualenddate",
-      "community": 23,
+      "community": 188,
       "norm_label": ".setactualenddate()"
     },
     {
       "label": ".getStatus()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L95",
+      "source_location": "L101",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_getstatus",
       "community": 23,
@@ -9117,7 +9157,7 @@
       "label": ".setStatus()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L96",
+      "source_location": "L102",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_setstatus",
       "community": 23,
@@ -9127,57 +9167,57 @@
       "label": ".getEstimatedCost()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L97",
+      "source_location": "L103",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_getestimatedcost",
-      "community": 23,
+      "community": 187,
       "norm_label": ".getestimatedcost()"
     },
     {
       "label": "BigDecimal",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L97",
+      "source_location": "L103",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_dto_maintenanceassignmentdto_java_bigdecimal",
-      "community": 23,
+      "community": 187,
       "norm_label": "bigdecimal"
     },
     {
       "label": ".setEstimatedCost()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L98",
+      "source_location": "L104",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_setestimatedcost",
-      "community": 23,
+      "community": 187,
       "norm_label": ".setestimatedcost()"
     },
     {
       "label": ".getActualCost()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L99",
+      "source_location": "L105",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_getactualcost",
-      "community": 23,
+      "community": 187,
       "norm_label": ".getactualcost()"
     },
     {
       "label": ".setActualCost()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L100",
+      "source_location": "L106",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_setactualcost",
-      "community": 23,
+      "community": 187,
       "norm_label": ".setactualcost()"
     },
     {
       "label": ".getRemarks()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L101",
+      "source_location": "L107",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_getremarks",
       "community": 23,
@@ -9187,7 +9227,7 @@
       "label": ".setRemarks()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L102",
+      "source_location": "L108",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_setremarks",
       "community": 23,
@@ -9197,50 +9237,50 @@
       "label": ".getCreatedAt()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L103",
+      "source_location": "L109",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_getcreatedat",
-      "community": 23,
+      "community": 187,
       "norm_label": ".getcreatedat()"
     },
     {
       "label": "LocalDateTime",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L103",
+      "source_location": "L109",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_dto_maintenanceassignmentdto_java_localdatetime",
-      "community": 23,
+      "community": 187,
       "norm_label": "localdatetime"
     },
     {
       "label": ".setCreatedAt()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L104",
+      "source_location": "L110",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_setcreatedat",
-      "community": 23,
+      "community": 187,
       "norm_label": ".setcreatedat()"
     },
     {
       "label": ".getUpdatedAt()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L105",
+      "source_location": "L111",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_getupdatedat",
-      "community": 23,
+      "community": 187,
       "norm_label": ".getupdatedat()"
     },
     {
       "label": ".setUpdatedAt()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
-      "source_location": "L106",
+      "source_location": "L112",
       "_origin": "ast",
       "id": "dto_maintenanceassignmentdto_maintenanceassignmentdto_setupdatedat",
-      "community": 23,
+      "community": 187,
       "norm_label": ".setupdatedat()"
     },
     {
@@ -10280,7 +10320,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "repository_maintenanceassignmentchecklistitemrepository",
-      "community": 500,
+      "community": 72,
       "norm_label": "maintenanceassignmentchecklistitemrepository.java"
     },
     {
@@ -10290,7 +10330,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "repository_maintenanceassignmentchecklistitemrepository_maintenanceassignmentchecklistitemrepository",
-      "community": 500,
+      "community": 72,
       "norm_label": "maintenanceassignmentchecklistitemrepository"
     },
     {
@@ -10300,7 +10340,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "repository_maintenanceassignmentchecklistitemrepository_maintenanceassignmentchecklistitemrepository_findbyassignmentidorderbysequencenumberascidasc",
-      "community": 500,
+      "community": 72,
       "norm_label": ".findbyassignmentidorderbysequencenumberascidasc()"
     },
     {
@@ -10310,7 +10350,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_repository_maintenanceassignmentchecklistitemrepository_java_long",
-      "community": 500,
+      "community": 72,
       "norm_label": "long"
     },
     {
@@ -10320,7 +10360,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_repository_maintenanceassignmentchecklistitemrepository_java_list",
-      "community": 500,
+      "community": 72,
       "norm_label": "list"
     },
     {
@@ -10330,7 +10370,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_repository_maintenanceassignmentchecklistitemrepository_java_maintenanceassignmentchecklistitem",
-      "community": 500,
+      "community": 72,
       "norm_label": "maintenanceassignmentchecklistitem"
     },
     {
@@ -10340,7 +10380,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "repository_maintenanceassignmentchecklistitemrepository_maintenanceassignmentchecklistitemrepository_countbyassignmentid",
-      "community": 500,
+      "community": 72,
       "norm_label": ".countbyassignmentid()"
     },
     {
@@ -10350,7 +10390,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "repository_maintenanceassignmentchecklistproofrepository",
-      "community": 395,
+      "community": 72,
       "norm_label": "maintenanceassignmentchecklistproofrepository.java"
     },
     {
@@ -10360,7 +10400,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "repository_maintenanceassignmentchecklistproofrepository_maintenanceassignmentchecklistproofrepository",
-      "community": 395,
+      "community": 72,
       "norm_label": "maintenanceassignmentchecklistproofrepository"
     },
     {
@@ -10370,7 +10410,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "repository_maintenanceassignmentchecklistproofrepository_maintenanceassignmentchecklistproofrepository_findbychecklistitemidorderbyuploadedatdesc",
-      "community": 395,
+      "community": 72,
       "norm_label": ".findbychecklistitemidorderbyuploadedatdesc()"
     },
     {
@@ -10380,7 +10420,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_repository_maintenanceassignmentchecklistproofrepository_java_long",
-      "community": 395,
+      "community": 72,
       "norm_label": "long"
     },
     {
@@ -10390,7 +10430,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_repository_maintenanceassignmentchecklistproofrepository_java_list",
-      "community": 395,
+      "community": 72,
       "norm_label": "list"
     },
     {
@@ -10400,7 +10440,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_repository_maintenanceassignmentchecklistproofrepository_java_maintenanceassignmentchecklistproof",
-      "community": 395,
+      "community": 72,
       "norm_label": "maintenanceassignmentchecklistproof"
     },
     {
@@ -10410,7 +10450,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "repository_maintenanceassignmentchecklistproofrepository_maintenanceassignmentchecklistproofrepository_countbychecklistitemid",
-      "community": 395,
+      "community": 72,
       "norm_label": ".countbychecklistitemid()"
     },
     {
@@ -10420,7 +10460,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "repository_maintenanceassignmentchecklistproofrepository_maintenanceassignmentchecklistproofrepository_deletebychecklistitemid",
-      "community": 395,
+      "community": 72,
       "norm_label": ".deletebychecklistitemid()"
     },
     {
@@ -10890,7 +10930,7 @@
       "source_location": "L83",
       "_origin": "ast",
       "id": "service_maintenanceassignmentchecklistservice_maintenanceassignmentchecklistservice_deleteitem",
-      "community": 236,
+      "community": 72,
       "norm_label": ".deleteitem()"
     },
     {
@@ -11357,7 +11397,7 @@
       "label": ".validateAssignedEmployee()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/service/MaintenanceAssignmentService.java",
-      "source_location": "L164",
+      "source_location": "L166",
       "_origin": "ast",
       "id": "service_maintenanceassignmentservice_maintenanceassignmentservice_validateassignedemployee",
       "community": 96,
@@ -11367,7 +11407,7 @@
       "label": "Employee",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/service/MaintenanceAssignmentService.java",
-      "source_location": "L164",
+      "source_location": "L166",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_service_maintenanceassignmentservice_java_employee",
       "community": 96,
@@ -11377,7 +11417,7 @@
       "label": ".isActiveSiteAssignment()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/service/MaintenanceAssignmentService.java",
-      "source_location": "L178",
+      "source_location": "L180",
       "_origin": "ast",
       "id": "service_maintenanceassignmentservice_maintenanceassignmentservice_isactivesiteassignment",
       "community": 96,
@@ -11387,7 +11427,7 @@
       "label": "EmployeeSiteAssignment",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/service/MaintenanceAssignmentService.java",
-      "source_location": "L178",
+      "source_location": "L180",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_service_maintenanceassignmentservice_java_employeesiteassignment",
       "community": 96,
@@ -11397,7 +11437,7 @@
       "label": ".normalizeStatus()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/service/MaintenanceAssignmentService.java",
-      "source_location": "L185",
+      "source_location": "L187",
       "_origin": "ast",
       "id": "service_maintenanceassignmentservice_maintenanceassignmentservice_normalizestatus",
       "community": 96,
@@ -11407,7 +11447,7 @@
       "label": "String",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/service/MaintenanceAssignmentService.java",
-      "source_location": "L185",
+      "source_location": "L187",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_service_maintenanceassignmentservice_java_string",
       "community": 96,
@@ -11417,7 +11457,7 @@
       "label": ".validateDateRange()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/service/MaintenanceAssignmentService.java",
-      "source_location": "L193",
+      "source_location": "L195",
       "_origin": "ast",
       "id": "service_maintenanceassignmentservice_maintenanceassignmentservice_validatedaterange",
       "community": 96,
@@ -11427,7 +11467,7 @@
       "label": ".employeeName()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/service/MaintenanceAssignmentService.java",
-      "source_location": "L210",
+      "source_location": "L212",
       "_origin": "ast",
       "id": "service_maintenanceassignmentservice_maintenanceassignmentservice_employeename",
       "community": 96,
@@ -11437,7 +11477,7 @@
       "label": ".syncRequestStatusFromAssignment()",
       "file_type": "code",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/service/MaintenanceAssignmentService.java",
-      "source_location": "L217",
+      "source_location": "L219",
       "_origin": "ast",
       "id": "service_maintenanceassignmentservice_maintenanceassignmentservice_syncrequeststatusfromassignment",
       "community": 96,
@@ -12170,7 +12210,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "config_cmmssecurityproperties_cmmssecurityproperties_setapipermissionrestrictionenabled",
-      "community": 178,
+      "community": 189,
       "norm_label": ".setapipermissionrestrictionenabled()"
     },
     {
@@ -13080,7 +13120,7 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "unauthorizedaccessexception",
-      "community": 94,
+      "community": 42,
       "norm_label": "unauthorizedaccessexception"
     },
     {
@@ -13580,7 +13620,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "observability_observabilitymetrics",
-      "community": 116,
+      "community": 15,
       "norm_label": "observabilitymetrics.java"
     },
     {
@@ -13590,7 +13630,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "observability_observabilitymetrics_observabilitymetrics",
-      "community": 116,
+      "community": 15,
       "norm_label": "observabilitymetrics"
     },
     {
@@ -13600,7 +13640,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "observability_observabilitymetrics_observabilitymetrics_observabilitymetrics",
-      "community": 116,
+      "community": 15,
       "norm_label": ".observabilitymetrics()"
     },
     {
@@ -13610,7 +13650,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "meterregistry",
-      "community": 116,
+      "community": 15,
       "norm_label": "meterregistry"
     },
     {
@@ -13620,7 +13660,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_common_observability_observabilitymetrics_java_approvalrequestrepository",
-      "community": 116,
+      "community": 15,
       "norm_label": "approvalrequestrepository"
     },
     {
@@ -13630,7 +13670,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_common_observability_observabilitymetrics_java_sparepartsitestockrepository",
-      "community": 116,
+      "community": 15,
       "norm_label": "sparepartsitestockrepository"
     },
     {
@@ -13640,7 +13680,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "observability_observabilitymetrics_observabilitymetrics_registergauges",
-      "community": 116,
+      "community": 15,
       "norm_label": ".registergauges()"
     },
     {
@@ -13650,7 +13690,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_common_observability_observabilitymetrics_java_postconstruct",
-      "community": 116,
+      "community": 15,
       "norm_label": "postconstruct"
     },
     {
@@ -13660,7 +13700,7 @@
       "source_location": "L72",
       "_origin": "ast",
       "id": "observability_observabilitymetrics_observabilitymetrics_recordapirequest",
-      "community": 116,
+      "community": 15,
       "norm_label": ".recordapirequest()"
     },
     {
@@ -13670,7 +13710,7 @@
       "source_location": "L72",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_common_observability_observabilitymetrics_java_string",
-      "community": 116,
+      "community": 15,
       "norm_label": "string"
     },
     {
@@ -13680,7 +13720,7 @@
       "source_location": "L91",
       "_origin": "ast",
       "id": "observability_observabilitymetrics_observabilitymetrics_recordloginfailure",
-      "community": 116,
+      "community": 15,
       "norm_label": ".recordloginfailure()"
     },
     {
@@ -13690,7 +13730,7 @@
       "source_location": "L99",
       "_origin": "ast",
       "id": "observability_observabilitymetrics_observabilitymetrics_recordnotificationjob",
-      "community": 116,
+      "community": 15,
       "norm_label": ".recordnotificationjob()"
     },
     {
@@ -13700,7 +13740,7 @@
       "source_location": "L113",
       "_origin": "ast",
       "id": "observability_observabilitymetrics_observabilitymetrics_recordpmgeneration",
-      "community": 116,
+      "community": 15,
       "norm_label": ".recordpmgeneration()"
     },
     {
@@ -13720,7 +13760,7 @@
       "source_location": "L135",
       "_origin": "ast",
       "id": "observability_observabilitymetrics_observabilitymetrics_recordstockoutalert",
-      "community": 116,
+      "community": 15,
       "norm_label": ".recordstockoutalert()"
     },
     {
@@ -13730,7 +13770,7 @@
       "source_location": "L142",
       "_origin": "ast",
       "id": "observability_observabilitymetrics_observabilitymetrics_countpendingapprovals",
-      "community": 116,
+      "community": 15,
       "norm_label": ".countpendingapprovals()"
     },
     {
@@ -13740,7 +13780,7 @@
       "source_location": "L149",
       "_origin": "ast",
       "id": "observability_observabilitymetrics_observabilitymetrics_countoverdueapprovals",
-      "community": 116,
+      "community": 15,
       "norm_label": ".countoverdueapprovals()"
     },
     {
@@ -13750,7 +13790,7 @@
       "source_location": "L157",
       "_origin": "ast",
       "id": "observability_observabilitymetrics_observabilitymetrics_countsafely",
-      "community": 116,
+      "community": 15,
       "norm_label": ".countsafely()"
     },
     {
@@ -13760,7 +13800,7 @@
       "source_location": "L157",
       "_origin": "ast",
       "id": "supplier",
-      "community": 116,
+      "community": 15,
       "norm_label": "supplier"
     },
     {
@@ -13770,7 +13810,7 @@
       "source_location": "L157",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_common_observability_observabilitymetrics_java_long",
-      "community": 116,
+      "community": 15,
       "norm_label": "long"
     },
     {
@@ -13780,7 +13820,7 @@
       "source_location": "L165",
       "_origin": "ast",
       "id": "observability_observabilitymetrics_observabilitymetrics_safetag",
-      "community": 116,
+      "community": 15,
       "norm_label": ".safetag()"
     },
     {
@@ -13810,7 +13850,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "onceperrequestfilter",
-      "community": 499,
+      "community": 103,
       "norm_label": "onceperrequestfilter"
     },
     {
@@ -13820,7 +13860,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "observability_requestloggingfilter_requestloggingfilter_requestloggingfilter",
-      "community": 191,
+      "community": 103,
       "norm_label": ".requestloggingfilter()"
     },
     {
@@ -13830,7 +13870,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "observabilitymetrics",
-      "community": 191,
+      "community": 204,
       "norm_label": "observabilitymetrics"
     },
     {
@@ -13840,7 +13880,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "userrepository",
-      "community": 191,
+      "community": 103,
       "norm_label": "userrepository"
     },
     {
@@ -15110,7 +15150,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dto_searchcriteriadto",
-      "community": 48,
+      "community": 73,
       "norm_label": "searchcriteriadto.java"
     },
     {
@@ -15120,7 +15160,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "dto_searchcriteriadto_searchcriteriadto",
-      "community": 48,
+      "community": 73,
       "norm_label": "searchcriteriadto"
     },
     {
@@ -15130,7 +15170,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "dto_searchcriteriadto_searchcriteriadto_getfilterkey",
-      "community": 48,
+      "community": 73,
       "norm_label": ".getfilterkey()"
     },
     {
@@ -15140,7 +15180,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_common_search_dto_searchcriteriadto_java_string",
-      "community": 48,
+      "community": 73,
       "norm_label": "string"
     },
     {
@@ -15150,7 +15190,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "dto_searchcriteriadto_searchcriteriadto_setfilterkey",
-      "community": 48,
+      "community": 73,
       "norm_label": ".setfilterkey()"
     },
     {
@@ -15160,7 +15200,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "dto_searchcriteriadto_searchcriteriadto_getdatatype",
-      "community": 48,
+      "community": 73,
       "norm_label": ".getdatatype()"
     },
     {
@@ -15170,7 +15210,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "dto_searchcriteriadto_searchcriteriadto_setdatatype",
-      "community": 48,
+      "community": 73,
       "norm_label": ".setdatatype()"
     },
     {
@@ -15180,7 +15220,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "dto_searchcriteriadto_searchcriteriadto_getvalue",
-      "community": 48,
+      "community": 73,
       "norm_label": ".getvalue()"
     },
     {
@@ -15190,7 +15230,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_common_search_dto_searchcriteriadto_java_object",
-      "community": 48,
+      "community": 73,
       "norm_label": "object"
     },
     {
@@ -15200,7 +15240,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "dto_searchcriteriadto_searchcriteriadto_setvalue",
-      "community": 48,
+      "community": 73,
       "norm_label": ".setvalue()"
     },
     {
@@ -15210,7 +15250,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "dto_searchcriteriadto_searchcriteriadto_getoperation",
-      "community": 48,
+      "community": 73,
       "norm_label": ".getoperation()"
     },
     {
@@ -15220,7 +15260,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "dto_searchcriteriadto_searchcriteriadto_setoperation",
-      "community": 48,
+      "community": 73,
       "norm_label": ".setoperation()"
     },
     {
@@ -15250,7 +15290,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "dto_searchdto_searchdto_getsearchcriterialist",
-      "community": 48,
+      "community": 73,
       "norm_label": ".getsearchcriterialist()"
     },
     {
@@ -15260,7 +15300,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_common_search_dto_searchdto_java_list",
-      "community": 48,
+      "community": 73,
       "norm_label": "list"
     },
     {
@@ -15270,7 +15310,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_common_search_dto_searchdto_java_searchcriteriadto",
-      "community": 48,
+      "community": 73,
       "norm_label": "searchcriteriadto"
     },
     {
@@ -15280,7 +15320,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "dto_searchdto_searchdto_setsearchcriterialist",
-      "community": 48,
+      "community": 73,
       "norm_label": ".setsearchcriterialist()"
     },
     {
@@ -15520,7 +15560,7 @@
       "source_location": "L177",
       "_origin": "ast",
       "id": "service_listsearchservice_listsearchservice_normalizecriteria",
-      "community": 48,
+      "community": 73,
       "norm_label": ".normalizecriteria()"
     },
     {
@@ -15560,7 +15600,7 @@
       "source_location": "L199",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_common_search_service_listsearchservice_java_pagepropertiesdto",
-      "community": 73,
+      "community": 121,
       "norm_label": "pagepropertiesdto"
     },
     {
@@ -15980,7 +16020,7 @@
       "source_location": "L169",
       "_origin": "ast",
       "id": "field",
-      "community": 73,
+      "community": 44,
       "norm_label": "field"
     },
     {
@@ -16440,7 +16480,7 @@
       "source_location": "L124",
       "_origin": "ast",
       "id": "controller_authcontroller_authcontroller_refresh",
-      "community": 120,
+      "community": 205,
       "norm_label": ".refresh()"
     },
     {
@@ -16450,7 +16490,7 @@
       "source_location": "L124",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_common_security_controller_authcontroller_java_httpservletrequest",
-      "community": 120,
+      "community": 205,
       "norm_label": "httpservletrequest"
     },
     {
@@ -16740,7 +16780,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dto_changepasswordrequest",
-      "community": 223,
+      "community": 120,
       "norm_label": "changepasswordrequest.java"
     },
     {
@@ -16750,7 +16790,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "dto_changepasswordrequest_changepasswordrequest",
-      "community": 223,
+      "community": 120,
       "norm_label": "changepasswordrequest"
     },
     {
@@ -16760,7 +16800,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "dto_changepasswordrequest_changepasswordrequest_getcurrentpassword",
-      "community": 223,
+      "community": 120,
       "norm_label": ".getcurrentpassword()"
     },
     {
@@ -16770,7 +16810,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_common_security_dto_changepasswordrequest_java_string",
-      "community": 223,
+      "community": 120,
       "norm_label": "string"
     },
     {
@@ -16780,7 +16820,7 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "dto_changepasswordrequest_changepasswordrequest_setcurrentpassword",
-      "community": 223,
+      "community": 120,
       "norm_label": ".setcurrentpassword()"
     },
     {
@@ -16790,7 +16830,7 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "dto_changepasswordrequest_changepasswordrequest_getnewpassword",
-      "community": 223,
+      "community": 120,
       "norm_label": ".getnewpassword()"
     },
     {
@@ -16800,7 +16840,7 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "dto_changepasswordrequest_changepasswordrequest_setnewpassword",
-      "community": 223,
+      "community": 120,
       "norm_label": ".setnewpassword()"
     },
     {
@@ -16810,7 +16850,7 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "dto_changepasswordrequest_changepasswordrequest_getconfirmpassword",
-      "community": 223,
+      "community": 120,
       "norm_label": ".getconfirmpassword()"
     },
     {
@@ -16820,7 +16860,7 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "dto_changepasswordrequest_changepasswordrequest_setconfirmpassword",
-      "community": 223,
+      "community": 120,
       "norm_label": ".setconfirmpassword()"
     },
     {
@@ -17520,7 +17560,7 @@
       "source_location": "L141",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_common_security_service_accesscontrolservice_java_collection",
-      "community": 42,
+      "community": 145,
       "norm_label": "collection"
     },
     {
@@ -17550,7 +17590,7 @@
       "source_location": "L164",
       "_origin": "ast",
       "id": "service_accesscontrolservice_accesscontrolservice_validateanysiteaccess",
-      "community": 60,
+      "community": 145,
       "norm_label": ".validateanysiteaccess()"
     },
     {
@@ -22210,7 +22250,7 @@
       "source_location": "L156",
       "_origin": "ast",
       "id": "entity_equipmentdowntime_equipmentdowntime_getid",
-      "community": 113,
+      "community": 195,
       "norm_label": ".getid()"
     },
     {
@@ -22220,7 +22260,7 @@
       "source_location": "L156",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_downtime_entity_equipmentdowntime_java_long",
-      "community": 113,
+      "community": 195,
       "norm_label": "long"
     },
     {
@@ -22230,7 +22270,7 @@
       "source_location": "L157",
       "_origin": "ast",
       "id": "entity_equipmentdowntime_equipmentdowntime_setid",
-      "community": 113,
+      "community": 195,
       "norm_label": ".setid()"
     },
     {
@@ -22330,7 +22370,7 @@
       "source_location": "L164",
       "_origin": "ast",
       "id": "entity_equipmentdowntime_equipmentdowntime_getdowntimestart",
-      "community": 113,
+      "community": 172,
       "norm_label": ".getdowntimestart()"
     },
     {
@@ -22340,7 +22380,7 @@
       "source_location": "L164",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_downtime_entity_equipmentdowntime_java_localdatetime",
-      "community": 113,
+      "community": 172,
       "norm_label": "localdatetime"
     },
     {
@@ -22350,7 +22390,7 @@
       "source_location": "L165",
       "_origin": "ast",
       "id": "entity_equipmentdowntime_equipmentdowntime_setdowntimestart",
-      "community": 113,
+      "community": 172,
       "norm_label": ".setdowntimestart()"
     },
     {
@@ -22360,7 +22400,7 @@
       "source_location": "L166",
       "_origin": "ast",
       "id": "entity_equipmentdowntime_equipmentdowntime_getdowntimeend",
-      "community": 113,
+      "community": 172,
       "norm_label": ".getdowntimeend()"
     },
     {
@@ -22370,7 +22410,7 @@
       "source_location": "L167",
       "_origin": "ast",
       "id": "entity_equipmentdowntime_equipmentdowntime_setdowntimeend",
-      "community": 113,
+      "community": 172,
       "norm_label": ".setdowntimeend()"
     },
     {
@@ -22380,7 +22420,7 @@
       "source_location": "L168",
       "_origin": "ast",
       "id": "entity_equipmentdowntime_equipmentdowntime_getdowntimeminutes",
-      "community": 113,
+      "community": 195,
       "norm_label": ".getdowntimeminutes()"
     },
     {
@@ -22390,7 +22430,7 @@
       "source_location": "L169",
       "_origin": "ast",
       "id": "entity_equipmentdowntime_equipmentdowntime_setdowntimeminutes",
-      "community": 113,
+      "community": 195,
       "norm_label": ".setdowntimeminutes()"
     },
     {
@@ -22680,7 +22720,7 @@
       "source_location": "L196",
       "_origin": "ast",
       "id": "entity_equipmentdowntime_equipmentdowntime_getverifiedat",
-      "community": 113,
+      "community": 172,
       "norm_label": ".getverifiedat()"
     },
     {
@@ -22690,7 +22730,7 @@
       "source_location": "L197",
       "_origin": "ast",
       "id": "entity_equipmentdowntime_equipmentdowntime_setverifiedat",
-      "community": 113,
+      "community": 172,
       "norm_label": ".setverifiedat()"
     },
     {
@@ -22700,7 +22740,7 @@
       "source_location": "L198",
       "_origin": "ast",
       "id": "entity_equipmentdowntime_equipmentdowntime_getclosedat",
-      "community": 113,
+      "community": 172,
       "norm_label": ".getclosedat()"
     },
     {
@@ -22710,7 +22750,7 @@
       "source_location": "L199",
       "_origin": "ast",
       "id": "entity_equipmentdowntime_equipmentdowntime_setclosedat",
-      "community": 113,
+      "community": 172,
       "norm_label": ".setclosedat()"
     },
     {
@@ -22790,7 +22830,7 @@
       "source_location": "L206",
       "_origin": "ast",
       "id": "entity_equipmentdowntime_equipmentdowntime_getcreatedat",
-      "community": 113,
+      "community": 172,
       "norm_label": ".getcreatedat()"
     },
     {
@@ -22800,7 +22840,7 @@
       "source_location": "L207",
       "_origin": "ast",
       "id": "entity_equipmentdowntime_equipmentdowntime_setcreatedat",
-      "community": 113,
+      "community": 172,
       "norm_label": ".setcreatedat()"
     },
     {
@@ -22810,7 +22850,7 @@
       "source_location": "L208",
       "_origin": "ast",
       "id": "entity_equipmentdowntime_equipmentdowntime_getupdatedat",
-      "community": 113,
+      "community": 172,
       "norm_label": ".getupdatedat()"
     },
     {
@@ -22820,7 +22860,7 @@
       "source_location": "L209",
       "_origin": "ast",
       "id": "entity_equipmentdowntime_equipmentdowntime_setupdatedat",
-      "community": 113,
+      "community": 172,
       "norm_label": ".setupdatedat()"
     },
     {
@@ -25000,7 +25040,7 @@
       "source_location": "L80",
       "_origin": "ast",
       "id": "dto_employeedto_employeedto_getassignedsitecount",
-      "community": 297,
+      "community": 21,
       "norm_label": ".getassignedsitecount()"
     },
     {
@@ -25010,7 +25050,7 @@
       "source_location": "L80",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_employee_dto_employeedto_java_integer",
-      "community": 297,
+      "community": 21,
       "norm_label": "integer"
     },
     {
@@ -25020,7 +25060,7 @@
       "source_location": "L81",
       "_origin": "ast",
       "id": "dto_employeedto_employeedto_setassignedsitecount",
-      "community": 297,
+      "community": 21,
       "norm_label": ".setassignedsitecount()"
     },
     {
@@ -25240,7 +25280,7 @@
       "source_location": "L100",
       "_origin": "ast",
       "id": "dto_employeedto_employeedto_getsiteassignments",
-      "community": 265,
+      "community": 21,
       "norm_label": ".getsiteassignments()"
     },
     {
@@ -25250,7 +25290,7 @@
       "source_location": "L100",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_employee_dto_employeedto_java_list",
-      "community": 265,
+      "community": 21,
       "norm_label": "list"
     },
     {
@@ -25260,7 +25300,7 @@
       "source_location": "L100",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_employee_dto_employeedto_java_employeesiteassignmentdto",
-      "community": 265,
+      "community": 21,
       "norm_label": "employeesiteassignmentdto"
     },
     {
@@ -25270,7 +25310,7 @@
       "source_location": "L101",
       "_origin": "ast",
       "id": "dto_employeedto_employeedto_setsiteassignments",
-      "community": 265,
+      "community": 21,
       "norm_label": ".setsiteassignments()"
     },
     {
@@ -25280,7 +25320,7 @@
       "source_location": "L102",
       "_origin": "ast",
       "id": "dto_employeedto_employeedto_getroleassignments",
-      "community": 265,
+      "community": 60,
       "norm_label": ".getroleassignments()"
     },
     {
@@ -25290,7 +25330,7 @@
       "source_location": "L102",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_employee_dto_employeedto_java_employeeroleassignmentdto",
-      "community": 265,
+      "community": 21,
       "norm_label": "employeeroleassignmentdto"
     },
     {
@@ -25300,7 +25340,7 @@
       "source_location": "L103",
       "_origin": "ast",
       "id": "dto_employeedto_employeedto_setroleassignments",
-      "community": 265,
+      "community": 21,
       "norm_label": ".setroleassignments()"
     },
     {
@@ -25350,7 +25390,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "dto_employeeroleassignmentdto_employeeroleassignmentdto_setuserroleid",
-      "community": 89,
+      "community": 60,
       "norm_label": ".setuserroleid()"
     },
     {
@@ -25570,7 +25610,7 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "dto_employeesiteassignmentdto_employeesiteassignmentdto_setassignmentid",
-      "community": 193,
+      "community": 87,
       "norm_label": ".setassignmentid()"
     },
     {
@@ -26510,7 +26550,7 @@
       "source_location": "L65",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_employee_entity_employeesiteassignment_java_employee",
-      "community": 61,
+      "community": 60,
       "norm_label": "employee"
     },
     {
@@ -26520,7 +26560,7 @@
       "source_location": "L66",
       "_origin": "ast",
       "id": "entity_employeesiteassignment_employeesiteassignment_setemployee",
-      "community": 61,
+      "community": 60,
       "norm_label": ".setemployee()"
     },
     {
@@ -27210,7 +27250,7 @@
       "source_location": "L308",
       "_origin": "ast",
       "id": "service_employeeservice_employeeservice_toroleassignmentdto",
-      "community": 89,
+      "community": 60,
       "norm_label": ".toroleassignmentdto()"
     },
     {
@@ -27220,7 +27260,7 @@
       "source_location": "L308",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_employee_service_employeeservice_java_userroleassignment",
-      "community": 89,
+      "community": 60,
       "norm_label": "userroleassignment"
     },
     {
@@ -27230,7 +27270,7 @@
       "source_location": "L308",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_employee_service_employeeservice_java_employeeroleassignmentdto",
-      "community": 89,
+      "community": 60,
       "norm_label": "employeeroleassignmentdto"
     },
     {
@@ -27960,7 +28000,7 @@
       "source_location": "L77",
       "_origin": "ast",
       "id": "dto_equipmentdto_equipmentdto_setequipmenttype",
-      "community": 10,
+      "community": 24,
       "norm_label": ".setequipmenttype()"
     },
     {
@@ -30530,7 +30570,7 @@
       "source_location": "L175",
       "_origin": "ast",
       "id": "service_equipmentservice_equipmentservice_searchequipment",
-      "community": 48,
+      "community": 193,
       "norm_label": ".searchequipment()"
     },
     {
@@ -30540,7 +30580,7 @@
       "source_location": "L175",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_service_equipmentservice_java_searchdto",
-      "community": 48,
+      "community": 193,
       "norm_label": "searchdto"
     },
     {
@@ -30670,7 +30710,7 @@
       "source_location": "L309",
       "_origin": "ast",
       "id": "service_equipmentservice_equipmentservice_validateequipmentsearchkeys",
-      "community": 48,
+      "community": 193,
       "norm_label": ".validateequipmentsearchkeys()"
     },
     {
@@ -30680,7 +30720,7 @@
       "source_location": "L323",
       "_origin": "ast",
       "id": "service_equipmentservice_equipmentservice_normalizeoperations",
-      "community": 48,
+      "community": 193,
       "norm_label": ".normalizeoperations()"
     },
     {
@@ -30690,7 +30730,7 @@
       "source_location": "L343",
       "_origin": "ast",
       "id": "service_equipmentservice_equipmentservice_applydefaultsort",
-      "community": 121,
+      "community": 193,
       "norm_label": ".applydefaultsort()"
     },
     {
@@ -30700,7 +30740,7 @@
       "source_location": "L350",
       "_origin": "ast",
       "id": "service_equipmentservice_equipmentservice_applysiteaccessfilter",
-      "community": 48,
+      "community": 73,
       "norm_label": ".applysiteaccessfilter()"
     },
     {
@@ -30710,7 +30750,7 @@
       "source_location": "L372",
       "_origin": "ast",
       "id": "service_equipmentservice_equipmentservice_isblank",
-      "community": 24,
+      "community": 193,
       "norm_label": ".isblank()"
     },
     {
@@ -30750,7 +30790,7 @@
       "source_location": "L389",
       "_origin": "ast",
       "id": "service_equipmentservice_equipmentservice_calculatehealth",
-      "community": 75,
+      "community": 24,
       "norm_label": ".calculatehealth()"
     },
     {
@@ -31730,7 +31770,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "dao_maintenancerequestdao_maintenancerequestdao_countall",
-      "community": 211,
+      "community": 50,
       "norm_label": ".countall()"
     },
     {
@@ -31830,7 +31870,7 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "dao_maintenancerequestdao_maintenancerequestdao_countunassigned",
-      "community": 46,
+      "community": 50,
       "norm_label": ".countunassigned()"
     },
     {
@@ -33510,7 +33550,7 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "enums_maintenancerequeststatus_blockswork",
-      "community": 83,
+      "community": 231,
       "norm_label": "blockswork()"
     },
     {
@@ -34380,7 +34420,7 @@
       "source_location": "L501",
       "_origin": "ast",
       "id": "service_maintenancerequestservice_maintenancerequestservice_applyapproval",
-      "community": 90,
+      "community": 83,
       "norm_label": ".applyapproval()"
     },
     {
@@ -34410,7 +34450,7 @@
       "source_location": "L520",
       "_origin": "ast",
       "id": "service_maintenancerequestservice_maintenancerequestservice_count",
-      "community": 211,
+      "community": 50,
       "norm_label": ".count()"
     },
     {
@@ -34870,7 +34910,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_notification_dao_notificationdao_java_long",
-      "community": 137,
+      "community": 184,
       "norm_label": "long"
     },
     {
@@ -34890,7 +34930,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "dao_notificationdao_notificationdao_findactivebyrecipientuserid",
-      "community": 137,
+      "community": 184,
       "norm_label": ".findactivebyrecipientuserid()"
     },
     {
@@ -35620,7 +35660,7 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "dto_notificationpagedto_notificationpagedto_getsize",
-      "community": 72,
+      "community": 41,
       "norm_label": ".getsize()"
     },
     {
@@ -37130,7 +37170,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "service_notificationscanservice",
-      "community": 191,
+      "community": 204,
       "norm_label": "notificationscanservice.java"
     },
     {
@@ -37140,7 +37180,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "service_notificationscanservice_notificationscanservice",
-      "community": 191,
+      "community": 204,
       "norm_label": "notificationscanservice"
     },
     {
@@ -37160,7 +37200,7 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "service_notificationscanservice_notificationscanservice_cannotifypmschedule",
-      "community": 191,
+      "community": 204,
       "norm_label": ".cannotifypmschedule()"
     },
     {
@@ -37170,7 +37210,7 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_notification_service_notificationscanservice_java_preventivemaintenanceschedule",
-      "community": 191,
+      "community": 204,
       "norm_label": "preventivemaintenanceschedule"
     },
     {
@@ -37290,7 +37330,7 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_notification_service_notificationservice_java_list",
-      "community": 184,
+      "community": 67,
       "norm_label": "list"
     },
     {
@@ -37400,7 +37440,7 @@
       "source_location": "L88",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_notification_service_notificationservice_java_long",
-      "community": 67,
+      "community": 184,
       "norm_label": "long"
     },
     {
@@ -43910,7 +43950,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "service_maintenancespareusageservice",
-      "community": 193,
+      "community": 20,
       "norm_label": "maintenancespareusageservice.java"
     },
     {
@@ -43930,7 +43970,7 @@
       "source_location": "L64",
       "_origin": "ast",
       "id": "service_maintenancespareusageservice_maintenancespareusageservice_getall",
-      "community": 193,
+      "community": 20,
       "norm_label": ".getall()"
     },
     {
@@ -43950,7 +43990,7 @@
       "source_location": "L64",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_spareparts_service_maintenancespareusageservice_java_list",
-      "community": 193,
+      "community": 20,
       "norm_label": "list"
     },
     {
@@ -43970,7 +44010,7 @@
       "source_location": "L64",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_spareparts_service_maintenancespareusageservice_java_transactional",
-      "community": 193,
+      "community": 20,
       "norm_label": "transactional"
     },
     {
@@ -44120,7 +44160,7 @@
       "source_location": "L226",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_spareparts_service_maintenancespareusageservice_java_sparepartreorderdto",
-      "community": 193,
+      "community": 87,
       "norm_label": "sparepartreorderdto"
     },
     {
@@ -44250,7 +44290,7 @@
       "source_location": "L383",
       "_origin": "ast",
       "id": "service_maintenancespareusageservice_maintenancespareusageservice_canaccess",
-      "community": 193,
+      "community": 20,
       "norm_label": ".canaccess()"
     },
     {
@@ -44260,7 +44300,7 @@
       "source_location": "L383",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_spareparts_service_maintenancespareusageservice_java_maintenanceassignment",
-      "community": 193,
+      "community": 20,
       "norm_label": "maintenanceassignment"
     },
     {
@@ -44280,7 +44320,7 @@
       "source_location": "L392",
       "_origin": "ast",
       "id": "service_maintenancespareusageservice_maintenancespareusageservice_validatesamesite",
-      "community": 193,
+      "community": 20,
       "norm_label": ".validatesamesite()"
     },
     {
@@ -44290,7 +44330,7 @@
       "source_location": "L392",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_spareparts_service_maintenancespareusageservice_java_sparepartsitestock",
-      "community": 193,
+      "community": 20,
       "norm_label": "sparepartsitestock"
     },
     {
@@ -44430,7 +44470,7 @@
       "source_location": "L495",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_spareparts_service_maintenancespareusageservice_java_approvalrequestdto",
-      "community": 193,
+      "community": 20,
       "norm_label": "approvalrequestdto"
     },
     {
@@ -44470,7 +44510,7 @@
       "source_location": "L529",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_spareparts_service_maintenancespareusageservice_java_set",
-      "community": 193,
+      "community": 20,
       "norm_label": "set"
     },
     {
@@ -44540,7 +44580,7 @@
       "source_location": "L610",
       "_origin": "ast",
       "id": "service_maintenancespareusageservice_maintenancespareusageservice_toreorderdto",
-      "community": 193,
+      "community": 87,
       "norm_label": ".toreorderdto()"
     },
     {
@@ -44550,7 +44590,7 @@
       "source_location": "L610",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_spareparts_service_maintenancespareusageservice_java_sparepartreorderrequest",
-      "community": 193,
+      "community": 87,
       "norm_label": "sparepartreorderrequest"
     },
     {
@@ -44860,7 +44900,7 @@
       "source_location": "L122",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_spareparts_service_sparepartservice_java_transactional",
-      "community": 155,
+      "community": 25,
       "norm_label": "transactional"
     },
     {
@@ -45420,7 +45460,7 @@
       "source_location": "L725",
       "_origin": "ast",
       "id": "service_sparepartservice_sparepartservice_nulltodash",
-      "community": 155,
+      "community": 25,
       "norm_label": ".nulltodash()"
     },
     {
@@ -49500,7 +49540,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "service_maintenanceassignmentchecklistservicetest",
-      "community": 298,
+      "community": 72,
       "norm_label": "maintenanceassignmentchecklistservicetest.java"
     },
     {
@@ -49510,7 +49550,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "service_maintenanceassignmentchecklistservicetest_maintenanceassignmentchecklistservicetest",
-      "community": 298,
+      "community": 72,
       "norm_label": "maintenanceassignmentchecklistservicetest"
     },
     {
@@ -49520,7 +49560,7 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "service_maintenanceassignmentchecklistservicetest_maintenanceassignmentchecklistservicetest_setup",
-      "community": 298,
+      "community": 72,
       "norm_label": ".setup()"
     },
     {
@@ -49530,7 +49570,7 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "cmms_back_end_src_test_java_com_example_cmmsapplication_assignment_service_maintenanceassignmentchecklistservicetest_java_beforeeach",
-      "community": 298,
+      "community": 72,
       "norm_label": "beforeeach"
     },
     {
@@ -49540,7 +49580,7 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "service_maintenanceassignmentchecklistservicetest_maintenanceassignmentchecklistservicetest_validateassignmentcancompleteblocksincompleterequiredstep",
-      "community": 298,
+      "community": 72,
       "norm_label": ".validateassignmentcancompleteblocksincompleterequiredstep()"
     },
     {
@@ -49550,7 +49590,7 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "cmms_back_end_src_test_java_com_example_cmmsapplication_assignment_service_maintenanceassignmentchecklistservicetest_java_test",
-      "community": 298,
+      "community": 72,
       "norm_label": "test"
     },
     {
@@ -49560,7 +49600,7 @@
       "source_location": "L59",
       "_origin": "ast",
       "id": "service_maintenanceassignmentchecklistservicetest_maintenanceassignmentchecklistservicetest_validateassignmentcancompleteblocksmissingrequiredproof",
-      "community": 298,
+      "community": 72,
       "norm_label": ".validateassignmentcancompleteblocksmissingrequiredproof()"
     },
     {
@@ -49570,7 +49610,7 @@
       "source_location": "L69",
       "_origin": "ast",
       "id": "service_maintenanceassignmentchecklistservicetest_maintenanceassignmentchecklistservicetest_validateassignmentcancompleteallowscompletedrequiredstepwithproof",
-      "community": 298,
+      "community": 72,
       "norm_label": ".validateassignmentcancompleteallowscompletedrequiredstepwithproof()"
     },
     {
@@ -49580,7 +49620,7 @@
       "source_location": "L79",
       "_origin": "ast",
       "id": "service_maintenanceassignmentchecklistservicetest_maintenanceassignmentchecklistservicetest_validateassignmentcancompleteallowsincompletestepwhenenforcementdisabled",
-      "community": 298,
+      "community": 72,
       "norm_label": ".validateassignmentcancompleteallowsincompletestepwhenenforcementdisabled()"
     },
     {
@@ -49590,7 +49630,7 @@
       "source_location": "L86",
       "_origin": "ast",
       "id": "service_maintenanceassignmentchecklistservicetest_maintenanceassignmentchecklistservicetest_item",
-      "community": 298,
+      "community": 72,
       "norm_label": ".item()"
     },
     {
@@ -49600,7 +49640,7 @@
       "source_location": "L86",
       "_origin": "ast",
       "id": "cmms_back_end_src_test_java_com_example_cmmsapplication_assignment_service_maintenanceassignmentchecklistservicetest_java_string",
-      "community": 298,
+      "community": 72,
       "norm_label": "string"
     },
     {
@@ -49610,7 +49650,7 @@
       "source_location": "L86",
       "_origin": "ast",
       "id": "cmms_back_end_src_test_java_com_example_cmmsapplication_assignment_service_maintenanceassignmentchecklistservicetest_java_maintenanceassignmentchecklistitem",
-      "community": 298,
+      "community": 72,
       "norm_label": "maintenanceassignmentchecklistitem"
     },
     {
@@ -50060,7 +50100,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "service_apipermissionservicetest",
-      "community": 178,
+      "community": 189,
       "norm_label": "apipermissionservicetest.java"
     },
     {
@@ -50070,7 +50110,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "service_apipermissionservicetest_apipermissionservicetest",
-      "community": 178,
+      "community": 189,
       "norm_label": "apipermissionservicetest"
     },
     {
@@ -50080,7 +50120,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "service_apipermissionservicetest_apipermissionservicetest_setup",
-      "community": 178,
+      "community": 189,
       "norm_label": ".setup()"
     },
     {
@@ -50090,7 +50130,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "cmms_back_end_src_test_java_com_example_cmmsapplication_common_security_service_apipermissionservicetest_java_beforeeach",
-      "community": 178,
+      "community": 189,
       "norm_label": "beforeeach"
     },
     {
@@ -50100,7 +50140,7 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "service_apipermissionservicetest_apipermissionservicetest_publicapiisallowedwithoutrepositorylookup",
-      "community": 178,
+      "community": 189,
       "norm_label": ".publicapiisallowedwithoutrepositorylookup()"
     },
     {
@@ -50110,7 +50150,7 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "cmms_back_end_src_test_java_com_example_cmmsapplication_common_security_service_apipermissionservicetest_java_test",
-      "community": 178,
+      "community": 189,
       "norm_label": "test"
     },
     {
@@ -50120,7 +50160,7 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "service_apipermissionservicetest_apipermissionservicetest_unmappedapiisdeniedwhendenyunmappedisenabled",
-      "community": 178,
+      "community": 189,
       "norm_label": ".unmappedapiisdeniedwhendenyunmappedisenabled()"
     },
     {
@@ -50130,7 +50170,7 @@
       "source_location": "L52",
       "_origin": "ast",
       "id": "service_apipermissionservicetest_apipermissionservicetest_unmappedapiisallowedwhendenyunmappedisdisabled",
-      "community": 178,
+      "community": 189,
       "norm_label": ".unmappedapiisallowedwhendenyunmappedisdisabled()"
     },
     {
@@ -50140,7 +50180,7 @@
       "source_location": "L61",
       "_origin": "ast",
       "id": "service_apipermissionservicetest_apipermissionservicetest_mappedapiusesrepositorydecision",
-      "community": 178,
+      "community": 189,
       "norm_label": ".mappedapiusesrepositorydecision()"
     },
     {
@@ -50210,7 +50250,7 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "publicapipatternservice",
-      "community": 108,
+      "community": 127,
       "norm_label": "publicapipatternservice"
     },
     {
@@ -58500,7 +58540,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "src_api_client_apiclient",
-      "community": 187,
+      "community": 186,
       "norm_label": "apiclient"
     },
     {
@@ -58510,7 +58550,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "src_api_client_apiclient_init",
-      "community": 187,
+      "community": 186,
       "norm_label": ".__init__()"
     },
     {
@@ -58520,7 +58560,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "src_api_client_apiclient_set_token",
-      "community": 187,
+      "community": 186,
       "norm_label": ".set_token()"
     },
     {
@@ -58530,7 +58570,7 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "src_api_client_apiclient_url",
-      "community": 187,
+      "community": 186,
       "norm_label": "._url()"
     },
     {
@@ -58540,7 +58580,7 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "src_api_client_apiclient_request",
-      "community": 187,
+      "community": 186,
       "norm_label": "._request()"
     },
     {
@@ -58550,7 +58590,7 @@
       "source_location": "L64",
       "_origin": "ast",
       "id": "src_api_client_apiclient_post",
-      "community": 187,
+      "community": 186,
       "norm_label": ".post()"
     },
     {
@@ -58560,7 +58600,7 @@
       "source_location": "L67",
       "_origin": "ast",
       "id": "src_api_client_apiclient_get",
-      "community": 187,
+      "community": 186,
       "norm_label": ".get()"
     },
     {
@@ -58570,7 +58610,7 @@
       "source_location": "L72",
       "_origin": "ast",
       "id": "src_api_client_apiclient_extract_data",
-      "community": 187,
+      "community": 186,
       "norm_label": ".extract_data()"
     },
     {
@@ -58580,7 +58620,7 @@
       "source_location": "L79",
       "_origin": "ast",
       "id": "src_api_client_apiclient_extract_message",
-      "community": 187,
+      "community": 186,
       "norm_label": ".extract_message()"
     },
     {
@@ -58610,7 +58650,7 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "src_api_client_rationale_31",
-      "community": 187,
+      "community": 186,
       "norm_label": "attach the bearer token to every subsequent request."
     },
     {
@@ -58620,7 +58660,7 @@
       "source_location": "L40",
       "_origin": "ast",
       "id": "src_api_client_rationale_40",
-      "community": 187,
+      "community": 186,
       "norm_label": "return (status_code, parsed_body_or_none). raises apierror on transport failure."
     },
     {
@@ -58630,7 +58670,7 @@
       "source_location": "L73",
       "_origin": "ast",
       "id": "src_api_client_rationale_73",
-      "community": 187,
+      "community": 186,
       "norm_label": "return the ``data`` payload from an apiresponse envelope (or the body itself)."
     },
     {
@@ -58640,7 +58680,7 @@
       "source_location": "L80",
       "_origin": "ast",
       "id": "src_api_client_rationale_80",
-      "community": 187,
+      "community": 186,
       "norm_label": "best-effort human readable message from an apiresponse / error body."
     },
     {
@@ -58730,7 +58770,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_csv_reader",
-      "community": 189,
+      "community": 186,
       "norm_label": "csv_reader.py"
     },
     {
@@ -58740,7 +58780,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "src_csv_reader_csvvalidationerror",
-      "community": 189,
+      "community": 186,
       "norm_label": "csvvalidationerror"
     },
     {
@@ -58750,7 +58790,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "src_csv_reader_read_rows",
-      "community": 189,
+      "community": 186,
       "norm_label": "read_rows()"
     },
     {
@@ -58760,7 +58800,7 @@
       "source_location": "L58",
       "_origin": "ast",
       "id": "src_csv_reader_check_required_values",
-      "community": 189,
+      "community": 186,
       "norm_label": "check_required_values()"
     },
     {
@@ -58770,7 +58810,7 @@
       "source_location": "L63",
       "_origin": "ast",
       "id": "src_csv_reader_validate_datasets",
-      "community": 189,
+      "community": 186,
       "norm_label": "validate_datasets()"
     },
     {
@@ -58780,7 +58820,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_csv_reader_rationale_1",
-      "community": 189,
+      "community": 186,
       "norm_label": "csv reading and validation helpers.  uses pandas to read files, then normalises"
     },
     {
@@ -58790,7 +58830,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "src_csv_reader_rationale_15",
-      "community": 189,
+      "community": 186,
       "norm_label": "raised for structural problems: missing file, empty file, missing columns."
     },
     {
@@ -58800,7 +58840,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "src_csv_reader_rationale_19",
-      "community": 189,
+      "community": 186,
       "norm_label": "read a csv into a list of dict rows (all values str or none).      raises csvval"
     },
     {
@@ -58810,7 +58850,7 @@
       "source_location": "L59",
       "_origin": "ast",
       "id": "src_csv_reader_rationale_59",
-      "community": 189,
+      "community": 186,
       "norm_label": "return a list of column names that are required but blank in this row."
     },
     {
@@ -58820,7 +58860,7 @@
       "source_location": "L64",
       "_origin": "ast",
       "id": "src_csv_reader_rationale_64",
-      "community": 189,
+      "community": 186,
       "norm_label": "cross-file validation before migration.      verifies, for every file that decla"
     },
     {
@@ -58940,7 +58980,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_migration_runner",
-      "community": 204,
+      "community": 186,
       "norm_label": "migration_runner.py"
     },
     {
@@ -58950,7 +58990,7 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "src_migration_runner_migrationrunner",
-      "community": 204,
+      "community": 186,
       "norm_label": "migrationrunner"
     },
     {
@@ -58960,7 +59000,7 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "src_migration_runner_migrationrunner_init",
-      "community": 189,
+      "community": 186,
       "norm_label": ".__init__()"
     },
     {
@@ -58970,7 +59010,7 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "migration_scripts_src_migration_runner_py_apiclient",
-      "community": 189,
+      "community": 186,
       "norm_label": "apiclient"
     },
     {
@@ -58980,7 +59020,7 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "src_migration_runner_migrationrunner_register",
-      "community": 204,
+      "community": 186,
       "norm_label": "._register()"
     },
     {
@@ -58990,7 +59030,7 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "src_migration_runner_migrationrunner_preload_existing",
-      "community": 204,
+      "community": 186,
       "norm_label": "._preload_existing()"
     },
     {
@@ -59000,7 +59040,7 @@
       "source_location": "L79",
       "_origin": "ast",
       "id": "src_migration_runner_migrationrunner_record",
-      "community": 204,
+      "community": 186,
       "norm_label": "._record()"
     },
     {
@@ -59010,7 +59050,7 @@
       "source_location": "L91",
       "_origin": "ast",
       "id": "src_migration_runner_migrationrunner_process_entity",
-      "community": 204,
+      "community": 186,
       "norm_label": "._process_entity()"
     },
     {
@@ -59020,7 +59060,7 @@
       "source_location": "L177",
       "_origin": "ast",
       "id": "src_migration_runner_migrationrunner_run",
-      "community": 204,
+      "community": 186,
       "norm_label": ".run()"
     },
     {
@@ -59030,7 +59070,7 @@
       "source_location": "L203",
       "_origin": "ast",
       "id": "src_migration_runner_migrationrunner_write_report",
-      "community": 204,
+      "community": 186,
       "norm_label": ".write_report()"
     },
     {
@@ -59040,7 +59080,7 @@
       "source_location": "L214",
       "_origin": "ast",
       "id": "src_migration_runner_migrationrunner_summary",
-      "community": 204,
+      "community": 186,
       "norm_label": ".summary()"
     },
     {
@@ -59050,7 +59090,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_migration_runner_rationale_1",
-      "community": 204,
+      "community": 186,
       "norm_label": "orchestrates the end-to-end migration.  flow:   1. optionally pre-load existing"
     },
     {
@@ -59060,7 +59100,7 @@
       "source_location": "L49",
       "_origin": "ast",
       "id": "src_migration_runner_rationale_49",
-      "community": 204,
+      "community": 186,
       "norm_label": "get existing parent records so equipment/employees resolve on re-runs."
     },
     {
@@ -59070,7 +59110,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_payload_builder",
-      "community": 188,
+      "community": 186,
       "norm_label": "payload_builder.py"
     },
     {
@@ -59080,7 +59120,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "src_payload_builder_referenceresolutionerror",
-      "community": 188,
+      "community": 186,
       "norm_label": "referenceresolutionerror"
     },
     {
@@ -59090,7 +59130,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "src_payload_builder_pick",
-      "community": 188,
+      "community": 186,
       "norm_label": "_pick()"
     },
     {
@@ -59100,7 +59140,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "src_payload_builder_status_to_active",
-      "community": 188,
+      "community": 186,
       "norm_label": "_status_to_active()"
     },
     {
@@ -59110,7 +59150,7 @@
       "source_location": "L59",
       "_origin": "ast",
       "id": "src_payload_builder_build_site",
-      "community": 188,
+      "community": 186,
       "norm_label": "build_site()"
     },
     {
@@ -59120,7 +59160,7 @@
       "source_location": "L63",
       "_origin": "ast",
       "id": "src_payload_builder_build_vendor",
-      "community": 188,
+      "community": 186,
       "norm_label": "build_vendor()"
     },
     {
@@ -59130,7 +59170,7 @@
       "source_location": "L85",
       "_origin": "ast",
       "id": "src_payload_builder_build_employee",
-      "community": 188,
+      "community": 186,
       "norm_label": "build_employee()"
     },
     {
@@ -59140,7 +59180,7 @@
       "source_location": "L106",
       "_origin": "ast",
       "id": "src_payload_builder_build_equipment",
-      "community": 188,
+      "community": 186,
       "norm_label": "build_equipment()"
     },
     {
@@ -59150,7 +59190,7 @@
       "source_location": "L144",
       "_origin": "ast",
       "id": "src_payload_builder_build_payload",
-      "community": 188,
+      "community": 186,
       "norm_label": "build_payload()"
     },
     {
@@ -59160,7 +59200,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_payload_builder_rationale_1",
-      "community": 188,
+      "community": 186,
       "norm_label": "build backend request payloads from csv rows.  each entity has a dedicated build"
     },
     {
@@ -59170,7 +59210,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "src_payload_builder_rationale_11",
-      "community": 188,
+      "community": 186,
       "norm_label": "raised when a required parent reference (sitecode/vendorcode) cannot be resolved"
     },
     {
@@ -59180,7 +59220,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "src_payload_builder_rationale_15",
-      "community": 188,
+      "community": 186,
       "norm_label": "copy only the non-empty fields from row into a new dict (keeps payloads clean)."
     },
     {
@@ -59190,7 +59230,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "src_payload_builder_rationale_25",
-      "community": 188,
+      "community": 186,
       "norm_label": "map a status string onto the boolean 'active' flag used by vendordto."
     },
     {
@@ -93861,6 +93901,26 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
+      "source_location": "L71",
+      "weight": 1.0,
+      "source": "dto_maintenanceassignmentdto_maintenanceassignmentdto",
+      "target": "dto_maintenanceassignmentdto_maintenanceassignmentdto_getrequestpriority",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
+      "source_location": "L69",
+      "weight": 1.0,
+      "source": "dto_maintenanceassignmentdto_maintenanceassignmentdto",
+      "target": "dto_maintenanceassignmentdto_maintenanceassignmentdto_getrequeststatus",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
       "source_location": "L65",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -94126,6 +94186,26 @@
       "confidence_score": 1.0,
       "source": "dto_maintenanceassignmentdto_maintenanceassignmentdto",
       "target": "dto_maintenanceassignmentdto_maintenanceassignmentdto_setrequestnumber"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
+      "source_location": "L72",
+      "weight": 1.0,
+      "source": "dto_maintenanceassignmentdto_maintenanceassignmentdto",
+      "target": "dto_maintenanceassignmentdto_maintenanceassignmentdto_setrequestpriority",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
+      "source_location": "L70",
+      "weight": 1.0,
+      "source": "dto_maintenanceassignmentdto_maintenanceassignmentdto",
+      "target": "dto_maintenanceassignmentdto_maintenanceassignmentdto_setrequeststatus",
+      "confidence_score": 1.0
     },
     {
       "relation": "method",
@@ -94431,6 +94511,28 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
+      "source_location": "L71",
+      "weight": 1.0,
+      "context": "return_type",
+      "source": "dto_maintenanceassignmentdto_maintenanceassignmentdto_getrequestpriority",
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_dto_maintenanceassignmentdto_java_string",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
+      "source_location": "L69",
+      "weight": 1.0,
+      "context": "return_type",
+      "source": "dto_maintenanceassignmentdto_maintenanceassignmentdto_getrequeststatus",
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_dto_maintenanceassignmentdto_java_string",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
       "source_location": "L65",
       "weight": 1.0,
       "context": "return_type",
@@ -94552,6 +94654,28 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
+      "source_location": "L72",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "source": "dto_maintenanceassignmentdto_maintenanceassignmentdto_setrequestpriority",
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_dto_maintenanceassignmentdto_java_string",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
+      "source_location": "L70",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "source": "dto_maintenanceassignmentdto_maintenanceassignmentdto_setrequeststatus",
+      "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_dto_maintenanceassignmentdto_java_string",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/dto/MaintenanceAssignmentDTO.java",
       "source_location": "L66",
       "weight": 1.0,
       "context": "parameter_type",
@@ -94602,6 +94726,28 @@
       "confidence_score": 1.0,
       "source": "dto_maintenanceassignmentdto_maintenanceassignmentdto_setvendorname",
       "target": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_dto_maintenanceassignmentdto_java_string"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/service/MaintenanceAssignmentService.java",
+      "source_location": "L141",
+      "weight": 1.0,
+      "source": "service_maintenanceassignmentservice_maintenanceassignmentservice_todto",
+      "target": "dto_maintenanceassignmentdto_maintenanceassignmentdto_setrequeststatus"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "cmms_back_end/src/main/java/com/example/cmmsApplication/assignment/service/MaintenanceAssignmentService.java",
+      "source_location": "L142",
+      "weight": 1.0,
+      "source": "service_maintenanceassignmentservice_maintenanceassignmentservice_todto",
+      "target": "dto_maintenanceassignmentdto_maintenanceassignmentdto_setrequestpriority"
     },
     {
       "relation": "calls",
@@ -237572,5 +237718,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "c196da0108f6dc75ff5a4f0fab325167b9166072"
+  "built_at_commit": "23d75c2519506821556766bba40c8990c6bc2900"
 }
