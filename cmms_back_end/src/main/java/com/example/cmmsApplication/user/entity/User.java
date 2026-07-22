@@ -64,6 +64,9 @@ public class User {
     @Column(nullable = false)
     private Boolean active = true;
 
+    @Column(name = "profile_photo_path", length = 500)
+    private String profilePhotoPath;
+
 // All-args constructor
     public User(Long id, String username, String email, String firstName, String lastName, 
                 UserRole role, String department, User manager, java.util.List<User> subordinates,

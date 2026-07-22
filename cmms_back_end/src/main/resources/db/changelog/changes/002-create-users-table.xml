@@ -67,4 +67,10 @@
         </createIndex>
     </changeSet>
 
+    <changeSet id="users-004-add-profile-photo-path" author="Codex">
+        <addColumn tableName="users">
+            <column name="profile_photo_path" type="VARCHAR(500)"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

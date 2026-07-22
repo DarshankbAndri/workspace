@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -206,7 +207,16 @@ public List<UserDTO> getAllUsers() {
                 user.getActive()
         );
         dto.setEmployeeId(user.getEmployee() != null ? user.getEmployee().getId() : null);
+        dto.setProfilePhotoPath(user.getProfilePhotoPath());
+        dto.setProfilePhotoUrl(profilePhotoUrl(user));
         return dto;
+    }
+
+    private String profilePhotoUrl(User user) {
+        if (user.getProfilePhotoPath() == null || user.getProfilePhotoPath().isBlank()) {
+            return null;
+        }
+        return "/auth/profile/avatar/" + Path.of(user.getProfilePhotoPath()).getFileName();
     }
 
     private boolean isBlank(String value) {
