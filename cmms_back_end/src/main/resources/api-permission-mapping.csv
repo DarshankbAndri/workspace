@@ -144,6 +144,8 @@ ASSIGNMENT_VIEW,/api/vendors,GET,Assignment vendor helper data
 ASSIGNMENT_VIEW,/api/vendors/search,POST,Assignment vendor search helper data
 ASSIGNMENT_VIEW,/api/hr/sites/**,GET,Assignment site helper data
 ASSIGNMENT_VIEW,/api/hr/sites,GET,Assignment site helper data
+ASSIGNMENT_VIEW,/api/hr/employees/search,POST,Assignment technician helper data
+ASSIGNMENT_VIEW,/api/spare-parts/site/*,GET,Assignment site spare helper data
 ASSIGNMENT_CREATE,/api/maintenance/assignments,POST,Create maintenance assignment
 ASSIGNMENT_CREATE,/api/maintenance/requests/**,GET,Create assignment maintenance request helper data
 ASSIGNMENT_CREATE,/api/maintenance/requests,GET,Create assignment maintenance request helper data
@@ -151,6 +153,8 @@ ASSIGNMENT_CREATE,/api/vendors/**,GET,Create assignment vendor helper data
 ASSIGNMENT_CREATE,/api/vendors,GET,Create assignment vendor helper data
 ASSIGNMENT_CREATE,/api/hr/sites/**,GET,Create assignment site helper data
 ASSIGNMENT_CREATE,/api/hr/sites,GET,Create assignment site helper data
+ASSIGNMENT_CREATE,/api/hr/employees/search,POST,Create assignment technician helper data
+ASSIGNMENT_CREATE,/api/spare-parts/site/*,GET,Create assignment site spare helper data
 ASSIGNMENT_UPDATE,/api/maintenance/assignments/*,PUT,Update maintenance assignment
 ASSIGNMENT_UPDATE,/api/maintenance/requests/**,GET,Update assignment maintenance request helper data
 ASSIGNMENT_UPDATE,/api/maintenance/requests,GET,Update assignment maintenance request helper data
@@ -158,6 +162,8 @@ ASSIGNMENT_UPDATE,/api/vendors/**,GET,Update assignment vendor helper data
 ASSIGNMENT_UPDATE,/api/vendors,GET,Update assignment vendor helper data
 ASSIGNMENT_UPDATE,/api/hr/sites/**,GET,Update assignment site helper data
 ASSIGNMENT_UPDATE,/api/hr/sites,GET,Update assignment site helper data
+ASSIGNMENT_UPDATE,/api/hr/employees/search,POST,Update assignment technician helper data
+ASSIGNMENT_UPDATE,/api/spare-parts/site/*,GET,Update assignment site spare helper data
 ASSIGNMENT_DELETE,/api/maintenance/assignments/*,DELETE,Delete maintenance assignment
 ASSIGNMENT_CHECKLIST_VIEW,/api/maintenance/assignments/*/checklist/**,GET,View assignment checklist
 ASSIGNMENT_CHECKLIST_VIEW,/api/maintenance/assignments/*/checklist,GET,View assignment checklist

@@ -192,14 +192,23 @@ function MaintenanceAssignmentFormPage() {
       paginationModel: { page: 0, pageSize: 200 },
       sortModel: [{ field: 'firstName', sort: 'asc' }],
     });
-    Promise.all([getRequestsBySite(form.siteId), getVendorsBySite(form.siteId), getSparePartsBySite(form.siteId), searchEmployees(employeePayload)])
-      .then(([requestRows, vendorRows, spareRows, employeeRows]) => {
+    Promise.allSettled([getRequestsBySite(form.siteId), getVendorsBySite(form.siteId), getSparePartsBySite(form.siteId), searchEmployees(employeePayload)])
+      .then(([requestResult, vendorResult, spareResult, employeeResult]) => {
+        const failedLookups = [];
+        const requestRows = requestResult.status === 'fulfilled' ? requestResult.value : [];
+        const vendorRows = vendorResult.status === 'fulfilled' ? vendorResult.value : [];
+        const spareRows = spareResult.status === 'fulfilled' ? spareResult.value : [];
+        const employeeRows = employeeResult.status === 'fulfilled' ? employeeResult.value : null;
+        if (requestResult.status === 'rejected') failedLookups.push('requests');
+        if (vendorResult.status === 'rejected') failedLookups.push('vendors');
+        if (spareResult.status === 'rejected') failedLookups.push('spare parts');
+        if (employeeResult.status === 'rejected') failedLookups.push('technicians');
         setRequests((requestRows || []).filter((request) => !['PENDING_APPROVAL', 'CLOSE_PENDING_APPROVAL', 'REJECTED'].includes(request.status)));
         setVendors(vendorRows || []);
         setSiteSpares(spareRows || []);
         setEmployees(employeeRows?.data || []);
-      })
-      .catch(() => setError('Unable to load requests, vendors, technicians, or spare parts for selected site.'));
+        setError(failedLookups.length > 0 ? `Unable to load ${failedLookups.join(', ')} for the selected site.` : '');
+      });
   }, [form.siteId]);
 
   const loadSpares = React.useCallback(() => {
