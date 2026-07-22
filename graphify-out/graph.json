@@ -2470,7 +2470,7 @@
       "source_location": "L40",
       "_origin": "ast",
       "id": "entity_rolepermission_rolepermission_getpermission",
-      "community": 42,
+      "community": 172,
       "norm_label": ".getpermission()"
     },
     {
@@ -5410,7 +5410,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "entity_approvalaction",
-      "community": 109,
+      "community": 152,
       "norm_label": "approvalaction.java"
     },
     {
@@ -5420,7 +5420,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "entity_approvalaction_approvalaction",
-      "community": 109,
+      "community": 152,
       "norm_label": "approvalaction"
     },
     {
@@ -5430,7 +5430,7 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "entity_approvalaction_approvalaction_oncreate",
-      "community": 109,
+      "community": 152,
       "norm_label": ".oncreate()"
     },
     {
@@ -5440,7 +5440,7 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_approval_entity_approvalaction_java_prepersist",
-      "community": 109,
+      "community": 152,
       "norm_label": "prepersist"
     },
     {
@@ -5450,7 +5450,7 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "entity_approvalaction_approvalaction_getid",
-      "community": 109,
+      "community": 152,
       "norm_label": ".getid()"
     },
     {
@@ -5460,7 +5460,7 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_approval_entity_approvalaction_java_long",
-      "community": 109,
+      "community": 152,
       "norm_label": "long"
     },
     {
@@ -5470,7 +5470,7 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "entity_approvalaction_approvalaction_setid",
-      "community": 109,
+      "community": 152,
       "norm_label": ".setid()"
     },
     {
@@ -5480,7 +5480,7 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "entity_approvalaction_approvalaction_getapprovalrequest",
-      "community": 109,
+      "community": 152,
       "norm_label": ".getapprovalrequest()"
     },
     {
@@ -5490,7 +5490,7 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_approval_entity_approvalaction_java_approvalrequest",
-      "community": 109,
+      "community": 152,
       "norm_label": "approvalrequest"
     },
     {
@@ -5500,7 +5500,7 @@
       "source_location": "L49",
       "_origin": "ast",
       "id": "entity_approvalaction_approvalaction_setapprovalrequest",
-      "community": 109,
+      "community": 152,
       "norm_label": ".setapprovalrequest()"
     },
     {
@@ -5510,7 +5510,7 @@
       "source_location": "L50",
       "_origin": "ast",
       "id": "entity_approvalaction_approvalaction_getapproveruser",
-      "community": 109,
+      "community": 152,
       "norm_label": ".getapproveruser()"
     },
     {
@@ -5520,7 +5520,7 @@
       "source_location": "L50",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_approval_entity_approvalaction_java_user",
-      "community": 109,
+      "community": 152,
       "norm_label": "user"
     },
     {
@@ -5530,7 +5530,7 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "entity_approvalaction_approvalaction_setapproveruser",
-      "community": 109,
+      "community": 152,
       "norm_label": ".setapproveruser()"
     },
     {
@@ -5540,7 +5540,7 @@
       "source_location": "L52",
       "_origin": "ast",
       "id": "entity_approvalaction_approvalaction_getactionstatus",
-      "community": 109,
+      "community": 152,
       "norm_label": ".getactionstatus()"
     },
     {
@@ -5550,7 +5550,7 @@
       "source_location": "L52",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_approval_entity_approvalaction_java_string",
-      "community": 109,
+      "community": 152,
       "norm_label": "string"
     },
     {
@@ -5560,7 +5560,7 @@
       "source_location": "L53",
       "_origin": "ast",
       "id": "entity_approvalaction_approvalaction_setactionstatus",
-      "community": 109,
+      "community": 152,
       "norm_label": ".setactionstatus()"
     },
     {
@@ -5570,7 +5570,7 @@
       "source_location": "L54",
       "_origin": "ast",
       "id": "entity_approvalaction_approvalaction_getcomments",
-      "community": 109,
+      "community": 152,
       "norm_label": ".getcomments()"
     },
     {
@@ -5580,7 +5580,7 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "entity_approvalaction_approvalaction_setcomments",
-      "community": 109,
+      "community": 152,
       "norm_label": ".setcomments()"
     },
     {
@@ -5590,7 +5590,7 @@
       "source_location": "L56",
       "_origin": "ast",
       "id": "entity_approvalaction_approvalaction_getactionat",
-      "community": 109,
+      "community": 152,
       "norm_label": ".getactionat()"
     },
     {
@@ -5600,7 +5600,7 @@
       "source_location": "L56",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_approval_entity_approvalaction_java_localdatetime",
-      "community": 109,
+      "community": 152,
       "norm_label": "localdatetime"
     },
     {
@@ -5610,7 +5610,7 @@
       "source_location": "L57",
       "_origin": "ast",
       "id": "entity_approvalaction_approvalaction_setactionat",
-      "community": 109,
+      "community": 152,
       "norm_label": ".setactionat()"
     },
     {
@@ -6550,7 +6550,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "repository_approvalrequestrepository",
-      "community": 152,
+      "community": 15,
       "norm_label": "approvalrequestrepository.java"
     },
     {
@@ -6560,7 +6560,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "repository_approvalrequestrepository_approvalrequestrepository",
-      "community": 152,
+      "community": 15,
       "norm_label": "approvalrequestrepository"
     },
     {
@@ -6570,7 +6570,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "repository_approvalrequestrepository_approvalrequestrepository_findbyapprovalstatusorderbyrequestedatdesc",
-      "community": 152,
+      "community": 15,
       "norm_label": ".findbyapprovalstatusorderbyrequestedatdesc()"
     },
     {
@@ -6580,7 +6580,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_approval_repository_approvalrequestrepository_java_string",
-      "community": 152,
+      "community": 15,
       "norm_label": "string"
     },
     {
@@ -6590,7 +6590,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_approval_repository_approvalrequestrepository_java_list",
-      "community": 152,
+      "community": 15,
       "norm_label": "list"
     },
     {
@@ -6600,7 +6600,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_approval_repository_approvalrequestrepository_java_approvalrequest",
-      "community": 152,
+      "community": 15,
       "norm_label": "approvalrequest"
     },
     {
@@ -6610,7 +6610,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "repository_approvalrequestrepository_approvalrequestrepository_findbysiteidinandapprovalstatusorderbyrequestedatdesc",
-      "community": 152,
+      "community": 15,
       "norm_label": ".findbysiteidinandapprovalstatusorderbyrequestedatdesc()"
     },
     {
@@ -6620,7 +6620,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_approval_repository_approvalrequestrepository_java_collection",
-      "community": 152,
+      "community": 15,
       "norm_label": "collection"
     },
     {
@@ -6630,7 +6630,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_approval_repository_approvalrequestrepository_java_long",
-      "community": 152,
+      "community": 15,
       "norm_label": "long"
     },
     {
@@ -6640,7 +6640,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "repository_approvalrequestrepository_approvalrequestrepository_findbymodulecodeandreferenceidorderbyrequestedatdesc",
-      "community": 152,
+      "community": 15,
       "norm_label": ".findbymodulecodeandreferenceidorderbyrequestedatdesc()"
     },
     {
@@ -6650,7 +6650,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "repository_approvalrequestrepository_approvalrequestrepository_findbysiteidinandmodulecodeandreferenceidorderbyrequestedatdesc",
-      "community": 152,
+      "community": 15,
       "norm_label": ".findbysiteidinandmodulecodeandreferenceidorderbyrequestedatdesc()"
     },
     {
@@ -6660,7 +6660,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "repository_approvalrequestrepository_approvalrequestrepository_countbyapprovalstatus",
-      "community": 152,
+      "community": 15,
       "norm_label": ".countbyapprovalstatus()"
     },
     {
@@ -6670,7 +6670,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "repository_approvalrequestrepository_approvalrequestrepository_countbymodulecodeandapprovalstatus",
-      "community": 152,
+      "community": 15,
       "norm_label": ".countbymodulecodeandapprovalstatus()"
     },
     {
@@ -6680,7 +6680,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "repository_approvalrequestrepository_approvalrequestrepository_countbyapprovalstatusandrequestedatbefore",
-      "community": 152,
+      "community": 15,
       "norm_label": ".countbyapprovalstatusandrequestedatbefore()"
     },
     {
@@ -6690,7 +6690,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_approval_repository_approvalrequestrepository_java_localdatetime",
-      "community": 152,
+      "community": 15,
       "norm_label": "localdatetime"
     },
     {
@@ -6700,7 +6700,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "repository_approvalrequestrepository_approvalrequestrepository_countbymodulecodeandapprovalstatusandrequestedatbefore",
-      "community": 152,
+      "community": 15,
       "norm_label": ".countbymodulecodeandapprovalstatusandrequestedatbefore()"
     },
     {
@@ -6920,7 +6920,7 @@
       "source_location": "L100",
       "_origin": "ast",
       "id": "maintenancerequestdao",
-      "community": 93,
+      "community": 116,
       "norm_label": "maintenancerequestdao"
     },
     {
@@ -6930,7 +6930,7 @@
       "source_location": "L100",
       "_origin": "ast",
       "id": "preventivemaintenancescheduledao",
-      "community": 93,
+      "community": 116,
       "norm_label": "preventivemaintenancescheduledao"
     },
     {
@@ -7070,7 +7070,7 @@
       "source_location": "L151",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_approval_service_approvalworkflowservice_java_site",
-      "community": 19,
+      "community": 93,
       "norm_label": "site"
     },
     {
@@ -7150,7 +7150,7 @@
       "source_location": "L225",
       "_origin": "ast",
       "id": "service_approvalworkflowservice_approvalworkflowservice_searchapprovalhistory",
-      "community": 48,
+      "community": 93,
       "norm_label": ".searchapprovalhistory()"
     },
     {
@@ -7280,7 +7280,7 @@
       "source_location": "L316",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_approval_service_approvalworkflowservice_java_pagepropertiesdto",
-      "community": 121,
+      "community": 93,
       "norm_label": "pagepropertiesdto"
     },
     {
@@ -7300,7 +7300,7 @@
       "source_location": "L346",
       "_origin": "ast",
       "id": "service_approvalworkflowservice_approvalworkflowservice_buildapprovalhistoryspecification",
-      "community": 19,
+      "community": 93,
       "norm_label": ".buildapprovalhistoryspecification()"
     },
     {
@@ -7320,7 +7320,7 @@
       "source_location": "L387",
       "_origin": "ast",
       "id": "service_approvalworkflowservice_approvalworkflowservice_buildapprovalhistorypageable",
-      "community": 121,
+      "community": 93,
       "norm_label": ".buildapprovalhistorypageable()"
     },
     {
@@ -7330,7 +7330,7 @@
       "source_location": "L387",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_approval_service_approvalworkflowservice_java_pageable",
-      "community": 121,
+      "community": 93,
       "norm_label": "pageable"
     },
     {
@@ -7410,7 +7410,7 @@
       "source_location": "L437",
       "_origin": "ast",
       "id": "expression",
-      "community": 44,
+      "community": 19,
       "norm_label": "expression"
     },
     {
@@ -7430,7 +7430,7 @@
       "source_location": "L442",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_approval_service_approvalworkflowservice_java_localdatetime",
-      "community": 93,
+      "community": 19,
       "norm_label": "localdatetime"
     },
     {
@@ -7440,7 +7440,7 @@
       "source_location": "L462",
       "_origin": "ast",
       "id": "service_approvalworkflowservice_approvalworkflowservice_applyapprovalhistorysort",
-      "community": 19,
+      "community": 93,
       "norm_label": ".applyapprovalhistorysort()"
     },
     {
@@ -7450,7 +7450,7 @@
       "source_location": "L462",
       "_origin": "ast",
       "id": "root",
-      "community": 19,
+      "community": 93,
       "norm_label": "root"
     },
     {
@@ -7460,7 +7460,7 @@
       "source_location": "L462",
       "_origin": "ast",
       "id": "join",
-      "community": 19,
+      "community": 93,
       "norm_label": "join"
     },
     {
@@ -7470,7 +7470,7 @@
       "source_location": "L462",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_approval_service_approvalworkflowservice_java_user",
-      "community": 19,
+      "community": 93,
       "norm_label": "user"
     },
     {
@@ -7480,7 +7480,7 @@
       "source_location": "L462",
       "_origin": "ast",
       "id": "criteriaquery",
-      "community": 19,
+      "community": 93,
       "norm_label": "criteriaquery"
     },
     {
@@ -7490,7 +7490,7 @@
       "source_location": "L485",
       "_origin": "ast",
       "id": "service_approvalworkflowservice_approvalworkflowservice_findcriterion",
-      "community": 48,
+      "community": 19,
       "norm_label": ".findcriterion()"
     },
     {
@@ -8260,7 +8260,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dao_maintenanceassignmentdao",
-      "community": 161,
+      "community": 55,
       "norm_label": "maintenanceassignmentdao.java"
     },
     {
@@ -8270,7 +8270,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "dao_maintenanceassignmentdao_maintenanceassignmentdao",
-      "community": 161,
+      "community": 55,
       "norm_label": "maintenanceassignmentdao"
     },
     {
@@ -8280,7 +8280,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "dao_maintenanceassignmentdao_maintenanceassignmentdao_save",
-      "community": 161,
+      "community": 55,
       "norm_label": ".save()"
     },
     {
@@ -8290,7 +8290,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_dao_maintenanceassignmentdao_java_maintenanceassignment",
-      "community": 161,
+      "community": 55,
       "norm_label": "maintenanceassignment"
     },
     {
@@ -8300,7 +8300,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "dao_maintenanceassignmentdao_maintenanceassignmentdao_findbyid",
-      "community": 161,
+      "community": 55,
       "norm_label": ".findbyid()"
     },
     {
@@ -8310,7 +8310,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_dao_maintenanceassignmentdao_java_long",
-      "community": 161,
+      "community": 55,
       "norm_label": "long"
     },
     {
@@ -8320,7 +8320,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_dao_maintenanceassignmentdao_java_optional",
-      "community": 161,
+      "community": 55,
       "norm_label": "optional"
     },
     {
@@ -8330,7 +8330,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "dao_maintenanceassignmentdao_maintenanceassignmentdao_findall",
-      "community": 161,
+      "community": 55,
       "norm_label": ".findall()"
     },
     {
@@ -8340,7 +8340,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_dao_maintenanceassignmentdao_java_list",
-      "community": 161,
+      "community": 55,
       "norm_label": "list"
     },
     {
@@ -8350,7 +8350,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "dao_maintenanceassignmentdao_maintenanceassignmentdao_findbysiteid",
-      "community": 161,
+      "community": 55,
       "norm_label": ".findbysiteid()"
     },
     {
@@ -8360,7 +8360,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "dao_maintenanceassignmentdao_maintenanceassignmentdao_findbysiteids",
-      "community": 161,
+      "community": 55,
       "norm_label": ".findbysiteids()"
     },
     {
@@ -8370,7 +8370,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_dao_maintenanceassignmentdao_java_collection",
-      "community": 161,
+      "community": 55,
       "norm_label": "collection"
     },
     {
@@ -8380,7 +8380,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "dao_maintenanceassignmentdao_maintenanceassignmentdao_findbyrequestid",
-      "community": 161,
+      "community": 55,
       "norm_label": ".findbyrequestid()"
     },
     {
@@ -8390,7 +8390,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "dao_maintenanceassignmentdao_maintenanceassignmentdao_findlatestbyrequestid",
-      "community": 161,
+      "community": 55,
       "norm_label": ".findlatestbyrequestid()"
     },
     {
@@ -8400,7 +8400,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "dao_maintenanceassignmentdao_maintenanceassignmentdao_deletebyid",
-      "community": 161,
+      "community": 55,
       "norm_label": ".deletebyid()"
     },
     {
@@ -11450,7 +11450,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "service_maintenanceassignmentworklogservice",
-      "community": 148,
+      "community": 79,
       "norm_label": "maintenanceassignmentworklogservice.java"
     },
     {
@@ -11490,7 +11490,7 @@
       "source_location": "L50",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_service_maintenanceassignmentworklogservice_java_list",
-      "community": 148,
+      "community": 79,
       "norm_label": "list"
     },
     {
@@ -11510,7 +11510,7 @@
       "source_location": "L50",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_service_maintenanceassignmentworklogservice_java_transactional",
-      "community": 148,
+      "community": 79,
       "norm_label": "transactional"
     },
     {
@@ -11590,7 +11590,7 @@
       "source_location": "L102",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_service_maintenanceassignmentworklogservice_java_maintenanceassignmentworklogattachment",
-      "community": 148,
+      "community": 79,
       "norm_label": "maintenanceassignmentworklogattachment"
     },
     {
@@ -11600,7 +11600,7 @@
       "source_location": "L113",
       "_origin": "ast",
       "id": "service_maintenanceassignmentworklogservice_maintenanceassignmentworklogservice_getattachmentresource",
-      "community": 148,
+      "community": 79,
       "norm_label": ".getattachmentresource()"
     },
     {
@@ -11610,7 +11610,7 @@
       "source_location": "L113",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_service_maintenanceassignmentworklogservice_java_resource",
-      "community": 148,
+      "community": 79,
       "norm_label": "resource"
     },
     {
@@ -11700,7 +11700,7 @@
       "source_location": "L187",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_service_maintenanceassignmentworklogservice_java_employeesiteassignment",
-      "community": 148,
+      "community": 79,
       "norm_label": "employeesiteassignment"
     },
     {
@@ -11880,7 +11880,7 @@
       "source_location": "L325",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_assignment_service_maintenanceassignmentworklogservice_java_user",
-      "community": 148,
+      "community": 79,
       "norm_label": "user"
     },
     {
@@ -12940,7 +12940,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "enums_searchoperation",
-      "community": 211,
+      "community": 44,
       "norm_label": "searchoperation.java"
     },
     {
@@ -12950,7 +12950,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "enums_searchoperation_searchoperation",
-      "community": 211,
+      "community": 44,
       "norm_label": "searchoperation()"
     },
     {
@@ -12960,7 +12960,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_common_enums_searchoperation_java_string",
-      "community": 211,
+      "community": 44,
       "norm_label": "string"
     },
     {
@@ -12970,7 +12970,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "enums_searchoperation_getvalue",
-      "community": 211,
+      "community": 44,
       "norm_label": "getvalue()"
     },
     {
@@ -12980,7 +12980,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "enums_searchoperation_fromvalue",
-      "community": 211,
+      "community": 44,
       "norm_label": "fromvalue()"
     },
     {
@@ -13020,7 +13020,7 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "resourcenotfoundexception",
-      "community": 93,
+      "community": 106,
       "norm_label": "resourcenotfoundexception"
     },
     {
@@ -13120,7 +13120,7 @@
       "source_location": "L57",
       "_origin": "ast",
       "id": "invalidoperationexception",
-      "community": 93,
+      "community": 231,
       "norm_label": "invalidoperationexception"
     },
     {
@@ -13580,7 +13580,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "observability_observabilitymetrics",
-      "community": 116,
+      "community": 15,
       "norm_label": "observabilitymetrics.java"
     },
     {
@@ -13590,7 +13590,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "observability_observabilitymetrics_observabilitymetrics",
-      "community": 116,
+      "community": 15,
       "norm_label": "observabilitymetrics"
     },
     {
@@ -13600,7 +13600,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "observability_observabilitymetrics_observabilitymetrics_observabilitymetrics",
-      "community": 116,
+      "community": 15,
       "norm_label": ".observabilitymetrics()"
     },
     {
@@ -13610,7 +13610,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "meterregistry",
-      "community": 116,
+      "community": 15,
       "norm_label": "meterregistry"
     },
     {
@@ -13620,7 +13620,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_common_observability_observabilitymetrics_java_approvalrequestrepository",
-      "community": 116,
+      "community": 15,
       "norm_label": "approvalrequestrepository"
     },
     {
@@ -13630,7 +13630,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_common_observability_observabilitymetrics_java_sparepartsitestockrepository",
-      "community": 116,
+      "community": 15,
       "norm_label": "sparepartsitestockrepository"
     },
     {
@@ -13640,7 +13640,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "observability_observabilitymetrics_observabilitymetrics_registergauges",
-      "community": 116,
+      "community": 15,
       "norm_label": ".registergauges()"
     },
     {
@@ -13650,7 +13650,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_common_observability_observabilitymetrics_java_postconstruct",
-      "community": 116,
+      "community": 15,
       "norm_label": "postconstruct"
     },
     {
@@ -13660,7 +13660,7 @@
       "source_location": "L72",
       "_origin": "ast",
       "id": "observability_observabilitymetrics_observabilitymetrics_recordapirequest",
-      "community": 116,
+      "community": 15,
       "norm_label": ".recordapirequest()"
     },
     {
@@ -13670,7 +13670,7 @@
       "source_location": "L72",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_common_observability_observabilitymetrics_java_string",
-      "community": 116,
+      "community": 15,
       "norm_label": "string"
     },
     {
@@ -13680,7 +13680,7 @@
       "source_location": "L91",
       "_origin": "ast",
       "id": "observability_observabilitymetrics_observabilitymetrics_recordloginfailure",
-      "community": 116,
+      "community": 15,
       "norm_label": ".recordloginfailure()"
     },
     {
@@ -13690,7 +13690,7 @@
       "source_location": "L99",
       "_origin": "ast",
       "id": "observability_observabilitymetrics_observabilitymetrics_recordnotificationjob",
-      "community": 116,
+      "community": 15,
       "norm_label": ".recordnotificationjob()"
     },
     {
@@ -13700,7 +13700,7 @@
       "source_location": "L113",
       "_origin": "ast",
       "id": "observability_observabilitymetrics_observabilitymetrics_recordpmgeneration",
-      "community": 116,
+      "community": 15,
       "norm_label": ".recordpmgeneration()"
     },
     {
@@ -13720,7 +13720,7 @@
       "source_location": "L135",
       "_origin": "ast",
       "id": "observability_observabilitymetrics_observabilitymetrics_recordstockoutalert",
-      "community": 116,
+      "community": 15,
       "norm_label": ".recordstockoutalert()"
     },
     {
@@ -13730,7 +13730,7 @@
       "source_location": "L142",
       "_origin": "ast",
       "id": "observability_observabilitymetrics_observabilitymetrics_countpendingapprovals",
-      "community": 116,
+      "community": 15,
       "norm_label": ".countpendingapprovals()"
     },
     {
@@ -13740,7 +13740,7 @@
       "source_location": "L149",
       "_origin": "ast",
       "id": "observability_observabilitymetrics_observabilitymetrics_countoverdueapprovals",
-      "community": 116,
+      "community": 15,
       "norm_label": ".countoverdueapprovals()"
     },
     {
@@ -13750,7 +13750,7 @@
       "source_location": "L157",
       "_origin": "ast",
       "id": "observability_observabilitymetrics_observabilitymetrics_countsafely",
-      "community": 116,
+      "community": 15,
       "norm_label": ".countsafely()"
     },
     {
@@ -13760,7 +13760,7 @@
       "source_location": "L157",
       "_origin": "ast",
       "id": "supplier",
-      "community": 116,
+      "community": 15,
       "norm_label": "supplier"
     },
     {
@@ -13770,7 +13770,7 @@
       "source_location": "L157",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_common_observability_observabilitymetrics_java_long",
-      "community": 116,
+      "community": 15,
       "norm_label": "long"
     },
     {
@@ -13780,7 +13780,7 @@
       "source_location": "L165",
       "_origin": "ast",
       "id": "observability_observabilitymetrics_observabilitymetrics_safetag",
-      "community": 116,
+      "community": 15,
       "norm_label": ".safetag()"
     },
     {
@@ -13820,7 +13820,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "observability_requestloggingfilter_requestloggingfilter_requestloggingfilter",
-      "community": 191,
+      "community": 103,
       "norm_label": ".requestloggingfilter()"
     },
     {
@@ -13830,7 +13830,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "observabilitymetrics",
-      "community": 191,
+      "community": 116,
       "norm_label": "observabilitymetrics"
     },
     {
@@ -13840,7 +13840,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "userrepository",
-      "community": 191,
+      "community": 103,
       "norm_label": "userrepository"
     },
     {
@@ -15140,7 +15140,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_common_search_dto_searchcriteriadto_java_string",
-      "community": 48,
+      "community": 73,
       "norm_label": "string"
     },
     {
@@ -15150,7 +15150,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "dto_searchcriteriadto_searchcriteriadto_setfilterkey",
-      "community": 48,
+      "community": 73,
       "norm_label": ".setfilterkey()"
     },
     {
@@ -15160,7 +15160,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "dto_searchcriteriadto_searchcriteriadto_getdatatype",
-      "community": 48,
+      "community": 73,
       "norm_label": ".getdatatype()"
     },
     {
@@ -15170,7 +15170,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "dto_searchcriteriadto_searchcriteriadto_setdatatype",
-      "community": 48,
+      "community": 73,
       "norm_label": ".setdatatype()"
     },
     {
@@ -15210,7 +15210,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "dto_searchcriteriadto_searchcriteriadto_getoperation",
-      "community": 48,
+      "community": 44,
       "norm_label": ".getoperation()"
     },
     {
@@ -15520,7 +15520,7 @@
       "source_location": "L177",
       "_origin": "ast",
       "id": "service_listsearchservice_listsearchservice_normalizecriteria",
-      "community": 48,
+      "community": 73,
       "norm_label": ".normalizecriteria()"
     },
     {
@@ -15550,7 +15550,7 @@
       "source_location": "L199",
       "_origin": "ast",
       "id": "service_listsearchservice_listsearchservice_normalizepagination",
-      "community": 121,
+      "community": 73,
       "norm_label": ".normalizepagination()"
     },
     {
@@ -15980,7 +15980,7 @@
       "source_location": "L169",
       "_origin": "ast",
       "id": "field",
-      "community": 73,
+      "community": 44,
       "norm_label": "field"
     },
     {
@@ -16380,7 +16380,7 @@
       "source_location": "L92",
       "_origin": "ast",
       "id": "controller_authcontroller_authcontroller_refresh",
-      "community": 120,
+      "community": 205,
       "norm_label": ".refresh()"
     },
     {
@@ -17390,7 +17390,7 @@
       "source_location": "L101",
       "_origin": "ast",
       "id": "service_accesscontrolservice_accesscontrolservice_getallowedsiteids",
-      "community": 42,
+      "community": 94,
       "norm_label": ".getallowedsiteids()"
     },
     {
@@ -17480,7 +17480,7 @@
       "source_location": "L154",
       "_origin": "ast",
       "id": "service_accesscontrolservice_accesscontrolservice_validatesiteaccess",
-      "community": 87,
+      "community": 25,
       "norm_label": ".validatesiteaccess()"
     },
     {
@@ -17510,7 +17510,7 @@
       "source_location": "L179",
       "_origin": "ast",
       "id": "service_accesscontrolservice_accesscontrolservice_isadmin",
-      "community": 19,
+      "community": 42,
       "norm_label": ".isadmin()"
     },
     {
@@ -22140,7 +22140,7 @@
       "source_location": "L156",
       "_origin": "ast",
       "id": "entity_equipmentdowntime_equipmentdowntime_getid",
-      "community": 113,
+      "community": 193,
       "norm_label": ".getid()"
     },
     {
@@ -22150,7 +22150,7 @@
       "source_location": "L156",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_downtime_entity_equipmentdowntime_java_long",
-      "community": 113,
+      "community": 193,
       "norm_label": "long"
     },
     {
@@ -22160,7 +22160,7 @@
       "source_location": "L157",
       "_origin": "ast",
       "id": "entity_equipmentdowntime_equipmentdowntime_setid",
-      "community": 113,
+      "community": 193,
       "norm_label": ".setid()"
     },
     {
@@ -22260,7 +22260,7 @@
       "source_location": "L164",
       "_origin": "ast",
       "id": "entity_equipmentdowntime_equipmentdowntime_getdowntimestart",
-      "community": 113,
+      "community": 184,
       "norm_label": ".getdowntimestart()"
     },
     {
@@ -22270,7 +22270,7 @@
       "source_location": "L164",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_downtime_entity_equipmentdowntime_java_localdatetime",
-      "community": 113,
+      "community": 184,
       "norm_label": "localdatetime"
     },
     {
@@ -22280,7 +22280,7 @@
       "source_location": "L165",
       "_origin": "ast",
       "id": "entity_equipmentdowntime_equipmentdowntime_setdowntimestart",
-      "community": 113,
+      "community": 184,
       "norm_label": ".setdowntimestart()"
     },
     {
@@ -22290,7 +22290,7 @@
       "source_location": "L166",
       "_origin": "ast",
       "id": "entity_equipmentdowntime_equipmentdowntime_getdowntimeend",
-      "community": 113,
+      "community": 184,
       "norm_label": ".getdowntimeend()"
     },
     {
@@ -22300,7 +22300,7 @@
       "source_location": "L167",
       "_origin": "ast",
       "id": "entity_equipmentdowntime_equipmentdowntime_setdowntimeend",
-      "community": 113,
+      "community": 184,
       "norm_label": ".setdowntimeend()"
     },
     {
@@ -22310,7 +22310,7 @@
       "source_location": "L168",
       "_origin": "ast",
       "id": "entity_equipmentdowntime_equipmentdowntime_getdowntimeminutes",
-      "community": 113,
+      "community": 193,
       "norm_label": ".getdowntimeminutes()"
     },
     {
@@ -22320,7 +22320,7 @@
       "source_location": "L169",
       "_origin": "ast",
       "id": "entity_equipmentdowntime_equipmentdowntime_setdowntimeminutes",
-      "community": 113,
+      "community": 193,
       "norm_label": ".setdowntimeminutes()"
     },
     {
@@ -22610,7 +22610,7 @@
       "source_location": "L196",
       "_origin": "ast",
       "id": "entity_equipmentdowntime_equipmentdowntime_getverifiedat",
-      "community": 113,
+      "community": 184,
       "norm_label": ".getverifiedat()"
     },
     {
@@ -22620,7 +22620,7 @@
       "source_location": "L197",
       "_origin": "ast",
       "id": "entity_equipmentdowntime_equipmentdowntime_setverifiedat",
-      "community": 113,
+      "community": 184,
       "norm_label": ".setverifiedat()"
     },
     {
@@ -22630,7 +22630,7 @@
       "source_location": "L198",
       "_origin": "ast",
       "id": "entity_equipmentdowntime_equipmentdowntime_getclosedat",
-      "community": 113,
+      "community": 184,
       "norm_label": ".getclosedat()"
     },
     {
@@ -22640,7 +22640,7 @@
       "source_location": "L199",
       "_origin": "ast",
       "id": "entity_equipmentdowntime_equipmentdowntime_setclosedat",
-      "community": 113,
+      "community": 184,
       "norm_label": ".setclosedat()"
     },
     {
@@ -22720,7 +22720,7 @@
       "source_location": "L206",
       "_origin": "ast",
       "id": "entity_equipmentdowntime_equipmentdowntime_getcreatedat",
-      "community": 113,
+      "community": 184,
       "norm_label": ".getcreatedat()"
     },
     {
@@ -22730,7 +22730,7 @@
       "source_location": "L207",
       "_origin": "ast",
       "id": "entity_equipmentdowntime_equipmentdowntime_setcreatedat",
-      "community": 113,
+      "community": 184,
       "norm_label": ".setcreatedat()"
     },
     {
@@ -22740,7 +22740,7 @@
       "source_location": "L208",
       "_origin": "ast",
       "id": "entity_equipmentdowntime_equipmentdowntime_getupdatedat",
-      "community": 113,
+      "community": 184,
       "norm_label": ".getupdatedat()"
     },
     {
@@ -22750,7 +22750,7 @@
       "source_location": "L209",
       "_origin": "ast",
       "id": "entity_equipmentdowntime_equipmentdowntime_setupdatedat",
-      "community": 113,
+      "community": 184,
       "norm_label": ".setupdatedat()"
     },
     {
@@ -25210,7 +25210,7 @@
       "source_location": "L102",
       "_origin": "ast",
       "id": "dto_employeedto_employeedto_getroleassignments",
-      "community": 60,
+      "community": 265,
       "norm_label": ".getroleassignments()"
     },
     {
@@ -25500,7 +25500,7 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "dto_employeesiteassignmentdto_employeesiteassignmentdto_setassignmentid",
-      "community": 118,
+      "community": 87,
       "norm_label": ".setassignmentid()"
     },
     {
@@ -30660,7 +30660,7 @@
       "source_location": "L376",
       "_origin": "ast",
       "id": "service_equipmentservice_equipmentservice_isemptyvalue",
-      "community": 193,
+      "community": 24,
       "norm_label": ".isemptyvalue()"
     },
     {
@@ -30670,7 +30670,7 @@
       "source_location": "L376",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_equipment_service_equipmentservice_java_object",
-      "community": 193,
+      "community": 24,
       "norm_label": "object"
     },
     {
@@ -31660,7 +31660,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "dao_maintenancerequestdao_maintenancerequestdao_countall",
-      "community": 254,
+      "community": 50,
       "norm_label": ".countall()"
     },
     {
@@ -31700,7 +31700,7 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "dao_maintenancerequestdao_maintenancerequestdao_countopenrequests",
-      "community": 1,
+      "community": 50,
       "norm_label": ".countopenrequests()"
     },
     {
@@ -31760,7 +31760,7 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "dao_maintenancerequestdao_maintenancerequestdao_countunassigned",
-      "community": 50,
+      "community": 46,
       "norm_label": ".countunassigned()"
     },
     {
@@ -32300,7 +32300,7 @@
       "source_location": "L94",
       "_origin": "ast",
       "id": "dto_maintenancerequestdto_maintenancerequestdto_getamccontractid",
-      "community": 76,
+      "community": 90,
       "norm_label": ".getamccontractid()"
     },
     {
@@ -32950,7 +32950,7 @@
       "source_location": "L129",
       "_origin": "ast",
       "id": "entity_maintenancerequest_maintenancerequest_setamccontract",
-      "community": 69,
+      "community": 16,
       "norm_label": ".setamccontract()"
     },
     {
@@ -33350,7 +33350,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "enums_maintenancerequestaction",
-      "community": 214,
+      "community": 231,
       "norm_label": "maintenancerequestaction.java"
     },
     {
@@ -33360,7 +33360,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "enums_maintenancerequestaction_from",
-      "community": 214,
+      "community": 231,
       "norm_label": "from()"
     },
     {
@@ -33370,7 +33370,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_maintenancerequest_enums_maintenancerequestaction_java_string",
-      "community": 214,
+      "community": 231,
       "norm_label": "string"
     },
     {
@@ -33380,7 +33380,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_maintenancerequest_enums_maintenancerequestaction_java_maintenancerequestaction",
-      "community": 214,
+      "community": 231,
       "norm_label": "maintenancerequestaction"
     },
     {
@@ -33390,7 +33390,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "enums_maintenancerequestaction_allowedvalues",
-      "community": 214,
+      "community": 231,
       "norm_label": "allowedvalues()"
     },
     {
@@ -33850,7 +33850,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "service_maintenancerequestservice",
-      "community": 76,
+      "community": 90,
       "norm_label": "maintenancerequestservice.java"
     },
     {
@@ -33870,7 +33870,7 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "service_maintenancerequestservice_maintenancerequestservice_create",
-      "community": 76,
+      "community": 90,
       "norm_label": ".create()"
     },
     {
@@ -33880,7 +33880,7 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_maintenancerequest_service_maintenancerequestservice_java_maintenancerequestdto",
-      "community": 76,
+      "community": 90,
       "norm_label": "maintenancerequestdto"
     },
     {
@@ -33890,7 +33890,7 @@
       "source_location": "L91",
       "_origin": "ast",
       "id": "service_maintenancerequestservice_maintenancerequestservice_update",
-      "community": 76,
+      "community": 90,
       "norm_label": ".update()"
     },
     {
@@ -33920,7 +33920,7 @@
       "source_location": "L104",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_maintenancerequest_service_maintenancerequestservice_java_maintenancerequesttransitiondto",
-      "community": 76,
+      "community": 90,
       "norm_label": "maintenancerequesttransitiondto"
     },
     {
@@ -33950,7 +33950,7 @@
       "source_location": "L121",
       "_origin": "ast",
       "id": "service_maintenancerequestservice_maintenancerequestservice_getall",
-      "community": 76,
+      "community": 90,
       "norm_label": ".getall()"
     },
     {
@@ -33970,7 +33970,7 @@
       "source_location": "L121",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_maintenancerequest_service_maintenancerequestservice_java_list",
-      "community": 76,
+      "community": 90,
       "norm_label": "list"
     },
     {
@@ -34000,7 +34000,7 @@
       "source_location": "L177",
       "_origin": "ast",
       "id": "service_maintenancerequestservice_maintenancerequestservice_getqueuesummary",
-      "community": 254,
+      "community": 76,
       "norm_label": ".getqueuesummary()"
     },
     {
@@ -34010,7 +34010,7 @@
       "source_location": "L177",
       "_origin": "ast",
       "id": "maintenancerequestqueuesummarydto",
-      "community": 254,
+      "community": 76,
       "norm_label": "maintenancerequestqueuesummarydto"
     },
     {
@@ -34090,7 +34090,7 @@
       "source_location": "L263",
       "_origin": "ast",
       "id": "service_maintenancerequestservice_maintenancerequestservice_apply",
-      "community": 76,
+      "community": 90,
       "norm_label": ".apply()"
     },
     {
@@ -34100,7 +34100,7 @@
       "source_location": "L285",
       "_origin": "ast",
       "id": "service_maintenancerequestservice_maintenancerequestservice_applyamc",
-      "community": 76,
+      "community": 90,
       "norm_label": ".applyamc()"
     },
     {
@@ -34110,7 +34110,7 @@
       "source_location": "L285",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_maintenancerequest_service_maintenancerequestservice_java_equipment",
-      "community": 76,
+      "community": 90,
       "norm_label": "equipment"
     },
     {
@@ -34150,7 +34150,7 @@
       "source_location": "L327",
       "_origin": "ast",
       "id": "service_maintenancerequestservice_maintenancerequestservice_todto",
-      "community": 76,
+      "community": 90,
       "norm_label": ".todto()"
     },
     {
@@ -34310,7 +34310,7 @@
       "source_location": "L501",
       "_origin": "ast",
       "id": "service_maintenancerequestservice_maintenancerequestservice_applyapproval",
-      "community": 76,
+      "community": 90,
       "norm_label": ".applyapproval()"
     },
     {
@@ -34320,7 +34320,7 @@
       "source_location": "L509",
       "_origin": "ast",
       "id": "service_maintenancerequestservice_maintenancerequestservice_queuescope",
-      "community": 254,
+      "community": 76,
       "norm_label": ".queuescope()"
     },
     {
@@ -34330,7 +34330,7 @@
       "source_location": "L509",
       "_origin": "ast",
       "id": "scope",
-      "community": 254,
+      "community": 76,
       "norm_label": "scope"
     },
     {
@@ -34340,7 +34340,7 @@
       "source_location": "L520",
       "_origin": "ast",
       "id": "service_maintenancerequestservice_maintenancerequestservice_count",
-      "community": 254,
+      "community": 50,
       "norm_label": ".count()"
     },
     {
@@ -34350,7 +34350,7 @@
       "source_location": "L527",
       "_origin": "ast",
       "id": "service_maintenancerequestservice_maintenancerequestservice_emptyqueuesummary",
-      "community": 254,
+      "community": 76,
       "norm_label": ".emptyqueuesummary()"
     },
     {
@@ -34360,7 +34360,7 @@
       "source_location": "L542",
       "_origin": "ast",
       "id": "service_maintenancerequestservice_maintenancerequestservice_torelatedassignment",
-      "community": 76,
+      "community": 90,
       "norm_label": ".torelatedassignment()"
     },
     {
@@ -34370,7 +34370,7 @@
       "source_location": "L542",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_maintenancerequest_service_maintenancerequestservice_java_maintenanceassignment",
-      "community": 76,
+      "community": 90,
       "norm_label": "maintenanceassignment"
     },
     {
@@ -34380,7 +34380,7 @@
       "source_location": "L542",
       "_origin": "ast",
       "id": "relatedassignmentdto",
-      "community": 76,
+      "community": 90,
       "norm_label": "relatedassignmentdto"
     },
     {
@@ -34390,7 +34390,7 @@
       "source_location": "L561",
       "_origin": "ast",
       "id": "service_maintenancerequestservice_maintenancerequestservice_torelatedapproval",
-      "community": 90,
+      "community": 76,
       "norm_label": ".torelatedapproval()"
     },
     {
@@ -34400,7 +34400,7 @@
       "source_location": "L561",
       "_origin": "ast",
       "id": "relatedapprovaldto",
-      "community": 90,
+      "community": 76,
       "norm_label": "relatedapprovaldto"
     },
     {
@@ -34440,7 +34440,7 @@
       "source_location": "L588",
       "_origin": "ast",
       "id": "service_maintenancerequestservice_maintenancerequestservice_torelatedspareusage",
-      "community": 76,
+      "community": 211,
       "norm_label": ".torelatedspareusage()"
     },
     {
@@ -34450,7 +34450,7 @@
       "source_location": "L588",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_maintenancerequest_service_maintenancerequestservice_java_maintenancespareusage",
-      "community": 76,
+      "community": 211,
       "norm_label": "maintenancespareusage"
     },
     {
@@ -34460,7 +34460,7 @@
       "source_location": "L588",
       "_origin": "ast",
       "id": "relatedspareusagedto",
-      "community": 76,
+      "community": 211,
       "norm_label": "relatedspareusagedto"
     },
     {
@@ -35490,7 +35490,7 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "dto_notificationpagedto_notificationpagedto_gettotalelements",
-      "community": 147,
+      "community": 93,
       "norm_label": ".gettotalelements()"
     },
     {
@@ -37060,7 +37060,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "service_notificationscanservice",
-      "community": 93,
+      "community": 116,
       "norm_label": "notificationscanservice.java"
     },
     {
@@ -37070,7 +37070,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "service_notificationscanservice_notificationscanservice",
-      "community": 93,
+      "community": 116,
       "norm_label": "notificationscanservice"
     },
     {
@@ -37090,7 +37090,7 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "service_notificationscanservice_notificationscanservice_cannotifypmschedule",
-      "community": 93,
+      "community": 116,
       "norm_label": ".cannotifypmschedule()"
     },
     {
@@ -37100,7 +37100,7 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_notification_service_notificationscanservice_java_preventivemaintenanceschedule",
-      "community": 93,
+      "community": 116,
       "norm_label": "preventivemaintenanceschedule"
     },
     {
@@ -38290,7 +38290,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dao_pmschedulechecklistitemdao",
-      "community": 69,
+      "community": 161,
       "norm_label": "pmschedulechecklistitemdao.java"
     },
     {
@@ -38300,7 +38300,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "dao_pmschedulechecklistitemdao_pmschedulechecklistitemdao",
-      "community": 69,
+      "community": 161,
       "norm_label": "pmschedulechecklistitemdao"
     },
     {
@@ -38310,7 +38310,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "dao_pmschedulechecklistitemdao_pmschedulechecklistitemdao_findbyscheduleid",
-      "community": 69,
+      "community": 161,
       "norm_label": ".findbyscheduleid()"
     },
     {
@@ -38320,7 +38320,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_preventivemaintenance_dao_pmschedulechecklistitemdao_java_long",
-      "community": 69,
+      "community": 161,
       "norm_label": "long"
     },
     {
@@ -38330,7 +38330,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_preventivemaintenance_dao_pmschedulechecklistitemdao_java_list",
-      "community": 69,
+      "community": 161,
       "norm_label": "list"
     },
     {
@@ -38340,7 +38340,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_preventivemaintenance_dao_pmschedulechecklistitemdao_java_pmschedulechecklistitem",
-      "community": 69,
+      "community": 161,
       "norm_label": "pmschedulechecklistitem"
     },
     {
@@ -38350,7 +38350,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "dao_pmschedulechecklistitemdao_pmschedulechecklistitemdao_findactivebyscheduleid",
-      "community": 69,
+      "community": 161,
       "norm_label": ".findactivebyscheduleid()"
     },
     {
@@ -38360,7 +38360,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "dao_pmschedulechecklistitemdao_pmschedulechecklistitemdao_save",
-      "community": 69,
+      "community": 161,
       "norm_label": ".save()"
     },
     {
@@ -38370,7 +38370,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "dao_pmschedulechecklistitemdao_pmschedulechecklistitemdao_deletebyscheduleid",
-      "community": 69,
+      "community": 161,
       "norm_label": ".deletebyscheduleid()"
     },
     {
@@ -38380,7 +38380,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dao_preventivemaintenancescheduledao",
-      "community": 69,
+      "community": 141,
       "norm_label": "preventivemaintenancescheduledao.java"
     },
     {
@@ -38390,7 +38390,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "dao_preventivemaintenancescheduledao_preventivemaintenancescheduledao",
-      "community": 69,
+      "community": 141,
       "norm_label": "preventivemaintenancescheduledao"
     },
     {
@@ -38400,7 +38400,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "dao_preventivemaintenancescheduledao_preventivemaintenancescheduledao_preventivemaintenancescheduledao",
-      "community": 69,
+      "community": 141,
       "norm_label": ".preventivemaintenancescheduledao()"
     },
     {
@@ -38410,7 +38410,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "preventivemaintenanceschedulerepository",
-      "community": 69,
+      "community": 141,
       "norm_label": "preventivemaintenanceschedulerepository"
     },
     {
@@ -38420,7 +38420,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "dao_preventivemaintenancescheduledao_preventivemaintenancescheduledao_save",
-      "community": 69,
+      "community": 141,
       "norm_label": ".save()"
     },
     {
@@ -38430,7 +38430,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_preventivemaintenance_dao_preventivemaintenancescheduledao_java_preventivemaintenanceschedule",
-      "community": 69,
+      "community": 141,
       "norm_label": "preventivemaintenanceschedule"
     },
     {
@@ -38440,7 +38440,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "dao_preventivemaintenancescheduledao_preventivemaintenancescheduledao_findbyid",
-      "community": 69,
+      "community": 141,
       "norm_label": ".findbyid()"
     },
     {
@@ -38450,7 +38450,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_preventivemaintenance_dao_preventivemaintenancescheduledao_java_long",
-      "community": 69,
+      "community": 141,
       "norm_label": "long"
     },
     {
@@ -38460,7 +38460,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_preventivemaintenance_dao_preventivemaintenancescheduledao_java_optional",
-      "community": 69,
+      "community": 141,
       "norm_label": "optional"
     },
     {
@@ -38470,7 +38470,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "dao_preventivemaintenancescheduledao_preventivemaintenancescheduledao_findall",
-      "community": 69,
+      "community": 141,
       "norm_label": ".findall()"
     },
     {
@@ -38480,7 +38480,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_preventivemaintenance_dao_preventivemaintenancescheduledao_java_list",
-      "community": 69,
+      "community": 141,
       "norm_label": "list"
     },
     {
@@ -38490,7 +38490,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "dao_preventivemaintenancescheduledao_preventivemaintenancescheduledao_deletebyid",
-      "community": 69,
+      "community": 141,
       "norm_label": ".deletebyid()"
     },
     {
@@ -38500,7 +38500,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "dao_preventivemaintenancescheduledao_preventivemaintenancescheduledao_existsbyschedulecode",
-      "community": 69,
+      "community": 141,
       "norm_label": ".existsbyschedulecode()"
     },
     {
@@ -38510,7 +38510,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_preventivemaintenance_dao_preventivemaintenancescheduledao_java_string",
-      "community": 69,
+      "community": 141,
       "norm_label": "string"
     },
     {
@@ -38520,7 +38520,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "dao_preventivemaintenancescheduledao_preventivemaintenancescheduledao_existsbyschedulecodeandidnot",
-      "community": 69,
+      "community": 141,
       "norm_label": ".existsbyschedulecodeandidnot()"
     },
     {
@@ -38530,7 +38530,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "dao_preventivemaintenancescheduledao_preventivemaintenancescheduledao_finddue",
-      "community": 69,
+      "community": 141,
       "norm_label": ".finddue()"
     },
     {
@@ -38540,7 +38540,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_preventivemaintenance_dao_preventivemaintenancescheduledao_java_localdate",
-      "community": 69,
+      "community": 141,
       "norm_label": "localdate"
     },
     {
@@ -38550,7 +38550,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "dao_preventivemaintenancescheduledao_preventivemaintenancescheduledao_findupcoming",
-      "community": 69,
+      "community": 141,
       "norm_label": ".findupcoming()"
     },
     {
@@ -38560,7 +38560,7 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "dao_preventivemaintenancescheduledao_preventivemaintenancescheduledao_findbyamccontractid",
-      "community": 69,
+      "community": 141,
       "norm_label": ".findbyamccontractid()"
     },
     {
@@ -38570,7 +38570,7 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "dao_preventivemaintenancescheduledao_preventivemaintenancescheduledao_countbyamccontractid",
-      "community": 69,
+      "community": 141,
       "norm_label": ".countbyamccontractid()"
     },
     {
@@ -38580,7 +38580,7 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "dao_preventivemaintenancescheduledao_preventivemaintenancescheduledao_findcalendar",
-      "community": 69,
+      "community": 141,
       "norm_label": ".findcalendar()"
     },
     {
@@ -38590,7 +38590,7 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_preventivemaintenance_dao_preventivemaintenancescheduledao_java_collection",
-      "community": 69,
+      "community": 141,
       "norm_label": "collection"
     },
     {
@@ -38780,7 +38780,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "repository_pmschedulechecklistitemrepository",
-      "community": 69,
+      "community": 161,
       "norm_label": "pmschedulechecklistitemrepository.java"
     },
     {
@@ -38790,7 +38790,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "repository_pmschedulechecklistitemrepository_pmschedulechecklistitemrepository",
-      "community": 69,
+      "community": 161,
       "norm_label": "pmschedulechecklistitemrepository"
     },
     {
@@ -38800,7 +38800,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "repository_pmschedulechecklistitemrepository_pmschedulechecklistitemrepository_findbyscheduleidorderbysequencenumberascidasc",
-      "community": 69,
+      "community": 161,
       "norm_label": ".findbyscheduleidorderbysequencenumberascidasc()"
     },
     {
@@ -38810,7 +38810,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_preventivemaintenance_repository_pmschedulechecklistitemrepository_java_long",
-      "community": 69,
+      "community": 161,
       "norm_label": "long"
     },
     {
@@ -38820,7 +38820,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_preventivemaintenance_repository_pmschedulechecklistitemrepository_java_list",
-      "community": 69,
+      "community": 161,
       "norm_label": "list"
     },
     {
@@ -38830,7 +38830,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_preventivemaintenance_repository_pmschedulechecklistitemrepository_java_pmschedulechecklistitem",
-      "community": 69,
+      "community": 161,
       "norm_label": "pmschedulechecklistitem"
     },
     {
@@ -38840,7 +38840,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "repository_pmschedulechecklistitemrepository_pmschedulechecklistitemrepository_findbyscheduleidandactivetrueorderbysequencenumberascidasc",
-      "community": 69,
+      "community": 161,
       "norm_label": ".findbyscheduleidandactivetrueorderbysequencenumberascidasc()"
     },
     {
@@ -38850,7 +38850,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "repository_pmschedulechecklistitemrepository_pmschedulechecklistitemrepository_deletebyscheduleid",
-      "community": 69,
+      "community": 161,
       "norm_label": ".deletebyscheduleid()"
     },
     {
@@ -39070,7 +39070,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "service_preventivemaintenancescheduleservice",
-      "community": 69,
+      "community": 116,
       "norm_label": "preventivemaintenancescheduleservice.java"
     },
     {
@@ -39140,7 +39140,7 @@
       "source_location": "L140",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_preventivemaintenance_service_preventivemaintenancescheduleservice_java_transactional",
-      "community": 69,
+      "community": 116,
       "norm_label": "transactional"
     },
     {
@@ -39150,7 +39150,7 @@
       "source_location": "L147",
       "_origin": "ast",
       "id": "service_preventivemaintenancescheduleservice_preventivemaintenancescheduleservice_getall",
-      "community": 69,
+      "community": 116,
       "norm_label": ".getall()"
     },
     {
@@ -39160,7 +39160,7 @@
       "source_location": "L147",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_preventivemaintenance_service_preventivemaintenancescheduleservice_java_list",
-      "community": 69,
+      "community": 116,
       "norm_label": "list"
     },
     {
@@ -39170,7 +39170,7 @@
       "source_location": "L156",
       "_origin": "ast",
       "id": "service_preventivemaintenancescheduleservice_preventivemaintenancescheduleservice_getupcoming",
-      "community": 69,
+      "community": 116,
       "norm_label": ".getupcoming()"
     },
     {
@@ -39180,7 +39180,7 @@
       "source_location": "L166",
       "_origin": "ast",
       "id": "service_preventivemaintenancescheduleservice_preventivemaintenancescheduleservice_getcalendar",
-      "community": 69,
+      "community": 116,
       "norm_label": ".getcalendar()"
     },
     {
@@ -39190,7 +39190,7 @@
       "source_location": "L166",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_preventivemaintenance_service_preventivemaintenancescheduleservice_java_localdate",
-      "community": 69,
+      "community": 116,
       "norm_label": "localdate"
     },
     {
@@ -39220,7 +39220,7 @@
       "source_location": "L210",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_preventivemaintenance_service_preventivemaintenancescheduleservice_java_scheduled",
-      "community": 69,
+      "community": 116,
       "norm_label": "scheduled"
     },
     {
@@ -39300,7 +39300,7 @@
       "source_location": "L386",
       "_origin": "ast",
       "id": "service_preventivemaintenancescheduleservice_preventivemaintenancescheduleservice_validateamccontract",
-      "community": 69,
+      "community": 116,
       "norm_label": ".validateamccontract()"
     },
     {
@@ -39310,7 +39310,7 @@
       "source_location": "L386",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_preventivemaintenance_service_preventivemaintenancescheduleservice_java_equipment",
-      "community": 69,
+      "community": 116,
       "norm_label": "equipment"
     },
     {
@@ -39320,7 +39320,7 @@
       "source_location": "L386",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_preventivemaintenance_service_preventivemaintenancescheduleservice_java_vendoramccontract",
-      "community": 69,
+      "community": 116,
       "norm_label": "vendoramccontract"
     },
     {
@@ -39420,7 +39420,7 @@
       "source_location": "L461",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_preventivemaintenance_service_preventivemaintenancescheduleservice_java_maintenancerequest",
-      "community": 69,
+      "community": 116,
       "norm_label": "maintenancerequest"
     },
     {
@@ -39470,7 +39470,7 @@
       "source_location": "L525",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_preventivemaintenance_service_preventivemaintenancescheduleservice_java_approvalrequestdto",
-      "community": 69,
+      "community": 116,
       "norm_label": "approvalrequestdto"
     },
     {
@@ -39490,7 +39490,7 @@
       "source_location": "L533",
       "_origin": "ast",
       "id": "pmschedulechecklistitemdto",
-      "community": 69,
+      "community": 116,
       "norm_label": "pmschedulechecklistitemdto"
     },
     {
@@ -39500,7 +39500,7 @@
       "source_location": "L557",
       "_origin": "ast",
       "id": "service_preventivemaintenancescheduleservice_preventivemaintenancescheduleservice_checklistdtos",
-      "community": 69,
+      "community": 116,
       "norm_label": ".checklistdtos()"
     },
     {
@@ -39510,7 +39510,7 @@
       "source_location": "L563",
       "_origin": "ast",
       "id": "service_preventivemaintenancescheduleservice_preventivemaintenancescheduleservice_tochecklistdto",
-      "community": 69,
+      "community": 116,
       "norm_label": ".tochecklistdto()"
     },
     {
@@ -39520,7 +39520,7 @@
       "source_location": "L563",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_preventivemaintenance_service_preventivemaintenancescheduleservice_java_pmschedulechecklistitem",
-      "community": 69,
+      "community": 116,
       "norm_label": "pmschedulechecklistitem"
     },
     {
@@ -44710,7 +44710,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "service_sparepartservice",
-      "community": 25,
+      "community": 155,
       "norm_label": "sparepartservice.java"
     },
     {
@@ -44800,7 +44800,7 @@
       "source_location": "L129",
       "_origin": "ast",
       "id": "service_sparepartservice_sparepartservice_search",
-      "community": 25,
+      "community": 155,
       "norm_label": ".search()"
     },
     {
@@ -44810,7 +44810,7 @@
       "source_location": "L129",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_spareparts_service_sparepartservice_java_searchdto",
-      "community": 25,
+      "community": 155,
       "norm_label": "searchdto"
     },
     {
@@ -44820,7 +44820,7 @@
       "source_location": "L129",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_spareparts_service_sparepartservice_java_pageproperties",
-      "community": 25,
+      "community": 155,
       "norm_label": "pageproperties"
     },
     {
@@ -44860,7 +44860,7 @@
       "source_location": "L143",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_spareparts_service_sparepartservice_java_spareparttransactiondto",
-      "community": 25,
+      "community": 155,
       "norm_label": "spareparttransactiondto"
     },
     {
@@ -44890,7 +44890,7 @@
       "source_location": "L179",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_spareparts_service_sparepartservice_java_stocktransferdto",
-      "community": 25,
+      "community": 155,
       "norm_label": "stocktransferdto"
     },
     {
@@ -45060,7 +45060,7 @@
       "source_location": "L355",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_spareparts_service_sparepartservice_java_sparepart",
-      "community": 25,
+      "community": 155,
       "norm_label": "sparepart"
     },
     {
@@ -45160,7 +45160,7 @@
       "source_location": "L490",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_spareparts_service_sparepartservice_java_spareparttransaction",
-      "community": 25,
+      "community": 155,
       "norm_label": "spareparttransaction"
     },
     {
@@ -45250,7 +45250,7 @@
       "source_location": "L586",
       "_origin": "ast",
       "id": "service_sparepartservice_sparepartservice_totransactiondto",
-      "community": 25,
+      "community": 155,
       "norm_label": ".totransactiondto()"
     },
     {
@@ -45260,7 +45260,7 @@
       "source_location": "L614",
       "_origin": "ast",
       "id": "service_sparepartservice_sparepartservice_enrichtransactioncontext",
-      "community": 25,
+      "community": 155,
       "norm_label": ".enrichtransactioncontext()"
     },
     {
@@ -45270,7 +45270,7 @@
       "source_location": "L634",
       "_origin": "ast",
       "id": "service_sparepartservice_sparepartservice_enrichassignmentcontext",
-      "community": 25,
+      "community": 155,
       "norm_label": ".enrichassignmentcontext()"
     },
     {
@@ -45280,7 +45280,7 @@
       "source_location": "L648",
       "_origin": "ast",
       "id": "service_sparepartservice_sparepartservice_enrichtransfercontext",
-      "community": 25,
+      "community": 155,
       "norm_label": ".enrichtransfercontext()"
     },
     {
@@ -45290,7 +45290,7 @@
       "source_location": "L665",
       "_origin": "ast",
       "id": "service_sparepartservice_sparepartservice_enrichpurchaserequestcontext",
-      "community": 25,
+      "community": 155,
       "norm_label": ".enrichpurchaserequestcontext()"
     },
     {
@@ -45300,7 +45300,7 @@
       "source_location": "L678",
       "_origin": "ast",
       "id": "service_sparepartservice_sparepartservice_applymaintenancerequestcontext",
-      "community": 25,
+      "community": 155,
       "norm_label": ".applymaintenancerequestcontext()"
     },
     {
@@ -45310,7 +45310,7 @@
       "source_location": "L678",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_spareparts_service_sparepartservice_java_maintenancerequest",
-      "community": 25,
+      "community": 155,
       "norm_label": "maintenancerequest"
     },
     {
@@ -45320,7 +45320,7 @@
       "source_location": "L691",
       "_origin": "ast",
       "id": "service_sparepartservice_sparepartservice_applysite",
-      "community": 25,
+      "community": 155,
       "norm_label": ".applysite()"
     },
     {
@@ -45330,7 +45330,7 @@
       "source_location": "L691",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_spareparts_service_sparepartservice_java_site",
-      "community": 25,
+      "community": 155,
       "norm_label": "site"
     },
     {
@@ -45340,7 +45340,7 @@
       "source_location": "L704",
       "_origin": "ast",
       "id": "service_sparepartservice_sparepartservice_buildbusinessdescription",
-      "community": 25,
+      "community": 155,
       "norm_label": ".buildbusinessdescription()"
     },
     {
@@ -47390,7 +47390,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "controller_vendoramccontroller",
-      "community": 114,
+      "community": 0,
       "norm_label": "vendoramccontroller.java"
     },
     {
@@ -47400,7 +47400,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "controller_vendoramccontroller_vendoramccontroller",
-      "community": 114,
+      "community": 0,
       "norm_label": "vendoramccontroller"
     },
     {
@@ -47410,7 +47410,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "controller_vendoramccontroller_vendoramccontroller_create",
-      "community": 114,
+      "community": 0,
       "norm_label": ".create()"
     },
     {
@@ -47420,7 +47420,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_vendoramc_controller_vendoramccontroller_java_vendoramccontractdto",
-      "community": 114,
+      "community": 0,
       "norm_label": "vendoramccontractdto"
     },
     {
@@ -47430,7 +47430,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_vendoramc_controller_vendoramccontroller_java_responseentity",
-      "community": 114,
+      "community": 0,
       "norm_label": "responseentity"
     },
     {
@@ -47440,7 +47440,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_vendoramc_controller_vendoramccontroller_java_apiresponse",
-      "community": 114,
+      "community": 0,
       "norm_label": "apiresponse"
     },
     {
@@ -47450,7 +47450,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_vendoramc_controller_vendoramccontroller_java_postmapping",
-      "community": 114,
+      "community": 0,
       "norm_label": "postmapping"
     },
     {
@@ -47460,7 +47460,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "controller_vendoramccontroller_vendoramccontroller_update",
-      "community": 114,
+      "community": 0,
       "norm_label": ".update()"
     },
     {
@@ -47470,7 +47470,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_vendoramc_controller_vendoramccontroller_java_long",
-      "community": 114,
+      "community": 0,
       "norm_label": "long"
     },
     {
@@ -47480,7 +47480,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_vendoramc_controller_vendoramccontroller_java_putmapping",
-      "community": 114,
+      "community": 0,
       "norm_label": "putmapping"
     },
     {
@@ -47490,7 +47490,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "controller_vendoramccontroller_vendoramccontroller_getbyid",
-      "community": 114,
+      "community": 0,
       "norm_label": ".getbyid()"
     },
     {
@@ -47500,7 +47500,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_vendoramc_controller_vendoramccontroller_java_getmapping",
-      "community": 114,
+      "community": 0,
       "norm_label": "getmapping"
     },
     {
@@ -47510,7 +47510,7 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "controller_vendoramccontroller_vendoramccontroller_search",
-      "community": 114,
+      "community": 0,
       "norm_label": ".search()"
     },
     {
@@ -47520,7 +47520,7 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_vendoramc_controller_vendoramccontroller_java_searchdto",
-      "community": 114,
+      "community": 0,
       "norm_label": "searchdto"
     },
     {
@@ -47530,7 +47530,7 @@
       "source_location": "L40",
       "_origin": "ast",
       "id": "controller_vendoramccontroller_vendoramccontroller_delete",
-      "community": 114,
+      "community": 0,
       "norm_label": ".delete()"
     },
     {
@@ -47540,7 +47540,7 @@
       "source_location": "L40",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_vendoramc_controller_vendoramccontroller_java_deletemapping",
-      "community": 114,
+      "community": 0,
       "norm_label": "deletemapping"
     },
     {
@@ -47550,7 +47550,7 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "controller_vendoramccontroller_vendoramccontroller_mapequipment",
-      "community": 114,
+      "community": 0,
       "norm_label": ".mapequipment()"
     },
     {
@@ -47560,7 +47560,7 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_vendoramc_controller_vendoramccontroller_java_equipmentamcmappingdto",
-      "community": 114,
+      "community": 0,
       "norm_label": "equipmentamcmappingdto"
     },
     {
@@ -47570,7 +47570,7 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "controller_vendoramccontroller_vendoramccontroller_removeequipment",
-      "community": 114,
+      "community": 0,
       "norm_label": ".removeequipment()"
     },
     {
@@ -47580,7 +47580,7 @@
       "source_location": "L57",
       "_origin": "ast",
       "id": "controller_vendoramccontroller_vendoramccontroller_getequipment",
-      "community": 114,
+      "community": 0,
       "norm_label": ".getequipment()"
     },
     {
@@ -47590,7 +47590,7 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "controller_vendoramccontroller_vendoramccontroller_getpmschedules",
-      "community": 114,
+      "community": 0,
       "norm_label": ".getpmschedules()"
     },
     {
@@ -47600,7 +47600,7 @@
       "source_location": "L67",
       "_origin": "ast",
       "id": "controller_vendoramccontroller_vendoramccontroller_renew",
-      "community": 114,
+      "community": 0,
       "norm_label": ".renew()"
     },
     {
@@ -47610,7 +47610,7 @@
       "source_location": "L72",
       "_origin": "ast",
       "id": "controller_vendoramccontroller_vendoramccontroller_dashboard",
-      "community": 114,
+      "community": 0,
       "norm_label": ".dashboard()"
     },
     {
@@ -47620,7 +47620,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dao_equipmentamcmappingdao",
-      "community": 141,
+      "community": 0,
       "norm_label": "equipmentamcmappingdao.java"
     },
     {
@@ -47630,7 +47630,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "dao_equipmentamcmappingdao_equipmentamcmappingdao",
-      "community": 141,
+      "community": 0,
       "norm_label": "equipmentamcmappingdao"
     },
     {
@@ -47640,7 +47640,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "dao_equipmentamcmappingdao_equipmentamcmappingdao_save",
-      "community": 141,
+      "community": 0,
       "norm_label": ".save()"
     },
     {
@@ -47650,7 +47650,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_vendoramc_dao_equipmentamcmappingdao_java_equipmentamcmapping",
-      "community": 141,
+      "community": 0,
       "norm_label": "equipmentamcmapping"
     },
     {
@@ -47660,7 +47660,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "dao_equipmentamcmappingdao_equipmentamcmappingdao_findall",
-      "community": 141,
+      "community": 0,
       "norm_label": ".findall()"
     },
     {
@@ -47670,7 +47670,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_vendoramc_dao_equipmentamcmappingdao_java_list",
-      "community": 141,
+      "community": 0,
       "norm_label": "list"
     },
     {
@@ -47680,7 +47680,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "dao_equipmentamcmappingdao_equipmentamcmappingdao_findbycontractandequipment",
-      "community": 141,
+      "community": 0,
       "norm_label": ".findbycontractandequipment()"
     },
     {
@@ -47690,7 +47690,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_vendoramc_dao_equipmentamcmappingdao_java_long",
-      "community": 141,
+      "community": 0,
       "norm_label": "long"
     },
     {
@@ -47700,7 +47700,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_vendoramc_dao_equipmentamcmappingdao_java_optional",
-      "community": 141,
+      "community": 0,
       "norm_label": "optional"
     },
     {
@@ -47710,7 +47710,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "dao_equipmentamcmappingdao_equipmentamcmappingdao_findbycontractid",
-      "community": 141,
+      "community": 0,
       "norm_label": ".findbycontractid()"
     },
     {
@@ -47720,7 +47720,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "dao_equipmentamcmappingdao_equipmentamcmappingdao_findbyequipmentid",
-      "community": 141,
+      "community": 0,
       "norm_label": ".findbyequipmentid()"
     },
     {
@@ -47730,7 +47730,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "dao_equipmentamcmappingdao_equipmentamcmappingdao_countbycontractid",
-      "community": 141,
+      "community": 0,
       "norm_label": ".countbycontractid()"
     },
     {
@@ -47740,7 +47740,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "dao_equipmentamcmappingdao_equipmentamcmappingdao_deletebycontractid",
-      "community": 141,
+      "community": 0,
       "norm_label": ".deletebycontractid()"
     },
     {
@@ -47750,7 +47750,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "dao_equipmentamcmappingdao_equipmentamcmappingdao_existsbycontractandequipment",
-      "community": 141,
+      "community": 0,
       "norm_label": ".existsbycontractandequipment()"
     },
     {
@@ -47760,7 +47760,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "dao_equipmentamcmappingdao_equipmentamcmappingdao_findactivebyequipment",
-      "community": 141,
+      "community": 0,
       "norm_label": ".findactivebyequipment()"
     },
     {
@@ -47770,7 +47770,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_vendoramc_dao_equipmentamcmappingdao_java_localdate",
-      "community": 141,
+      "community": 0,
       "norm_label": "localdate"
     },
     {
@@ -47780,7 +47780,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_vendoramc_dao_equipmentamcmappingdao_java_collection",
-      "community": 141,
+      "community": 0,
       "norm_label": "collection"
     },
     {
@@ -47790,7 +47790,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_vendoramc_dao_equipmentamcmappingdao_java_string",
-      "community": 141,
+      "community": 0,
       "norm_label": "string"
     },
     {
@@ -47800,7 +47800,7 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "dao_equipmentamcmappingdao_equipmentamcmappingdao_countoverlappingactive",
-      "community": 141,
+      "community": 0,
       "norm_label": ".countoverlappingactive()"
     },
     {
@@ -48210,7 +48210,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "enums_vendoramcstatus",
-      "community": 236,
+      "community": 0,
       "norm_label": "vendoramcstatus.java"
     },
     {
@@ -48220,7 +48220,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "enums_vendoramcstatus_from",
-      "community": 236,
+      "community": 0,
       "norm_label": "from()"
     },
     {
@@ -48230,7 +48230,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_vendoramc_enums_vendoramcstatus_java_string",
-      "community": 236,
+      "community": 0,
       "norm_label": "string"
     },
     {
@@ -48240,7 +48240,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "vendoramcstatus",
-      "community": 236,
+      "community": 0,
       "norm_label": "vendoramcstatus"
     },
     {
@@ -48250,7 +48250,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "enums_vendoramcstatus_canacceptequipmentmapping",
-      "community": 236,
+      "community": 0,
       "norm_label": "canacceptequipmentmapping()"
     },
     {
@@ -48370,7 +48370,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "repository_equipmentamcmappingrepository",
-      "community": 155,
+      "community": 0,
       "norm_label": "equipmentamcmappingrepository.java"
     },
     {
@@ -48380,7 +48380,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "repository_equipmentamcmappingrepository_equipmentamcmappingrepository",
-      "community": 155,
+      "community": 0,
       "norm_label": "equipmentamcmappingrepository"
     },
     {
@@ -48390,7 +48390,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "repository_equipmentamcmappingrepository_equipmentamcmappingrepository_existsbyamccontractidandequipmentid",
-      "community": 155,
+      "community": 0,
       "norm_label": ".existsbyamccontractidandequipmentid()"
     },
     {
@@ -48400,7 +48400,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_vendoramc_repository_equipmentamcmappingrepository_java_long",
-      "community": 155,
+      "community": 0,
       "norm_label": "long"
     },
     {
@@ -48410,7 +48410,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "repository_equipmentamcmappingrepository_equipmentamcmappingrepository_findbyamccontractidandequipmentid",
-      "community": 155,
+      "community": 0,
       "norm_label": ".findbyamccontractidandequipmentid()"
     },
     {
@@ -48420,7 +48420,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_vendoramc_repository_equipmentamcmappingrepository_java_optional",
-      "community": 155,
+      "community": 0,
       "norm_label": "optional"
     },
     {
@@ -48430,7 +48430,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_vendoramc_repository_equipmentamcmappingrepository_java_equipmentamcmapping",
-      "community": 155,
+      "community": 0,
       "norm_label": "equipmentamcmapping"
     },
     {
@@ -48440,7 +48440,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "repository_equipmentamcmappingrepository_equipmentamcmappingrepository_findbyamccontractidorderbyequipmentequipmentnameasc",
-      "community": 155,
+      "community": 0,
       "norm_label": ".findbyamccontractidorderbyequipmentequipmentnameasc()"
     },
     {
@@ -48450,7 +48450,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_vendoramc_repository_equipmentamcmappingrepository_java_list",
-      "community": 155,
+      "community": 0,
       "norm_label": "list"
     },
     {
@@ -48460,7 +48460,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "repository_equipmentamcmappingrepository_equipmentamcmappingrepository_findbyequipmentidorderbycoverageenddatedesciddesc",
-      "community": 155,
+      "community": 0,
       "norm_label": ".findbyequipmentidorderbycoverageenddatedesciddesc()"
     },
     {
@@ -48470,7 +48470,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "repository_equipmentamcmappingrepository_equipmentamcmappingrepository_countbyamccontractid",
-      "community": 155,
+      "community": 0,
       "norm_label": ".countbyamccontractid()"
     },
     {
@@ -48480,7 +48480,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "repository_equipmentamcmappingrepository_equipmentamcmappingrepository_deletebyamccontractid",
-      "community": 155,
+      "community": 0,
       "norm_label": ".deletebyamccontractid()"
     },
     {
@@ -48490,7 +48490,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_vendoramc_repository_equipmentamcmappingrepository_java_modifying",
-      "community": 155,
+      "community": 0,
       "norm_label": "modifying"
     },
     {
@@ -48500,7 +48500,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "repository_equipmentamcmappingrepository_equipmentamcmappingrepository_findactivebyequipment",
-      "community": 155,
+      "community": 0,
       "norm_label": ".findactivebyequipment()"
     },
     {
@@ -48510,7 +48510,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_vendoramc_repository_equipmentamcmappingrepository_java_localdate",
-      "community": 155,
+      "community": 0,
       "norm_label": "localdate"
     },
     {
@@ -48520,7 +48520,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_vendoramc_repository_equipmentamcmappingrepository_java_collection",
-      "community": 155,
+      "community": 0,
       "norm_label": "collection"
     },
     {
@@ -48530,7 +48530,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_vendoramc_repository_equipmentamcmappingrepository_java_string",
-      "community": 155,
+      "community": 0,
       "norm_label": "string"
     },
     {
@@ -48540,7 +48540,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_vendoramc_repository_equipmentamcmappingrepository_java_query",
-      "community": 155,
+      "community": 0,
       "norm_label": "query"
     },
     {
@@ -48550,7 +48550,7 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "repository_equipmentamcmappingrepository_equipmentamcmappingrepository_countoverlappingactive",
-      "community": 155,
+      "community": 0,
       "norm_label": ".countoverlappingactive()"
     },
     {
@@ -48720,7 +48720,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "service_vendoramcservice",
-      "community": 93,
+      "community": 0,
       "norm_label": "vendoramcservice.java"
     },
     {
@@ -48800,7 +48800,7 @@
       "source_location": "L95",
       "_origin": "ast",
       "id": "service_vendoramcservice_vendoramcservice_searchamccontracts",
-      "community": 93,
+      "community": 0,
       "norm_label": ".searchamccontracts()"
     },
     {
@@ -48810,7 +48810,7 @@
       "source_location": "L95",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_vendoramc_service_vendoramcservice_java_searchdto",
-      "community": 93,
+      "community": 0,
       "norm_label": "searchdto"
     },
     {
@@ -48820,7 +48820,7 @@
       "source_location": "L95",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_vendoramc_service_vendoramcservice_java_pageproperties",
-      "community": 93,
+      "community": 0,
       "norm_label": "pageproperties"
     },
     {
@@ -48830,7 +48830,7 @@
       "source_location": "L112",
       "_origin": "ast",
       "id": "service_vendoramcservice_vendoramcservice_deleteamccontract",
-      "community": 141,
+      "community": 0,
       "norm_label": ".deleteamccontract()"
     },
     {
@@ -48860,7 +48860,7 @@
       "source_location": "L157",
       "_origin": "ast",
       "id": "service_vendoramcservice_vendoramcservice_removeequipmentmapping",
-      "community": 141,
+      "community": 0,
       "norm_label": ".removeequipmentmapping()"
     },
     {
@@ -48900,7 +48900,7 @@
       "source_location": "L170",
       "_origin": "ast",
       "id": "vendoramcpmscheduledto",
-      "community": 93,
+      "community": 0,
       "norm_label": "vendoramcpmscheduledto"
     },
     {
@@ -48960,7 +48960,7 @@
       "source_location": "L232",
       "_origin": "ast",
       "id": "vendoramcdashboarddto",
-      "community": 93,
+      "community": 0,
       "norm_label": "vendoramcdashboarddto"
     },
     {
@@ -48970,7 +48970,7 @@
       "source_location": "L273",
       "_origin": "ast",
       "id": "service_vendoramcservice_vendoramcservice_scanexpirystatus",
-      "community": 93,
+      "community": 0,
       "norm_label": ".scanexpirystatus()"
     },
     {
@@ -48980,7 +48980,7 @@
       "source_location": "L273",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_vendoramc_service_vendoramcservice_java_scheduled",
-      "community": 93,
+      "community": 0,
       "norm_label": "scheduled"
     },
     {
@@ -49030,7 +49030,7 @@
       "source_location": "L332",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_vendoramc_service_vendoramcservice_java_localdate",
-      "community": 93,
+      "community": 0,
       "norm_label": "localdate"
     },
     {
@@ -49040,7 +49040,7 @@
       "source_location": "L341",
       "_origin": "ast",
       "id": "service_vendoramcservice_vendoramcservice_topmscheduledto",
-      "community": 93,
+      "community": 0,
       "norm_label": ".topmscheduledto()"
     },
     {
@@ -49050,7 +49050,7 @@
       "source_location": "L341",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_vendoramc_service_vendoramcservice_java_preventivemaintenanceschedule",
-      "community": 93,
+      "community": 0,
       "norm_label": "preventivemaintenanceschedule"
     },
     {
@@ -49120,7 +49120,7 @@
       "source_location": "L409",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_vendoramc_service_vendoramcservice_java_equipment",
-      "community": 93,
+      "community": 0,
       "norm_label": "equipment"
     },
     {
@@ -49330,7 +49330,7 @@
       "source_location": "L54",
       "_origin": "ast",
       "id": "service_accesscontrolservicetest_accesscontrolservicetest_setup",
-      "community": 164,
+      "community": 94,
       "norm_label": ".setup()"
     },
     {
@@ -49340,7 +49340,7 @@
       "source_location": "L54",
       "_origin": "ast",
       "id": "cmms_back_end_src_test_java_com_example_cmmsapplication_common_security_service_accesscontrolservicetest_java_beforeeach",
-      "community": 164,
+      "community": 94,
       "norm_label": "beforeeach"
     },
     {
@@ -50460,7 +50460,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_rolelistpage",
-      "community": 2,
+      "community": 17,
       "norm_label": "rolelistpage.jsx"
     },
     {
@@ -50470,7 +50470,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "pages_rolelistpage_rolelistpage",
-      "community": 2,
+      "community": 17,
       "norm_label": "rolelistpage()"
     },
     {
@@ -50480,7 +50480,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_roleviewpage",
-      "community": 70,
+      "community": 17,
       "norm_label": "roleviewpage.jsx"
     },
     {
@@ -50490,7 +50490,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "pages_roleviewpage_roleviewpage",
-      "community": 70,
+      "community": 17,
       "norm_label": "roleviewpage()"
     },
     {
@@ -50550,7 +50550,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "services_roleservice",
-      "community": 70,
+      "community": 17,
       "norm_label": "roleservice.js"
     },
     {
@@ -50560,7 +50560,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "services_roleservice_getroles",
-      "community": 70,
+      "community": 17,
       "norm_label": "getroles()"
     },
     {
@@ -50570,7 +50570,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "services_roleservice_searchroles",
-      "community": 2,
+      "community": 17,
       "norm_label": "searchroles()"
     },
     {
@@ -50580,7 +50580,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "services_roleservice_getrolebyid",
-      "community": 70,
+      "community": 17,
       "norm_label": "getrolebyid()"
     },
     {
@@ -50610,7 +50610,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "services_roleservice_deleterole",
-      "community": 2,
+      "community": 17,
       "norm_label": "deleterole()"
     },
     {
@@ -50620,7 +50620,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_approvalconfigpage",
-      "community": 70,
+      "community": 17,
       "norm_label": "approvalconfigpage.jsx"
     },
     {
@@ -50630,7 +50630,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "pages_approvalconfigpage_defaultapprovalconfigs",
-      "community": 70,
+      "community": 17,
       "norm_label": "defaultapprovalconfigs"
     },
     {
@@ -50640,7 +50640,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "pages_approvalconfigpage_mergedefaultconfigs",
-      "community": 70,
+      "community": 17,
       "norm_label": "mergedefaultconfigs()"
     },
     {
@@ -50650,7 +50650,7 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "pages_approvalconfigpage_approvalconfigpage",
-      "community": 70,
+      "community": 17,
       "norm_label": "approvalconfigpage()"
     },
     {
@@ -50700,7 +50700,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "services_approvalconfigservice",
-      "community": 70,
+      "community": 17,
       "norm_label": "approvalconfigservice.js"
     },
     {
@@ -50710,7 +50710,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "services_approvalconfigservice_getapprovalconfigs",
-      "community": 70,
+      "community": 17,
       "norm_label": "getapprovalconfigs()"
     },
     {
@@ -50720,7 +50720,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "services_approvalconfigservice_createapprovalconfig",
-      "community": 70,
+      "community": 17,
       "norm_label": "createapprovalconfig()"
     },
     {
@@ -50730,7 +50730,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "services_approvalconfigservice_updateapprovalconfig",
-      "community": 70,
+      "community": 17,
       "norm_label": "updateapprovalconfig()"
     },
     {
@@ -51600,7 +51600,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_dashboardpage",
-      "community": 184,
+      "community": 83,
       "norm_label": "dashboardpage.jsx"
     },
     {
@@ -51610,7 +51610,7 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "pages_dashboardpage_metriccards",
-      "community": 184,
+      "community": 83,
       "norm_label": "metriccards"
     },
     {
@@ -51620,7 +51620,7 @@
       "source_location": "L83",
       "_origin": "ast",
       "id": "pages_dashboardpage_widgets",
-      "community": 184,
+      "community": 83,
       "norm_label": "widgets"
     },
     {
@@ -51630,7 +51630,7 @@
       "source_location": "L97",
       "_origin": "ast",
       "id": "pages_dashboardpage_amcmetriccards",
-      "community": 184,
+      "community": 83,
       "norm_label": "amcmetriccards"
     },
     {
@@ -51640,7 +51640,7 @@
       "source_location": "L105",
       "_origin": "ast",
       "id": "pages_dashboardpage_maintenancemetriccards",
-      "community": 184,
+      "community": 83,
       "norm_label": "maintenancemetriccards"
     },
     {
@@ -51650,7 +51650,7 @@
       "source_location": "L112",
       "_origin": "ast",
       "id": "pages_dashboardpage_formatmetric",
-      "community": 184,
+      "community": 83,
       "norm_label": "formatmetric()"
     },
     {
@@ -51660,7 +51660,7 @@
       "source_location": "L117",
       "_origin": "ast",
       "id": "pages_dashboardpage_emptychart",
-      "community": 184,
+      "community": 83,
       "norm_label": "emptychart()"
     },
     {
@@ -51670,7 +51670,7 @@
       "source_location": "L135",
       "_origin": "ast",
       "id": "pages_dashboardpage_chartcard",
-      "community": 184,
+      "community": 83,
       "norm_label": "chartcard()"
     },
     {
@@ -51680,7 +51680,7 @@
       "source_location": "L143",
       "_origin": "ast",
       "id": "pages_dashboardpage_queuewidget",
-      "community": 184,
+      "community": 83,
       "norm_label": "queuewidget()"
     },
     {
@@ -51690,7 +51690,7 @@
       "source_location": "L161",
       "_origin": "ast",
       "id": "pages_dashboardpage_dashboardpage",
-      "community": 184,
+      "community": 83,
       "norm_label": "dashboardpage()"
     },
     {
@@ -51700,7 +51700,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "services_dashboardservice",
-      "community": 70,
+      "community": 83,
       "norm_label": "dashboardservice.js"
     },
     {
@@ -51710,7 +51710,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "services_dashboardservice_getdashboardsummary",
-      "community": 70,
+      "community": 83,
       "norm_label": "getdashboardsummary()"
     },
     {
@@ -51720,7 +51720,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "services_dashboardservice_getdashboarddata",
-      "community": 70,
+      "community": 83,
       "norm_label": "getdashboarddata()"
     },
     {
@@ -51730,7 +51730,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "services_dashboardservice_getdashboardmetadata",
-      "community": 184,
+      "community": 83,
       "norm_label": "getdashboardmetadata()"
     },
     {
@@ -51740,7 +51740,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "services_dashboardservice_getdashboardwidget",
-      "community": 184,
+      "community": 83,
       "norm_label": "getdashboardwidget()"
     },
     {
@@ -52090,7 +52090,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_employeeformpage",
-      "community": 70,
+      "community": 17,
       "norm_label": "employeeformpage.jsx"
     },
     {
@@ -52100,7 +52100,7 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "pages_employeeformpage_status_options",
-      "community": 70,
+      "community": 17,
       "norm_label": "status_options"
     },
     {
@@ -52110,7 +52110,7 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "pages_employeeformpage_gender_options",
-      "community": 70,
+      "community": 17,
       "norm_label": "gender_options"
     },
     {
@@ -52120,7 +52120,7 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "pages_employeeformpage_auth_role_options",
-      "community": 70,
+      "community": 17,
       "norm_label": "auth_role_options"
     },
     {
@@ -52130,7 +52130,7 @@
       "source_location": "L52",
       "_origin": "ast",
       "id": "pages_employeeformpage_emptyassignment",
-      "community": 70,
+      "community": 17,
       "norm_label": "emptyassignment"
     },
     {
@@ -52140,7 +52140,7 @@
       "source_location": "L61",
       "_origin": "ast",
       "id": "pages_employeeformpage_emptyroleassignment",
-      "community": 70,
+      "community": 17,
       "norm_label": "emptyroleassignment"
     },
     {
@@ -52150,7 +52150,7 @@
       "source_location": "L67",
       "_origin": "ast",
       "id": "pages_employeeformpage_initialform",
-      "community": 70,
+      "community": 17,
       "norm_label": "initialform"
     },
     {
@@ -52160,7 +52160,7 @@
       "source_location": "L90",
       "_origin": "ast",
       "id": "pages_employeeformpage_employeeformpage",
-      "community": 70,
+      "community": 17,
       "norm_label": "employeeformpage()"
     },
     {
@@ -52170,7 +52170,7 @@
       "source_location": "L461",
       "_origin": "ast",
       "id": "pages_employeeformpage_normalizeassignments",
-      "community": 70,
+      "community": 17,
       "norm_label": "normalizeassignments()"
     },
     {
@@ -52180,7 +52180,7 @@
       "source_location": "L476",
       "_origin": "ast",
       "id": "pages_employeeformpage_normalizeroleassignments",
-      "community": 70,
+      "community": 17,
       "norm_label": "normalizeroleassignments()"
     },
     {
@@ -52190,7 +52190,7 @@
       "source_location": "L486",
       "_origin": "ast",
       "id": "pages_employeeformpage_selectedsites",
-      "community": 70,
+      "community": 17,
       "norm_label": "selectedsites()"
     },
     {
@@ -52220,7 +52220,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "services_employeeservice",
-      "community": 70,
+      "community": 17,
       "norm_label": "employeeservice.js"
     },
     {
@@ -52230,7 +52230,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "services_employeeservice_getemployees",
-      "community": 70,
+      "community": 17,
       "norm_label": "getemployees()"
     },
     {
@@ -52250,7 +52250,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "services_employeeservice_getemployeebyid",
-      "community": 70,
+      "community": 17,
       "norm_label": "getemployeebyid()"
     },
     {
@@ -52260,7 +52260,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "services_employeeservice_createemployee",
-      "community": 70,
+      "community": 17,
       "norm_label": "createemployee()"
     },
     {
@@ -52270,7 +52270,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "services_employeeservice_updateemployee",
-      "community": 70,
+      "community": 17,
       "norm_label": "updateemployee()"
     },
     {
@@ -53057,7 +53057,7 @@
       "label": "queueTabs",
       "file_type": "code",
       "source_file": "cmms_front_end/src/features/maintenanceRequest/pages/MaintenanceRequestListPage.jsx",
-      "source_location": "L248",
+      "source_location": "L234",
       "_origin": "ast",
       "id": "pages_maintenancerequestlistpage_queuetabs",
       "community": 2,
@@ -53067,7 +53067,7 @@
       "label": "PriorityChip()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/features/maintenanceRequest/pages/MaintenanceRequestListPage.jsx",
-      "source_location": "L259",
+      "source_location": "L245",
       "_origin": "ast",
       "id": "pages_maintenancerequestlistpage_prioritychip",
       "community": 2,
@@ -53077,7 +53077,7 @@
       "label": "StatusChip()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/features/maintenanceRequest/pages/MaintenanceRequestListPage.jsx",
-      "source_location": "L265",
+      "source_location": "L249",
       "_origin": "ast",
       "id": "pages_maintenancerequestlistpage_statuschip",
       "community": 2,
@@ -53087,7 +53087,7 @@
       "label": "ageingLabel()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/features/maintenanceRequest/pages/MaintenanceRequestListPage.jsx",
-      "source_location": "L271",
+      "source_location": "L253",
       "_origin": "ast",
       "id": "pages_maintenancerequestlistpage_ageinglabel",
       "community": 2,
@@ -53097,27 +53097,17 @@
       "label": "isOverdue()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/features/maintenanceRequest/pages/MaintenanceRequestListPage.jsx",
-      "source_location": "L281",
+      "source_location": "L263",
       "_origin": "ast",
       "id": "pages_maintenancerequestlistpage_isoverdue",
       "community": 2,
       "norm_label": "isoverdue()"
     },
     {
-      "label": "isCritical()",
-      "file_type": "code",
-      "source_file": "cmms_front_end/src/features/maintenanceRequest/pages/MaintenanceRequestListPage.jsx",
-      "source_location": "L291",
-      "_origin": "ast",
-      "id": "pages_maintenancerequestlistpage_iscritical",
-      "community": 2,
-      "norm_label": "iscritical()"
-    },
-    {
       "label": "formatLabel()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/features/maintenanceRequest/pages/MaintenanceRequestListPage.jsx",
-      "source_location": "L295",
+      "source_location": "L273",
       "_origin": "ast",
       "id": "pages_maintenancerequestlistpage_formatlabel",
       "community": 2,
@@ -53860,7 +53850,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_notificationsettingspage",
-      "community": 70,
+      "community": 17,
       "norm_label": "notificationsettingspage.jsx"
     },
     {
@@ -53870,7 +53860,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "pages_notificationsettingspage_initialform",
-      "community": 70,
+      "community": 17,
       "norm_label": "initialform"
     },
     {
@@ -53880,7 +53870,7 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "pages_notificationsettingspage_roleselect",
-      "community": 70,
+      "community": 17,
       "norm_label": "roleselect()"
     },
     {
@@ -53890,7 +53880,7 @@
       "source_location": "L66",
       "_origin": "ast",
       "id": "pages_notificationsettingspage_notificationsettingspage",
-      "community": 70,
+      "community": 17,
       "norm_label": "notificationsettingspage()"
     },
     {
@@ -53980,7 +53970,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "services_notificationsettingsservice",
-      "community": 70,
+      "community": 17,
       "norm_label": "notificationsettingsservice.js"
     },
     {
@@ -53990,7 +53980,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "services_notificationsettingsservice_getnotificationsettings",
-      "community": 70,
+      "community": 17,
       "norm_label": "getnotificationsettings()"
     },
     {
@@ -54000,7 +53990,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "services_notificationsettingsservice_updatenotificationsettings",
-      "community": 70,
+      "community": 17,
       "norm_label": "updatenotificationsettings()"
     },
     {
@@ -54010,7 +54000,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_preventivemaintenancecalendarpage",
-      "community": 54,
+      "community": 114,
       "norm_label": "preventivemaintenancecalendarpage.jsx"
     },
     {
@@ -54020,7 +54010,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "pages_preventivemaintenancecalendarpage_weekdaylabels",
-      "community": 54,
+      "community": 114,
       "norm_label": "weekdaylabels"
     },
     {
@@ -54030,7 +54020,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "pages_preventivemaintenancecalendarpage_prioritycolors",
-      "community": 54,
+      "community": 114,
       "norm_label": "prioritycolors"
     },
     {
@@ -54040,7 +54030,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "pages_preventivemaintenancecalendarpage_todatekey",
-      "community": 54,
+      "community": 114,
       "norm_label": "todatekey()"
     },
     {
@@ -54050,7 +54040,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "pages_preventivemaintenancecalendarpage_adddays",
-      "community": 54,
+      "community": 114,
       "norm_label": "adddays()"
     },
     {
@@ -54060,7 +54050,7 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "pages_preventivemaintenancecalendarpage_startofweek",
-      "community": 54,
+      "community": 114,
       "norm_label": "startofweek()"
     },
     {
@@ -54070,7 +54060,7 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "pages_preventivemaintenancecalendarpage_startofmonthgrid",
-      "community": 54,
+      "community": 114,
       "norm_label": "startofmonthgrid()"
     },
     {
@@ -54080,7 +54070,7 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "pages_preventivemaintenancecalendarpage_endofmonthgrid",
-      "community": 54,
+      "community": 114,
       "norm_label": "endofmonthgrid()"
     },
     {
@@ -54090,7 +54080,7 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "pages_preventivemaintenancecalendarpage_formatheaderdate",
-      "community": 54,
+      "community": 114,
       "norm_label": "formatheaderdate()"
     },
     {
@@ -54100,7 +54090,7 @@
       "source_location": "L52",
       "_origin": "ast",
       "id": "pages_preventivemaintenancecalendarpage_formatapierror",
-      "community": 54,
+      "community": 114,
       "norm_label": "formatapierror()"
     },
     {
@@ -54110,7 +54100,7 @@
       "source_location": "L60",
       "_origin": "ast",
       "id": "pages_preventivemaintenancecalendarpage_builddays",
-      "community": 54,
+      "community": 114,
       "norm_label": "builddays()"
     },
     {
@@ -54120,7 +54110,7 @@
       "source_location": "L70",
       "_origin": "ast",
       "id": "pages_preventivemaintenancecalendarpage_preventivemaintenancecalendarpage",
-      "community": 54,
+      "community": 114,
       "norm_label": "preventivemaintenancecalendarpage()"
     },
     {
@@ -54130,7 +54120,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_preventivemaintenanceformpage",
-      "community": 3,
+      "community": 114,
       "norm_label": "preventivemaintenanceformpage.jsx"
     },
     {
@@ -54140,7 +54130,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "pages_preventivemaintenanceformpage_today",
-      "community": 3,
+      "community": 114,
       "norm_label": "today()"
     },
     {
@@ -54150,7 +54140,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "pages_preventivemaintenanceformpage_initialform",
-      "community": 3,
+      "community": 114,
       "norm_label": "initialform"
     },
     {
@@ -54160,7 +54150,7 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "pages_preventivemaintenanceformpage_frequencies",
-      "community": 3,
+      "community": 114,
       "norm_label": "frequencies"
     },
     {
@@ -54170,7 +54160,7 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "pages_preventivemaintenanceformpage_priorities",
-      "community": 3,
+      "community": 114,
       "norm_label": "priorities"
     },
     {
@@ -54180,7 +54170,7 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "pages_preventivemaintenanceformpage_checklistresponsetypes",
-      "community": 3,
+      "community": 114,
       "norm_label": "checklistresponsetypes"
     },
     {
@@ -54190,7 +54180,7 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "pages_preventivemaintenanceformpage_frequency_options",
-      "community": 3,
+      "community": 114,
       "norm_label": "frequency_options"
     },
     {
@@ -54200,7 +54190,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "pages_preventivemaintenanceformpage_priority_options",
-      "community": 3,
+      "community": 114,
       "norm_label": "priority_options"
     },
     {
@@ -54210,7 +54200,7 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "pages_preventivemaintenanceformpage_response_type_options",
-      "community": 3,
+      "community": 114,
       "norm_label": "response_type_options"
     },
     {
@@ -54220,7 +54210,7 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "pages_preventivemaintenanceformpage_pm_active_options",
-      "community": 3,
+      "community": 114,
       "norm_label": "pm_active_options"
     },
     {
@@ -54230,7 +54220,7 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "pages_preventivemaintenanceformpage_pm_status_options",
-      "community": 3,
+      "community": 114,
       "norm_label": "pm_status_options"
     },
     {
@@ -54240,7 +54230,7 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "pages_preventivemaintenanceformpage_samplechecklistitems",
-      "community": 3,
+      "community": 114,
       "norm_label": "samplechecklistitems"
     },
     {
@@ -54250,7 +54240,7 @@
       "source_location": "L63",
       "_origin": "ast",
       "id": "pages_preventivemaintenanceformpage_preventivemaintenanceformpage",
-      "community": 3,
+      "community": 114,
       "norm_label": "preventivemaintenanceformpage()"
     },
     {
@@ -54300,7 +54290,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_preventivemaintenanceviewpage",
-      "community": 3,
+      "community": 114,
       "norm_label": "preventivemaintenanceviewpage.jsx"
     },
     {
@@ -54310,7 +54300,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "pages_preventivemaintenanceviewpage_preventivemaintenanceviewpage",
-      "community": 3,
+      "community": 114,
       "norm_label": "preventivemaintenanceviewpage()"
     },
     {
@@ -54320,7 +54310,7 @@
       "source_location": "L143",
       "_origin": "ast",
       "id": "pages_preventivemaintenanceviewpage_detailitem",
-      "community": 3,
+      "community": 114,
       "norm_label": "detailitem()"
     },
     {
@@ -54330,7 +54320,7 @@
       "source_location": "L161",
       "_origin": "ast",
       "id": "pages_preventivemaintenanceviewpage_displayvalue",
-      "community": 3,
+      "community": 114,
       "norm_label": "displayvalue()"
     },
     {
@@ -54340,7 +54330,7 @@
       "source_location": "L165",
       "_origin": "ast",
       "id": "pages_preventivemaintenanceviewpage_formatsite",
-      "community": 3,
+      "community": 114,
       "norm_label": "formatsite()"
     },
     {
@@ -54350,7 +54340,7 @@
       "source_location": "L172",
       "_origin": "ast",
       "id": "pages_preventivemaintenanceviewpage_formatequipment",
-      "community": 3,
+      "community": 114,
       "norm_label": "formatequipment()"
     },
     {
@@ -54360,7 +54350,7 @@
       "source_location": "L179",
       "_origin": "ast",
       "id": "pages_preventivemaintenanceviewpage_formatdate",
-      "community": 3,
+      "community": 114,
       "norm_label": "formatdate()"
     },
     {
@@ -54370,7 +54360,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "services_preventivemaintenanceservice",
-      "community": 2,
+      "community": 114,
       "norm_label": "preventivemaintenanceservice.js"
     },
     {
@@ -54380,7 +54370,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "services_preventivemaintenanceservice_getpmschedules",
-      "community": 2,
+      "community": 114,
       "norm_label": "getpmschedules()"
     },
     {
@@ -54400,7 +54390,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "services_preventivemaintenanceservice_getpmschedulebyid",
-      "community": 3,
+      "community": 114,
       "norm_label": "getpmschedulebyid()"
     },
     {
@@ -54410,7 +54400,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "services_preventivemaintenanceservice_createpmschedule",
-      "community": 3,
+      "community": 114,
       "norm_label": "createpmschedule()"
     },
     {
@@ -54420,7 +54410,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "services_preventivemaintenanceservice_updatepmschedule",
-      "community": 3,
+      "community": 114,
       "norm_label": "updatepmschedule()"
     },
     {
@@ -54440,7 +54430,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "services_preventivemaintenanceservice_getupcomingpmschedules",
-      "community": 2,
+      "community": 114,
       "norm_label": "getupcomingpmschedules()"
     },
     {
@@ -54450,7 +54440,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "services_preventivemaintenanceservice_getpmcalendarschedules",
-      "community": 54,
+      "community": 114,
       "norm_label": "getpmcalendarschedules()"
     },
     {
@@ -54460,7 +54450,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "services_preventivemaintenanceservice_generatepmworkorder",
-      "community": 2,
+      "community": 114,
       "norm_label": "generatepmworkorder()"
     },
     {
@@ -54470,7 +54460,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "services_preventivemaintenanceservice_generateduepmworkorders",
-      "community": 2,
+      "community": 114,
       "norm_label": "generateduepmworkorders()"
     },
     {
@@ -54750,7 +54740,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "services_siteservice_getsites",
-      "community": 83,
+      "community": 9,
       "norm_label": "getsites()"
     },
     {
@@ -55000,7 +54990,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_sparepartreorderpage",
-      "community": 83,
+      "community": 9,
       "norm_label": "sparepartreorderpage.jsx"
     },
     {
@@ -55010,7 +55000,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "pages_sparepartreorderpage_statuses",
-      "community": 83,
+      "community": 9,
       "norm_label": "statuses"
     },
     {
@@ -55020,7 +55010,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "pages_sparepartreorderpage_initialeditdialog",
-      "community": 83,
+      "community": 9,
       "norm_label": "initialeditdialog"
     },
     {
@@ -55030,7 +55020,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "pages_sparepartreorderpage_initialreceivedialog",
-      "community": 83,
+      "community": 9,
       "norm_label": "initialreceivedialog"
     },
     {
@@ -55040,7 +55030,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "pages_sparepartreorderpage_sparepartreorderpage",
-      "community": 83,
+      "community": 9,
       "norm_label": "sparepartreorderpage()"
     },
     {
@@ -55390,7 +55380,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "services_sparepartservice_getreorderrequests",
-      "community": 83,
+      "community": 9,
       "norm_label": "getreorderrequests()"
     },
     {
@@ -55410,7 +55400,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "services_sparepartservice_updatereorderrequest",
-      "community": 83,
+      "community": 9,
       "norm_label": "updatereorderrequest()"
     },
     {
@@ -55420,7 +55410,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "services_sparepartservice_receivepurchaserequeststock",
-      "community": 83,
+      "community": 9,
       "norm_label": "receivepurchaserequeststock()"
     },
     {
@@ -55890,7 +55880,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "services_vendoramcservice_searchvendoramccontracts",
-      "community": 2,
+      "community": 3,
       "norm_label": "searchvendoramccontracts()"
     },
     {
@@ -55930,7 +55920,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "services_vendoramcservice_deletevendoramccontract",
-      "community": 2,
+      "community": 3,
       "norm_label": "deletevendoramccontract()"
     },
     {
@@ -55950,7 +55940,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "services_vendoramcservice_getequipmentactiveamc",
-      "community": 3,
+      "community": 114,
       "norm_label": "getequipmentactiveamc()"
     },
     {
@@ -56080,7 +56070,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_vendorlistpage",
-      "community": 2,
+      "community": 3,
       "norm_label": "vendorlistpage.jsx"
     },
     {
@@ -56090,7 +56080,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "pages_vendorlistpage_vendorlistpage",
-      "community": 2,
+      "community": 3,
       "norm_label": "vendorlistpage()"
     },
     {
@@ -56180,7 +56170,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "services_vendorservice_searchvendors",
-      "community": 2,
+      "community": 3,
       "norm_label": "searchvendors()"
     },
     {
@@ -56230,7 +56220,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "services_vendorservice_deletevendor",
-      "community": 2,
+      "community": 3,
       "norm_label": "deletevendor()"
     },
     {
@@ -56370,7 +56360,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "common_commondropdown_commondropdown",
-      "community": 54,
+      "community": 2,
       "norm_label": "commondropdown()"
     },
     {
@@ -56380,7 +56370,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "common_commonemptystate",
-      "community": 184,
+      "community": 83,
       "norm_label": "commonemptystate.jsx"
     },
     {
@@ -56390,7 +56380,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "common_commonemptystate_commonemptystate",
-      "community": 184,
+      "community": 83,
       "norm_label": "commonemptystate()"
     },
     {
@@ -56400,7 +56390,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "common_commonerrorstate",
-      "community": 2,
+      "community": 83,
       "norm_label": "commonerrorstate.jsx"
     },
     {
@@ -56410,7 +56400,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "common_commonerrorstate_commonerrorstate",
-      "community": 2,
+      "community": 83,
       "norm_label": "commonerrorstate()"
     },
     {
@@ -56440,7 +56430,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "common_commonfilterpanel",
-      "community": 3,
+      "community": 83,
       "norm_label": "commonfilterpanel.jsx"
     },
     {
@@ -56480,7 +56470,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "common_commonformcard",
-      "community": 3,
+      "community": 83,
       "norm_label": "commonformcard.jsx"
     },
     {
@@ -56490,7 +56480,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "common_commonformcard_commonformcard",
-      "community": 3,
+      "community": 52,
       "norm_label": "commonformcard()"
     },
     {
@@ -56520,7 +56510,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "common_commonlist",
-      "community": 2,
+      "community": 83,
       "norm_label": "commonlist.jsx"
     },
     {
@@ -56590,7 +56580,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "common_commonsectioncard",
-      "community": 3,
+      "community": 83,
       "norm_label": "commonsectioncard.jsx"
     },
     {
@@ -56600,7 +56590,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "common_commonsectioncard_commonsectioncard",
-      "community": 3,
+      "community": 83,
       "norm_label": "commonsectioncard()"
     },
     {
@@ -56610,7 +56600,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "common_commonstatuschip",
-      "community": 8,
+      "community": 83,
       "norm_label": "commonstatuschip.jsx"
     },
     {
@@ -56620,7 +56610,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "common_commonstatuschip_statuscolormap",
-      "community": 8,
+      "community": 83,
       "norm_label": "statuscolormap"
     },
     {
@@ -56630,7 +56620,7 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "common_commonstatuschip_commonstatuschip",
-      "community": 8,
+      "community": 83,
       "norm_label": "commonstatuschip()"
     },
     {
@@ -56660,7 +56650,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "common_commontextarea",
-      "community": 52,
+      "community": 7,
       "norm_label": "commontextarea.jsx"
     },
     {
@@ -56670,7 +56660,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "common_commontextarea_commontextarea",
-      "community": 52,
+      "community": 7,
       "norm_label": "commontextarea()"
     },
     {
@@ -56720,7 +56710,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "common_confirmdialog",
-      "community": 2,
+      "community": 5,
       "norm_label": "confirmdialog.jsx"
     },
     {
@@ -56730,7 +56720,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "common_confirmdialog_confirmdialog",
-      "community": 2,
+      "community": 5,
       "norm_label": "confirmdialog()"
     },
     {
@@ -56880,7 +56870,7 @@
       "source_location": "L118",
       "_origin": "ast",
       "id": "context_authcontext_useauth",
-      "community": 2,
+      "community": 17,
       "norm_label": "useauth()"
     },
     {
@@ -56910,7 +56900,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "layouts_navbar",
-      "community": 2,
+      "community": 17,
       "norm_label": "navbar.jsx"
     },
     {
@@ -56920,7 +56910,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "layouts_navbar_navbar",
-      "community": 2,
+      "community": 17,
       "norm_label": "navbar()"
     },
     {
@@ -57430,7 +57420,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "utils_formatters_formatnumber",
-      "community": 184,
+      "community": 83,
       "norm_label": "formatnumber()"
     },
     {
@@ -57460,7 +57450,7 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "utils_formatters_formatstatuslabel",
-      "community": 8,
+      "community": 83,
       "norm_label": "formatstatuslabel()"
     },
     {
@@ -57490,7 +57480,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_permissionroutes_permissions",
-      "community": 2,
+      "community": 9,
       "norm_label": "permissions"
     },
     {
@@ -208080,16 +208070,6 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "cmms_front_end/src/features/maintenanceRequest/pages/MaintenanceRequestListPage.jsx",
-      "source_location": "L291",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "pages_maintenancerequestlistpage",
-      "target": "pages_maintenancerequestlistpage_iscritical"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "cmms_front_end/src/features/maintenanceRequest/pages/MaintenanceRequestListPage.jsx",
       "source_location": "L281",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -232361,5 +232341,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "6b63a02a9039079ede4b3c9d0527cb2c435d3168"
+  "built_at_commit": "7f6532a4d2761ff9499f8082d53c9273e5fd46ad"
 }
