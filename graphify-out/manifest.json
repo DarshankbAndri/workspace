@@ -1355,8 +1355,8 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/equipment/pages/EquipmentListPage.jsx": {
-    "mtime": 1784713560.9871707,
-    "ast_hash": "ff3de1c4feab27c22c9bda37631f4a0b",
+    "mtime": 1784715256.0775208,
+    "ast_hash": "1ca283c09e672a7d2cd123ddb0bbbc57",
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/equipment/services/equipmentService.js": {

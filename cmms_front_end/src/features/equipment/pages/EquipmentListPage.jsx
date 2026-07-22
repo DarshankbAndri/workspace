@@ -189,21 +189,26 @@ function EquipmentListPage() {
       />
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
       <CommonFilterPanel sx={{ mb: 2 }}>
-        <Stack direction={{ xs: 'column', md: 'row' }} spacing={2} flexWrap="wrap" useFlexGap>
-          <CommonInput label="Equipment" value={equipmentNameFilter} onChange={updateEquipmentNameFilter} sx={{ minWidth: { xs: '100%', sm: 260 } }} data-testid="equipment-search-field" />
-          <CommonDropdown
-            label="Site"
-            value={siteFilter}
-            onChange={updateSiteFilter}
-            options={sites}
-            placeholder="All Sites"
-            clearable
-            getOptionLabel={(site) => `${site.siteName} (${site.siteCode})`}
-            getOptionValue={(site) => site.id}
-            sx={{ minWidth: { xs: '100%', sm: 240 } }}
-            data-testid="equipment-site-filter"
-          />
-        </Stack>
+        <CommonInput
+          label="Equipment"
+          value={equipmentNameFilter}
+          onChange={updateEquipmentNameFilter}
+          sx={{ width: { xs: '100%', sm: 280 }, flex: { md: '0 1 280px' } }}
+          data-testid="equipment-search-field"
+        />
+        <CommonDropdown
+          label="Site"
+          value={siteFilter}
+          onChange={updateSiteFilter}
+          options={sites}
+          placeholder="All Sites"
+          clearable
+          fullWidth
+          getOptionLabel={(site) => `${site.siteName} (${site.siteCode})`}
+          getOptionValue={(site) => site.id}
+          sx={{ width: { xs: '100%', sm: 280 }, flex: { md: '0 1 280px' } }}
+          data-testid="equipment-site-filter"
+        />
       </CommonFilterPanel>
       <CommonList
         rows={rows}
