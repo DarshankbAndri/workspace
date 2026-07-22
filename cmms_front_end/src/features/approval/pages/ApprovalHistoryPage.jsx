@@ -10,7 +10,6 @@ import {
   IconButton,
   Paper,
   Stack,
-  TextField,
   Tooltip,
   Typography,
 } from '@mui/material';
@@ -20,6 +19,8 @@ import { getApprovalById, searchApprovalHistory } from '../services/approvalServ
 import { getSites } from '../../site/services/siteService';
 import { commonSearchFilter, createSearchPayload, equalFilter, rangeFilter } from '../../../shared/utils/searchPayload';
 import CommonDropdown from '../../../shared/components/common/CommonDropdown';
+import CommonDatePicker from '../../../shared/components/common/CommonDatePicker';
+import CommonInput from '../../../shared/components/common/CommonInput';
 import CommonList from '../../../shared/components/common/CommonList';
 import CommonStatusDropdown from '../../../shared/components/common/CommonStatusDropdown';
 import { APPROVAL_ACTION_OPTIONS, APPROVAL_MODULE_OPTIONS, APPROVAL_STATUS_OPTIONS } from '../../../shared/constants/statusOptions';
@@ -158,9 +159,9 @@ function ApprovalHistoryPage() {
             getOptionValue={(site) => site.id}
             sx={{ minWidth: 220 }}
           />
-          <TextField type="date" label="Requested From" value={filters.requestedFrom} onChange={updateFilter('requestedFrom')} InputLabelProps={{ shrink: true }} sx={{ minWidth: 170 }} />
-          <TextField type="date" label="Requested To" value={filters.requestedTo} onChange={updateFilter('requestedTo')} InputLabelProps={{ shrink: true }} sx={{ minWidth: 170 }} />
-          <TextField label="Search" value={filters.search} onChange={updateFilter('search')} sx={{ minWidth: { xs: '100%', md: 260 } }} />
+          <CommonDatePicker label="Requested From" value={filters.requestedFrom} onChange={updateFilter('requestedFrom')} sx={{ minWidth: 170 }} />
+          <CommonDatePicker label="Requested To" value={filters.requestedTo} onChange={updateFilter('requestedTo')} sx={{ minWidth: 170 }} />
+          <CommonInput label="Search" value={filters.search} onChange={updateFilter('search')} sx={{ minWidth: { xs: '100%', md: 260 } }} />
         </Stack>
       </Paper>
       <CommonList

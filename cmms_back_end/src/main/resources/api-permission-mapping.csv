@@ -224,6 +224,8 @@ USER_ROLE_UPDATE,/api/users/*,PUT,Update user account
 APPROVAL_VIEW,/api/approvals/**,GET,View approvals
 APPROVAL_VIEW,/api/approvals,GET,View approval list
 APPROVAL_VIEW,/api/approvals/history/search,POST,Search approval history
+APPROVAL_VIEW,/api/hr/sites/**,GET,Approval site helper data
+APPROVAL_VIEW,/api/hr/sites,GET,Approval site helper data
 APPROVAL_APPROVE,/api/approvals/*/approve,POST,Approve request
 APPROVAL_REJECT,/api/approvals/*/reject,POST,Reject request
 APPROVAL_CONFIG_VIEW,/api/admin/approval-config/**,GET,View approval configuration
