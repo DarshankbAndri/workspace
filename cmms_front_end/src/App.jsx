@@ -7,6 +7,7 @@ import { getFirstAllowedPath } from './shared/utils/permissionRoutes';
 import createAppTheme from './theme/appTheme';
 import LoginPage from './features/auth/pages/LoginPage';
 import UserManagementPage from './features/user/pages/UserManagementPage';
+import UserProfilePage from './features/user/pages/UserProfilePage';
 import DashboardPage from './features/dashboard/pages/DashboardPage';
 import EquipmentListPage from './features/equipment/pages/EquipmentListPage';
 import EquipmentFormPage from './features/equipment/pages/EquipmentFormPage';
@@ -114,6 +115,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/" element={<Navigate to={isAuthenticated ? firstAllowedPath : '/login'} replace />} />
           <Route path="/dashboard" element={protectedPage(<DashboardPage />, 'DASHBOARD_VIEW')} />
+          <Route path="/profile" element={protectedPage(<UserProfilePage />)} />
           <Route path="/equipment" element={protectedPage(<EquipmentListPage />, 'EQUIPMENT_VIEW')} />
           <Route path="/equipment/new" element={protectedPage(<EquipmentFormPage />, 'EQUIPMENT_CREATE')} />
           <Route path="/equipment/:id/view" element={protectedPage(<EquipmentViewPage />, 'EQUIPMENT_VIEW')} />

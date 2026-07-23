@@ -23,6 +23,8 @@ public class MaintenanceAssignmentDTO {
     private Long requestId;
     private String requestNumber;
     private String requestTitle;
+    private String requestStatus;
+    private String requestPriority;
     private Long equipmentId;
     private String equipmentCode;
     private String equipmentName;
@@ -50,58 +52,5 @@ public class MaintenanceAssignmentDTO {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    public Long getSiteId() { return siteId; }
-    public void setSiteId(Long siteId) { this.siteId = siteId; }
-    public String getSiteCode() { return siteCode; }
-    public void setSiteCode(String siteCode) { this.siteCode = siteCode; }
-    public String getSiteName() { return siteName; }
-    public void setSiteName(String siteName) { this.siteName = siteName; }
-    public Long getRequestId() { return requestId; }
-    public void setRequestId(Long requestId) { this.requestId = requestId; }
-    public String getRequestNumber() { return requestNumber; }
-    public void setRequestNumber(String requestNumber) { this.requestNumber = requestNumber; }
-    public String getRequestTitle() { return requestTitle; }
-    public void setRequestTitle(String requestTitle) { this.requestTitle = requestTitle; }
-    public Long getEquipmentId() { return equipmentId; }
-    public void setEquipmentId(Long equipmentId) { this.equipmentId = equipmentId; }
-    public String getEquipmentCode() { return equipmentCode; }
-    public void setEquipmentCode(String equipmentCode) { this.equipmentCode = equipmentCode; }
-    public String getEquipmentName() { return equipmentName; }
-    public void setEquipmentName(String equipmentName) { this.equipmentName = equipmentName; }
-    public Long getVendorId() { return vendorId; }
-    public void setVendorId(Long vendorId) { this.vendorId = vendorId; }
-    public String getVendorName() { return vendorName; }
-    public void setVendorName(String vendorName) { this.vendorName = vendorName; }
-    public Long getAssignedEmployeeId() { return assignedEmployeeId; }
-    public void setAssignedEmployeeId(Long assignedEmployeeId) { this.assignedEmployeeId = assignedEmployeeId; }
-    public String getAssignedEmployeeCode() { return assignedEmployeeCode; }
-    public void setAssignedEmployeeCode(String assignedEmployeeCode) { this.assignedEmployeeCode = assignedEmployeeCode; }
-    public String getAssignedEmployeeName() { return assignedEmployeeName; }
-    public void setAssignedEmployeeName(String assignedEmployeeName) { this.assignedEmployeeName = assignedEmployeeName; }
-    public String getAssignedTo() { return assignedTo; }
-    public void setAssignedTo(String assignedTo) { this.assignedTo = assignedTo; }
-    public LocalDate getAssignedDate() { return assignedDate; }
-    public void setAssignedDate(LocalDate assignedDate) { this.assignedDate = assignedDate; }
-    public LocalDate getPlannedStartDate() { return plannedStartDate; }
-    public void setPlannedStartDate(LocalDate plannedStartDate) { this.plannedStartDate = plannedStartDate; }
-    public LocalDate getPlannedEndDate() { return plannedEndDate; }
-    public void setPlannedEndDate(LocalDate plannedEndDate) { this.plannedEndDate = plannedEndDate; }
-    public LocalDate getActualStartDate() { return actualStartDate; }
-    public void setActualStartDate(LocalDate actualStartDate) { this.actualStartDate = actualStartDate; }
-    public LocalDate getActualEndDate() { return actualEndDate; }
-    public void setActualEndDate(LocalDate actualEndDate) { this.actualEndDate = actualEndDate; }
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
-    public BigDecimal getEstimatedCost() { return estimatedCost; }
-    public void setEstimatedCost(BigDecimal estimatedCost) { this.estimatedCost = estimatedCost; }
-    public BigDecimal getActualCost() { return actualCost; }
-    public void setActualCost(BigDecimal actualCost) { this.actualCost = actualCost; }
-    public String getRemarks() { return remarks; }
-    public void setRemarks(String remarks) { this.remarks = remarks; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
-    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+    
 }

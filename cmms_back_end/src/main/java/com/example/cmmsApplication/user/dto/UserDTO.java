@@ -45,6 +45,12 @@ public class UserDTO {
 
     @Schema(description = "Linked employee ID", example = "10")
     private Long employeeId;
+
+    @Schema(description = "Profile photo URL", example = "/auth/profile/avatar/user-1-photo.png")
+    private String profilePhotoUrl;
+
+    @Schema(description = "Stored profile photo path")
+    private String profilePhotoPath;
     
     @Schema(description = "Account creation timestamp")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
