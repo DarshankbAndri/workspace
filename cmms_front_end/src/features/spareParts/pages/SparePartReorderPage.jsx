@@ -7,7 +7,6 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  MenuItem,
   Paper,
   Stack,
   TextField,
@@ -16,10 +15,16 @@ import {
 import { DataGrid } from '@mui/x-data-grid';
 import { useAuth } from '../../../shared/context/AuthContext';
 import { PERMISSIONS } from '../../../shared/utils/permissionRoutes';
+import CommonDropdown from '../../../shared/components/common/CommonDropdown';
 import { getSites } from '../../site/services/siteService';
 import { getReorderRequests, receivePurchaseRequestStock, updateReorderRequest } from '../services/sparePartService';
 
 const statuses = ['REQUESTED', 'ORDERED', 'RECEIVED', 'CANCELLED'];
+const statusFilterOptions = [
+  { value: '', label: 'All Statuses' },
+  ...statuses.map((status) => ({ value: status, label: status })),
+];
+const statusOptions = statuses.map((status) => ({ value: status, label: status }));
 const initialEditDialog = { open: false, row: null, status: '', requestedQuantity: '', estimatedUnitCost: '', expectedDate: '', remarks: '' };
 const initialReceiveDialog = { open: false, row: null, quantity: '', unitCost: '', remarks: '' };
 
@@ -32,6 +37,10 @@ function SparePartReorderPage() {
   const [error, setError] = React.useState('');
   const [editDialog, setEditDialog] = React.useState(initialEditDialog);
   const [receiveDialog, setReceiveDialog] = React.useState(initialReceiveDialog);
+  const siteOptions = React.useMemo(() => [
+    { value: '', label: 'All Sites' },
+    ...sites.map((site) => ({ value: site.id, label: `${site.siteName} (${site.siteCode})` })),
+  ], [sites]);
 
   const loadRows = React.useCallback(() => {
     setLoading(true);
@@ -148,14 +157,8 @@ function SparePartReorderPage() {
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
       <Paper sx={{ p: 2, mb: 2, borderRadius: 1 }}>
         <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
-          <TextField select label="Site" value={filters.siteId} onChange={(event) => setFilters((current) => ({ ...current, siteId: event.target.value }))} sx={{ minWidth: { xs: '100%', md: 240 } }}>
-            <MenuItem value="">All Sites</MenuItem>
-            {sites.map((site) => <MenuItem key={site.id} value={site.id}>{site.siteName} ({site.siteCode})</MenuItem>)}
-          </TextField>
-          <TextField select label="Status" value={filters.status} onChange={(event) => setFilters((current) => ({ ...current, status: event.target.value }))} sx={{ minWidth: { xs: '100%', md: 200 } }}>
-            <MenuItem value="">All Statuses</MenuItem>
-            {statuses.map((status) => <MenuItem key={status} value={status}>{status}</MenuItem>)}
-          </TextField>
+          <CommonDropdown label="Site" value={filters.siteId} options={siteOptions} onChange={(event) => setFilters((current) => ({ ...current, siteId: event.target.value }))} sx={{ minWidth: { xs: '100%', md: 240 } }} />
+          <CommonDropdown label="Status" value={filters.status} options={statusFilterOptions} onChange={(event) => setFilters((current) => ({ ...current, status: event.target.value }))} sx={{ minWidth: { xs: '100%', md: 200 } }} />
         </Stack>
       </Paper>
       <Paper sx={{ height: 620, borderRadius: 1 }}>
@@ -166,9 +169,7 @@ function SparePartReorderPage() {
         <DialogTitle>Update Reorder Request</DialogTitle>
         <DialogContent sx={{ display: 'grid', gap: 2, pt: 2 }}>
           <Typography variant="body2" color="text.secondary">{editDialog.row?.partCode} - {editDialog.row?.partName}</Typography>
-          <TextField select label="Status" value={editDialog.status} onChange={(event) => setEditDialog((current) => ({ ...current, status: event.target.value }))}>
-            {statuses.map((status) => <MenuItem key={status} value={status}>{status}</MenuItem>)}
-          </TextField>
+          <CommonDropdown label="Status" value={editDialog.status} options={statusOptions} onChange={(event) => setEditDialog((current) => ({ ...current, status: event.target.value }))} />
           <TextField type="number" label="Requested Quantity" value={editDialog.requestedQuantity} onChange={(event) => setEditDialog((current) => ({ ...current, requestedQuantity: event.target.value }))} />
           <TextField type="number" label="Estimated Unit Cost" value={editDialog.estimatedUnitCost} onChange={(event) => setEditDialog((current) => ({ ...current, estimatedUnitCost: event.target.value }))} />
           <TextField type="date" label="Expected Date" value={editDialog.expectedDate} onChange={(event) => setEditDialog((current) => ({ ...current, expectedDate: event.target.value }))} InputLabelProps={{ shrink: true }} />
