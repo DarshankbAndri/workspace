@@ -82,6 +82,7 @@ export const AUTHORIZED_ROUTES = [
   { path: '/vendors', permission: PERMISSIONS.VENDOR_VIEW },
   { path: '/vendor-amc', permission: PERMISSIONS.VENDOR_AMC_VIEW },
   { path: '/maintenance/requests', permission: PERMISSIONS.REQUEST_VIEW },
+  { path: '/maintenance/my-assignments', permission: PERMISSIONS.ASSIGNMENT_VIEW },
   { path: '/maintenance/assignments', permission: PERMISSIONS.ASSIGNMENT_VIEW },
   { path: '/maintenance/downtime', permission: PERMISSIONS.DOWNTIME_VIEW },
   { path: '/maintenance/preventive', permission: PERMISSIONS.REQUEST_VIEW },

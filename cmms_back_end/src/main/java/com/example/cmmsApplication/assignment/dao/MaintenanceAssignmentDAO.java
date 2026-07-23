@@ -19,6 +19,10 @@ public class MaintenanceAssignmentDAO {
     public List<MaintenanceAssignment> findAll() { return repository.findAll(); }
     public List<MaintenanceAssignment> findBySiteId(Long siteId) { return repository.findByRequestSiteId(siteId); }
     public List<MaintenanceAssignment> findBySiteIds(Collection<Long> siteIds) { return repository.findByRequestSiteIdIn(siteIds); }
+    public List<MaintenanceAssignment> findByAssignedEmployeeId(Long assignedEmployeeId) { return repository.findByAssignedEmployeeId(assignedEmployeeId); }
+    public List<MaintenanceAssignment> findByAssignedEmployeeIdAndSiteIds(Long assignedEmployeeId, Collection<Long> siteIds) {
+        return repository.findByAssignedEmployeeIdAndRequestSiteIdIn(assignedEmployeeId, siteIds);
+    }
     public List<MaintenanceAssignment> findByRequestId(Long requestId) { return repository.findByRequestId(requestId); }
     public Optional<MaintenanceAssignment> findLatestByRequestId(Long requestId) { return repository.findTopByRequestIdOrderByCreatedAtDescIdDesc(requestId); }
     public void deleteById(Long id) { repository.deleteById(id); }

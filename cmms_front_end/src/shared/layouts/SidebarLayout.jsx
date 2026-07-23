@@ -20,6 +20,7 @@ import {
 } from '@mui/material';
 import {
   Assignment,
+  AssignmentTurnedIn,
   AdminPanelSettings,
   Build,
   CalendarMonth,
@@ -72,6 +73,7 @@ const operationGroups = [
     items: [
       { label: 'Requests', path: '/maintenance/requests', icon: <Assignment />, permission: 'REQUEST_VIEW' },
       { label: 'Assignments', path: '/maintenance/assignments', icon: <Build />, permission: 'ASSIGNMENT_VIEW' },
+      { label: 'My Assignments', path: '/maintenance/my-assignments', icon: <AssignmentTurnedIn />, permission: 'ASSIGNMENT_VIEW' },
       { label: 'Downtime', path: '/maintenance/downtime', icon: <Timeline />, permission: 'DOWNTIME_VIEW' },
       { label: 'Preventive Maintenance', path: '/maintenance/preventive', icon: <EventRepeat />, permission: 'REQUEST_VIEW' },
       { label: 'PM Calendar', path: '/maintenance/preventive/calendar', icon: <CalendarMonth />, permission: 'PM_CALENDAR_VIEW' },

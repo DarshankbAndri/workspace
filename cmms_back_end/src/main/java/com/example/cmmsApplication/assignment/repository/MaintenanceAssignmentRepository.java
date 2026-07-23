@@ -14,6 +14,8 @@ import java.util.Optional;
 public interface MaintenanceAssignmentRepository extends JpaRepository<MaintenanceAssignment, Long> {
     List<MaintenanceAssignment> findByRequestSiteId(Long siteId);
     List<MaintenanceAssignment> findByRequestSiteIdIn(Collection<Long> siteIds);
+    List<MaintenanceAssignment> findByAssignedEmployeeId(Long assignedEmployeeId);
+    List<MaintenanceAssignment> findByAssignedEmployeeIdAndRequestSiteIdIn(Long assignedEmployeeId, Collection<Long> siteIds);
     List<MaintenanceAssignment> findByRequestId(Long requestId);
     Optional<MaintenanceAssignment> findTopByRequestIdOrderByCreatedAtDescIdDesc(Long requestId);
     long countByRequestEquipmentIdAndStatusNotIn(Long equipmentId, Collection<String> statuses);

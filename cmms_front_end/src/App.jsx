@@ -25,6 +25,7 @@ import MaintenanceRequestViewPage from './features/maintenanceRequest/pages/Main
 import MaintenanceAssignmentListPage from './features/assignment/pages/MaintenanceAssignmentListPage';
 import MaintenanceAssignmentFormPage from './features/assignment/pages/MaintenanceAssignmentFormPage';
 import MaintenanceAssignmentViewPage from './features/assignment/pages/MaintenanceAssignmentViewPage';
+import MyMaintenanceAssignmentsPage from './features/assignment/pages/MyMaintenanceAssignmentsPage';
 import DowntimeListPage from './features/downtime/pages/DowntimeListPage';
 import DowntimeFormPage from './features/downtime/pages/DowntimeFormPage';
 import DowntimeViewPage from './features/downtime/pages/DowntimeViewPage';
@@ -143,6 +144,7 @@ function App() {
           <Route path="/maintenance/requests/:id/view" element={protectedPage(<MaintenanceRequestViewPage />, 'REQUEST_VIEW')} />
           <Route path="/maintenance/requests/view/:id" element={protectedPage(<MaintenanceRequestViewPage />, 'REQUEST_VIEW')} />
           <Route path="/maintenance/assignments" element={protectedPage(<MaintenanceAssignmentListPage />, 'ASSIGNMENT_VIEW')} />
+          <Route path="/maintenance/my-assignments" element={protectedPage(<MyMaintenanceAssignmentsPage />, 'ASSIGNMENT_VIEW')} />
           <Route path="/maintenance/assignments/new" element={protectedPage(<MaintenanceAssignmentFormPage />, 'ASSIGNMENT_CREATE')} />
           <Route path="/maintenance/assignments/:id/edit" element={protectedPage(<MaintenanceAssignmentFormPage />, 'ASSIGNMENT_UPDATE')} />
           <Route path="/maintenance/assignments/:id/view" element={protectedPage(<MaintenanceAssignmentViewPage />, 'ASSIGNMENT_VIEW')} />

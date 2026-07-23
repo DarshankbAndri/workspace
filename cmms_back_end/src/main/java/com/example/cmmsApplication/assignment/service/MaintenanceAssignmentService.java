@@ -80,6 +80,20 @@ public class MaintenanceAssignmentService {
         return assignments.stream().map(this::toDTO).collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
+    public List<MaintenanceAssignmentDTO> getMyAssignments() {
+        Long employeeId = accessControlService.getCurrentEmployeeId();
+        if (employeeId == null) {
+            return List.of();
+        }
+        List<MaintenanceAssignment> assignments = accessControlService.isAdmin()
+                ? assignmentDAO.findByAssignedEmployeeId(employeeId)
+                : assignmentDAO.findByAssignedEmployeeIdAndSiteIds(employeeId, accessControlService.getAllowedSiteIds());
+        return assignments.stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
+    }
+
     public void delete(Long id) {
         MaintenanceAssignment assignment = getEntity(id);
         accessControlService.validateSiteAccess(assignment.getRequest().getSite() == null ? null : assignment.getRequest().getSite().getId());

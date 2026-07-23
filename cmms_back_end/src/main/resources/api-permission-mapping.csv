@@ -186,6 +186,7 @@ REQUEST_DELETE,/api/preventive-maintenance/schedules/{id},DELETE,Delete preventi
 REQUEST_CREATE,/api/preventive-maintenance/schedules/{id}/generate-work-order,POST,Generate preventive maintenance work order
 REQUEST_CREATE,/api/preventive-maintenance/schedules/generate-due-work-orders,POST,Generate due preventive maintenance work orders
 ASSIGNMENT_VIEW,/api/maintenance/assignments,GET,View maintenance assignments
+ASSIGNMENT_VIEW,/api/maintenance/assignments/my,GET,View current user's assigned maintenance work
 ASSIGNMENT_VIEW,/api/maintenance/assignments/{id},GET,View maintenance assignment
 ASSIGNMENT_VIEW,/api/maintenance/assignments/search,POST,Search maintenance assignments
 ASSIGNMENT_VIEW,/api/maintenance/requests/context,GET,Assignment maintenance request helper data

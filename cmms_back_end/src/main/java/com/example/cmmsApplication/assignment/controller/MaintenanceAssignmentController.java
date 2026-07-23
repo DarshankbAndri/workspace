@@ -49,14 +49,19 @@ public class MaintenanceAssignmentController {
         return ResponseFactory.ok(null);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<?>> getById(@PathVariable Long id) {
-        return ResponseFactory.ok(assignmentService.getById(id));
-    }
-
     @GetMapping
     public ResponseEntity<ApiResponse<?>> getAll(@RequestParam(required = false) Long siteId) {
         return ResponseFactory.ok(assignmentService.getAll(siteId));
+    }
+
+    @GetMapping("/my")
+    public ResponseEntity<ApiResponse<?>> getMyAssignments() {
+        return ResponseFactory.ok(assignmentService.getMyAssignments());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<?>> getById(@PathVariable Long id) {
+        return ResponseFactory.ok(assignmentService.getById(id));
     }
 
     @PostMapping("/search")
