@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
+import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
 
 const AuthContext = createContext();
 
@@ -73,6 +73,18 @@ export function AuthProvider({ children }) {
     localStorage.removeItem('allowedSites');
   };
 
+  const updateUser = useCallback((updates = {}) => {
+    setUser((current) => {
+      const nextUser = { ...(current || {}), ...updates };
+      const hasChanges = Object.keys(updates).some((key) => current?.[key] !== updates[key]);
+      if (!hasChanges) {
+        return current;
+      }
+      localStorage.setItem('user', JSON.stringify(nextUser));
+      return nextUser;
+    });
+  }, []);
+
   const getToken = () => {
     return token || localStorage.getItem('token');
   };
@@ -102,6 +114,7 @@ export function AuthProvider({ children }) {
       allowedSites,
       login,
       logout,
+      updateUser,
       loading,
       getToken,
       hasPermission,

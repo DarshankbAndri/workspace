@@ -19,7 +19,7 @@ import {
   Typography,
   alpha,
 } from '@mui/material';
-import { Logout, Menu as MenuIcon, Notifications, PrecisionManufacturing } from '@mui/icons-material';
+import { AccountCircle, Logout, Menu as MenuIcon, Notifications, PrecisionManufacturing } from '@mui/icons-material';
 import { useAuth } from '../context/AuthContext';
 import {
   getNotificationList,
@@ -29,6 +29,7 @@ import {
   subscribeToNotificationStream,
 } from '../../features/notification/services/notificationService';
 import { getCurrentCompany, resolveCompanyLogoUrl } from '../../features/company/services/companyService';
+import { resolveProfilePhotoUrl } from '../../features/user/services/userProfileService';
 import { formatDateTime } from '../utils/formatters';
 
 function TopNavbar({ onMenuClick }) {
@@ -106,9 +107,15 @@ function TopNavbar({ onMenuClick }) {
     navigate('/login');
   };
 
+  const openProfile = () => {
+    setProfileAnchor(null);
+    navigate('/profile');
+  };
+
   const initials = `${user?.firstName?.[0] || ''}${user?.lastName?.[0] || ''}` || user?.username?.[0] || 'U';
   const companyName = company?.companyName || 'CMMS';
   const logoUrl = resolveCompanyLogoUrl(company?.logoUrl);
+  const profilePhotoUrl = resolveProfilePhotoUrl(user?.profilePhotoUrl);
 
   return (
     <Paper
@@ -163,7 +170,7 @@ function TopNavbar({ onMenuClick }) {
           </Tooltip>
           <Tooltip title="User profile">
             <IconButton aria-label="User profile" onClick={(event) => setProfileAnchor(event.currentTarget)} sx={{ p: 0.5 }}>
-              <Avatar sx={{ width: 36, height: 36, bgcolor: 'secondary.main', color: 'primary.main', fontWeight: 800 }}>
+              <Avatar src={profilePhotoUrl} sx={{ width: 36, height: 36, bgcolor: 'secondary.main', color: 'primary.main', fontWeight: 800 }}>
                 {initials}
               </Avatar>
             </IconButton>
@@ -215,6 +222,10 @@ function TopNavbar({ onMenuClick }) {
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
+        <MenuItem onClick={openProfile}>
+          <AccountCircle fontSize="small" sx={{ mr: 1 }} />
+          Profile
+        </MenuItem>
         <MenuItem onClick={handleLogout}>
           <Logout fontSize="small" sx={{ mr: 1 }} />
           Logout

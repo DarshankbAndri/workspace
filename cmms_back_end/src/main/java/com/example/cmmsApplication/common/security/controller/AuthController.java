@@ -12,17 +12,25 @@ import com.example.cmmsApplication.common.exception.ResourceNotFoundException;
 import com.example.cmmsApplication.user.repository.UserRepository;
 import com.example.cmmsApplication.common.security.service.AccessControlService;
 import com.example.cmmsApplication.common.security.JwtUtil;
+import com.example.cmmsApplication.user.service.UserProfileService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.core.io.Resource;
+import org.springframework.http.CacheControl;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.MediaTypeFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -37,6 +45,7 @@ public class AuthController {
     private final PasswordEncoder passwordEncoder;
     private final AccessControlService accessControlService;
     private final ObservabilityMetrics observabilityMetrics;
+    private final UserProfileService userProfileService;
 
     
     @PostMapping("/login")
@@ -87,6 +96,29 @@ public class AuthController {
     public ResponseEntity<com.example.cmmsApplication.common.response.ApiResponse<?>> me() {
         User user = accessControlService.getCurrentUser();
         return ResponseFactory.ok(accessControlService.buildAccessPayload(user));
+    }
+
+    @GetMapping("/profile")
+    @Operation(summary = "Current user profile", description = "Returns current user and linked employee profile details")
+    public ResponseEntity<com.example.cmmsApplication.common.response.ApiResponse<?>> profile() {
+        return ResponseFactory.ok(userProfileService.getCurrentProfile());
+    }
+
+    @PostMapping(value = "/profile/avatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Operation(summary = "Upload current user profile photo", description = "Stores profile photo for the authenticated user")
+    public ResponseEntity<com.example.cmmsApplication.common.response.ApiResponse<?>> uploadProfileAvatar(@RequestParam("file") MultipartFile file) {
+        return ResponseFactory.ok(userProfileService.uploadProfilePhoto(file));
+    }
+
+    @GetMapping("/profile/avatar/{fileName:.+}")
+    @Operation(summary = "Get profile avatar", description = "Returns a stored user profile avatar image")
+    public ResponseEntity<Resource> profileAvatar(@PathVariable String fileName) {
+        Resource resource = userProfileService.getProfilePhoto(fileName);
+        return ResponseEntity.ok()
+                .contentType(MediaTypeFactory.getMediaType(resource).orElse(MediaType.APPLICATION_OCTET_STREAM))
+                .cacheControl(CacheControl.maxAge(1, TimeUnit.DAYS))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"")
+                .body(resource);
     }
 
     @PostMapping("/refresh")
