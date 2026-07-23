@@ -12,15 +12,15 @@ import {
   Typography,
   Alert,
   CircularProgress,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   Grid,
   Card,
   CardContent,
 } from '@mui/material';
 import { PersonAdd, ArrowBack } from '@mui/icons-material';
+import CommonDropdown from '../../../shared/components/common/CommonDropdown';
+import { getDropdownOptions } from '../../../shared/utils/dropdownHelper';
+
+const roleOptions = getDropdownOptions('USER_MANAGEMENT', 'role');
 
 function UserManagementPage() {
   const navigate = useNavigate();
@@ -261,20 +261,15 @@ function UserManagementPage() {
 
                 {/* Role */}
                 <Grid item xs={12} sm={6}>
-                  <FormControl fullWidth>
-                    <InputLabel>Role</InputLabel>
-                    <Select
-                      name="role"
-                      value={formData.role}
-                      onChange={handleInputChange}
-                      disabled={loading}
-                      label="Role"
-                    >
-                      <MenuItem value="EMPLOYEE">Employee</MenuItem>
-                      <MenuItem value="MANAGER">Manager</MenuItem>
-                      <MenuItem value="HR">HR</MenuItem>
-                    </Select>
-                  </FormControl>
+                  <CommonDropdown
+                    fullWidth
+                    label="Role"
+                    name="role"
+                    value={formData.role}
+                    options={roleOptions}
+                    onChange={handleInputChange}
+                    disabled={loading}
+                  />
                 </Grid>
 
                 {/* Manager ID (Optional) */}

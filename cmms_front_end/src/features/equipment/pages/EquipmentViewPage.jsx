@@ -49,6 +49,7 @@ import CommonFileUpload from '../../../shared/components/common/CommonFileUpload
 import CommonInput from '../../../shared/components/common/CommonInput';
 import CommonTextArea from '../../../shared/components/common/CommonTextArea';
 import ConfirmDialog from '../../../shared/components/common/ConfirmDialog';
+import { getDropdownOptions } from '../../../shared/utils/dropdownHelper';
 
 const initialSpareBomForm = {
   stockId: '',
@@ -65,28 +66,9 @@ const initialDocumentForm = {
   remarks: '',
 };
 
-const criticalityOptions = [
-  { value: 'LOW', label: 'Low' },
-  { value: 'MEDIUM', label: 'Medium' },
-  { value: 'HIGH', label: 'High' },
-  { value: 'CRITICAL', label: 'Critical' },
-];
-
-const statusOptions = [
-  { value: 'ACTIVE', label: 'Active' },
-  { value: 'INACTIVE', label: 'Inactive' },
-];
-
-const documentTypeOptions = [
-  { value: 'MANUAL', label: 'Manual' },
-  { value: 'DRAWING', label: 'Drawing' },
-  { value: 'CERTIFICATE', label: 'Certificate' },
-  { value: 'INSPECTION_REPORT', label: 'Inspection Report' },
-  { value: 'SOP', label: 'SOP' },
-  { value: 'WARRANTY', label: 'Warranty' },
-  { value: 'SAFETY', label: 'Safety' },
-  { value: 'OTHER', label: 'Other' },
-];
+const criticalityOptions = getDropdownOptions('EQUIPMENT_MASTER', 'criticality');
+const statusOptions = getDropdownOptions('EQUIPMENT_MASTER', 'bomStatus');
+const documentTypeOptions = getDropdownOptions('EQUIPMENT_MASTER', 'documentType');
 
 function EquipmentViewPage() {
   const { id } = useParams();

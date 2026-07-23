@@ -18,6 +18,7 @@ import {
   removeVendorAmcEquipment,
   updateVendorAmcContract,
 } from '../services/vendorAmcService';
+import { getDropdownOptions } from '../../../shared/utils/dropdownHelper';
 
 const initialForm = {
   siteId: '',
@@ -41,9 +42,9 @@ const initialForm = {
   equipmentIds: [],
 };
 
-const statusOptions = ['DRAFT', 'ACTIVE', 'EXPIRING_SOON', 'EXPIRED', 'TERMINATED', 'RENEWED'].map((value) => ({ value, label: value.replaceAll('_', ' ') }));
-const contractTypeOptions = ['COMPREHENSIVE', 'LABOR_ONLY', 'SPARES_ONLY', 'INSPECTION', 'OTHER'].map((value) => ({ value, label: value.replaceAll('_', ' ') }));
-const yesNoOptions = [{ value: true, label: 'Yes' }, { value: false, label: 'No' }];
+const statusOptions = getDropdownOptions('VENDOR_AMC', 'contractStatus');
+const contractTypeOptions = getDropdownOptions('VENDOR_AMC', 'contractType');
+const yesNoOptions = getDropdownOptions('COMMON', 'yesNo');
 
 function VendorAmcFormPage() {
   const { id } = useParams();

@@ -1,11 +1,13 @@
 import React from 'react';
-import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, Paper, Snackbar, Stack, Switch, TextField, Typography } from '@mui/material';
+import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Paper, Snackbar, Stack, Switch, TextField, Typography } from '@mui/material';
 import { Edit } from '@mui/icons-material';
 import { DataGrid } from '@mui/x-data-grid';
 import { createApprovalConfig, getApprovalConfigs, updateApprovalConfig } from '../services/approvalConfigService';
 import { getRoles } from '../../admin/services/roleService';
 import { useAuth } from '../../../shared/context/AuthContext';
 import { PERMISSIONS } from '../../../shared/utils/permissionRoutes';
+import CommonDropdown from '../../../shared/components/common/CommonDropdown';
+import { getDropdownOptions } from '../../../shared/utils/dropdownHelper';
 
 const defaultApprovalConfigs = [
   { moduleCode: 'PM_SCHEDULE', actionCode: 'CREATE', approvalRequired: false, approverRoleCode: 'MAINTENANCE_MANAGER', minApprovalCount: 1, status: 'ACTIVE' },
@@ -16,6 +18,8 @@ const defaultApprovalConfigs = [
   { moduleCode: 'SPARE_ISSUE', actionCode: 'RESERVE', approvalRequired: false, approverRoleCode: 'MAINTENANCE_MANAGER', minApprovalCount: 1, status: 'ACTIVE' },
   { moduleCode: 'SPARE_ISSUE', actionCode: 'ISSUE', approvalRequired: false, approverRoleCode: 'MAINTENANCE_MANAGER', minApprovalCount: 1, status: 'ACTIVE' },
 ];
+const approvalStatusOptions = getDropdownOptions('APPROVAL', 'configStatus');
+const anyApprovalUserOptions = getDropdownOptions('APPROVAL', 'anyApprovalUserOption');
 
 function mergeDefaultConfigs(data = []) {
   const keyed = new Map((data || []).map((item) => [`${item.moduleCode}:${item.actionCode}`, item]));
@@ -37,6 +41,10 @@ function ApprovalConfigPage() {
   const [error, setError] = React.useState('');
   const [success, setSuccess] = React.useState('');
   const [editRow, setEditRow] = React.useState(null);
+  const roleOptions = React.useMemo(() => [
+    ...anyApprovalUserOptions,
+    ...roles.map((role) => ({ value: role.roleCode, label: `${role.roleName} (${role.roleCode})` })),
+  ], [roles]);
 
   const loadRows = React.useCallback(() => {
     setLoading(true);
@@ -115,15 +123,9 @@ function ApprovalConfigPage() {
                 <Switch checked={Boolean(editRow.approvalRequired)} onChange={updateField('approvalRequired')} />
                 <Typography>Approval Required</Typography>
               </Stack>
-              <TextField select label="Approver Role" value={editRow.approverRoleCode || ''} onChange={updateField('approverRoleCode')} fullWidth>
-                <MenuItem value="">Any approval user</MenuItem>
-                {roles.map((role) => <MenuItem key={role.id} value={role.roleCode}>{role.roleName} ({role.roleCode})</MenuItem>)}
-              </TextField>
+              <CommonDropdown label="Approver Role" value={editRow.approverRoleCode || ''} options={roleOptions} onChange={updateField('approverRoleCode')} fullWidth />
               <TextField type="number" label="Min Approval Count" value={editRow.minApprovalCount || 1} onChange={updateField('minApprovalCount')} inputProps={{ min: 1 }} fullWidth />
-              <TextField select label="Status" value={editRow.status || 'ACTIVE'} onChange={updateField('status')} fullWidth>
-                <MenuItem value="ACTIVE">ACTIVE</MenuItem>
-                <MenuItem value="INACTIVE">INACTIVE</MenuItem>
-              </TextField>
+              <CommonDropdown label="Status" value={editRow.status || 'ACTIVE'} options={approvalStatusOptions} onChange={updateField('status')} fullWidth />
             </Stack>
           )}
         </DialogContent>

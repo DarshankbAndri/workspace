@@ -1,0 +1,90 @@
+{
+  "pageName": "COMMON",
+  "serviceType": "UI",
+  "dropDownMasterList": {
+    "activeStatus": [
+      {
+        "value": "ACTIVE",
+        "label": "ACTIVE"
+      },
+      {
+        "value": "INACTIVE",
+        "label": "INACTIVE"
+      }
+    ],
+    "booleanActiveStatus": [
+      {
+        "value": "true",
+        "label": "Active"
+      },
+      {
+        "value": "false",
+        "label": "Inactive"
+      }
+    ],
+    "yesNo": [
+      {
+        "value": true,
+        "label": "Yes"
+      },
+      {
+        "value": false,
+        "label": "No"
+      }
+    ],
+    "priority": [
+      {
+        "value": "LOW",
+        "label": "Low"
+      },
+      {
+        "value": "MEDIUM",
+        "label": "Medium"
+      },
+      {
+        "value": "HIGH",
+        "label": "High"
+      },
+      {
+        "value": "URGENT",
+        "label": "Urgent"
+      }
+    ],
+    "criticalityPriority": [
+      {
+        "value": "LOW",
+        "label": "LOW"
+      },
+      {
+        "value": "MEDIUM",
+        "label": "MEDIUM"
+      },
+      {
+        "value": "HIGH",
+        "label": "HIGH"
+      },
+      {
+        "value": "CRITICAL",
+        "label": "CRITICAL"
+      }
+    ],
+    "checklistResponseType": [
+      {
+        "value": "CHECKBOX",
+        "label": "CHECKBOX"
+      },
+      {
+        "value": "TEXT",
+        "label": "TEXT"
+      },
+      {
+        "value": "NUMBER",
+        "label": "NUMBER"
+      },
+      {
+        "value": "PHOTO",
+        "label": "PHOTO"
+      }
+    ]
+  }
+}

@@ -9,6 +9,7 @@ import CommonFormActions from '../../../shared/components/common/CommonFormActio
 import CommonFormCard from '../../../shared/components/common/CommonFormCard';
 import { useAuth } from '../../../shared/context/AuthContext';
 import { PERMISSIONS } from '../../../shared/utils/permissionRoutes';
+import { getDropdownOptions } from '../../../shared/utils/dropdownHelper';
 
 const initialForm = {
   siteCode: '',
@@ -29,10 +30,7 @@ const initialForm = {
   status: 'ACTIVE',
 };
 
-const STATUS_OPTIONS = [
-  { value: 'ACTIVE', label: 'ACTIVE' },
-  { value: 'INACTIVE', label: 'INACTIVE' },
-];
+const STATUS_OPTIONS = getDropdownOptions('COMMON', 'activeStatus');
 
 function SiteFormPage() {
   const { id } = useParams();

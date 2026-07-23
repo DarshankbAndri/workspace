@@ -1,0 +1,36 @@
+{
+  "pageName": "SPARE_PART",
+  "serviceType": "UI",
+  "dropDownMasterList": {
+    "stockStatus": [
+      {
+        "value": "",
+        "label": "All"
+      },
+      {
+        "value": "true",
+        "label": "Low Stock"
+      },
+      {
+        "value": "false",
+        "label": "OK"
+      }
+    ],
+    "spareStatus": [
+      {
+        "value": "ACTIVE",
+        "label": "Active"
+      },
+      {
+        "value": "INACTIVE",
+        "label": "Inactive"
+      }
+    ],
+    "noPreferredVendorOption": [
+      {
+        "value": "",
+        "label": "No preferred vendor"
+      }
+    ]
+  }
+}

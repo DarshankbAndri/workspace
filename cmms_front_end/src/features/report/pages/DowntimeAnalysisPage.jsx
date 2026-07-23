@@ -1,6 +1,7 @@
 import React from 'react';
-import { Alert, Box, Grid, MenuItem, Paper, TextField, Typography } from '@mui/material';
+import { Alert, Box, Grid, Paper, Typography } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
+import CommonDropdown from '../../../shared/components/common/CommonDropdown';
 import { getEquipments } from '../../equipment/services/equipmentService';
 import { getDowntimeAnalysisReport } from '../services/reportService';
 
@@ -13,6 +14,10 @@ function DowntimeAnalysisPage() {
   const [paginationModel, setPaginationModel] = React.useState({ page: 0, pageSize: 10 });
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState('');
+  const equipmentOptions = React.useMemo(() => [
+    { value: '', label: 'All equipment' },
+    ...equipments.map((item) => ({ value: item.id, label: `${item.equipmentCode} - ${item.equipmentName}` })),
+  ], [equipments]);
 
   React.useEffect(() => {
     getEquipments()
@@ -57,10 +62,7 @@ function DowntimeAnalysisPage() {
       <Typography variant="h4" fontWeight={800}>Downtime Analysis</Typography>
       <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>Summarize downtime frequency and duration by equipment.</Typography>
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
-      <TextField select label="Equipment" value={equipmentId} onChange={updateEquipment} sx={{ minWidth: 320, mb: 2 }} size="small">
-        <MenuItem value="">All equipment</MenuItem>
-        {equipments.map((item) => <MenuItem key={item.id} value={item.id}>{item.equipmentCode} - {item.equipmentName}</MenuItem>)}
-      </TextField>
+      <CommonDropdown label="Equipment" value={equipmentId} options={equipmentOptions} onChange={updateEquipment} sx={{ minWidth: 320, mb: 2 }} size="small" />
       <Grid container spacing={2} sx={{ mb: 2 }}>
         <Grid item xs={12} md={4}><Paper sx={{ p: 2, borderRadius: 1 }}><Typography variant="body2" color="text.secondary">Downtime Events</Typography><Typography variant="h4" fontWeight={800}>{summary.events || 0}</Typography></Paper></Grid>
         <Grid item xs={12} md={4}><Paper sx={{ p: 2, borderRadius: 1 }}><Typography variant="body2" color="text.secondary">Unplanned Events</Typography><Typography variant="h4" fontWeight={800}>{summary.unplannedEvents || 0}</Typography></Paper></Grid>

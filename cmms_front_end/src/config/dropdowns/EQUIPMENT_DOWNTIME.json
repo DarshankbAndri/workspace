@@ -1,0 +1,130 @@
+{
+  "pageName": "EQUIPMENT_DOWNTIME",
+  "serviceType": "UI",
+  "dropDownMasterList": {
+    "downtimeStatus": [
+      {
+        "value": "OPEN",
+        "label": "OPEN"
+      },
+      {
+        "value": "CONFIRMED",
+        "label": "CONFIRMED"
+      },
+      {
+        "value": "UNDER_MAINTENANCE",
+        "label": "UNDER MAINTENANCE"
+      },
+      {
+        "value": "RESTORED",
+        "label": "RESTORED"
+      },
+      {
+        "value": "VERIFIED",
+        "label": "VERIFIED"
+      },
+      {
+        "value": "CLOSED",
+        "label": "CLOSED"
+      },
+      {
+        "value": "REOPENED",
+        "label": "REOPENED"
+      },
+      {
+        "value": "CANCELLED",
+        "label": "CANCELLED"
+      }
+    ],
+    "reasonCategory": [
+      {
+        "value": "MECHANICAL",
+        "label": "MECHANICAL"
+      },
+      {
+        "value": "ELECTRICAL",
+        "label": "ELECTRICAL"
+      },
+      {
+        "value": "INSTRUMENTATION",
+        "label": "INSTRUMENTATION"
+      },
+      {
+        "value": "UTILITY_FAILURE",
+        "label": "UTILITY FAILURE"
+      },
+      {
+        "value": "MATERIAL_SHORTAGE",
+        "label": "MATERIAL SHORTAGE"
+      },
+      {
+        "value": "OPERATOR_ERROR",
+        "label": "OPERATOR ERROR"
+      },
+      {
+        "value": "PLANNED_SHUTDOWN",
+        "label": "PLANNED SHUTDOWN"
+      },
+      {
+        "value": "CHANGEOVER",
+        "label": "CHANGEOVER"
+      },
+      {
+        "value": "SAFETY_STOP",
+        "label": "SAFETY STOP"
+      },
+      {
+        "value": "OTHER",
+        "label": "OTHER"
+      }
+    ],
+    "plannedType": [
+      {
+        "value": false,
+        "label": "Unplanned"
+      },
+      {
+        "value": true,
+        "label": "Planned"
+      }
+    ],
+    "rcaActionType": [
+      {
+        "value": "CORRECTIVE",
+        "label": "CORRECTIVE"
+      },
+      {
+        "value": "PREVENTIVE",
+        "label": "PREVENTIVE"
+      }
+    ],
+    "rcaStatus": [
+      {
+        "value": "OPEN",
+        "label": "OPEN"
+      },
+      {
+        "value": "IN_PROGRESS",
+        "label": "IN PROGRESS"
+      },
+      {
+        "value": "COMPLETED",
+        "label": "COMPLETED"
+      },
+      {
+        "value": "VERIFIED",
+        "label": "VERIFIED"
+      },
+      {
+        "value": "CANCELLED",
+        "label": "CANCELLED"
+      }
+    ],
+    "noRequestOption": [
+      {
+        "value": "",
+        "label": "No request"
+      }
+    ]
+  }
+}

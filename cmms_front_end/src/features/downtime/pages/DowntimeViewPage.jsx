@@ -21,6 +21,7 @@ import CommonFormCard from '../../../shared/components/common/CommonFormCard';
 import CommonInput from '../../../shared/components/common/CommonInput';
 import CommonTextArea from '../../../shared/components/common/CommonTextArea';
 import CommonDropdown from '../../../shared/components/common/CommonDropdown';
+import { getDropdownOptions } from '../../../shared/utils/dropdownHelper';
 
 const statusColors = {
   OPEN: 'warning',
@@ -33,8 +34,8 @@ const statusColors = {
   CANCELLED: 'default',
 };
 
-const actionTypeOptions = ['CORRECTIVE', 'PREVENTIVE'].map((value) => ({ value, label: formatLabel(value) }));
-const rcaStatusOptions = ['OPEN', 'IN_PROGRESS', 'COMPLETED', 'VERIFIED', 'CANCELLED'].map((value) => ({ value, label: formatLabel(value) }));
+const actionTypeOptions = getDropdownOptions('EQUIPMENT_DOWNTIME', 'rcaActionType');
+const rcaStatusOptions = getDropdownOptions('EQUIPMENT_DOWNTIME', 'rcaStatus');
 
 const initialRcaForm = {
   id: null,

@@ -1,0 +1,20 @@
+{
+  "pageName": "USER_MANAGEMENT",
+  "serviceType": "UI",
+  "dropDownMasterList": {
+    "role": [
+      {
+        "value": "EMPLOYEE",
+        "label": "Employee"
+      },
+      {
+        "value": "MANAGER",
+        "label": "Manager"
+      },
+      {
+        "value": "HR",
+        "label": "HR"
+      }
+    ]
+  }
+}

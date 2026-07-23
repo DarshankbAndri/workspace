@@ -1,9 +1,11 @@
 import React from 'react';
-import { Alert, Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, Paper, Stack, TextField, Typography } from '@mui/material';
+import { Alert, Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogTitle, Paper, Stack, TextField, Typography } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { CheckCircle, Inventory, ShoppingCart, TaskAlt, Undo } from '@mui/icons-material';
 import { useAuth } from '../../../shared/context/AuthContext';
 import { PERMISSIONS } from '../../../shared/utils/permissionRoutes';
+import CommonDropdown from '../../../shared/components/common/CommonDropdown';
+import { getDropdownOptions } from '../../../shared/utils/dropdownHelper';
 import {
   checkSpareRequestStock,
   consumeReturnSpareRequest,
@@ -13,7 +15,7 @@ import {
   reserveSpareRequest,
 } from '../services/sparePartService';
 
-const statuses = ['', 'MANAGER_APPROVED', 'STOCK_AVAILABLE', 'STOCK_NOT_AVAILABLE', 'PURCHASE_REQUESTED', 'PURCHASE_RECEIVED', 'RESERVED', 'ISSUED', 'PARTIALLY_CONSUMED'];
+const statusOptions = getDropdownOptions('SPARE_REQUEST', 'storeStatus');
 const initialConsumeDialog = { open: false, row: null, consumedQty: '', returnedQty: '', remarks: '' };
 const statusColors = {
   MANAGER_APPROVED: 'info',
@@ -151,10 +153,7 @@ function SpareRequestStorePage() {
     <Box>
       <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" alignItems={{ xs: 'flex-start', sm: 'center' }} spacing={2} sx={{ mb: 2 }}>
         <Typography variant="h4" fontWeight={800}>Approved Spare Requests</Typography>
-        <TextField select size="small" label="Status" value={filters.status} onChange={(event) => setFilters({ status: event.target.value })} sx={{ minWidth: 240 }}>
-          <MenuItem value="">Open Store Requests</MenuItem>
-          {statuses.filter(Boolean).map((status) => <MenuItem key={status} value={status}>{status.replaceAll('_', ' ')}</MenuItem>)}
-        </TextField>
+        <CommonDropdown size="small" label="Status" value={filters.status} options={statusOptions} onChange={(event) => setFilters({ status: event.target.value })} sx={{ minWidth: 240 }} />
       </Stack>
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
       <Paper sx={{ height: 660, borderRadius: 1 }}>

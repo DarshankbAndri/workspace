@@ -100,7 +100,7 @@ function PreventiveMaintenanceCalendarPage() {
       siteId: filters.siteId,
       equipmentId: filters.equipmentId,
     })
-      .then((data) => setRows(data || []))
+      .then((data) => setRows(Array.isArray(data) ? data : (Array.isArray(data?.data) ? data.data : [])))
       .catch((err) => setError(formatApiError(err, 'Unable to load PM calendar.')))
       .finally(() => setLoading(false));
   }, [filters.equipmentId, filters.siteId, rangeEnd, rangeStart]);

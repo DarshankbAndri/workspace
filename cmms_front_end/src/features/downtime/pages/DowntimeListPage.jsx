@@ -10,6 +10,7 @@ import { commonSearchFilter, createSearchPayload, equalFilter, rangeFilter } fro
 import CommonDropdown from '../../../shared/components/common/CommonDropdown';
 import CommonInput from '../../../shared/components/common/CommonInput';
 import CommonList from '../../../shared/components/common/CommonList';
+import { getDropdownOptions } from '../../../shared/utils/dropdownHelper';
 
 const formatDuration = (value) => value ?? '-';
 const formatLabel = (value) => value ? String(value).replaceAll('_', ' ') : '-';
@@ -18,8 +19,7 @@ const formatMoney = (value) => {
   return Number(value).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 };
 
-const statusOptions = ['OPEN', 'CONFIRMED', 'UNDER_MAINTENANCE', 'RESTORED', 'VERIFIED', 'CLOSED', 'REOPENED', 'CANCELLED']
-  .map((value) => ({ value, label: formatLabel(value) }));
+const statusOptions = getDropdownOptions('EQUIPMENT_DOWNTIME', 'downtimeStatus');
 
 const statusColors = {
   OPEN: 'warning',

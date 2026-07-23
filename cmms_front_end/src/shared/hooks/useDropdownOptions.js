@@ -1,17 +1,27 @@
 import React from 'react';
+import { getDropdownOptions } from '../utils/dropdownHelper';
 
-function useDropdownOptions({
-  fetcher,
-  labelKey = 'label',
-  valueKey = 'value',
-  dependencies = [],
-  enabled = true,
-  mapOption,
-  filterOption,
-  onError,
-}) {
+function useDropdownOptions(configOrPageName, dropdownName, helperOptions) {
+  const staticOptions = React.useMemo(
+    () => (typeof configOrPageName === 'string'
+      ? getDropdownOptions(configOrPageName, dropdownName, helperOptions)
+      : []),
+    [configOrPageName, dropdownName, helperOptions],
+  );
+
+  const {
+    fetcher,
+    labelKey = 'label',
+    valueKey = 'value',
+    dependencies = [],
+    enabled = true,
+    mapOption,
+    filterOption,
+    onError,
+  } = typeof configOrPageName === 'string' ? {} : (configOrPageName || {});
+
   const [options, setOptions] = React.useState([]);
-  const [loading, setLoading] = React.useState(Boolean(enabled));
+  const [loading, setLoading] = React.useState(Boolean(enabled && fetcher));
   const [error, setError] = React.useState('');
 
   React.useEffect(() => {
@@ -53,6 +63,10 @@ function useDropdownOptions({
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [enabled, fetcher, ...dependencies]);
+
+  if (typeof configOrPageName === 'string') {
+    return staticOptions;
+  }
 
   return { options, loading, error };
 }

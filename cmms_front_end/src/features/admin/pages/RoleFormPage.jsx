@@ -22,11 +22,9 @@ import CommonInput from '../../../shared/components/common/CommonInput';
 import CommonDropdown from '../../../shared/components/common/CommonDropdown';
 import CommonFormActions from '../../../shared/components/common/CommonFormActions';
 import CommonFormCard from '../../../shared/components/common/CommonFormCard';
+import { getDropdownOptions } from '../../../shared/utils/dropdownHelper';
 
-const ROLE_STATUS_OPTIONS = [
-  { value: 'ACTIVE', label: 'ACTIVE' },
-  { value: 'INACTIVE', label: 'INACTIVE' },
-];
+const ROLE_STATUS_OPTIONS = getDropdownOptions('COMMON', 'activeStatus');
 
 const initialForm = {
   roleCode: '',

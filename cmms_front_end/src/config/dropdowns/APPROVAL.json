@@ -1,0 +1,80 @@
+{
+  "pageName": "APPROVAL",
+  "serviceType": "UI",
+  "dropDownMasterList": {
+    "approvalStatus": [
+      {
+        "value": "PENDING",
+        "label": "Pending"
+      },
+      {
+        "value": "APPROVED",
+        "label": "Approved"
+      },
+      {
+        "value": "REJECTED",
+        "label": "Rejected"
+      }
+    ],
+    "approvalModule": [
+      {
+        "value": "MAINTENANCE_REQUEST",
+        "label": "Maintenance Request"
+      },
+      {
+        "value": "PM_SCHEDULE",
+        "label": "PM Schedule"
+      },
+      {
+        "value": "PM_WORK_ORDER",
+        "label": "PM Work Order"
+      },
+      {
+        "value": "SPARE_ISSUE",
+        "label": "Spare Issue"
+      }
+    ],
+    "approvalAction": [
+      {
+        "value": "CREATE",
+        "label": "Create"
+      },
+      {
+        "value": "UPDATE",
+        "label": "Update"
+      },
+      {
+        "value": "GENERATE",
+        "label": "Generate"
+      },
+      {
+        "value": "CLOSE",
+        "label": "Close"
+      },
+      {
+        "value": "RESERVE",
+        "label": "Reserve"
+      },
+      {
+        "value": "ISSUE",
+        "label": "Issue"
+      }
+    ],
+    "configStatus": [
+      {
+        "value": "ACTIVE",
+        "label": "ACTIVE"
+      },
+      {
+        "value": "INACTIVE",
+        "label": "INACTIVE"
+      }
+    ],
+    "anyApprovalUserOption": [
+      {
+        "value": "",
+        "label": "Any approval user"
+      }
+    ]
+  }
+}

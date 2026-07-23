@@ -1,0 +1,46 @@
+{
+  "pageName": "PURCHASE_REQUEST",
+  "serviceType": "UI",
+  "dropDownMasterList": {
+    "reorderStatusFilter": [
+      {
+        "value": "",
+        "label": "All Statuses"
+      },
+      {
+        "value": "REQUESTED",
+        "label": "REQUESTED"
+      },
+      {
+        "value": "ORDERED",
+        "label": "ORDERED"
+      },
+      {
+        "value": "RECEIVED",
+        "label": "RECEIVED"
+      },
+      {
+        "value": "CANCELLED",
+        "label": "CANCELLED"
+      }
+    ],
+    "reorderStatus": [
+      {
+        "value": "REQUESTED",
+        "label": "REQUESTED"
+      },
+      {
+        "value": "ORDERED",
+        "label": "ORDERED"
+      },
+      {
+        "value": "RECEIVED",
+        "label": "RECEIVED"
+      },
+      {
+        "value": "CANCELLED",
+        "label": "CANCELLED"
+      }
+    ]
+  }
+}

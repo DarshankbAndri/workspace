@@ -10,7 +10,6 @@ import {
   Divider,
   GlobalStyles,
   IconButton,
-  MenuItem,
   Paper,
   Stack,
   TextField,
@@ -43,12 +42,15 @@ import {
 } from '../services/sparePartService';
 import ConfirmDialog from '../../../shared/components/common/ConfirmDialog';
 import CommonList from '../../../shared/components/common/CommonList';
+import CommonDropdown from '../../../shared/components/common/CommonDropdown';
+import { getDropdownOptions } from '../../../shared/utils/dropdownHelper';
 
 const initialHistoryDialog = { open: false, row: null, rows: [], loading: false };
 const initialTransferDialog = { open: false, row: null, targetSiteId: '', quantity: '', targetStorageLocation: '', remarks: '' };
 const initialReorderDialog = { open: false, row: null, requestedQuantity: '', estimatedUnitCost: '', expectedDate: '', remarks: '' };
 const initialImportDialog = { open: false, file: null, result: null, loading: false };
 const initialLabelDialog = { open: false, row: null };
+const stockStatusOptions = getDropdownOptions('SPARE_PART', 'stockStatus');
 
 const getSparePartViewPath = (row) => row?.id ? `/inventory/spare-parts/${row.id}/view` : '';
 
@@ -82,6 +84,15 @@ function SparePartListPage() {
   const [labelDialog, setLabelDialog] = React.useState(initialLabelDialog);
   const [deleteRow, setDeleteRow] = React.useState(null);
   const labelQrValue = React.useMemo(() => getSparePartQrValue(labelDialog.row), [labelDialog.row]);
+  const siteOptions = React.useMemo(() => [
+    { value: '', label: 'All Sites' },
+    ...sites.map((site) => ({ value: site.id, label: `${site.siteName} (${site.siteCode})` })),
+  ], [sites]);
+  const targetSiteOptions = React.useMemo(() => (
+    sites
+      .filter((site) => String(site.id) !== String(transferDialog.row?.siteId))
+      .map((site) => ({ value: site.id, label: `${site.siteName} (${site.siteCode})` }))
+  ), [sites, transferDialog.row?.siteId]);
 
   const loadRows = React.useCallback(() => {
     setLoading(true);
@@ -323,15 +334,8 @@ function SparePartListPage() {
       <Paper sx={{ p: 2, mb: 2, borderRadius: 1 }}>
         <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
           <TextField label="Search" value={filters.search} onChange={updateFilter('search')} sx={{ minWidth: { xs: '100%', md: 260 } }} />
-          <TextField select label="Site" value={filters.siteId} onChange={updateFilter('siteId')} sx={{ minWidth: { xs: '100%', md: 240 } }}>
-            <MenuItem value="">All Sites</MenuItem>
-            {sites.map((site) => <MenuItem key={site.id} value={site.id}>{site.siteName} ({site.siteCode})</MenuItem>)}
-          </TextField>
-          <TextField select label="Stock Status" value={filters.lowStock} onChange={updateFilter('lowStock')} sx={{ minWidth: { xs: '100%', md: 180 } }}>
-            <MenuItem value="">All</MenuItem>
-            <MenuItem value="true">Low Stock</MenuItem>
-            <MenuItem value="false">OK</MenuItem>
-          </TextField>
+          <CommonDropdown label="Site" value={filters.siteId} options={siteOptions} onChange={updateFilter('siteId')} sx={{ minWidth: { xs: '100%', md: 240 } }} />
+          <CommonDropdown label="Stock Status" value={filters.lowStock} options={stockStatusOptions} onChange={updateFilter('lowStock')} sx={{ minWidth: { xs: '100%', md: 180 } }} />
         </Stack>
       </Paper>
       <CommonList
@@ -390,9 +394,7 @@ function SparePartListPage() {
         <DialogTitle>Site-to-Site Stock Transfer</DialogTitle>
         <DialogContent sx={{ display: 'grid', gap: 2, pt: 2 }}>
           <Typography variant="body2" color="text.secondary">{transferDialog.row?.siteName} available: {transferDialog.row?.availableStock ?? transferDialog.row?.currentStock} {transferDialog.row?.unit}</Typography>
-          <TextField select required label="Target Site" value={transferDialog.targetSiteId} onChange={(event) => setTransferDialog((current) => ({ ...current, targetSiteId: event.target.value }))}>
-            {sites.filter((site) => String(site.id) !== String(transferDialog.row?.siteId)).map((site) => <MenuItem key={site.id} value={site.id}>{site.siteName} ({site.siteCode})</MenuItem>)}
-          </TextField>
+          <CommonDropdown required label="Target Site" value={transferDialog.targetSiteId} options={targetSiteOptions} onChange={(event) => setTransferDialog((current) => ({ ...current, targetSiteId: event.target.value }))} />
           <TextField required type="number" label="Quantity" value={transferDialog.quantity} onChange={(event) => setTransferDialog((current) => ({ ...current, quantity: event.target.value }))} />
           <TextField label="Target Storage Location" value={transferDialog.targetStorageLocation} onChange={(event) => setTransferDialog((current) => ({ ...current, targetStorageLocation: event.target.value }))} />
           <TextField multiline minRows={2} label="Remarks" value={transferDialog.remarks} onChange={(event) => setTransferDialog((current) => ({ ...current, remarks: event.target.value }))} />

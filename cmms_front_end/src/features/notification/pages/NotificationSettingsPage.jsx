@@ -3,11 +3,8 @@ import {
   Alert,
   Box,
   Button,
-  Checkbox,
-  Chip,
   FormControlLabel,
   Grid,
-  MenuItem,
   Paper,
   Snackbar,
   Stack,
@@ -18,6 +15,7 @@ import {
 import { Refresh, Save } from '@mui/icons-material';
 import { useAuth } from '../../../shared/context/AuthContext';
 import { PERMISSIONS } from '../../../shared/utils/permissionRoutes';
+import CommonDropdown from '../../../shared/components/common/CommonDropdown';
 import { getRoles } from '../../admin/services/roleService';
 import { getNotificationSettings, updateNotificationSettings } from '../services/notificationSettingsService';
 
@@ -36,30 +34,21 @@ const initialForm = {
 };
 
 function RoleSelect({ label, value, roles, onChange, disabled = false }) {
+  const options = React.useMemo(() => (
+    roles.map((role) => ({ value: role.roleCode, label: `${role.roleName} (${role.roleCode})` }))
+  ), [roles]);
+
   return (
-    <TextField
-      select
+    <CommonDropdown
+      multiple
       fullWidth
       label={label}
       value={value || []}
+      options={options}
       onChange={onChange}
       disabled={disabled}
-      SelectProps={{
-        multiple: true,
-        renderValue: (selected) => (
-          <Stack direction="row" spacing={0.5} flexWrap="wrap" useFlexGap>
-            {selected.map((code) => <Chip key={code} size="small" label={code} />)}
-          </Stack>
-        ),
-      }}
-    >
-      {roles.map((role) => (
-        <MenuItem key={role.id} value={role.roleCode}>
-          <Checkbox checked={(value || []).includes(role.roleCode)} />
-          {role.roleName} ({role.roleCode})
-        </MenuItem>
-      ))}
-    </TextField>
+      clearable
+    />
   );
 }
 

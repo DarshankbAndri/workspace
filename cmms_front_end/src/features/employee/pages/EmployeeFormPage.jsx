@@ -29,25 +29,12 @@ import CommonFormActions from '../../../shared/components/common/CommonFormActio
 import CommonFormCard from '../../../shared/components/common/CommonFormCard';
 import { useAuth } from '../../../shared/context/AuthContext';
 import { PERMISSIONS } from '../../../shared/utils/permissionRoutes';
+import { getDropdownOptions } from '../../../shared/utils/dropdownHelper';
 
-const STATUS_OPTIONS = [
-  { value: 'ACTIVE', label: 'ACTIVE' },
-  { value: 'INACTIVE', label: 'INACTIVE' },
-];
-
-const GENDER_OPTIONS = [
-  { value: '', label: 'Not set' },
-  { value: 'MALE', label: 'MALE' },
-  { value: 'FEMALE', label: 'FEMALE' },
-  { value: 'OTHER', label: 'OTHER' },
-];
-
-const AUTH_ROLE_OPTIONS = [
-  { value: 'EMPLOYEE', label: 'EMPLOYEE' },
-  { value: 'MANAGER', label: 'MANAGER' },
-  { value: 'HR', label: 'HR' },
-  { value: 'ADMIN', label: 'ADMIN' },
-];
+const STATUS_OPTIONS = getDropdownOptions('COMMON', 'activeStatus');
+const GENDER_OPTIONS = getDropdownOptions('EMPLOYEE_MASTER', 'gender');
+const AUTH_ROLE_OPTIONS = getDropdownOptions('EMPLOYEE_MASTER', 'authRole');
+const GLOBAL_SITE_OPTIONS = getDropdownOptions('EMPLOYEE_MASTER', 'globalSiteOption');
 
 const emptyAssignment = {
   siteId: '',
@@ -417,7 +404,7 @@ function EmployeeFormPage() {
                         value={assignment.siteId || ''}
                         onChange={(event) => updateRoleAssignment(index, 'siteId', event.target.value)}
                         options={[
-                          { value: '', label: 'Global' },
+                          ...GLOBAL_SITE_OPTIONS,
                           ...selectedSites(form.siteAssignments, sites).map((s) => ({ value: s.id, label: s.siteName })),
                         ]}
                       />
