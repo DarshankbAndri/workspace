@@ -21,5 +21,6 @@
     <pattern>/swagger-resources/**</pattern>
     <pattern>/v3/api-docs/**</pattern>
     <pattern>/company/logo/**</pattern>
+    
     <pattern>/error</pattern>
 </publicApiPatterns>

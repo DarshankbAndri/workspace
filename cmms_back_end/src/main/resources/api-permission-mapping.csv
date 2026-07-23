@@ -22,283 +22,418 @@ REORDER_VIEW,/api/dashboard/widgets/inventory/reorder-queue,GET,Dashboard widget
 PM_CALENDAR_VIEW,/api/dashboard/widgets/maintenance/pm-due,GET,Dashboard widget preventive maintenance due
 REQUEST_VIEW,/api/dashboard/widgets/maintenance/pm-due,GET,Dashboard widget preventive maintenance due
 VENDOR_AMC_VIEW,/api/dashboard/widgets/vendor-amc/active-contracts,GET,Dashboard widget active AMC contracts
-DASHBOARD_VIEW,/api/hr/sites/**,GET,Dashboard site filter helper data
+DASHBOARD_VIEW,/api/hr/sites/{id},GET,Dashboard site filter helper data
 DASHBOARD_VIEW,/api/hr/sites,GET,Dashboard site filter helper data
-SITE_VIEW,/api/hr/sites/**,GET,View sites
-SITE_VIEW,/api/hr/sites,GET,View site list
+SITE_VIEW,/api/hr/sites/{id},GET,View sites
+SITE_VIEW,/api/hr/sites,GET,View sites
 SITE_VIEW,/api/hr/sites/search,POST,Search sites
 SITE_CREATE,/api/hr/sites,POST,Create site
-SITE_UPDATE,/api/hr/sites/*,PUT,Update site
-SITE_DELETE,/api/hr/sites/*,DELETE,Delete site
-EMPLOYEE_VIEW,/api/hr/employees/**,GET,View employees
-EMPLOYEE_VIEW,/api/hr/employees,GET,View employee list
+SITE_UPDATE,/api/hr/sites/{id},PUT,Update site
+SITE_DELETE,/api/hr/sites/{id},DELETE,Delete site
+EMPLOYEE_VIEW,/api/hr/employees/{id},GET,View employees
+EMPLOYEE_VIEW,/api/hr/employees,GET,View employees
 EMPLOYEE_VIEW,/api/hr/employees/search,POST,Search employees
-EMPLOYEE_VIEW,/api/hr/sites/**,GET,Employee site helper data
+EMPLOYEE_VIEW,/api/hr/sites/{id},GET,Employee site helper data
 EMPLOYEE_VIEW,/api/hr/sites,GET,Employee site helper data
 EMPLOYEE_CREATE,/api/hr/employees,POST,Create employee
-EMPLOYEE_CREATE,/api/hr/sites/**,GET,Create employee site helper data
+EMPLOYEE_CREATE,/api/hr/sites/{id},GET,Create employee site helper data
 EMPLOYEE_CREATE,/api/hr/sites,GET,Create employee site helper data
-EMPLOYEE_UPDATE,/api/hr/employees/*,PUT,Update employee
-EMPLOYEE_UPDATE,/api/hr/sites/**,GET,Update employee site helper data
+EMPLOYEE_UPDATE,/api/hr/employees/{id},PUT,Update employee
+EMPLOYEE_UPDATE,/api/hr/sites/{id},GET,Update employee site helper data
 EMPLOYEE_UPDATE,/api/hr/sites,GET,Update employee site helper data
-EMPLOYEE_DELETE,/api/hr/employees/*,DELETE,Delete employee
-VENDOR_VIEW,/api/vendors/**,GET,View vendors
-VENDOR_VIEW,/api/vendors,GET,View vendor list
+EMPLOYEE_DELETE,/api/hr/employees/{id},DELETE,Delete employee
+VENDOR_VIEW,/api/vendors/{id},GET,View vendors
+VENDOR_VIEW,/api/vendors,GET,View vendors
+VENDOR_VIEW,/api/vendors/{vendorId}/amc-contracts,GET,View vendors
 VENDOR_VIEW,/api/vendors/search,POST,Search vendors
-VENDOR_VIEW,/api/hr/sites/**,GET,Vendor site helper data
+VENDOR_VIEW,/api/hr/sites/{id},GET,Vendor site helper data
 VENDOR_VIEW,/api/hr/sites,GET,Vendor site helper data
 VENDOR_CREATE,/api/vendors,POST,Create vendor
-VENDOR_CREATE,/api/hr/sites/**,GET,Create vendor site helper data
+VENDOR_CREATE,/api/hr/sites/{id},GET,Create vendor site helper data
 VENDOR_CREATE,/api/hr/sites,GET,Create vendor site helper data
-VENDOR_UPDATE,/api/vendors/**,PUT,Update vendor
-VENDOR_UPDATE,/api/hr/sites/**,GET,Update vendor site helper data
+VENDOR_UPDATE,/api/vendors/{id},PUT,Update vendor
+VENDOR_UPDATE,/api/hr/sites/{id},GET,Update vendor site helper data
 VENDOR_UPDATE,/api/hr/sites,GET,Update vendor site helper data
-VENDOR_DELETE,/api/vendors/*,DELETE,Delete vendor
+VENDOR_DELETE,/api/vendors/{id},DELETE,Delete vendor
 VENDOR_AMC_VIEW,/api/vendor-amc/dashboard,GET,View AMC dashboard summary
-VENDOR_AMC_VIEW,/api/vendor-amc/*,GET,View AMC contract
-VENDOR_AMC_VIEW,/api/vendor-amc/*/equipment,GET,View AMC equipment mappings
-VENDOR_AMC_VIEW,/api/vendor-amc/*/pm-schedules,GET,View AMC linked preventive maintenance schedules
+VENDOR_AMC_VIEW,/api/vendor-amc/{id},GET,View AMC contract
+VENDOR_AMC_VIEW,/api/vendor-amc/{id}/equipment,GET,View AMC equipment mappings
+VENDOR_AMC_VIEW,/api/vendor-amc/{id}/pm-schedules,GET,View AMC linked preventive maintenance schedules
 VENDOR_AMC_VIEW,/api/vendor-amc/search,POST,Search AMC contracts
-VENDOR_AMC_VIEW,/api/vendors/*/amc-contracts,GET,View vendor AMC contracts
-VENDOR_AMC_VIEW,/api/equipment/*/active-amc,GET,View equipment active AMC
-EQUIPMENT_VIEW,/api/equipment/*/amc-contracts,GET,View equipment AMC contracts
-VENDOR_AMC_VIEW,/api/equipment/*/amc-contracts,GET,View equipment AMC contracts
-REQUEST_CREATE,/api/equipment/*/active-amc,GET,Create request AMC helper data
-REQUEST_UPDATE,/api/equipment/*/active-amc,GET,Update request AMC helper data
+VENDOR_AMC_VIEW,/api/vendors/{vendorId}/amc-contracts,GET,View vendor AMC contracts
+VENDOR_AMC_VIEW,/api/equipment/{id}/active-amc,GET,View equipment active AMC
+EQUIPMENT_VIEW,/api/equipment/{id}/amc-contracts,GET,View equipment AMC contracts
+VENDOR_AMC_VIEW,/api/equipment/{id}/amc-contracts,GET,View equipment AMC contracts
+REQUEST_CREATE,/api/equipment/{id}/active-amc,GET,Create request AMC helper data
+REQUEST_UPDATE,/api/equipment/{id}/active-amc,GET,Update request AMC helper data
 VENDOR_AMC_CREATE,/api/vendor-amc,POST,Create AMC contract
-VENDOR_AMC_CREATE,/api/vendors/**,GET,Create AMC vendor helper data
+VENDOR_AMC_CREATE,/api/vendors/{id},GET,Create AMC vendor helper data
 VENDOR_AMC_CREATE,/api/vendors,GET,Create AMC vendor helper data
-VENDOR_AMC_CREATE,/api/equipment/**,GET,Create AMC equipment helper data
+VENDOR_AMC_CREATE,/api/vendors/{vendorId}/amc-contracts,GET,Create AMC vendor helper data
+VENDOR_AMC_CREATE,/api/equipment/{id}/summary,GET,Create AMC equipment helper data
+VENDOR_AMC_CREATE,/api/equipment/{id}/health,GET,Create AMC equipment helper data
+VENDOR_AMC_CREATE,/api/equipment/{id}/documents,GET,Create AMC equipment helper data
+VENDOR_AMC_CREATE,/api/equipment/{id}/spare-bom,GET,Create AMC equipment helper data
+VENDOR_AMC_CREATE,/api/equipment/{id}/active-amc,GET,Create AMC equipment helper data
+VENDOR_AMC_CREATE,/api/equipment/{id}/amc-contracts,GET,Create AMC equipment helper data
+VENDOR_AMC_CREATE,/api/equipment/{id}/documents/{documentId}/file,GET,Create AMC equipment helper data
+VENDOR_AMC_CREATE,/api/equipment/{id},GET,Create AMC equipment helper data
 VENDOR_AMC_CREATE,/api/equipment,GET,Create AMC equipment helper data
-VENDOR_AMC_CREATE,/api/hr/sites/**,GET,Create AMC site helper data
+VENDOR_AMC_CREATE,/api/hr/sites/{id},GET,Create AMC site helper data
 VENDOR_AMC_CREATE,/api/hr/sites,GET,Create AMC site helper data
-VENDOR_AMC_UPDATE,/api/vendor-amc/*,PUT,Update AMC contract
-VENDOR_AMC_UPDATE,/api/vendors/**,GET,Update AMC vendor helper data
+VENDOR_AMC_UPDATE,/api/vendor-amc/{id},PUT,Update AMC contract
+VENDOR_AMC_UPDATE,/api/vendors/{id},GET,Update AMC vendor helper data
 VENDOR_AMC_UPDATE,/api/vendors,GET,Update AMC vendor helper data
-VENDOR_AMC_UPDATE,/api/equipment/**,GET,Update AMC equipment helper data
+VENDOR_AMC_UPDATE,/api/vendors/{vendorId}/amc-contracts,GET,Update AMC vendor helper data
+VENDOR_AMC_UPDATE,/api/equipment/{id}/summary,GET,Update AMC equipment helper data
+VENDOR_AMC_UPDATE,/api/equipment/{id}/health,GET,Update AMC equipment helper data
+VENDOR_AMC_UPDATE,/api/equipment/{id}/documents,GET,Update AMC equipment helper data
+VENDOR_AMC_UPDATE,/api/equipment/{id}/spare-bom,GET,Update AMC equipment helper data
+VENDOR_AMC_UPDATE,/api/equipment/{id}/active-amc,GET,Update AMC equipment helper data
+VENDOR_AMC_UPDATE,/api/equipment/{id}/amc-contracts,GET,Update AMC equipment helper data
+VENDOR_AMC_UPDATE,/api/equipment/{id}/documents/{documentId}/file,GET,Update AMC equipment helper data
+VENDOR_AMC_UPDATE,/api/equipment/{id},GET,Update AMC equipment helper data
 VENDOR_AMC_UPDATE,/api/equipment,GET,Update AMC equipment helper data
-VENDOR_AMC_UPDATE,/api/hr/sites/**,GET,Update AMC site helper data
+VENDOR_AMC_UPDATE,/api/hr/sites/{id},GET,Update AMC site helper data
 VENDOR_AMC_UPDATE,/api/hr/sites,GET,Update AMC site helper data
-VENDOR_AMC_DELETE,/api/vendor-amc/*,DELETE,Delete AMC contract
-VENDOR_AMC_ASSIGN_EQUIPMENT,/api/vendor-amc/*/equipment,POST,Assign equipment to AMC
-VENDOR_AMC_ASSIGN_EQUIPMENT,/api/vendor-amc/*/equipment/*,DELETE,Remove equipment from AMC
-VENDOR_AMC_RENEW,/api/vendor-amc/*/renew,POST,Renew AMC contract
-EQUIPMENT_VIEW,/api/equipment/**,GET,View equipment
-EQUIPMENT_VIEW,/api/equipment,GET,View equipment list
+VENDOR_AMC_DELETE,/api/vendor-amc/{id},DELETE,Delete AMC contract
+VENDOR_AMC_ASSIGN_EQUIPMENT,/api/vendor-amc/{id}/equipment,POST,Assign equipment to AMC
+VENDOR_AMC_ASSIGN_EQUIPMENT,/api/vendor-amc/{id}/equipment/{equipmentId},DELETE,Remove equipment from AMC
+VENDOR_AMC_RENEW,/api/vendor-amc/{id}/renew,POST,Renew AMC contract
+EQUIPMENT_VIEW,/api/equipment/{id}/summary,GET,View equipment
+EQUIPMENT_VIEW,/api/equipment/{id}/health,GET,View equipment
+EQUIPMENT_VIEW,/api/equipment/{id}/documents,GET,View equipment
+EQUIPMENT_VIEW,/api/equipment/{id}/spare-bom,GET,View equipment
+EQUIPMENT_VIEW,/api/equipment/{id}/active-amc,GET,View equipment
+EQUIPMENT_VIEW,/api/equipment/{id}/documents/{documentId}/file,GET,View equipment
+EQUIPMENT_VIEW,/api/equipment/{id},GET,View equipment
+EQUIPMENT_VIEW,/api/equipment,GET,View equipment
 EQUIPMENT_VIEW,/api/equipment/search,POST,Search equipment
-EQUIPMENT_VIEW,/api/hr/sites/**,GET,Equipment site helper data
+EQUIPMENT_VIEW,/api/hr/sites/{id},GET,Equipment site helper data
 EQUIPMENT_VIEW,/api/hr/sites,GET,Equipment site helper data
 EQUIPMENT_CREATE,/api/equipment,POST,Create equipment
-EQUIPMENT_CREATE,/api/hr/sites/**,GET,Create equipment site helper data
+EQUIPMENT_CREATE,/api/hr/sites/{id},GET,Create equipment site helper data
 EQUIPMENT_CREATE,/api/hr/sites,GET,Create equipment site helper data
-EQUIPMENT_UPDATE,/api/equipment/**,PUT,Update equipment
-EQUIPMENT_UPDATE,/api/equipment/*/documents,POST,Upload equipment document
-EQUIPMENT_UPDATE,/api/equipment/*/spare-bom,POST,Create equipment spare BOM
-EQUIPMENT_UPDATE,/api/hr/sites/**,GET,Update equipment site helper data
+EQUIPMENT_UPDATE,/api/equipment/{id},PUT,Update equipment
+EQUIPMENT_UPDATE,/api/equipment/{id}/spare-bom/{bomId},PUT,Update equipment
+EQUIPMENT_UPDATE,/api/equipment/{id}/documents,POST,Upload equipment document
+EQUIPMENT_UPDATE,/api/equipment/{id}/spare-bom,POST,Create equipment spare BOM
+EQUIPMENT_UPDATE,/api/hr/sites/{id},GET,Update equipment site helper data
 EQUIPMENT_UPDATE,/api/hr/sites,GET,Update equipment site helper data
-EQUIPMENT_DELETE,/api/equipment/*,DELETE,Delete equipment
-EQUIPMENT_DELETE,/api/equipment/*/documents/*,DELETE,Delete equipment document
-EQUIPMENT_DELETE,/api/equipment/*/spare-bom/*,DELETE,Delete equipment spare BOM
-REQUEST_VIEW,/api/maintenance/requests/**,GET,View maintenance requests
-REQUEST_VIEW,/api/maintenance/requests,GET,View maintenance request list
-REQUEST_VIEW,/api/maintenance/requests/context,GET,View maintenance request equipment context
-REQUEST_VIEW,/api/maintenance/requests/queue-summary,GET,View maintenance request queue summary
-REQUEST_VIEW,/api/maintenance/requests/*/related-records,GET,View maintenance request related records
+EQUIPMENT_DELETE,/api/equipment/{id},DELETE,Delete equipment
+EQUIPMENT_DELETE,/api/equipment/{id}/documents/{documentId},DELETE,Delete equipment document
+EQUIPMENT_DELETE,/api/equipment/{id}/spare-bom/{bomId},DELETE,Delete equipment spare BOM
+REQUEST_VIEW,/api/maintenance/requests/context,GET,View maintenance requests
+REQUEST_VIEW,/api/maintenance/requests/queue-summary,GET,View maintenance requests
+REQUEST_VIEW,/api/maintenance/requests/{id}/related-records,GET,View maintenance requests
+REQUEST_VIEW,/api/maintenance/requests/{id},GET,View maintenance requests
+REQUEST_VIEW,/api/maintenance/requests,GET,View maintenance requests
 REQUEST_VIEW,/api/maintenance/requests/search,POST,Search maintenance requests
-REQUEST_VIEW,/api/hr/sites/**,GET,Maintenance request site helper data
+REQUEST_VIEW,/api/hr/sites/{id},GET,Maintenance request site helper data
 REQUEST_VIEW,/api/hr/sites,GET,Maintenance request site helper data
-REQUEST_VIEW,/api/equipment/**,GET,Maintenance request equipment helper data
+REQUEST_VIEW,/api/equipment/{id}/summary,GET,Maintenance request equipment helper data
+REQUEST_VIEW,/api/equipment/{id}/health,GET,Maintenance request equipment helper data
+REQUEST_VIEW,/api/equipment/{id}/documents,GET,Maintenance request equipment helper data
+REQUEST_VIEW,/api/equipment/{id}/spare-bom,GET,Maintenance request equipment helper data
+REQUEST_VIEW,/api/equipment/{id}/active-amc,GET,Maintenance request equipment helper data
+REQUEST_VIEW,/api/equipment/{id}/amc-contracts,GET,Maintenance request equipment helper data
+REQUEST_VIEW,/api/equipment/{id}/documents/{documentId}/file,GET,Maintenance request equipment helper data
+REQUEST_VIEW,/api/equipment/{id},GET,Maintenance request equipment helper data
 REQUEST_VIEW,/api/equipment,GET,Maintenance request equipment helper data
 REQUEST_CREATE,/api/maintenance/requests,POST,Create maintenance request
-REQUEST_CREATE,/api/hr/sites/**,GET,Create maintenance request site helper data
+REQUEST_CREATE,/api/hr/sites/{id},GET,Create maintenance request site helper data
 REQUEST_CREATE,/api/hr/sites,GET,Create maintenance request site helper data
-REQUEST_CREATE,/api/equipment/**,GET,Create maintenance request equipment helper data
+REQUEST_CREATE,/api/equipment/{id}/summary,GET,Create maintenance request equipment helper data
+REQUEST_CREATE,/api/equipment/{id}/health,GET,Create maintenance request equipment helper data
+REQUEST_CREATE,/api/equipment/{id}/documents,GET,Create maintenance request equipment helper data
+REQUEST_CREATE,/api/equipment/{id}/spare-bom,GET,Create maintenance request equipment helper data
+REQUEST_CREATE,/api/equipment/{id}/amc-contracts,GET,Create maintenance request equipment helper data
+REQUEST_CREATE,/api/equipment/{id}/documents/{documentId}/file,GET,Create maintenance request equipment helper data
+REQUEST_CREATE,/api/equipment/{id},GET,Create maintenance request equipment helper data
 REQUEST_CREATE,/api/equipment,GET,Create maintenance request equipment helper data
-REQUEST_UPDATE,/api/maintenance/requests/**,PUT,Update maintenance request
-REQUEST_UPDATE,/api/maintenance/requests/*/transition,POST,Transition maintenance request status
-REQUEST_UPDATE,/api/hr/sites/**,GET,Update maintenance request site helper data
+REQUEST_UPDATE,/api/maintenance/requests/{id},PUT,Update maintenance request
+REQUEST_UPDATE,/api/maintenance/requests/{id}/transition,POST,Transition maintenance request status
+REQUEST_UPDATE,/api/hr/sites/{id},GET,Update maintenance request site helper data
 REQUEST_UPDATE,/api/hr/sites,GET,Update maintenance request site helper data
-REQUEST_UPDATE,/api/equipment/**,GET,Update maintenance request equipment helper data
+REQUEST_UPDATE,/api/equipment/{id}/summary,GET,Update maintenance request equipment helper data
+REQUEST_UPDATE,/api/equipment/{id}/health,GET,Update maintenance request equipment helper data
+REQUEST_UPDATE,/api/equipment/{id}/documents,GET,Update maintenance request equipment helper data
+REQUEST_UPDATE,/api/equipment/{id}/spare-bom,GET,Update maintenance request equipment helper data
+REQUEST_UPDATE,/api/equipment/{id}/amc-contracts,GET,Update maintenance request equipment helper data
+REQUEST_UPDATE,/api/equipment/{id}/documents/{documentId}/file,GET,Update maintenance request equipment helper data
+REQUEST_UPDATE,/api/equipment/{id},GET,Update maintenance request equipment helper data
 REQUEST_UPDATE,/api/equipment,GET,Update maintenance request equipment helper data
-REQUEST_DELETE,/api/maintenance/requests/*,DELETE,Delete maintenance request
-REQUEST_VIEW,/api/preventive-maintenance/schedules/**,GET,View preventive maintenance schedules
-REQUEST_VIEW,/api/preventive-maintenance/schedules,GET,View preventive maintenance schedule list
+REQUEST_DELETE,/api/maintenance/requests/{id},DELETE,Delete maintenance request
+REQUEST_VIEW,/api/preventive-maintenance/schedules/{id},GET,View preventive maintenance schedules
+REQUEST_VIEW,/api/preventive-maintenance/schedules,GET,View preventive maintenance schedules
+REQUEST_VIEW,/api/preventive-maintenance/schedules/upcoming,GET,View preventive maintenance schedules
 REQUEST_VIEW,/api/preventive-maintenance/schedules/search,POST,Search preventive maintenance schedules
 PM_CALENDAR_VIEW,/api/preventive-maintenance/calendar,GET,View preventive maintenance calendar
-PM_CALENDAR_VIEW,/api/hr/sites/**,GET,Preventive maintenance calendar site helper data
+PM_CALENDAR_VIEW,/api/hr/sites/{id},GET,Preventive maintenance calendar site helper data
 PM_CALENDAR_VIEW,/api/hr/sites,GET,Preventive maintenance calendar site helper data
-PM_CALENDAR_VIEW,/api/equipment/**,GET,Preventive maintenance calendar equipment helper data
+PM_CALENDAR_VIEW,/api/equipment/{id}/summary,GET,Preventive maintenance calendar equipment helper data
+PM_CALENDAR_VIEW,/api/equipment/{id}/health,GET,Preventive maintenance calendar equipment helper data
+PM_CALENDAR_VIEW,/api/equipment/{id}/documents,GET,Preventive maintenance calendar equipment helper data
+PM_CALENDAR_VIEW,/api/equipment/{id}/spare-bom,GET,Preventive maintenance calendar equipment helper data
+PM_CALENDAR_VIEW,/api/equipment/{id}/active-amc,GET,Preventive maintenance calendar equipment helper data
+PM_CALENDAR_VIEW,/api/equipment/{id}/amc-contracts,GET,Preventive maintenance calendar equipment helper data
+PM_CALENDAR_VIEW,/api/equipment/{id}/documents/{documentId}/file,GET,Preventive maintenance calendar equipment helper data
+PM_CALENDAR_VIEW,/api/equipment/{id},GET,Preventive maintenance calendar equipment helper data
 PM_CALENDAR_VIEW,/api/equipment,GET,Preventive maintenance calendar equipment helper data
 REQUEST_CREATE,/api/preventive-maintenance/schedules,POST,Create preventive maintenance schedule
-REQUEST_UPDATE,/api/preventive-maintenance/schedules/**,PUT,Update preventive maintenance schedule
-REQUEST_DELETE,/api/preventive-maintenance/schedules/*,DELETE,Delete preventive maintenance schedule
-REQUEST_CREATE,/api/preventive-maintenance/schedules/*/generate-work-order,POST,Generate preventive maintenance work order
+REQUEST_UPDATE,/api/preventive-maintenance/schedules/{id},PUT,Update preventive maintenance schedule
+REQUEST_DELETE,/api/preventive-maintenance/schedules/{id},DELETE,Delete preventive maintenance schedule
+REQUEST_CREATE,/api/preventive-maintenance/schedules/{id}/generate-work-order,POST,Generate preventive maintenance work order
 REQUEST_CREATE,/api/preventive-maintenance/schedules/generate-due-work-orders,POST,Generate due preventive maintenance work orders
 ASSIGNMENT_VIEW,/api/maintenance/assignments,GET,View maintenance assignments
-ASSIGNMENT_VIEW,/api/maintenance/assignments/*,GET,View maintenance assignment
+ASSIGNMENT_VIEW,/api/maintenance/assignments/{id},GET,View maintenance assignment
 ASSIGNMENT_VIEW,/api/maintenance/assignments/search,POST,Search maintenance assignments
-ASSIGNMENT_VIEW,/api/maintenance/requests/**,GET,Assignment maintenance request helper data
+ASSIGNMENT_VIEW,/api/maintenance/requests/context,GET,Assignment maintenance request helper data
+ASSIGNMENT_VIEW,/api/maintenance/requests/queue-summary,GET,Assignment maintenance request helper data
+ASSIGNMENT_VIEW,/api/maintenance/requests/{id}/related-records,GET,Assignment maintenance request helper data
+ASSIGNMENT_VIEW,/api/maintenance/requests/{id},GET,Assignment maintenance request helper data
 ASSIGNMENT_VIEW,/api/maintenance/requests,GET,Assignment maintenance request helper data
-ASSIGNMENT_VIEW,/api/vendors/**,GET,Assignment vendor helper data
+ASSIGNMENT_VIEW,/api/vendors/{id},GET,Assignment vendor helper data
 ASSIGNMENT_VIEW,/api/vendors,GET,Assignment vendor helper data
+ASSIGNMENT_VIEW,/api/vendors/{vendorId}/amc-contracts,GET,Assignment vendor helper data
 ASSIGNMENT_VIEW,/api/vendors/search,POST,Assignment vendor search helper data
-ASSIGNMENT_VIEW,/api/hr/sites/**,GET,Assignment site helper data
+ASSIGNMENT_VIEW,/api/hr/sites/{id},GET,Assignment site helper data
 ASSIGNMENT_VIEW,/api/hr/sites,GET,Assignment site helper data
 ASSIGNMENT_VIEW,/api/hr/employees/search,POST,Assignment technician helper data
-ASSIGNMENT_VIEW,/api/spare-parts/site/*,GET,Assignment site spare helper data
+ASSIGNMENT_VIEW,/api/spare-parts/site/{siteId},GET,Assignment site spare helper data
 ASSIGNMENT_CREATE,/api/maintenance/assignments,POST,Create maintenance assignment
-ASSIGNMENT_CREATE,/api/maintenance/requests/**,GET,Create assignment maintenance request helper data
+ASSIGNMENT_CREATE,/api/maintenance/requests/context,GET,Create assignment maintenance request helper data
+ASSIGNMENT_CREATE,/api/maintenance/requests/queue-summary,GET,Create assignment maintenance request helper data
+ASSIGNMENT_CREATE,/api/maintenance/requests/{id}/related-records,GET,Create assignment maintenance request helper data
+ASSIGNMENT_CREATE,/api/maintenance/requests/{id},GET,Create assignment maintenance request helper data
 ASSIGNMENT_CREATE,/api/maintenance/requests,GET,Create assignment maintenance request helper data
-ASSIGNMENT_CREATE,/api/vendors/**,GET,Create assignment vendor helper data
+ASSIGNMENT_CREATE,/api/vendors/{id},GET,Create assignment vendor helper data
 ASSIGNMENT_CREATE,/api/vendors,GET,Create assignment vendor helper data
-ASSIGNMENT_CREATE,/api/hr/sites/**,GET,Create assignment site helper data
+ASSIGNMENT_CREATE,/api/vendors/{vendorId}/amc-contracts,GET,Create assignment vendor helper data
+ASSIGNMENT_CREATE,/api/hr/sites/{id},GET,Create assignment site helper data
 ASSIGNMENT_CREATE,/api/hr/sites,GET,Create assignment site helper data
 ASSIGNMENT_CREATE,/api/hr/employees/search,POST,Create assignment technician helper data
-ASSIGNMENT_CREATE,/api/spare-parts/site/*,GET,Create assignment site spare helper data
-ASSIGNMENT_UPDATE,/api/maintenance/assignments/*,PUT,Update maintenance assignment
-ASSIGNMENT_UPDATE,/api/maintenance/requests/**,GET,Update assignment maintenance request helper data
+ASSIGNMENT_CREATE,/api/spare-parts/site/{siteId},GET,Create assignment site spare helper data
+ASSIGNMENT_UPDATE,/api/maintenance/assignments/{id},PUT,Update maintenance assignment
+ASSIGNMENT_UPDATE,/api/maintenance/requests/context,GET,Update assignment maintenance request helper data
+ASSIGNMENT_UPDATE,/api/maintenance/requests/queue-summary,GET,Update assignment maintenance request helper data
+ASSIGNMENT_UPDATE,/api/maintenance/requests/{id}/related-records,GET,Update assignment maintenance request helper data
+ASSIGNMENT_UPDATE,/api/maintenance/requests/{id},GET,Update assignment maintenance request helper data
 ASSIGNMENT_UPDATE,/api/maintenance/requests,GET,Update assignment maintenance request helper data
-ASSIGNMENT_UPDATE,/api/vendors/**,GET,Update assignment vendor helper data
+ASSIGNMENT_UPDATE,/api/vendors/{id},GET,Update assignment vendor helper data
 ASSIGNMENT_UPDATE,/api/vendors,GET,Update assignment vendor helper data
-ASSIGNMENT_UPDATE,/api/hr/sites/**,GET,Update assignment site helper data
+ASSIGNMENT_UPDATE,/api/vendors/{vendorId}/amc-contracts,GET,Update assignment vendor helper data
+ASSIGNMENT_UPDATE,/api/hr/sites/{id},GET,Update assignment site helper data
 ASSIGNMENT_UPDATE,/api/hr/sites,GET,Update assignment site helper data
 ASSIGNMENT_UPDATE,/api/hr/employees/search,POST,Update assignment technician helper data
-ASSIGNMENT_UPDATE,/api/spare-parts/site/*,GET,Update assignment site spare helper data
-ASSIGNMENT_DELETE,/api/maintenance/assignments/*,DELETE,Delete maintenance assignment
-ASSIGNMENT_CHECKLIST_VIEW,/api/maintenance/assignments/*/checklist/**,GET,View assignment checklist
-ASSIGNMENT_CHECKLIST_VIEW,/api/maintenance/assignments/*/checklist,GET,View assignment checklist
-ASSIGNMENT_CHECKLIST_UPDATE,/api/maintenance/assignments/*/checklist,POST,Create assignment checklist item
-ASSIGNMENT_CHECKLIST_UPDATE,/api/maintenance/assignments/*/checklist/*,PUT,Update assignment checklist item
-ASSIGNMENT_CHECKLIST_UPDATE,/api/maintenance/assignments/*/checklist/*,DELETE,Delete assignment checklist item
-ASSIGNMENT_CHECKLIST_UPDATE,/api/maintenance/assignments/*/checklist/*/proof,POST,Upload assignment checklist proof
-ASSIGNMENT_CHECKLIST_UPDATE,/api/maintenance/assignments/*/checklist/*/proof/*,DELETE,Delete assignment checklist proof
-ASSIGNMENT_WORK_LOG_VIEW,/api/maintenance/assignments/*/work-logs/**,GET,View assignment work logs
-ASSIGNMENT_WORK_LOG_VIEW,/api/maintenance/assignments/*/work-logs,GET,View assignment work logs
-ASSIGNMENT_WORK_LOG_CREATE,/api/maintenance/assignments/*/work-logs,POST,Create assignment work log
-ASSIGNMENT_WORK_LOG_CREATE,/api/maintenance/assignments/*/work-logs/*/attachments,POST,Upload assignment work log attachment
-ASSIGNMENT_WORK_LOG_UPDATE,/api/maintenance/assignments/*/work-logs/*,PUT,Update assignment work log
-ASSIGNMENT_WORK_LOG_DELETE,/api/maintenance/assignments/*/work-logs/*,DELETE,Delete assignment work log
-ASSIGNMENT_WORK_LOG_DELETE,/api/maintenance/assignments/*/work-logs/*/attachments/*,DELETE,Delete assignment work log attachment
-DOWNTIME_VIEW,/api/maintenance/downtime/**,GET,View downtime
-DOWNTIME_VIEW,/api/maintenance/downtime,GET,View downtime list
+ASSIGNMENT_UPDATE,/api/spare-parts/site/{siteId},GET,Update assignment site spare helper data
+ASSIGNMENT_DELETE,/api/maintenance/assignments/{id},DELETE,Delete maintenance assignment
+ASSIGNMENT_CHECKLIST_VIEW,/api/maintenance/assignments/{assignmentId}/checklist,GET,View assignment checklist
+ASSIGNMENT_CHECKLIST_UPDATE,/api/maintenance/assignments/{assignmentId}/checklist,POST,Create assignment checklist item
+ASSIGNMENT_CHECKLIST_UPDATE,/api/maintenance/assignments/{assignmentId}/checklist/{itemId},PUT,Update assignment checklist item
+ASSIGNMENT_CHECKLIST_UPDATE,/api/maintenance/assignments/{assignmentId}/checklist/{itemId},DELETE,Delete assignment checklist item
+ASSIGNMENT_CHECKLIST_UPDATE,/api/maintenance/assignments/{assignmentId}/checklist/{itemId}/proof,POST,Upload assignment checklist proof
+ASSIGNMENT_CHECKLIST_UPDATE,/api/maintenance/assignments/{assignmentId}/checklist/{itemId}/proof/{proofId},DELETE,Delete assignment checklist proof
+ASSIGNMENT_WORK_LOG_VIEW,/api/maintenance/assignments/{assignmentId}/work-logs,GET,View assignment work logs
+ASSIGNMENT_WORK_LOG_CREATE,/api/maintenance/assignments/{assignmentId}/work-logs,POST,Create assignment work log
+ASSIGNMENT_WORK_LOG_CREATE,/api/maintenance/assignments/{assignmentId}/work-logs/{workLogId}/attachments,POST,Upload assignment work log attachment
+ASSIGNMENT_WORK_LOG_UPDATE,/api/maintenance/assignments/{assignmentId}/work-logs/{workLogId},PUT,Update assignment work log
+ASSIGNMENT_WORK_LOG_DELETE,/api/maintenance/assignments/{assignmentId}/work-logs/{workLogId},DELETE,Delete assignment work log
+ASSIGNMENT_WORK_LOG_DELETE,/api/maintenance/assignments/{assignmentId}/work-logs/{workLogId}/attachments/{attachmentId},DELETE,Delete assignment work log attachment
+DOWNTIME_VIEW,/api/maintenance/downtime/{id},GET,View downtime
+DOWNTIME_VIEW,/api/maintenance/downtime,GET,View downtime
+DOWNTIME_VIEW,/api/maintenance/downtime/{id}/timeline,GET,View downtime
+DOWNTIME_VIEW,/api/maintenance/downtime/{id}/rca-actions,GET,View downtime
 DOWNTIME_VIEW,/api/maintenance/downtime/search,POST,Search downtime
-DOWNTIME_VIEW,/api/equipment/**,GET,Downtime equipment helper data
+DOWNTIME_VIEW,/api/equipment/{id}/summary,GET,Downtime equipment helper data
+DOWNTIME_VIEW,/api/equipment/{id}/health,GET,Downtime equipment helper data
+DOWNTIME_VIEW,/api/equipment/{id}/documents,GET,Downtime equipment helper data
+DOWNTIME_VIEW,/api/equipment/{id}/spare-bom,GET,Downtime equipment helper data
+DOWNTIME_VIEW,/api/equipment/{id}/active-amc,GET,Downtime equipment helper data
+DOWNTIME_VIEW,/api/equipment/{id}/amc-contracts,GET,Downtime equipment helper data
+DOWNTIME_VIEW,/api/equipment/{id}/documents/{documentId}/file,GET,Downtime equipment helper data
+DOWNTIME_VIEW,/api/equipment/{id},GET,Downtime equipment helper data
 DOWNTIME_VIEW,/api/equipment,GET,Downtime equipment helper data
 DOWNTIME_CREATE,/api/maintenance/downtime,POST,Create downtime
-DOWNTIME_CREATE,/api/equipment/**,GET,Create downtime equipment helper data
+DOWNTIME_CREATE,/api/equipment/{id}/summary,GET,Create downtime equipment helper data
+DOWNTIME_CREATE,/api/equipment/{id}/health,GET,Create downtime equipment helper data
+DOWNTIME_CREATE,/api/equipment/{id}/documents,GET,Create downtime equipment helper data
+DOWNTIME_CREATE,/api/equipment/{id}/spare-bom,GET,Create downtime equipment helper data
+DOWNTIME_CREATE,/api/equipment/{id}/active-amc,GET,Create downtime equipment helper data
+DOWNTIME_CREATE,/api/equipment/{id}/amc-contracts,GET,Create downtime equipment helper data
+DOWNTIME_CREATE,/api/equipment/{id}/documents/{documentId}/file,GET,Create downtime equipment helper data
+DOWNTIME_CREATE,/api/equipment/{id},GET,Create downtime equipment helper data
 DOWNTIME_CREATE,/api/equipment,GET,Create downtime equipment helper data
-DOWNTIME_UPDATE,/api/maintenance/downtime/**,PUT,Update downtime
-DOWNTIME_UPDATE,/api/equipment/**,GET,Update downtime equipment helper data
+DOWNTIME_UPDATE,/api/maintenance/downtime/{id},PUT,Update downtime
+DOWNTIME_UPDATE,/api/maintenance/downtime/{id}/rca-actions/{actionId},PUT,Update downtime
+DOWNTIME_UPDATE,/api/equipment/{id}/summary,GET,Update downtime equipment helper data
+DOWNTIME_UPDATE,/api/equipment/{id}/health,GET,Update downtime equipment helper data
+DOWNTIME_UPDATE,/api/equipment/{id}/documents,GET,Update downtime equipment helper data
+DOWNTIME_UPDATE,/api/equipment/{id}/spare-bom,GET,Update downtime equipment helper data
+DOWNTIME_UPDATE,/api/equipment/{id}/active-amc,GET,Update downtime equipment helper data
+DOWNTIME_UPDATE,/api/equipment/{id}/amc-contracts,GET,Update downtime equipment helper data
+DOWNTIME_UPDATE,/api/equipment/{id}/documents/{documentId}/file,GET,Update downtime equipment helper data
+DOWNTIME_UPDATE,/api/equipment/{id},GET,Update downtime equipment helper data
 DOWNTIME_UPDATE,/api/equipment,GET,Update downtime equipment helper data
-DOWNTIME_DELETE,/api/maintenance/downtime/*,DELETE,Delete downtime
-DOWNTIME_CONFIRM,/api/maintenance/downtime/*/confirm,POST,Confirm downtime
-DOWNTIME_CONFIRM,/api/maintenance/downtime/*/start-maintenance,POST,Start downtime maintenance
-DOWNTIME_VERIFY,/api/maintenance/downtime/*/restore,POST,Restore downtime
-DOWNTIME_VERIFY,/api/maintenance/downtime/*/verify,POST,Verify downtime
-DOWNTIME_CLOSE,/api/maintenance/downtime/*/close,POST,Close downtime
-DOWNTIME_REOPEN,/api/maintenance/downtime/*/reopen,POST,Reopen downtime
-DOWNTIME_RCA_MANAGE,/api/maintenance/downtime/*/rca-actions,POST,Create downtime RCA action
-DOWNTIME_RCA_MANAGE,/api/maintenance/downtime/*/rca-actions/*,PUT,Update downtime RCA action
-REPORT_VIEW,/api/reports/**,GET,View reports
-REPORT_VIEW,/api/equipment/**,GET,Report equipment helper data
+DOWNTIME_DELETE,/api/maintenance/downtime/{id},DELETE,Delete downtime
+DOWNTIME_CONFIRM,/api/maintenance/downtime/{id}/confirm,POST,Confirm downtime
+DOWNTIME_CONFIRM,/api/maintenance/downtime/{id}/start-maintenance,POST,Start downtime maintenance
+DOWNTIME_VERIFY,/api/maintenance/downtime/{id}/restore,POST,Restore downtime
+DOWNTIME_VERIFY,/api/maintenance/downtime/{id}/verify,POST,Verify downtime
+DOWNTIME_CLOSE,/api/maintenance/downtime/{id}/close,POST,Close downtime
+DOWNTIME_REOPEN,/api/maintenance/downtime/{id}/reopen,POST,Reopen downtime
+DOWNTIME_RCA_MANAGE,/api/maintenance/downtime/{id}/rca-actions,POST,Create downtime RCA action
+DOWNTIME_RCA_MANAGE,/api/maintenance/downtime/{id}/rca-actions/{actionId},PUT,Update downtime RCA action
+REPORT_VIEW,/api/reports/equipment-history,GET,View reports
+REPORT_VIEW,/api/reports/downtime-analysis,GET,View reports
+REPORT_VIEW,/api/reports/equipment-maintenance-cost,GET,View reports
+REPORT_VIEW,/api/reports/equipment-cost-by-site,GET,View reports
+REPORT_VIEW,/api/reports/equipment-cost-by-category,GET,View reports
+REPORT_VIEW,/api/reports/equipment-cost-by-criticality,GET,View reports
+REPORT_VIEW,/api/equipment/{id}/summary,GET,Report equipment helper data
+REPORT_VIEW,/api/equipment/{id}/health,GET,Report equipment helper data
+REPORT_VIEW,/api/equipment/{id}/documents,GET,Report equipment helper data
+REPORT_VIEW,/api/equipment/{id}/spare-bom,GET,Report equipment helper data
+REPORT_VIEW,/api/equipment/{id}/active-amc,GET,Report equipment helper data
+REPORT_VIEW,/api/equipment/{id}/amc-contracts,GET,Report equipment helper data
+REPORT_VIEW,/api/equipment/{id}/documents/{documentId}/file,GET,Report equipment helper data
+REPORT_VIEW,/api/equipment/{id},GET,Report equipment helper data
 REPORT_VIEW,/api/equipment,GET,Report equipment helper data
-REPORT_VIEW,/api/maintenance/downtime/**,GET,Report downtime helper data
+REPORT_VIEW,/api/maintenance/downtime/{id},GET,Report downtime helper data
 REPORT_VIEW,/api/maintenance/downtime,GET,Report downtime helper data
-REPORT_VIEW,/api/maintenance/assignments/**,GET,Report assignment helper data
+REPORT_VIEW,/api/maintenance/downtime/{id}/timeline,GET,Report downtime helper data
+REPORT_VIEW,/api/maintenance/downtime/{id}/rca-actions,GET,Report downtime helper data
+REPORT_VIEW,/api/maintenance/assignments/{id},GET,Report assignment helper data
 REPORT_VIEW,/api/maintenance/assignments,GET,Report assignment helper data
-REPORT_VIEW,/api/maintenance/requests/**,GET,Report request helper data
+REPORT_VIEW,/api/maintenance/assignments/{assignmentId}/checklist,GET,Report assignment helper data
+REPORT_VIEW,/api/maintenance/assignments/{assignmentId}/checklist/{itemId}/proof/{proofId},GET,Report assignment helper data
+REPORT_VIEW,/api/maintenance/assignments/{assignmentId}/work-logs,GET,Report assignment helper data
+REPORT_VIEW,/api/maintenance/assignments/{assignmentId}/work-logs/{workLogId}/attachments/{attachmentId},GET,Report assignment helper data
+REPORT_VIEW,/api/maintenance/assignments/{assignmentId}/spares,GET,Report assignment helper data
+REPORT_VIEW,/api/maintenance/requests/context,GET,Report request helper data
+REPORT_VIEW,/api/maintenance/requests/queue-summary,GET,Report request helper data
+REPORT_VIEW,/api/maintenance/requests/{id}/related-records,GET,Report request helper data
+REPORT_VIEW,/api/maintenance/requests/{id},GET,Report request helper data
 REPORT_VIEW,/api/maintenance/requests,GET,Report request helper data
 COMPANY_VIEW,/api/company/current,GET,View company profile
-COMPANY_VIEW,/api/company/*,GET,View company
+COMPANY_VIEW,/api/company/{id},GET,View company
 COMPANY_CREATE,/api/company/create,POST,Create company
-COMPANY_UPDATE,/api/company/update/*,PUT,Update company
+COMPANY_UPDATE,/api/company/update/{id},PUT,Update company
 COMPANY_UPDATE,/api/company/upload-logo,POST,Upload company logo
-ROLE_VIEW,/api/admin/roles/**,GET,View roles
-ROLE_VIEW,/api/admin/roles,GET,View role list
+ROLE_VIEW,/api/admin/roles,GET,View roles
+ROLE_VIEW,/api/admin/roles/{id},GET,View roles
 ROLE_VIEW,/api/admin/roles/search,POST,Search roles
 ROLE_CREATE,/api/admin/roles,POST,Create role
-ROLE_UPDATE,/api/admin/roles/*,PUT,Update role
-ROLE_DELETE,/api/admin/roles/*,DELETE,Delete role
-PERMISSION_VIEW,/api/admin/permissions/**,GET,View permissions
-PERMISSION_VIEW,/api/admin/permissions,GET,View permission list
-USER_ROLE_VIEW,/api/admin/users/*/roles,GET,View user role assignments
-USER_ROLE_ASSIGN,/api/admin/users/*/roles,PUT,Assign user roles
-USER_ROLE_UPDATE,/api/admin/users/*/roles,PUT,Update user role assignments
-USER_ROLE_VIEW,/api/users/**,GET,View user accounts
+ROLE_UPDATE,/api/admin/roles/{id},PUT,Update role
+ROLE_DELETE,/api/admin/roles/{id},DELETE,Delete role
+PERMISSION_VIEW,/api/admin/permissions,GET,View permissions
+PERMISSION_VIEW,/api/admin/permissions/grouped,GET,View permissions
+USER_ROLE_VIEW,/api/admin/users/{userId}/roles,GET,View user role assignments
+USER_ROLE_ASSIGN,/api/admin/users/{userId}/roles,PUT,Assign user roles
+USER_ROLE_UPDATE,/api/admin/users/{userId}/roles,PUT,Update user role assignments
+USER_ROLE_VIEW,/api/users,GET,View user account list
+USER_ROLE_VIEW,/api/users/{id},GET,View user accounts
+USER_ROLE_VIEW,/api/users/username/{username},GET,View user accounts
 USER_ROLE_ASSIGN,/api/users,POST,Create user account
-USER_ROLE_UPDATE,/api/users/*,PUT,Update user account
-APPROVAL_VIEW,/api/approvals/**,GET,View approvals
+USER_ROLE_UPDATE,/api/users/{id},PUT,Update user account
+APPROVAL_VIEW,/api/approvals/pending,GET,View approvals
+APPROVAL_VIEW,/api/approvals/history,GET,View approvals
+APPROVAL_VIEW,/api/approvals/{approvalRequestId},GET,View approvals
 APPROVAL_VIEW,/api/approvals,GET,View approval list
 APPROVAL_VIEW,/api/approvals/history/search,POST,Search approval history
-APPROVAL_VIEW,/api/hr/sites/**,GET,Approval site helper data
+APPROVAL_VIEW,/api/hr/sites/{id},GET,Approval site helper data
 APPROVAL_VIEW,/api/hr/sites,GET,Approval site helper data
-APPROVAL_APPROVE,/api/approvals/*/approve,POST,Approve request
-APPROVAL_REJECT,/api/approvals/*/reject,POST,Reject request
-APPROVAL_CONFIG_VIEW,/api/admin/approval-config/**,GET,View approval configuration
-APPROVAL_CONFIG_VIEW,/api/admin/approval-config,GET,View approval configuration list
+APPROVAL_APPROVE,/api/approvals/{approvalRequestId}/approve,POST,Approve request
+APPROVAL_REJECT,/api/approvals/{approvalRequestId}/reject,POST,Reject request
+APPROVAL_CONFIG_VIEW,/api/admin/approval-config,GET,View approval configuration
 APPROVAL_CONFIG_UPDATE,/api/admin/approval-config,POST,Create approval configuration
-APPROVAL_CONFIG_UPDATE,/api/admin/approval-config/*,PUT,Update approval configuration
-NOTIFICATION_VIEW,/api/notifications/**,GET,View notifications
-NOTIFICATION_VIEW,/api/notifications,GET,View notification list
-NOTIFICATION_UPDATE,/api/notifications/*/read,PUT,Mark notification read
+APPROVAL_CONFIG_UPDATE,/api/admin/approval-config/{id},PUT,Update approval configuration
+NOTIFICATION_VIEW,/api/notifications,GET,View notifications
+NOTIFICATION_VIEW,/api/notifications/stream,GET,View notifications
+NOTIFICATION_VIEW,/api/notifications/unread-count,GET,View notifications
+NOTIFICATION_UPDATE,/api/notifications/{id}/read,PUT,Mark notification read
 NOTIFICATION_UPDATE,/api/notifications/read-all,PUT,Mark all notifications read
-NOTIFICATION_UPDATE,/api/notifications/*/archive,PUT,Archive notification
-NOTIFICATION_CONFIG_VIEW,/api/admin/notification-settings/**,GET,View notification settings
+NOTIFICATION_UPDATE,/api/notifications/{id}/archive,PUT,Archive notification
 NOTIFICATION_CONFIG_VIEW,/api/admin/notification-settings,GET,View notification settings
-NOTIFICATION_CONFIG_UPDATE,/api/admin/notification-settings/**,PUT,Update notification settings
-SPARE_PART_VIEW,/api/spare-parts/**,GET,View spare parts
+NOTIFICATION_CONFIG_UPDATE,/api/admin/notification-settings,PUT,Update notification settings
+SPARE_PART_VIEW,/api/spare-parts/{stockId},GET,View spare parts
+SPARE_PART_VIEW,/api/spare-parts/site/{siteId},GET,View spare parts
+SPARE_PART_VIEW,/api/spare-parts/{stockId}/transactions,GET,View spare parts
+SPARE_PART_VIEW,/api/spare-parts/{stockId}/equipment-bom,GET,View spare parts
 SPARE_PART_VIEW,/api/spare-parts,GET,View spare part list
 SPARE_PART_VIEW,/api/spare-parts/search,POST,Search spare parts
 SPARE_PART_VIEW,/api/equipment,GET,Spare part linked equipment helper data
-SPARE_PART_VIEW,/api/equipment/**,GET,Spare part linked equipment helper data
-SPARE_PART_VIEW,/api/hr/sites/**,GET,Spare part site helper data
+SPARE_PART_VIEW,/api/equipment/{id}/summary,GET,Spare part linked equipment helper data
+SPARE_PART_VIEW,/api/equipment/{id}/health,GET,Spare part linked equipment helper data
+SPARE_PART_VIEW,/api/equipment/{id}/documents,GET,Spare part linked equipment helper data
+SPARE_PART_VIEW,/api/equipment/{id}/spare-bom,GET,Spare part linked equipment helper data
+SPARE_PART_VIEW,/api/equipment/{id}/active-amc,GET,Spare part linked equipment helper data
+SPARE_PART_VIEW,/api/equipment/{id}/amc-contracts,GET,Spare part linked equipment helper data
+SPARE_PART_VIEW,/api/equipment/{id}/documents/{documentId}/file,GET,Spare part linked equipment helper data
+SPARE_PART_VIEW,/api/equipment/{id},GET,Spare part linked equipment helper data
+SPARE_PART_VIEW,/api/hr/sites/{id},GET,Spare part site helper data
 SPARE_PART_VIEW,/api/hr/sites,GET,Spare part site helper data
 SPARE_PART_CREATE,/api/spare-parts,POST,Create spare part
-SPARE_PART_CREATE,/api/spare-parts/*/equipment-bom,POST,Create spare part equipment BOM link
+SPARE_PART_CREATE,/api/spare-parts/{stockId}/equipment-bom,POST,Create spare part equipment BOM link
 SPARE_PART_CREATE,/api/spare-parts/import,POST,Import spare parts
 SPARE_PART_CREATE,/api/equipment,GET,Create spare part equipment helper data
-SPARE_PART_CREATE,/api/equipment/**,GET,Create spare part equipment helper data
-SPARE_PART_CREATE,/api/hr/sites/**,GET,Create spare part site helper data
+SPARE_PART_CREATE,/api/equipment/{id}/summary,GET,Create spare part equipment helper data
+SPARE_PART_CREATE,/api/equipment/{id}/health,GET,Create spare part equipment helper data
+SPARE_PART_CREATE,/api/equipment/{id}/documents,GET,Create spare part equipment helper data
+SPARE_PART_CREATE,/api/equipment/{id}/spare-bom,GET,Create spare part equipment helper data
+SPARE_PART_CREATE,/api/equipment/{id}/active-amc,GET,Create spare part equipment helper data
+SPARE_PART_CREATE,/api/equipment/{id}/amc-contracts,GET,Create spare part equipment helper data
+SPARE_PART_CREATE,/api/equipment/{id}/documents/{documentId}/file,GET,Create spare part equipment helper data
+SPARE_PART_CREATE,/api/equipment/{id},GET,Create spare part equipment helper data
+SPARE_PART_CREATE,/api/hr/sites/{id},GET,Create spare part site helper data
 SPARE_PART_CREATE,/api/hr/sites,GET,Create spare part site helper data
-SPARE_PART_UPDATE,/api/spare-parts/*,PUT,Update spare part
-SPARE_PART_UPDATE,/api/spare-parts/*/equipment-bom,POST,Add spare part equipment BOM link
-SPARE_PART_UPDATE,/api/spare-parts/*/equipment-bom/*,PUT,Update spare part equipment BOM link
-SPARE_PART_UPDATE,/api/spare-parts/*/equipment-bom/*,DELETE,Delete spare part equipment BOM link
+SPARE_PART_UPDATE,/api/spare-parts/{stockId},PUT,Update spare part
+SPARE_PART_UPDATE,/api/spare-parts/{stockId}/equipment-bom,POST,Add spare part equipment BOM link
+SPARE_PART_UPDATE,/api/spare-parts/{stockId}/equipment-bom/{bomId},PUT,Update spare part equipment BOM link
+SPARE_PART_UPDATE,/api/spare-parts/{stockId}/equipment-bom/{bomId},DELETE,Delete spare part equipment BOM link
 SPARE_PART_UPDATE,/api/equipment,GET,Update spare part equipment helper data
-SPARE_PART_UPDATE,/api/equipment/**,GET,Update spare part equipment helper data
-SPARE_PART_UPDATE,/api/hr/sites/**,GET,Update spare part site helper data
+SPARE_PART_UPDATE,/api/equipment/{id}/summary,GET,Update spare part equipment helper data
+SPARE_PART_UPDATE,/api/equipment/{id}/health,GET,Update spare part equipment helper data
+SPARE_PART_UPDATE,/api/equipment/{id}/documents,GET,Update spare part equipment helper data
+SPARE_PART_UPDATE,/api/equipment/{id}/spare-bom,GET,Update spare part equipment helper data
+SPARE_PART_UPDATE,/api/equipment/{id}/active-amc,GET,Update spare part equipment helper data
+SPARE_PART_UPDATE,/api/equipment/{id}/amc-contracts,GET,Update spare part equipment helper data
+SPARE_PART_UPDATE,/api/equipment/{id}/documents/{documentId}/file,GET,Update spare part equipment helper data
+SPARE_PART_UPDATE,/api/equipment/{id},GET,Update spare part equipment helper data
+SPARE_PART_UPDATE,/api/hr/sites/{id},GET,Update spare part site helper data
 SPARE_PART_UPDATE,/api/hr/sites,GET,Update spare part site helper data
-SPARE_PART_DELETE,/api/spare-parts/*,DELETE,Delete spare part
-STOCK_TRANSACTION_VIEW,/api/spare-parts/*/transactions,GET,View stock transactions
-STOCK_TRANSACTION_CREATE,/api/spare-parts/*/stock-in,POST,Stock in spare part
-STOCK_TRANSACTION_CREATE,/api/spare-parts/*/adjust,POST,Adjust spare part stock
-STOCK_TRANSACTION_CREATE,/api/spare-parts/*/transfer,POST,Transfer spare part stock
-SPARE_USAGE_VIEW,/api/maintenance/assignments/*/spares/**,GET,View assignment spare usage
-SPARE_USAGE_VIEW,/api/maintenance/assignments/*/spares,GET,View assignment spare usage
-SPARE_USAGE_VIEW,/api/equipment/*/spare-bom,GET,Assignment recommended spare helper data
-SPARE_USAGE_VIEW,/api/spare-requests/**,GET,View spare requests
-SPARE_USAGE_VIEW,/api/spare-requests,GET,View spare request list
-SPARE_USAGE_VIEW,/api/spare-parts/**,GET,Spare usage spare part helper data
+SPARE_PART_DELETE,/api/spare-parts/{stockId},DELETE,Delete spare part
+STOCK_TRANSACTION_VIEW,/api/spare-parts/{stockId}/transactions,GET,View stock transactions
+STOCK_TRANSACTION_CREATE,/api/spare-parts/{stockId}/stock-in,POST,Stock in spare part
+STOCK_TRANSACTION_CREATE,/api/spare-parts/{stockId}/adjust,POST,Adjust spare part stock
+STOCK_TRANSACTION_CREATE,/api/spare-parts/{stockId}/transfer,POST,Transfer spare part stock
+SPARE_USAGE_VIEW,/api/maintenance/assignments/{assignmentId}/spares,GET,View assignment spare usage
+SPARE_USAGE_VIEW,/api/equipment/{id}/spare-bom,GET,Assignment recommended spare helper data
+SPARE_USAGE_VIEW,/api/spare-requests,GET,View spare requests
+SPARE_USAGE_VIEW,/api/spare-requests/{id},GET,View spare requests
+SPARE_USAGE_VIEW,/api/spare-parts/{stockId},GET,Spare usage spare part helper data
+SPARE_USAGE_VIEW,/api/spare-parts/site/{siteId},GET,Spare usage spare part helper data
+SPARE_USAGE_VIEW,/api/spare-parts/{stockId}/transactions,GET,Spare usage spare part helper data
+SPARE_USAGE_VIEW,/api/spare-parts/{stockId}/equipment-bom,GET,Spare usage spare part helper data
 SPARE_USAGE_VIEW,/api/spare-parts,GET,Spare usage spare part helper data
-SPARE_USAGE_CREATE,/api/maintenance/assignments/*/spares,POST,Create assignment spare usage
-SPARE_USAGE_CREATE,/api/assignments/*/spare-requests,POST,Create spare request
-SPARE_USAGE_UPDATE,/api/maintenance/assignments/*/spares/*,PUT,Update assignment spare usage
-SPARE_USAGE_DELETE,/api/maintenance/assignments/*/spares/*,DELETE,Delete assignment spare usage
-SPARE_USAGE_MANAGER_APPROVE,/api/spare-requests/*/manager-approve,POST,Manager approve spare request
-SPARE_USAGE_MANAGER_APPROVE,/api/spare-requests/*/manager-reject,POST,Manager reject spare request
-SPARE_USAGE_STORE_PROCESS,/api/spare-requests/*/check-stock,POST,Check spare stock
-SPARE_USAGE_RESERVE,/api/maintenance/assignments/*/spares/*/reserve,POST,Reserve spare usage
-SPARE_USAGE_RESERVE,/api/spare-requests/*/reserve,POST,Reserve spare request
-SPARE_USAGE_ISSUE,/api/maintenance/assignments/*/spares/*/issue,POST,Issue spare usage
-SPARE_USAGE_ISSUE,/api/spare-requests/*/issue,POST,Issue spare request
-SPARE_USAGE_CONSUME,/api/maintenance/assignments/*/spares/*/consume,POST,Consume spare usage
-SPARE_USAGE_CONSUME,/api/spare-requests/*/consume-return,POST,Consume or return spare request
-SPARE_USAGE_REJECT,/api/maintenance/assignments/*/spares/*/reject,POST,Reject spare usage
-SPARE_USAGE_CANCEL,/api/maintenance/assignments/*/spares/*/cancel,POST,Cancel spare usage
-SPARE_USAGE_RETURN,/api/maintenance/assignments/*/spares/*/return,POST,Return spare usage
-REORDER_VIEW,/api/spare-part-reorders/**,GET,View spare part reorders
-REORDER_VIEW,/api/spare-part-reorders,GET,View spare part reorder list
+SPARE_USAGE_CREATE,/api/maintenance/assignments/{assignmentId}/spares,POST,Create assignment spare usage
+SPARE_USAGE_CREATE,/api/assignments/{assignmentId}/spare-requests,POST,Create spare request
+SPARE_USAGE_UPDATE,/api/maintenance/assignments/{assignmentId}/spares/{usageId},PUT,Update assignment spare usage
+SPARE_USAGE_DELETE,/api/maintenance/assignments/{assignmentId}/spares/{usageId},DELETE,Delete assignment spare usage
+SPARE_USAGE_MANAGER_APPROVE,/api/spare-requests/{id}/manager-approve,POST,Manager approve spare request
+SPARE_USAGE_MANAGER_APPROVE,/api/spare-requests/{id}/manager-reject,POST,Manager reject spare request
+SPARE_USAGE_STORE_PROCESS,/api/spare-requests/{id}/check-stock,POST,Check spare stock
+SPARE_USAGE_RESERVE,/api/maintenance/assignments/{assignmentId}/spares/{usageId}/reserve,POST,Reserve spare usage
+SPARE_USAGE_RESERVE,/api/spare-requests/{id}/reserve,POST,Reserve spare request
+SPARE_USAGE_ISSUE,/api/maintenance/assignments/{assignmentId}/spares/{usageId}/issue,POST,Issue spare usage
+SPARE_USAGE_ISSUE,/api/spare-requests/{id}/issue,POST,Issue spare request
+SPARE_USAGE_CONSUME,/api/maintenance/assignments/{assignmentId}/spares/{usageId}/consume,POST,Consume spare usage
+SPARE_USAGE_CONSUME,/api/spare-requests/{id}/consume-return,POST,Consume or return spare request
+SPARE_USAGE_REJECT,/api/maintenance/assignments/{assignmentId}/spares/{usageId}/reject,POST,Reject spare usage
+SPARE_USAGE_CANCEL,/api/maintenance/assignments/{assignmentId}/spares/{usageId}/cancel,POST,Cancel spare usage
+SPARE_USAGE_RETURN,/api/maintenance/assignments/{assignmentId}/spares/{usageId}/return,POST,Return spare usage
+REORDER_VIEW,/api/spare-part-reorders,GET,View spare part reorders
 REORDER_CREATE,/api/spare-part-reorders,POST,Create spare part reorder
-REORDER_CREATE,/api/spare-requests/*/create-purchase-request,POST,Create purchase request from spare request
-REORDER_UPDATE,/api/spare-part-reorders/*,PUT,Update spare part reorder
-REORDER_UPDATE,/api/spare-part-reorders/*/receive-stock,POST,Receive reorder stock
+REORDER_CREATE,/api/spare-requests/{id}/create-purchase-request,POST,Create purchase request from spare request
+REORDER_UPDATE,/api/spare-part-reorders/{id},PUT,Update spare part reorder
+REORDER_UPDATE,/api/spare-part-reorders/{id}/receive-stock,POST,Receive reorder stock

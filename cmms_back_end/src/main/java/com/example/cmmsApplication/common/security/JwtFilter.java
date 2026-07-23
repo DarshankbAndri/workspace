@@ -5,7 +5,6 @@ import com.example.cmmsApplication.common.response.ApiErrorCode;
 import com.example.cmmsApplication.common.response.ApiErrorResponse;
 import com.example.cmmsApplication.common.response.ResponseFactory;
 import com.example.cmmsApplication.common.observability.ObservabilityMetrics;
-import com.example.cmmsApplication.common.security.service.ApiPermissionService;
 import com.example.cmmsApplication.user.entity.User;
 import com.example.cmmsApplication.user.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,11 +29,11 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
+    public static final String AUTHENTICATED_USER_ID_ATTRIBUTE = "cmms.authenticatedUserId";
 
     private final JwtUtil jwtUtil;
     private final ObservabilityMetrics observabilityMetrics;
     private final UserRepository userRepository;
-    private final ApiPermissionService apiPermissionService;
     private final ObjectMapper objectMapper;
     
     @Override
@@ -72,35 +71,10 @@ public class JwtFilter extends OncePerRequestFilter {
                     new UsernamePasswordAuthenticationToken(username, null, new ArrayList<>());
             authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-
-            if (requiresPermissionCheck(request)) {
-                boolean allowed;
-                try {
-                    allowed = apiPermissionService.hasPermission(
-                            user.getId().toString(),
-                            request.getRequestURI(),
-                            request.getMethod()
-                    );
-                } catch (Exception ex) {
-                    logger.error("API permission validation failed for method="
-                            + request.getMethod() + " path=" + request.getRequestURI(), ex);
-                    allowed = false;
-                }
-                if (!allowed) {
-                    SecurityContextHolder.clearContext();
-                    writeError(response, request, HttpStatus.FORBIDDEN, ApiErrorCode.API_PERMISSION_DENIED,
-                            "You do not have permission to access this API.");
-                    return;
-                }
-            }
+            request.setAttribute(AUTHENTICATED_USER_ID_ATTRIBUTE, user.getId().toString());
         }
         
         filterChain.doFilter(request, response);
-    }
-
-    private boolean requiresPermissionCheck(HttpServletRequest request) {
-        return !"OPTIONS".equalsIgnoreCase(request.getMethod())
-                && !apiPermissionService.isPublicApi(request.getRequestURI());
     }
 
     private void writeError(HttpServletResponse response, HttpServletRequest request, HttpStatus status,

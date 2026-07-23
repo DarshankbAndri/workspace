@@ -64,4 +64,11 @@ class ApiPermissionServiceTest {
 
         assertTrue(apiPermissionService.hasPermission("10", "/api/equipment", "GET"));
     }
+
+    @Test
+    void resolvedRoutePatternUsesRepositoryDecision() {
+        when(permissionApiMappingRepository.countUserPermissionsForApiPath(10L, "/api/equipment/{id}", "GET")).thenReturn(1);
+
+        assertTrue(apiPermissionService.hasPermission("10", "/api/equipment/{id}", "GET"));
+    }
 }
