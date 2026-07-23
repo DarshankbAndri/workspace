@@ -48,6 +48,7 @@ import CommonDateTimePicker from '../../../shared/components/common/CommonDateTi
 import CommonDropdown from '../../../shared/components/common/CommonDropdown';
 import CommonFormActions from '../../../shared/components/common/CommonFormActions';
 import ConfirmDialog from '../../../shared/components/common/ConfirmDialog';
+import { getDropdownOptions } from '../../../shared/utils/dropdownHelper';
 
 const initialForm = {
   siteId: '',
@@ -77,9 +78,11 @@ const initialWorkLogForm = {
   actionTaken: '',
   completionStatus: 'IN_PROGRESS',
 };
-const checklistStatusOptions = ['PENDING', 'COMPLETED', 'NOT_APPLICABLE'];
-const checklistResponseTypes = ['CHECKBOX', 'TEXT', 'NUMBER', 'PHOTO'];
-const workLogStatusOptions = ['IN_PROGRESS', 'COMPLETED', 'FOLLOW_UP_REQUIRED', 'CANCELLED'];
+const checklistStatusDropdownOptions = getDropdownOptions('MAINTENANCE_ASSIGNMENT', 'checklistStatus');
+const checklistResponseOptions = getDropdownOptions('COMMON', 'checklistResponseType');
+const workLogStatusDropdownOptions = getDropdownOptions('MAINTENANCE_ASSIGNMENT', 'workLogStatus');
+const manualTechnicianOptions = getDropdownOptions('MAINTENANCE_ASSIGNMENT', 'manualTechnicianOption');
+const assignmentStatusBaseOptions = getDropdownOptions('MAINTENANCE_ASSIGNMENT', 'assignmentStatus');
 const workflowTabByQuery = {
   checklist: 0,
   workLogs: 1,
@@ -681,15 +684,12 @@ function MaintenanceAssignmentFormPage() {
   const requestOptions = React.useMemo(() => requests.map((r) => ({ value: r.id, label: `${r.requestNumber} - ${r.title}` })), [requests]);
   const vendorOptions = React.useMemo(() => vendors.map((v) => ({ value: v.id, label: v.vendorName })), [vendors]);
   const employeeOptions = React.useMemo(() => [
-    { value: '', label: 'Manual / external technician' },
+    ...manualTechnicianOptions,
     ...(form.assignedEmployeeId && !employees.some((e) => String(e.id) === String(form.assignedEmployeeId))
       ? [{ value: form.assignedEmployeeId, label: form.assignedEmployeeName || form.assignedTo }]
       : []),
     ...employees.map((e) => ({ value: e.id, label: employeeLabel(e) })),
   ], [employees, form.assignedEmployeeId, form.assignedEmployeeName, form.assignedTo]);
-  const checklistStatusDropdownOptions = React.useMemo(() => checklistStatusOptions.map((status) => ({ value: status, label: status.replaceAll('_', ' ') })), []);
-  const checklistResponseOptions = React.useMemo(() => checklistResponseTypes.map((type) => ({ value: type, label: type })), []);
-  const workLogStatusDropdownOptions = React.useMemo(() => workLogStatusOptions.map((status) => ({ value: status, label: status.replaceAll('_', ' ') })), []);
   const workLogTechnicianOptions = React.useMemo(() => [
     ...(form.assignedEmployeeId && !employees.some((employee) => String(employee.id) === String(form.assignedEmployeeId))
       ? [{ value: form.assignedEmployeeId, label: form.assignedEmployeeName || form.assignedTo }]
@@ -710,17 +710,15 @@ function MaintenanceAssignmentFormPage() {
     }
     const completedDisabled = completedDisabledReasons.length > 0;
 
-    return [
-      { value: 'ASSIGNED', label: 'Assigned' },
-      { value: 'IN_PROGRESS', label: 'In Progress' },
-      {
-        value: 'COMPLETED',
-        label: 'Completed',
-        disabled: completedDisabled,
-        disabledReason: completedDisabled ? completedDisabledReasons.join(' ') : '',
-      },
-      { value: 'CANCELLED', label: 'Cancelled' },
-    ];
+    return assignmentStatusBaseOptions.map((option) => (
+      option.value === 'COMPLETED'
+        ? {
+          ...option,
+          disabled: completedDisabled,
+          disabledReason: completedDisabled ? completedDisabledReasons.join(' ') : '',
+        }
+        : option
+    ));
   }, [checklistRows.length, canCompleteChecklist, canCompleteWorkLogs]);
 
   return (

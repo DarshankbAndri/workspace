@@ -1,0 +1,200 @@
+{
+  "pageName": "EQUIPMENT_MASTER",
+  "serviceType": "UI",
+  "dropDownMasterList": {
+    "equipmentStatus": [
+      {
+        "value": "ACTIVE",
+        "label": "Active"
+      },
+      {
+        "value": "INACTIVE",
+        "label": "Inactive"
+      },
+      {
+        "value": "UNDER_MAINTENANCE",
+        "label": "Under Maintenance"
+      },
+      {
+        "value": "RETIRED",
+        "label": "Retired"
+      }
+    ],
+    "bomStatus": [
+      {
+        "value": "ACTIVE",
+        "label": "Active"
+      },
+      {
+        "value": "INACTIVE",
+        "label": "Inactive"
+      }
+    ],
+    "criticality": [
+      {
+        "value": "LOW",
+        "label": "Low"
+      },
+      {
+        "value": "MEDIUM",
+        "label": "Medium"
+      },
+      {
+        "value": "HIGH",
+        "label": "High"
+      },
+      {
+        "value": "CRITICAL",
+        "label": "Critical"
+      }
+    ],
+    "lifecycleStatus": [
+      {
+        "value": "DRAFT",
+        "label": "Draft"
+      },
+      {
+        "value": "COMMISSIONED",
+        "label": "Commissioned"
+      },
+      {
+        "value": "ACTIVE",
+        "label": "Active"
+      },
+      {
+        "value": "STANDBY",
+        "label": "Standby"
+      },
+      {
+        "value": "UNDER_MAINTENANCE",
+        "label": "Under Maintenance"
+      },
+      {
+        "value": "BREAKDOWN",
+        "label": "Breakdown"
+      },
+      {
+        "value": "DECOMMISSIONED",
+        "label": "Decommissioned"
+      },
+      {
+        "value": "SCRAPPED",
+        "label": "Scrapped"
+      }
+    ],
+    "assetCondition": [
+      {
+        "value": "GOOD",
+        "label": "Good"
+      },
+      {
+        "value": "FAIR",
+        "label": "Fair"
+      },
+      {
+        "value": "POOR",
+        "label": "Poor"
+      },
+      {
+        "value": "CRITICAL",
+        "label": "Critical"
+      },
+      {
+        "value": "UNKNOWN",
+        "label": "Unknown"
+      }
+    ],
+    "operatingStatus": [
+      {
+        "value": "RUNNING",
+        "label": "Running"
+      },
+      {
+        "value": "STANDBY",
+        "label": "Standby"
+      },
+      {
+        "value": "STOPPED",
+        "label": "Stopped"
+      },
+      {
+        "value": "UNDER_MAINTENANCE",
+        "label": "Under Maintenance"
+      },
+      {
+        "value": "BREAKDOWN",
+        "label": "Breakdown"
+      }
+    ],
+    "ownershipType": [
+      {
+        "value": "OWNED",
+        "label": "Owned"
+      },
+      {
+        "value": "LEASED",
+        "label": "Leased"
+      },
+      {
+        "value": "RENTED",
+        "label": "Rented"
+      },
+      {
+        "value": "CUSTOMER_SUPPLIED",
+        "label": "Customer Supplied"
+      }
+    ],
+    "depreciationMethod": [
+      {
+        "value": "STRAIGHT_LINE",
+        "label": "Straight Line"
+      },
+      {
+        "value": "DECLINING_BALANCE",
+        "label": "Declining Balance"
+      },
+      {
+        "value": "UNITS_OF_PRODUCTION",
+        "label": "Units of Production"
+      },
+      {
+        "value": "NOT_APPLICABLE",
+        "label": "Not Applicable"
+      }
+    ],
+    "documentType": [
+      {
+        "value": "MANUAL",
+        "label": "Manual"
+      },
+      {
+        "value": "DRAWING",
+        "label": "Drawing"
+      },
+      {
+        "value": "CERTIFICATE",
+        "label": "Certificate"
+      },
+      {
+        "value": "INSPECTION_REPORT",
+        "label": "Inspection Report"
+      },
+      {
+        "value": "SOP",
+        "label": "SOP"
+      },
+      {
+        "value": "WARRANTY",
+        "label": "Warranty"
+      },
+      {
+        "value": "SAFETY",
+        "label": "Safety"
+      },
+      {
+        "value": "OTHER",
+        "label": "Other"
+      }
+    ]
+  }
+}

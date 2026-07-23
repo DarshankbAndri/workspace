@@ -1,0 +1,62 @@
+{
+  "pageName": "MAINTENANCE_ASSIGNMENT",
+  "serviceType": "UI",
+  "dropDownMasterList": {
+    "assignmentStatus": [
+      {
+        "value": "ASSIGNED",
+        "label": "Assigned"
+      },
+      {
+        "value": "IN_PROGRESS",
+        "label": "In Progress"
+      },
+      {
+        "value": "COMPLETED",
+        "label": "Completed"
+      },
+      {
+        "value": "CANCELLED",
+        "label": "Cancelled"
+      }
+    ],
+    "checklistStatus": [
+      {
+        "value": "PENDING",
+        "label": "PENDING"
+      },
+      {
+        "value": "COMPLETED",
+        "label": "COMPLETED"
+      },
+      {
+        "value": "NOT_APPLICABLE",
+        "label": "NOT APPLICABLE"
+      }
+    ],
+    "workLogStatus": [
+      {
+        "value": "IN_PROGRESS",
+        "label": "IN PROGRESS"
+      },
+      {
+        "value": "COMPLETED",
+        "label": "COMPLETED"
+      },
+      {
+        "value": "FOLLOW_UP_REQUIRED",
+        "label": "FOLLOW UP REQUIRED"
+      },
+      {
+        "value": "CANCELLED",
+        "label": "CANCELLED"
+      }
+    ],
+    "manualTechnicianOption": [
+      {
+        "value": "",
+        "label": "Manual / external technician"
+      }
+    ]
+  }
+}

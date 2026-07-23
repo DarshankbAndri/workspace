@@ -7,6 +7,7 @@ import { getRoles } from '../../admin/services/roleService';
 import { useAuth } from '../../../shared/context/AuthContext';
 import { PERMISSIONS } from '../../../shared/utils/permissionRoutes';
 import CommonDropdown from '../../../shared/components/common/CommonDropdown';
+import { getDropdownOptions } from '../../../shared/utils/dropdownHelper';
 
 const defaultApprovalConfigs = [
   { moduleCode: 'PM_SCHEDULE', actionCode: 'CREATE', approvalRequired: false, approverRoleCode: 'MAINTENANCE_MANAGER', minApprovalCount: 1, status: 'ACTIVE' },
@@ -17,10 +18,8 @@ const defaultApprovalConfigs = [
   { moduleCode: 'SPARE_ISSUE', actionCode: 'RESERVE', approvalRequired: false, approverRoleCode: 'MAINTENANCE_MANAGER', minApprovalCount: 1, status: 'ACTIVE' },
   { moduleCode: 'SPARE_ISSUE', actionCode: 'ISSUE', approvalRequired: false, approverRoleCode: 'MAINTENANCE_MANAGER', minApprovalCount: 1, status: 'ACTIVE' },
 ];
-const approvalStatusOptions = [
-  { value: 'ACTIVE', label: 'ACTIVE' },
-  { value: 'INACTIVE', label: 'INACTIVE' },
-];
+const approvalStatusOptions = getDropdownOptions('APPROVAL', 'configStatus');
+const anyApprovalUserOptions = getDropdownOptions('APPROVAL', 'anyApprovalUserOption');
 
 function mergeDefaultConfigs(data = []) {
   const keyed = new Map((data || []).map((item) => [`${item.moduleCode}:${item.actionCode}`, item]));
@@ -43,7 +42,7 @@ function ApprovalConfigPage() {
   const [success, setSuccess] = React.useState('');
   const [editRow, setEditRow] = React.useState(null);
   const roleOptions = React.useMemo(() => [
-    { value: '', label: 'Any approval user' },
+    ...anyApprovalUserOptions,
     ...roles.map((role) => ({ value: role.roleCode, label: `${role.roleName} (${role.roleCode})` })),
   ], [roles]);
 

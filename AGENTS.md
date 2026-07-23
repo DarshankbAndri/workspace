@@ -149,11 +149,18 @@ Shared frontend component rules:
 2. Use `CommonDropdown` or `CommonStatusDropdown` for dropdown/select fields.
 3. Use `CommonList` for list pages where practical.
 4. Keep dropdown API loading inside `useDropdownOptions` where possible.
-5. Shared option arrays must go inside `src/shared/constants`.
+5. All static frontend dropdown values must be stored under `src/config/dropdowns`.
 6. New pages must follow the common component pattern.
 7. All list, create, edit, and dialog form pages must use shared common components. Do not directly use MUI `TextField`, `Select`, `MenuItem`, `Autocomplete`, `DatePicker`, or `DateTimePicker` inside feature pages. Use `CommonInput`, `CommonDropdown`, `CommonDatePicker`, `CommonDateTimePicker`, `CommonTextArea`, `CommonFormActions`, and `CommonFormCard` from `src/shared/components/common/` instead.
 8. `CommonDropdown` uses MUI `Autocomplete` (typeahead). Pass `options` as `{value, label}` objects. Dynamic disabled options use `{value, label, disabled: true}` — the component already handles this via `getOptionDisabled`. `onChange` fires `(event, option)` where `event.target.value` is the option value, compatible with `updateField(field)` handlers.
 9. For table-cell inline dropdowns and inputs, pass `size="small"` to `CommonDropdown` and `CommonInput`.
+10. Do not define static dropdown arrays directly inside pages or feature components.
+11. Pages must access static dropdown values using `getDropdownOptions` or `useDropdownOptions`.
+12. API-driven dropdowns must continue using backend APIs.
+13. Shared static dropdowns belong in `COMMON.json`.
+14. Page-specific dropdowns belong in the corresponding `PAGE_NAME.json`.
+15. Dropdown JSON file names and `pageName` values must match.
+16. Dropdown values must not be renamed without verifying backend compatibility.
 
 Frontend navigation rules:
 

@@ -4,6 +4,7 @@ import { ThemeProvider, CssBaseline, useMediaQuery, Box, Paper, Typography } fro
 import { useAuth } from './shared/context/AuthContext';
 import SidebarLayout from './shared/layouts/SidebarLayout';
 import { getFirstAllowedPath } from './shared/utils/permissionRoutes';
+import { validateDropdownConfigurationsOnStartup } from './shared/utils/dropdownHelper';
 import createAppTheme from './theme/appTheme';
 import LoginPage from './features/auth/pages/LoginPage';
 import UserManagementPage from './features/user/pages/UserManagementPage';
@@ -55,6 +56,8 @@ import UserRoleAssignmentPage from './features/admin/pages/UserRoleAssignmentPag
 import ApprovalConfigPage from './features/approval/pages/ApprovalConfigPage';
 import NotificationSettingsPage from './features/notification/pages/NotificationSettingsPage';
 import CompanyFormPage from './features/company/pages/CompanyFormPage';
+
+validateDropdownConfigurationsOnStartup();
 
 function AccessDenied() {
   return (

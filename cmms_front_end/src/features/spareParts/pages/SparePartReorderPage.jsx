@@ -16,15 +16,12 @@ import { DataGrid } from '@mui/x-data-grid';
 import { useAuth } from '../../../shared/context/AuthContext';
 import { PERMISSIONS } from '../../../shared/utils/permissionRoutes';
 import CommonDropdown from '../../../shared/components/common/CommonDropdown';
+import { getDropdownOptions } from '../../../shared/utils/dropdownHelper';
 import { getSites } from '../../site/services/siteService';
 import { getReorderRequests, receivePurchaseRequestStock, updateReorderRequest } from '../services/sparePartService';
 
-const statuses = ['REQUESTED', 'ORDERED', 'RECEIVED', 'CANCELLED'];
-const statusFilterOptions = [
-  { value: '', label: 'All Statuses' },
-  ...statuses.map((status) => ({ value: status, label: status })),
-];
-const statusOptions = statuses.map((status) => ({ value: status, label: status }));
+const statusFilterOptions = getDropdownOptions('PURCHASE_REQUEST', 'reorderStatusFilter');
+const statusOptions = getDropdownOptions('PURCHASE_REQUEST', 'reorderStatus');
 const initialEditDialog = { open: false, row: null, status: '', requestedQuantity: '', estimatedUnitCost: '', expectedDate: '', remarks: '' };
 const initialReceiveDialog = { open: false, row: null, quantity: '', unitCost: '', remarks: '' };
 

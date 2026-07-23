@@ -18,12 +18,9 @@ import {
 } from '@mui/material';
 import { PersonAdd, ArrowBack } from '@mui/icons-material';
 import CommonDropdown from '../../../shared/components/common/CommonDropdown';
+import { getDropdownOptions } from '../../../shared/utils/dropdownHelper';
 
-const roleOptions = [
-  { value: 'EMPLOYEE', label: 'Employee' },
-  { value: 'MANAGER', label: 'Manager' },
-  { value: 'HR', label: 'HR' },
-];
+const roleOptions = getDropdownOptions('USER_MANAGEMENT', 'role');
 
 function UserManagementPage() {
   const navigate = useNavigate();

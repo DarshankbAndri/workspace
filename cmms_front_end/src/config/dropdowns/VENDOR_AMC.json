@@ -1,0 +1,54 @@
+{
+  "pageName": "VENDOR_AMC",
+  "serviceType": "UI",
+  "dropDownMasterList": {
+    "contractStatus": [
+      {
+        "value": "DRAFT",
+        "label": "DRAFT"
+      },
+      {
+        "value": "ACTIVE",
+        "label": "ACTIVE"
+      },
+      {
+        "value": "EXPIRING_SOON",
+        "label": "EXPIRING SOON"
+      },
+      {
+        "value": "EXPIRED",
+        "label": "EXPIRED"
+      },
+      {
+        "value": "TERMINATED",
+        "label": "TERMINATED"
+      },
+      {
+        "value": "RENEWED",
+        "label": "RENEWED"
+      }
+    ],
+    "contractType": [
+      {
+        "value": "COMPREHENSIVE",
+        "label": "COMPREHENSIVE"
+      },
+      {
+        "value": "LABOR_ONLY",
+        "label": "LABOR ONLY"
+      },
+      {
+        "value": "SPARES_ONLY",
+        "label": "SPARES ONLY"
+      },
+      {
+        "value": "INSPECTION",
+        "label": "INSPECTION"
+      },
+      {
+        "value": "OTHER",
+        "label": "OTHER"
+      }
+    ]
+  }
+}

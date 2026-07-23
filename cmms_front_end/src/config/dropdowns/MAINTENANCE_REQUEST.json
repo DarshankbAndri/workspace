@@ -1,0 +1,84 @@
+{
+  "pageName": "MAINTENANCE_REQUEST",
+  "serviceType": "UI",
+  "dropDownMasterList": {
+    "requestType": [
+      {
+        "value": "BREAKDOWN",
+        "label": "Breakdown"
+      },
+      {
+        "value": "PREVENTIVE",
+        "label": "Preventive"
+      },
+      {
+        "value": "INSPECTION",
+        "label": "Inspection"
+      },
+      {
+        "value": "CALIBRATION",
+        "label": "Calibration"
+      }
+    ],
+    "priority": [
+      {
+        "value": "LOW",
+        "label": "Low"
+      },
+      {
+        "value": "MEDIUM",
+        "label": "Medium"
+      },
+      {
+        "value": "HIGH",
+        "label": "High"
+      },
+      {
+        "value": "URGENT",
+        "label": "Urgent"
+      }
+    ],
+    "requestStatus": [
+      {
+        "value": "OPEN",
+        "label": "Open"
+      },
+      {
+        "value": "ASSIGNED",
+        "label": "Assigned"
+      },
+      {
+        "value": "IN_PROGRESS",
+        "label": "In Progress"
+      },
+      {
+        "value": "ON_HOLD",
+        "label": "On Hold"
+      },
+      {
+        "value": "COMPLETED",
+        "label": "Completed"
+      },
+      {
+        "value": "CLOSED",
+        "label": "Closed"
+      },
+      {
+        "value": "CANCELLED",
+        "label": "Cancelled"
+      },
+      {
+        "value": "PENDING_APPROVAL",
+        "label": "Pending Approval"
+      },
+      {
+        "value": "CLOSE_PENDING_APPROVAL",
+        "label": "Close Pending Approval"
+      },
+      {
+        "value": "REJECTED",
+        "label": "Rejected"
+      }
+    ]
+  }
+}

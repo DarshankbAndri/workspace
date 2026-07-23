@@ -10,26 +10,13 @@ import CommonDateTimePicker from '../../../shared/components/common/CommonDateTi
 import CommonDropdown from '../../../shared/components/common/CommonDropdown';
 import CommonFormActions from '../../../shared/components/common/CommonFormActions';
 import CommonFormCard from '../../../shared/components/common/CommonFormCard';
+import { getDropdownOptions } from '../../../shared/utils/dropdownHelper';
 
 const nowLocal = () => new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 16);
 
-const reasonCategoryOptions = [
-  'MECHANICAL',
-  'ELECTRICAL',
-  'INSTRUMENTATION',
-  'UTILITY_FAILURE',
-  'MATERIAL_SHORTAGE',
-  'OPERATOR_ERROR',
-  'PLANNED_SHUTDOWN',
-  'CHANGEOVER',
-  'SAFETY_STOP',
-  'OTHER',
-].map((value) => ({ value, label: value.replaceAll('_', ' ') }));
-
-const plannedOptions = [
-  { value: false, label: 'Unplanned' },
-  { value: true, label: 'Planned' },
-];
+const reasonCategoryOptions = getDropdownOptions('EQUIPMENT_DOWNTIME', 'reasonCategory');
+const plannedOptions = getDropdownOptions('EQUIPMENT_DOWNTIME', 'plannedType');
+const noRequestOptions = getDropdownOptions('EQUIPMENT_DOWNTIME', 'noRequestOption');
 
 const initialForm = {
   siteId: '',
@@ -174,7 +161,7 @@ function DowntimeFormPage() {
   const siteOptions = React.useMemo(() => sites.map((s) => ({ value: s.id, label: `${s.siteName} (${s.siteCode})` })), [sites]);
   const equipmentOptions = React.useMemo(() => formEquipments.map((e) => ({ value: e.id, label: `${e.equipmentCode} - ${e.equipmentName}` })), [formEquipments]);
   const requestOptions = React.useMemo(() => [
-    { value: '', label: 'No request' },
+    ...noRequestOptions,
     ...formRequests.map((r) => ({ value: r.id, label: `${r.requestNumber} - ${r.title}` })),
   ], [formRequests]);
 

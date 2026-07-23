@@ -47,6 +47,7 @@ import CommonDatePicker from '../../../shared/components/common/CommonDatePicker
 import CommonDateTimePicker from '../../../shared/components/common/CommonDateTimePicker';
 import CommonDropdown from '../../../shared/components/common/CommonDropdown';
 import ConfirmDialog from '../../../shared/components/common/ConfirmDialog';
+import { getDropdownOptions } from '../../../shared/utils/dropdownHelper';
 
 const initialForm = {
   siteId: '',
@@ -77,9 +78,11 @@ const initialWorkLogForm = {
   completionStatus: 'IN_PROGRESS',
 };
 
-const checklistStatusOptions = ['PENDING', 'COMPLETED', 'NOT_APPLICABLE'];
-const checklistResponseTypes = ['CHECKBOX', 'TEXT', 'NUMBER', 'PHOTO'];
-const workLogStatusOptions = ['IN_PROGRESS', 'COMPLETED', 'FOLLOW_UP_REQUIRED', 'CANCELLED'];
+const checklistStatusDropdownOptions = getDropdownOptions('MAINTENANCE_ASSIGNMENT', 'checklistStatus');
+const checklistResponseOptions = getDropdownOptions('COMMON', 'checklistResponseType');
+const workLogStatusDropdownOptions = getDropdownOptions('MAINTENANCE_ASSIGNMENT', 'workLogStatus');
+const manualTechnicianOptions = getDropdownOptions('MAINTENANCE_ASSIGNMENT', 'manualTechnicianOption');
+const assignmentStatusBaseOptions = getDropdownOptions('MAINTENANCE_ASSIGNMENT', 'assignmentStatus');
 
 const assignmentStatusColors = {
   ASSIGNED: 'info',
@@ -671,15 +674,12 @@ function MaintenanceAssignmentViewPage() {
   const requestOptions = React.useMemo(() => requests.map((request) => ({ value: request.id, label: `${request.requestNumber} - ${request.title}` })), [requests]);
   const vendorOptions = React.useMemo(() => vendors.map((vendor) => ({ value: vendor.id, label: vendor.vendorName })), [vendors]);
   const employeeOptions = React.useMemo(() => [
-    { value: '', label: 'Manual / external technician' },
+    ...manualTechnicianOptions,
     ...(detailForm.assignedEmployeeId && !employees.some((employee) => String(employee.id) === String(detailForm.assignedEmployeeId))
       ? [{ value: detailForm.assignedEmployeeId, label: detailForm.assignedEmployeeName || detailForm.assignedTo }]
       : []),
     ...employees.map((employee) => ({ value: employee.id, label: employeeLabel(employee) })),
   ], [detailForm.assignedEmployeeId, detailForm.assignedEmployeeName, detailForm.assignedTo, employees]);
-  const checklistStatusDropdownOptions = React.useMemo(() => checklistStatusOptions.map((status) => ({ value: status, label: status.replaceAll('_', ' ') })), []);
-  const checklistResponseOptions = React.useMemo(() => checklistResponseTypes.map((type) => ({ value: type, label: type })), []);
-  const workLogStatusDropdownOptions = React.useMemo(() => workLogStatusOptions.map((status) => ({ value: status, label: status.replaceAll('_', ' ') })), []);
   const workLogTechnicianOptions = React.useMemo(() => [
     ...(detailForm.assignedEmployeeId && !employees.some((employee) => String(employee.id) === String(detailForm.assignedEmployeeId))
       ? [{ value: detailForm.assignedEmployeeId, label: detailForm.assignedEmployeeName || detailForm.assignedTo }]
@@ -710,17 +710,15 @@ function MaintenanceAssignmentViewPage() {
     }
     const completedDisabled = completedDisabledReasons.length > 0;
 
-    return [
-      { value: 'ASSIGNED', label: 'Assigned' },
-      { value: 'IN_PROGRESS', label: 'In Progress' },
-      {
-        value: 'COMPLETED',
-        label: 'Completed',
-        disabled: completedDisabled,
-        disabledReason: completedDisabled ? completedDisabledReasons.join(' ') : '',
-      },
-      { value: 'CANCELLED', label: 'Cancelled' },
-    ];
+    return assignmentStatusBaseOptions.map((option) => (
+      option.value === 'COMPLETED'
+        ? {
+          ...option,
+          disabled: completedDisabled,
+          disabledReason: completedDisabled ? completedDisabledReasons.join(' ') : '',
+        }
+        : option
+    ));
   }, [canCompleteChecklist, canCompleteWorkLogs, checklistRows.length]);
 
   const canEditMain = hasPermission('ASSIGNMENT_UPDATE');

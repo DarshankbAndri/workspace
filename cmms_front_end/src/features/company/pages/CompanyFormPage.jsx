@@ -9,6 +9,7 @@ import CommonDropdown from '../../../shared/components/common/CommonDropdown';
 import CommonFormActions from '../../../shared/components/common/CommonFormActions';
 import CommonFormCard from '../../../shared/components/common/CommonFormCard';
 import CommonFileUpload from '../../../shared/components/common/CommonFileUpload';
+import { getDropdownOptions } from '../../../shared/utils/dropdownHelper';
 
 const initialForm = {
   companyName: '',
@@ -20,10 +21,7 @@ const initialForm = {
   logoUrl: '',
 };
 
-const STATUS_OPTIONS = [
-  { value: 'ACTIVE', label: 'ACTIVE' },
-  { value: 'INACTIVE', label: 'INACTIVE' },
-];
+const STATUS_OPTIONS = getDropdownOptions('COMMON', 'activeStatus');
 
 function CompanyFormPage() {
   const { hasPermission } = useAuth();

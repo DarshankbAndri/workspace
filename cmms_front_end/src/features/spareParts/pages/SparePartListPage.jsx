@@ -43,17 +43,14 @@ import {
 import ConfirmDialog from '../../../shared/components/common/ConfirmDialog';
 import CommonList from '../../../shared/components/common/CommonList';
 import CommonDropdown from '../../../shared/components/common/CommonDropdown';
+import { getDropdownOptions } from '../../../shared/utils/dropdownHelper';
 
 const initialHistoryDialog = { open: false, row: null, rows: [], loading: false };
 const initialTransferDialog = { open: false, row: null, targetSiteId: '', quantity: '', targetStorageLocation: '', remarks: '' };
 const initialReorderDialog = { open: false, row: null, requestedQuantity: '', estimatedUnitCost: '', expectedDate: '', remarks: '' };
 const initialImportDialog = { open: false, file: null, result: null, loading: false };
 const initialLabelDialog = { open: false, row: null };
-const stockStatusOptions = [
-  { value: '', label: 'All' },
-  { value: 'true', label: 'Low Stock' },
-  { value: 'false', label: 'OK' },
-];
+const stockStatusOptions = getDropdownOptions('SPARE_PART', 'stockStatus');
 
 const getSparePartViewPath = (row) => row?.id ? `/inventory/spare-parts/${row.id}/view` : '';
 

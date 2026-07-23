@@ -10,6 +10,7 @@ import CommonDatePicker from '../../../shared/components/common/CommonDatePicker
 import CommonDropdown from '../../../shared/components/common/CommonDropdown';
 import CommonFormActions from '../../../shared/components/common/CommonFormActions';
 import CommonFormCard from '../../../shared/components/common/CommonFormCard';
+import { getDropdownOptions } from '../../../shared/utils/dropdownHelper';
 
 const initialForm = {
   siteId: '',
@@ -29,19 +30,9 @@ const initialForm = {
   vendorReferenceNumber: '',
 };
 
-const REQUEST_TYPE_OPTIONS = [
-  { value: 'BREAKDOWN', label: 'Breakdown' },
-  { value: 'PREVENTIVE', label: 'Preventive' },
-  { value: 'INSPECTION', label: 'Inspection' },
-  { value: 'CALIBRATION', label: 'Calibration' },
-];
-
-const PRIORITY_OPTIONS = [
-  { value: 'LOW', label: 'Low' },
-  { value: 'MEDIUM', label: 'Medium' },
-  { value: 'HIGH', label: 'High' },
-  { value: 'URGENT', label: 'Urgent' },
-];
+const REQUEST_TYPE_OPTIONS = getDropdownOptions('MAINTENANCE_REQUEST', 'requestType');
+const PRIORITY_OPTIONS = getDropdownOptions('MAINTENANCE_REQUEST', 'priority');
+const YES_NO_OPTIONS = getDropdownOptions('COMMON', 'yesNo');
 
 function MaintenanceRequestFormPage() {
   const { id } = useParams();
@@ -233,7 +224,7 @@ function MaintenanceRequestFormPage() {
                   label="Assign to AMC Vendor"
                   value={form.externalVendorAssignment}
                   onChange={updateAssignToAmcVendor}
-                  options={[{ value: true, label: 'Yes' }, { value: false, label: 'No' }]}
+                  options={YES_NO_OPTIONS}
                 />
               </Grid>
             )}

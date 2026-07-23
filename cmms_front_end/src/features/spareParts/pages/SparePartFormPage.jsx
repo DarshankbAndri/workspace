@@ -19,6 +19,7 @@ import CommonTextArea from '../../../shared/components/common/CommonTextArea';
 import CommonDropdown from '../../../shared/components/common/CommonDropdown';
 import CommonFormActions from '../../../shared/components/common/CommonFormActions';
 import CommonFormCard from '../../../shared/components/common/CommonFormCard';
+import { getDropdownOptions } from '../../../shared/utils/dropdownHelper';
 
 const initialForm = {
   partCode: '',
@@ -35,12 +36,10 @@ const initialForm = {
   status: 'ACTIVE',
 };
 
-const SPARE_STATUS_OPTIONS = [
-  { value: 'ACTIVE', label: 'Active' },
-  { value: 'INACTIVE', label: 'Inactive' },
-];
-const BOM_CRITICALITY_OPTIONS = ['LOW', 'MEDIUM', 'HIGH', 'CRITICAL'].map((value) => ({ value, label: value }));
-const BOM_STATUS_OPTIONS = SPARE_STATUS_OPTIONS;
+const SPARE_STATUS_OPTIONS = getDropdownOptions('SPARE_PART', 'spareStatus');
+const BOM_CRITICALITY_OPTIONS = getDropdownOptions('COMMON', 'criticalityPriority');
+const BOM_STATUS_OPTIONS = getDropdownOptions('SPARE_PART', 'spareStatus');
+const NO_PREFERRED_VENDOR_OPTIONS = getDropdownOptions('SPARE_PART', 'noPreferredVendorOption');
 const initialBomForm = {
   equipmentId: '',
   recommendedQty: 1,
@@ -234,7 +233,7 @@ function SparePartFormPage() {
 
   const siteOptions = React.useMemo(() => sites.map((s) => ({ value: s.id, label: `${s.siteName} (${s.siteCode})` })), [sites]);
   const vendorOptions = React.useMemo(() => [
-    { value: '', label: 'No preferred vendor' },
+    ...NO_PREFERRED_VENDOR_OPTIONS,
     ...vendors.map((v) => ({ value: v.id, label: v.vendorName })),
   ], [vendors]);
   const equipmentOptions = React.useMemo(() => equipments.map((equipment) => ({

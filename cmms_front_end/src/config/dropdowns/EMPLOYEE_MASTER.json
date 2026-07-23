@@ -1,0 +1,48 @@
+{
+  "pageName": "EMPLOYEE_MASTER",
+  "serviceType": "UI",
+  "dropDownMasterList": {
+    "gender": [
+      {
+        "value": "",
+        "label": "Not set"
+      },
+      {
+        "value": "MALE",
+        "label": "MALE"
+      },
+      {
+        "value": "FEMALE",
+        "label": "FEMALE"
+      },
+      {
+        "value": "OTHER",
+        "label": "OTHER"
+      }
+    ],
+    "authRole": [
+      {
+        "value": "EMPLOYEE",
+        "label": "EMPLOYEE"
+      },
+      {
+        "value": "MANAGER",
+        "label": "MANAGER"
+      },
+      {
+        "value": "HR",
+        "label": "HR"
+      },
+      {
+        "value": "ADMIN",
+        "label": "ADMIN"
+      }
+    ],
+    "globalSiteOption": [
+      {
+        "value": "",
+        "label": "Global"
+      }
+    ]
+  }
+}

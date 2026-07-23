@@ -10,11 +10,9 @@ import CommonDropdown from '../../../shared/components/common/CommonDropdown';
 import CommonFormActions from '../../../shared/components/common/CommonFormActions';
 import CommonFormCard from '../../../shared/components/common/CommonFormCard';
 import { Button } from '@mui/material';
+import { getDropdownOptions } from '../../../shared/utils/dropdownHelper';
 
-const STATUS_OPTIONS = [
-  { value: 'ACTIVE', label: 'ACTIVE' },
-  { value: 'INACTIVE', label: 'INACTIVE' },
-];
+const STATUS_OPTIONS = getDropdownOptions('COMMON', 'activeStatus');
 
 const emptyAssignment = {
   siteId: '',

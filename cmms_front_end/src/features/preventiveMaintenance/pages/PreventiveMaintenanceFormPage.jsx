@@ -13,6 +13,7 @@ import CommonDatePicker from '../../../shared/components/common/CommonDatePicker
 import CommonDropdown from '../../../shared/components/common/CommonDropdown';
 import CommonFormActions from '../../../shared/components/common/CommonFormActions';
 import CommonFormCard from '../../../shared/components/common/CommonFormCard';
+import { getDropdownOptions } from '../../../shared/utils/dropdownHelper';
 
 const today = () => new Date().toISOString().slice(0, 10);
 
@@ -34,24 +35,14 @@ const initialForm = {
   checklistItems: [],
 };
 
-const frequencies = ['DAILY', 'WEEKLY', 'MONTHLY', 'QUARTERLY', 'YEARLY'];
-const priorities = ['LOW', 'MEDIUM', 'HIGH', 'CRITICAL'];
-const checklistResponseTypes = ['CHECKBOX', 'TEXT', 'NUMBER', 'PHOTO'];
-
-const FREQUENCY_OPTIONS = frequencies.map((f) => ({ value: f, label: f }));
-const PRIORITY_OPTIONS = priorities.map((p) => ({ value: p, label: p }));
-const RESPONSE_TYPE_OPTIONS = checklistResponseTypes.map((t) => ({ value: t, label: t }));
-const PM_ACTIVE_OPTIONS = [
-  { value: 'true', label: 'Active' },
-  { value: 'false', label: 'Inactive' },
-];
-const PM_STATUS_OPTIONS = [
-  { value: 'ACTIVE', label: 'Active' },
-  { value: 'COMPLETED', label: 'Completed' },
-  { value: 'APPROVED', label: 'Approved' },
-  { value: 'PENDING_APPROVAL', label: 'Pending Approval' },
-  { value: 'REJECTED', label: 'Rejected' },
-];
+const FREQUENCY_OPTIONS = getDropdownOptions('PREVENTIVE_MAINTENANCE', 'frequency');
+const PRIORITY_OPTIONS = getDropdownOptions('COMMON', 'criticalityPriority');
+const RESPONSE_TYPE_OPTIONS = getDropdownOptions('COMMON', 'checklistResponseType');
+const PM_ACTIVE_OPTIONS = getDropdownOptions('PREVENTIVE_MAINTENANCE', 'active');
+const PM_STATUS_OPTIONS = getDropdownOptions('PREVENTIVE_MAINTENANCE', 'approvalStatus');
+const INTERNAL_TEAM_OPTIONS = getDropdownOptions('PREVENTIVE_MAINTENANCE', 'internalTeamOption');
+const AMC_NOT_LINKED_OPTIONS = getDropdownOptions('PREVENTIVE_MAINTENANCE', 'amcNotLinkedOption');
+const AMC_LOADING_OPTIONS = getDropdownOptions('PREVENTIVE_MAINTENANCE', 'amcLoadingOption');
 const sampleChecklistItems = [
   { taskTitle: 'Inspect oil level', instructions: '', required: true, proofRequired: false, responseType: 'CHECKBOX', active: true },
   { taskTitle: 'Check belt tension', instructions: '', required: true, proofRequired: false, responseType: 'CHECKBOX', active: true },
@@ -228,11 +219,11 @@ function PreventiveMaintenanceFormPage() {
   const siteOptions = React.useMemo(() => sites.map((s) => ({ value: s.id, label: `${s.siteName} (${s.siteCode})` })), [sites]);
   const equipmentOptions = React.useMemo(() => filteredEquipments.map((e) => ({ value: e.id, label: `${e.equipmentCode} - ${e.equipmentName}` })), [filteredEquipments]);
   const vendorOptions = React.useMemo(() => [
-    { value: '', label: 'Internal team' },
+    ...INTERNAL_TEAM_OPTIONS,
     ...vendors.map((v) => ({ value: v.id, label: v.vendorName })),
   ], [vendors]);
   const amcOptions = React.useMemo(() => {
-    const options = [{ value: '', label: amcLoading ? 'Checking AMC...' : 'Do not link AMC' }];
+    const options = [...(amcLoading ? AMC_LOADING_OPTIONS : AMC_NOT_LINKED_OPTIONS)];
     if (activeAmc?.id) {
       options.push({ value: activeAmc.id, label: `${activeAmc.contractNumber || 'AMC'} - ${activeAmc.vendorName || 'Vendor'}` });
     }

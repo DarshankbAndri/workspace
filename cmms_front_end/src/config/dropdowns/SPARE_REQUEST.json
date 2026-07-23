@@ -1,0 +1,44 @@
+{
+  "pageName": "SPARE_REQUEST",
+  "serviceType": "UI",
+  "dropDownMasterList": {
+    "storeStatus": [
+      {
+        "value": "",
+        "label": "Open Store Requests"
+      },
+      {
+        "value": "MANAGER_APPROVED",
+        "label": "MANAGER APPROVED"
+      },
+      {
+        "value": "STOCK_AVAILABLE",
+        "label": "STOCK AVAILABLE"
+      },
+      {
+        "value": "STOCK_NOT_AVAILABLE",
+        "label": "STOCK NOT AVAILABLE"
+      },
+      {
+        "value": "PURCHASE_REQUESTED",
+        "label": "PURCHASE REQUESTED"
+      },
+      {
+        "value": "PURCHASE_RECEIVED",
+        "label": "PURCHASE RECEIVED"
+      },
+      {
+        "value": "RESERVED",
+        "label": "RESERVED"
+      },
+      {
+        "value": "ISSUED",
+        "label": "ISSUED"
+      },
+      {
+        "value": "PARTIALLY_CONSUMED",
+        "label": "PARTIALLY CONSUMED"
+      }
+    ]
+  }
+}

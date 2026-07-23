@@ -10,9 +10,9 @@ import { deleteVendorAmcContract, searchVendorAmcContracts } from '../services/v
 import { getSites } from '../../site/services/siteService';
 import { useAuth } from '../../../shared/context/AuthContext';
 import { PERMISSIONS } from '../../../shared/utils/permissionRoutes';
+import { getDropdownOptions } from '../../../shared/utils/dropdownHelper';
 
-const statusOptions = ['DRAFT', 'ACTIVE', 'EXPIRING_SOON', 'EXPIRED', 'TERMINATED', 'RENEWED']
-  .map((status) => ({ value: status, label: status.replaceAll('_', ' ') }));
+const statusOptions = getDropdownOptions('VENDOR_AMC', 'contractStatus');
 
 function VendorAmcListPage() {
   const navigate = useNavigate();

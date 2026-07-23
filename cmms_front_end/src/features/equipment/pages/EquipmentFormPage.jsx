@@ -8,6 +8,7 @@ import CommonDatePicker from '../../../shared/components/common/CommonDatePicker
 import CommonDropdown from '../../../shared/components/common/CommonDropdown';
 import CommonFormActions from '../../../shared/components/common/CommonFormActions';
 import CommonFormCard from '../../../shared/components/common/CommonFormCard';
+import { getDropdownOptions } from '../../../shared/utils/dropdownHelper';
 
 const initialForm = {
   equipmentCode: '',
@@ -37,60 +38,13 @@ const initialForm = {
   department: '',
 };
 
-const STATUS_OPTIONS = [
-  { value: 'ACTIVE', label: 'Active' },
-  { value: 'INACTIVE', label: 'Inactive' },
-  { value: 'UNDER_MAINTENANCE', label: 'Under Maintenance' },
-  { value: 'RETIRED', label: 'Retired' },
-];
-
-const CRITICALITY_OPTIONS = [
-  { value: 'LOW', label: 'Low' },
-  { value: 'MEDIUM', label: 'Medium' },
-  { value: 'HIGH', label: 'High' },
-  { value: 'CRITICAL', label: 'Critical' },
-];
-
-const LIFECYCLE_STATUS_OPTIONS = [
-  { value: 'DRAFT', label: 'Draft' },
-  { value: 'COMMISSIONED', label: 'Commissioned' },
-  { value: 'ACTIVE', label: 'Active' },
-  { value: 'STANDBY', label: 'Standby' },
-  { value: 'UNDER_MAINTENANCE', label: 'Under Maintenance' },
-  { value: 'BREAKDOWN', label: 'Breakdown' },
-  { value: 'DECOMMISSIONED', label: 'Decommissioned' },
-  { value: 'SCRAPPED', label: 'Scrapped' },
-];
-
-const ASSET_CONDITION_OPTIONS = [
-  { value: 'GOOD', label: 'Good' },
-  { value: 'FAIR', label: 'Fair' },
-  { value: 'POOR', label: 'Poor' },
-  { value: 'CRITICAL', label: 'Critical' },
-  { value: 'UNKNOWN', label: 'Unknown' },
-];
-
-const OPERATING_STATUS_OPTIONS = [
-  { value: 'RUNNING', label: 'Running' },
-  { value: 'STANDBY', label: 'Standby' },
-  { value: 'STOPPED', label: 'Stopped' },
-  { value: 'UNDER_MAINTENANCE', label: 'Under Maintenance' },
-  { value: 'BREAKDOWN', label: 'Breakdown' },
-];
-
-const OWNERSHIP_TYPE_OPTIONS = [
-  { value: 'OWNED', label: 'Owned' },
-  { value: 'LEASED', label: 'Leased' },
-  { value: 'RENTED', label: 'Rented' },
-  { value: 'CUSTOMER_SUPPLIED', label: 'Customer Supplied' },
-];
-
-const DEPRECIATION_METHOD_OPTIONS = [
-  { value: 'STRAIGHT_LINE', label: 'Straight Line' },
-  { value: 'DECLINING_BALANCE', label: 'Declining Balance' },
-  { value: 'UNITS_OF_PRODUCTION', label: 'Units of Production' },
-  { value: 'NOT_APPLICABLE', label: 'Not Applicable' },
-];
+const STATUS_OPTIONS = getDropdownOptions('EQUIPMENT_MASTER', 'equipmentStatus');
+const CRITICALITY_OPTIONS = getDropdownOptions('EQUIPMENT_MASTER', 'criticality');
+const LIFECYCLE_STATUS_OPTIONS = getDropdownOptions('EQUIPMENT_MASTER', 'lifecycleStatus');
+const ASSET_CONDITION_OPTIONS = getDropdownOptions('EQUIPMENT_MASTER', 'assetCondition');
+const OPERATING_STATUS_OPTIONS = getDropdownOptions('EQUIPMENT_MASTER', 'operatingStatus');
+const OWNERSHIP_TYPE_OPTIONS = getDropdownOptions('EQUIPMENT_MASTER', 'ownershipType');
+const DEPRECIATION_METHOD_OPTIONS = getDropdownOptions('EQUIPMENT_MASTER', 'depreciationMethod');
 
 function EquipmentFormPage() {
   const { id } = useParams();

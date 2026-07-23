@@ -5,6 +5,7 @@ import { CheckCircle, Inventory, ShoppingCart, TaskAlt, Undo } from '@mui/icons-
 import { useAuth } from '../../../shared/context/AuthContext';
 import { PERMISSIONS } from '../../../shared/utils/permissionRoutes';
 import CommonDropdown from '../../../shared/components/common/CommonDropdown';
+import { getDropdownOptions } from '../../../shared/utils/dropdownHelper';
 import {
   checkSpareRequestStock,
   consumeReturnSpareRequest,
@@ -14,11 +15,7 @@ import {
   reserveSpareRequest,
 } from '../services/sparePartService';
 
-const statuses = ['', 'MANAGER_APPROVED', 'STOCK_AVAILABLE', 'STOCK_NOT_AVAILABLE', 'PURCHASE_REQUESTED', 'PURCHASE_RECEIVED', 'RESERVED', 'ISSUED', 'PARTIALLY_CONSUMED'];
-const statusOptions = [
-  { value: '', label: 'Open Store Requests' },
-  ...statuses.filter(Boolean).map((status) => ({ value: status, label: status.replaceAll('_', ' ') })),
-];
+const statusOptions = getDropdownOptions('SPARE_REQUEST', 'storeStatus');
 const initialConsumeDialog = { open: false, row: null, consumedQty: '', returnedQty: '', remarks: '' };
 const statusColors = {
   MANAGER_APPROVED: 'info',
