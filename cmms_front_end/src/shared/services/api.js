@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 export const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
-const API_TIMEOUT = Number(import.meta.env.VITE_API_TIMEOUT_MS || 30000);
+const API_TIMEOUT = Number(import.meta.env.VITE_API_TIMEOUT_MS || 120000);
+const AUTH_EXPIRED_EVENT = 'cmms:auth-expired';
 
 const buildRequestUrl = (config) => {
   const baseURL = config.baseURL || API_BASE_URL;
@@ -27,14 +28,18 @@ const api = axios.create({
   },
 });
 
-const clearAuthAndRedirect = () => {
+const clearAuthSession = () => {
   localStorage.removeItem('token');
   localStorage.removeItem('user');
   localStorage.removeItem('roles');
   localStorage.removeItem('permissions');
   localStorage.removeItem('allowedSites');
-  if (window.location.pathname !== '/login') {
-    window.location.href = '/login';
+};
+
+const handleUnauthorized = () => {
+  clearAuthSession();
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new CustomEvent(AUTH_EXPIRED_EVENT));
   }
 };
 
@@ -114,7 +119,7 @@ api.interceptors.response.use(
     }
     if (error.response) {
       if (error.response.status === 401) {
-        clearAuthAndRedirect();
+        handleUnauthorized();
       }
     } else if (error.code === 'ECONNABORTED') {
       console.error(`API request timed out: ${buildRequestUrl(error.config || {})}`);
@@ -254,7 +259,7 @@ fileApi.interceptors.response.use(
       error.response.data = normalizedError;
     }
     if (error.response && error.response.status === 401) {
-      clearAuthAndRedirect();
+      handleUnauthorized();
     }
     return Promise.reject(error);
   }

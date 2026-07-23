@@ -1,0 +1,7 @@
+node_modules/
+.env
+reports/*.json
+reports/*.csv
+screenshots/*.png
+!reports/.gitkeep
+!screenshots/.gitkeep

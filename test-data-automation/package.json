@@ -1,0 +1,15 @@
+{
+  "name": "cmms-solar-test-data-automation",
+  "version": "1.0.0",
+  "private": true,
+  "description": "UI-first Playwright automation for realistic CMMS solar plant demo data",
+  "scripts": {
+    "generate": "node scripts/generate-solar-data.js",
+    "audit": "node scripts/audit-created-data.js",
+    "smoke": "set RECORD_COUNT=1&& node scripts/generate-solar-data.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.6.1",
+    "playwright": "^1.55.0"
+  }
+}

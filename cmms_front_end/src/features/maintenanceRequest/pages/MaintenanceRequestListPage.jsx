@@ -220,19 +220,6 @@ function MaintenanceRequestListPage() {
           onPaginationModelChange: (model) => setPaginationModel((current) => (model.pageSize !== current.pageSize ? { ...model, page: 0 } : model)),
           sortModel,
           onSortModelChange: (model) => { setSortModel(model); resetPage(); },
-          sx: {
-            '& .request-row-critical': {
-              bgcolor: 'rgba(211, 47, 47, 0.06)',
-            },
-            '& .request-row-overdue': {
-              bgcolor: 'rgba(237, 108, 2, 0.06)',
-            },
-          },
-          getRowClassName: ({ row }) => {
-            if (isCritical(row.priority)) return 'request-row-critical';
-            if (isOverdue(row)) return 'request-row-overdue';
-            return '';
-          },
         }}
       />
       <Dialog open={Boolean(deleteRow)} onClose={() => setDeleteRow(null)}>

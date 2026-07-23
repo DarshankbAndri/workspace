@@ -19,10 +19,14 @@ import org.springdoc.core.customizers.OperationCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import lombok.RequiredArgsConstructor;
+
 import java.util.List;
 
 @Configuration
+@RequiredArgsConstructor
 public class OpenApiConfig {
+    private final CmmsOpenApiProperties openApiProperties;
 
     @Bean
     public OpenAPI customOpenAPI() {
@@ -45,11 +49,8 @@ public class OpenApiConfig {
                     .url("https://www.apache.org/licenses/LICENSE-2.0.html")))
             .servers(List.of(
                 new Server()
-                    .url("http://localhost:4200/api")
-                    .description("Development Server"),
-                new Server()
-                    .url("https://api.cmmsApplication.com")
-                    .description("Production Server")
+                    .url(openApiProperties.getServerUrl())
+                    .description(openApiProperties.getServerDescription())
             ))
             .addSecurityItem(new SecurityRequirement().addList("bearer_jwt"))
             .components(new Components()

@@ -2,8 +2,6 @@ package com.example.cmmsApplication.common.config;
 
 
 import jakarta.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -16,24 +14,7 @@ public class CmmsSecurityProperties {
 
     private boolean apiPermissionRestrictionEnabled = true;
     private boolean denyUnmappedApi = true;
-    private List<String> publicApiPatterns = new ArrayList<>(List.of(
-            "/api/auth/**",
-            "/api/actuator/**",
-            "/api/swagger-ui/**",
-            "/api/swagger-ui.html",
-            "/api/swagger-resources/**",
-            "/api/v3/api-docs/**",
-            "/api/company/logo/**",
-            "/api/error",
-            "/auth/**",
-            "/actuator/**",
-            "/swagger-ui/**",
-            "/swagger-ui.html",
-            "/swagger-resources/**",
-            "/v3/api-docs/**",
-            "/company/logo/**",
-            "/error"
-    ));
+    private String publicApiPatternsXml = "classpath:public-api-patterns.xml";
 
     public boolean isApiPermissionRestrictionEnabled() {
         return apiPermissionRestrictionEnabled;
@@ -51,19 +32,19 @@ public class CmmsSecurityProperties {
         this.denyUnmappedApi = denyUnmappedApi;
     }
 
-    public List<String> getPublicApiPatterns() {
-        return publicApiPatterns;
+    public String getPublicApiPatternsXml() {
+        return publicApiPatternsXml;
     }
 
-    public void setPublicApiPatterns(List<String> publicApiPatterns) {
-        this.publicApiPatterns = publicApiPatterns == null ? new ArrayList<>() : publicApiPatterns;
+    public void setPublicApiPatternsXml(String publicApiPatternsXml) {
+        this.publicApiPatternsXml = publicApiPatternsXml;
     }
 
     @PostConstruct
     public void logConfiguration() {
         logger.info("CMMS API permission restriction enabled: {}", apiPermissionRestrictionEnabled);
         logger.info("CMMS deny unmapped API enabled: {}", denyUnmappedApi);
-        logger.info("CMMS public API patterns: {}", publicApiPatterns);
+        logger.info("CMMS public API patterns XML: {}", publicApiPatternsXml);
         if (!apiPermissionRestrictionEnabled) {
             logger.warn("WARNING: Backend API permission checks are disabled. Site access filtering remains enabled.");
         }

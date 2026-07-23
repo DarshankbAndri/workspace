@@ -1,0 +1,28 @@
+{
+  "dependencyOrder": [
+    "company",
+    "sites",
+    "roles",
+    "employees",
+    "vendors",
+    "equipment",
+    "spareParts",
+    "preventiveMaintenance",
+    "maintenanceRequests",
+    "assignments",
+    "workLogs",
+    "spareRequests",
+    "downtime",
+    "purchaseRequests",
+    "validation"
+  ],
+  "documentedSkips": {
+    "teams": "No team master or UI create route exists.",
+    "equipmentCategories": "Category is a free-text equipment field; no category create UI exists.",
+    "equipmentTypes": "No equipment type master or UI create route exists.",
+    "meterReadings": "No meter/runtime reading UI or route exists.",
+    "notifications": "Notifications are workflow-generated; no notification create UI exists.",
+    "inventory": "Site inventory is created as part of the spare-part form, not as a separate module.",
+    "company": "The application supports one current company profile, not 100-200 company records. Existing company data is never overwritten."
+  }
+}

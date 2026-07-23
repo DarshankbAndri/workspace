@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, Box, Button, Chip, Divider, Grid, IconButton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from '@mui/material';
+import { Alert, Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Grid, IconButton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from '@mui/material';
 import { Add, Delete, Edit } from '@mui/icons-material';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import {
@@ -61,6 +61,7 @@ function SparePartFormPage() {
   const [vendors, setVendors] = React.useState([]);
   const [equipments, setEquipments] = React.useState([]);
   const [bomRows, setBomRows] = React.useState([]);
+  const [deletedBomIds, setDeletedBomIds] = React.useState([]);
   const [bomForm, setBomForm] = React.useState(initialBomForm);
   const [editingBomId, setEditingBomId] = React.useState(null);
   const [error, setError] = React.useState('');
@@ -86,7 +87,10 @@ function SparePartFormPage() {
         }))
         .catch((err) => setError(err.response?.data?.message || 'Unable to load spare part.'));
       getSparePartEquipmentBom(id)
-        .then((data) => setBomRows(data || []))
+        .then((data) => {
+          setBomRows(data || []);
+          setDeletedBomIds([]);
+        })
         .catch((err) => setError(err.response?.data?.message || 'Unable to load linked equipment BOM.'));
     }
   }, [id]);
@@ -110,6 +114,7 @@ function SparePartFormPage() {
     setForm((current) => ({ ...current, siteId: event.target.value, preferredVendorId: '' }));
     if (!isEdit) {
       setBomRows([]);
+      setDeletedBomIds([]);
       setBomForm(initialBomForm);
       setEditingBomId(null);
     }
@@ -124,7 +129,7 @@ function SparePartFormPage() {
     setError('');
     if (!bomForm.equipmentId || !bomForm.recommendedQty) {
       setError('Equipment and recommended quantity are required for linked equipment BOM.');
-      return;
+      return false;
     }
     const duplicate = bomRows.some((row) => (
       String(row.equipmentId) === String(bomForm.equipmentId)
@@ -132,7 +137,7 @@ function SparePartFormPage() {
     ));
     if (duplicate) {
       setError('This equipment is already linked to this spare part BOM.');
-      return;
+      return false;
     }
     const selectedEquipment = equipments.find((equipment) => String(equipment.id) === String(bomForm.equipmentId));
     const payload = {
@@ -140,27 +145,20 @@ function SparePartFormPage() {
       equipmentId: Number(bomForm.equipmentId),
       recommendedQty: Number(bomForm.recommendedQty || 0),
     };
-    try {
-      if (isEdit) {
-        if (editingBomId) {
-          const saved = await updateSparePartEquipmentBom(id, editingBomId, payload);
-          setBomRows((current) => current.map((row) => (row.bomId === editingBomId ? saved : row)));
-        } else {
-          const saved = await createSparePartEquipmentBom(id, payload);
-          setBomRows((current) => [...current, saved]);
-        }
-      } else if (editingBomId) {
-        setBomRows((current) => current.map((row) => (row.localId === editingBomId ? { ...row, ...payload, ...equipmentSummary(selectedEquipment) } : row)));
-      } else {
-        setBomRows((current) => [
-          ...current,
-          { ...payload, ...equipmentSummary(selectedEquipment), localId: `new-${Date.now()}-${Math.random()}` },
-        ]);
-      }
-      resetBomForm();
-    } catch (err) {
-      setError(err.response?.data?.message || 'Unable to save linked equipment BOM.');
+    if (editingBomId) {
+      setBomRows((current) => current.map((row) => (
+        String(row.bomId || row.localId) === String(editingBomId)
+          ? { ...row, ...payload, ...equipmentSummary(selectedEquipment) }
+          : row
+      )));
+    } else {
+      setBomRows((current) => [
+        ...current,
+        { ...payload, ...equipmentSummary(selectedEquipment), localId: `new-${Date.now()}-${Math.random()}` },
+      ]);
     }
+    resetBomForm();
+    return true;
   };
 
   const handleEditBomRow = (row) => {
@@ -175,16 +173,33 @@ function SparePartFormPage() {
     });
   };
 
-  const handleDeleteBomRow = async (row) => {
+  const handleDeleteBomRow = (row) => {
     setError('');
-    try {
-      if (isEdit && row.bomId) {
-        await deleteSparePartEquipmentBom(id, row.bomId);
+    if (row.bomId) {
+      setDeletedBomIds((current) => Array.from(new Set([...current, row.bomId])));
+    }
+    setBomRows((current) => current.filter((item) => (item.bomId || item.localId) !== (row.bomId || row.localId)));
+    if (editingBomId === (row.bomId || row.localId)) resetBomForm();
+  };
+
+  const saveBomRows = async (stockId) => {
+    for (const bomId of deletedBomIds) {
+      await deleteSparePartEquipmentBom(stockId, bomId);
+    }
+    for (const row of bomRows) {
+      const payload = {
+        equipmentId: Number(row.equipmentId),
+        recommendedQty: Number(row.recommendedQty || 0),
+        criticality: row.criticality || 'MEDIUM',
+        replacementFrequency: row.replacementFrequency || '',
+        status: row.status || 'ACTIVE',
+        remarks: row.remarks || '',
+      };
+      if (row.bomId) {
+        await updateSparePartEquipmentBom(stockId, row.bomId, payload);
+      } else {
+        await createSparePartEquipmentBom(stockId, payload);
       }
-      setBomRows((current) => current.filter((item) => (item.bomId || item.localId) !== (row.bomId || row.localId)));
-      if (editingBomId === (row.bomId || row.localId)) resetBomForm();
-    } catch (err) {
-      setError(err.response?.data?.message || 'Unable to delete linked equipment BOM.');
     }
   };
 
@@ -203,19 +218,11 @@ function SparePartFormPage() {
       };
       if (isEdit) {
         await updateSparePart(id, payload);
+        await saveBomRows(id);
       } else {
         const saved = await createSparePart(payload);
         const stockId = saved?.id || saved?.stockId;
-        for (const row of bomRows) {
-          await createSparePartEquipmentBom(stockId, {
-            equipmentId: Number(row.equipmentId),
-            recommendedQty: Number(row.recommendedQty || 0),
-            criticality: row.criticality || 'MEDIUM',
-            replacementFrequency: row.replacementFrequency || '',
-            status: row.status || 'ACTIVE',
-            remarks: row.remarks || '',
-          });
-        }
+        await saveBomRows(stockId);
       }
       navigate('/inventory/spare-parts');
     } catch (err) {
@@ -290,36 +297,76 @@ function SparePartFormPage() {
 export default SparePartFormPage;
 
 function LinkedEquipmentBomSection({ rows, form, equipmentOptions, disabled, editingBomId, equipmentDisabled, onFieldChange, onSave, onEdit, onDelete, onCancel }) {
+  const [dialogOpen, setDialogOpen] = React.useState(false);
+  const [dialogError, setDialogError] = React.useState('');
+
+  const openAddDialog = () => {
+    onCancel();
+    setDialogError('');
+    setDialogOpen(true);
+  };
+
+  const openEditDialog = (row) => {
+    onEdit(row);
+    setDialogError('');
+    setDialogOpen(true);
+  };
+
+  const closeDialog = () => {
+    setDialogOpen(false);
+    setDialogError('');
+    onCancel();
+  };
+
+  const submitDialog = async () => {
+    setDialogError('');
+    if (!form.equipmentId || !form.recommendedQty) {
+      setDialogError('Equipment and recommended quantity are required.');
+      return;
+    }
+    const duplicate = rows.some((row) => (
+      String(row.equipmentId) === String(form.equipmentId)
+      && String(row.bomId || row.localId) !== String(editingBomId || '')
+    ));
+    if (duplicate) {
+      setDialogError('This equipment is already linked to this spare part BOM.');
+      return;
+    }
+    const saved = await onSave();
+    if (saved) {
+      setDialogOpen(false);
+    } else {
+      setDialogError('Unable to save linked equipment BOM.');
+    }
+  };
+
   return (
     <Stack spacing={1.5}>
-      <Typography variant="h6" fontWeight={800}>Linked Equipment BOM</Typography>
+      <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.5} alignItems={{ xs: 'stretch', sm: 'center' }} justifyContent="space-between">
+        <Typography variant="h6" fontWeight={800}>Linked Equipment BOM</Typography>
+        {!disabled && (
+          <Button type="button" variant="contained" startIcon={<Add />} onClick={openAddDialog}>
+            Add Link
+          </Button>
+        )}
+      </Stack>
       {!disabled && (
-        <Grid container spacing={1.5} alignItems="center">
-          <Grid item xs={12} md={3}>
+        <Dialog open={dialogOpen} onClose={closeDialog} maxWidth="sm" fullWidth>
+          <DialogTitle>{editingBomId ? 'Update Equipment Link' : 'Add Equipment Link'}</DialogTitle>
+          <DialogContent sx={{ display: 'grid', gap: 2, pt: 2 }}>
+            {dialogError && <Alert severity="error">{dialogError}</Alert>}
             <CommonDropdown required disabled={equipmentDisabled} label="Equipment" value={form.equipmentId} onChange={onFieldChange('equipmentId')} options={equipmentOptions} />
-          </Grid>
-          <Grid item xs={12} md={2}>
             <CommonInput required type="number" label="Recommended Qty" value={form.recommendedQty} onChange={onFieldChange('recommendedQty')} />
-          </Grid>
-          <Grid item xs={12} md={2}>
             <CommonDropdown label="Criticality" value={form.criticality} onChange={onFieldChange('criticality')} options={BOM_CRITICALITY_OPTIONS} />
-          </Grid>
-          <Grid item xs={12} md={2}>
             <CommonInput label="Replacement Frequency" value={form.replacementFrequency || ''} onChange={onFieldChange('replacementFrequency')} />
-          </Grid>
-          <Grid item xs={12} md={2}>
             <CommonDropdown label="Status" value={form.status} onChange={onFieldChange('status')} options={BOM_STATUS_OPTIONS} />
-          </Grid>
-          <Grid item xs={12} md={9}>
-            <CommonTextArea minRows={1} label="Remarks" value={form.remarks || ''} onChange={onFieldChange('remarks')} />
-          </Grid>
-          <Grid item xs={12} md={3}>
-            <Stack direction="row" spacing={1} justifyContent={{ xs: 'flex-start', md: 'flex-end' }}>
-              {editingBomId && <Button variant="outlined" onClick={onCancel}>Cancel</Button>}
-              <Button variant="contained" startIcon={<Add />} onClick={onSave}>{editingBomId ? 'Update Link' : 'Add Link'}</Button>
-            </Stack>
-          </Grid>
-        </Grid>
+            <CommonTextArea minRows={2} label="Remarks" value={form.remarks || ''} onChange={onFieldChange('remarks')} />
+          </DialogContent>
+          <DialogActions>
+            <Button type="button" onClick={closeDialog}>Cancel</Button>
+            <Button type="button" variant="contained" startIcon={<Add />} onClick={submitDialog}>{editingBomId ? 'Update' : 'Add'}</Button>
+          </DialogActions>
+        </Dialog>
       )}
       <TableContainer>
         <Table size="small">
@@ -347,8 +394,8 @@ function LinkedEquipmentBomSection({ rows, form, equipmentOptions, disabled, edi
                 <TableCell>{row.remarks || '-'}</TableCell>
                 {!disabled && (
                   <TableCell align="right">
-                    <Tooltip title="Edit"><IconButton onClick={() => onEdit(row)}><Edit fontSize="small" /></IconButton></Tooltip>
-                    <Tooltip title="Delete"><IconButton color="error" onClick={() => onDelete(row)}><Delete fontSize="small" /></IconButton></Tooltip>
+                    <Tooltip title="Edit"><IconButton type="button" onClick={() => openEditDialog(row)}><Edit fontSize="small" /></IconButton></Tooltip>
+                    <Tooltip title="Delete"><IconButton type="button" color="error" onClick={() => onDelete(row)}><Delete fontSize="small" /></IconButton></Tooltip>
                   </TableCell>
                 )}
               </TableRow>

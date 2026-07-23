@@ -1,0 +1,18 @@
+{
+  "defaultCount": 0,
+  "counts": {
+    "sites": 2,
+    "roles": 10,
+    "employees": 10,
+    "vendors": 10,
+    "equipment": 100,
+    "spareParts": 200,
+    "preventiveMaintenance": 20,
+    "maintenanceRequests": 20,
+    "assignments": 20,
+    "workLogs": 20,
+    "spareRequests": 20,
+    "downtime": 20,
+    "purchaseRequests": 20
+  }
+}

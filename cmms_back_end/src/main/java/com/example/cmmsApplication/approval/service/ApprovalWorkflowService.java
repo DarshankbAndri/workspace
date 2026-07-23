@@ -299,11 +299,12 @@ public class ApprovalWorkflowService {
             if (criteria == null || isBlank(criteria.getFilterKey()) || isEmptyValue(criteria.getValue())) {
                 continue;
             }
-            if (!APPROVAL_HISTORY_FILTERS.contains(criteria.getFilterKey())) {
+            String filterKey = criteria.getFilterKey();
+            if (isBlank(filterKey) || !APPROVAL_HISTORY_FILTERS.contains(filterKey)) {
                 throw new InvalidOperationException("Unsupported approval history filter: " + criteria.getFilterKey());
             }
             SearchCriteriaDTO copy = new SearchCriteriaDTO();
-            copy.setFilterKey(criteria.getFilterKey());
+            copy.setFilterKey(filterKey);
             copy.setDataType(criteria.getDataType());
             copy.setValue(criteria.getValue());
             copy.setOperation(normalizeOperation(criteria.getOperation()));
@@ -319,7 +320,7 @@ public class ApprovalWorkflowService {
         normalized.setPageNumber(pagination == null || pagination.getPageNumber() == null ? 0 : pagination.getPageNumber());
         normalized.setPageSize(pagination == null ? 0 : pagination.getPageSize());
         String sortBy = pagination == null ? null : pagination.getSortBy();
-        normalized.setSortBy(APPROVAL_HISTORY_SORTS.contains(sortBy) ? sortBy : "requestedAt");
+        normalized.setSortBy(sortBy != null && APPROVAL_HISTORY_SORTS.contains(sortBy) ? sortBy : "requestedAt");
         normalized.setSortMode("ASC".equalsIgnoreCase(pagination == null ? null : pagination.getSortMode()) ? "ASC" : "DESC");
         return normalized;
     }

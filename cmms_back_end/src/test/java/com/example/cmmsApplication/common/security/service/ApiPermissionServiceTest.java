@@ -5,10 +5,9 @@ import com.example.cmmsApplication.common.security.repository.PermissionApiMappi
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.core.io.DefaultResourceLoader;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -27,8 +26,13 @@ class ApiPermissionServiceTest {
     void setUp() {
         securityProperties = new CmmsSecurityProperties();
         securityProperties.setApiPermissionRestrictionEnabled(true);
-        securityProperties.setPublicApiPatterns(List.of("/api/auth/**"));
-        apiPermissionService = new ApiPermissionService(permissionApiMappingRepository, securityProperties);
+        PublicApiPatternService publicApiPatternService =
+                new PublicApiPatternService(securityProperties, new DefaultResourceLoader());
+        publicApiPatternService.loadPatterns();
+        apiPermissionService = new ApiPermissionService(
+                permissionApiMappingRepository,
+                securityProperties,
+                publicApiPatternService);
     }
 
     @Test

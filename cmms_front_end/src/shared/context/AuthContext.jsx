@@ -29,6 +29,19 @@ export function AuthProvider({ children }) {
     setLoading(false);
   }, []);
 
+  useEffect(() => {
+    const handleAuthExpired = () => {
+      setUser(null);
+      setToken(null);
+      setRoles([]);
+      setPermissions([]);
+      setAllowedSites([]);
+      setIsAuthenticated(false);
+    };
+    window.addEventListener('cmms:auth-expired', handleAuthExpired);
+    return () => window.removeEventListener('cmms:auth-expired', handleAuthExpired);
+  }, []);
+
   const login = (userData, jwtToken, access = {}) => {
     const nextRoles = access.roles || [];
     const nextPermissions = access.permissions || [];
