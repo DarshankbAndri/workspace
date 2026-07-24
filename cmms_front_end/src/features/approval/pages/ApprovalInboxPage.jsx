@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Snackbar, Stack, TextField, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Snackbar, Stack, TextField, Typography } from '@mui/material';
 import { CheckCircle, Cancel, Visibility } from '@mui/icons-material';
 import { getPendingApprovals, approveApproval, rejectApproval } from '../services/approvalService';
 import { getSites } from '../../site/services/siteService';
@@ -13,8 +13,6 @@ import CommonStatusChip from '../../../shared/components/common/CommonStatusChip
 import { APPROVAL_ACTION_OPTIONS, APPROVAL_MODULE_OPTIONS } from '../../../shared/constants/statusOptions';
 
 function ApprovalInboxPage() {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const { hasPermission } = useAuth();
   const [rows, setRows] = React.useState([]);
   const [sites, setSites] = React.useState([]);
@@ -124,7 +122,12 @@ function ApprovalInboxPage() {
         tableTestId="approval-inbox-table"
         dataGridProps={{ initialState: { pagination: { paginationModel: { pageSize: 10 } } } }}
       />
-      <Dialog open={Boolean(decision)} onClose={() => setDecision(null)} maxWidth="sm" fullWidth fullScreen={isMobile}>
+      <Dialog
+        open={Boolean(decision)}
+        onClose={() => setDecision(null)}
+        maxWidth={false}
+        PaperProps={{ sx: { width: { xs: 'calc(100% - 32px)', sm: 520 }, maxWidth: 'calc(100% - 32px)', m: 2 } }}
+      >
         <DialogTitle>{decision?.type === 'VIEW' ? 'Approval Details' : `${decision?.type === 'APPROVE' ? 'Approve' : 'Reject'} Approval`}</DialogTitle>
         <DialogContent>
           {decision?.row && (

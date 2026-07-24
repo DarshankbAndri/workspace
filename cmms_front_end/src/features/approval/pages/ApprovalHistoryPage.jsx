@@ -179,7 +179,12 @@ function ApprovalHistoryPage() {
         }}
       />
 
-      <Dialog open={Boolean(details)} onClose={() => setDetails(null)} maxWidth="md" fullWidth>
+      <Dialog
+        open={Boolean(details)}
+        onClose={() => setDetails(null)}
+        maxWidth={false}
+        PaperProps={{ sx: { width: { xs: 'calc(100% - 32px)', md: 760 }, maxWidth: 'calc(100% - 32px)', m: 2 } }}
+      >
         <DialogTitle>Approval Details</DialogTitle>
         <DialogContent>
           {details && (

@@ -112,7 +112,12 @@ function ApprovalConfigPage() {
           initialState={{ pagination: { paginationModel: { pageSize: 10 } } }}
         />
       </Paper>
-      <Dialog open={Boolean(editRow)} onClose={() => setEditRow(null)} maxWidth="sm" fullWidth>
+      <Dialog
+        open={Boolean(editRow)}
+        onClose={() => setEditRow(null)}
+        maxWidth={false}
+        PaperProps={{ sx: { width: { xs: 'calc(100% - 32px)', sm: 520 }, maxWidth: 'calc(100% - 32px)', m: 2 } }}
+      >
         <DialogTitle>Edit Approval Config</DialogTitle>
         <DialogContent>
           {editRow && (

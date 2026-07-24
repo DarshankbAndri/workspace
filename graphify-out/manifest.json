@@ -1255,18 +1255,18 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/approval/pages/ApprovalConfigPage.jsx": {
-    "mtime": 1784796983.796641,
-    "ast_hash": "d959202fe7896409916c2b5fba24b5b7",
+    "mtime": 1784808202.0141585,
+    "ast_hash": "760efbbddc6a007f95e9f2bf01f94761",
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/approval/pages/ApprovalHistoryPage.jsx": {
-    "mtime": 1784786074.6238067,
-    "ast_hash": "4ec24b1d7672afea7fc47e939798f3af",
+    "mtime": 1784808197.134061,
+    "ast_hash": "9cc4e9ff1b685ff1913416c920fc48de",
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/approval/pages/ApprovalInboxPage.jsx": {
-    "mtime": 1784785091.272342,
-    "ast_hash": "c13d085a41e73f2272390479f7152936",
+    "mtime": 1784808189.5561476,
+    "ast_hash": "b91d45bb349052f6a694f0472bbf02b9",
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/approval/services/approvalConfigService.js": {
