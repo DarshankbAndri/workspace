@@ -14,12 +14,14 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import BadgeOutlinedIcon from '@mui/icons-material/BadgeOutlined';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
-import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
-import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
-import ShieldOutlinedIcon from '@mui/icons-material/ShieldOutlined';
+import {
+  BadgeOutlined as BadgeOutlinedIcon,
+  LockOutlined as LockOutlinedIcon,
+  LoginOutlined as LoginOutlinedIcon,
+  ShieldOutlined as ShieldOutlinedIcon,
+  VisibilityOffOutlined as VisibilityOffOutlinedIcon,
+  VisibilityOutlined as VisibilityOutlinedIcon,
+} from '@mui/icons-material';
 import { useAuth } from '../../../shared/context/AuthContext';
 import { login as apiLogin } from '../../../shared/services/api';
 import { getFirstAllowedPath, getFirstAllowedPathFromAccess } from '../../../shared/utils/permissionRoutes';
