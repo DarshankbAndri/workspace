@@ -143,6 +143,24 @@ public class ListSearchService {
         return searchService.getFilteredResults(effectiveSearch, maintenanceAssignmentListRepository, MaintenanceAssignmentList.class);
     }
 
+    public PageProperties searchMyMaintenanceAssignments(SearchDTO searchDTO) {
+        SearchDTO effectiveSearch = prepare(searchDTO, ASSIGNMENT_FILTERS, MaintenanceAssignmentList.class, "createdAt");
+        applySiteAccess(effectiveSearch, "siteId");
+
+        SearchCriteriaDTO employeeCriteria = new SearchCriteriaDTO();
+        employeeCriteria.setFilterKey("assignedEmployeeId");
+        employeeCriteria.setDataType("NUMBER");
+        Long employeeId = accessControlService.getCurrentEmployeeId();
+        employeeCriteria.setValue(employeeId == null ? -1L : employeeId);
+        employeeCriteria.setOperation("equal");
+        effectiveSearch.getSearchCriteriaList().removeIf(
+                (criteria) -> "assignedEmployeeId".equals(criteria.getFilterKey()));
+        effectiveSearch.getSearchCriteriaList().add(employeeCriteria);
+
+        return searchService.getFilteredResults(
+                effectiveSearch, maintenanceAssignmentListRepository, MaintenanceAssignmentList.class);
+    }
+
     public PageProperties searchDowntime(SearchDTO searchDTO) {
         SearchDTO effectiveSearch = prepare(searchDTO, DOWNTIME_FILTERS, EquipmentDowntimeList.class, "createdAt");
         applySiteAccess(effectiveSearch, "siteId");
