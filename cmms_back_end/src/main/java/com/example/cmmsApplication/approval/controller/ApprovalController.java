@@ -25,6 +25,11 @@ public class ApprovalController {
         return ResponseFactory.ok(approvalWorkflowService.getPendingApprovalsForCurrentUser());
     }
 
+    @PostMapping("/pending/search")
+    public ResponseEntity<ApiResponse<?>> searchPending(@RequestBody(required = false) SearchDTO searchDTO) {
+        return ResponseFactory.ok(approvalWorkflowService.searchPendingApprovals(searchDTO));
+    }
+
     @GetMapping("/history")
     public ResponseEntity<ApiResponse<?>> getHistory(@RequestParam String moduleCode,
                                                                @RequestParam Long referenceId) {
