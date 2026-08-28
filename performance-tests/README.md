@@ -2,7 +2,7 @@
 
 This directory contains a repeatable k6 test for the CMMS Spring Boot API. It authenticates through the real `/api/auth/login` endpoint and exercises the same dashboard, pagination, maintenance, equipment, spare-parts, approval, employee, vendor, site, and notification APIs used by the React application.
 
-The test does not delete production data and does not perform write workflows. Run it only against an approved staging environment. Use the existing `test-data-automation` project to create connected test data before running performance tests.
+The test does not delete production data and does not perform write workflows. Run it only against an approved staging environment. Use `performance-data-generator` for the production-sized dataset, then use this k6 suite for concurrent traffic.
 
 ## Prerequisites
 
@@ -43,6 +43,18 @@ k6 version
 
 ## Generate test data first
 
+For the requested production-sized volume (100 sites, 5,000 employees, 50,000 equipment, 100,000 requests, 100,000 assignments, 500,000 work logs, 100,000 downtime records, and 100,000 spare transactions), use the PostgreSQL loader:
+
+```powershell
+cd performance-data-generator
+.\generate.ps1 -RunId 'CLIENTLOAD01' -DbHost 'YOUR_POSTGRESQL_HOST' -Database 'YOUR_CMMS_DATABASE' -DbUser 'YOUR_DATABASE_USER'
+.\verify.ps1 -RunId 'CLIENTLOAD01' -DbHost 'YOUR_POSTGRESQL_HOST' -Database 'YOUR_CMMS_DATABASE' -DbUser 'YOUR_DATABASE_USER'
+```
+
+See `performance-data-generator/README.md` for dependency installation, safety, custom counts, Linux commands, and cleanup.
+
+For smaller functional-data batches, the repository also contains `test-data-automation`. It creates connected records through the real UI.
+
 The repository already contains `test-data-automation`. It creates connected records through the real UI.
 
 ```powershell
@@ -54,7 +66,7 @@ Copy-Item .env.example .env
 
 Set `CMMS_BASE_URL`, `CMMS_USERNAME`, and `CMMS_PASSWORD` in `.env`, then configure record counts in `config/generation-counts.json`.
 
-The UI generator deliberately allows at most 200 records per module per prefix. To generate additional batches, change `RUN_PREFIX` for each run. UI generation is intended for realistic connected data, not millions of database rows. For 100,000+ records, use a dedicated bulk-data loader or anonymized production-sized database snapshot.
+The UI generator deliberately allows at most 200 records per module per prefix. To generate additional functional-test batches, change `RUN_PREFIX` for each run. It is not the large-volume loader.
 
 ```powershell
 $env:RUN_PREFIX = 'PERF-BATCH-001'
@@ -170,4 +182,3 @@ For example, if 100 users pass but 200 users produce 4% errors and p95 latency o
 ## Current staging connectivity result
 
 On 2026-08-28, the supplied staging frontend `143.161.207.243:6200` timed out from the external test runner and the backend route returned `502 Bad Gateway` with `connection refused`. No concurrent traffic was applied. Check that both services are running, ports 6200 and 4200 are listening, and the firewall/reverse proxy allows the test runner before repeating the smoke profile.
-
