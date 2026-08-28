@@ -1,0 +1,6 @@
+.env
+reports/*.json
+reports/*.html
+reports/*.csv
+!reports/.gitkeep
+
