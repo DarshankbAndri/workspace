@@ -10,6 +10,7 @@ import com.example.cmmsApplication.common.search.dto.PageProperties;
 import com.example.cmmsApplication.common.search.dto.PagePropertiesDTO;
 import com.example.cmmsApplication.common.search.dto.SearchCriteriaDTO;
 import com.example.cmmsApplication.common.search.dto.SearchDTO;
+import com.example.cmmsApplication.approval.entity.ApprovalRequestList;
 import com.example.cmmsApplication.employee.entity.EmployeeList;
 import com.example.cmmsApplication.downtime.entity.EquipmentDowntimeList;
 import com.example.cmmsApplication.assignment.entity.MaintenanceAssignmentList;
@@ -19,6 +20,7 @@ import com.example.cmmsApplication.admin.entity.RoleList;
 import com.example.cmmsApplication.site.entity.SiteList;
 import com.example.cmmsApplication.spareparts.entity.SparePartStockList;
 import com.example.cmmsApplication.vendor.entity.VendorList;
+import com.example.cmmsApplication.approval.repository.ApprovalRequestListRepository;
 import com.example.cmmsApplication.employee.repository.EmployeeListRepository;
 import com.example.cmmsApplication.downtime.repository.EquipmentDowntimeListRepository;
 import com.example.cmmsApplication.assignment.repository.MaintenanceAssignmentListRepository;
@@ -65,11 +67,19 @@ public class ListSearchService {
     );
     private static final Set<String> ASSIGNMENT_FILTERS = Set.of(
             "commonSearch", "id", "siteId", "siteCode", "siteName", "requestId",
-            "requestNumber", "requestTitle", "requestStatus", "vendorId", "vendorName",
+            "requestNumber", "requestTitle", "requestStatus", "equipmentId", "equipmentCode",
+            "equipmentName", "vendorId", "vendorName",
             "assignedEmployeeId", "assignedEmployeeCode", "assignedEmployeeName",
             "assignedTo", "assignedDate", "plannedStartDate", "plannedEndDate",
             "actualStartDate", "actualEndDate", "status", "estimatedCost", "actualCost",
             "remarks", "createdAt", "updatedAt"
+    );
+    private static final Set<String> APPROVAL_FILTERS = Set.of(
+            "commonSearch", "id", "moduleCode", "actionCode", "referenceId",
+            "referenceCode", "siteId", "siteCode", "siteName", "requestedById",
+            "requestedByName", "requestedAt", "approvalStatus", "approverRoleCode",
+            "minApprovalCount", "approvedCount", "rejectedCount", "remarks", "payloadJson",
+            "createdAt", "updatedAt"
     );
     private static final Set<String> DOWNTIME_FILTERS = Set.of(
             "commonSearch", "id", "equipmentId", "equipmentCode", "equipmentName", "siteId",
@@ -103,6 +113,7 @@ public class ListSearchService {
 
     private final SearchService searchService;
     private final AccessControlService accessControlService;
+    private final ApprovalRequestListRepository approvalRequestListRepository;
     private final SiteListRepository siteListRepository;
     private final EmployeeListRepository employeeListRepository;
     private final VendorListRepository vendorListRepository;
@@ -146,19 +157,38 @@ public class ListSearchService {
     public PageProperties searchMyMaintenanceAssignments(SearchDTO searchDTO) {
         SearchDTO effectiveSearch = prepare(searchDTO, ASSIGNMENT_FILTERS, MaintenanceAssignmentList.class, "createdAt");
         applySiteAccess(effectiveSearch, "siteId");
-
-        SearchCriteriaDTO employeeCriteria = new SearchCriteriaDTO();
-        employeeCriteria.setFilterKey("assignedEmployeeId");
-        employeeCriteria.setDataType("NUMBER");
         Long employeeId = accessControlService.getCurrentEmployeeId();
-        employeeCriteria.setValue(employeeId == null ? -1L : employeeId);
-        employeeCriteria.setOperation("equal");
-        effectiveSearch.getSearchCriteriaList().removeIf(
-                (criteria) -> "assignedEmployeeId".equals(criteria.getFilterKey()));
-        effectiveSearch.getSearchCriteriaList().add(employeeCriteria);
-
+        replaceCriterion(
+                effectiveSearch,
+                "assignedEmployeeId",
+                "NUMBER",
+                employeeId == null ? -1L : employeeId,
+                "equal"
+        );
         return searchService.getFilteredResults(
                 effectiveSearch, maintenanceAssignmentListRepository, MaintenanceAssignmentList.class);
+    }
+
+    public PageProperties searchPendingApprovals(SearchDTO searchDTO) {
+        SearchDTO effectiveSearch = prepare(searchDTO, APPROVAL_FILTERS, ApprovalRequestList.class, "requestedAt");
+        applySiteAccess(effectiveSearch, "siteId");
+        replaceCriterion(effectiveSearch, "approvalStatus", "VARCHAR", "PENDING", "equal");
+
+        if (!accessControlService.isAdmin()) {
+            Set<String> eligibleRoleCodes = new LinkedHashSet<>();
+            eligibleRoleCodes.add("");
+            eligibleRoleCodes.addAll(accessControlService.getRoles());
+            replaceCriterion(
+                    effectiveSearch,
+                    "approverRoleCode",
+                    "VARCHAR",
+                    new ArrayList<>(eligibleRoleCodes),
+                    "in"
+            );
+        }
+
+        return searchService.getFilteredResults(
+                effectiveSearch, approvalRequestListRepository, ApprovalRequestList.class);
     }
 
     public PageProperties searchDowntime(SearchDTO searchDTO) {
@@ -249,6 +279,21 @@ public class ListSearchService {
                 .filter((criteria) -> filterKey.equals(criteria.getFilterKey()))
                 .findFirst()
                 .orElse(null);
+    }
+
+    private void replaceCriterion(SearchDTO searchDTO,
+                                  String filterKey,
+                                  String dataType,
+                                  Object value,
+                                  String operation) {
+        searchDTO.getSearchCriteriaList().removeIf(
+                (criteria) -> filterKey.equals(criteria.getFilterKey()));
+        SearchCriteriaDTO criterion = new SearchCriteriaDTO();
+        criterion.setFilterKey(filterKey);
+        criterion.setDataType(dataType);
+        criterion.setValue(value);
+        criterion.setOperation(operation);
+        searchDTO.getSearchCriteriaList().add(criterion);
     }
 
     private List<Long> toLongValues(Object value) {
