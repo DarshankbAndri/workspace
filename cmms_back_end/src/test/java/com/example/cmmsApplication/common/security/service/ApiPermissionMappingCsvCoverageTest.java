@@ -54,6 +54,8 @@ class ApiPermissionMappingCsvCoverageTest {
         assertAllowed("EQUIPMENT_CREATE", "GET", "/api/hr/sites");
         assertAllowed("EQUIPMENT_CREATE", "POST", "/api/equipment");
         assertAllowed("REQUEST_VIEW", "GET", "/api/maintenance/requests");
+        assertAllowed("ASSIGNMENT_VIEW", "POST", "/api/maintenance/assignments/my/search");
+        assertAllowed("APPROVAL_VIEW", "POST", "/api/approvals/pending/search");
         assertAllowed("ASSIGNMENT_CHECKLIST_VIEW", "GET", "/api/maintenance/assignments/1/checklist");
         assertAllowed("ASSIGNMENT_WORK_LOG_VIEW", "GET", "/api/maintenance/assignments/1/work-logs");
         assertAllowed("SPARE_USAGE_VIEW", "GET", "/api/maintenance/assignments/1/spares");
@@ -206,6 +208,8 @@ class ApiPermissionMappingCsvCoverageTest {
                 "POST /api/preventive-maintenance/schedules/generate-due-work-orders",
                 "GET /api/maintenance/assignments",
                 "POST /api/maintenance/assignments/search",
+                "GET /api/maintenance/assignments/my",
+                "POST /api/maintenance/assignments/my/search",
                 "GET /api/maintenance/assignments/1",
                 "POST /api/maintenance/assignments",
                 "PUT /api/maintenance/assignments/1",
@@ -233,6 +237,7 @@ class ApiPermissionMappingCsvCoverageTest {
                 "GET /api/reports/equipment-history",
                 "GET /api/reports/downtime-analysis",
                 "GET /api/approvals/pending",
+                "POST /api/approvals/pending/search",
                 "GET /api/approvals/history",
                 "POST /api/approvals/history/search",
                 "GET /api/approvals/1",

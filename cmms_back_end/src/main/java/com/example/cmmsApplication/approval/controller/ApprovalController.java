@@ -4,14 +4,12 @@ import com.example.cmmsApplication.common.response.ApiResponse;
 import com.example.cmmsApplication.common.response.ResponseFactory;
 
 import com.example.cmmsApplication.approval.dto.ApprovalDecisionDTO;
-import com.example.cmmsApplication.approval.dto.ApprovalRequestDTO;
-import com.example.cmmsApplication.common.search.dto.PageProperties;
 import com.example.cmmsApplication.common.search.dto.SearchDTO;
+import com.example.cmmsApplication.common.search.service.ListSearchService;
 import com.example.cmmsApplication.approval.service.ApprovalWorkflowService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -19,10 +17,16 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/approvals")
 public class ApprovalController {
     private final ApprovalWorkflowService approvalWorkflowService;
+    private final ListSearchService listSearchService;
 
     @GetMapping("/pending")
     public ResponseEntity<ApiResponse<?>> getPending() {
         return ResponseFactory.ok(approvalWorkflowService.getPendingApprovalsForCurrentUser());
+    }
+
+    @PostMapping("/pending/search")
+    public ResponseEntity<ApiResponse<?>> searchPending(@RequestBody(required = false) SearchDTO searchDTO) {
+        return ResponseFactory.ok(listSearchService.searchPendingApprovals(searchDTO));
     }
 
     @GetMapping("/history")
