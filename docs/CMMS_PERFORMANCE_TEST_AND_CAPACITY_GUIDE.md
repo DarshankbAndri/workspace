@@ -4,19 +4,20 @@
 
 Use this guide to create realistic staging data, run repeatable concurrent-user tests, determine the CMMS application's measured capacity, and select production CPU, RAM and SSD storage.
 
-The runnable test code is in `performance-tests/`. Detailed commands are in `performance-tests/README.md`.
+The bulk data loader is in `performance-data-generator/`, and the concurrent-user test is in `performance-tests/`. Each directory contains its own installation and run instructions.
 
 ## Required order
 
 1. Back up the staging PostgreSQL database.
 2. Confirm the frontend, backend and database are healthy.
-3. Generate connected test data with `test-data-automation`.
-4. Run the one-user smoke profile.
-5. Run the 10-user baseline profile.
-6. Run the 25/50/100-user load profile.
-7. Fix errors and database bottlenecks before running stress tests.
-8. Run the 100/200/300-user stress profile to locate the failure point.
-9. Repeat the final test three times before accepting the result.
+3. Generate the large connected dataset with `performance-data-generator/generate.ps1`.
+4. Prove the exact row counts with `performance-data-generator/verify.ps1`.
+5. Run the one-user smoke profile.
+6. Run the 10-user baseline profile.
+7. Run the 25/50/100-user load profile.
+8. Fix errors and database bottlenecks before running stress tests.
+9. Run the 100/200/300-user stress profile to locate the failure point.
+10. Repeat the final test three times before accepting the result.
 
 ## Data-volume targets
 
@@ -31,10 +32,10 @@ For a meaningful production test, use approximately:
 | Assignments | 25,000 | 100,000 |
 | Work logs | 100,000 | 500,000 |
 | Downtime entries | 25,000 | 100,000 |
-| Spare transactions | 50,000 | 250,000 |
+| Spare transactions | 50,000 | 100,000 |
 | Notifications | 100,000 | 1,000,000 |
 
-The current Playwright generator creates high-quality connected data but is not suitable for hundreds of thousands of rows. At that scale, use a controlled bulk loader or an anonymized database snapshot and run PostgreSQL `ANALYZE` afterward.
+The new PostgreSQL bulk loader creates these exact large-volume targets, verifies them before commit, and runs PostgreSQL `ANALYZE`. The Playwright generator remains useful for smaller UI workflow datasets.
 
 ## Acceptance criteria
 
@@ -81,4 +82,3 @@ If one API instance passes 100 users but fails at 200, do not claim 200-user cap
 ## Current test status
 
 The first external smoke check on 2026-08-28 could not reach the supplied staging environment. The frontend timed out and the backend path returned `502 Bad Gateway` with `connection refused`. Because the service was unavailable, no load ramp or hardware measurement was performed. Restore staging connectivity and rerun the smoke profile before accepting any capacity number.
-
