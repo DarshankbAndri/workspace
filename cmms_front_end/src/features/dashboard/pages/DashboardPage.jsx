@@ -259,6 +259,11 @@ function DashboardPage() {
   const equipmentStatus = widgetPayload(WIDGETS.EQUIPMENT_STATUS, []);
   const monthlyDowntime = widgetPayload(WIDGETS.DOWNTIME_SUMMARY, []);
   const vendorPerformance = widgetPayload(WIDGETS.VENDOR_PERFORMANCE, []);
+
+  console.log(vendorPerformance,'vendorPerformance')
+  vendorPerformance.forEach((item) => {
+  item.vendor = item.vendor?.slice(0, 4);
+});
   const upcomingMaintenance = widgetPayload(WIDGETS.PM_DUE, []);
   const amcDashboard = widgetPayload(WIDGETS.AMC_ACTIVE, null);
   const maintenanceSummary = widgetPayload(WIDGETS.MAINTENANCE_OPEN_REQUESTS, {});
@@ -299,7 +304,7 @@ function DashboardPage() {
             sx={{ minWidth: { xs: '100%', sm: 240 } }}
             data-testid="dashboard-site-filter"
           />
-          <Box
+          {/* <Box
             sx={{
               alignSelf: { xs: 'flex-start', md: 'center' },
               px: 1.5,
@@ -314,7 +319,7 @@ function DashboardPage() {
           >
             <CheckCircle fontSize="small" />
             <Typography variant="caption" fontWeight={800}>Live API Metrics</Typography>
-          </Box>
+          </Box> */}
         </Stack>
       </CommonPageHeader>
 
