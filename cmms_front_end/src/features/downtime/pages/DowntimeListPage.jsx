@@ -192,17 +192,6 @@ function DowntimeListPage() {
             sx={{ minWidth: 220 }}
           />
           <CommonDropdown
-            label="Request"
-            value={filters.requestId}
-            onChange={updateFilter('requestId')}
-            options={filteredRequests}
-            placeholder="All Requests"
-            clearable
-            getOptionLabel={(item) => `${item.requestNumber} - ${item.title}`}
-            getOptionValue={(item) => item.id}
-            sx={{ minWidth: 220 }}
-          />
-          <CommonDropdown
             label="Status"
             value={filters.status}
             onChange={updateFilter('status')}

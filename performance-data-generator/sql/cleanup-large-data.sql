@@ -17,7 +17,7 @@ SELECT * FROM cmms_performance_test_run WHERE run_id = upper(:'run_id');
 DO $$
 BEGIN
     IF NOT EXISTS (SELECT 1 FROM perf_cfg) THEN
-        RAISE EXCEPTION 'Performance data run % was not found', upper(:'run_id');
+        RAISE EXCEPTION 'Performance data run was not found';
     END IF;
 END $$;
 
