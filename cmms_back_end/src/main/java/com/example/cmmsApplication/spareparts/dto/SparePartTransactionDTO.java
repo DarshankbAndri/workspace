@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Data
 @NoArgsConstructor
@@ -51,8 +51,8 @@ public class SparePartTransactionDTO {
     private String purchaseRequestStatus;
     private String businessDescription;
     private String remarks;
-    private LocalDateTime transactionDate;
+    private Instant transactionDate;
     private Long createdBy;
     private String createdByName;
-    private LocalDateTime createdAt;
+    private Instant createdAt;
 }

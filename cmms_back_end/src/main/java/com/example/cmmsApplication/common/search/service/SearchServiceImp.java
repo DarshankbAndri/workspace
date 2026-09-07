@@ -4,6 +4,7 @@ import com.example.cmmsApplication.common.search.dto.PageProperties;
 import com.example.cmmsApplication.common.search.dto.PagePropertiesDTO;
 import com.example.cmmsApplication.common.search.dto.SearchCriteriaDTO;
 import com.example.cmmsApplication.common.search.dto.SearchDTO;
+import com.example.cmmsApplication.common.time.UtcInstantParser;
 import com.example.cmmsApplication.common.enums.SearchOperation;
 import jakarta.persistence.criteria.Expression;
 import jakarta.persistence.criteria.Path;
@@ -19,7 +20,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.lang.reflect.Field;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -194,8 +195,8 @@ public class SearchServiceImp implements SearchService {
         if (LocalDate.class.equals(javaType)) {
             return LocalDate.parse(stringValue);
         }
-        if (LocalDateTime.class.equals(javaType)) {
-            return LocalDateTime.parse(stringValue);
+        if (Instant.class.equals(javaType)) {
+            return UtcInstantParser.parse(stringValue);
         }
         return value;
     }

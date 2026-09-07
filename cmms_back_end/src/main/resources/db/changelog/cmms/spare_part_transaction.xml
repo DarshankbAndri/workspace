@@ -35,11 +35,11 @@
             <column name="reference_type" type="VARCHAR(80)" />
             <column name="reference_id" type="BIGINT" />
             <column name="remarks" type="VARCHAR(1000)" />
-            <column name="transaction_date" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="transaction_date" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
                 <constraints nullable="false" />
             </column>
             <column name="created_by" type="BIGINT" />
-            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
                 <constraints nullable="false" />
             </column>
         </createTable>

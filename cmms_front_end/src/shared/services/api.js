@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { clientEpochMillis, synchronizeDateTime } from '../utils/dateTime';
 
 export const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
 const API_TIMEOUT = Number(import.meta.env.VITE_API_TIMEOUT_MS || 120000);
@@ -86,6 +87,7 @@ const normalizeApiError = (error) => {
 // Interceptor to add JWT token to all requests
 api.interceptors.request.use(
   (config) => {
+    config.metadata = { ...config.metadata, dateTimeRequestStartedAt: clientEpochMillis() };
     const token = localStorage.getItem('token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -104,6 +106,11 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => {
     if (isApiEnvelope(response.data)) {
+      synchronizeDateTime(
+        response.data.data?.serverInstant ? response.data.data : response.data,
+        response.config.metadata?.dateTimeRequestStartedAt,
+        clientEpochMillis(),
+      );
       response.apiResponse = response.data;
       if (response.data.success) {
         response.data = response.data.data;
@@ -112,6 +119,13 @@ api.interceptors.response.use(
     return response;
   },
   (error) => {
+    if (error.response?.data?.timestamp) {
+      synchronizeDateTime(
+        error.response.data,
+        error.config?.metadata?.dateTimeRequestStartedAt,
+        clientEpochMillis(),
+      );
+    }
     const normalizedError = normalizeApiError(error);
     error.apiError = normalizedError;
     if (error.response) {
@@ -153,6 +167,7 @@ export const changePassword = (currentPassword, newPassword, confirmPassword) =>
 };
 
 export const getCurrentUserAccess = () => api.get('/auth/me');
+export const getSystemTime = () => api.get('/system/time');
 export const getRoles = () => api.get('/admin/roles');
 export const getRoleById = (id) => api.get(`/admin/roles/${id}`);
 export const createRole = (role) => api.post('/admin/roles', role);

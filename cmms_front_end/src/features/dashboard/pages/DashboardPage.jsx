@@ -41,6 +41,7 @@ import CommonEmptyState from '../../../shared/components/common/CommonEmptyState
 import CommonPageHeader from '../../../shared/components/common/CommonPageHeader';
 import CommonSectionCard from '../../../shared/components/common/CommonSectionCard';
 import { formatNumber } from '../../../shared/utils/formatters';
+import { currentBusinessYear } from '../../../shared/utils/dateTime';
 
 const metricCards = [
   {
@@ -508,7 +509,7 @@ function DashboardPage() {
           </Grid>}
 
           {isVisible(WIDGETS.DOWNTIME_SUMMARY) && <Grid item xs={12} lg={8}>
-            <ChartCard title="Monthly Downtime" subtitle={`${new Date().getFullYear()} downtime hours by month`}>
+            <ChartCard title="Monthly Downtime" subtitle={`${currentBusinessYear()} downtime hours by month`}>
               {hasDowntime ? (
                 <Box sx={{ height: 300 }}>
                   <ResponsiveContainer width="100%" height="100%">

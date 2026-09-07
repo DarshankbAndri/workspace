@@ -14,8 +14,7 @@ import CommonDropdown from '../../../shared/components/common/CommonDropdown';
 import CommonFormActions from '../../../shared/components/common/CommonFormActions';
 import CommonFormCard from '../../../shared/components/common/CommonFormCard';
 import { getDropdownOptions } from '../../../shared/utils/dropdownHelper';
-
-const today = () => new Date().toISOString().slice(0, 10);
+import { today } from '../../../shared/utils/dateTime';
 
 const initialForm = {
   siteId: '',

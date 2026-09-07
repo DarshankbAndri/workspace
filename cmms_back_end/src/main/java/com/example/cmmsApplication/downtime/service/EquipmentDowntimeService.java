@@ -1,5 +1,5 @@
 package com.example.cmmsApplication.downtime.service;
-
+import com.example.cmmsApplication.common.time.CurrentTimeProvider;
 import com.example.cmmsApplication.common.exception.InvalidOperationException;
 import com.example.cmmsApplication.common.exception.ResourceNotFoundException;
 import com.example.cmmsApplication.common.security.service.AccessControlService;
@@ -25,7 +25,7 @@ import com.example.cmmsApplication.user.entity.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -97,7 +97,7 @@ public class EquipmentDowntimeService {
             }
             downtime.setDowntimeEnd(dto.getDowntimeEnd());
         } else if (downtime.getDowntimeEnd() == null) {
-            downtime.setDowntimeEnd(LocalDateTime.now());
+            downtime.setDowntimeEnd(CurrentTimeProvider.now());
         }
         if (dto != null && !isBlank(dto.getRootCause())) {
             downtime.setRootCause(dto.getRootCause().trim());
@@ -112,7 +112,7 @@ public class EquipmentDowntimeService {
             throw new InvalidOperationException("Set downtime end before verification");
         }
         downtime.setVerifiedBy(accessControlService.getCurrentUser());
-        downtime.setVerifiedAt(LocalDateTime.now());
+        downtime.setVerifiedAt(CurrentTimeProvider.now());
         transition(downtime, "VERIFIED", Set.of("RESTORED"), "VERIFY", dto == null ? null : dto.getComment());
         return toDTO(downtimeDAO.save(downtime));
     }
@@ -137,7 +137,7 @@ public class EquipmentDowntimeService {
             }
         }
         downtime.setClosureRemarks(dto == null ? downtime.getClosureRemarks() : trimToNull(dto.getClosureRemarks()));
-        downtime.setClosedAt(LocalDateTime.now());
+        downtime.setClosedAt(CurrentTimeProvider.now());
         transition(downtime, "CLOSED", Set.of("VERIFIED"), "CLOSE", dto == null ? null : dto.getComment());
         return toDTO(downtimeDAO.save(downtime));
     }
@@ -293,12 +293,12 @@ public class EquipmentDowntimeService {
         action.setTargetDate(dto.getTargetDate());
         action.setStatus(normalizeOptionalDefault(dto.getStatus(), RCA_STATUSES, "RCA status", "OPEN"));
         if ("COMPLETED".equalsIgnoreCase(action.getStatus()) && action.getCompletedAt() == null) {
-            action.setCompletedAt(LocalDateTime.now());
+            action.setCompletedAt(CurrentTimeProvider.now());
         }
         if ("VERIFIED".equalsIgnoreCase(action.getStatus())) {
-            action.setCompletedAt(action.getCompletedAt() == null ? LocalDateTime.now() : action.getCompletedAt());
+            action.setCompletedAt(action.getCompletedAt() == null ? CurrentTimeProvider.now() : action.getCompletedAt());
             action.setVerifiedBy(accessControlService.getCurrentUser());
-            action.setVerifiedAt(LocalDateTime.now());
+            action.setVerifiedAt(CurrentTimeProvider.now());
         }
     }
 
@@ -351,7 +351,7 @@ public class EquipmentDowntimeService {
         history.setAction(action);
         history.setComment(trimToNull(comment));
         history.setChangedBy(accessControlService.getCurrentUser());
-        history.setChangedAt(LocalDateTime.now());
+        history.setChangedAt(CurrentTimeProvider.now());
         historyRepository.save(history);
     }
 

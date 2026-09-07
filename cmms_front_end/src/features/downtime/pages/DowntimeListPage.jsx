@@ -11,6 +11,7 @@ import CommonDropdown from '../../../shared/components/common/CommonDropdown';
 import CommonInput from '../../../shared/components/common/CommonInput';
 import CommonList from '../../../shared/components/common/CommonList';
 import { getDropdownOptions } from '../../../shared/utils/dropdownHelper';
+import { endOfBusinessDayUtc, formatDateTime, startOfBusinessDayUtc } from '../../../shared/utils/dateTime';
 
 const formatDuration = (value) => value ?? '-';
 const formatLabel = (value) => value ? String(value).replaceAll('_', ' ') : '-';
@@ -56,8 +57,8 @@ function DowntimeListPage() {
         equalFilter('equipmentId', filters.equipmentId, 'NUMBER'),
         equalFilter('requestId', filters.requestId, 'NUMBER'),
         equalFilter('status', filters.status, 'STRING'),
-        rangeFilter('downtimeStart', filters.dateFrom ? `${filters.dateFrom}T00:00:00` : '', 'gte', 'DATETIME'),
-        rangeFilter('downtimeStart', filters.dateTo ? `${filters.dateTo}T23:59:59` : '', 'lte', 'DATETIME'),
+        rangeFilter('downtimeStart', filters.dateFrom ? startOfBusinessDayUtc(filters.dateFrom) : '', 'gte', 'DATETIME'),
+        rangeFilter('downtimeStart', filters.dateTo ? endOfBusinessDayUtc(filters.dateTo) : '', 'lte', 'DATETIME'),
         commonSearchFilter(filters.search),
       ],
       paginationModel,
@@ -123,8 +124,8 @@ function DowntimeListPage() {
       flex: 0.7,
       renderCell: ({ value }) => <Chip size="small" label={formatLabel(value)} color={statusColors[value] || 'default'} />,
     },
-    { field: 'downtimeStart', headerName: 'Start Time', minWidth: 170, flex: 0.9 },
-    { field: 'downtimeEnd', headerName: 'End Time', minWidth: 170, flex: 0.9, valueFormatter: ({ value }) => value || '-' },
+    { field: 'downtimeStart', headerName: 'Start Time', minWidth: 170, flex: 0.9, valueFormatter: ({ value }) => formatDateTime(value) },
+    { field: 'downtimeEnd', headerName: 'End Time', minWidth: 170, flex: 0.9, valueFormatter: ({ value }) => formatDateTime(value) },
     { field: 'downtimeMinutes', headerName: 'Minutes', minWidth: 100, flex: 0.5, valueFormatter: ({ value }) => formatDuration(value) },
     { field: 'reasonCategory', headerName: 'Category', minWidth: 150, flex: 0.7, valueFormatter: ({ value }) => formatLabel(value) },
     { field: 'reason', headerName: 'Reason', minWidth: 180, flex: 1 },

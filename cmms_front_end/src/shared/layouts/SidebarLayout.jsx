@@ -1,4 +1,5 @@
 import React from 'react';
+import { formatDateTime } from '../utils/dateTime';
 import { NavLink, useLocation } from 'react-router-dom';
 import {
   Box,
@@ -400,7 +401,7 @@ function SidebarLayout({ children, mode, onToggleMode }) {
           </IconButton>
         </Tooltip>
         {/*
-                    secondary={`${notification.message}${notification.createdAt ? ` • ${new Date(notification.createdAt).toLocaleString()}` : ''}`}
+                    secondary={`${notification.message}${notification.createdAt ? ` • ${formatDateTime(notification.createdAt)}` : ''}`}
                     primaryTypographyProps={{ fontSize: 14, fontWeight: notification.status === 'UNREAD' ? 800 : 600 }}
                     secondaryTypographyProps={{ fontSize: 12 }}
                   />

@@ -1,9 +1,9 @@
 package com.example.cmmsApplication.approval.entity;
-
+import com.example.cmmsApplication.common.time.CurrentTimeProvider;
 
 import com.example.cmmsApplication.user.entity.User;
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
@@ -34,12 +34,12 @@ public class ApprovalAction {
     private String comments;
 
     @Column(name = "action_at", nullable = false)
-    private LocalDateTime actionAt;
+    private Instant actionAt;
 
     @PrePersist
     public void onCreate() {
         if (actionAt == null) {
-            actionAt = LocalDateTime.now();
+            actionAt = CurrentTimeProvider.now();
         }
     }
 
@@ -53,6 +53,6 @@ public class ApprovalAction {
     public void setActionStatus(String actionStatus) { this.actionStatus = actionStatus; }
     public String getComments() { return comments; }
     public void setComments(String comments) { this.comments = comments; }
-    public LocalDateTime getActionAt() { return actionAt; }
-    public void setActionAt(LocalDateTime actionAt) { this.actionAt = actionAt; }
+    public Instant getActionAt() { return actionAt; }
+    public void setActionAt(Instant actionAt) { this.actionAt = actionAt; }
 }

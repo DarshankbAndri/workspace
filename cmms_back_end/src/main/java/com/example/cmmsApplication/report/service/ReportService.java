@@ -1,6 +1,7 @@
 package com.example.cmmsApplication.report.service;
 
 
+import com.example.cmmsApplication.common.time.CurrentTimeProvider;
 import com.example.cmmsApplication.common.security.service.AccessControlService;
 import com.example.cmmsApplication.site.entity.Site;
 import com.example.cmmsApplication.report.dto.DowntimeAnalysisPageDTO;
@@ -24,7 +25,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,6 +50,7 @@ public class ReportService {
         ReportFilter filter = buildFilter(equipmentId, siteId);
         String unionSql = equipmentHistoryUnionSql(filter);
         Map<String, Object> params = filter.params();
+        params.put("businessTimeZone", CurrentTimeProvider.businessZone().getId());
 
         Query countQuery = entityManager.createNativeQuery("SELECT COUNT(*) FROM (" + unionSql + ") history");
         applyParams(countQuery, params);
@@ -224,7 +226,7 @@ public class ReportService {
                     mr.request_number AS reference,
                     mr.title AS detail,
                     mr.status AS status,
-                    CAST(mr.requested_date AS TIMESTAMP) AS event_date
+                    CAST(mr.requested_date AS TIMESTAMP) AT TIME ZONE :businessTimeZone AS event_date
                 FROM maintenance_request mr
                 LEFT JOIN equipment_master e ON e.id = mr.equipment_id
                 LEFT JOIN site_master s ON s.site_id = mr.site_id
@@ -242,7 +244,7 @@ public class ReportService {
                     mr.request_number AS reference,
                     COALESCE(NULLIF(ma.assigned_to, ''), v.vendor_name, 'Unassigned') AS detail,
                     ma.status AS status,
-                    CAST(ma.assigned_date AS TIMESTAMP) AS event_date
+                    CAST(ma.assigned_date AS TIMESTAMP) AT TIME ZONE :businessTimeZone AS event_date
                 FROM maintenance_assignment ma
                 JOIN maintenance_request mr ON mr.id = ma.request_id
                 LEFT JOIN equipment_master e ON e.id = mr.equipment_id
@@ -399,7 +401,7 @@ public class ReportService {
                 toStringValue(row[8]),
                 toStringValue(row[9]),
                 toStringValue(row[10]),
-                toLocalDateTime(row[11])
+                toInstant(row[11])
         );
     }
 
@@ -500,14 +502,14 @@ public class ReportService {
         return value == null ? null : value.toString();
     }
 
-    private LocalDateTime toLocalDateTime(Object value) {
+    private Instant toInstant(Object value) {
         if (value instanceof Timestamp timestamp) {
-            return timestamp.toLocalDateTime();
+            return timestamp.toInstant();
         }
         if (value instanceof Date date) {
-            return date.toLocalDate().atStartOfDay();
+            return CurrentTimeProvider.startOfBusinessDay(date.toLocalDate());
         }
-        return value instanceof LocalDateTime localDateTime ? localDateTime : null;
+        return value instanceof Instant instant ? instant : null;
     }
 
     private BigDecimal toHours(long minutes) {

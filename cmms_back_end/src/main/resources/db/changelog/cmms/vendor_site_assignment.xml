@@ -11,8 +11,8 @@
             <column name="site_id" type="BIGINT"><constraints nullable="false"/></column>
             <column name="is_primary_site" type="BOOLEAN" defaultValueBoolean="false"/>
             <column name="status" type="VARCHAR(20)" defaultValue="ACTIVE"/>
-            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
-            <column name="updated_at" type="TIMESTAMP"/>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP"/>
+            <column name="updated_at" type="TIMESTAMP WITH TIME ZONE"/>
         </createTable>
     </changeSet>
 

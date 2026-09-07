@@ -1,15 +1,20 @@
 package com.example.cmmsApplication.notification.entity;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import com.example.cmmsApplication.common.time.CurrentTimeProvider;
 
 import com.example.cmmsApplication.site.entity.Site;
 import com.example.cmmsApplication.user.entity.User;
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "notification")
 @Getter
 @Setter
@@ -56,32 +61,34 @@ public class Notification {
     private String status = "UNREAD";
 
     @Column(name = "read_at")
-    private LocalDateTime readAt;
+    private Instant readAt;
 
     @Column(name = "email_status", nullable = false, length = 30)
     private String emailStatus = "NOT_REQUIRED";
 
     @Column(name = "sent_email_at")
-    private LocalDateTime sentEmailAt;
+    private Instant sentEmailAt;
 
     @Column(name = "dedupe_key", unique = true, length = 220)
     private String dedupeKey;
 
     @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    @CreatedDate
+    private Instant createdAt;
 
     @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    @LastModifiedDate
+    private Instant updatedAt;
 
     @PrePersist
     public void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
+        createdAt = CurrentTimeProvider.now();
+        updatedAt = CurrentTimeProvider.now();
     }
 
     @PreUpdate
     public void onUpdate() {
-        updatedAt = LocalDateTime.now();
+        updatedAt = CurrentTimeProvider.now();
     }
 
     public Long getId() { return id; }
@@ -108,16 +115,16 @@ public class Notification {
     public void setPriority(String priority) { this.priority = priority; }
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
-    public LocalDateTime getReadAt() { return readAt; }
-    public void setReadAt(LocalDateTime readAt) { this.readAt = readAt; }
+    public Instant getReadAt() { return readAt; }
+    public void setReadAt(Instant readAt) { this.readAt = readAt; }
     public String getEmailStatus() { return emailStatus; }
     public void setEmailStatus(String emailStatus) { this.emailStatus = emailStatus; }
-    public LocalDateTime getSentEmailAt() { return sentEmailAt; }
-    public void setSentEmailAt(LocalDateTime sentEmailAt) { this.sentEmailAt = sentEmailAt; }
+    public Instant getSentEmailAt() { return sentEmailAt; }
+    public void setSentEmailAt(Instant sentEmailAt) { this.sentEmailAt = sentEmailAt; }
     public String getDedupeKey() { return dedupeKey; }
     public void setDedupeKey(String dedupeKey) { this.dedupeKey = dedupeKey; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
-    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+    public Instant getCreatedAt() { return createdAt; }
+    public void setCreatedAt(Instant createdAt) { this.createdAt = createdAt; }
+    public Instant getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(Instant updatedAt) { this.updatedAt = updatedAt; }
 }

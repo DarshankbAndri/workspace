@@ -2,7 +2,7 @@ package com.example.cmmsApplication.notification.dto;
 
 
 import com.example.cmmsApplication.notification.entity.Notification;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
@@ -25,10 +25,10 @@ public class NotificationDTO {
     private String targetUrl;
     private String priority;
     private String status;
-    private LocalDateTime readAt;
+    private Instant readAt;
     private String emailStatus;
-    private LocalDateTime sentEmailAt;
-    private LocalDateTime createdAt;
+    private Instant sentEmailAt;
+    private Instant createdAt;
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -58,12 +58,12 @@ public class NotificationDTO {
     public void setPriority(String priority) { this.priority = priority; }
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
-    public LocalDateTime getReadAt() { return readAt; }
-    public void setReadAt(LocalDateTime readAt) { this.readAt = readAt; }
+    public Instant getReadAt() { return readAt; }
+    public void setReadAt(Instant readAt) { this.readAt = readAt; }
     public String getEmailStatus() { return emailStatus; }
     public void setEmailStatus(String emailStatus) { this.emailStatus = emailStatus; }
-    public LocalDateTime getSentEmailAt() { return sentEmailAt; }
-    public void setSentEmailAt(LocalDateTime sentEmailAt) { this.sentEmailAt = sentEmailAt; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+    public Instant getSentEmailAt() { return sentEmailAt; }
+    public void setSentEmailAt(Instant sentEmailAt) { this.sentEmailAt = sentEmailAt; }
+    public Instant getCreatedAt() { return createdAt; }
+    public void setCreatedAt(Instant createdAt) { this.createdAt = createdAt; }
 }

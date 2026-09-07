@@ -3,7 +3,7 @@ package com.example.cmmsApplication.report.dto;
 
 import lombok.NoArgsConstructor;
 import lombok.Data;
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Data
 @NoArgsConstructor
@@ -19,11 +19,11 @@ public class EquipmentHistoryRowDTO {
     private String reference;
     private String detail;
     private String status;
-    private LocalDateTime date;
+    private Instant date;
 
 public EquipmentHistoryRowDTO(String id, Long equipmentId, String equipmentCode, String equipmentName,
                                   Long siteId, String siteCode, String siteName, String type,
-                                  String reference, String detail, String status, LocalDateTime date) {
+                                  String reference, String detail, String status, Instant date) {
         this.id = id;
         this.equipmentId = equipmentId;
         this.equipmentCode = equipmentCode;

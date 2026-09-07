@@ -2,7 +2,7 @@ package com.example.cmmsApplication.maintenancerequest.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -43,7 +43,7 @@ public class MaintenanceRequestRelatedRecordsDTO {
         private Long id;
         private String status;
         private String actionCode;
-        private LocalDateTime requestedAt;
+        private Instant requestedAt;
         private String requestedByName;
     }
 
@@ -56,8 +56,8 @@ public class MaintenanceRequestRelatedRecordsDTO {
         private String status;
         private String reason;
         private Long durationMinutes;
-        private LocalDateTime downtimeStart;
-        private LocalDateTime downtimeEnd;
+        private Instant downtimeStart;
+        private Instant downtimeEnd;
     }
 
     @Data
@@ -74,6 +74,6 @@ public class MaintenanceRequestRelatedRecordsDTO {
         private BigDecimal issuedQty;
         private String status;
         private BigDecimal totalCost;
-        private LocalDateTime requestedAt;
+        private Instant requestedAt;
     }
 }

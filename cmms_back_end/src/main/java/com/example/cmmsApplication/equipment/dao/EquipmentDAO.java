@@ -23,6 +23,9 @@ public class EquipmentDAO {
     public void deleteById(Long id) { repository.deleteById(id); }
     public long count() { return repository.count(); }
     public long countBySiteId(Long siteId) { return repository.countBySiteId(siteId); }
+    public List<Object[]> countGroupedByOperatingStatus(Collection<Long> siteIds, boolean allSites) {
+        return allSites ? repository.countGroupedByOperatingStatus() : repository.countGroupedByOperatingStatusAndSiteIdIn(siteIds);
+    }
     public boolean existsByEquipmentCode(String code) { return repository.existsByEquipmentCode(code); }
     public boolean existsByEquipmentCodeAndIdNot(String code, Long id) { return repository.existsByEquipmentCodeAndIdNot(code, id); }
 }

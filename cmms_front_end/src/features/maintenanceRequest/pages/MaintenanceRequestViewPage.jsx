@@ -7,6 +7,7 @@ import { useAuth } from '../../../shared/context/AuthContext';
 import CommonFormActions from '../../../shared/components/common/CommonFormActions';
 import CommonFormCard from '../../../shared/components/common/CommonFormCard';
 import CommonTextArea from '../../../shared/components/common/CommonTextArea';
+import { compareDateOnly, daysBetweenDates, today } from '../../../shared/utils/dateTime';
 
 function MaintenanceRequestViewPage() {
   const { id } = useParams();
@@ -341,11 +342,8 @@ function formatMinutes(value) {
 
 function ageingLabel(value) {
   if (!value) return '-';
-  const requested = new Date(`${value}T00:00:00`);
-  if (Number.isNaN(requested.getTime())) return '-';
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const days = Math.max(0, Math.floor((today - requested) / 86400000));
+  const days = Math.max(0, daysBetweenDates(value));
+  if (!Number.isFinite(days)) return '-';
   return days === 0 ? 'Today' : `${days} day${days === 1 ? '' : 's'}`;
 }
 
@@ -353,10 +351,7 @@ function isOverdue(request) {
   if (!request?.targetCompletionDate || ['COMPLETED', 'CLOSED', 'CANCELLED', 'REJECTED'].includes(String(request.status || '').toUpperCase())) {
     return false;
   }
-  const target = new Date(`${request.targetCompletionDate}T00:00:00`);
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  return target < today;
+  return compareDateOnly(request.targetCompletionDate, today()) < 0;
 }
 
 function formatLabel(value) {

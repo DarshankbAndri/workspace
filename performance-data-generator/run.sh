@@ -8,8 +8,8 @@ if [[ ! "$mode" =~ ^(generate|verify|cleanup)$ ]]; then
   echo "Usage: $0 <generate|verify|cleanup> <run-id>" >&2
   exit 2
 fi
-if [[ ! "$run_id" =~ ^[A-Za-z0-9_-]{1,20}$ ]]; then
-  echo 'Run ID must contain 1-20 letters, numbers, underscores, or hyphens.' >&2
+if [[ ! "$run_id" =~ ^[A-Za-z0-9_-]{1,25}$ ]]; then
+  echo 'Run ID must contain 1-25 letters, numbers, underscores, or hyphens.' >&2
   exit 2
 fi
 if ! command -v psql >/dev/null 2>&1; then
@@ -22,12 +22,14 @@ db_host="${CMMS_DB_HOST:-localhost}"
 db_port="${CMMS_DB_PORT:-5432}"
 db_name="${CMMS_DB_NAME:-cmms_db}"
 db_user="${CMMS_DB_USER:-postgres}"
+business_time_zone="${CMMS_TIME_ZONE:-Asia/Kolkata}"
 connection=(--host "$db_host" --port "$db_port" --dbname "$db_name" --username "$db_user")
 
 case "$mode" in
   generate)
     psql "${connection[@]}" --file "$script_dir/sql/generate-large-data.sql" \
       --set "run_id=$run_id" \
+      --set "business_time_zone=$business_time_zone" \
       --set "site_count=${CMMS_SITE_COUNT:-100}" \
       --set "employee_count=${CMMS_EMPLOYEE_COUNT:-5000}" \
       --set "equipment_count=${CMMS_EQUIPMENT_COUNT:-50000}" \

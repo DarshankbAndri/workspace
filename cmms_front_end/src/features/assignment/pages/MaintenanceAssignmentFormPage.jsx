@@ -49,6 +49,7 @@ import CommonDropdown from '../../../shared/components/common/CommonDropdown';
 import CommonFormActions from '../../../shared/components/common/CommonFormActions';
 import ConfirmDialog from '../../../shared/components/common/ConfirmDialog';
 import { getDropdownOptions } from '../../../shared/utils/dropdownHelper';
+import { formatDateTime, toDateTimeInput, toUtcDateTime, today } from '../../../shared/utils/dateTime';
 
 const initialForm = {
   siteId: '',
@@ -56,7 +57,7 @@ const initialForm = {
   vendorId: '',
   assignedEmployeeId: '',
   assignedTo: '',
-  assignedDate: new Date().toISOString().slice(0, 10),
+  assignedDate: today(),
   plannedStartDate: '',
   plannedEndDate: '',
   actualStartDate: '',
@@ -104,16 +105,6 @@ const statusColors = {
   REJECTED: 'error',
   CANCELLED: 'default',
   RETURNED: 'default',
-};
-
-const toDateTimeInput = (value) => {
-  if (!value) return '';
-  return String(value).slice(0, 16);
-};
-
-const toApiDateTime = (value) => {
-  if (!value) return null;
-  return value.length === 16 ? `${value}:00` : value;
 };
 
 const employeeLabel = (employee) => {
@@ -406,8 +397,8 @@ function MaintenanceAssignmentFormPage() {
       const payload = {
         ...workLogForm,
         technicianEmployeeId: Number(workLogForm.technicianEmployeeId),
-        startTime: toApiDateTime(workLogForm.startTime),
-        endTime: toApiDateTime(workLogForm.endTime),
+        startTime: toUtcDateTime(workLogForm.startTime),
+        endTime: toUtcDateTime(workLogForm.endTime),
       };
       if (editingWorkLogId) {
         await updateAssignmentWorkLog(id, editingWorkLogId, payload);
@@ -860,7 +851,7 @@ function MaintenanceAssignmentFormPage() {
                   {row.completedAt && (
                     <Grid item xs={12}>
                       <Typography variant="caption" color="text.secondary">
-                        Completed {new Date(row.completedAt).toLocaleString()} {row.completedByName ? `by ${row.completedByName}` : ''}
+                        Completed {formatDateTime(row.completedAt)} {row.completedByName ? `by ${row.completedByName}` : ''}
                       </Typography>
                     </Grid>
                   )}
@@ -927,7 +918,7 @@ function MaintenanceAssignmentFormPage() {
                   <Grid item xs={12} md={2.5}>
                     <Typography variant="subtitle2" fontWeight={800}>{row.technicianName || row.technicianEmployeeCode}</Typography>
                     <Typography variant="caption" color="text.secondary">
-                      {row.startTime ? new Date(row.startTime).toLocaleString() : ''}{row.endTime ? ` - ${new Date(row.endTime).toLocaleString()}` : ''}
+                      {formatDateTime(row.startTime, '')}{row.endTime ? ` - ${formatDateTime(row.endTime, '')}` : ''}
                     </Typography>
                   </Grid>
                   <Grid item xs={12} md={1.5}><Chip size="small" label={(row.completionStatus || '').replaceAll('_', ' ')} color={row.completionStatus === 'COMPLETED' ? 'success' : row.completionStatus === 'FOLLOW_UP_REQUIRED' ? 'warning' : 'default'} /></Grid>

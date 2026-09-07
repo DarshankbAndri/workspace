@@ -5,7 +5,7 @@ import com.example.cmmsApplication.company.entity.Company;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
@@ -27,8 +27,8 @@ public class CompanyDTO {
     private String logoPath;
     private String logoUrl;
     private String status;
-    private LocalDateTime createdDate;
-    private LocalDateTime updatedDate;
+    private Instant createdDate;
+    private Instant updatedDate;
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -48,8 +48,8 @@ public class CompanyDTO {
     public void setLogoUrl(String logoUrl) { this.logoUrl = logoUrl; }
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
-    public LocalDateTime getCreatedDate() { return createdDate; }
-    public void setCreatedDate(LocalDateTime createdDate) { this.createdDate = createdDate; }
-    public LocalDateTime getUpdatedDate() { return updatedDate; }
-    public void setUpdatedDate(LocalDateTime updatedDate) { this.updatedDate = updatedDate; }
+    public Instant getCreatedDate() { return createdDate; }
+    public void setCreatedDate(Instant createdDate) { this.createdDate = createdDate; }
+    public Instant getUpdatedDate() { return updatedDate; }
+    public void setUpdatedDate(Instant updatedDate) { this.updatedDate = updatedDate; }
 }

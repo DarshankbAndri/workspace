@@ -1,5 +1,9 @@
 package com.example.cmmsApplication.user.entity;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import com.example.cmmsApplication.common.time.CurrentTimeProvider;
 
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,9 +12,10 @@ import com.example.cmmsApplication.employee.entity.Employee;
 import com.example.cmmsApplication.user.enums.UserRole;
 import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "users")
 @Getter
 @Setter
@@ -54,12 +59,12 @@ public class User {
     @OneToMany(mappedBy = "manager", fetch = FetchType.LAZY)
     private java.util.List<User> subordinates;
     
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    @CreatedDate
+    private Instant createdAt;
     
-    @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime updatedAt;
+    @LastModifiedDate
+    private Instant updatedAt;
     
     @Column(nullable = false)
     private Boolean active = true;
@@ -70,7 +75,7 @@ public class User {
 // All-args constructor
     public User(Long id, String username, String email, String firstName, String lastName, 
                 UserRole role, String department, User manager, java.util.List<User> subordinates,
-                LocalDateTime createdAt, LocalDateTime updatedAt, Boolean active) {
+                Instant createdAt, Instant updatedAt, Boolean active) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -87,12 +92,12 @@ public class User {
 
 @PrePersist
     protected void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
+        createdAt = CurrentTimeProvider.now();
+        updatedAt = CurrentTimeProvider.now();
     }
     
     @PreUpdate
     protected void onUpdate() {
-        updatedAt = LocalDateTime.now();
+        updatedAt = CurrentTimeProvider.now();
     }
 }

@@ -1,5 +1,5 @@
 package com.example.cmmsApplication.maintenancerequest.service;
-
+import com.example.cmmsApplication.common.time.CurrentTimeProvider;
 
 import com.example.cmmsApplication.approval.service.ApprovalWorkflowService;
 import com.example.cmmsApplication.assignment.dao.MaintenanceAssignmentDAO;
@@ -188,7 +188,7 @@ public class MaintenanceRequestService {
                 .unassigned(requestDAO.countUnassigned(scope.siteIds(), scope.allSites()))
                 .assigned(count(scope, MaintenanceRequestStatus.ASSIGNED.value()))
                 .inProgress(count(scope, MaintenanceRequestStatus.IN_PROGRESS.value()))
-                .overdue(requestDAO.countOverdue(scope.siteIds(), scope.allSites(), LocalDate.now()))
+                .overdue(requestDAO.countOverdue(scope.siteIds(), scope.allSites(), CurrentTimeProvider.today()))
                 .critical(requestDAO.countCritical(scope.siteIds(), scope.allSites()))
                 .completed(count(scope, MaintenanceRequestStatus.COMPLETED.value()))
                 .closed(count(scope, MaintenanceRequestStatus.CLOSED.value()))
@@ -321,7 +321,7 @@ public class MaintenanceRequestService {
     }
 
     private String generateRequestNumber() {
-        return "MR-" + LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE) + "-" + System.currentTimeMillis();
+        return "MR-" + CurrentTimeProvider.today().format(DateTimeFormatter.BASIC_ISO_DATE) + "-" + CurrentTimeProvider.epochMillis();
     }
 
     private MaintenanceRequestDTO toDTO(MaintenanceRequest request) {

@@ -12,6 +12,7 @@ import CommonFilterPanel from '../../../shared/components/common/CommonFilterPan
 import CommonPageHeader from '../../../shared/components/common/CommonPageHeader';
 import CommonStatusChip from '../../../shared/components/common/CommonStatusChip';
 import { APPROVAL_ACTION_OPTIONS, APPROVAL_MODULE_OPTIONS } from '../../../shared/constants/statusOptions';
+import { formatDateTime, toBusinessDateInput } from '../../../shared/utils/dateTime';
 
 function ApprovalInboxPage() {
   const { hasPermission } = useAuth();
@@ -55,6 +56,17 @@ function ApprovalInboxPage() {
     getSites().then((data) => setSites((data || []).filter((site) => site.status !== 'INACTIVE'))).catch(() => setError('Unable to load sites.'));
   }, []);
 
+  const visibleRows = React.useMemo(() => rows.filter((row) => {
+    const requestedDate = toBusinessDateInput(row.requestedAt);
+    return (!filters.moduleCode || row.moduleCode === filters.moduleCode)
+      && (!filters.actionCode || row.actionCode === filters.actionCode)
+      && (!filters.siteId || String(row.siteId || '') === String(filters.siteId))
+      && (!filters.status || row.approvalStatus === filters.status)
+      && (!filters.requestedFrom || requestedDate >= filters.requestedFrom)
+      && (!filters.requestedTo || requestedDate <= filters.requestedTo);
+  }), [rows, filters]);
+
+  const updateFilter = (field) => (event) => setFilters((current) => ({ ...current, [field]: event.target.value }));
   const resetPage = () => setPaginationModel((current) => ({ ...current, page: 0 }));
   const updateFilter = (field) => (event) => {
     setFilters((current) => ({ ...current, [field]: event.target.value }));
@@ -91,7 +103,7 @@ function ApprovalInboxPage() {
     { field: 'referenceCode', headerName: 'Reference Code', minWidth: 170, flex: 0.8 },
     { field: 'siteName', headerName: 'Site', minWidth: 170, flex: 0.8 },
     { field: 'requestedByName', headerName: 'Requested By', minWidth: 160, flex: 0.8 },
-    { field: 'requestedAt', headerName: 'Requested At', minWidth: 180, flex: 0.8, valueFormatter: ({ value }) => value ? new Date(value).toLocaleString() : '' },
+    { field: 'requestedAt', headerName: 'Requested At', minWidth: 180, flex: 0.8, valueFormatter: ({ value }) => formatDateTime(value, '') },
     { field: 'approvalStatus', headerName: 'Status', minWidth: 140, flex: 0.6, renderCell: ({ value }) => <CommonStatusChip value={value} /> },
     {
       field: 'actions',
