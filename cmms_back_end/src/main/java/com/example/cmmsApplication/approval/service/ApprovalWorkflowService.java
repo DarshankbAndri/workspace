@@ -233,6 +233,42 @@ public class ApprovalWorkflowService {
     }
 
     @Transactional(readOnly = true)
+    public PageProperties searchPendingApprovals(SearchDTO searchDTO) {
+        SearchDTO effectiveSearch = prepareApprovalHistorySearch(searchDTO);
+        effectiveSearch.getSearchCriteriaList().removeIf(
+                (criteria) -> "approvalStatus".equals(criteria.getFilterKey()));
+
+        SearchCriteriaDTO pendingCriteria = new SearchCriteriaDTO();
+        pendingCriteria.setFilterKey("approvalStatus");
+        pendingCriteria.setDataType("VARCHAR");
+        pendingCriteria.setValue("PENDING");
+        pendingCriteria.setOperation("equal");
+        effectiveSearch.getSearchCriteriaList().add(pendingCriteria);
+
+        Specification<ApprovalRequest> specification = buildApprovalHistorySpecification(effectiveSearch);
+        if (!accessControlService.isAdmin()) {
+            Set<String> roles = accessControlService.getRoles();
+            specification = specification.and((root, query, criteriaBuilder) -> {
+                List<Predicate> eligibleRoles = new ArrayList<>();
+                eligibleRoles.add(criteriaBuilder.isNull(root.get("approverRoleCode")));
+                eligibleRoles.add(criteriaBuilder.equal(
+                        criteriaBuilder.trim(root.get("approverRoleCode")), ""));
+                if (!roles.isEmpty()) {
+                    eligibleRoles.add(root.get("approverRoleCode").in(roles));
+                }
+                return criteriaBuilder.or(eligibleRoles.toArray(new Predicate[0]));
+            });
+        }
+
+        Page<ApprovalRequestDTO> page = approvalRequestDAO.search(
+                        specification,
+                        buildApprovalHistoryPageable(effectiveSearch.getPagination()))
+                .map((request) -> toDTO(request, false));
+        return new PageProperties(
+                page.getContent(), page.getTotalElements(), page.getNumber(), page.getSize(), page.getTotalPages());
+    }
+
+    @Transactional(readOnly = true)
     public ApprovalRequestDTO getApprovalRequest(Long approvalRequestId) {
         ApprovalRequest request = approvalRequestDAO.findById(approvalRequestId)
                 .orElseThrow(() -> new ResourceNotFoundException("Approval request not found with id: " + approvalRequestId));

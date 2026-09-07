@@ -187,6 +187,7 @@ REQUEST_CREATE,/api/preventive-maintenance/schedules/{id}/generate-work-order,PO
 REQUEST_CREATE,/api/preventive-maintenance/schedules/generate-due-work-orders,POST,Generate due preventive maintenance work orders
 ASSIGNMENT_VIEW,/api/maintenance/assignments,GET,View maintenance assignments
 ASSIGNMENT_VIEW,/api/maintenance/assignments/my,GET,View current user's assigned maintenance work
+ASSIGNMENT_VIEW,/api/maintenance/assignments/my/search,POST,Search current user's assigned maintenance work
 ASSIGNMENT_VIEW,/api/maintenance/assignments/{id},GET,View maintenance assignment
 ASSIGNMENT_VIEW,/api/maintenance/assignments/search,POST,Search maintenance assignments
 ASSIGNMENT_VIEW,/api/maintenance/requests/context,GET,Assignment maintenance request helper data
@@ -338,6 +339,7 @@ USER_ROLE_VIEW,/api/users/username/{username},GET,View user accounts
 USER_ROLE_ASSIGN,/api/users,POST,Create user account
 USER_ROLE_UPDATE,/api/users/{id},PUT,Update user account
 APPROVAL_VIEW,/api/approvals/pending,GET,View approvals
+APPROVAL_VIEW,/api/approvals/pending/search,POST,Search pending approvals
 APPROVAL_VIEW,/api/approvals/history,GET,View approvals
 APPROVAL_VIEW,/api/approvals/{approvalRequestId},GET,View approvals
 APPROVAL_VIEW,/api/approvals,GET,View approval list
