@@ -66,7 +66,6 @@ function ApprovalInboxPage() {
       && (!filters.requestedTo || requestedDate <= filters.requestedTo);
   }), [rows, filters]);
 
-  const updateFilter = (field) => (event) => setFilters((current) => ({ ...current, [field]: event.target.value }));
   const resetPage = () => setPaginationModel((current) => ({ ...current, page: 0 }));
   const updateFilter = (field) => (event) => {
     setFilters((current) => ({ ...current, [field]: event.target.value }));
