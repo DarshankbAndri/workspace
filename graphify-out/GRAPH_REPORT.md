@@ -1,16 +1,16 @@
 # Graph Report - andritz_cmms  (2026-09-09)
 
 ## Corpus Check
-- 600 files · ~274,379 words
+- 600 files · ~274,415 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 7587 nodes · 15965 edges · 527 communities (403 shown, 124 thin omitted)
+- 7587 nodes · 15965 edges · 525 communities (402 shown, 123 thin omitted)
 - Extraction: 93% EXTRACTED · 7% INFERRED · 0% AMBIGUOUS · INFERRED: 1144 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `be9c6eaa`
+- Built from commit: `11599f3d`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -133,7 +133,6 @@
 - [[_COMMUNITY_Community 115|Community 115]]
 - [[_COMMUNITY_Community 116|Community 116]]
 - [[_COMMUNITY_Community 117|Community 117]]
-- [[_COMMUNITY_Community 118|Community 118]]
 - [[_COMMUNITY_Community 119|Community 119]]
 - [[_COMMUNITY_Community 120|Community 120]]
 - [[_COMMUNITY_Community 121|Community 121]]
@@ -520,7 +519,6 @@
 - [[_COMMUNITY_Community 524|Community 524]]
 - [[_COMMUNITY_Community 525|Community 525]]
 - [[_COMMUNITY_Community 533|Community 533]]
-- [[_COMMUNITY_Community 537|Community 537]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `useAuth()` - 84 edges
@@ -552,7 +550,7 @@
 - 1-file cycle: `cmms_front_end/src/shared/utils/dropdownHelper.mjs -> cmms_front_end/src/shared/utils/dropdownHelper.mjs`
 - 1-file cycle: `cmms_front_end/src/utils/dropdownHelper.mjs -> cmms_front_end/src/utils/dropdownHelper.mjs`
 
-## Communities (527 total, 124 thin omitted)
+## Communities (525 total, 123 thin omitted)
 
 ### Community 0 - "Community 0"
 Cohesion: 0.05
@@ -727,12 +725,12 @@ Cohesion: 0.06
 Nodes (35): API Endpoints, Approval Entity, Approve Claim, Architecture, Build & Run, Claim Approval Workflow, Claim Entity, Claims (+27 more)
 
 ### Community 44 - "Community 44"
-Cohesion: 0.15
-Nodes (20): Class, CriteriaBuilder, JpaSpecificationExecutor, List, Object, Override, PageProperties, PagePropertiesDTO (+12 more)
+Cohesion: 0.12
+Nodes (24): String, Class, CriteriaBuilder, JpaSpecificationExecutor, List, Object, Override, PageProperties (+16 more)
 
 ### Community 45 - "Community 45"
 Cohesion: 0.05
-Nodes (5): BigDecimal, LocalDateTime, Long, String, EquipmentDowntimeDTO
+Nodes (6): BigDecimal, Boolean, LocalDateTime, Long, String, EquipmentDowntimeDTO
 
 ### Community 46 - "Community 46"
 Cohesion: 0.17
@@ -843,8 +841,8 @@ Cohesion: 0.06
 Nodes (34): List, Long, MaintenanceAssignmentChecklistItem, MaintenanceAssignmentChecklistProof, Optional, List, Long, MaintenanceAssignmentChecklistItem (+26 more)
 
 ### Community 73 - "Community 73"
-Cohesion: 0.19
-Nodes (11): Class, List, Long, Object, PageProperties, PagePropertiesDTO, SearchCriteriaDTO, SearchDTO (+3 more)
+Cohesion: 0.21
+Nodes (10): Class, List, Long, Object, PageProperties, SearchCriteriaDTO, SearchDTO, Set (+2 more)
 
 ### Community 74 - "Community 74"
 Cohesion: 0.24
@@ -1018,10 +1016,6 @@ Nodes (6): LocalDateTime, Long, PermissionMaster, PrePersist, RoleMaster, RolePe
 Cohesion: 0.35
 Nodes (7): ApiResponse, T, ApiResponse, GetMapping, Long, ResponseEntity, DashboardController
 
-### Community 118 - "Community 118"
-Cohesion: 0.70
-Nodes (4): String, fromValue(), getValue(), SearchOperation()
-
 ### Community 119 - "Community 119"
 Cohesion: 0.10
 Nodes (20): 1. Start the Backend, 2. Start the Frontend, 3. Test Login in Browser, 4. Test Change Password, 5. Test API with cURL, All APIs Protected, Backend, Change Password (+12 more)
@@ -1031,8 +1025,8 @@ Cohesion: 0.21
 Nodes (14): AuthAccessDTO, ChangePasswordRequest, ApiResponse, ApiResponses, GetMapping, HttpServletRequest, MultipartFile, Operation (+6 more)
 
 ### Community 121 - "Community 121"
-Cohesion: 0.15
-Nodes (9): Pageable, PagePropertiesDTO, Site, User, Integer, String, CriteriaQuery, PagePropertiesDTO (+1 more)
+Cohesion: 0.14
+Nodes (10): Pageable, PagePropertiesDTO, Site, User, Integer, String, PagePropertiesDTO, CriteriaQuery (+2 more)
 
 ### Community 122 - "Community 122"
 Cohesion: 0.12
@@ -2085,7 +2079,7 @@ Nodes (5): Cacheable, Long, String, Logger, ApiPermissionService
 ## Knowledge Gaps
 - **1564 isolated node(s):** `String`, `PutMapping`, `DeleteMapping`, `GetMapping`, `PutMapping` (+1559 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **124 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **123 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_

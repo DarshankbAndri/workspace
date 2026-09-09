@@ -12580,7 +12580,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "enums_searchoperation",
-      "community": 118,
+      "community": 44,
       "norm_label": "searchoperation.java"
     },
     {
@@ -12590,7 +12590,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "enums_searchoperation_searchoperation",
-      "community": 118,
+      "community": 44,
       "norm_label": "searchoperation()"
     },
     {
@@ -12600,7 +12600,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_common_enums_searchoperation_java_string",
-      "community": 118,
+      "community": 44,
       "norm_label": "string"
     },
     {
@@ -12610,7 +12610,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "enums_searchoperation_getvalue",
-      "community": 118,
+      "community": 44,
       "norm_label": "getvalue()"
     },
     {
@@ -12620,7 +12620,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "enums_searchoperation_fromvalue",
-      "community": 118,
+      "community": 44,
       "norm_label": "fromvalue()"
     },
     {
@@ -15180,7 +15180,7 @@
       "source_location": "L225",
       "_origin": "ast",
       "id": "service_listsearchservice_listsearchservice_normalizecriteria",
-      "community": 48,
+      "community": 73,
       "norm_label": ".normalizecriteria()"
     },
     {
@@ -15220,7 +15220,7 @@
       "source_location": "L247",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_common_search_service_listsearchservice_java_pagepropertiesdto",
-      "community": 73,
+      "community": 121,
       "norm_label": "pagepropertiesdto"
     },
     {
@@ -21690,7 +21690,7 @@
       "source_location": "L126",
       "_origin": "ast",
       "id": "dto_equipmentdowntimedto_equipmentdowntimedto_getplanned",
-      "community": 537,
+      "community": 45,
       "norm_label": ".getplanned()"
     },
     {
@@ -21700,7 +21700,7 @@
       "source_location": "L126",
       "_origin": "ast",
       "id": "cmms_back_end_src_main_java_com_example_cmmsapplication_downtime_dto_equipmentdowntimedto_java_boolean",
-      "community": 537,
+      "community": 45,
       "norm_label": "boolean"
     },
     {
@@ -21710,7 +21710,7 @@
       "source_location": "L127",
       "_origin": "ast",
       "id": "dto_equipmentdowntimedto_equipmentdowntimedto_setplanned",
-      "community": 537,
+      "community": 45,
       "norm_label": ".setplanned()"
     },
     {
@@ -59617,7 +59617,7 @@
       "label": "AUTHORIZED_ROUTES",
       "file_type": "code",
       "source_file": "cmms_front_end/src/shared/utils/permissionRoutes.js",
-      "source_location": "L79",
+      "source_location": "L96",
       "_origin": "ast",
       "id": "utils_permissionroutes_authorized_routes",
       "community": 70,
@@ -59627,7 +59627,7 @@
       "label": "getFirstAllowedPath()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/shared/utils/permissionRoutes.js",
-      "source_location": "L111",
+      "source_location": "L128",
       "_origin": "ast",
       "id": "utils_permissionroutes_getfirstallowedpath",
       "community": 70,
@@ -59637,7 +59637,7 @@
       "label": "hasAccessPermission()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/shared/utils/permissionRoutes.js",
-      "source_location": "L115",
+      "source_location": "L132",
       "_origin": "ast",
       "id": "utils_permissionroutes_hasaccesspermission",
       "community": 70,
@@ -59647,7 +59647,7 @@
       "label": "getFirstAllowedPathFromAccess()",
       "file_type": "code",
       "source_file": "cmms_front_end/src/shared/utils/permissionRoutes.js",
-      "source_location": "L124",
+      "source_location": "L141",
       "_origin": "ast",
       "id": "utils_permissionroutes_getfirstallowedpathfromaccess",
       "community": 70,
@@ -215431,9 +215431,9 @@
       "source_file": "cmms_front_end/src/features/equipment/pages/EquipmentViewPage.jsx",
       "source_location": "L1099",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "pages_equipmentviewpage",
-      "target": "pages_equipmentviewpage_clonechecklists",
-      "confidence_score": 1.0
+      "target": "pages_equipmentviewpage_clonechecklists"
     },
     {
       "relation": "contains",
@@ -215914,9 +215914,9 @@
       "source_file": "cmms_front_end/src/features/equipment/pages/EquipmentViewPage.jsx",
       "source_location": "L27",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "pages_equipmentviewpage",
-      "target": "services_equipmentservice_updateequipment",
-      "confidence_score": 1.0
+      "target": "services_equipmentservice_updateequipment"
     },
     {
       "relation": "imports",
@@ -216343,9 +216343,9 @@
       "source_file": "cmms_front_end/src/features/equipment/pages/EquipmentViewPage.jsx",
       "source_location": "L1052",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "pages_equipmentviewpage_equipmentchecklistwidget",
-      "target": "services_equipmentservice_updateequipment",
-      "confidence_score": 1.0
+      "target": "services_equipmentservice_updateequipment"
     },
     {
       "relation": "calls",
@@ -246025,5 +246025,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "be9c6eaa11779e1929615bd2d4d366505ec5acbb"
+  "built_at_commit": "11599f3d5f279f5d752daa769723ad648294b771"
 }

@@ -1790,8 +1790,8 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/shared/utils/permissionRoutes.js": {
-    "mtime": 1784803098.7581923,
-    "ast_hash": "c7f243dede3ab43d44212c7a79d45d6b",
+    "mtime": 1788937573.0336185,
+    "ast_hash": "9427d9a0dd4505fadc3ab8a5763c7b5b",
     "semantic_hash": ""
   },
   "cmms_front_end/src/shared/components/common/CommonDropdown.jsx": {
@@ -1825,8 +1825,8 @@
     "semantic_hash": ""
   },
   "cmms_front_end/src/features/assignment/pages/MaintenanceAssignmentViewPage.jsx": {
-    "mtime": 1788844422.4196947,
-    "ast_hash": "84429fbed0f7a05c7485dad2378c693e",
+    "mtime": 1788937579.882124,
+    "ast_hash": "41a98d2c6936a31d580a5109b62837f4",
     "semantic_hash": ""
   },
   "cmms_front_end/src/shared/components/common/CommonDatePicker.jsx": {

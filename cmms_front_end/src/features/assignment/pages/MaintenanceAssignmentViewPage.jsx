@@ -724,7 +724,7 @@ function MaintenanceAssignmentViewPage() {
   const canEditMain = hasPermission('ASSIGNMENT_UPDATE');
   const canEditChecklist = hasPermission('ASSIGNMENT_CHECKLIST_UPDATE') || hasPermission('ASSIGNMENT_CHECKLIST_PROOF_UPLOAD') || hasPermission('ASSIGNMENT_CHECKLIST_PROOF_DELETE');
   const canEditWorkLogs = hasPermission('ASSIGNMENT_WORK_LOG_CREATE') || hasPermission('ASSIGNMENT_WORK_LOG_UPDATE') || hasPermission('ASSIGNMENT_WORK_LOG_DELETE') || hasPermission('ASSIGNMENT_WORK_LOG_ATTACHMENT_UPLOAD') || hasPermission('ASSIGNMENT_WORK_LOG_ATTACHMENT_DELETE');
-  const canEditSpares = hasPermission('SPARE_USAGE_UPDATE') || hasPermission('SPARE_USAGE_RESERVE') || hasPermission('SPARE_USAGE_ISSUE') || hasPermission('SPARE_USAGE_CONSUME') || hasPermission('SPARE_USAGE_REJECT') || hasPermission('SPARE_USAGE_CANCEL') || hasPermission('SPARE_USAGE_RETURN') || hasPermission('SPARE_USAGE_DELETE');
+  const canEditSpares = hasPermission('SPARE_USAGE_CREATE') || hasPermission('SPARE_USAGE_UPDATE') || hasPermission('SPARE_USAGE_RESERVE') || hasPermission('SPARE_USAGE_ISSUE') || hasPermission('SPARE_USAGE_CONSUME') || hasPermission('SPARE_USAGE_REJECT') || hasPermission('SPARE_USAGE_CANCEL') || hasPermission('SPARE_USAGE_RETURN') || hasPermission('SPARE_USAGE_DELETE');
   const isEditingMain = editingSection === 'main';
   const isEditingDetails = editingSection === 'details';
   const isEditingChecklist = editingSection === 'checklist';
