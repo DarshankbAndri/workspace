@@ -112,6 +112,7 @@ public class EquipmentService {
             "department"
     );
 
+    private final EquipmentChecklistService checklistService;
     private final EquipmentDAO equipmentDAO;
     private final EquipmentListRepository equipmentListRepository;
     private final MaintenanceRequestRepository maintenanceRequestRepository;
@@ -130,7 +131,11 @@ public class EquipmentService {
         }
         Equipment equipment = new Equipment();
         apply(equipment, dto);
-        return toDTO(equipmentDAO.save(equipment));
+        Equipment saved = equipmentDAO.save(equipment);
+        checklistService.save(saved, dto.getChecklists());
+        EquipmentDTO result = toDTO(saved);
+        result.setChecklists(checklistService.get(saved.getId()));
+        return result;
     }
 
     public EquipmentDTO update(Long id, EquipmentDTO dto) {
@@ -145,7 +150,11 @@ public class EquipmentService {
         if (!retiredBefore && isRetired(equipment)) {
             validateCanRetire(equipment);
         }
-        return toDTO(equipmentDAO.save(equipment));
+        Equipment saved = equipmentDAO.save(equipment);
+        checklistService.save(saved, dto.getChecklists());
+        EquipmentDTO result = toDTO(saved);
+        result.setChecklists(checklistService.get(saved.getId()));
+        return result;
     }
 
     @Transactional(readOnly = true)
@@ -153,6 +162,7 @@ public class EquipmentService {
         Equipment equipment = getEntity(id);
         accessControlService.validateSiteAccess(equipment.getSite() == null ? null : equipment.getSite().getId());
         EquipmentDTO dto = toDTO(equipment);
+        dto.setChecklists(checklistService.get(id));
         equipmentListRepository.findById(id).ifPresent((equipmentList) -> {
             dto.setEquipmentType(equipmentList.getEquipmentType());
             dto.setVendorId(equipmentList.getVendorId());

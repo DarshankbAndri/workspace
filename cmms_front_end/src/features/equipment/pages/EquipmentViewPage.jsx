@@ -1,4 +1,5 @@
 import React from 'react';
+import EquipmentChecklistEditor from '../components/EquipmentChecklistEditor';
 import {
   Alert,
   Box,
@@ -35,6 +36,7 @@ import {
   getEquipmentHealth,
   getEquipmentSpareBom,
   getEquipmentSummary,
+  updateEquipment,
   updateEquipmentSpareBom,
   uploadEquipmentDocument,
 } from '../services/equipmentService';
@@ -351,6 +353,7 @@ function EquipmentViewPage() {
               sx={{ mb: 3, borderBottom: 1, borderColor: 'divider' }}
             >
               <Tab value="overview" label="Overview" />
+              <Tab value="checklists" label="Checklists" />
               <Tab value="requests" label="Open Requests" />
               <Tab value="pm" label="PM Schedule" />
               {canShowEquipmentAmc && <Tab value="amc" label="AMC Details" />}
@@ -372,6 +375,14 @@ function EquipmentViewPage() {
                   ))}
                 </Grid>
               </Stack>
+            )}
+
+            {activeTab === 'checklists' && (
+              <EquipmentChecklistWidget
+                equipment={equipment}
+                canEdit={canEdit}
+                onSaved={(updatedEquipment) => setEquipment(updatedEquipment)}
+              />
             )}
 
             {activeTab === 'requests' && (
@@ -1006,6 +1017,99 @@ function EmptyPanel({ title, value, action }) {
       {action && <Box sx={{ mt: 2 }}>{action}</Box>}
     </Box>
   );
+}
+
+function EquipmentChecklistWidget({ equipment, canEdit, onSaved }) {
+  const checklists = equipment?.checklists;
+  const [editing, setEditing] = React.useState(false);
+  const [draft, setDraft] = React.useState(() => cloneChecklists(checklists));
+  const [saving, setSaving] = React.useState(false);
+  const [error, setError] = React.useState('');
+  const displayChecklists = editing ? draft : checklists;
+  const count = countChecklistSteps(displayChecklists);
+
+  React.useEffect(() => {
+    if (!editing) setDraft(cloneChecklists(checklists));
+  }, [checklists, editing]);
+
+  const startEdit = () => {
+    setError('');
+    setDraft(cloneChecklists(checklists));
+    setEditing(true);
+  };
+
+  const cancelEdit = () => {
+    setError('');
+    setDraft(cloneChecklists(checklists));
+    setEditing(false);
+  };
+
+  const saveChecklists = async () => {
+    if (!equipment?.id) return;
+    setSaving(true);
+    setError('');
+    try {
+      const updated = await updateEquipment(equipment.id, { ...equipment, checklists: draft });
+      onSaved({ ...equipment, ...(updated || {}), checklists: updated?.checklists || draft });
+      setEditing(false);
+    } catch (err) {
+      setError(formatApiError(err, 'Unable to save equipment checklists.'));
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  return (
+    <Box sx={{ border: 1, borderColor: 'divider', borderRadius: 1, p: 2, bgcolor: 'background.default' }}>
+      {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
+      <Stack
+        direction={{ xs: 'column', sm: 'row' }}
+        spacing={1.5}
+        justifyContent="space-between"
+        alignItems={{ xs: 'stretch', sm: 'center' }}
+        sx={{ mb: 2 }}
+      >
+        <Box>
+          <Typography variant="h6" fontWeight={800}>Equipment Checklists</Typography>
+          <Typography variant="body2" color="text.secondary">
+            {count ? `${count} configured step${count === 1 ? '' : 's'}` : 'No equipment checklist steps configured.'}
+          </Typography>
+        </Box>
+        {canEdit && (editing ? (
+          <Stack direction="row" spacing={1} justifyContent={{ xs: 'flex-start', sm: 'flex-end' }}>
+            <Button variant="outlined" disabled={saving} onClick={cancelEdit}>
+              Cancel
+            </Button>
+            <Button variant="contained" disabled={saving} onClick={saveChecklists}>
+              {saving ? 'Saving...' : 'Save'}
+            </Button>
+          </Stack>
+        ) : (
+          <Button variant="outlined" startIcon={<Edit />} onClick={startEdit}>
+            Edit
+          </Button>
+        ))}
+      </Stack>
+      <Divider sx={{ mb: 2 }} />
+      <EquipmentChecklistEditor value={displayChecklists} readOnly={!editing} onChange={setDraft} />
+    </Box>
+  );
+}
+
+function cloneChecklists(checklists) {
+  return {
+    groups: (checklists?.groups || []).map(group => ({
+      ...group,
+      items: (group.items || []).map(item => ({ ...item })),
+    })),
+    standaloneItems: (checklists?.standaloneItems || []).map(item => ({ ...item })),
+  };
+}
+
+function countChecklistSteps(checklists) {
+  const standaloneCount = checklists?.standaloneItems?.length || 0;
+  const groupCount = (checklists?.groups || []).reduce((total, group) => total + (group.items?.length || 0), 0);
+  return standaloneCount + groupCount;
 }
 
 function getCreateAmcPath(equipment) {

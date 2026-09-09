@@ -1,4 +1,5 @@
 import React from 'react';
+import CommonChecklistEditor from '../../../shared/components/common/CommonChecklistEditor';
 import { Alert, Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Grid, LinearProgress, Skeleton, Snackbar, Stack, Typography } from '@mui/material';
 import { Assignment, Build, Cancel, CheckCircle, Edit, Inventory, Lock, Pause, PlayArrow, Replay, Timeline } from '@mui/icons-material';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -124,6 +125,7 @@ function MaintenanceRequestViewPage() {
           <Stack spacing={3}>
             <RequestSummary request={request} />
             <RequestLifecycle status={request?.status} />
+            <CommonChecklistEditor items={request?.checklistItems || []} readOnly />
             <Grid container spacing={2.5}>
               {fields.map((field) => (
                 <Grid item xs={12} sm={field.size || 6} md={field.size || 4} key={field.label}>

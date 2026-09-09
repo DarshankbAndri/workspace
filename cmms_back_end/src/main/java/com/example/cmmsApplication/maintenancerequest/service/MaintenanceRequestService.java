@@ -47,6 +47,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Transactional
 public class MaintenanceRequestService {
+    private final RequestChecklistService checklistService;
     private final MaintenanceRequestDAO requestDAO;
     private final EquipmentService equipmentService;
     private final SiteService siteService;
@@ -72,6 +73,7 @@ public class MaintenanceRequestService {
         boolean approvalRequired = approvalWorkflowService.isApprovalEnabled(ApprovalWorkflowService.MAINTENANCE_REQUEST, ApprovalWorkflowService.CREATE);
         request.setStatus(approvalRequired ? MaintenanceRequestStatus.PENDING_APPROVAL.value() : MaintenanceRequestStatus.OPEN.value());
         MaintenanceRequest saved = requestDAO.save(request);
+        checklistService.saveChecklistItems(saved, dto.getChecklistItems());
         MaintenanceRequestDTO result = toDTO(saved);
         if (approvalRequired) {
             ApprovalRequestDTO approval = approvalWorkflowService.createApprovalRequest(
@@ -98,7 +100,9 @@ public class MaintenanceRequestService {
         if (requestDAO.existsByRequestNumberAndIdNot(request.getRequestNumber(), id)) {
             throw new InvalidOperationException("Request number already exists: " + request.getRequestNumber());
         }
-        return toDTO(requestDAO.save(request));
+        MaintenanceRequest saved = requestDAO.save(request);
+        checklistService.saveChecklistItems(saved, dto.getChecklistItems());
+        return toDTO(saved);
     }
 
     public MaintenanceRequestDTO transition(Long id, MaintenanceRequestTransitionDTO dto) {
@@ -326,6 +330,7 @@ public class MaintenanceRequestService {
 
     private MaintenanceRequestDTO toDTO(MaintenanceRequest request) {
         MaintenanceRequestDTO dto = new MaintenanceRequestDTO();
+        dto.setChecklistItems(checklistService.get(request.getId()));
         dto.setId(request.getId());
         dto.setRequestNumber(request.getRequestNumber());
         dto.setEquipmentId(request.getEquipment().getId());

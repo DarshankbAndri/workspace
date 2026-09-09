@@ -71,4 +71,11 @@
             <column name="source_pm_checklist_item_id"/>
         </createIndex>
     </changeSet>
+    <changeSet id="maintenance_assignment_checklist_item-equipment-checklist-sources" author="Codex">
+        <addColumn tableName="maintenance_assignment_checklist_item">
+            <column name="source_request_checklist_item_id" type="BIGINT"></column>
+        </addColumn>
+        <addForeignKeyConstraint constraintName="fk_maintenance_assignment_checklist_item_source_request_checklist_item_id" baseTableName="maintenance_assignment_checklist_item" baseColumnNames="source_request_checklist_item_id" referencedTableName="request_checklist_item" referencedColumnNames="id"/>
+        <createIndex indexName="idx_maintenance_assignment_checklist_item_source_request_checklist_item_id" tableName="maintenance_assignment_checklist_item"><column name="source_request_checklist_item_id"/></createIndex>
+    </changeSet>
 </databaseChangeLog>

@@ -17,6 +17,7 @@ public class MaintenanceAssignmentChecklistItemDTO {
     private Long id;
     private Long assignmentId;
     private Long sourcePmChecklistItemId;
+    private Long sourceRequestChecklistItemId;
     private Integer sequenceNumber;
     @NotBlank(message = "Checklist task title is required")
     private String taskTitle;

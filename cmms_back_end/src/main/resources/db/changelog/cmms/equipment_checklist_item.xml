@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet id="equipment_checklist_item-create" author="Codex">
+        <createTable tableName="equipment_checklist_item">
+            <column name="id" type="BIGINT" autoIncrement="true"><constraints nullable="false" primaryKey="true"/></column>
+            <column name="equipment_id" type="BIGINT"><constraints nullable="false"/></column>
+            <column name="checklist_id" type="BIGINT"></column>
+            <column name="sequence_number" type="INT"><constraints nullable="false"/></column>
+            <column name="task_title" type="VARCHAR(200)"><constraints nullable="false"/></column>
+            <column name="instructions" type="VARCHAR(1000)"></column>
+            <column name="required" type="BOOLEAN"><constraints nullable="false"/></column>
+            <column name="proof_required" type="BOOLEAN"><constraints nullable="false"/></column>
+            <column name="response_type" type="VARCHAR(30)"><constraints nullable="false"/></column>
+            <column name="active" type="BOOLEAN"><constraints nullable="false"/></column>
+            <column name="created_at" type="TIMESTAMP"><constraints nullable="false"/></column>
+            <column name="updated_at" type="TIMESTAMP"><constraints nullable="false"/></column>
+        </createTable>
+        <addForeignKeyConstraint constraintName="fk_equipment_checklist_item_equipment_id" baseTableName="equipment_checklist_item" baseColumnNames="equipment_id" referencedTableName="equipment_master" referencedColumnNames="id"/>
+        <createIndex indexName="idx_equipment_checklist_item_equipment_id" tableName="equipment_checklist_item"><column name="equipment_id"/></createIndex>
+        <addForeignKeyConstraint constraintName="fk_equipment_checklist_item_checklist_id" baseTableName="equipment_checklist_item" baseColumnNames="checklist_id" referencedTableName="equipment_checklist" referencedColumnNames="id"/>
+        <createIndex indexName="idx_equipment_checklist_item_checklist_id" tableName="equipment_checklist_item"><column name="checklist_id"/></createIndex>
+    </changeSet>
+</databaseChangeLog>

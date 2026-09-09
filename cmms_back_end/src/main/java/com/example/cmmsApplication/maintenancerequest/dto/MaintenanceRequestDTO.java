@@ -17,6 +17,8 @@ import lombok.AllArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MaintenanceRequestDTO {
+    @jakarta.validation.Valid
+    private java.util.List<RequestChecklistItemDTO> checklistItems;
     private Long id;
     private String requestNumber;
     @NotNull(message = "Equipment is required")

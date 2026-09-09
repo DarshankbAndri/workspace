@@ -852,7 +852,7 @@ function MaintenanceAssignmentFormPage() {
                           </IconButton>
                         </Tooltip>
                       )}
-                      {!isView && hasPermission('ASSIGNMENT_CHECKLIST_UPDATE') && !row.sourcePmChecklistItemId && (
+                      {!isView && hasPermission('ASSIGNMENT_CHECKLIST_UPDATE') && !row.sourcePmChecklistItemId && !row.sourceRequestChecklistItemId && (
                         <Tooltip title="Delete"><IconButton color="error" onClick={() => handleDeleteChecklistRow(row)}><Delete fontSize="small" /></IconButton></Tooltip>
                       )}
                     </Stack>

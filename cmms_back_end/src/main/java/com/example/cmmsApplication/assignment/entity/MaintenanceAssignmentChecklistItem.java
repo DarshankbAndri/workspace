@@ -36,6 +36,10 @@ public class MaintenanceAssignmentChecklistItem {
     @JoinColumn(name = "source_pm_checklist_item_id")
     private PmScheduleChecklistItem sourcePmChecklistItem;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "source_request_checklist_item_id")
+    private com.example.cmmsApplication.maintenancerequest.entity.RequestChecklistItem sourceRequestChecklistItem;
+
     @Column(name = "sequence_number", nullable = false)
     private Integer sequenceNumber;
 
