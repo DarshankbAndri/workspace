@@ -1,5 +1,5 @@
 package com.example.cmmsApplication.equipment.service;
-
+import com.example.cmmsApplication.common.time.CurrentTimeProvider;
 
 import com.example.cmmsApplication.common.search.service.SearchService;
 import com.example.cmmsApplication.common.security.service.AccessControlService;
@@ -28,7 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.time.YearMonth;
 import java.util.ArrayList;
@@ -201,9 +201,9 @@ public class EquipmentService {
         Long openRequestCount = maintenanceRequestRepository.countByEquipmentIdAndStatusNotIn(id, CLOSED_REQUEST_STATUSES);
         Long activePmCount = preventiveMaintenanceScheduleRepository.countByEquipmentIdAndActiveTrue(id);
         EquipmentDowntime lastDowntime = equipmentDowntimeRepository.findTopByEquipmentIdOrderByDowntimeStartDescIdDesc(id).orElse(null);
-        YearMonth currentMonth = YearMonth.now();
-        LocalDateTime monthStart = currentMonth.atDay(1).atStartOfDay();
-        LocalDateTime nextMonthStart = currentMonth.plusMonths(1).atDay(1).atStartOfDay();
+        YearMonth currentMonth = YearMonth.from(CurrentTimeProvider.businessNow());
+        Instant monthStart = CurrentTimeProvider.startOfBusinessDay(currentMonth.atDay(1));
+        Instant nextMonthStart = CurrentTimeProvider.startOfBusinessDay(currentMonth.plusMonths(1).atDay(1));
         Long monthlyDowntime = equipmentDowntimeRepository.sumDowntimeMinutesByEquipmentIdAndDowntimeStartBetween(id, monthStart, nextMonthStart);
         LocalDate lastMaintenanceDate = maintenanceAssignmentRepository.findLastCompletedMaintenanceDateByEquipmentId(id);
         LocalDate nextPmDate = preventiveMaintenanceScheduleRepository.findNextDueDateByEquipmentId(id);
@@ -251,7 +251,7 @@ public class EquipmentService {
         equipment.setLifecycleStatus("DECOMMISSIONED");
         equipment.setOperatingStatus("STOPPED");
         if (equipment.getDecommissionDate() == null) {
-            equipment.setDecommissionDate(LocalDate.now());
+            equipment.setDecommissionDate(CurrentTimeProvider.today());
         }
         equipmentDAO.save(equipment);
     }
@@ -398,10 +398,10 @@ public class EquipmentService {
 
     private EquipmentHealthDTO calculateHealth(Equipment equipment) {
         Long equipmentId = equipment.getId();
-        LocalDate today = LocalDate.now();
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime ninetyDaysAgo = now.minusDays(90);
-        LocalDateTime oneYearAgo = now.minusDays(365);
+        LocalDate today = CurrentTimeProvider.today();
+        Instant now = CurrentTimeProvider.now();
+        Instant ninetyDaysAgo = now.minus(90, ChronoUnit.DAYS);
+        Instant oneYearAgo = now.minus(365, ChronoUnit.DAYS);
 
         Long downtimeFrequency90Days = equipmentDowntimeRepository.countFailuresSince(equipmentId, ninetyDaysAgo);
         Long downtimeMinutes90Days = equipmentDowntimeRepository.sumFailureDowntimeMinutesSince(equipmentId, ninetyDaysAgo);
@@ -469,14 +469,15 @@ public class EquipmentService {
     }
 
     private BigDecimal calculateMtbfHours(Equipment equipment, Long failureCount,
-                                          Long downtimeMinutes, LocalDateTime oneYearAgo, LocalDateTime now) {
+                                          Long downtimeMinutes, Instant oneYearAgo, Instant now) {
         if (safeLong(failureCount) == 0L) {
             return null;
         }
-        LocalDateTime commissioningStart = (equipment.getCommissioningDate() != null ? equipment.getCommissioningDate() : equipment.getInstallationDate()) == null
+        Instant commissioningStart = (equipment.getCommissioningDate() != null ? equipment.getCommissioningDate() : equipment.getInstallationDate()) == null
                 ? oneYearAgo
-                : (equipment.getCommissioningDate() != null ? equipment.getCommissioningDate() : equipment.getInstallationDate()).atStartOfDay();
-        LocalDateTime windowStart = commissioningStart.isAfter(oneYearAgo) ? commissioningStart : oneYearAgo;
+                : CurrentTimeProvider.startOfBusinessDay(
+                        equipment.getCommissioningDate() != null ? equipment.getCommissioningDate() : equipment.getInstallationDate());
+        Instant windowStart = commissioningStart.isAfter(oneYearAgo) ? commissioningStart : oneYearAgo;
         long windowMinutes = Math.max(0L, ChronoUnit.MINUTES.between(windowStart, now));
         long uptimeMinutes = Math.max(0L, windowMinutes - safeLong(downtimeMinutes));
         return BigDecimal.valueOf(uptimeMinutes)
@@ -538,7 +539,7 @@ public class EquipmentService {
             equipment.setStatus("INACTIVE");
             equipment.setOperatingStatus("STOPPED");
             if (equipment.getDecommissionDate() == null) {
-                equipment.setDecommissionDate(LocalDate.now());
+                equipment.setDecommissionDate(CurrentTimeProvider.today());
             }
         }
     }

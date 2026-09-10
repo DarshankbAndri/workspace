@@ -8,7 +8,7 @@ import com.example.cmmsApplication.vendor.entity.Vendor;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,8 +31,8 @@ public class VendorDTO {
     private Integer assignedSiteCount;
     private String primarySiteName;
     private String siteNames;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private Instant createdAt;
+    private Instant updatedAt;
     @Valid
     private List<VendorSiteAssignmentDTO> siteAssignments = new ArrayList<>();
 

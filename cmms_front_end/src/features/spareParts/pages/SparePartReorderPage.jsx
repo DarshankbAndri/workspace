@@ -19,6 +19,7 @@ import CommonDropdown from '../../../shared/components/common/CommonDropdown';
 import { getDropdownOptions } from '../../../shared/utils/dropdownHelper';
 import { getSites } from '../../site/services/siteService';
 import { getReorderRequests, receivePurchaseRequestStock, updateReorderRequest } from '../services/sparePartService';
+import { formatDateTime } from '../../../shared/utils/dateTime';
 
 const statusFilterOptions = getDropdownOptions('PURCHASE_REQUEST', 'reorderStatusFilter');
 const statusOptions = getDropdownOptions('PURCHASE_REQUEST', 'reorderStatus');
@@ -127,7 +128,7 @@ function SparePartReorderPage() {
       headerName: 'Requested At',
       minWidth: 180,
       flex: 0.9,
-      valueFormatter: ({ value }) => value ? new Date(value).toLocaleString() : '',
+      valueFormatter: ({ value }) => formatDateTime(value, ''),
     },
     {
       field: 'actions',

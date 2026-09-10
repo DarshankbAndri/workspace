@@ -1,5 +1,5 @@
 package com.example.cmmsApplication.vendoramc.service;
-
+import com.example.cmmsApplication.common.time.CurrentTimeProvider;
 import com.example.cmmsApplication.common.exception.InvalidOperationException;
 import com.example.cmmsApplication.common.exception.ResourceNotFoundException;
 import com.example.cmmsApplication.common.search.dto.PageProperties;
@@ -189,7 +189,7 @@ public class VendorAmcService {
     @Transactional(readOnly = true)
     public VendorAmcContractDTO getActiveAmcForEquipment(Long equipmentId) {
         equipmentService.getEntity(equipmentId);
-        List<EquipmentAmcMapping> mappings = mappingDAO.findActiveByEquipment(equipmentId, LocalDate.now(), ACTIVE_CONTRACT_STATUSES);
+        List<EquipmentAmcMapping> mappings = mappingDAO.findActiveByEquipment(equipmentId, CurrentTimeProvider.today(), ACTIVE_CONTRACT_STATUSES);
         if (mappings.isEmpty()) {
             return null;
         }
@@ -254,7 +254,7 @@ public class VendorAmcService {
         long covered = activeContractIds.isEmpty() ? 0 : mappingDAO.findAll().stream()
                 .filter((mapping) -> Boolean.TRUE.equals(mapping.getActive()))
                 .filter((mapping) -> mapping.getAmcContract() != null && activeContractIds.contains(mapping.getAmcContract().getId()))
-                .filter((mapping) -> LocalDate.now().compareTo(mapping.getCoverageStartDate()) >= 0 && LocalDate.now().compareTo(mapping.getCoverageEndDate()) <= 0)
+                .filter((mapping) -> CurrentTimeProvider.today().compareTo(mapping.getCoverageStartDate()) >= 0 && CurrentTimeProvider.today().compareTo(mapping.getCoverageEndDate()) <= 0)
                 .map((mapping) -> mapping.getEquipment() == null ? null : mapping.getEquipment().getId())
                 .filter(java.util.Objects::nonNull)
                 .distinct()
@@ -270,9 +270,9 @@ public class VendorAmcService {
                 .build();
     }
 
-    @Scheduled(cron = "${cmms.amc.expiry-scan-cron:0 0 7 * * *}")
+    @Scheduled(cron = "${cmms.amc.expiry-scan-cron:0 0 7 * * *}", zone = "${cmms.time.business-zone:Asia/Kolkata}")
     public void scanExpiryStatus() {
-        LocalDate today = LocalDate.now();
+        LocalDate today = CurrentTimeProvider.today();
         contractDAO.findExpiring(today, today.plusDays(expiryWarningDays)).forEach((contract) -> {
             contract.setStatus(VendorAmcStatus.EXPIRING_SOON.name());
             VendorAmcContract saved = contractDAO.save(contract);

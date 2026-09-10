@@ -1,6 +1,6 @@
 package com.example.cmmsApplication.approval.dto;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Data;
@@ -20,7 +20,7 @@ public class ApprovalRequestDTO {
     private String siteName;
     private Long requestedById;
     private String requestedByName;
-    private LocalDateTime requestedAt;
+    private Instant requestedAt;
     private String approvalStatus;
     private String approverRoleCode;
     private Integer minApprovalCount;
@@ -28,8 +28,8 @@ public class ApprovalRequestDTO {
     private Integer rejectedCount;
     private String remarks;
     private String payloadJson;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private Instant createdAt;
+    private Instant updatedAt;
     private List<ApprovalActionDTO> actions = new ArrayList<>();
 
     public Long getId() { return id; }
@@ -50,8 +50,8 @@ public class ApprovalRequestDTO {
     public void setRequestedById(Long requestedById) { this.requestedById = requestedById; }
     public String getRequestedByName() { return requestedByName; }
     public void setRequestedByName(String requestedByName) { this.requestedByName = requestedByName; }
-    public LocalDateTime getRequestedAt() { return requestedAt; }
-    public void setRequestedAt(LocalDateTime requestedAt) { this.requestedAt = requestedAt; }
+    public Instant getRequestedAt() { return requestedAt; }
+    public void setRequestedAt(Instant requestedAt) { this.requestedAt = requestedAt; }
     public String getApprovalStatus() { return approvalStatus; }
     public void setApprovalStatus(String approvalStatus) { this.approvalStatus = approvalStatus; }
     public String getApproverRoleCode() { return approverRoleCode; }
@@ -66,10 +66,10 @@ public class ApprovalRequestDTO {
     public void setRemarks(String remarks) { this.remarks = remarks; }
     public String getPayloadJson() { return payloadJson; }
     public void setPayloadJson(String payloadJson) { this.payloadJson = payloadJson; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
-    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+    public Instant getCreatedAt() { return createdAt; }
+    public void setCreatedAt(Instant createdAt) { this.createdAt = createdAt; }
+    public Instant getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(Instant updatedAt) { this.updatedAt = updatedAt; }
     public List<ApprovalActionDTO> getActions() { return actions; }
     public void setActions(List<ApprovalActionDTO> actions) { this.actions = actions; }
 }

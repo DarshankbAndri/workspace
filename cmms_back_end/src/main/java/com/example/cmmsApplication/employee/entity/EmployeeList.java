@@ -7,7 +7,7 @@ import org.hibernate.annotations.Immutable;
 import org.hibernate.annotations.Subselect;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
@@ -78,9 +78,9 @@ public class EmployeeList {
     @Column(name = "assigned_site_count")
     private Integer assignedSiteCount;
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    private Instant createdAt;
     @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    private Instant updatedAt;
 
     public Long getId() { return id; }
     public String getEmployeeCode() { return employeeCode; }
@@ -97,6 +97,6 @@ public class EmployeeList {
     public Long getSiteId() { return siteId; }
     public String getSiteName() { return siteName; }
     public Integer getAssignedSiteCount() { return assignedSiteCount; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
+    public Instant getCreatedAt() { return createdAt; }
+    public Instant getUpdatedAt() { return updatedAt; }
 }

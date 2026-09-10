@@ -1,5 +1,9 @@
 package com.example.cmmsApplication.spareparts.entity;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import com.example.cmmsApplication.common.time.CurrentTimeProvider;
 
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,9 +12,10 @@ import com.example.cmmsApplication.site.entity.Site;
 import com.example.cmmsApplication.user.entity.User;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "spare_part_transaction")
 @Getter
 @Setter
@@ -61,21 +66,22 @@ public class SparePartTransaction {
     private String remarks;
 
     @Column(name = "transaction_date", nullable = false)
-    private LocalDateTime transactionDate;
+    private Instant transactionDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by")
     private User createdBy;
 
     @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    @CreatedDate
+    private Instant createdAt;
 
     @PrePersist
     public void onCreate() {
         if (transactionDate == null) {
-            transactionDate = LocalDateTime.now();
+            transactionDate = CurrentTimeProvider.now();
         }
-        createdAt = LocalDateTime.now();
+        createdAt = CurrentTimeProvider.now();
     }
 
 }

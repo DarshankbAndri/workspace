@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
 import java.util.Set;
 
@@ -20,6 +20,6 @@ public class DashboardMeDTO {
     private List<AllowedSiteDTO> allowedSites;
     private List<DashboardDepartmentDTO> departments;
     private List<DashboardActionDTO> quickActions;
-    private LocalDateTime generatedAt;
+    private Instant generatedAt;
     private Integer refreshAfterSeconds;
 }

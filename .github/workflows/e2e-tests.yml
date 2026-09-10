@@ -1,0 +1,105 @@
+name: CMMS E2E
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main_v1]
+
+jobs:
+  playwright:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: cmms_e2e
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U postgres -d cmms_e2e"
+          --health-interval 10s --health-timeout 5s --health-retries 10
+    env:
+      CMMS_UI_BASE_URL: http://127.0.0.1:6200
+      CMMS_API_BASE_URL: http://127.0.0.1:6100/api
+      CMMS_ADMIN_USERNAME: superadmin
+      E2E_TEST_DATABASE_NAME: cmms_e2e
+      SPRING_DATASOURCE_URL: jdbc:postgresql://127.0.0.1:5432/cmms_e2e
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: |
+            cmms_front_end/package-lock.json
+            e2e/package-lock.json
+      - name: Build backend
+        working-directory: cmms_back_end
+        run: mvn -B clean package
+      - name: Start backend
+        working-directory: cmms_back_end
+        env:
+          FILE_STORAGE_PATH: ${{ runner.temp }}/cmms-documents
+        run: nohup java -jar target/cmms-back-end-1.0.0.jar --server.port=6100 > ../backend-e2e.log 2>&1 &
+      - name: Wait for database migrations
+        run: npx --yes wait-on@8 http://127.0.0.1:6100/api/actuator/health
+      - name: Generate ephemeral test credential
+        shell: bash
+        run: |
+          password="$(openssl rand -hex 24)"
+          echo "::add-mask::$password"
+          echo "CMMS_ADMIN_PASSWORD=$password" >> "$GITHUB_ENV"
+      - name: Seed test administrator
+        env:
+          PGPASSWORD: postgres
+        shell: bash
+        run: |
+          psql -h 127.0.0.1 -U postgres -d cmms_e2e -f cmms_back_end/src/main/resources/db/sample/superadmin.sql
+          psql -h 127.0.0.1 -U postgres -d cmms_e2e --set=admin_password="$CMMS_ADMIN_PASSWORD" <<'SQL'
+          CREATE EXTENSION IF NOT EXISTS pgcrypto;
+          UPDATE users
+          SET password = crypt(:'admin_password', gen_salt('bf', 10)),
+              updated_at = CURRENT_TIMESTAMP
+          WHERE username = 'superadmin';
+          SQL
+      - name: Build and start frontend
+        working-directory: cmms_front_end
+        run: |
+          npm ci
+          npm run build
+          nohup npm run dev -- --host 127.0.0.1 --port 6200 > ../frontend-e2e.log 2>&1 &
+      - name: Install Playwright
+        working-directory: e2e
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+      - name: Wait for services
+        run: npx --yes wait-on@8 http://127.0.0.1:6100/api/actuator/health http://127.0.0.1:6200
+      - name: Smoke tests
+        working-directory: e2e
+        run: npm run test:smoke
+      - name: Full regression
+        if: success()
+        working-directory: e2e
+        run: npm run test:e2e
+      - name: Upload evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cmms-e2e-evidence
+          if-no-files-found: ignore
+          path: |
+            e2e/playwright-report
+            e2e/test-results
+            e2e/reports
+            backend-e2e.log
+            frontend-e2e.log

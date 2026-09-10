@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
@@ -41,8 +41,8 @@ public class MaintenanceRequestDTO {
     private LocalDate requestedDate;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate targetCompletionDate;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private Instant createdAt;
+    private Instant updatedAt;
     private Long approvalRequestId;
     private String approvalStatus;
     private Long amcContractId;
@@ -85,10 +85,10 @@ public class MaintenanceRequestDTO {
     public void setRequestedDate(LocalDate requestedDate) { this.requestedDate = requestedDate; }
     public LocalDate getTargetCompletionDate() { return targetCompletionDate; }
     public void setTargetCompletionDate(LocalDate targetCompletionDate) { this.targetCompletionDate = targetCompletionDate; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
-    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+    public Instant getCreatedAt() { return createdAt; }
+    public void setCreatedAt(Instant createdAt) { this.createdAt = createdAt; }
+    public Instant getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(Instant updatedAt) { this.updatedAt = updatedAt; }
     public Long getApprovalRequestId() { return approvalRequestId; }
     public void setApprovalRequestId(Long approvalRequestId) { this.approvalRequestId = approvalRequestId; }
     public String getApprovalStatus() { return approvalStatus; }

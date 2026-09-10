@@ -1,5 +1,5 @@
 package com.example.cmmsApplication.notification.service;
-
+import com.example.cmmsApplication.common.time.CurrentTimeProvider;
 
 import com.example.cmmsApplication.common.observability.ObservabilityMetrics;
 import com.example.cmmsApplication.maintenancerequest.entity.MaintenanceRequest;
@@ -31,7 +31,7 @@ public class NotificationScanService {
                 observabilityMetrics.recordNotificationJob("daily_notification_scan", true);
                 return;
             }
-            LocalDate today = LocalDate.now();
+            LocalDate today = CurrentTimeProvider.today();
             if (Boolean.TRUE.equals(settings.getPmDueReminderEnabled())) {
                 LocalDate end = today.plusDays(Math.max(settings.getPmReminderDays() == null ? 0 : settings.getPmReminderDays(), 0));
                 scheduleDAO.findUpcoming(today, end).stream()

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { clientEpochMillis, synchronizeDateTime } from '../utils/dateTime';
 
 export const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
 const API_TIMEOUT = Number(import.meta.env.VITE_API_TIMEOUT_MS || 120000);
@@ -86,6 +87,7 @@ const normalizeApiError = (error) => {
 // Interceptor to add JWT token to all requests
 api.interceptors.request.use(
   (config) => {
+    config.metadata = { ...config.metadata, dateTimeRequestStartedAt: clientEpochMillis() };
     const token = localStorage.getItem('token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -104,6 +106,11 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => {
     if (isApiEnvelope(response.data)) {
+      synchronizeDateTime(
+        response.data.data?.serverInstant ? response.data.data : response.data,
+        response.config.metadata?.dateTimeRequestStartedAt,
+        clientEpochMillis(),
+      );
       response.apiResponse = response.data;
       if (response.data.success) {
         response.data = response.data.data;
@@ -112,6 +119,13 @@ api.interceptors.response.use(
     return response;
   },
   (error) => {
+    if (error.response?.data?.timestamp) {
+      synchronizeDateTime(
+        error.response.data,
+        error.config?.metadata?.dateTimeRequestStartedAt,
+        clientEpochMillis(),
+      );
+    }
     const normalizedError = normalizeApiError(error);
     error.apiError = normalizedError;
     if (error.response) {
@@ -153,6 +167,7 @@ export const changePassword = (currentPassword, newPassword, confirmPassword) =>
 };
 
 export const getCurrentUserAccess = () => api.get('/auth/me');
+export const getSystemTime = () => api.get('/system/time');
 export const getRoles = () => api.get('/admin/roles');
 export const getRoleById = (id) => api.get(`/admin/roles/${id}`);
 export const createRole = (role) => api.post('/admin/roles', role);
@@ -178,55 +193,6 @@ export const createUser = (userData) => {
 
 export const createUserByHR = (hrId, userData) => {
   return api.post(`/users?hrId=${hrId}`, userData);
-};
-
-// Claims API
-export const createClaim = (userId, claimData) => {
-  return api.post(`/claims?userId=${userId}`, claimData);
-};
-
-export const uploadDocument = (entryType, entryId, sectionId, documentName, file) => {
-  const formData = new FormData();
-  formData.append('documentName', documentName);
-  formData.append('file', file);
-  formData.append('sectionId', sectionId);
-  return api.post(`/documents/upload/${entryType}/${entryId}`, formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  });
-};
-
-export const submitClaim = (claimId, userId) => {
-  return api.post(`/claims/${claimId}/submit?userId=${userId}`);
-};
-
-export const getMyClaimsById = (userId) => {
-  return api.get(`/claims/my?userId=${userId}`);
-};
-
-export const getClaimById = (claimId) => {
-  return api.get(`/claims/${claimId}`);
-};
-
-export const getPendingClaimsByManager = (managerId) => {
-  return api.get(`/claims/pending?managerId=${managerId}`);
-};
-
-export const approveClaim = (claimId, managerId, approvalData) => {
-  return api.put(`/claims/${claimId}/approve?managerId=${managerId}`, approvalData);
-};
-
-export const rejectClaim = (claimId, managerId, approvalData) => {
-  return api.put(`/claims/${claimId}/reject?managerId=${managerId}`, approvalData);
-};
-
-export const approveClaimByHR = (claimId, hrId, approvalData) => {
-  return api.put(`/claims/${claimId}/hr-approve?hrId=${hrId}`, approvalData);
-};
-
-export const markClaimAsPaid = (claimId, hrId) => {
-  return api.put(`/claims/${claimId}/pay?hrId=${hrId}`);
 };
 
 // Document download API - Create separate axios instance for file downloads

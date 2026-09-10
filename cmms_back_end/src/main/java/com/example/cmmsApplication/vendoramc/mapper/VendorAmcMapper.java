@@ -1,5 +1,5 @@
 package com.example.cmmsApplication.vendoramc.mapper;
-
+import com.example.cmmsApplication.common.time.CurrentTimeProvider;
 import com.example.cmmsApplication.equipment.entity.Equipment;
 import com.example.cmmsApplication.site.entity.Site;
 import com.example.cmmsApplication.vendor.entity.Vendor;
@@ -78,6 +78,6 @@ public class VendorAmcMapper {
     }
 
     private Long daysRemaining(LocalDate endDate) {
-        return endDate == null ? null : ChronoUnit.DAYS.between(LocalDate.now(), endDate);
+        return endDate == null ? null : ChronoUnit.DAYS.between(CurrentTimeProvider.today(), endDate);
     }
 }

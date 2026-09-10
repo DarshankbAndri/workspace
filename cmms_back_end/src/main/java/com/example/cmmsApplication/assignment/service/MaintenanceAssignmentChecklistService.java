@@ -1,5 +1,5 @@
 package com.example.cmmsApplication.assignment.service;
-
+import com.example.cmmsApplication.common.time.CurrentTimeProvider;
 import com.example.cmmsApplication.assignment.dao.MaintenanceAssignmentChecklistDAO;
 import com.example.cmmsApplication.assignment.dao.MaintenanceAssignmentDAO;
 import com.example.cmmsApplication.assignment.dto.MaintenanceAssignmentChecklistItemDTO;
@@ -19,7 +19,7 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -73,7 +73,7 @@ public class MaintenanceAssignmentChecklistService {
         if ("COMPLETED".equals(status) || "NOT_APPLICABLE".equals(status)) {
             User user = accessControlService.getCurrentUser();
             item.setCompletedBy(user);
-            item.setCompletedAt(LocalDateTime.now());
+            item.setCompletedAt(CurrentTimeProvider.now());
         } else {
             item.setCompletedBy(null);
             item.setCompletedAt(null);

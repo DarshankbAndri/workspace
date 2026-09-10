@@ -8,7 +8,7 @@ import com.example.cmmsApplication.site.entity.Site;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Data
 @NoArgsConstructor
@@ -39,7 +39,7 @@ public class SparePartDTO {
     private BigDecimal unitCost;
     private String storageLocation;
     private Boolean lowStock;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private Instant createdAt;
+    private Instant updatedAt;
 
 }

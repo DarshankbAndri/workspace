@@ -48,6 +48,7 @@ import CommonDateTimePicker from '../../../shared/components/common/CommonDateTi
 import CommonDropdown from '../../../shared/components/common/CommonDropdown';
 import ConfirmDialog from '../../../shared/components/common/ConfirmDialog';
 import { getDropdownOptions } from '../../../shared/utils/dropdownHelper';
+import { formatDate as formatBusinessDate, formatDateTime as formatBusinessDateTime, toDateTimeInput, toUtcDateTime, today } from '../../../shared/utils/dateTime';
 
 const initialForm = {
   siteId: '',
@@ -55,7 +56,7 @@ const initialForm = {
   vendorId: '',
   assignedEmployeeId: '',
   assignedTo: '',
-  assignedDate: new Date().toISOString().slice(0, 10),
+  assignedDate: today(),
   plannedStartDate: '',
   plannedEndDate: '',
   actualStartDate: '',
@@ -119,15 +120,11 @@ const spareStatusColors = {
 const formatLabel = (value) => value ? String(value).replaceAll('_', ' ') : '-';
 
 const formatDate = (value) => {
-  if (!value) return '-';
-  const date = new Date(value);
-  return Number.isNaN(date.getTime()) ? value : date.toLocaleDateString();
+  return formatBusinessDate(value);
 };
 
 const formatDateTime = (value) => {
-  if (!value) return '-';
-  const date = new Date(value);
-  return Number.isNaN(date.getTime()) ? value : date.toLocaleString();
+  return formatBusinessDateTime(value);
 };
 
 const formatMoney = (value) => {
@@ -155,16 +152,6 @@ const downloadBlob = (response, fallbackName) => {
   link.click();
   link.remove();
   window.URL.revokeObjectURL(url);
-};
-
-const toDateTimeInput = (value) => {
-  if (!value) return '';
-  return String(value).slice(0, 16);
-};
-
-const toApiDateTime = (value) => {
-  if (!value) return null;
-  return value.length === 16 ? `${value}:00` : value;
 };
 
 const employeeLabel = (employee) => {
@@ -518,8 +505,8 @@ function MaintenanceAssignmentViewPage() {
       const payload = {
         ...workLogForm,
         technicianEmployeeId: Number(workLogForm.technicianEmployeeId),
-        startTime: toApiDateTime(workLogForm.startTime),
-        endTime: toApiDateTime(workLogForm.endTime),
+        startTime: toUtcDateTime(workLogForm.startTime),
+        endTime: toUtcDateTime(workLogForm.endTime),
       };
       if (editingWorkLogId) {
         await updateAssignmentWorkLog(id, editingWorkLogId, payload);

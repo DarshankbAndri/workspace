@@ -69,7 +69,8 @@ cd performance-data-generator
   -DbHost 'YOUR_POSTGRESQL_HOST' `
   -DbPort 5432 `
   -Database 'YOUR_CMMS_DATABASE' `
-  -DbUser 'YOUR_DATABASE_USER'
+  -DbUser 'YOUR_DATABASE_USER' `
+  -BusinessTimeZone 'Asia/Kolkata'
 ```
 
 `psql` prompts for the database password. Do not put the password in the script or commit it to GitHub.
@@ -134,6 +135,12 @@ CONFIRM_RUN_ID='CLIENTLOAD01' ./run.sh cleanup CLIENTLOAD01
 ```
 
 The optional count environment variables are listed in `run.sh`. The PostgreSQL password can be supplied by a secure `.pgpass` file or entered when `psql` prompts; do not store it in the repository.
+
+Set `CMMS_TIME_ZONE` to the same IANA zone used by the backend when generating date-sensitive rows. It defaults to `Asia/Kolkata`:
+
+```bash
+CMMS_TIME_ZONE='America/New_York' ./run.sh generate CLIENTLOAD01
+```
 
 ## Recommended execution resources
 
