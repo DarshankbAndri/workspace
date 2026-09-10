@@ -21,4 +21,8 @@
         <addForeignKeyConstraint constraintName="fk_request_checklist_item_source_equipment_checklist_item_id" baseTableName="request_checklist_item" baseColumnNames="source_equipment_checklist_item_id" referencedTableName="equipment_checklist_item" referencedColumnNames="id"/>
         <createIndex indexName="idx_request_checklist_item_source_equipment_checklist_item_id" tableName="request_checklist_item"><column name="source_equipment_checklist_item_id"/></createIndex>
     </changeSet>
+    <changeSet id="request-checklist-item-utc-timestamps" author="Codex">
+        <modifyDataType tableName="request_checklist_item" columnName="created_at" newDataType="TIMESTAMP WITH TIME ZONE"/>
+        <modifyDataType tableName="request_checklist_item" columnName="updated_at" newDataType="TIMESTAMP WITH TIME ZONE"/>
+    </changeSet>
 </databaseChangeLog>
