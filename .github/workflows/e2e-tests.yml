@@ -28,7 +28,6 @@ jobs:
       SPRING_DATASOURCE_URL: jdbc:postgresql://127.0.0.1:5432/cmms_e2e
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
-      FILE_STORAGE_PATH: ${{ runner.temp }}/cmms-documents
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
@@ -48,6 +47,8 @@ jobs:
         run: mvn -B clean package
       - name: Start backend
         working-directory: cmms_back_end
+        env:
+          FILE_STORAGE_PATH: ${{ runner.temp }}/cmms-documents
         run: nohup java -jar target/cmms-back-end-1.0.0.jar --server.port=6100 > ../backend-e2e.log 2>&1 &
       - name: Wait for database migrations
         run: npx --yes wait-on@8 http://127.0.0.1:6100/api/actuator/health
