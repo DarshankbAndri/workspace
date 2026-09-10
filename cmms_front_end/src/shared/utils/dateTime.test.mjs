@@ -21,6 +21,12 @@ const configure = (timeZone, serverInstant = '2026-09-07T06:38:32.984Z') => {
 
 test.afterEach(() => __resetDateTimeForTests());
 
+test('uses the configured application defaults before server synchronization', () => {
+  assert.equal(getDateTimeConfig().timeZone, 'Asia/Kolkata');
+  assert.equal(getDateTimeConfig().locale, 'en-IN');
+  assert.match(nowUtcIso(), /Z$/);
+});
+
 test('formats UTC instants in the backend-configured business zone', () => {
   configure('Asia/Kolkata');
   assert.equal(formatDate('2026-09-07'), '07 Sep 2026');

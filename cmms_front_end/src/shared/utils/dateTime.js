@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon';
 
 const STORAGE_KEY = 'cmms:date-time-config';
-const DEFAULT_CONFIG = Object.freeze({ timeZone: 'Asia/­Riyadh', locale: 'en-IN' });
+const DEFAULT_CONFIG = Object.freeze({ timeZone: 'Asia/Kolkata', locale: 'en-IN' });
 
 const readStoredConfig = () => {
   if (typeof localStorage === 'undefined') return null;

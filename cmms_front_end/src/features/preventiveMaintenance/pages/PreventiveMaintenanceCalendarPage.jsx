@@ -71,6 +71,7 @@ function PreventiveMaintenanceCalendarPage() {
   ), [equipments, filters.siteId]);
 
   const loadRows = React.useCallback(() => {
+    if (!rangeStart || !rangeEnd) return;
     setLoading(true);
     setError('');
     getPMCalendarSchedules({

@@ -195,55 +195,6 @@ export const createUserByHR = (hrId, userData) => {
   return api.post(`/users?hrId=${hrId}`, userData);
 };
 
-// Claims API
-export const createClaim = (userId, claimData) => {
-  return api.post(`/claims?userId=${userId}`, claimData);
-};
-
-export const uploadDocument = (entryType, entryId, sectionId, documentName, file) => {
-  const formData = new FormData();
-  formData.append('documentName', documentName);
-  formData.append('file', file);
-  formData.append('sectionId', sectionId);
-  return api.post(`/documents/upload/${entryType}/${entryId}`, formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  });
-};
-
-export const submitClaim = (claimId, userId) => {
-  return api.post(`/claims/${claimId}/submit?userId=${userId}`);
-};
-
-export const getMyClaimsById = (userId) => {
-  return api.get(`/claims/my?userId=${userId}`);
-};
-
-export const getClaimById = (claimId) => {
-  return api.get(`/claims/${claimId}`);
-};
-
-export const getPendingClaimsByManager = (managerId) => {
-  return api.get(`/claims/pending?managerId=${managerId}`);
-};
-
-export const approveClaim = (claimId, managerId, approvalData) => {
-  return api.put(`/claims/${claimId}/approve?managerId=${managerId}`, approvalData);
-};
-
-export const rejectClaim = (claimId, managerId, approvalData) => {
-  return api.put(`/claims/${claimId}/reject?managerId=${managerId}`, approvalData);
-};
-
-export const approveClaimByHR = (claimId, hrId, approvalData) => {
-  return api.put(`/claims/${claimId}/hr-approve?hrId=${hrId}`, approvalData);
-};
-
-export const markClaimAsPaid = (claimId, hrId) => {
-  return api.put(`/claims/${claimId}/pay?hrId=${hrId}`);
-};
-
 // Document download API - Create separate axios instance for file downloads
 const fileApi = axios.create({
   baseURL: API_BASE_URL,
