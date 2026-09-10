@@ -24,7 +24,6 @@ jobs:
       CMMS_UI_BASE_URL: http://127.0.0.1:6200
       CMMS_API_BASE_URL: http://127.0.0.1:6100/api
       CMMS_ADMIN_USERNAME: superadmin
-      CMMS_ADMIN_PASSWORD: ${{ secrets.CMMS_ADMIN_PASSWORD }}
       E2E_TEST_DATABASE_NAME: cmms_e2e
       SPRING_DATASOURCE_URL: jdbc:postgresql://127.0.0.1:5432/cmms_e2e
       SPRING_DATASOURCE_USERNAME: postgres
@@ -51,10 +50,25 @@ jobs:
         run: nohup java -jar target/cmms-back-end-1.0.0.jar --server.port=6100 > ../backend-e2e.log 2>&1 &
       - name: Wait for database migrations
         run: npx --yes wait-on@8 http://127.0.0.1:6100/api/actuator/health
+      - name: Generate ephemeral test credential
+        shell: bash
+        run: |
+          password="$(openssl rand -hex 24)"
+          echo "::add-mask::$password"
+          echo "CMMS_ADMIN_PASSWORD=$password" >> "$GITHUB_ENV"
       - name: Seed test administrator
         env:
           PGPASSWORD: postgres
-        run: psql -h 127.0.0.1 -U postgres -d cmms_e2e -f cmms_back_end/src/main/resources/db/sample/superadmin.sql
+        shell: bash
+        run: |
+          psql -h 127.0.0.1 -U postgres -d cmms_e2e -f cmms_back_end/src/main/resources/db/sample/superadmin.sql
+          psql -h 127.0.0.1 -U postgres -d cmms_e2e --set=admin_password="$CMMS_ADMIN_PASSWORD" <<'SQL'
+          CREATE EXTENSION IF NOT EXISTS pgcrypto;
+          UPDATE users
+          SET password = crypt(:'admin_password', gen_salt('bf', 10)),
+              updated_at = CURRENT_TIMESTAMP
+          WHERE username = 'superadmin';
+          SQL
       - name: Build and start frontend
         working-directory: cmms_front_end
         run: |

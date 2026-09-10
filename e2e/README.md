@@ -75,4 +75,4 @@ Put each suite in its module folder, use `fixtures/cmms.fixture.ts`, factories, 
 
 ## CI
 
-`.github/workflows/e2e-tests.yml` provisions an isolated PostgreSQL service, builds both applications, starts them, runs smoke then regression, and uploads reports. Configure `CMMS_ADMIN_PASSWORD` as a repository/environment secret matching the test seed. Site-scoped and viewer credentials are optional secrets but required for zero skipped security tests.
+`.github/workflows/e2e-tests.yml` provisions an isolated PostgreSQL service, generates and masks a fresh administrator password, updates the ephemeral test seed to use it, builds both applications, starts them, runs smoke then regression, and uploads reports. No administrator password needs to be stored in GitHub. Site-scoped and viewer credentials are optional secrets but required for zero skipped security tests.
