@@ -1,6 +1,7 @@
 import React from 'react';
-import { Alert, Box, Button, Checkbox, Chip, FormControlLabel, Grid, IconButton, Stack, Tooltip, Typography } from '@mui/material';
-import { Add, Delete, KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
+import CommonEquipmentChecklistSelector from '../../../shared/components/common/CommonEquipmentChecklistSelector';
+import { checklistApiError } from '../../../shared/utils/checklistSelection';
+import { Alert, Box, Chip, Grid, Stack, Typography } from '@mui/material';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { getEquipments } from '../../equipment/services/equipmentService';
 import { getSites } from '../../site/services/siteService';
@@ -36,20 +37,11 @@ const initialForm = {
 
 const FREQUENCY_OPTIONS = getDropdownOptions('PREVENTIVE_MAINTENANCE', 'frequency');
 const PRIORITY_OPTIONS = getDropdownOptions('COMMON', 'criticalityPriority');
-const RESPONSE_TYPE_OPTIONS = getDropdownOptions('COMMON', 'checklistResponseType');
 const PM_ACTIVE_OPTIONS = getDropdownOptions('PREVENTIVE_MAINTENANCE', 'active');
 const PM_STATUS_OPTIONS = getDropdownOptions('PREVENTIVE_MAINTENANCE', 'approvalStatus');
 const INTERNAL_TEAM_OPTIONS = getDropdownOptions('PREVENTIVE_MAINTENANCE', 'internalTeamOption');
 const AMC_NOT_LINKED_OPTIONS = getDropdownOptions('PREVENTIVE_MAINTENANCE', 'amcNotLinkedOption');
 const AMC_LOADING_OPTIONS = getDropdownOptions('PREVENTIVE_MAINTENANCE', 'amcLoadingOption');
-const sampleChecklistItems = [
-  { taskTitle: 'Inspect oil level', instructions: '', required: true, proofRequired: false, responseType: 'CHECKBOX', active: true },
-  { taskTitle: 'Check belt tension', instructions: '', required: true, proofRequired: false, responseType: 'CHECKBOX', active: true },
-  { taskTitle: 'Clean filter', instructions: '', required: true, proofRequired: false, responseType: 'CHECKBOX', active: true },
-  { taskTitle: 'Record vibration reading', instructions: '', required: true, proofRequired: false, responseType: 'NUMBER', active: true },
-  { taskTitle: 'Upload proof/photo', instructions: '', required: true, proofRequired: true, responseType: 'PHOTO', active: true },
-];
-
 function PreventiveMaintenanceFormPage() {
   const { id } = useParams();
   const location = useLocation();
@@ -127,8 +119,17 @@ function PreventiveMaintenanceFormPage() {
       ...(field === 'startDate' && !isEdit ? { nextDueDate: value } : {}),
     }));
   };
-  const updateSite = (event) => setForm((current) => ({ ...current, siteId: event.target.value, equipmentId: '', vendorId: '', amcContractId: '' }));
-  const updateEquipment = (event) => setForm((current) => ({ ...current, equipmentId: event.target.value, amcContractId: '' }));
+  const confirmChecklistClear = () => !(form.checklistItems || []).length || window.confirm('Changing equipment clears the selected checklist steps, including custom steps. Continue?');
+  const updateSite = (event) => {
+    if (String(event.target.value) === String(form.siteId)) return;
+    if (!confirmChecklistClear()) return;
+    setForm(current => ({ ...current, siteId: event.target.value, equipmentId: '', vendorId: '', amcContractId: '', checklistItems: [] }));
+  };
+  const updateEquipment = (event) => {
+    if (String(event.target.value) === String(form.equipmentId)) return;
+    if (!confirmChecklistClear()) return;
+    setForm(current => ({ ...current, equipmentId: event.target.value, amcContractId: '', checklistItems: [] }));
+  };
   const updateAmcContract = (event) => {
     const value = event.target.value;
     setForm((current) => ({
@@ -137,45 +138,6 @@ function PreventiveMaintenanceFormPage() {
       ...(value && activeAmc ? { vendorId: activeAmc.vendorId || current.vendorId } : {}),
     }));
   };
-  const updateChecklistItem = (index, field, value) => {
-    setForm((current) => ({
-      ...current,
-      checklistItems: (current.checklistItems || []).map((item, itemIndex) => (
-        itemIndex === index ? { ...item, [field]: value } : item
-      )),
-    }));
-  };
-  const addChecklistItem = () => {
-    setForm((current) => ({
-      ...current,
-      checklistItems: [
-        ...(current.checklistItems || []),
-        { taskTitle: '', instructions: '', required: true, proofRequired: false, responseType: 'CHECKBOX', active: true },
-      ],
-    }));
-  };
-  const addSampleChecklist = () => {
-    setForm((current) => ({
-      ...current,
-      checklistItems: (current.checklistItems || []).length ? current.checklistItems : sampleChecklistItems,
-    }));
-  };
-  const removeChecklistItem = (index) => {
-    setForm((current) => ({
-      ...current,
-      checklistItems: (current.checklistItems || []).filter((_, itemIndex) => itemIndex !== index),
-    }));
-  };
-  const moveChecklistItem = (index, direction) => {
-    setForm((current) => {
-      const rows = [...(current.checklistItems || [])];
-      const targetIndex = index + direction;
-      if (targetIndex < 0 || targetIndex >= rows.length) return current;
-      [rows[index], rows[targetIndex]] = [rows[targetIndex], rows[index]];
-      return { ...current, checklistItems: rows };
-    });
-  };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError('');
@@ -191,7 +153,6 @@ function PreventiveMaintenanceFormPage() {
         active: form.active !== 'false',
         status: form.status || 'ACTIVE',
         checklistItems: (form.checklistItems || [])
-          .filter((item) => (item.taskTitle || '').trim())
           .map((item, index) => ({
             ...item,
             sequenceNumber: index + 1,
@@ -209,7 +170,7 @@ function PreventiveMaintenanceFormPage() {
       }
       navigate('/maintenance/preventive');
     } catch (err) {
-      setError(err.response?.data?.message || 'Unable to save PM schedule.');
+      setError(checklistApiError(err, 'Unable to save PM schedule.'));
     } finally {
       setSaving(false);
     }
@@ -295,54 +256,8 @@ function PreventiveMaintenanceFormPage() {
             <Grid item xs={12} md={3}><CommonDatePicker required disabled={isView} label="Next Due Date" value={form.nextDueDate || ''} onChange={updateField('nextDueDate')} /></Grid>
             <Grid item xs={12}><CommonTextArea required disabled={isView} minRows={2} label="Description" value={form.description || ''} onChange={updateField('description')} /></Grid>
             <Grid item xs={12}>
-              <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" alignItems={{ xs: 'stretch', sm: 'center' }} spacing={1} sx={{ mt: 1 }}>
-                <Typography variant="h6" fontWeight={800}>Checklist</Typography>
-                {!isView && (
-                  <Stack direction="row" spacing={1}>
-                    <Button variant="outlined" startIcon={<Add />} onClick={addSampleChecklist} disabled={(form.checklistItems || []).length > 0}>Samples</Button>
-                    <Button variant="contained" startIcon={<Add />} onClick={addChecklistItem}>Add Step</Button>
-                  </Stack>
-                )}
-              </Stack>
+              <CommonEquipmentChecklistSelector equipmentId={form.equipmentId} items={form.checklistItems || []} readOnly={isView} onChange={checklistItems => setForm(current => ({ ...current, checklistItems }))} />
             </Grid>
-            {(form.checklistItems || []).map((item, index) => (
-              <Grid item xs={12} key={`${item.id || 'new'}-${index}`}>
-                <Box sx={{ border: 1, borderColor: 'divider', borderRadius: 1, p: 1.5 }}>
-                  <Grid container spacing={1.5} alignItems="center">
-                    <Grid item xs={12} md={3}>
-                      <CommonInput fullWidth required disabled={isView} label={`Step ${index + 1}`} value={item.taskTitle || ''} onChange={(event) => updateChecklistItem(index, 'taskTitle', event.target.value)} />
-                    </Grid>
-                    <Grid item xs={12} md={3}>
-                      <CommonInput fullWidth disabled={isView} label="Instructions" value={item.instructions || ''} onChange={(event) => updateChecklistItem(index, 'instructions', event.target.value)} />
-                    </Grid>
-                    <Grid item xs={12} md={2}>
-                      <CommonDropdown
-                        disabled={isView}
-                        label="Response"
-                        value={item.responseType || 'CHECKBOX'}
-                        onChange={(event) => updateChecklistItem(index, 'responseType', event.target.value)}
-                        options={RESPONSE_TYPE_OPTIONS}
-                      />
-                    </Grid>
-                    <Grid item xs={12} md={2}>
-                      <Stack direction="row" spacing={1}>
-                        <FormControlLabel control={<Checkbox disabled={isView} checked={item.required !== false} onChange={(event) => updateChecklistItem(index, 'required', event.target.checked)} />} label="Required" />
-                        <FormControlLabel control={<Checkbox disabled={isView} checked={Boolean(item.proofRequired)} onChange={(event) => updateChecklistItem(index, 'proofRequired', event.target.checked)} />} label="Proof" />
-                      </Stack>
-                    </Grid>
-                    {!isView && (
-                      <Grid item xs={12} md={2}>
-                        <Stack direction="row" spacing={0.5} justifyContent={{ xs: 'flex-start', md: 'flex-end' }}>
-                          <Tooltip title="Move up"><span><IconButton disabled={index === 0} onClick={() => moveChecklistItem(index, -1)}><KeyboardArrowUp /></IconButton></span></Tooltip>
-                          <Tooltip title="Move down"><span><IconButton disabled={index === (form.checklistItems || []).length - 1} onClick={() => moveChecklistItem(index, 1)}><KeyboardArrowDown /></IconButton></span></Tooltip>
-                          <Tooltip title="Remove"><IconButton color="error" onClick={() => removeChecklistItem(index)}><Delete /></IconButton></Tooltip>
-                        </Stack>
-                      </Grid>
-                    )}
-                  </Grid>
-                </Box>
-              </Grid>
-            ))}
           </Grid>
           <CommonFormActions
             saving={saving}

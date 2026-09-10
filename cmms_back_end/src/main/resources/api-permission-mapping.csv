@@ -234,8 +234,8 @@ ASSIGNMENT_CHECKLIST_VIEW,/api/maintenance/assignments/{assignmentId}/checklist,
 ASSIGNMENT_CHECKLIST_UPDATE,/api/maintenance/assignments/{assignmentId}/checklist,POST,Create assignment checklist item
 ASSIGNMENT_CHECKLIST_UPDATE,/api/maintenance/assignments/{assignmentId}/checklist/{itemId},PUT,Update assignment checklist item
 ASSIGNMENT_CHECKLIST_UPDATE,/api/maintenance/assignments/{assignmentId}/checklist/{itemId},DELETE,Delete assignment checklist item
-ASSIGNMENT_CHECKLIST_UPDATE,/api/maintenance/assignments/{assignmentId}/checklist/{itemId}/proof,POST,Upload assignment checklist proof
-ASSIGNMENT_CHECKLIST_UPDATE,/api/maintenance/assignments/{assignmentId}/checklist/{itemId}/proof/{proofId},DELETE,Delete assignment checklist proof
+ASSIGNMENT_CHECKLIST_PROOF_UPLOAD,/api/maintenance/assignments/{assignmentId}/checklist/{itemId}/proof,POST,Upload assignment checklist proof
+ASSIGNMENT_CHECKLIST_PROOF_DELETE,/api/maintenance/assignments/{assignmentId}/checklist/{itemId}/proof/{proofId},DELETE,Delete assignment checklist proof
 ASSIGNMENT_WORK_LOG_VIEW,/api/maintenance/assignments/{assignmentId}/work-logs,GET,View assignment work logs
 ASSIGNMENT_WORK_LOG_CREATE,/api/maintenance/assignments/{assignmentId}/work-logs,POST,Create assignment work log
 ASSIGNMENT_WORK_LOG_CREATE,/api/maintenance/assignments/{assignmentId}/work-logs/{workLogId}/attachments,POST,Upload assignment work log attachment
@@ -440,3 +440,7 @@ REORDER_CREATE,/api/spare-part-reorders,POST,Create spare part reorder
 REORDER_CREATE,/api/spare-requests/{id}/create-purchase-request,POST,Create purchase request from spare request
 REORDER_UPDATE,/api/spare-part-reorders/{id},PUT,Update spare part reorder
 REORDER_UPDATE,/api/spare-part-reorders/{id}/receive-stock,POST,Receive reorder stock
+EQUIPMENT_VIEW,/api/equipment/{id}/checklists,GET,Equipment checklist selection
+EQUIPMENT_UPDATE,/api/equipment/{id}/checklists,GET,Equipment checklist selection
+REQUEST_CREATE,/api/equipment/{id}/checklists,GET,Equipment checklist selection
+REQUEST_UPDATE,/api/equipment/{id}/checklists,GET,Equipment checklist selection

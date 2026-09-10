@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet id="request_checklist_item-create" author="Codex">
+        <createTable tableName="request_checklist_item">
+            <column name="id" type="BIGINT" autoIncrement="true"><constraints nullable="false" primaryKey="true"/></column>
+            <column name="request_id" type="BIGINT"><constraints nullable="false"/></column>
+            <column name="sequence_number" type="INT"><constraints nullable="false"/></column>
+            <column name="task_title" type="VARCHAR(200)"><constraints nullable="false"/></column>
+            <column name="instructions" type="VARCHAR(1000)"></column>
+            <column name="required" type="BOOLEAN"><constraints nullable="false"/></column>
+            <column name="proof_required" type="BOOLEAN"><constraints nullable="false"/></column>
+            <column name="response_type" type="VARCHAR(30)"><constraints nullable="false"/></column>
+            <column name="active" type="BOOLEAN"><constraints nullable="false"/></column>
+            <column name="created_at" type="TIMESTAMP"><constraints nullable="false"/></column>
+            <column name="updated_at" type="TIMESTAMP"><constraints nullable="false"/></column>
+            <column name="source_equipment_checklist_item_id" type="BIGINT"></column>
+            <column name="source_checklist_name" type="VARCHAR(200)"></column>
+        </createTable>
+        <addForeignKeyConstraint constraintName="fk_request_checklist_item_request_id" baseTableName="request_checklist_item" baseColumnNames="request_id" referencedTableName="maintenance_request" referencedColumnNames="id"/>
+        <createIndex indexName="idx_request_checklist_item_request_id" tableName="request_checklist_item"><column name="request_id"/></createIndex>
+        <addForeignKeyConstraint constraintName="fk_request_checklist_item_source_equipment_checklist_item_id" baseTableName="request_checklist_item" baseColumnNames="source_equipment_checklist_item_id" referencedTableName="equipment_checklist_item" referencedColumnNames="id"/>
+        <createIndex indexName="idx_request_checklist_item_source_equipment_checklist_item_id" tableName="request_checklist_item"><column name="source_equipment_checklist_item_id"/></createIndex>
+    </changeSet>
+</databaseChangeLog>

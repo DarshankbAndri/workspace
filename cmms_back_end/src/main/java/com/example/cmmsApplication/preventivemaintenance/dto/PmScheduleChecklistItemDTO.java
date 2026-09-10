@@ -13,6 +13,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class PmScheduleChecklistItemDTO {
     private Long id;
+    private Long sourceEquipmentChecklistItemId;
+    private String sourceChecklistName;
     private Integer sequenceNumber;
     @NotBlank(message = "Checklist task title is required")
     private String taskTitle;

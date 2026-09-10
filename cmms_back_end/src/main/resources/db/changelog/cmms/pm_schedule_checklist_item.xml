@@ -53,4 +53,12 @@
             <column name="pm_schedule_id"/>
         </createIndex>
     </changeSet>
+    <changeSet id="pm_schedule_checklist_item-equipment-checklist-sources" author="Codex">
+        <addColumn tableName="pm_schedule_checklist_item">
+            <column name="source_equipment_checklist_item_id" type="BIGINT"></column>
+            <column name="source_checklist_name" type="VARCHAR(200)"></column>
+        </addColumn>
+        <addForeignKeyConstraint constraintName="fk_pm_schedule_checklist_item_source_equipment_checklist_item_id" baseTableName="pm_schedule_checklist_item" baseColumnNames="source_equipment_checklist_item_id" referencedTableName="equipment_checklist_item" referencedColumnNames="id"/>
+        <createIndex indexName="idx_pm_schedule_checklist_item_source_equipment_checklist_item_id" tableName="pm_schedule_checklist_item"><column name="source_equipment_checklist_item_id"/></createIndex>
+    </changeSet>
 </databaseChangeLog>

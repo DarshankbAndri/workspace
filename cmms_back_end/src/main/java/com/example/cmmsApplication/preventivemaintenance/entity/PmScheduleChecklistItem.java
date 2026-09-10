@@ -36,6 +36,11 @@ public class PmScheduleChecklistItem {
     @JoinColumn(name = "pm_schedule_id", nullable = false)
     private PreventiveMaintenanceSchedule schedule;
 
+    @Column(name = "source_equipment_checklist_item_id")
+    private Long sourceEquipmentChecklistItemId;
+    @Column(name = "source_checklist_name", length = 200)
+    private String sourceChecklistName;
+
     @Column(name = "sequence_number", nullable = false)
     private Integer sequenceNumber;
 

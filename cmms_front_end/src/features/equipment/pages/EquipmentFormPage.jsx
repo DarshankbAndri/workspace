@@ -72,8 +72,9 @@ function EquipmentFormPage() {
     setSaving(true);
     setError('');
     try {
+      const equipmentFields = Object.fromEntries(Object.entries(form).filter(([field]) => field !== 'checklists'));
       const payload = {
-        ...form,
+        ...equipmentFields,
         siteId: Number(form.siteId),
         purchaseCost: form.purchaseCost === '' ? null : Number(form.purchaseCost),
       };

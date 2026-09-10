@@ -1,4 +1,6 @@
 import React from 'react';
+import CommonEquipmentChecklistSelector from '../../../shared/components/common/CommonEquipmentChecklistSelector';
+import { checklistApiError } from '../../../shared/utils/checklistSelection';
 import { Alert, Box, Chip, Grid, Stack, Typography } from '@mui/material';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { createMaintenanceRequest, getMaintenanceRequestById, getRequestContext, updateMaintenanceRequest } from '../services/maintenanceRequestService';
@@ -14,6 +16,7 @@ import { getDropdownOptions } from '../../../shared/utils/dropdownHelper';
 import { today } from '../../../shared/utils/dateTime';
 
 const initialForm = {
+  checklistItems: [],
   siteId: '',
   equipmentId: '',
   requestType: 'BREAKDOWN',
@@ -77,16 +80,21 @@ function MaintenanceRequestFormPage() {
 
   const formEquipments = equipments.filter((equipment) => String(equipment.siteId || '') === String(form.siteId || ''));
   const updateField = (field) => (event) => setForm((current) => ({ ...current, [field]: event.target.value }));
+  const confirmChecklistClear = () => !(form.checklistItems || []).length || window.confirm('Changing equipment clears the selected checklist steps, including custom steps. Continue?');
   const updateSite = (event) => {
+    if (String(event.target.value) === String(form.siteId)) return;
+    if (!confirmChecklistClear()) return;
     setActiveAmc(null);
     setRequestContext(null);
-    setForm((current) => ({ ...current, siteId: event.target.value, equipmentId: '', amcContractId: '', amcCovered: false, externalVendorAssignment: false, vendorId: '' }));
+    setForm((current) => ({ ...current, siteId: event.target.value, equipmentId: '', checklistItems: [], amcContractId: '', amcCovered: false, externalVendorAssignment: false, vendorId: '' }));
   };
   const updateEquipment = (event) => {
+    if (String(event.target.value) === String(form.equipmentId)) return;
+    if (!confirmChecklistClear()) return;
     const equipmentId = event.target.value;
     setActiveAmc(null);
     setRequestContext(null);
-    setForm((current) => ({ ...current, equipmentId, amcContractId: '', amcCovered: false, externalVendorAssignment: false, vendorId: '' }));
+    setForm((current) => ({ ...current, equipmentId, checklistItems: [], amcContractId: '', amcCovered: false, externalVendorAssignment: false, vendorId: '' }));
   };
 
   const loadRequestContext = (equipmentId) => {
@@ -149,7 +157,7 @@ function MaintenanceRequestFormPage() {
       }
       navigate('/maintenance/requests');
     } catch (err) {
-      setError(err.response?.data?.message || 'Unable to save maintenance request.');
+      setError(checklistApiError(err, 'Unable to save maintenance request.'));
     } finally {
       setSaving(false);
     }
@@ -251,6 +259,7 @@ function MaintenanceRequestFormPage() {
             <Grid item xs={12} md={3}><CommonDatePicker disabled={isView} label="Target Completion" value={form.targetCompletionDate || ''} onChange={updateField('targetCompletionDate')} /></Grid>
             <Grid item xs={12} md={12}><CommonTextArea required disabled={isView} minRows={2} label="Description" value={form.description || ''} onChange={updateField('description')} /></Grid>
           </Grid>
+          <CommonEquipmentChecklistSelector equipmentId={form.equipmentId} items={form.checklistItems || []} readOnly={isView} onChange={checklistItems => setForm(current => ({ ...current, checklistItems }))} />
           <CommonFormActions
             saving={saving}
             showSave={!isView}

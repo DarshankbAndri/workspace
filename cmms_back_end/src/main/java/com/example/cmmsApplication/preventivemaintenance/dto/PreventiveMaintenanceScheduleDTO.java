@@ -62,6 +62,7 @@ public class PreventiveMaintenanceScheduleDTO {
     private Instant updatedAt;
     private Long approvalRequestId;
     private String approvalStatus;
-    private List<PmScheduleChecklistItemDTO> checklistItems = new ArrayList<>();
+    @jakarta.validation.Valid
+    private List<PmScheduleChecklistItemDTO> checklistItems;
 
 }

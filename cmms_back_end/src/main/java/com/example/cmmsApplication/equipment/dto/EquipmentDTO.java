@@ -17,6 +17,8 @@ import lombok.AllArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EquipmentDTO {
+    @jakarta.validation.Valid
+    private EquipmentChecklistsDTO checklists;
     private Long id;
     @NotBlank(message = "Equipment code is required")
     private String equipmentCode;
