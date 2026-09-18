@@ -231,17 +231,19 @@ ASSIGNMENT_UPDATE,/api/hr/employees/search,POST,Update assignment technician hel
 ASSIGNMENT_UPDATE,/api/spare-parts/site/{siteId},GET,Update assignment site spare helper data
 ASSIGNMENT_DELETE,/api/maintenance/assignments/{id},DELETE,Delete maintenance assignment
 ASSIGNMENT_CHECKLIST_VIEW,/api/maintenance/assignments/{assignmentId}/checklist,GET,View assignment checklist
+ASSIGNMENT_CHECKLIST_VIEW,/api/maintenance/assignments/{assignmentId}/checklist/{itemId}/proof/{proofId},GET,Download assignment checklist proof
 ASSIGNMENT_CHECKLIST_UPDATE,/api/maintenance/assignments/{assignmentId}/checklist,POST,Create assignment checklist item
 ASSIGNMENT_CHECKLIST_UPDATE,/api/maintenance/assignments/{assignmentId}/checklist/{itemId},PUT,Update assignment checklist item
 ASSIGNMENT_CHECKLIST_UPDATE,/api/maintenance/assignments/{assignmentId}/checklist/{itemId},DELETE,Delete assignment checklist item
 ASSIGNMENT_CHECKLIST_PROOF_UPLOAD,/api/maintenance/assignments/{assignmentId}/checklist/{itemId}/proof,POST,Upload assignment checklist proof
 ASSIGNMENT_CHECKLIST_PROOF_DELETE,/api/maintenance/assignments/{assignmentId}/checklist/{itemId}/proof/{proofId},DELETE,Delete assignment checklist proof
 ASSIGNMENT_WORK_LOG_VIEW,/api/maintenance/assignments/{assignmentId}/work-logs,GET,View assignment work logs
+ASSIGNMENT_WORK_LOG_VIEW,/api/maintenance/assignments/{assignmentId}/work-logs/{workLogId}/attachments/{attachmentId},GET,Download assignment work log attachment
 ASSIGNMENT_WORK_LOG_CREATE,/api/maintenance/assignments/{assignmentId}/work-logs,POST,Create assignment work log
-ASSIGNMENT_WORK_LOG_CREATE,/api/maintenance/assignments/{assignmentId}/work-logs/{workLogId}/attachments,POST,Upload assignment work log attachment
+ASSIGNMENT_WORK_LOG_ATTACHMENT_UPLOAD,/api/maintenance/assignments/{assignmentId}/work-logs/{workLogId}/attachments,POST,Upload assignment work log attachment
 ASSIGNMENT_WORK_LOG_UPDATE,/api/maintenance/assignments/{assignmentId}/work-logs/{workLogId},PUT,Update assignment work log
 ASSIGNMENT_WORK_LOG_DELETE,/api/maintenance/assignments/{assignmentId}/work-logs/{workLogId},DELETE,Delete assignment work log
-ASSIGNMENT_WORK_LOG_DELETE,/api/maintenance/assignments/{assignmentId}/work-logs/{workLogId}/attachments/{attachmentId},DELETE,Delete assignment work log attachment
+ASSIGNMENT_WORK_LOG_ATTACHMENT_DELETE,/api/maintenance/assignments/{assignmentId}/work-logs/{workLogId}/attachments/{attachmentId},DELETE,Delete assignment work log attachment
 DOWNTIME_VIEW,/api/maintenance/downtime/{id},GET,View downtime
 DOWNTIME_VIEW,/api/maintenance/downtime,GET,View downtime
 DOWNTIME_VIEW,/api/maintenance/downtime/{id}/timeline,GET,View downtime
@@ -326,7 +328,10 @@ ROLE_VIEW,/api/admin/roles,GET,View roles
 ROLE_VIEW,/api/admin/roles/{id},GET,View roles
 ROLE_VIEW,/api/admin/roles/search,POST,Search roles
 ROLE_CREATE,/api/admin/roles,POST,Create role
+ROLE_CREATE,/api/admin/permissions/grouped,GET,Create role permission helper data
 ROLE_UPDATE,/api/admin/roles/{id},PUT,Update role
+ROLE_UPDATE,/api/admin/roles/{id},GET,Update role helper data
+ROLE_UPDATE,/api/admin/permissions/grouped,GET,Update role permission helper data
 ROLE_DELETE,/api/admin/roles/{id},DELETE,Delete role
 PERMISSION_VIEW,/api/admin/permissions,GET,View permissions
 PERMISSION_VIEW,/api/admin/permissions/grouped,GET,View permissions
@@ -336,8 +341,17 @@ USER_ROLE_UPDATE,/api/admin/users/{userId}/roles,PUT,Update user role assignment
 USER_ROLE_VIEW,/api/users,GET,View user account list
 USER_ROLE_VIEW,/api/users/{id},GET,View user accounts
 USER_ROLE_VIEW,/api/users/username/{username},GET,View user accounts
+USER_ROLE_VIEW,/api/admin/roles,GET,View user role helper data
+USER_ROLE_VIEW,/api/hr/sites,GET,View user role site helper data
 USER_ROLE_ASSIGN,/api/users,POST,Create user account
+USER_ROLE_ASSIGN,/api/admin/roles,GET,Assign user role helper data
+USER_ROLE_ASSIGN,/api/hr/sites,GET,Assign user role site helper data
 USER_ROLE_UPDATE,/api/users/{id},PUT,Update user account
+USER_ROLE_UPDATE,/api/admin/roles,GET,Update user role helper data
+USER_ROLE_UPDATE,/api/hr/sites,GET,Update user role site helper data
+EMPLOYEE_VIEW,/api/admin/roles,GET,View employee role helper data
+EMPLOYEE_CREATE,/api/admin/roles,GET,Create employee role helper data
+EMPLOYEE_UPDATE,/api/admin/roles,GET,Update employee role helper data
 APPROVAL_VIEW,/api/approvals/pending,GET,View approvals
 APPROVAL_VIEW,/api/approvals/pending/search,POST,Search pending approvals
 APPROVAL_VIEW,/api/approvals/history,GET,View approvals
@@ -349,8 +363,10 @@ APPROVAL_VIEW,/api/hr/sites,GET,Approval site helper data
 APPROVAL_APPROVE,/api/approvals/{approvalRequestId}/approve,POST,Approve request
 APPROVAL_REJECT,/api/approvals/{approvalRequestId}/reject,POST,Reject request
 APPROVAL_CONFIG_VIEW,/api/admin/approval-config,GET,View approval configuration
+APPROVAL_CONFIG_VIEW,/api/admin/roles,GET,View approval role helper data
 APPROVAL_CONFIG_UPDATE,/api/admin/approval-config,POST,Create approval configuration
 APPROVAL_CONFIG_UPDATE,/api/admin/approval-config/{id},PUT,Update approval configuration
+APPROVAL_CONFIG_UPDATE,/api/admin/roles,GET,Update approval role helper data
 NOTIFICATION_VIEW,/api/notifications,GET,View notifications
 NOTIFICATION_VIEW,/api/notifications/stream,GET,View notifications
 NOTIFICATION_VIEW,/api/notifications/unread-count,GET,View notifications
@@ -358,7 +374,9 @@ NOTIFICATION_UPDATE,/api/notifications/{id}/read,PUT,Mark notification read
 NOTIFICATION_UPDATE,/api/notifications/read-all,PUT,Mark all notifications read
 NOTIFICATION_UPDATE,/api/notifications/{id}/archive,PUT,Archive notification
 NOTIFICATION_CONFIG_VIEW,/api/admin/notification-settings,GET,View notification settings
+NOTIFICATION_CONFIG_VIEW,/api/admin/roles,GET,View notification role helper data
 NOTIFICATION_CONFIG_UPDATE,/api/admin/notification-settings,PUT,Update notification settings
+NOTIFICATION_CONFIG_UPDATE,/api/admin/roles,GET,Update notification role helper data
 SPARE_PART_VIEW,/api/spare-parts/{stockId},GET,View spare parts
 SPARE_PART_VIEW,/api/spare-parts/site/{siteId},GET,View spare parts
 SPARE_PART_VIEW,/api/spare-parts/{stockId}/transactions,GET,View spare parts

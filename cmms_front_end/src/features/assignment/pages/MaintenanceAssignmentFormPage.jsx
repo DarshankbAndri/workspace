@@ -117,12 +117,18 @@ function MaintenanceAssignmentFormPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const { hasPermission } = useAuth();
+  const canViewChecklist = hasPermission('ASSIGNMENT_CHECKLIST_VIEW');
+  const canViewWorkLogs = hasPermission('ASSIGNMENT_WORK_LOG_VIEW');
+  const canViewSpares = hasPermission('SPARE_USAGE_VIEW');
+  const hasWorkflowAccess = canViewChecklist || canViewWorkLogs || canViewSpares;
   const isEdit = Boolean(id) && !location.pathname.endsWith('/view');
   const isView = location.pathname.endsWith('/view');
   const workflowTabFromQuery = React.useMemo(() => {
     const targetTab = new URLSearchParams(location.search).get('tab');
-    return workflowTabByQuery[targetTab] ?? 0;
-  }, [location.search]);
+    const requestedTab = workflowTabByQuery[targetTab];
+    const allowedTabs = [canViewChecklist && 0, canViewWorkLogs && 1, canViewSpares && 2].filter((value) => value !== false);
+    return allowedTabs.includes(requestedTab) ? requestedTab : (allowedTabs[0] ?? false);
+  }, [canViewChecklist, canViewSpares, canViewWorkLogs, location.search]);
   const requestIdFromQuery = React.useMemo(() => new URLSearchParams(location.search).get('requestId') || '', [location.search]);
   const [form, setForm] = React.useState(initialForm);
   const [sites, setSites] = React.useState([]);
@@ -206,38 +212,38 @@ function MaintenanceAssignmentFormPage() {
   }, [form.siteId]);
 
   const loadSpares = React.useCallback(() => {
-    if (!id) {
+    if (!id || !canViewSpares) {
       setSpareRows([]);
       return;
     }
     getAssignmentSpares(id)
       .then((data) => setSpareRows(data || []))
       .catch(() => setError('Unable to load assignment spare usage.'));
-  }, [id]);
+  }, [canViewSpares, id]);
 
   React.useEffect(() => { loadSpares(); }, [loadSpares]);
 
   const loadChecklist = React.useCallback(() => {
-    if (!id) {
+    if (!id || !canViewChecklist) {
       setChecklistRows([]);
       return;
     }
     getAssignmentChecklist(id)
       .then((data) => setChecklistRows(data || []))
       .catch(() => setError('Unable to load assignment checklist.'));
-  }, [id]);
+  }, [canViewChecklist, id]);
 
   React.useEffect(() => { loadChecklist(); }, [loadChecklist]);
 
   const loadWorkLogs = React.useCallback(() => {
-    if (!id) {
+    if (!id || !canViewWorkLogs) {
       setWorkLogRows([]);
       return;
     }
     getAssignmentWorkLogs(id)
       .then((data) => setWorkLogRows(data || []))
       .catch(() => setError('Unable to load technician work logs.'));
-  }, [id]);
+  }, [canViewWorkLogs, id]);
 
   React.useEffect(() => { loadWorkLogs(); }, [loadWorkLogs]);
 
@@ -777,16 +783,16 @@ function MaintenanceAssignmentFormPage() {
           />
         </Paper>
       </Box>
-      {id && (
+      {id && hasWorkflowAccess && (
         <Paper sx={{ borderRadius: 1, mt: 2 }}>
           <Tabs value={workflowTab} onChange={(event, nextTab) => setWorkflowTab(nextTab)} variant="scrollable" scrollButtons="auto">
-            <Tab label={`Checklist (${completedChecklistCount}/${checklistRows.length})`} />
-            <Tab label={`Work Logs (${completedWorkLogCount}/${workLogRows.length})`} />
-            <Tab label={`Spare Parts (${spareRows.length})`} />
+            {canViewChecklist && <Tab value={0} label={`Checklist (${completedChecklistCount}/${checklistRows.length})`} />}
+            {canViewWorkLogs && <Tab value={1} label={`Work Logs (${completedWorkLogCount}/${workLogRows.length})`} />}
+            {canViewSpares && <Tab value={2} label={`Spare Parts (${spareRows.length})`} />}
           </Tabs>
         </Paper>
       )}
-      {id && workflowTab === 0 && (
+      {id && canViewChecklist && workflowTab === 0 && (
         <Paper sx={{ p: 3, borderRadius: 1, mt: 2 }}>
           <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" alignItems={{ xs: 'stretch', sm: 'center' }} spacing={1.5} sx={{ mb: 2 }}>
             <Stack direction="row" spacing={1} alignItems="center">
@@ -878,7 +884,7 @@ function MaintenanceAssignmentFormPage() {
           </Stack>
         </Paper>
       )}
-      {id && workflowTab === 1 && (
+      {id && canViewWorkLogs && workflowTab === 1 && (
         <Paper sx={{ p: 3, borderRadius: 1, mt: 2 }}>
           <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" alignItems={{ xs: 'stretch', sm: 'center' }} spacing={1.5} sx={{ mb: 2 }}>
             <Stack direction="row" spacing={1} alignItems="center">
@@ -966,10 +972,10 @@ function MaintenanceAssignmentFormPage() {
           </Stack>
         </Paper>
       )}
-      {id && workflowTab === 2 && (
+      {id && canViewSpares && workflowTab === 2 && (
         <Paper sx={{ p: 3, borderRadius: 1, mt: 2 }}>
           <Typography variant="h6" fontWeight={800} sx={{ mb: 2 }}>Spare Part Requests</Typography>
-          {!isView && (
+          {!isView && hasPermission('SPARE_USAGE_CREATE') && (
             <Grid container spacing={2} sx={{ mb: 2 }}>
               <Grid item xs={12} md={5}>
                 <CommonDropdown label="Spare Part" value={spareForm.stockId} onChange={updateSpareField('stockId')} options={sparePartOptions} />

@@ -31,7 +31,7 @@
     "build:dev": "vite build --mode development",
     "build:prod": "vite build --mode production",
     "preview": "vite preview",
-    "test": "node --test src/shared/utils/dropdownHelper.test.mjs src/shared/utils/dateTime.test.mjs src/shared/utils/centralizedDateTimeSource.test.mjs"
+    "test": "node --test src/shared/utils/dropdownHelper.test.mjs src/shared/utils/dateTime.test.mjs src/shared/utils/centralizedDateTimeSource.test.mjs src/shared/utils/permissionAccess.test.mjs"
   },
   "eslintConfig": {
     "extends": [

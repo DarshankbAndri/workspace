@@ -2,7 +2,7 @@
 
 **Application:** Solar Power Plant Computerized Maintenance Management System  
 **Version:** 1.0  
-**Verified:** 21 July 2026  
+**Verified:** 18 September 2026
 **Frontend reviewed:** `http://localhost:6200`  
 **Audience:** Plant, maintenance, operations, store, HR, administration, vendor-coordination, and demonstration users
 
@@ -128,9 +128,9 @@ Create identity/contact/employment details, add at least one site assignment, an
 
 **Where:** Administration → Roles / Permissions / User Roles.
 
-- `ROLE_VIEW/CREATE/UPDATE/DELETE` controls role records. Create a code/name, status, and select permission checkboxes. Changes affect users assigned that role; a fresh login may be needed to refresh the UI session.
+- `ROLE_VIEW/CREATE/UPDATE/DELETE` controls role records. Create a code/name, status, and select permission checkboxes. The UI refreshes the current user's effective access when the session is restored and whenever the browser regains focus.
 - `PERMISSION_VIEW` opens the read-only permission catalogue.
-- **User Roles is Partially Available:** `USER_ROLE_VIEW` opens an informational placeholder. Backend role-assignment APIs exist, but the editor is not functional.
+- `USER_ROLE_VIEW` opens the assignment list. Users with `USER_ROLE_ASSIGN` or `USER_ROLE_UPDATE` can add or remove global and site-scoped role assignments and save the complete assignment set.
 - **Create User** exists at `/create-user` with `USER_ROLE_ASSIGN`; employee creation is the more complete site/role-aware onboarding path.
 
 Avoid granting create/update/delete simply because view is needed. Example: a technician can receive `EQUIPMENT_VIEW`, `REQUEST_VIEW`, and assignment/work-log permissions, while a store user receives spare and stock-processing permissions.
@@ -403,7 +403,7 @@ Preserve the contract/vendor reference for warranty and performance history.
 | Employees | `EMPLOYEE_VIEW` | `EMPLOYEE_CREATE` | `EMPLOYEE_UPDATE` | `EMPLOYEE_DELETE` | Login/site/role assignment embedded |
 | Roles | `ROLE_VIEW` | `ROLE_CREATE` | `ROLE_UPDATE` | `ROLE_DELETE` | Permission catalogue may also be required |
 | Permissions | `PERMISSION_VIEW` | — | — | — | Read-only catalogue |
-| User Roles | `USER_ROLE_VIEW` | — | `USER_ROLE_ASSIGN` | — | UI editor partial |
+| User Roles | `USER_ROLE_VIEW` | — | `USER_ROLE_ASSIGN` or `USER_ROLE_UPDATE` | — | Global and site-scoped assignment editor |
 | Vendors | `VENDOR_VIEW` | `VENDOR_CREATE` | `VENDOR_UPDATE` | `VENDOR_DELETE` | — |
 | Vendor AMC | `VENDOR_AMC_VIEW` | `VENDOR_AMC_CREATE` | `VENDOR_AMC_UPDATE` | `VENDOR_AMC_DELETE` | `VENDOR_AMC_ASSIGN_EQUIPMENT`, `VENDOR_AMC_RENEW` |
 | Equipment | `EQUIPMENT_VIEW` | `EQUIPMENT_CREATE` | `EQUIPMENT_UPDATE` | `EQUIPMENT_DELETE` | — |
@@ -427,7 +427,7 @@ Backend access is checked separately using `api-permission-mapping.csv`; helper 
 | Dashboard | Role/site-aware metrics and widgets | Available | Card click-through is not consistently implemented |
 | Company/Site | Profile, logo, site CRUD | Available | Site capacity/timezone not implemented |
 | Employees | Employee, site, login, role assignment | Available | No Team master |
-| Access | Roles and permission catalogue | Available | User Roles editor Partially Available |
+| Access | Roles, permission catalogue, and user-role assignment | Available | Global and site-scoped user-role editor |
 | Vendor/AMC | Vendor CRUD, contracts, equipment coverage, renewal | Available | No vendor self-service portal |
 | Equipment | CRUD and linked operational context | Available | No separate category/type masters |
 | Requests | Create/view/edit and downstream work | Available | State-dependent actions vary |
@@ -497,12 +497,10 @@ The frontend at port 6200 was reachable and reviewed. Authenticated screenshots 
 
 1. Preventive Maintenance reuses maintenance-request permissions instead of dedicated PM CRUD permission codes.
 2. Navbar Change Password has no matching route/page.
-3. User Roles renders a placeholder although backend APIs exist.
-4. Meter-reading backend capability has no complete frontend route.
-5. Role create/update may need permission-catalogue helper access beyond its own page permissions.
-6. Reports do not expose export actions.
-7. Site capacity/timezone, Team master, equipment category/type masters, complete procurement, and PM BOM spare forecasting are not implemented.
-8. Some desired notification/report categories exist only as dashboard indicators, not dedicated user pages.
+3. Meter-reading backend capability has no complete frontend route.
+4. Reports do not expose export actions.
+5. Site capacity/timezone, Team master, equipment category/type masters, complete procurement, and PM BOM spare forecasting are not implemented.
+6. Some desired notification/report categories exist only as dashboard indicators, not dedicated user pages.
 
 ## Appendix C — Related references
 
