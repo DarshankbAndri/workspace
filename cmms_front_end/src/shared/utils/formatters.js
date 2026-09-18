@@ -1,3 +1,7 @@
+import { formatDate, formatDateTime } from './dateTime';
+
+export { formatDate, formatDateTime };
+
 const invalidValues = new Set([null, undefined, '', 'null', 'undefined', 'NaN', 'Invalid Date']);
 
 export const safeText = (value, fallback = '-') => {
@@ -22,30 +26,6 @@ export const formatNumber = (value, options = {}, fallback = '-') => {
   const number = Number(value);
   if (!Number.isFinite(number)) return fallback;
   return new Intl.NumberFormat('en-IN', options).format(number);
-};
-
-export const formatDate = (value, fallback = '-') => {
-  if (!value) return fallback;
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return fallback;
-  return new Intl.DateTimeFormat('en-IN', {
-    day: '2-digit',
-    month: 'short',
-    year: 'numeric',
-  }).format(date);
-};
-
-export const formatDateTime = (value, fallback = '-') => {
-  if (!value) return fallback;
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return fallback;
-  return new Intl.DateTimeFormat('en-IN', {
-    day: '2-digit',
-    month: 'short',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-  }).format(date);
 };
 
 export const formatStatusLabel = (value, fallback = '-') => {

@@ -8,7 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Data
 @NoArgsConstructor
@@ -30,6 +30,6 @@ public class EquipmentAmcMappingDTO {
     private LocalDate coverageEndDate;
     private String remarks;
     private Boolean active;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private Instant createdAt;
+    private Instant updatedAt;
 }

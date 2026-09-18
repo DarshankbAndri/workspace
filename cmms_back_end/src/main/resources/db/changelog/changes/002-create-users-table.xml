@@ -32,10 +32,10 @@
             <column name="active" type="BOOLEAN" defaultValue="true">
                 <constraints nullable="false"/>
             </column>
-            <column name="created_at" type="TIMESTAMP" defaultValueDate="NOW()">
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueDate="NOW()">
                 <constraints nullable="false"/>
             </column>
-            <column name="updated_at" type="TIMESTAMP" defaultValueDate="NOW()">
+            <column name="updated_at" type="TIMESTAMP WITH TIME ZONE" defaultValueDate="NOW()">
                 <constraints nullable="false"/>
             </column>
             <column name="password" type="VARCHAR" defaultValue="$2a$10$FuIqMjb0HuFwKXLbW6GKtu3J5yPvnfEI3qhj0OLyYvqS8YyM8lHKi"/>

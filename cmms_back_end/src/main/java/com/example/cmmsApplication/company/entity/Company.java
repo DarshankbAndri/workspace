@@ -1,12 +1,17 @@
 package com.example.cmmsApplication.company.entity;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import com.example.cmmsApplication.common.time.CurrentTimeProvider;
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "company_master")
 @Getter
 @Setter
@@ -41,20 +46,22 @@ public class Company {
     private String status = "ACTIVE";
 
     @Column(name = "created_date", nullable = false, updatable = false)
-    private LocalDateTime createdDate;
+    @CreatedDate
+    private Instant createdDate;
 
     @Column(name = "updated_date", nullable = false)
-    private LocalDateTime updatedDate;
+    @LastModifiedDate
+    private Instant updatedDate;
 
     @PrePersist
     public void onCreate() {
-        createdDate = LocalDateTime.now();
-        updatedDate = LocalDateTime.now();
+        createdDate = CurrentTimeProvider.now();
+        updatedDate = CurrentTimeProvider.now();
     }
 
     @PreUpdate
     public void onUpdate() {
-        updatedDate = LocalDateTime.now();
+        updatedDate = CurrentTimeProvider.now();
     }
 
     public Long getId() { return id; }
@@ -75,8 +82,8 @@ public class Company {
     public void setLogoUrl(String logoUrl) { this.logoUrl = logoUrl; }
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
-    public LocalDateTime getCreatedDate() { return createdDate; }
-    public void setCreatedDate(LocalDateTime createdDate) { this.createdDate = createdDate; }
-    public LocalDateTime getUpdatedDate() { return updatedDate; }
-    public void setUpdatedDate(LocalDateTime updatedDate) { this.updatedDate = updatedDate; }
+    public Instant getCreatedDate() { return createdDate; }
+    public void setCreatedDate(Instant createdDate) { this.createdDate = createdDate; }
+    public Instant getUpdatedDate() { return updatedDate; }
+    public void setUpdatedDate(Instant updatedDate) { this.updatedDate = updatedDate; }
 }

@@ -37,7 +37,7 @@ public interface VendorAmcContractRepository extends JpaRepository<VendorAmcCont
             from EquipmentAmcMapping mapping
             where mapping.active = true
               and upper(mapping.amcContract.status) in :statuses
-              and current_date between mapping.coverageStartDate and mapping.coverageEndDate
+              and :today between mapping.coverageStartDate and mapping.coverageEndDate
             """)
-    long countCoveredEquipment(Collection<String> statuses);
+    long countCoveredEquipment(Collection<String> statuses, LocalDate today);
 }

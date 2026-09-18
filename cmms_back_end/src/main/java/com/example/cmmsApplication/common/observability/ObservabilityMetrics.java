@@ -1,5 +1,5 @@
 package com.example.cmmsApplication.common.observability;
-
+import com.example.cmmsApplication.common.time.CurrentTimeProvider;
 import com.example.cmmsApplication.approval.repository.ApprovalRequestRepository;
 import com.example.cmmsApplication.spareparts.repository.SparePartSiteStockRepository;
 import io.micrometer.core.instrument.Counter;
@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
@@ -102,7 +101,7 @@ public class ObservabilityMetrics {
                 .tag("status", success ? "success" : "failure")
                 .register(meterRegistry)
                 .increment();
-        long now = Instant.now().getEpochSecond();
+        long now = CurrentTimeProvider.now().getEpochSecond();
         if (success) {
             notificationLastSuccessEpochSeconds.set(now);
         } else {
@@ -147,7 +146,7 @@ public class ObservabilityMetrics {
     }
 
     private long countOverdueApprovals(String approvalType) {
-        LocalDateTime cutoff = LocalDateTime.now().minusHours(approvalOverdueHours);
+        Instant cutoff = CurrentTimeProvider.now().minus(Duration.ofHours(approvalOverdueHours));
         if ("ALL".equals(approvalType)) {
             return approvalRequestRepository.countByApprovalStatusAndRequestedAtBefore("PENDING", cutoff);
         }

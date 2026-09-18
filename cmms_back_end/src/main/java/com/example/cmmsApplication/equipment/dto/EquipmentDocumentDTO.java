@@ -1,7 +1,7 @@
 package com.example.cmmsApplication.equipment.dto;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,6 +22,6 @@ public class EquipmentDocumentDTO {
     private LocalDate expiryDate;
     private Long uploadedById;
     private String uploadedByName;
-    private LocalDateTime uploadedAt;
+    private Instant uploadedAt;
     private String remarks;
 }

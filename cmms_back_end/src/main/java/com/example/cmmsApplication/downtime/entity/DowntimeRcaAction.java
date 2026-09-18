@@ -1,15 +1,20 @@
 package com.example.cmmsApplication.downtime.entity;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import com.example.cmmsApplication.common.time.CurrentTimeProvider;
 import com.example.cmmsApplication.employee.entity.Employee;
 import com.example.cmmsApplication.user.entity.User;
 import jakarta.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "downtime_rca_action")
 @Getter
 @Setter
@@ -40,29 +45,31 @@ public class DowntimeRcaAction {
     private String status = "OPEN";
 
     @Column(name = "completed_at")
-    private LocalDateTime completedAt;
+    private Instant completedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "verified_by_user_id")
     private User verifiedBy;
 
     @Column(name = "verified_at")
-    private LocalDateTime verifiedAt;
+    private Instant verifiedAt;
 
     @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    @CreatedDate
+    private Instant createdAt;
 
     @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt;
+    @LastModifiedDate
+    private Instant updatedAt;
 
     @PrePersist
     public void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
+        createdAt = CurrentTimeProvider.now();
+        updatedAt = CurrentTimeProvider.now();
     }
 
     @PreUpdate
     public void onUpdate() {
-        updatedAt = LocalDateTime.now();
+        updatedAt = CurrentTimeProvider.now();
     }
 }

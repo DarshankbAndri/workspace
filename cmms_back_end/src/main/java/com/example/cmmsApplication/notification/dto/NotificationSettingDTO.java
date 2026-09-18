@@ -2,7 +2,7 @@ package com.example.cmmsApplication.notification.dto;
 
 
 import com.example.cmmsApplication.notification.entity.Notification;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Data;
@@ -28,8 +28,8 @@ public class NotificationSettingDTO {
     private List<String> approvalFallbackRoleCodes = new ArrayList<>();
     private Long updatedById;
     private String updatedByName;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private Instant createdAt;
+    private Instant updatedAt;
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -61,8 +61,8 @@ public class NotificationSettingDTO {
     public void setUpdatedById(Long updatedById) { this.updatedById = updatedById; }
     public String getUpdatedByName() { return updatedByName; }
     public void setUpdatedByName(String updatedByName) { this.updatedByName = updatedByName; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
-    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+    public Instant getCreatedAt() { return createdAt; }
+    public void setCreatedAt(Instant createdAt) { this.createdAt = createdAt; }
+    public Instant getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(Instant updatedAt) { this.updatedAt = updatedAt; }
 }

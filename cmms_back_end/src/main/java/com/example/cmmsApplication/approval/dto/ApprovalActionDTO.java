@@ -1,6 +1,6 @@
 package com.example.cmmsApplication.approval.dto;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
@@ -15,7 +15,7 @@ public class ApprovalActionDTO {
     private String approverName;
     private String actionStatus;
     private String comments;
-    private LocalDateTime actionAt;
+    private Instant actionAt;
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -29,6 +29,6 @@ public class ApprovalActionDTO {
     public void setActionStatus(String actionStatus) { this.actionStatus = actionStatus; }
     public String getComments() { return comments; }
     public void setComments(String comments) { this.comments = comments; }
-    public LocalDateTime getActionAt() { return actionAt; }
-    public void setActionAt(LocalDateTime actionAt) { this.actionAt = actionAt; }
+    public Instant getActionAt() { return actionAt; }
+    public void setActionAt(Instant actionAt) { this.actionAt = actionAt; }
 }

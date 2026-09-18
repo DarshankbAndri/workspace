@@ -24,6 +24,7 @@ import {
 } from '@mui/material';
 import { Delete, Download, Edit, Visibility } from '@mui/icons-material';
 import { useNavigate, useParams } from 'react-router-dom';
+import { compareDateOnly, formatDateTime as formatBusinessDateTime, today } from '../../../shared/utils/dateTime';
 import {
   createEquipmentSpareBom,
   deleteEquipmentDocument,
@@ -1187,7 +1188,7 @@ function formatDateRange(startDate, endDate) {
 }
 
 function formatDateTime(value) {
-  return value ? new Date(value).toLocaleString() : '';
+  return formatBusinessDateTime(value, '');
 }
 
 function formatLabel(value) {
@@ -1233,7 +1234,7 @@ function formatFileSize(value) {
 
 function renderExpiry(value) {
   if (!value) return '-';
-  const expired = new Date(value) < new Date(new Date().toISOString().slice(0, 10));
+  const expired = compareDateOnly(value, today()) < 0;
   return expired ? <Chip size="small" label={value} color="warning" /> : value;
 }
 

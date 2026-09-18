@@ -1,8 +1,8 @@
 package com.example.cmmsApplication.downtime.entity;
-
+import com.example.cmmsApplication.common.time.CurrentTimeProvider;
 import com.example.cmmsApplication.user.entity.User;
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -38,12 +38,12 @@ public class DowntimeStatusHistory {
     private User changedBy;
 
     @Column(name = "changed_at", nullable = false)
-    private LocalDateTime changedAt;
+    private Instant changedAt;
 
     @PrePersist
     public void onCreate() {
         if (changedAt == null) {
-            changedAt = LocalDateTime.now();
+            changedAt = CurrentTimeProvider.now();
         }
     }
 }

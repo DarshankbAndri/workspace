@@ -7,7 +7,7 @@ import org.hibernate.annotations.Immutable;
 import org.hibernate.annotations.Subselect;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
@@ -83,9 +83,9 @@ public class EquipmentDowntimeList {
     @Column(name = "request_title")
     private String requestTitle;
     @Column(name = "downtime_start")
-    private LocalDateTime downtimeStart;
+    private Instant downtimeStart;
     @Column(name = "downtime_end")
-    private LocalDateTime downtimeEnd;
+    private Instant downtimeEnd;
     @Column(name = "downtime_minutes")
     private Long downtimeMinutes;
     @Column(name = "downtime_hours")
@@ -119,17 +119,17 @@ public class EquipmentDowntimeList {
     @Column(name = "verified_by_name")
     private String verifiedByName;
     @Column(name = "verified_at")
-    private LocalDateTime verifiedAt;
+    private Instant verifiedAt;
     @Column(name = "closed_at")
-    private LocalDateTime closedAt;
+    private Instant closedAt;
     @Column(name = "closure_remarks")
     private String closureRemarks;
     private Boolean planned;
     private String remarks;
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    private Instant createdAt;
     @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    private Instant updatedAt;
 
     public Long getId() { return id; }
     public Long getEquipmentId() { return equipmentId; }
@@ -141,8 +141,8 @@ public class EquipmentDowntimeList {
     public Long getRequestId() { return requestId; }
     public String getRequestNumber() { return requestNumber; }
     public String getRequestTitle() { return requestTitle; }
-    public LocalDateTime getDowntimeStart() { return downtimeStart; }
-    public LocalDateTime getDowntimeEnd() { return downtimeEnd; }
+    public Instant getDowntimeStart() { return downtimeStart; }
+    public Instant getDowntimeEnd() { return downtimeEnd; }
     public Long getDowntimeMinutes() { return downtimeMinutes; }
     public BigDecimal getDowntimeHours() { return downtimeHours; }
     public BigDecimal getDowntimeDays() { return downtimeDays; }
@@ -160,11 +160,11 @@ public class EquipmentDowntimeList {
     public BigDecimal getLostAmount() { return lostAmount; }
     public Long getVerifiedByUserId() { return verifiedByUserId; }
     public String getVerifiedByName() { return verifiedByName; }
-    public LocalDateTime getVerifiedAt() { return verifiedAt; }
-    public LocalDateTime getClosedAt() { return closedAt; }
+    public Instant getVerifiedAt() { return verifiedAt; }
+    public Instant getClosedAt() { return closedAt; }
     public String getClosureRemarks() { return closureRemarks; }
     public Boolean getPlanned() { return planned; }
     public String getRemarks() { return remarks; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
+    public Instant getCreatedAt() { return createdAt; }
+    public Instant getUpdatedAt() { return updatedAt; }
 }

@@ -15,6 +15,7 @@ import {
 } from '@mui/material';
 import { Close as CloseIcon, Download as DownloadIcon, OpenInNew as OpenInNewIcon } from '@mui/icons-material/';
 import { downloadDocument, viewDocument } from '../services/api';
+import { formatDateTime } from '../utils/dateTime';
 
 function DocumentPreview({ open, onClose, document, documents, entryType = 'daily' }) {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -287,7 +288,7 @@ function DocumentPreview({ open, onClose, document, documents, entryType = 'dail
                     Uploaded
                   </Typography>
                   <Typography variant="body2">
-                    {currentDoc?.uploadedAt ? new Date(currentDoc.uploadedAt).toLocaleString() : '-'}
+                    {formatDateTime(currentDoc?.uploadedAt)}
                   </Typography>
                 </Box>
               </Stack>

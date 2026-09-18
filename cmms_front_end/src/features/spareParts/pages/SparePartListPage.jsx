@@ -1,4 +1,5 @@
 import React from 'react';
+import { formatDateTime } from '../../../shared/utils/dateTime';
 import {
   Alert,
   Box,
@@ -278,7 +279,7 @@ function SparePartListPage() {
       headerName: 'Date',
       minWidth: 180,
       flex: 0.9,
-      valueFormatter: ({ value }) => value ? new Date(value).toLocaleString() : '',
+      valueFormatter: ({ value }) => formatDateTime(value, ''),
     },
   ];
 

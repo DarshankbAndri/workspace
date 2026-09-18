@@ -12,6 +12,7 @@
     "@mui/material": "^5.13.0",
     "@mui/x-data-grid": "^6.20.4",
     "axios": "^1.4.0",
+    "luxon": "^3.7.2",
     "qrcode.react": "^4.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -30,7 +31,7 @@
     "build:dev": "vite build --mode development",
     "build:prod": "vite build --mode production",
     "preview": "vite preview",
-    "test": "node --test src/shared/utils/dropdownHelper.test.mjs"
+    "test": "node --test src/shared/utils/dropdownHelper.test.mjs src/shared/utils/dateTime.test.mjs src/shared/utils/centralizedDateTimeSource.test.mjs"
   },
   "eslintConfig": {
     "extends": [

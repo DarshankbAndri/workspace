@@ -1,5 +1,9 @@
 package com.example.cmmsApplication.downtime.entity;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import com.example.cmmsApplication.common.time.CurrentTimeProvider;
 
 import com.example.cmmsApplication.equipment.entity.Equipment;
 import com.example.cmmsApplication.maintenancerequest.entity.MaintenanceRequest;
@@ -9,12 +13,13 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Duration;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "equipment_downtime")
 @Getter
 @Setter
@@ -37,10 +42,10 @@ public class EquipmentDowntime {
     private MaintenanceRequest request;
 
     @Column(name = "downtime_start", nullable = false)
-    private LocalDateTime downtimeStart;
+    private Instant downtimeStart;
 
     @Column(name = "downtime_end")
-    private LocalDateTime downtimeEnd;
+    private Instant downtimeEnd;
 
     @Column(name = "downtime_minutes")
     private Long downtimeMinutes;
@@ -86,10 +91,10 @@ public class EquipmentDowntime {
     private User verifiedBy;
 
     @Column(name = "verified_at")
-    private LocalDateTime verifiedAt;
+    private Instant verifiedAt;
 
     @Column(name = "closed_at")
-    private LocalDateTime closedAt;
+    private Instant closedAt;
 
     @Column(name = "closure_remarks", length = 1000)
     private String closureRemarks;
@@ -101,22 +106,24 @@ public class EquipmentDowntime {
     private String remarks;
 
     @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    @CreatedDate
+    private Instant createdAt;
 
     @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt;
+    @LastModifiedDate
+    private Instant updatedAt;
 
     @PrePersist
     public void onCreate() {
         calculateDuration();
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
+        createdAt = CurrentTimeProvider.now();
+        updatedAt = CurrentTimeProvider.now();
     }
 
     @PreUpdate
     public void onUpdate() {
         calculateDuration();
-        updatedAt = LocalDateTime.now();
+        updatedAt = CurrentTimeProvider.now();
     }
 
     private void calculateDuration() {
@@ -161,10 +168,10 @@ public class EquipmentDowntime {
     public void setSite(Site site) { this.site = site; }
     public MaintenanceRequest getRequest() { return request; }
     public void setRequest(MaintenanceRequest request) { this.request = request; }
-    public LocalDateTime getDowntimeStart() { return downtimeStart; }
-    public void setDowntimeStart(LocalDateTime downtimeStart) { this.downtimeStart = downtimeStart; }
-    public LocalDateTime getDowntimeEnd() { return downtimeEnd; }
-    public void setDowntimeEnd(LocalDateTime downtimeEnd) { this.downtimeEnd = downtimeEnd; }
+    public Instant getDowntimeStart() { return downtimeStart; }
+    public void setDowntimeStart(Instant downtimeStart) { this.downtimeStart = downtimeStart; }
+    public Instant getDowntimeEnd() { return downtimeEnd; }
+    public void setDowntimeEnd(Instant downtimeEnd) { this.downtimeEnd = downtimeEnd; }
     public Long getDowntimeMinutes() { return downtimeMinutes; }
     public void setDowntimeMinutes(Long downtimeMinutes) { this.downtimeMinutes = downtimeMinutes; }
     public String getStatus() { return status; }
@@ -193,18 +200,18 @@ public class EquipmentDowntime {
     public void setLostAmount(BigDecimal lostAmount) { this.lostAmount = lostAmount; }
     public User getVerifiedBy() { return verifiedBy; }
     public void setVerifiedBy(User verifiedBy) { this.verifiedBy = verifiedBy; }
-    public LocalDateTime getVerifiedAt() { return verifiedAt; }
-    public void setVerifiedAt(LocalDateTime verifiedAt) { this.verifiedAt = verifiedAt; }
-    public LocalDateTime getClosedAt() { return closedAt; }
-    public void setClosedAt(LocalDateTime closedAt) { this.closedAt = closedAt; }
+    public Instant getVerifiedAt() { return verifiedAt; }
+    public void setVerifiedAt(Instant verifiedAt) { this.verifiedAt = verifiedAt; }
+    public Instant getClosedAt() { return closedAt; }
+    public void setClosedAt(Instant closedAt) { this.closedAt = closedAt; }
     public String getClosureRemarks() { return closureRemarks; }
     public void setClosureRemarks(String closureRemarks) { this.closureRemarks = closureRemarks; }
     public Boolean getPlanned() { return planned; }
     public void setPlanned(Boolean planned) { this.planned = planned; }
     public String getRemarks() { return remarks; }
     public void setRemarks(String remarks) { this.remarks = remarks; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
-    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+    public Instant getCreatedAt() { return createdAt; }
+    public void setCreatedAt(Instant createdAt) { this.createdAt = createdAt; }
+    public Instant getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(Instant updatedAt) { this.updatedAt = updatedAt; }
 }

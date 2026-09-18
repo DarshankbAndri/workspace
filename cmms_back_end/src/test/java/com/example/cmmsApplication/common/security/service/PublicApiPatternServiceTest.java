@@ -17,6 +17,7 @@ class PublicApiPatternServiceTest {
         assertTrue(service.getPatterns().contains("/api/auth/**"));
         assertTrue(service.isPublicApi("/api/auth/login"));
         assertTrue(service.isPublicApi("/api/swagger-ui/index.html"));
+        assertTrue(service.isPublicApi("/api/system/time"));
     }
 
     @Test
@@ -26,6 +27,8 @@ class PublicApiPatternServiceTest {
 
         assertTrue(matchers.contains("/api/auth/**"));
         assertTrue(matchers.contains("/auth/**"));
+        assertTrue(matchers.contains("/api/system/time"));
+        assertTrue(matchers.contains("/system/time"));
     }
 
     private PublicApiPatternService service() {

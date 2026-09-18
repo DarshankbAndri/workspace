@@ -2,7 +2,7 @@ package com.example.cmmsApplication.downtime.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,10 +22,10 @@ public class DowntimeRcaActionDTO {
     private String responsibleEmployeeName;
     private LocalDate targetDate;
     private String status;
-    private LocalDateTime completedAt;
+    private Instant completedAt;
     private Long verifiedByUserId;
     private String verifiedByName;
-    private LocalDateTime verifiedAt;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private Instant verifiedAt;
+    private Instant createdAt;
+    private Instant updatedAt;
 }

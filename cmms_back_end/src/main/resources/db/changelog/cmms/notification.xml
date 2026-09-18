@@ -28,16 +28,16 @@
             <column name="status" type="VARCHAR(30)" defaultValue="UNREAD">
                 <constraints nullable="false" />
             </column>
-            <column name="read_at" type="TIMESTAMP" />
+            <column name="read_at" type="TIMESTAMP WITH TIME ZONE" />
             <column name="email_status" type="VARCHAR(30)" defaultValue="NOT_REQUIRED">
                 <constraints nullable="false" />
             </column>
-            <column name="sent_email_at" type="TIMESTAMP" />
+            <column name="sent_email_at" type="TIMESTAMP WITH TIME ZONE" />
             <column name="dedupe_key" type="VARCHAR(220)" />
-            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
                 <constraints nullable="false" />
             </column>
-            <column name="updated_at" type="TIMESTAMP" />
+            <column name="updated_at" type="TIMESTAMP WITH TIME ZONE" />
         </createTable>
         <addUniqueConstraint tableName="notification" columnNames="dedupe_key" constraintName="uk_notification_dedupe_key" />
     </changeSet>

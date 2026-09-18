@@ -12,7 +12,7 @@ import org.hibernate.annotations.Subselect;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Entity
 @Immutable
@@ -116,7 +116,7 @@ public class PreventiveMaintenanceScheduleList {
     @Column(name = "last_notification_status")
     private String lastNotificationStatus;
     @Column(name = "last_notification_at")
-    private LocalDateTime lastNotificationAt;
+    private Instant lastNotificationAt;
     @Column(name = "generated_work_orders")
     private Long generatedWorkOrders;
     @Column(name = "completed_work_orders")
@@ -124,8 +124,8 @@ public class PreventiveMaintenanceScheduleList {
     @Column(name = "completion_percentage")
     private BigDecimal completionPercentage;
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    private Instant createdAt;
     @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    private Instant updatedAt;
 
 }

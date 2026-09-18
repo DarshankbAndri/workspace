@@ -16,6 +16,7 @@ import com.example.cmmsApplication.common.search.dto.PageProperties;
 import com.example.cmmsApplication.common.search.dto.PagePropertiesDTO;
 import com.example.cmmsApplication.common.search.dto.SearchCriteriaDTO;
 import com.example.cmmsApplication.common.search.dto.SearchDTO;
+import com.example.cmmsApplication.common.time.UtcInstantParser;
 import com.example.cmmsApplication.approval.entity.ApprovalAction;
 import com.example.cmmsApplication.approval.entity.ApprovalConfig;
 import com.example.cmmsApplication.approval.entity.ApprovalRequest;
@@ -42,7 +43,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -475,11 +476,11 @@ public class ApprovalWorkflowService {
         return criteriaBuilder.lower(path.as(String.class));
     }
 
-    private Predicate dateTimePredicate(jakarta.persistence.criteria.Path<LocalDateTime> path,
+    private Predicate dateTimePredicate(jakarta.persistence.criteria.Path<Instant> path,
                                         Object value,
                                         String operation,
                                         jakarta.persistence.criteria.CriteriaBuilder criteriaBuilder) {
-        LocalDateTime dateTime = LocalDateTime.parse(value.toString().trim());
+        Instant dateTime = UtcInstantParser.parse(value.toString().trim());
         if ("gte".equals(operation)) {
             return criteriaBuilder.greaterThanOrEqualTo(path, dateTime);
         }
@@ -553,8 +554,8 @@ public class ApprovalWorkflowService {
         if (Integer.class.equals(javaType)) {
             return Integer.valueOf(text);
         }
-        if (LocalDateTime.class.equals(javaType)) {
-            return LocalDateTime.parse(text);
+        if (Instant.class.equals(javaType)) {
+            return UtcInstantParser.parse(text);
         }
         return text;
     }

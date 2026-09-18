@@ -13,6 +13,7 @@ import CommonStatusDropdown from '../../../shared/components/common/CommonStatus
 import CommonVendorDropdown from '../../../shared/components/common/CommonVendorDropdown';
 import ConfirmDialog from '../../../shared/components/common/ConfirmDialog';
 import { ASSIGNMENT_STATUS_OPTIONS, MAINTENANCE_REQUEST_STATUS_OPTIONS } from '../../../shared/constants/statusOptions';
+import { compareDateOnly, formatDate as formatBusinessDate, today } from '../../../shared/utils/dateTime';
 
 const emptyFilters = { siteId: '', requestStatus: '', vendorId: '', status: '', search: '' };
 const statusColors = {
@@ -23,9 +24,7 @@ const statusColors = {
 };
 
 const formatDate = (value) => {
-  if (!value) return '-';
-  const date = new Date(value);
-  return Number.isNaN(date.getTime()) ? value : date.toLocaleDateString();
+  return formatBusinessDate(value);
 };
 
 const formatApiError = (err, fallback) => {
@@ -142,7 +141,7 @@ function MaintenanceAssignmentListPage() {
       flex: 0.85,
       renderCell: ({ row }) => {
         const status = row.status || 'ASSIGNED';
-        const overdue = row.plannedEndDate && !['COMPLETED', 'CANCELLED'].includes(status) && new Date(row.plannedEndDate) < new Date();
+        const overdue = row.plannedEndDate && !['COMPLETED', 'CANCELLED'].includes(status) && compareDateOnly(row.plannedEndDate, today()) < 0;
         return (
           <Stack direction="row" spacing={0.75} alignItems="center">
             <Chip size="small" label={status.replaceAll('_', ' ')} color={statusColors[status] || 'default'} />

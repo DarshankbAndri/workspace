@@ -18,6 +18,7 @@ import { PERMISSIONS } from '../../../shared/utils/permissionRoutes';
 import CommonDropdown from '../../../shared/components/common/CommonDropdown';
 import { getRoles } from '../../admin/services/roleService';
 import { getNotificationSettings, updateNotificationSettings } from '../services/notificationSettingsService';
+import { formatDateTime } from '../../../shared/utils/dateTime';
 
 const initialForm = {
   enabled: true,
@@ -160,7 +161,7 @@ function NotificationSettingsPage() {
           </Grid>
           <Grid item xs={12}>
             <Typography variant="body2" color="text.secondary">
-              Last updated: {form.updatedAt ? new Date(form.updatedAt).toLocaleString() : '-'} {form.updatedByName ? `by ${form.updatedByName}` : ''}
+              Last updated: {formatDateTime(form.updatedAt)} {form.updatedByName ? `by ${form.updatedByName}` : ''}
             </Typography>
           </Grid>
         </Grid>

@@ -1,6 +1,7 @@
 package com.example.cmmsApplication.notification.service;
 
 
+import com.example.cmmsApplication.common.config.CmmsTimeProperties;
 import com.example.cmmsApplication.notification.entity.Notification;
 import org.springframework.scheduling.Trigger;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
@@ -16,6 +17,7 @@ public class NotificationSchedulerService implements SchedulingConfigurer {
 
     private final NotificationSettingsService notificationSettingsService;
     private final NotificationScanService notificationScanService;
+    private final CmmsTimeProperties timeProperties;
 
     @Override
     public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
@@ -25,7 +27,9 @@ public class NotificationSchedulerService implements SchedulingConfigurer {
     private Trigger notificationTrigger() {
         return (triggerContext) -> {
             String cron = notificationSettingsService.getRuntimeSettings().getScanCron();
-            CronTrigger cronTrigger = new CronTrigger(cron == null || cron.isBlank() ? DEFAULT_CRON : cron);
+            CronTrigger cronTrigger = new CronTrigger(
+                    cron == null || cron.isBlank() ? DEFAULT_CRON : cron,
+                    timeProperties.businessZoneId());
             return cronTrigger.nextExecution(triggerContext);
         };
     }

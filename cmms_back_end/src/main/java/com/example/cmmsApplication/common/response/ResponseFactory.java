@@ -1,5 +1,5 @@
 package com.example.cmmsApplication.common.response;
-
+import com.example.cmmsApplication.common.time.CurrentTimeProvider;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +31,7 @@ public final class ResponseFactory {
     public static <T> ResponseEntity<ApiResponse<?>> success(HttpStatus status, T data, String message) {
         HttpServletRequest request = currentRequest();
         ApiResponse<T> response = new ApiResponse<>(
-                Instant.now(),
+                CurrentTimeProvider.now(),
                 status.value(),
                 true,
                 ApiErrorCode.SUCCESS.name(),
@@ -57,7 +57,7 @@ public final class ResponseFactory {
                                              List<ApiValidationError> details, HttpServletRequest request) {
         setErrorCode(request, code.name());
         return new ApiErrorResponse(
-                Instant.now(),
+                CurrentTimeProvider.now(),
                 status.value(),
                 false,
                 code.name(),

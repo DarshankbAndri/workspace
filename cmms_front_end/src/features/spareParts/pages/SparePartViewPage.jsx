@@ -7,6 +7,7 @@ import { useAuth } from '../../../shared/context/AuthContext';
 import { PERMISSIONS } from '../../../shared/utils/permissionRoutes';
 import CommonFormActions from '../../../shared/components/common/CommonFormActions';
 import CommonFormCard from '../../../shared/components/common/CommonFormCard';
+import { formatDateTime as formatBusinessDateTime } from '../../../shared/utils/dateTime';
 
 function SparePartViewPage() {
   const { id } = useParams();
@@ -185,7 +186,7 @@ function formatMoney(value) {
 }
 
 function formatDateTime(value) {
-  return value ? new Date(value).toLocaleString() : '';
+  return formatBusinessDateTime(value, '');
 }
 
 export default SparePartViewPage;

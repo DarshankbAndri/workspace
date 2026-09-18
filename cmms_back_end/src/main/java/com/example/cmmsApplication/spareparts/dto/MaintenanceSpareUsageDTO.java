@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Data;
 import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Data
 @NoArgsConstructor
@@ -58,13 +58,13 @@ public class MaintenanceSpareUsageDTO {
     private String purchaseRequestStatus;
     private Long maintenanceRequestId;
     private String maintenanceRequestNumber;
-    private LocalDateTime requestedAt;
-    private LocalDateTime reservedAt;
-    private LocalDateTime issuedAt;
-    private LocalDateTime consumedAt;
-    private LocalDateTime rejectedAt;
-    private LocalDateTime cancelledAt;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private Instant requestedAt;
+    private Instant reservedAt;
+    private Instant issuedAt;
+    private Instant consumedAt;
+    private Instant rejectedAt;
+    private Instant cancelledAt;
+    private Instant createdAt;
+    private Instant updatedAt;
 
 }

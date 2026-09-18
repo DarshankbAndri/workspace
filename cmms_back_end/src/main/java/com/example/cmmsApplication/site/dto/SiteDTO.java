@@ -8,7 +8,7 @@ import com.example.cmmsApplication.site.entity.Site;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Data
 @NoArgsConstructor
@@ -34,7 +34,7 @@ public class SiteDTO {
     private BigDecimal latitude;
     private BigDecimal longitude;
     private String status;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private Instant createdAt;
+    private Instant updatedAt;
 
 }

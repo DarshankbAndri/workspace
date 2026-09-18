@@ -7,11 +7,10 @@ import com.example.cmmsApplication.company.entity.Company;
 import com.example.cmmsApplication.employee.entity.Employee;
 import com.example.cmmsApplication.user.entity.User;
 import com.example.cmmsApplication.user.enums.UserRole;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Schema(description = "Data Transfer Object for User information")
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -53,20 +52,18 @@ public class UserDTO {
     private String profilePhotoPath;
     
     @Schema(description = "Account creation timestamp")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private LocalDateTime createdAt;
+    private Instant createdAt;
     
     @Schema(description = "Last update timestamp")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private LocalDateTime updatedAt;
+    private Instant updatedAt;
     
     @Schema(description = "Account active status", example = "true")
     private Boolean active;
 
 // All-args constructor
     public UserDTO(Long id, String username, String email, String firstName, String lastName,
-                   UserRole role, String department, Long managerId, LocalDateTime createdAt,
-                   LocalDateTime updatedAt, Boolean active) {
+                   UserRole role, String department, Long managerId, Instant createdAt,
+                   Instant updatedAt, Boolean active) {
         this.id = id;
         this.username = username;
         this.email = email;

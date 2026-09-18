@@ -8,7 +8,7 @@ import org.hibernate.annotations.Subselect;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
@@ -107,9 +107,9 @@ public class MaintenanceAssignmentList {
     private BigDecimal actualCost;
     private String remarks;
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    private Instant createdAt;
     @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    private Instant updatedAt;
 
     public Long getId() { return id; }
     public Long getSiteId() { return siteId; }
@@ -138,6 +138,6 @@ public class MaintenanceAssignmentList {
     public BigDecimal getEstimatedCost() { return estimatedCost; }
     public BigDecimal getActualCost() { return actualCost; }
     public String getRemarks() { return remarks; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
+    public Instant getCreatedAt() { return createdAt; }
+    public Instant getUpdatedAt() { return updatedAt; }
 }

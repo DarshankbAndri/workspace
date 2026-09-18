@@ -3,11 +3,10 @@ package com.example.cmmsApplication.downtime.dto;
 
 import com.example.cmmsApplication.equipment.entity.Equipment;
 import com.example.cmmsApplication.site.entity.Site;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
@@ -29,10 +28,8 @@ public class EquipmentDowntimeDTO {
     private String requestNumber;
     private String requestTitle;
     @NotNull(message = "Downtime start is required")
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    private LocalDateTime downtimeStart;
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    private LocalDateTime downtimeEnd;
+    private Instant downtimeStart;
+    private Instant downtimeEnd;
     private Long downtimeMinutes;
     private BigDecimal downtimeHours;
     private BigDecimal downtimeDays;
@@ -51,13 +48,13 @@ public class EquipmentDowntimeDTO {
     private BigDecimal lostAmount;
     private Long verifiedByUserId;
     private String verifiedByName;
-    private LocalDateTime verifiedAt;
-    private LocalDateTime closedAt;
+    private Instant verifiedAt;
+    private Instant closedAt;
     private String closureRemarks;
     private Boolean planned;
     private String remarks;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private Instant createdAt;
+    private Instant updatedAt;
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -79,10 +76,10 @@ public class EquipmentDowntimeDTO {
     public void setRequestNumber(String requestNumber) { this.requestNumber = requestNumber; }
     public String getRequestTitle() { return requestTitle; }
     public void setRequestTitle(String requestTitle) { this.requestTitle = requestTitle; }
-    public LocalDateTime getDowntimeStart() { return downtimeStart; }
-    public void setDowntimeStart(LocalDateTime downtimeStart) { this.downtimeStart = downtimeStart; }
-    public LocalDateTime getDowntimeEnd() { return downtimeEnd; }
-    public void setDowntimeEnd(LocalDateTime downtimeEnd) { this.downtimeEnd = downtimeEnd; }
+    public Instant getDowntimeStart() { return downtimeStart; }
+    public void setDowntimeStart(Instant downtimeStart) { this.downtimeStart = downtimeStart; }
+    public Instant getDowntimeEnd() { return downtimeEnd; }
+    public void setDowntimeEnd(Instant downtimeEnd) { this.downtimeEnd = downtimeEnd; }
     public Long getDowntimeMinutes() { return downtimeMinutes; }
     public void setDowntimeMinutes(Long downtimeMinutes) { this.downtimeMinutes = downtimeMinutes; }
     public BigDecimal getDowntimeHours() { return downtimeHours; }
@@ -117,18 +114,18 @@ public class EquipmentDowntimeDTO {
     public void setVerifiedByUserId(Long verifiedByUserId) { this.verifiedByUserId = verifiedByUserId; }
     public String getVerifiedByName() { return verifiedByName; }
     public void setVerifiedByName(String verifiedByName) { this.verifiedByName = verifiedByName; }
-    public LocalDateTime getVerifiedAt() { return verifiedAt; }
-    public void setVerifiedAt(LocalDateTime verifiedAt) { this.verifiedAt = verifiedAt; }
-    public LocalDateTime getClosedAt() { return closedAt; }
-    public void setClosedAt(LocalDateTime closedAt) { this.closedAt = closedAt; }
+    public Instant getVerifiedAt() { return verifiedAt; }
+    public void setVerifiedAt(Instant verifiedAt) { this.verifiedAt = verifiedAt; }
+    public Instant getClosedAt() { return closedAt; }
+    public void setClosedAt(Instant closedAt) { this.closedAt = closedAt; }
     public String getClosureRemarks() { return closureRemarks; }
     public void setClosureRemarks(String closureRemarks) { this.closureRemarks = closureRemarks; }
     public Boolean getPlanned() { return planned; }
     public void setPlanned(Boolean planned) { this.planned = planned; }
     public String getRemarks() { return remarks; }
     public void setRemarks(String remarks) { this.remarks = remarks; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
-    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+    public Instant getCreatedAt() { return createdAt; }
+    public void setCreatedAt(Instant createdAt) { this.createdAt = createdAt; }
+    public Instant getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(Instant updatedAt) { this.updatedAt = updatedAt; }
 }

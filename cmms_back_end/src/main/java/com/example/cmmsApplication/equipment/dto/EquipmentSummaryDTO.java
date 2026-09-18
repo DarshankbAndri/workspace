@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Data
 @NoArgsConstructor
@@ -17,7 +17,7 @@ public class EquipmentSummaryDTO {
     private Long equipmentId;
     private Long openRequestCount;
     private Long activePmCount;
-    private LocalDateTime lastDowntimeAt;
+    private Instant lastDowntimeAt;
     private String lastDowntimeReason;
     private Long lastDowntimeMinutes;
     private Long totalDowntimeMinutesThisMonth;

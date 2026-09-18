@@ -1,5 +1,9 @@
 package com.example.cmmsApplication.maintenancerequest.entity;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import com.example.cmmsApplication.common.time.CurrentTimeProvider;
 
 import com.example.cmmsApplication.equipment.entity.Equipment;
 import com.example.cmmsApplication.preventivemaintenance.entity.PreventiveMaintenanceSchedule;
@@ -8,12 +12,13 @@ import com.example.cmmsApplication.vendor.entity.Vendor;
 import com.example.cmmsApplication.vendoramc.entity.VendorAmcContract;
 import jakarta.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "maintenance_request")
 @Getter
 @Setter
@@ -80,23 +85,25 @@ public class MaintenanceRequest {
     private String vendorReferenceNumber;
 
     @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    @CreatedDate
+    private Instant createdAt;
 
     @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt;
+    @LastModifiedDate
+    private Instant updatedAt;
 
     @PrePersist
     public void onCreate() {
         if (requestedDate == null) {
-            requestedDate = LocalDate.now();
+            requestedDate = CurrentTimeProvider.today();
         }
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
+        createdAt = CurrentTimeProvider.now();
+        updatedAt = CurrentTimeProvider.now();
     }
 
     @PreUpdate
     public void onUpdate() {
-        updatedAt = LocalDateTime.now();
+        updatedAt = CurrentTimeProvider.now();
     }
 
     public Long getId() { return id; }
@@ -135,8 +142,8 @@ public class MaintenanceRequest {
     public void setVendor(Vendor vendor) { this.vendor = vendor; }
     public String getVendorReferenceNumber() { return vendorReferenceNumber; }
     public void setVendorReferenceNumber(String vendorReferenceNumber) { this.vendorReferenceNumber = vendorReferenceNumber; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
-    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+    public Instant getCreatedAt() { return createdAt; }
+    public void setCreatedAt(Instant createdAt) { this.createdAt = createdAt; }
+    public Instant getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(Instant updatedAt) { this.updatedAt = updatedAt; }
 }

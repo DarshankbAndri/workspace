@@ -1,7 +1,7 @@
 package com.example.cmmsApplication.equipment.dto;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -33,6 +33,6 @@ public class EquipmentSpareBomDTO {
     private String replacementFrequency;
     private String remarks;
     private String status;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private Instant createdAt;
+    private Instant updatedAt;
 }

@@ -6,7 +6,7 @@ import jakarta.persistence.Id;
 import org.hibernate.annotations.Immutable;
 import org.hibernate.annotations.Subselect;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
@@ -45,9 +45,9 @@ public class RoleList {
     @Column(name = "permission_count")
     private Integer permissionCount;
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    private Instant createdAt;
     @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    private Instant updatedAt;
 
     public Long getId() { return id; }
     public String getRoleCode() { return roleCode; }
@@ -55,6 +55,6 @@ public class RoleList {
     public String getDescription() { return description; }
     public String getStatus() { return status; }
     public Integer getPermissionCount() { return permissionCount; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
+    public Instant getCreatedAt() { return createdAt; }
+    public Instant getUpdatedAt() { return updatedAt; }
 }

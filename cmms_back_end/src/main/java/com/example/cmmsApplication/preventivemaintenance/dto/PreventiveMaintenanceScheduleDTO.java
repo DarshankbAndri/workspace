@@ -11,7 +11,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,12 +54,12 @@ public class PreventiveMaintenanceScheduleDTO {
     private Boolean active;
     private String status;
     private String lastNotificationStatus;
-    private LocalDateTime lastNotificationAt;
+    private Instant lastNotificationAt;
     private long generatedWorkOrders;
     private long completedWorkOrders;
     private BigDecimal completionPercentage;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private Instant createdAt;
+    private Instant updatedAt;
     private Long approvalRequestId;
     private String approvalStatus;
     @jakarta.validation.Valid

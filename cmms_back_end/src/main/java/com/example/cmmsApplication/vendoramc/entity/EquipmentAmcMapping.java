@@ -1,5 +1,9 @@
 package com.example.cmmsApplication.vendoramc.entity;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import com.example.cmmsApplication.common.time.CurrentTimeProvider;
 import com.example.cmmsApplication.equipment.entity.Equipment;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -7,9 +11,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "equipment_amc_mapping",
         uniqueConstraints = @UniqueConstraint(name = "uk_equipment_amc_contract_equipment", columnNames = {"amc_contract_id", "equipment_id"}))
 @Getter
@@ -47,22 +52,24 @@ public class EquipmentAmcMapping {
     private String createdBy;
 
     @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    @CreatedDate
+    private Instant createdAt;
 
     @Column(name = "updated_by", length = 120)
     private String updatedBy;
 
     @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt;
+    @LastModifiedDate
+    private Instant updatedAt;
 
     @PrePersist
     public void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
+        createdAt = CurrentTimeProvider.now();
+        updatedAt = CurrentTimeProvider.now();
     }
 
     @PreUpdate
     public void onUpdate() {
-        updatedAt = LocalDateTime.now();
+        updatedAt = CurrentTimeProvider.now();
     }
 }

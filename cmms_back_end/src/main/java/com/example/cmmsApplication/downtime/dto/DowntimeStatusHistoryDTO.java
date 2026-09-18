@@ -1,6 +1,6 @@
 package com.example.cmmsApplication.downtime.dto;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,5 +19,5 @@ public class DowntimeStatusHistoryDTO {
     private String comment;
     private Long changedByUserId;
     private String changedByName;
-    private LocalDateTime changedAt;
+    private Instant changedAt;
 }

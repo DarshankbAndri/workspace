@@ -35,11 +35,11 @@
             <column name="response_value" type="VARCHAR(1000)"/>
             <column name="remarks" type="VARCHAR(1000)"/>
             <column name="completed_by_user_id" type="BIGINT"/>
-            <column name="completed_at" type="TIMESTAMP"/>
-            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="completed_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
-            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="updated_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
         </createTable>

@@ -1,6 +1,6 @@
 package com.example.cmmsApplication.assignment.dto;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,5 +18,5 @@ public class MaintenanceAssignmentChecklistProofDTO {
     private Long fileSize;
     private Long uploadedById;
     private String uploadedByName;
-    private LocalDateTime uploadedAt;
+    private Instant uploadedAt;
 }

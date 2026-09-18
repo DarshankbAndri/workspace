@@ -11,8 +11,7 @@ import CommonDropdown from '../../../shared/components/common/CommonDropdown';
 import CommonFormActions from '../../../shared/components/common/CommonFormActions';
 import CommonFormCard from '../../../shared/components/common/CommonFormCard';
 import { getDropdownOptions } from '../../../shared/utils/dropdownHelper';
-
-const nowLocal = () => new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+import { currentDateTimeInput, durationMinutes, toDateTimeInput, toUtcDateTime } from '../../../shared/utils/dateTime';
 
 const reasonCategoryOptions = getDropdownOptions('EQUIPMENT_DOWNTIME', 'reasonCategory');
 const plannedOptions = getDropdownOptions('EQUIPMENT_DOWNTIME', 'plannedType');
@@ -22,7 +21,7 @@ const initialForm = {
   siteId: '',
   equipmentId: '',
   requestId: '',
-  downtimeStart: nowLocal(),
+  downtimeStart: currentDateTimeInput(),
   downtimeEnd: '',
   reason: '',
   reasonCategory: '',
@@ -40,7 +39,7 @@ const initialForm = {
 
 const calculateDuration = (start, end) => {
   if (!start || !end) return null;
-  const minutes = Math.round((new Date(end).getTime() - new Date(start).getTime()) / 60000);
+  const minutes = durationMinutes(start, end);
   if (!Number.isFinite(minutes) || minutes <= 0) return null;
   return { minutes, hours: Number((minutes / 60).toFixed(2)), days: Number((minutes / 1440).toFixed(2)) };
 };
@@ -91,8 +90,8 @@ function DowntimeFormPage() {
           siteId: data.siteId || '',
           equipmentId: data.equipmentId || '',
           requestId: data.requestId || '',
-          downtimeStart: data.downtimeStart?.slice(0, 16) || '',
-          downtimeEnd: data.downtimeEnd?.slice(0, 16) || '',
+          downtimeStart: toDateTimeInput(data.downtimeStart),
+          downtimeEnd: toDateTimeInput(data.downtimeEnd),
           planned: Boolean(data.planned),
           expectedOutputPerHour: data.expectedOutputPerHour ?? '',
           lossRatePerUnit: data.lossRatePerUnit ?? '',
@@ -140,7 +139,8 @@ function DowntimeFormPage() {
         siteId: Number(form.siteId),
         equipmentId: Number(form.equipmentId),
         requestId: form.requestId ? Number(form.requestId) : null,
-        downtimeEnd: form.downtimeEnd || null,
+        downtimeStart: toUtcDateTime(form.downtimeStart),
+        downtimeEnd: toUtcDateTime(form.downtimeEnd),
         expectedOutputPerHour: toNumberOrNull(form.expectedOutputPerHour),
         lossRatePerUnit: toNumberOrNull(form.lossRatePerUnit),
         planned: Boolean(form.planned),

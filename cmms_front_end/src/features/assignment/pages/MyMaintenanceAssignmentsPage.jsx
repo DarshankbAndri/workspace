@@ -9,6 +9,7 @@ import CommonPageHeader from '../../../shared/components/common/CommonPageHeader
 import CommonStatusDropdown from '../../../shared/components/common/CommonStatusDropdown';
 import { ASSIGNMENT_STATUS_OPTIONS } from '../../../shared/constants/statusOptions';
 import { useAuth } from '../../../shared/context/AuthContext';
+import { formatDate as formatBusinessDate } from '../../../shared/utils/dateTime';
 
 const statusColors = {
   ASSIGNED: 'info',
@@ -18,9 +19,7 @@ const statusColors = {
 };
 
 const formatDate = (value) => {
-  if (!value) return '-';
-  const date = new Date(value);
-  return Number.isNaN(date.getTime()) ? value : date.toLocaleDateString();
+  return formatBusinessDate(value);
 };
 
 const formatApiError = (err, fallback) => {

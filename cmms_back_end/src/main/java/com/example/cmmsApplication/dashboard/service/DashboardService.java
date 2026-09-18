@@ -1,5 +1,5 @@
 package com.example.cmmsApplication.dashboard.service;
-
+import com.example.cmmsApplication.common.time.CurrentTimeProvider;
 
 import com.example.cmmsApplication.assignment.dao.MaintenanceAssignmentDAO;
 import com.example.cmmsApplication.assignment.entity.MaintenanceAssignment;
@@ -31,7 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.time.Month;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
@@ -180,7 +180,7 @@ public class DashboardService {
                         action("VENDOR_AMC_CREATE", "Create AMC", "/vendor-amc/new"),
                         action("ROLE_CREATE", "Create Role", "/admin/roles/new")
                 )))
-                .generatedAt(LocalDateTime.now())
+                .generatedAt(CurrentTimeProvider.now())
                 .refreshAfterSeconds(60)
                 .build();
     }
@@ -313,7 +313,7 @@ public class DashboardService {
                 .refreshSeconds(refreshSeconds)
                 .actionPermissions(visibleActions.stream().map(DashboardActionDTO::getPermissionCode).toList())
                 .actions(visibleActions)
-                .generatedAt(LocalDateTime.now())
+                .generatedAt(CurrentTimeProvider.now())
                 .build();
     }
 
@@ -469,18 +469,16 @@ public class DashboardService {
     }
 
     private Map<String, Object> getMaintenanceOpenRequestSummary(Collection<Long> siteIds) {
-        List<MaintenanceRequest> requests = scopedRequests(siteIds).stream()
-                .filter((request) -> !isClosedStatus(request.getStatus()))
-                .toList();
-        long critical = requests.stream().filter((request) -> isPriority(request, "CRITICAL", "HIGH")).count();
-        long overdue = requests.stream()
-                .filter((request) -> request.getTargetCompletionDate() != null && request.getTargetCompletionDate().isBefore(LocalDate.now()))
-                .count();
-        long unassigned = requests.stream()
-                .filter((request) -> assignmentDAO.findByRequestId(request.getId()).isEmpty())
-                .count();
+        if (siteIds != null && siteIds.isEmpty()) {
+            return mapOf("openRequests", 0L, "criticalRequests", 0L, "unassignedRequests", 0L, "overdueRequests", 0L);
+        }
+        boolean allSites = siteIds == null;
+        long openRequests = requestDAO.countNotClosed(siteIds, allSites);
+        long critical = requestDAO.countCritical(siteIds, allSites);
+        long overdue = requestDAO.countOverdue(siteIds, allSites, CurrentTimeProvider.today());
+        long unassigned = requestDAO.countUnassigned(siteIds, allSites);
         return mapOf(
-                "openRequests", requests.size(),
+                "openRequests", openRequests,
                 "criticalRequests", critical,
                 "unassignedRequests", unassigned,
                 "overdueRequests", overdue
@@ -585,27 +583,31 @@ public class DashboardService {
     }
 
     private List<DashboardOverviewDTO.ChartSliceDTO> getEquipmentStatus(Collection<Long> siteIds) {
-        return scopedEquipment(siteIds).stream()
-                .collect(Collectors.groupingBy(
-                        (equipment) -> normalizeLabel(equipment.getOperatingStatus(), "UNKNOWN"),
-                        Collectors.counting()
-                ))
-                .entrySet().stream()
-                .sorted(Map.Entry.comparingByKey())
-                .map((entry) -> DashboardOverviewDTO.ChartSliceDTO.builder()
-                        .name(entry.getKey())
-                        .value(entry.getValue())
+        if (siteIds != null && siteIds.isEmpty()) {
+            return List.of();
+        }
+        return equipmentDAO.countGroupedByOperatingStatus(siteIds, siteIds == null).stream()
+                .map((row) -> DashboardOverviewDTO.ChartSliceDTO.builder()
+                        .name(normalizeLabel((String) row[0], "UNKNOWN"))
+                        .value(((Number) row[1]).longValue())
                         .build())
+                .sorted(Comparator.comparing(DashboardOverviewDTO.ChartSliceDTO::getName))
                 .toList();
     }
 
     private List<DashboardOverviewDTO.MonthlyDowntimeDTO> getMonthlyDowntime(Collection<Long> siteIds) {
-        int year = LocalDate.now().getYear();
-        Map<Integer, Long> minutesByMonth = scopedDowntime(siteIds).stream()
-                .filter((downtime) -> downtime.getDowntimeStart() != null && downtime.getDowntimeStart().getYear() == year)
-                .collect(Collectors.groupingBy(
-                        (downtime) -> downtime.getDowntimeStart().getMonthValue(),
-                        Collectors.summingLong((downtime) -> downtime.getDowntimeMinutes() == null ? 0L : downtime.getDowntimeMinutes())
+        if (siteIds != null && siteIds.isEmpty()) {
+            return List.of();
+        }
+        int year = CurrentTimeProvider.today().getYear();
+        Instant start = CurrentTimeProvider.startOfBusinessDay(LocalDate.of(year, 1, 1));
+        Instant end = CurrentTimeProvider.startOfBusinessDay(LocalDate.of(year + 1, 1, 1));
+        Map<Integer, Long> minutesByMonth = downtimeDAO.sumMonthlyDowntime(
+                        siteIds, siteIds == null, start, end, CurrentTimeProvider.businessZone().getId())
+                .stream()
+                .collect(Collectors.toMap(
+                        (row) -> ((Number) row[0]).intValue(),
+                        (row) -> ((Number) row[1]).longValue()
                 ));
 
         return java.util.stream.IntStream.rangeClosed(1, 12)
@@ -647,7 +649,7 @@ public class DashboardService {
     }
 
     private List<DashboardOverviewDTO.UpcomingMaintenanceDTO> getUpcomingMaintenance(Collection<Long> siteIds) {
-        LocalDate today = LocalDate.now();
+        LocalDate today = CurrentTimeProvider.today();
         LocalDate end = today.plusDays(30);
         return scheduleDAO.findUpcoming(today, end).stream()
                 .filter((schedule) -> belongsToSites(schedule, siteIds))

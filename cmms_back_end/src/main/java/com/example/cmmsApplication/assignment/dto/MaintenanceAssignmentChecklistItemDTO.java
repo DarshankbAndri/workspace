@@ -1,7 +1,7 @@
 package com.example.cmmsApplication.assignment.dto;
 
 import jakarta.validation.constraints.NotBlank;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -30,9 +30,9 @@ public class MaintenanceAssignmentChecklistItemDTO {
     private String remarks;
     private Long completedById;
     private String completedByName;
-    private LocalDateTime completedAt;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private Instant completedAt;
+    private Instant createdAt;
+    private Instant updatedAt;
     @Builder.Default
     private List<MaintenanceAssignmentChecklistProofDTO> proofs = new ArrayList<>();
 }

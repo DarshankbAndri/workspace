@@ -1,0 +1,26 @@
+{
+  "name": "cmms-e2e",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test:e2e": "playwright test",
+    "test:smoke": "playwright test --grep @smoke",
+    "test:regression": "playwright test --grep @regression",
+    "test:security": "playwright test --grep @security",
+    "test:api": "playwright test --grep @api",
+    "test:ui": "playwright test --grep @ui",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "test:report": "playwright show-report playwright-report",
+    "test:list": "playwright test --list",
+    "docs:coverage": "node tools/generate-coverage.mjs",
+    "cleanup:e2e": "node cleanup/run-cleanup.mjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0",
+    "@types/node": "^22.10.2",
+    "dotenv": "^16.4.7",
+    "typescript": "^5.7.3"
+  }
+}

@@ -1,5 +1,5 @@
 package com.example.cmmsApplication.preventivemaintenance.service;
-
+import com.example.cmmsApplication.common.time.CurrentTimeProvider;
 
 import lombok.RequiredArgsConstructor;
 import com.example.cmmsApplication.approval.service.ApprovalWorkflowService;
@@ -38,7 +38,6 @@ import java.math.RoundingMode;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -157,7 +156,7 @@ public PreventiveMaintenanceScheduleDTO create(PreventiveMaintenanceScheduleDTO 
 
     @Transactional(readOnly = true)
     public List<PreventiveMaintenanceScheduleDTO> getUpcoming(int days) {
-        LocalDate today = LocalDate.now();
+        LocalDate today = CurrentTimeProvider.today();
         return scheduleDAO.findUpcoming(today, today.plusDays(days)).stream()
                 .filter((schedule) -> accessControlService.isAdmin()
                         || (schedule.getSite() != null && accessControlService.getAllowedSiteIds().contains(schedule.getSite().getId())))
@@ -191,30 +190,30 @@ public PreventiveMaintenanceScheduleDTO create(PreventiveMaintenanceScheduleDTO 
     }
 
     public List<PreventiveMaintenanceScheduleDTO> generateDueWorkOrders() {
-        Instant started = Instant.now();
+        long started = CurrentTimeProvider.monotonicNanos();
         try {
             List<PreventiveMaintenanceScheduleDTO> generated = new ArrayList<>();
-            for (PreventiveMaintenanceSchedule schedule : scheduleDAO.findDue(LocalDate.now())) {
+            for (PreventiveMaintenanceSchedule schedule : scheduleDAO.findDue(CurrentTimeProvider.today())) {
                 if (isPastEndDate(schedule)) {
                     completeSchedule(schedule);
                 } else {
                     generated.add(generateWorkOrder(schedule));
                 }
             }
-            observabilityMetrics.recordPmGeneration("success", generated.size(), Duration.between(started, Instant.now()));
+            observabilityMetrics.recordPmGeneration("success", generated.size(), CurrentTimeProvider.elapsedSince(started));
             return generated;
         } catch (RuntimeException ex) {
-            observabilityMetrics.recordPmGeneration("failure", 0, Duration.between(started, Instant.now()));
+            observabilityMetrics.recordPmGeneration("failure", 0, CurrentTimeProvider.elapsedSince(started));
             throw ex;
         }
     }
 
-    @Scheduled(cron = "0 0 6 * * *")
+    @Scheduled(cron = "0 0 6 * * *", zone = "${cmms.time.business-zone:Asia/Kolkata}")
     public void generateDueWorkOrdersDaily() {
-        Instant started = Instant.now();
+        long started = CurrentTimeProvider.monotonicNanos();
         int generated = 0;
         try {
-            List<PreventiveMaintenanceSchedule> dueSchedules = scheduleDAO.findDue(LocalDate.now());
+            List<PreventiveMaintenanceSchedule> dueSchedules = scheduleDAO.findDue(CurrentTimeProvider.today());
             for (PreventiveMaintenanceSchedule schedule : dueSchedules) {
                 if (isPastEndDate(schedule)) {
                     completeSchedule(schedule);
@@ -223,21 +222,21 @@ public PreventiveMaintenanceScheduleDTO create(PreventiveMaintenanceScheduleDTO 
                     generated++;
                 }
             }
-            observabilityMetrics.recordPmGeneration("success", generated, Duration.between(started, Instant.now()));
+            observabilityMetrics.recordPmGeneration("success", generated, CurrentTimeProvider.elapsedSince(started));
         } catch (RuntimeException ex) {
-            observabilityMetrics.recordPmGeneration("failure", generated, Duration.between(started, Instant.now()));
+            observabilityMetrics.recordPmGeneration("failure", generated, CurrentTimeProvider.elapsedSince(started));
             // Keep the scheduler from failing the application if business data blocks one run.
         }
     }
 
     public PreventiveMaintenanceScheduleDTO generateWorkOrder(Long id) {
-        Instant started = Instant.now();
+        long started = CurrentTimeProvider.monotonicNanos();
         try {
             PreventiveMaintenanceScheduleDTO result = generateWorkOrder(getEntity(id));
-            observabilityMetrics.recordPmGeneration("success", 1, Duration.between(started, Instant.now()));
+            observabilityMetrics.recordPmGeneration("success", 1, CurrentTimeProvider.elapsedSince(started));
             return result;
         } catch (RuntimeException ex) {
-            observabilityMetrics.recordPmGeneration("failure", 0, Duration.between(started, Instant.now()));
+            observabilityMetrics.recordPmGeneration("failure", 0, CurrentTimeProvider.elapsedSince(started));
             throw ex;
         }
     }
@@ -318,7 +317,7 @@ public PreventiveMaintenanceScheduleDTO create(PreventiveMaintenanceScheduleDTO 
             assignment.setRequest(savedRequest);
             assignment.setVendor(schedule.getVendor());
             assignment.setAssignedTo(resolveAssignedTo(schedule));
-            assignment.setAssignedDate(LocalDate.now());
+            assignment.setAssignedDate(CurrentTimeProvider.today());
             assignment.setPlannedStartDate(schedule.getNextDueDate());
             assignment.setPlannedEndDate(schedule.getNextDueDate());
             assignment.setStatus("ASSIGNED");
@@ -334,7 +333,7 @@ public PreventiveMaintenanceScheduleDTO create(PreventiveMaintenanceScheduleDTO 
             schedule.setActive(false);
             schedule.setStatus("COMPLETED");
             schedule.setLastNotificationStatus("PM_SCHEDULE_COMPLETED");
-            schedule.setLastNotificationAt(LocalDateTime.now());
+            schedule.setLastNotificationAt(CurrentTimeProvider.now());
         }
         return scheduleDAO.save(schedule);
     }
@@ -417,7 +416,7 @@ public PreventiveMaintenanceScheduleDTO create(PreventiveMaintenanceScheduleDTO 
         schedule.setActive(false);
         schedule.setStatus("COMPLETED");
         schedule.setLastNotificationStatus("PM_SCHEDULE_COMPLETED");
-        schedule.setLastNotificationAt(LocalDateTime.now());
+        schedule.setLastNotificationAt(CurrentTimeProvider.now());
         return scheduleDAO.save(schedule);
     }
 
@@ -464,22 +463,22 @@ public PreventiveMaintenanceScheduleDTO create(PreventiveMaintenanceScheduleDTO 
     private void notifyVendor(PreventiveMaintenanceSchedule schedule, MaintenanceRequest request) {
         if (schedule.getVendor() == null) {
             schedule.setLastNotificationStatus("NO_VENDOR_ASSIGNED");
-            schedule.setLastNotificationAt(LocalDateTime.now());
+            schedule.setLastNotificationAt(CurrentTimeProvider.now());
             return;
         }
         String channel = schedule.getVendor().getEmail() == null || schedule.getVendor().getEmail().isBlank()
                 ? "CONTACT_PENDING"
                 : "EMAIL_QUEUED";
         schedule.setLastNotificationStatus(channel + " for " + request.getRequestNumber());
-        schedule.setLastNotificationAt(LocalDateTime.now());
+        schedule.setLastNotificationAt(CurrentTimeProvider.now());
     }
 
     private String generateScheduleCode() {
-        return "PM-" + LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE) + "-" + System.currentTimeMillis();
+        return "PM-" + CurrentTimeProvider.today().format(DateTimeFormatter.BASIC_ISO_DATE) + "-" + CurrentTimeProvider.epochMillis();
     }
 
     private String generateRequestNumber(PreventiveMaintenanceSchedule schedule) {
-        return "PMWO-" + schedule.getId() + "-" + schedule.getNextDueDate().format(DateTimeFormatter.BASIC_ISO_DATE) + "-" + System.currentTimeMillis();
+        return "PMWO-" + schedule.getId() + "-" + schedule.getNextDueDate().format(DateTimeFormatter.BASIC_ISO_DATE) + "-" + CurrentTimeProvider.epochMillis();
     }
 
     private PreventiveMaintenanceScheduleDTO toDTO(PreventiveMaintenanceSchedule schedule) {
