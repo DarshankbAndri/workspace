@@ -34,7 +34,10 @@ import { formatDateTime } from '../utils/formatters';
 
 function TopNavbar({ onMenuClick }) {
   const navigate = useNavigate();
-  const { user, logout } = useAuth();
+  const { user, logout, hasPermission } = useAuth();
+  const canViewCompany = hasPermission('COMPANY_VIEW');
+  const canViewNotifications = hasPermission('NOTIFICATION_VIEW');
+  const canUpdateNotifications = hasPermission('NOTIFICATION_UPDATE');
   const [company, setCompany] = React.useState(null);
   const [notificationAnchor, setNotificationAnchor] = React.useState(null);
   const [profileAnchor, setProfileAnchor] = React.useState(null);
@@ -42,6 +45,11 @@ function TopNavbar({ onMenuClick }) {
   const [unreadCount, setUnreadCount] = React.useState(0);
 
   const loadNotifications = React.useCallback(() => {
+    if (!canViewNotifications) {
+      setNotifications([]);
+      setUnreadCount(0);
+      return Promise.resolve();
+    }
     Promise.all([getNotificationList({ page: 0, size: 6 }), getUnreadNotificationCount()])
       .then(([items, count]) => {
         setNotifications((items || []).slice(0, 6));
@@ -51,13 +59,20 @@ function TopNavbar({ onMenuClick }) {
         setNotifications([]);
         setUnreadCount(0);
       });
-  }, []);
+  }, [canViewNotifications]);
 
   React.useEffect(() => {
+    if (!canViewCompany) {
+      setCompany(null);
+      return;
+    }
     getCurrentCompany().then(setCompany).catch(() => setCompany(null));
-  }, []);
+  }, [canViewCompany]);
 
   React.useEffect(() => {
+    if (!canViewNotifications) {
+      return undefined;
+    }
     loadNotifications();
     return subscribeToNotificationStream({
       onCreated: (notification) => {
@@ -76,7 +91,7 @@ function TopNavbar({ onMenuClick }) {
       },
       onCount: setUnreadCount,
     });
-  }, [loadNotifications]);
+  }, [canViewNotifications, loadNotifications]);
 
   const openNotifications = (event) => {
     setNotificationAnchor(event.currentTarget);
@@ -86,7 +101,7 @@ function TopNavbar({ onMenuClick }) {
   const closeNotifications = () => setNotificationAnchor(null);
 
   const openNotification = async (notification) => {
-    if (notification.status === 'UNREAD') {
+    if (notification.status === 'UNREAD' && canUpdateNotifications) {
       await markNotificationRead(notification.id);
     }
     closeNotifications();
@@ -161,13 +176,15 @@ function TopNavbar({ onMenuClick }) {
         </Stack>
 
         <Stack direction="row" alignItems="center" spacing={0.75}>
-          <Tooltip title="Notifications">
-            <IconButton aria-label="Notifications" onClick={openNotifications}>
-              <Badge badgeContent={unreadCount} color="error" max={99}>
-                <Notifications />
-              </Badge>
-            </IconButton>
-          </Tooltip>
+          {canViewNotifications && (
+            <Tooltip title="Notifications">
+              <IconButton aria-label="Notifications" onClick={openNotifications}>
+                <Badge badgeContent={unreadCount} color="error" max={99}>
+                  <Notifications />
+                </Badge>
+              </IconButton>
+            </Tooltip>
+          )}
           <Tooltip title="User profile">
             <IconButton aria-label="User profile" onClick={(event) => setProfileAnchor(event.currentTarget)} sx={{ p: 0.5 }}>
               <Avatar src={profilePhotoUrl} sx={{ width: 36, height: 36, bgcolor: 'secondary.main', color: 'primary.main', fontWeight: 800 }}>
@@ -188,9 +205,11 @@ function TopNavbar({ onMenuClick }) {
         <Box sx={{ width: 360, maxWidth: '90vw', p: 1 }}>
           <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ px: 1, py: 0.75 }}>
             <Typography variant="subtitle2" fontWeight={800}>Notifications</Typography>
-            <ButtonBase onClick={markNotificationsRead} sx={{ px: 1, py: 0.5, borderRadius: 1, color: 'primary.main', fontSize: 13, fontWeight: 700 }}>
-              Mark read
-            </ButtonBase>
+            {canUpdateNotifications && (
+              <ButtonBase onClick={markNotificationsRead} sx={{ px: 1, py: 0.5, borderRadius: 1, color: 'primary.main', fontSize: 13, fontWeight: 700 }}>
+                Mark read
+              </ButtonBase>
+            )}
           </Stack>
           <Divider />
           <List dense sx={{ py: 0.5, maxHeight: 360, overflowY: 'auto' }}>

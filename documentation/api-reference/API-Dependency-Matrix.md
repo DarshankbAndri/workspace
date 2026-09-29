@@ -14,7 +14,7 @@ Source of truth: `cmms_back_end/src/main/resources/api-permission-mapping.csv` a
 | `ROLE_VIEW/CREATE/UPDATE` | `/api/admin/roles`, `/api/admin/roles/{id}` | GET/POST/PUT | Role operations |
 | `PERMISSION_VIEW` | `/api/admin/permissions` | GET | Permission selector |
 | `USER_ROLE_ASSIGN` | `/api/users` | POST | Create account |
-| `USER_ROLE_VIEW/UPDATE` | `/api/admin/users/{id}/roles` | GET/PUT | User role assignment API (UI placeholder) |
+| `USER_ROLE_VIEW/ASSIGN/UPDATE` | `/api/admin/users/{id}/roles` | GET/PUT | Global and site-scoped user role editor |
 | `VENDOR_VIEW/CREATE/UPDATE` | `/api/vendors`, `/api/vendors/{id}` | GET/POST/PUT | Vendor operations |
 | Vendor page permission | `/api/hr/sites` | GET | Vendor site dropdown |
 | `VENDOR_AMC_CREATE/UPDATE` | `/api/vendor-amc`, `/api/vendor-amc/{id}` | POST/PUT | AMC contract save |
@@ -31,7 +31,8 @@ Source of truth: `cmms_back_end/src/main/resources/api-permission-mapping.csv` a
 | `ASSIGNMENT_CREATE/UPDATE` | `/api/maintenance/assignments`, `/api/maintenance/assignments/{id}` | POST/PUT | Assignment save |
 | Assignment page permission | `/api/hr/sites`, `/api/maintenance/requests`, `/api/vendors` | GET | Assignment dropdowns |
 | `ASSIGNMENT_CHECKLIST_UPDATE` | `/api/maintenance/assignments/{id}/checklist/**` | POST/PUT/DELETE | Checklist and proof writes |
-| `ASSIGNMENT_WORK_LOG_CREATE/UPDATE/DELETE` | `/api/maintenance/assignments/{id}/work-logs/**` | POST/PUT/DELETE | Work logs/attachments |
+| `ASSIGNMENT_WORK_LOG_CREATE/UPDATE/DELETE` | `/api/maintenance/assignments/{id}/work-logs/**` | POST/PUT/DELETE | Work-log rows |
+| `ASSIGNMENT_WORK_LOG_ATTACHMENT_UPLOAD/DELETE` | `/api/maintenance/assignments/{id}/work-logs/{workLogId}/attachments/**` | POST/DELETE | Work-log attachments |
 | `DOWNTIME_CREATE/UPDATE` | `/api/maintenance/downtime`, `/api/maintenance/downtime/{id}` | POST/PUT | Downtime save |
 | Downtime page permission | `/api/equipment`, `/api/maintenance/requests` | GET | Downtime dropdowns |
 | `DOWNTIME_CONFIRM/VERIFY/CLOSE/REOPEN` | `/api/maintenance/downtime/{id}/{action}` | POST | Downtime lifecycle |
@@ -53,10 +54,7 @@ Source of truth: `cmms_back_end/src/main/resources/api-permission-mapping.csv` a
 | `APPROVAL_APPROVE/REJECT` | `/api/approvals/{id}/approve|reject` | POST | Approval decision |
 | `NOTIFICATION_CONFIG_VIEW/UPDATE` | `/api/admin/notification-settings` | GET/PUT | Notification configuration |
 
-## Mapping gaps to verify
+## Permission dependency status
 
-1. Employee create/edit loads roles, but employee permissions do not explicitly include role helper API rows.
-2. Role create/edit loads permissions, but role write permissions do not explicitly include permission helper API rows.
-3. Notification settings loads roles, but notification configuration permissions do not explicitly include role helper rows.
-4. Proof/attachment-specific UI permission names do not match broader CSV permission codes.
+The API permission map includes the helper endpoints required by employee, role, user-role, approval-configuration, and notification-configuration pages. Checklist proof and work-log attachment upload/delete APIs use their matching specific permission codes; users with the corresponding view permissions can download those files.
 
