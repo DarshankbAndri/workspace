@@ -1,0 +1,6 @@
+# .gitignore for React Application
+
+# Dependencies
+
+# Graphify's generated project graph is local-only.
+/graphify-out/
