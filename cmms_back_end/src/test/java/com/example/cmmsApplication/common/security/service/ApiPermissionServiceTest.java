@@ -27,9 +27,9 @@ class ApiPermissionServiceTest {
         securityProperties = new CmmsSecurityProperties();
         securityProperties.setApiPermissionRestrictionEnabled(true);
         PublicApiPatternService publicApiPatternService =
-                new PublicApiPatternService(securityProperties, new DefaultResourceLoader());
+                new PublicApiPatternServiceImpl(securityProperties, new DefaultResourceLoader());
         publicApiPatternService.loadPatterns();
-        apiPermissionService = new ApiPermissionService(
+        apiPermissionService = new ApiPermissionServiceImpl(
                 permissionApiMappingRepository,
                 securityProperties,
                 publicApiPatternService);

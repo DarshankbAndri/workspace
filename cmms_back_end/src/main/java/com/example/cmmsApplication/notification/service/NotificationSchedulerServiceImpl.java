@@ -1,0 +1,35 @@
+package com.example.cmmsApplication.notification.service;
+
+import com.example.cmmsApplication.common.config.CmmsTimeProperties;
+import com.example.cmmsApplication.notification.entity.Notification;
+import org.springframework.scheduling.Trigger;
+import org.springframework.scheduling.annotation.SchedulingConfigurer;
+import org.springframework.scheduling.config.ScheduledTaskRegistrar;
+import org.springframework.scheduling.support.CronTrigger;
+import org.springframework.stereotype.Service;
+import lombok.RequiredArgsConstructor;
+
+@Service("notificationSchedulerService")
+@RequiredArgsConstructor
+public class NotificationSchedulerServiceImpl implements NotificationSchedulerService {
+    private static final String DEFAULT_CRON = "0 0 7 * * *";
+
+    private final NotificationSettingsService notificationSettingsService;
+    private final NotificationScanService notificationScanService;
+    private final CmmsTimeProperties timeProperties;
+
+    @Override
+    public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
+        taskRegistrar.addTriggerTask(notificationScanService::scanDailyNotifications, notificationTrigger());
+    }
+
+    private Trigger notificationTrigger() {
+        return (triggerContext) -> {
+            String cron = notificationSettingsService.getRuntimeSettings().getScanCron();
+            CronTrigger cronTrigger = new CronTrigger(
+                    cron == null || cron.isBlank() ? DEFAULT_CRON : cron,
+                    timeProperties.businessZoneId());
+            return cronTrigger.nextExecution(triggerContext);
+        };
+    }
+}

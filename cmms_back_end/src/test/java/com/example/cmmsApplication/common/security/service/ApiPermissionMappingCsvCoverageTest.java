@@ -102,9 +102,9 @@ class ApiPermissionMappingCsvCoverageTest {
     private static ApiPermissionService apiPermissionService() {
         CmmsSecurityProperties securityProperties = new CmmsSecurityProperties();
         PublicApiPatternService publicApiPatternService =
-                new PublicApiPatternService(securityProperties, new DefaultResourceLoader());
+                new PublicApiPatternServiceImpl(securityProperties, new DefaultResourceLoader());
         publicApiPatternService.loadPatterns();
-        return new ApiPermissionService(null, securityProperties, publicApiPatternService);
+        return new ApiPermissionServiceImpl(null, securityProperties, publicApiPatternService);
     }
 
     private static boolean isMapped(String method, String path) {

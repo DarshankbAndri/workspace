@@ -40,7 +40,7 @@ class MaintenanceAssignmentChecklistServiceTest {
     @BeforeEach
     void setUp() {
         properties = new MaintenanceChecklistProperties();
-        service = new MaintenanceAssignmentChecklistService(
+        service = new MaintenanceAssignmentChecklistServiceImpl(
                 requestChecklistDAO,
                 checklistDAO,
                 assignmentDAO,

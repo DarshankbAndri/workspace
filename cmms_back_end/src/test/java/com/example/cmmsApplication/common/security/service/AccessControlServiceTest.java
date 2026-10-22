@@ -55,7 +55,7 @@ class AccessControlServiceTest {
     void setUp() {
         CmmsSecurityProperties properties = new CmmsSecurityProperties();
         properties.setApiPermissionRestrictionEnabled(true);
-        accessControlService = new AccessControlService(
+        accessControlService = new AccessControlServiceImpl(
                 userRepository,
                 siteRepository,
                 employeeSiteAssignmentRepository,

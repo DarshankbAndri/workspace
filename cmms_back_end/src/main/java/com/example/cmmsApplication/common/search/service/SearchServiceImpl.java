@@ -28,8 +28,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
-@Service
-public class SearchServiceImp implements SearchService {
+@Service("searchServiceImp")
+public class SearchServiceImpl implements SearchService {
     private static final int DEFAULT_PAGE_SIZE = 10;
     private static final int MAX_PAGE_SIZE = 100;
 

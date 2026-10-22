@@ -33,7 +33,7 @@ class PublicApiPatternServiceTest {
 
     private PublicApiPatternService service() {
         PublicApiPatternService service =
-                new PublicApiPatternService(new CmmsSecurityProperties(), new DefaultResourceLoader());
+                new PublicApiPatternServiceImpl(new CmmsSecurityProperties(), new DefaultResourceLoader());
         service.loadPatterns();
         return service;
     }
