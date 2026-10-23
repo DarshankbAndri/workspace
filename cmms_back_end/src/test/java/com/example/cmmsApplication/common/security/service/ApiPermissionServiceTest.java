@@ -1,5 +1,8 @@
 package com.example.cmmsApplication.common.security.service;
 
+import com.example.cmmsApplication.common.security.implementation.ApiPermissionServiceImpl;
+import com.example.cmmsApplication.common.security.implementation.PublicApiPatternServiceImpl;
+
 import com.example.cmmsApplication.common.config.CmmsSecurityProperties;
 import com.example.cmmsApplication.common.security.repository.PermissionApiMappingRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,9 +30,9 @@ class ApiPermissionServiceTest {
         securityProperties = new CmmsSecurityProperties();
         securityProperties.setApiPermissionRestrictionEnabled(true);
         PublicApiPatternService publicApiPatternService =
-                new PublicApiPatternService(securityProperties, new DefaultResourceLoader());
+                new PublicApiPatternServiceImpl(securityProperties, new DefaultResourceLoader());
         publicApiPatternService.loadPatterns();
-        apiPermissionService = new ApiPermissionService(
+        apiPermissionService = new ApiPermissionServiceImpl(
                 permissionApiMappingRepository,
                 securityProperties,
                 publicApiPatternService);

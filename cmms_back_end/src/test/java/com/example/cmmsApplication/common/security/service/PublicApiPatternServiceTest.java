@@ -1,5 +1,7 @@
 package com.example.cmmsApplication.common.security.service;
 
+import com.example.cmmsApplication.common.security.implementation.PublicApiPatternServiceImpl;
+
 import com.example.cmmsApplication.common.config.CmmsSecurityProperties;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.DefaultResourceLoader;
@@ -33,7 +35,7 @@ class PublicApiPatternServiceTest {
 
     private PublicApiPatternService service() {
         PublicApiPatternService service =
-                new PublicApiPatternService(new CmmsSecurityProperties(), new DefaultResourceLoader());
+                new PublicApiPatternServiceImpl(new CmmsSecurityProperties(), new DefaultResourceLoader());
         service.loadPatterns();
         return service;
     }

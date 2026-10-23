@@ -1,5 +1,8 @@
 package com.example.cmmsApplication.common.security.service;
 
+import com.example.cmmsApplication.common.security.implementation.ApiPermissionServiceImpl;
+import com.example.cmmsApplication.common.security.implementation.PublicApiPatternServiceImpl;
+
 import com.example.cmmsApplication.common.config.CmmsSecurityProperties;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.DefaultResourceLoader;
@@ -102,9 +105,9 @@ class ApiPermissionMappingCsvCoverageTest {
     private static ApiPermissionService apiPermissionService() {
         CmmsSecurityProperties securityProperties = new CmmsSecurityProperties();
         PublicApiPatternService publicApiPatternService =
-                new PublicApiPatternService(securityProperties, new DefaultResourceLoader());
+                new PublicApiPatternServiceImpl(securityProperties, new DefaultResourceLoader());
         publicApiPatternService.loadPatterns();
-        return new ApiPermissionService(null, securityProperties, publicApiPatternService);
+        return new ApiPermissionServiceImpl(null, securityProperties, publicApiPatternService);
     }
 
     private static boolean isMapped(String method, String path) {

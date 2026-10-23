@@ -159,4 +159,15 @@
             ON CONFLICT (permission_code) DO NOTHING;
         </sql>
     </changeSet>
+    <!-- Role grants run before the notification table changelogs on a fresh database. -->
+    <changeSet id="permission-master-011-seed-notification-before-role-grants" author="Codex">
+        <sql>
+            INSERT INTO permission_master (permission_code, permission_name, module_name, action_name, status, created_at, updated_at) VALUES
+            ('NOTIFICATION_VIEW', 'View Notifications', 'Notification', 'VIEW', 'ACTIVE', NOW(), NOW()),
+            ('NOTIFICATION_UPDATE', 'Update Notifications', 'Notification', 'UPDATE', 'ACTIVE', NOW(), NOW()),
+            ('NOTIFICATION_CONFIG_VIEW', 'View Notification Settings', 'Notification Settings', 'VIEW', 'ACTIVE', NOW(), NOW()),
+            ('NOTIFICATION_CONFIG_UPDATE', 'Update Notification Settings', 'Notification Settings', 'UPDATE', 'ACTIVE', NOW(), NOW())
+            ON CONFLICT (permission_code) DO NOTHING;
+        </sql>
+    </changeSet>
 </databaseChangeLog>

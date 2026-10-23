@@ -1,5 +1,7 @@
 package com.example.cmmsApplication.equipment.service;
 
+import com.example.cmmsApplication.equipment.implementation.EquipmentChecklistServiceImpl;
+
 import com.example.cmmsApplication.equipment.dao.*;
 import com.example.cmmsApplication.equipment.dto.*;
 import com.example.cmmsApplication.equipment.entity.*;
@@ -27,7 +29,7 @@ class EquipmentChecklistServiceTest {
     private EquipmentChecklistItem item;
 
     @BeforeEach void setup() {
-        service = new EquipmentChecklistService(groups, items, equipmentDAO, access);
+        service = new EquipmentChecklistServiceImpl(groups, items, equipmentDAO, access);
         equipment = new Equipment(); equipment.setId(1L);
         Site site = new Site(); site.setId(2L); equipment.setSite(site);
         item = new EquipmentChecklistItem(); item.setId(3L); item.setEquipment(equipment); item.setActive(true);
@@ -36,6 +38,14 @@ class EquipmentChecklistServiceTest {
     @Test void sourceCannotComeFromAnotherEquipment() {
         when(items.findById(3L)).thenReturn(Optional.of(item));
         assertThrows(InvalidOperationException.class, () -> service.validateSource(99L, 3L, false));
+    }
+
+    @Test void validationAndResponseNormalizationWorkThroughInterface() {
+        assertEquals("CHECKBOX", service.responseType(null));
+        assertEquals("PHOTO", service.responseType(" photo "));
+        assertDoesNotThrow(() -> service.validateStep("Inspect panel", null, "text"));
+        assertThrows(InvalidOperationException.class, () -> service.validateStep(" ", null, "TEXT"));
+        assertThrows(InvalidOperationException.class, () -> service.responseType("INVALID"));
     }
 
     @Test void retiredSourceRemainsValidOnlyForSavedSnapshots() {

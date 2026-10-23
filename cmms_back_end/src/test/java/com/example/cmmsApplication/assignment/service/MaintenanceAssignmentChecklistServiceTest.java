@@ -1,5 +1,7 @@
 package com.example.cmmsApplication.assignment.service;
 
+import com.example.cmmsApplication.assignment.implementation.MaintenanceAssignmentChecklistServiceImpl;
+
 import com.example.cmmsApplication.assignment.dao.MaintenanceAssignmentChecklistDAO;
 import com.example.cmmsApplication.assignment.dao.MaintenanceAssignmentDAO;
 import com.example.cmmsApplication.assignment.entity.MaintenanceAssignment;
@@ -40,7 +42,7 @@ class MaintenanceAssignmentChecklistServiceTest {
     @BeforeEach
     void setUp() {
         properties = new MaintenanceChecklistProperties();
-        service = new MaintenanceAssignmentChecklistService(
+        service = new MaintenanceAssignmentChecklistServiceImpl(
                 requestChecklistDAO,
                 checklistDAO,
                 assignmentDAO,
