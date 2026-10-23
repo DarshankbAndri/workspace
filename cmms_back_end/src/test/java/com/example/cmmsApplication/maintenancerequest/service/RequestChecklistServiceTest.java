@@ -1,5 +1,7 @@
 package com.example.cmmsApplication.maintenancerequest.service;
 
+import com.example.cmmsApplication.maintenancerequest.implementation.RequestChecklistServiceImpl;
+
 import com.example.cmmsApplication.equipment.entity.Equipment;
 import com.example.cmmsApplication.equipment.service.EquipmentChecklistService;
 import com.example.cmmsApplication.maintenancerequest.dao.RequestChecklistItemDAO;

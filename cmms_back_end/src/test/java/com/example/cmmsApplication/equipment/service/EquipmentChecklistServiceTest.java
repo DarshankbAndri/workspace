@@ -1,5 +1,7 @@
 package com.example.cmmsApplication.equipment.service;
 
+import com.example.cmmsApplication.equipment.implementation.EquipmentChecklistServiceImpl;
+
 import com.example.cmmsApplication.equipment.dao.*;
 import com.example.cmmsApplication.equipment.dto.*;
 import com.example.cmmsApplication.equipment.entity.*;

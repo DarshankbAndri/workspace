@@ -1,0 +1,56 @@
+package com.example.cmmsApplication.common.security.implementation;
+
+import com.example.cmmsApplication.common.security.service.ApiPermissionService;
+import com.example.cmmsApplication.common.security.service.PublicApiPatternService;
+
+import com.example.cmmsApplication.common.config.CmmsSecurityProperties;
+import com.example.cmmsApplication.common.security.repository.PermissionApiMappingRepository;
+import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service("apiPermissionService")
+@RequiredArgsConstructor
+@Transactional(readOnly = true)
+public class ApiPermissionServiceImpl implements ApiPermissionService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ApiPermissionServiceImpl.class);
+
+    private final PermissionApiMappingRepository permissionApiMappingRepository;
+    private final CmmsSecurityProperties securityProperties;
+    private final PublicApiPatternService publicApiPatternService;
+
+    @Override
+    @Cacheable(value = "api-permissions", key = "#userId + '|' + #httpMethod + '|' + #requestUrl")
+    public boolean hasPermission(String userId, String requestUrl, String httpMethod) {
+        if (!securityProperties.isApiPermissionRestrictionEnabled()) {
+            LOGGER.info("[API_PERMISSION_CHECK] userId={} method={} url={} result=ALLOWED reason=DISABLED",
+                    userId, httpMethod, requestUrl);
+            return true;
+        }
+        if (isPublicApi(requestUrl)) {
+            LOGGER.info("[API_PERMISSION_CHECK] userId={} method={} url={} result=ALLOWED reason=PUBLIC",
+                    userId, httpMethod, requestUrl);
+            return true;
+        }
+
+        boolean allowed = hasPermission(Long.valueOf(userId), requestUrl,httpMethod);
+        LOGGER.info("[API_PERMISSION_CHECK] userId={} method={} url={} result={}",
+                userId, httpMethod, requestUrl, allowed ? "ALLOWED" : "DENIED");
+        return allowed;
+    }
+
+    @Override
+    public boolean hasPermission(Long userId, String requestUrl, String httpMethod) {
+        Integer count = permissionApiMappingRepository.countUserPermissionsForApiPath(userId, requestUrl,httpMethod);
+        boolean allowed = count > 0;
+        return allowed;
+    }
+
+    @Override
+    public boolean isPublicApi(String requestUrl) {
+        return publicApiPatternService.isPublicApi(requestUrl);
+    }
+}

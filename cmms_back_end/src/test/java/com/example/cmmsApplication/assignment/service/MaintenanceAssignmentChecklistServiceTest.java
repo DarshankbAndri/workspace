@@ -1,5 +1,7 @@
 package com.example.cmmsApplication.assignment.service;
 
+import com.example.cmmsApplication.assignment.implementation.MaintenanceAssignmentChecklistServiceImpl;
+
 import com.example.cmmsApplication.assignment.dao.MaintenanceAssignmentChecklistDAO;
 import com.example.cmmsApplication.assignment.dao.MaintenanceAssignmentDAO;
 import com.example.cmmsApplication.assignment.entity.MaintenanceAssignment;
