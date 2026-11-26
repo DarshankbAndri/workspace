@@ -1,358 +1,43 @@
 package com.example.cmmsApplication.common.security.service;
 
-
-import com.example.cmmsApplication.admin.entity.RolePermission;
-import com.example.cmmsApplication.employee.entity.Employee;
-import com.example.cmmsApplication.admin.dao.RolePermissionDAO;
-import com.example.cmmsApplication.admin.dao.UserRoleAssignmentDAO;
-import com.example.cmmsApplication.common.config.CmmsSecurityProperties;
 import com.example.cmmsApplication.common.security.dto.AllowedSiteDTO;
 import com.example.cmmsApplication.common.security.dto.AuthAccessDTO;
-import com.example.cmmsApplication.user.dto.UserDTO;
-import com.example.cmmsApplication.employee.entity.EmployeeSiteAssignment;
-import com.example.cmmsApplication.site.entity.Site;
 import com.example.cmmsApplication.user.entity.User;
-import com.example.cmmsApplication.user.enums.UserRole;
-import com.example.cmmsApplication.admin.entity.UserRoleAssignment;
-import com.example.cmmsApplication.common.exception.UnauthorizedAccessException;
-import com.example.cmmsApplication.employee.repository.EmployeeSiteAssignmentRepository;
-import com.example.cmmsApplication.site.repository.SiteRepository;
-import com.example.cmmsApplication.user.repository.UserRepository;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
-import java.nio.file.Path;
-import java.util.*;
-import java.util.stream.Collectors;
-import lombok.RequiredArgsConstructor;
+/** Service contract for access control. */
+public interface AccessControlService {
+    User getCurrentUser();
 
-@Service
-@RequiredArgsConstructor
-@Transactional(readOnly = true)
-public class AccessControlService {
-    private static final String SITE_GLOBAL_ACCESS_PERMISSION = "SITE_GLOBAL_ACCESS";
+    Long getCurrentUserId();
 
-    private static final Set<String> ALL_PERMISSION_CODES = Set.of(
-            "DASHBOARD_VIEW",
-            "DASHBOARD_WIDGET_OVERVIEW_KPI_SUMMARY",
-            "DASHBOARD_WIDGET_EQUIPMENT_STATUS",
-            "DASHBOARD_WIDGET_REPORT_DOWNTIME_SUMMARY",
-            "DASHBOARD_WIDGET_VENDOR_PERFORMANCE",
-            "DASHBOARD_WIDGET_MAINTENANCE_PM_DUE",
-            "DASHBOARD_WIDGET_VENDOR_AMC_ACTIVE",
-            "SITE_VIEW", "SITE_CREATE", "SITE_UPDATE", "SITE_DELETE", SITE_GLOBAL_ACCESS_PERMISSION,
-            "EMPLOYEE_VIEW", "EMPLOYEE_CREATE", "EMPLOYEE_UPDATE", "EMPLOYEE_DELETE",
-            "EQUIPMENT_VIEW", "EQUIPMENT_CREATE", "EQUIPMENT_UPDATE", "EQUIPMENT_DELETE",
-            "VENDOR_VIEW", "VENDOR_CREATE", "VENDOR_UPDATE", "VENDOR_DELETE",
-            "VENDOR_AMC_VIEW", "VENDOR_AMC_CREATE", "VENDOR_AMC_UPDATE", "VENDOR_AMC_DELETE",
-            "VENDOR_AMC_ASSIGN_EQUIPMENT", "VENDOR_AMC_RENEW",
-            "REQUEST_VIEW", "REQUEST_CREATE", "REQUEST_UPDATE", "REQUEST_DELETE",
-            "PM_CALENDAR_VIEW",
-            "ASSIGNMENT_VIEW", "ASSIGNMENT_CREATE", "ASSIGNMENT_UPDATE", "ASSIGNMENT_DELETE",
-            "ASSIGNMENT_CHECKLIST_VIEW", "ASSIGNMENT_CHECKLIST_UPDATE",
-            "ASSIGNMENT_CHECKLIST_PROOF_UPLOAD", "ASSIGNMENT_CHECKLIST_PROOF_DELETE",
-            "ASSIGNMENT_WORK_LOG_VIEW", "ASSIGNMENT_WORK_LOG_CREATE", "ASSIGNMENT_WORK_LOG_UPDATE",
-            "ASSIGNMENT_WORK_LOG_DELETE", "ASSIGNMENT_WORK_LOG_ATTACHMENT_UPLOAD", "ASSIGNMENT_WORK_LOG_ATTACHMENT_DELETE",
-            "DOWNTIME_VIEW", "DOWNTIME_CREATE", "DOWNTIME_UPDATE", "DOWNTIME_DELETE",
-            "DOWNTIME_CONFIRM", "DOWNTIME_VERIFY", "DOWNTIME_CLOSE", "DOWNTIME_REOPEN", "DOWNTIME_RCA_MANAGE",
-            "REPORT_VIEW",
-            "ROLE_VIEW", "ROLE_CREATE", "ROLE_UPDATE", "ROLE_DELETE",
-            "PERMISSION_VIEW", "USER_ROLE_VIEW", "USER_ROLE_UPDATE", "USER_ROLE_ASSIGN",
-            "COMPANY_VIEW", "COMPANY_CREATE", "COMPANY_UPDATE",
-            "APPROVAL_VIEW", "APPROVAL_APPROVE", "APPROVAL_REJECT",
-            "APPROVAL_CONFIG_VIEW", "APPROVAL_CONFIG_UPDATE",
-            "NOTIFICATION_VIEW", "NOTIFICATION_UPDATE",
-            "NOTIFICATION_CONFIG_VIEW", "NOTIFICATION_CONFIG_UPDATE",
-            "SPARE_PART_VIEW", "SPARE_PART_CREATE", "SPARE_PART_UPDATE", "SPARE_PART_DELETE",
-            "STOCK_TRANSACTION_VIEW", "STOCK_TRANSACTION_CREATE",
-            "SPARE_USAGE_VIEW", "SPARE_USAGE_CREATE", "SPARE_USAGE_UPDATE", "SPARE_USAGE_DELETE",
-            "SPARE_USAGE_MANAGER_APPROVE", "SPARE_USAGE_STORE_PROCESS",
-            "SPARE_USAGE_RESERVE", "SPARE_USAGE_ISSUE", "SPARE_USAGE_CONSUME",
-            "SPARE_USAGE_REJECT", "SPARE_USAGE_CANCEL", "SPARE_USAGE_RETURN",
-            "REORDER_VIEW", "REORDER_CREATE", "REORDER_UPDATE"
-    );
+    Long getCurrentEmployeeId();
 
-    private final UserRepository userRepository;
-    private final SiteRepository siteRepository;
-    private final EmployeeSiteAssignmentRepository employeeSiteAssignmentRepository;
-    private final UserRoleAssignmentDAO userRoleAssignmentDAO;
-    private final RolePermissionDAO rolePermissionDAO;
-    private final CmmsSecurityProperties cmmsSecurityProperties;
+    List<Long> getAllowedSiteIds();
 
-    public User getCurrentUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || authentication.getName() == null || "anonymousUser".equals(authentication.getName())) {
-            throw new UnauthorizedAccessException("Authentication is required");
-        }
-        return userRepository.findByUsername(authentication.getName())
-                .orElseThrow(() -> new UnauthorizedAccessException("Authenticated user not found"));
-    }
+    List<AllowedSiteDTO> getAllowedSites();
 
-    public Long getCurrentUserId() {
-        return getCurrentUser().getId();
-    }
+    boolean hasPermission(String permissionCode);
 
-    public Long getCurrentEmployeeId() {
-        User user = getCurrentUser();
-        return user.getEmployee() == null ? null : user.getEmployee().getId();
-    }
+    boolean hasAnyPermission(Collection<String> permissionCodes);
 
-    public List<Long> getAllowedSiteIds() {
-        if (hasAllSiteAccess()) {
-            return getAllSiteIds();
-        }
-        User user = getCurrentUser();
-        Set<Long> siteIds = new LinkedHashSet<>();
-        for (UserRoleAssignment assignment : userRoleAssignmentDAO.findActiveByUserId(user.getId())) {
-            if (assignment.getSite() != null) {
-                siteIds.add(assignment.getSite().getId());
-            }
-        }
-        if (user.getEmployee() != null) {
-            employeeSiteAssignmentRepository.findByEmployeeId(user.getEmployee().getId()).stream()
-                    .filter((assignment) -> !"INACTIVE".equalsIgnoreCase(assignment.getStatus()))
-                    .map(EmployeeSiteAssignment::getSite)
-                    .filter(Objects::nonNull)
-                    .map(Site::getId)
-                    .forEach(siteIds::add);
-        }
-        return new ArrayList<>(siteIds);
-    }
+    void validatePermission(String permissionCode);
 
-    public List<AllowedSiteDTO> getAllowedSites() {
-        List<Long> ids = getAllowedSiteIds();
-        if (ids.isEmpty()) {
-            return Collections.emptyList();
-        }
-        return siteRepository.findAllById(ids).stream()
-                .map((site) -> new AllowedSiteDTO(site.getId(), site.getSiteCode(), site.getSiteName()))
-                .collect(Collectors.toList());
-    }
+    void validateSiteAccess(Long siteId);
 
-    public boolean hasPermission(String permissionCode) {
-        if (!cmmsSecurityProperties.isApiPermissionRestrictionEnabled()) {
-            return true;
-        }
-        return getPermissions().contains(permissionCode);
-    }
+    void validateAnySiteAccess(Collection<Long> siteIds);
 
-    public boolean hasAnyPermission(Collection<String> permissionCodes) {
-        if (!cmmsSecurityProperties.isApiPermissionRestrictionEnabled()) {
-            return true;
-        }
-        Set<String> current = getPermissions();
-        return permissionCodes.stream().anyMatch(current::contains);
-    }
+    boolean isSuperAdmin();
 
-    public void validatePermission(String permissionCode) {
-        if (!hasPermission(permissionCode)) {
-            throw new UnauthorizedAccessException("Missing permission: " + permissionCode);
-        }
-    }
+    boolean isAdmin();
 
-    public void validateSiteAccess(Long siteId) {
-        if (siteId == null || isAdmin()) {
-            return;
-        }
-        if (!getAllowedSiteIds().contains(siteId)) {
-            throw new UnauthorizedAccessException("You do not have access to site: " + siteId);
-        }
-    }
+    boolean hasAllSiteAccess();
 
-    public void validateAnySiteAccess(Collection<Long> siteIds) {
-        if (siteIds == null || siteIds.isEmpty() || isAdmin()) {
-            return;
-        }
-        List<Long> allowedSiteIds = getAllowedSiteIds();
-        for (Long siteId : siteIds) {
-            if (!allowedSiteIds.contains(siteId)) {
-                throw new UnauthorizedAccessException("You do not have access to site: " + siteId);
-            }
-        }
-    }
+    Set<String> getRoles();
 
-    public boolean isSuperAdmin() {
-        return getRoles().contains("SUPER_ADMIN");
-    }
+    Set<String> getPermissions();
 
-    public boolean isAdmin() {
-        Set<String> roles = getRoles();
-        User user = getCurrentUser();
-        return roles.contains("SUPER_ADMIN") || roles.contains("ADMIN") || user.getRole() == UserRole.ADMIN;
-    }
-
-    public boolean hasAllSiteAccess() {
-        return isAdmin() || getPermissions().contains(SITE_GLOBAL_ACCESS_PERMISSION);
-    }
-
-    public Set<String> getRoles() {
-        User user = getCurrentUser();
-        Set<String> roles = userRoleAssignmentDAO.findActiveByUserId(user.getId()).stream()
-                .map((assignment) -> assignment.getRole() == null ? null : assignment.getRole().getRoleCode())
-                .filter(Objects::nonNull)
-                .collect(Collectors.toCollection(LinkedHashSet::new));
-        if (roles.isEmpty()) {
-            roles.addAll(legacyRoles(user.getRole()));
-        }
-        return roles;
-    }
-
-    public Set<String> getPermissions() {
-        Set<String> roles = getRoles();
-        if (roles.contains("SUPER_ADMIN") || roles.contains("ADMIN")) {
-            return new LinkedHashSet<>(ALL_PERMISSION_CODES);
-        }
-        Set<String> mapped = rolePermissionDAO.findByRoleCodes(roles).stream()
-                .map((rolePermission) -> rolePermission.getPermission() == null ? null : rolePermission.getPermission().getPermissionCode())
-                .filter(Objects::nonNull)
-                .collect(Collectors.toCollection(LinkedHashSet::new));
-        if (mapped.isEmpty()) {
-            mapped.addAll(legacyPermissions(getCurrentUser().getRole()));
-        }
-        return mapped;
-    }
-
-    public AuthAccessDTO buildAccessPayload(User user) {
-        AuthAccessDTO dto = new AuthAccessDTO();
-        dto.setUser(toUserDTO(user));
-        dto.setRoles(new ArrayList<>(getRolesFor(user)));
-        dto.setPermissions(new ArrayList<>(getPermissionsFor(user)));
-        dto.setAllowedSites(getAllowedSitesFor(user));
-        return dto;
-    }
-
-    private Set<String> getRolesFor(User user) {
-        Set<String> roles = userRoleAssignmentDAO.findActiveByUserId(user.getId()).stream()
-                .map((assignment) -> assignment.getRole() == null ? null : assignment.getRole().getRoleCode())
-                .filter(Objects::nonNull)
-                .collect(Collectors.toCollection(LinkedHashSet::new));
-        if (roles.isEmpty()) {
-            roles.addAll(legacyRoles(user.getRole()));
-        }
-        return roles;
-    }
-
-    private Set<String> getPermissionsFor(User user) {
-        Set<String> roles = getRolesFor(user);
-        if (roles.contains("SUPER_ADMIN") || roles.contains("ADMIN") || user.getRole() == UserRole.ADMIN) {
-            return new LinkedHashSet<>(ALL_PERMISSION_CODES);
-        }
-        Set<String> mapped = rolePermissionDAO.findByRoleCodes(roles).stream()
-                .map((rolePermission) -> rolePermission.getPermission() == null ? null : rolePermission.getPermission().getPermissionCode())
-                .filter(Objects::nonNull)
-                .collect(Collectors.toCollection(LinkedHashSet::new));
-        if (mapped.isEmpty()) {
-            mapped.addAll(legacyPermissions(user.getRole()));
-        }
-        return mapped;
-    }
-
-    private List<AllowedSiteDTO> getAllowedSitesFor(User user) {
-        if (hasAllSiteAccessFor(user)) {
-            return getAllAllowedSites();
-        }
-        Set<Long> ids = new LinkedHashSet<>();
-        userRoleAssignmentDAO.findActiveByUserId(user.getId()).stream()
-                .map(UserRoleAssignment::getSite)
-                .filter(Objects::nonNull)
-                .map(Site::getId)
-                .forEach(ids::add);
-        if (user.getEmployee() != null) {
-            employeeSiteAssignmentRepository.findByEmployeeId(user.getEmployee().getId()).stream()
-                    .filter((assignment) -> !"INACTIVE".equalsIgnoreCase(assignment.getStatus()))
-                    .map(EmployeeSiteAssignment::getSite)
-                    .filter(Objects::nonNull)
-                    .map(Site::getId)
-                    .forEach(ids::add);
-        }
-        if (ids.isEmpty()) {
-            return Collections.emptyList();
-        }
-        return siteRepository.findAllById(ids).stream()
-                .map((site) -> new AllowedSiteDTO(site.getId(), site.getSiteCode(), site.getSiteName()))
-                .collect(Collectors.toList());
-    }
-
-    private boolean hasAllSiteAccessFor(User user) {
-        Set<String> roles = getRolesFor(user);
-        return user.getRole() == UserRole.ADMIN
-                || roles.contains("ADMIN")
-                || roles.contains("SUPER_ADMIN")
-                || getPermissionsFor(user).contains(SITE_GLOBAL_ACCESS_PERMISSION);
-    }
-
-    private List<Long> getAllSiteIds() {
-        return siteRepository.findAll().stream().map(Site::getId).collect(Collectors.toList());
-    }
-
-    private List<AllowedSiteDTO> getAllAllowedSites() {
-        return siteRepository.findAll().stream()
-                .map((site) -> new AllowedSiteDTO(site.getId(), site.getSiteCode(), site.getSiteName()))
-                .collect(Collectors.toList());
-    }
-
-    private Set<String> legacyRoles(UserRole role) {
-        if (role == UserRole.ADMIN) {
-            return Set.of("ADMIN");
-        }
-        if (role == UserRole.HR) {
-            return Set.of("HR_ADMIN");
-        }
-        if (role == UserRole.MANAGER) {
-            return Set.of("MAINTENANCE_MANAGER");
-        }
-        return Set.of("TECHNICIAN");
-    }
-
-    private Set<String> legacyPermissions(UserRole role) {
-        if (role == UserRole.HR) {
-            return Set.of("DASHBOARD_VIEW", "SITE_VIEW", "SITE_CREATE", "SITE_UPDATE", "EMPLOYEE_VIEW", "EMPLOYEE_CREATE", "EMPLOYEE_UPDATE");
-        }
-        if (role == UserRole.MANAGER) {
-            return Set.of("DASHBOARD_VIEW", "EQUIPMENT_VIEW", "VENDOR_VIEW", "REQUEST_VIEW", "REQUEST_CREATE", "REQUEST_UPDATE",
-                    "PM_CALENDAR_VIEW",
-                    "ASSIGNMENT_VIEW", "ASSIGNMENT_CREATE", "ASSIGNMENT_UPDATE", "DOWNTIME_VIEW", "DOWNTIME_CREATE", "DOWNTIME_UPDATE",
-                    "DOWNTIME_CONFIRM", "DOWNTIME_VERIFY", "DOWNTIME_CLOSE", "DOWNTIME_REOPEN", "DOWNTIME_RCA_MANAGE",
-                    "ASSIGNMENT_CHECKLIST_VIEW", "ASSIGNMENT_CHECKLIST_UPDATE", "ASSIGNMENT_CHECKLIST_PROOF_UPLOAD", "ASSIGNMENT_CHECKLIST_PROOF_DELETE",
-                    "ASSIGNMENT_WORK_LOG_VIEW", "ASSIGNMENT_WORK_LOG_CREATE", "ASSIGNMENT_WORK_LOG_UPDATE",
-                    "ASSIGNMENT_WORK_LOG_DELETE", "ASSIGNMENT_WORK_LOG_ATTACHMENT_UPLOAD", "ASSIGNMENT_WORK_LOG_ATTACHMENT_DELETE",
-                    "REPORT_VIEW", "APPROVAL_VIEW", "APPROVAL_APPROVE", "APPROVAL_REJECT",
-                    "SPARE_PART_VIEW", "STOCK_TRANSACTION_VIEW", "SPARE_USAGE_VIEW", "SPARE_USAGE_MANAGER_APPROVE",
-                    "SPARE_USAGE_STORE_PROCESS", "SPARE_USAGE_RESERVE", "SPARE_USAGE_ISSUE", "SPARE_USAGE_CONSUME",
-                    "SPARE_USAGE_RETURN", "REORDER_VIEW", "REORDER_CREATE", "REORDER_UPDATE", "STOCK_TRANSACTION_CREATE");
-        }
-        return Set.of("DASHBOARD_VIEW", "EQUIPMENT_VIEW", "REQUEST_VIEW", "REQUEST_UPDATE", "PM_CALENDAR_VIEW", "DOWNTIME_VIEW", "DOWNTIME_CREATE",
-                "ASSIGNMENT_CHECKLIST_VIEW", "ASSIGNMENT_CHECKLIST_UPDATE", "ASSIGNMENT_CHECKLIST_PROOF_UPLOAD",
-                "ASSIGNMENT_WORK_LOG_VIEW", "ASSIGNMENT_WORK_LOG_CREATE", "ASSIGNMENT_WORK_LOG_UPDATE", "ASSIGNMENT_WORK_LOG_ATTACHMENT_UPLOAD",
-                "SPARE_PART_VIEW", "STOCK_TRANSACTION_VIEW", "SPARE_USAGE_VIEW", "SPARE_USAGE_CREATE");
-    }
-
-    private UserDTO toUserDTO(User user) {
-        UserDTO dto = new UserDTO(
-                user.getId(),
-                user.getUsername(),
-                user.getEmail(),
-                user.getFirstName(),
-                user.getLastName(),
-                user.getRole(),
-                user.getDepartment(),
-                user.getManager() == null ? null : user.getManager().getId(),
-                user.getCreatedAt(),
-                user.getUpdatedAt(),
-                user.getActive()
-        );
-        dto.setEmployeeId(user.getEmployee() == null ? null : user.getEmployee().getId());
-        dto.setProfilePhotoPath(user.getProfilePhotoPath());
-        dto.setProfilePhotoUrl(profilePhotoUrl(user));
-        return dto;
-    }
-
-    private String profilePhotoUrl(User user) {
-        if (user.getProfilePhotoPath() == null || user.getProfilePhotoPath().isBlank()) {
-            return null;
-        }
-        return "/auth/profile/avatar/" + Path.of(user.getProfilePhotoPath()).getFileName();
-    }
+    AuthAccessDTO buildAccessPayload(User user);
 }

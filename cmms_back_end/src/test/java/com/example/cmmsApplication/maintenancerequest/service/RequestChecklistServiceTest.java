@@ -1,5 +1,7 @@
 package com.example.cmmsApplication.maintenancerequest.service;
 
+import com.example.cmmsApplication.maintenancerequest.implementation.RequestChecklistServiceImpl;
+
 import com.example.cmmsApplication.equipment.entity.Equipment;
 import com.example.cmmsApplication.equipment.service.EquipmentChecklistService;
 import com.example.cmmsApplication.maintenancerequest.dao.RequestChecklistItemDAO;
@@ -25,7 +27,7 @@ class RequestChecklistServiceTest {
     private RequestChecklistItem existing;
 
     @BeforeEach void setup() {
-        service = new RequestChecklistService(dao, equipmentService);
+        service = new RequestChecklistServiceImpl(dao, equipmentService);
         Equipment equipment = new Equipment(); equipment.setId(2L);
         request = new MaintenanceRequest(); request.setId(3L); request.setEquipment(equipment);
         existing = new RequestChecklistItem(); existing.setId(4L); existing.setRequest(request);
@@ -50,13 +52,24 @@ class RequestChecklistServiceTest {
     }
 
     @Test void customizationKeepsIdAndOriginalSourceName() {
+        when(equipmentService.responseType(null)).thenReturn("CHECKBOX");
         var dto = RequestChecklistItemDTO.builder().id(4L).sourceEquipmentChecklistItemId(8L).sourceChecklistName("Tampered").taskTitle("Custom").build();
         service.saveChecklistItems(request, List.of(dto));
         assertEquals(4L, existing.getId());
         assertEquals("Custom", existing.getTaskTitle());
         assertEquals("Original group", existing.getSourceChecklistName());
+        assertEquals("CHECKBOX", existing.getResponseType());
         assertTrue(existing.getActive());
         verify(equipmentService).validateSource(2L, 8L, true);
+        verify(equipmentService).validateStep("Custom", null, null);
+    }
+
+    @Test void validationFailureFromEquipmentServiceStopsChecklistWrite() {
+        doThrow(new InvalidOperationException("Invalid checklist response type"))
+                .when(equipmentService).validateStep("Check", null, "INVALID");
+        var dto = RequestChecklistItemDTO.builder().taskTitle("Check").responseType("INVALID").build();
+        assertThrows(InvalidOperationException.class, () -> service.saveChecklistItems(request, List.of(dto)));
+        verify(dao, never()).save(any());
     }
 
     @Test void rejectsAnotherRequestsRow() {
