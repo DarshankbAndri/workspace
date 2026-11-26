@@ -7,7 +7,7 @@ import org.hibernate.annotations.Immutable;
 import org.hibernate.annotations.Subselect;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.math.BigDecimal;
 import lombok.Getter;
 import lombok.Setter;
@@ -150,10 +150,10 @@ public class EquipmentList {
     private String department;
 
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    private Instant createdAt;
 
     @Column(name = "last_modified_on")
-    private LocalDateTime lastModifiedOn;
+    private Instant lastModifiedOn;
 
     public Long getId() { return id; }
     public String getEquipmentCode() { return equipmentCode; }
@@ -187,6 +187,6 @@ public class EquipmentList {
     public String getDepreciationMethod() { return depreciationMethod; }
     public String getCostCenter() { return costCenter; }
     public String getDepartment() { return department; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public LocalDateTime getLastModifiedOn() { return lastModifiedOn; }
+    public Instant getCreatedAt() { return createdAt; }
+    public Instant getLastModifiedOn() { return lastModifiedOn; }
 }

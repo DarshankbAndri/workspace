@@ -45,7 +45,9 @@ public class MaintenanceAssignmentService {
             throw new InvalidOperationException("Create the assignment before completing it with work logs and checklist evidence");
         }
         syncRequestStatusFromAssignment(assignment);
-        return toDTO(assignmentDAO.save(assignment));
+        MaintenanceAssignment saved = assignmentDAO.save(assignment);
+        checklistService.copyFromRequest(saved);
+        return toDTO(saved);
     }
 
     public MaintenanceAssignmentDTO update(Long id, MaintenanceAssignmentDTO dto) {
@@ -115,6 +117,8 @@ public class MaintenanceAssignmentService {
         if (requestSiteId == null || !dto.getSiteId().equals(requestSiteId)) {
             throw new InvalidOperationException("Selected request does not belong to selected site");
         }
+        if (assignment.getId() != null && assignment.getRequest() != null && !assignment.getRequest().getId().equals(request.getId()))
+            throw new InvalidOperationException("An existing assignment cannot be moved to another request");
         assignment.setRequest(request);
         if (dto.getVendorId() == null) {
             throw new InvalidOperationException("Vendor is required");

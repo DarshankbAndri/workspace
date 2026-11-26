@@ -11,6 +11,7 @@ import CommonList from '../../../shared/components/common/CommonList';
 import CommonStatusDropdown from '../../../shared/components/common/CommonStatusDropdown';
 import CommonInput from '../../../shared/components/common/CommonInput';
 import { MAINTENANCE_REQUEST_STATUS_OPTIONS, PRIORITY_OPTIONS } from '../../../shared/constants/statusOptions';
+import { compareDateOnly, daysBetweenDates, today } from '../../../shared/utils/dateTime';
 
 function MaintenanceRequestListPage() {
   const navigate = useNavigate();
@@ -257,11 +258,8 @@ function StatusChip({ value }) {
 
 function ageingLabel(value) {
   if (!value) return '-';
-  const requested = new Date(`${value}T00:00:00`);
-  if (Number.isNaN(requested.getTime())) return '-';
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const days = Math.max(0, Math.floor((today - requested) / 86400000));
+  const days = Math.max(0, daysBetweenDates(value));
+  if (!Number.isFinite(days)) return '-';
   return days === 0 ? 'Today' : `${days} day${days === 1 ? '' : 's'}`;
 }
 
@@ -269,10 +267,7 @@ function isOverdue(row) {
   if (!row?.targetCompletionDate || ['COMPLETED', 'CLOSED', 'CANCELLED', 'REJECTED'].includes(String(row.status || '').toUpperCase())) {
     return false;
   }
-  const target = new Date(`${row.targetCompletionDate}T00:00:00`);
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  return target < today;
+  return compareDateOnly(row.targetCompletionDate, today()) < 0;
 }
 
 function isCritical(priority) {

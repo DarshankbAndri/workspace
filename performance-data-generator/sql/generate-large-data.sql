@@ -3,7 +3,7 @@
 
 -- All values are supplied by the wrapper as validated psql variables.
 CREATE TABLE IF NOT EXISTS cmms_performance_test_run (
-    run_id VARCHAR(20) PRIMARY KEY,
+    run_id VARCHAR(25) PRIMARY KEY,
     marker VARCHAR(30) NOT NULL UNIQUE,
     site_count BIGINT NOT NULL,
     employee_count BIGINT NOT NULL,
@@ -15,17 +15,18 @@ CREATE TABLE IF NOT EXISTS cmms_performance_test_run (
     spare_transaction_count BIGINT NOT NULL,
     spare_part_count BIGINT NOT NULL,
     status VARCHAR(20) NOT NULL,
-    started_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    completed_at TIMESTAMP
+    started_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    completed_at TIMESTAMP WITH TIME ZONE
 );
 
 BEGIN;
+SET LOCAL TIME ZONE :'business_time_zone';
 SET LOCAL synchronous_commit = off;
 SET LOCAL statement_timeout = 0;
 
 CREATE TEMP TABLE perf_cfg ON COMMIT DROP AS
 SELECT
-    upper(:'run_id')::varchar(20) AS run_id,
+    upper(:'run_id')::varchar(25) AS run_id,
     ('PERF-' || upper(:'run_id'))::varchar(30) AS marker,
     :site_count::bigint AS site_count,
     :employee_count::bigint AS employee_count,

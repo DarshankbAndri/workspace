@@ -8,7 +8,7 @@ import org.hibernate.annotations.Subselect;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
@@ -25,6 +25,9 @@ import lombok.NoArgsConstructor;
             mr.request_number AS request_number,
             mr.title AS request_title,
             mr.status AS request_status,
+            mr.equipment_id AS equipment_id,
+            eq.equipment_code AS equipment_code,
+            eq.equipment_name AS equipment_name,
             ma.vendor_id AS vendor_id,
             v.vendor_name AS vendor_name,
             ma.assigned_employee_id AS assigned_employee_id,
@@ -44,6 +47,7 @@ import lombok.NoArgsConstructor;
             ma.updated_at AS updated_at
         FROM maintenance_assignment ma
         JOIN maintenance_request mr ON mr.id = ma.request_id
+        LEFT JOIN equipment_master eq ON eq.id = mr.equipment_id
         LEFT JOIN site_master s ON s.site_id = mr.site_id
         LEFT JOIN vendor_master v ON v.id = ma.vendor_id
         LEFT JOIN employee_master e ON e.employee_id = ma.assigned_employee_id
@@ -68,6 +72,12 @@ public class MaintenanceAssignmentList {
     private String requestTitle;
     @Column(name = "request_status")
     private String requestStatus;
+    @Column(name = "equipment_id")
+    private Long equipmentId;
+    @Column(name = "equipment_code")
+    private String equipmentCode;
+    @Column(name = "equipment_name")
+    private String equipmentName;
     @Column(name = "vendor_id")
     private Long vendorId;
     @Column(name = "vendor_name")
@@ -97,9 +107,9 @@ public class MaintenanceAssignmentList {
     private BigDecimal actualCost;
     private String remarks;
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    private Instant createdAt;
     @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    private Instant updatedAt;
 
     public Long getId() { return id; }
     public Long getSiteId() { return siteId; }
@@ -110,6 +120,9 @@ public class MaintenanceAssignmentList {
     public String getRequestTitle() { return requestTitle; }
     public String getRequestStatus() { return requestStatus; }
     public String getMaintenanceRequestStatus() { return requestStatus; }
+    public Long getEquipmentId() { return equipmentId; }
+    public String getEquipmentCode() { return equipmentCode; }
+    public String getEquipmentName() { return equipmentName; }
     public Long getVendorId() { return vendorId; }
     public String getVendorName() { return vendorName; }
     public Long getAssignedEmployeeId() { return assignedEmployeeId; }
@@ -125,6 +138,6 @@ public class MaintenanceAssignmentList {
     public BigDecimal getEstimatedCost() { return estimatedCost; }
     public BigDecimal getActualCost() { return actualCost; }
     public String getRemarks() { return remarks; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
+    public Instant getCreatedAt() { return createdAt; }
+    public Instant getUpdatedAt() { return updatedAt; }
 }

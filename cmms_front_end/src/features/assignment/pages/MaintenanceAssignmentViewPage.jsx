@@ -48,6 +48,7 @@ import CommonDateTimePicker from '../../../shared/components/common/CommonDateTi
 import CommonDropdown from '../../../shared/components/common/CommonDropdown';
 import ConfirmDialog from '../../../shared/components/common/ConfirmDialog';
 import { getDropdownOptions } from '../../../shared/utils/dropdownHelper';
+import { formatDate as formatBusinessDate, formatDateTime as formatBusinessDateTime, toDateTimeInput, toUtcDateTime, today } from '../../../shared/utils/dateTime';
 
 const initialForm = {
   siteId: '',
@@ -55,7 +56,7 @@ const initialForm = {
   vendorId: '',
   assignedEmployeeId: '',
   assignedTo: '',
-  assignedDate: new Date().toISOString().slice(0, 10),
+  assignedDate: today(),
   plannedStartDate: '',
   plannedEndDate: '',
   actualStartDate: '',
@@ -119,15 +120,11 @@ const spareStatusColors = {
 const formatLabel = (value) => value ? String(value).replaceAll('_', ' ') : '-';
 
 const formatDate = (value) => {
-  if (!value) return '-';
-  const date = new Date(value);
-  return Number.isNaN(date.getTime()) ? value : date.toLocaleDateString();
+  return formatBusinessDate(value);
 };
 
 const formatDateTime = (value) => {
-  if (!value) return '-';
-  const date = new Date(value);
-  return Number.isNaN(date.getTime()) ? value : date.toLocaleString();
+  return formatBusinessDateTime(value);
 };
 
 const formatMoney = (value) => {
@@ -155,16 +152,6 @@ const downloadBlob = (response, fallbackName) => {
   link.click();
   link.remove();
   window.URL.revokeObjectURL(url);
-};
-
-const toDateTimeInput = (value) => {
-  if (!value) return '';
-  return String(value).slice(0, 16);
-};
-
-const toApiDateTime = (value) => {
-  if (!value) return null;
-  return value.length === 16 ? `${value}:00` : value;
 };
 
 const employeeLabel = (employee) => {
@@ -208,6 +195,13 @@ function MaintenanceAssignmentViewPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { hasPermission } = useAuth();
+  const canViewChecklist = hasPermission('ASSIGNMENT_CHECKLIST_VIEW');
+  const canViewWorkLogs = hasPermission('ASSIGNMENT_WORK_LOG_VIEW');
+  const canViewSpares = hasPermission('SPARE_USAGE_VIEW');
+  const canEditMain = hasPermission('ASSIGNMENT_UPDATE');
+  const canEditChecklist = canViewChecklist && (hasPermission('ASSIGNMENT_CHECKLIST_UPDATE') || hasPermission('ASSIGNMENT_CHECKLIST_PROOF_UPLOAD') || hasPermission('ASSIGNMENT_CHECKLIST_PROOF_DELETE'));
+  const canEditWorkLogs = canViewWorkLogs && (hasPermission('ASSIGNMENT_WORK_LOG_CREATE') || hasPermission('ASSIGNMENT_WORK_LOG_UPDATE') || hasPermission('ASSIGNMENT_WORK_LOG_DELETE') || hasPermission('ASSIGNMENT_WORK_LOG_ATTACHMENT_UPLOAD') || hasPermission('ASSIGNMENT_WORK_LOG_ATTACHMENT_DELETE'));
+  const canEditSpares = canViewSpares && (hasPermission('SPARE_USAGE_CREATE') || hasPermission('SPARE_USAGE_UPDATE') || hasPermission('SPARE_USAGE_RESERVE') || hasPermission('SPARE_USAGE_ISSUE') || hasPermission('SPARE_USAGE_CONSUME') || hasPermission('SPARE_USAGE_REJECT') || hasPermission('SPARE_USAGE_CANCEL') || hasPermission('SPARE_USAGE_RETURN') || hasPermission('SPARE_USAGE_DELETE'));
   const [tab, setTab] = React.useState(0);
   const [editingSection, setEditingSection] = React.useState('');
   const [assignment, setAssignment] = React.useState(null);
@@ -244,33 +238,54 @@ function MaintenanceAssignmentViewPage() {
   }, [id]);
 
   const loadChecklist = React.useCallback(() => {
+    if (!canViewChecklist) {
+      setChecklistRows([]);
+      setSectionLoading((current) => ({ ...current, checklist: false }));
+      return Promise.resolve();
+    }
     setSectionLoading((current) => ({ ...current, checklist: true }));
     return getAssignmentChecklist(id)
       .then((data) => setChecklistRows(data || []))
       .catch((err) => setError(formatApiError(err, 'Unable to load assignment checklist.')))
       .finally(() => setSectionLoading((current) => ({ ...current, checklist: false })));
-  }, [id]);
+  }, [canViewChecklist, id]);
 
   const loadWorkLogs = React.useCallback(() => {
+    if (!canViewWorkLogs) {
+      setWorkLogRows([]);
+      setSectionLoading((current) => ({ ...current, workLogs: false }));
+      return Promise.resolve();
+    }
     setSectionLoading((current) => ({ ...current, workLogs: true }));
     return getAssignmentWorkLogs(id)
       .then((data) => setWorkLogRows(data || []))
       .catch((err) => setError(formatApiError(err, 'Unable to load technician work logs.')))
       .finally(() => setSectionLoading((current) => ({ ...current, workLogs: false })));
-  }, [id]);
+  }, [canViewWorkLogs, id]);
 
   const loadSpares = React.useCallback(() => {
+    if (!canViewSpares) {
+      setSpareRows([]);
+      setSectionLoading((current) => ({ ...current, spares: false }));
+      return Promise.resolve();
+    }
     setSectionLoading((current) => ({ ...current, spares: true }));
     return getAssignmentSpares(id)
       .then((data) => setSpareRows(data || []))
       .catch((err) => setError(formatApiError(err, 'Unable to load spare usage.')))
       .finally(() => setSectionLoading((current) => ({ ...current, spares: false })));
-  }, [id]);
+  }, [canViewSpares, id]);
 
   React.useEffect(() => { loadAssignment(); }, [loadAssignment]);
   React.useEffect(() => { loadChecklist(); }, [loadChecklist]);
   React.useEffect(() => { loadWorkLogs(); }, [loadWorkLogs]);
   React.useEffect(() => { loadSpares(); }, [loadSpares]);
+
+  React.useEffect(() => {
+    if ((tab === 1 && !canViewChecklist) || (tab === 2 && !canViewWorkLogs) || (tab === 3 && !canViewSpares)) {
+      setTab(0);
+    }
+  }, [canViewChecklist, canViewSpares, canViewWorkLogs, tab]);
 
   React.useEffect(() => {
     getSites()
@@ -302,14 +317,14 @@ function MaintenanceAssignmentViewPage() {
   }, [detailForm.siteId]);
 
   React.useEffect(() => {
-    if (!assignment?.equipmentId) {
+    if (!canViewSpares || !assignment?.equipmentId) {
       setRecommendedSpareBom([]);
       return;
     }
     getEquipmentSpareBom(assignment.equipmentId)
       .then((data) => setRecommendedSpareBom((data || []).filter((row) => row.status !== 'INACTIVE')))
       .catch((err) => setError(formatApiError(err, 'Unable to load recommended equipment spares.')));
-  }, [assignment?.equipmentId]);
+  }, [assignment?.equipmentId, canViewSpares]);
 
   React.useEffect(() => {
     if (!editingWorkLogId && detailForm.assignedEmployeeId && !workLogForm.technicianEmployeeId) {
@@ -518,8 +533,8 @@ function MaintenanceAssignmentViewPage() {
       const payload = {
         ...workLogForm,
         technicianEmployeeId: Number(workLogForm.technicianEmployeeId),
-        startTime: toApiDateTime(workLogForm.startTime),
-        endTime: toApiDateTime(workLogForm.endTime),
+        startTime: toUtcDateTime(workLogForm.startTime),
+        endTime: toUtcDateTime(workLogForm.endTime),
       };
       if (editingWorkLogId) {
         await updateAssignmentWorkLog(id, editingWorkLogId, payload);
@@ -721,10 +736,6 @@ function MaintenanceAssignmentViewPage() {
     ));
   }, [canCompleteChecklist, canCompleteWorkLogs, checklistRows.length]);
 
-  const canEditMain = hasPermission('ASSIGNMENT_UPDATE');
-  const canEditChecklist = hasPermission('ASSIGNMENT_CHECKLIST_UPDATE') || hasPermission('ASSIGNMENT_CHECKLIST_PROOF_UPLOAD') || hasPermission('ASSIGNMENT_CHECKLIST_PROOF_DELETE');
-  const canEditWorkLogs = hasPermission('ASSIGNMENT_WORK_LOG_CREATE') || hasPermission('ASSIGNMENT_WORK_LOG_UPDATE') || hasPermission('ASSIGNMENT_WORK_LOG_DELETE') || hasPermission('ASSIGNMENT_WORK_LOG_ATTACHMENT_UPLOAD') || hasPermission('ASSIGNMENT_WORK_LOG_ATTACHMENT_DELETE');
-  const canEditSpares = hasPermission('SPARE_USAGE_UPDATE') || hasPermission('SPARE_USAGE_RESERVE') || hasPermission('SPARE_USAGE_ISSUE') || hasPermission('SPARE_USAGE_CONSUME') || hasPermission('SPARE_USAGE_REJECT') || hasPermission('SPARE_USAGE_CANCEL') || hasPermission('SPARE_USAGE_RETURN') || hasPermission('SPARE_USAGE_DELETE');
   const isEditingMain = editingSection === 'main';
   const isEditingDetails = editingSection === 'details';
   const isEditingChecklist = editingSection === 'checklist';
@@ -903,10 +914,10 @@ function MaintenanceAssignmentViewPage() {
 
       <Paper sx={{ borderRadius: 1, mb: 2 }}>
         <Tabs value={tab} onChange={(event, nextTab) => setTab(nextTab)} variant="scrollable" scrollButtons="auto">
-          <Tab label="Details" />
-          <Tab label={`Checklist (${completedChecklistCount}/${checklistRows.length})`} />
-          <Tab label={`Work Logs (${completedWorkLogCount}/${workLogRows.length})`} />
-          <Tab label={`Spare Parts (${spareRows.length})`} />
+          <Tab value={0} label="Details" />
+          {canViewChecklist && <Tab value={1} label={`Checklist (${completedChecklistCount}/${checklistRows.length})`} />}
+          {canViewWorkLogs && <Tab value={2} label={`Work Logs (${completedWorkLogCount}/${workLogRows.length})`} />}
+          {canViewSpares && <Tab value={3} label={`Spare Parts (${spareRows.length})`} />}
         </Tabs>
       </Paper>
 
@@ -930,7 +941,7 @@ function MaintenanceAssignmentViewPage() {
         </SectionShell>
       )}
 
-      {tab === 1 && (
+      {tab === 1 && canViewChecklist && (
         <SectionShell
           title="Checklist"
           action={(
@@ -998,7 +1009,7 @@ function MaintenanceAssignmentViewPage() {
                             </IconButton>
                           </Tooltip>
                         )}
-                        {hasPermission('ASSIGNMENT_CHECKLIST_UPDATE') && !row.sourcePmChecklistItemId && <Tooltip title="Delete"><IconButton color="error" onClick={() => handleDeleteChecklistRow(row)}><Delete fontSize="small" /></IconButton></Tooltip>}
+                        {hasPermission('ASSIGNMENT_CHECKLIST_UPDATE') && !row.sourcePmChecklistItemId && !row.sourceRequestChecklistItemId && <Tooltip title="Delete"><IconButton color="error" onClick={() => handleDeleteChecklistRow(row)}><Delete fontSize="small" /></IconButton></Tooltip>}
                       </Stack>
                     </Grid>
                   )}
@@ -1033,7 +1044,7 @@ function MaintenanceAssignmentViewPage() {
         </SectionShell>
       )}
 
-      {tab === 2 && (
+      {tab === 2 && canViewWorkLogs && (
         <SectionShell
           title="Technician Work Logs"
           action={(
@@ -1114,7 +1125,7 @@ function MaintenanceAssignmentViewPage() {
         </SectionShell>
       )}
 
-      {tab === 3 && (
+      {tab === 3 && canViewSpares && (
         <SectionShell title="Spare Part Requests" action={sectionActions('spares', 'Edit Spare Parts', canEditSpares)}>
           {sectionLoading.spares && <LinearProgress sx={{ mb: 2 }} />}
           {isEditingSpares && (

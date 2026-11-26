@@ -35,11 +35,11 @@
             <column name="response_value" type="VARCHAR(1000)"/>
             <column name="remarks" type="VARCHAR(1000)"/>
             <column name="completed_by_user_id" type="BIGINT"/>
-            <column name="completed_at" type="TIMESTAMP"/>
-            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="completed_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
-            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="updated_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -70,5 +70,12 @@
         <createIndex indexName="idx_assignment_checklist_pm_item" tableName="maintenance_assignment_checklist_item">
             <column name="source_pm_checklist_item_id"/>
         </createIndex>
+    </changeSet>
+    <changeSet id="maintenance_assignment_checklist_item-equipment-checklist-sources" author="Codex">
+        <addColumn tableName="maintenance_assignment_checklist_item">
+            <column name="source_request_checklist_item_id" type="BIGINT"></column>
+        </addColumn>
+        <addForeignKeyConstraint constraintName="fk_maintenance_assignment_checklist_item_source_request_checklist_item_id" baseTableName="maintenance_assignment_checklist_item" baseColumnNames="source_request_checklist_item_id" referencedTableName="request_checklist_item" referencedColumnNames="id"/>
+        <createIndex indexName="idx_maintenance_assignment_checklist_item_source_request_checklist_item_id" tableName="maintenance_assignment_checklist_item"><column name="source_request_checklist_item_id"/></createIndex>
     </changeSet>
 </databaseChangeLog>

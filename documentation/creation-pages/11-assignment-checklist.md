@@ -3,7 +3,7 @@
 ## 11. Assignment Checklist Add/Edit/Proof Upload
 
 **Location:** Assignment edit/view → Checklist tab  
-**Permissions:** `ASSIGNMENT_CHECKLIST_VIEW`, `ASSIGNMENT_CHECKLIST_UPDATE`; the UI refers to proof-specific permission names, while CSV maps proof upload/delete under `ASSIGNMENT_CHECKLIST_UPDATE`—see inconsistencies.
+**Permissions:** `ASSIGNMENT_CHECKLIST_VIEW`, `ASSIGNMENT_CHECKLIST_UPDATE`, `ASSIGNMENT_CHECKLIST_PROOF_UPLOAD`, and `ASSIGNMENT_CHECKLIST_PROOF_DELETE`. View permission permits proof downloads; upload/delete use their matching specific permissions.
 
 | Field | Mapping | Required | Purpose/validation |
 |---|---|---:|---|

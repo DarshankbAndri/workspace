@@ -1,7 +1,7 @@
 package com.example.cmmsApplication.equipment.dto;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,7 +17,7 @@ public class EquipmentHealthDTO {
     private String healthStatus;
     private BigDecimal mtbfHours;
     private BigDecimal mttrHours;
-    private LocalDateTime lastFailureDate;
+    private Instant lastFailureDate;
     private Long repeatedFailureCount;
     private Long downtimeFrequency90Days;
     private Long downtimeMinutes90Days;

@@ -1,5 +1,9 @@
 package com.example.cmmsApplication.spareparts.entity;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import com.example.cmmsApplication.common.time.CurrentTimeProvider;
 
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,9 +12,10 @@ import com.example.cmmsApplication.assignment.entity.MaintenanceAssignment;
 import com.example.cmmsApplication.user.entity.User;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "maintenance_spare_usage")
 @Getter
 @Setter
@@ -93,37 +98,39 @@ public class MaintenanceSpareUsage {
     private User cancelledBy;
 
     @Column(name = "requested_at")
-    private LocalDateTime requestedAt;
+    private Instant requestedAt;
 
     @Column(name = "reserved_at")
-    private LocalDateTime reservedAt;
+    private Instant reservedAt;
 
     @Column(name = "issued_at")
-    private LocalDateTime issuedAt;
+    private Instant issuedAt;
 
     @Column(name = "consumed_at")
-    private LocalDateTime consumedAt;
+    private Instant consumedAt;
 
     @Column(name = "rejected_at")
-    private LocalDateTime rejectedAt;
+    private Instant rejectedAt;
 
     @Column(name = "cancelled_at")
-    private LocalDateTime cancelledAt;
+    private Instant cancelledAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "purchase_request_id")
     private SparePartReorderRequest purchaseRequest;
 
     @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    @CreatedDate
+    private Instant createdAt;
 
     @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt;
+    @LastModifiedDate
+    private Instant updatedAt;
 
     @PrePersist
     public void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
+        createdAt = CurrentTimeProvider.now();
+        updatedAt = CurrentTimeProvider.now();
         if (requestedAt == null) {
             requestedAt = createdAt;
         }
@@ -131,7 +138,7 @@ public class MaintenanceSpareUsage {
 
     @PreUpdate
     public void onUpdate() {
-        updatedAt = LocalDateTime.now();
+        updatedAt = CurrentTimeProvider.now();
     }
 
 }

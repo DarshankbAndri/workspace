@@ -1,13 +1,10 @@
 package com.example.cmmsApplication.common.response;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ApiErrorResponse {
-    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Instant timestamp;
     private int status;
     private boolean success;

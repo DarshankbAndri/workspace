@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
 
 @Data
@@ -23,5 +23,5 @@ public class DashboardWidgetResponseDTO {
     private List<String> actionPermissions;
     private List<DashboardActionDTO> actions;
     private Integer refreshSeconds;
-    private LocalDateTime generatedAt;
+    private Instant generatedAt;
 }

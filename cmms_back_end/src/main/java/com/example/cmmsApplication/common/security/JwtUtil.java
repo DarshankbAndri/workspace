@@ -1,5 +1,5 @@
 package com.example.cmmsApplication.common.security;
-
+import com.example.cmmsApplication.common.time.CurrentTimeProvider;
 
 import com.example.cmmsApplication.user.entity.User;
 import io.jsonwebtoken.Claims;
@@ -27,8 +27,8 @@ public class JwtUtil {
     public String generateToken(String username) {
         return Jwts.builder()
                 .subject(username)
-                .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
+                .issuedAt(Date.from(CurrentTimeProvider.now()))
+                .expiration(Date.from(CurrentTimeProvider.now().plusMillis(jwtExpirationMs)))
                 .signWith(getSigningKey(), Jwts.SIG.HS512)
                 .compact();
     }

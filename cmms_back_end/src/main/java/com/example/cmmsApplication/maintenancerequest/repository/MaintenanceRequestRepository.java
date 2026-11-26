@@ -15,9 +15,11 @@ public interface MaintenanceRequestRepository extends JpaRepository<MaintenanceR
     boolean existsByRequestNumberAndIdNot(String requestNumber, Long id);
     long countByStatusIn(Collection<String> statuses);
     long countByStatus(String status);
+    long countByStatusNotIn(Collection<String> statuses);
     long countBySiteIdIn(Collection<Long> siteIds);
     long countBySiteIdAndStatusIn(Long siteId, Collection<String> statuses);
     long countBySiteIdInAndStatus(Collection<Long> siteIds, String status);
+    long countBySiteIdInAndStatusNotIn(Collection<Long> siteIds, Collection<String> statuses);
     List<MaintenanceRequest> findBySiteId(Long siteId);
     List<MaintenanceRequest> findBySiteIdIn(Collection<Long> siteIds);
     List<MaintenanceRequest> findByStatus(String status);
@@ -38,7 +40,7 @@ public interface MaintenanceRequestRepository extends JpaRepository<MaintenanceR
     @Query("""
             select count(request)
             from MaintenanceRequest request
-            where upper(request.status) = 'OPEN'
+            where upper(request.status) not in ('CLOSED', 'COMPLETED', 'CANCELLED', 'REJECTED')
               and not exists (
                   select assignment.id
                   from MaintenanceAssignment assignment
@@ -52,7 +54,7 @@ public interface MaintenanceRequestRepository extends JpaRepository<MaintenanceR
             select count(request)
             from MaintenanceRequest request
             where request.site.id in :siteIds
-              and upper(request.status) = 'OPEN'
+              and upper(request.status) not in ('CLOSED', 'COMPLETED', 'CANCELLED', 'REJECTED')
               and not exists (
                   select assignment.id
                   from MaintenanceAssignment assignment

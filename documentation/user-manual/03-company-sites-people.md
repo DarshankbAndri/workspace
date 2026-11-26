@@ -30,9 +30,9 @@ Create identity/contact/employment details, add at least one site assignment, an
 
 **Where:** Administration → Roles / Permissions / User Roles.
 
-- `ROLE_VIEW/CREATE/UPDATE/DELETE` controls role records. Create a code/name, status, and select permission checkboxes. Changes affect users assigned that role; a fresh login may be needed to refresh the UI session.
+- `ROLE_VIEW/CREATE/UPDATE/DELETE` controls role records. Create a code/name, status, and select permission checkboxes. The UI refreshes the current user's effective access when the session is restored and whenever the browser regains focus.
 - `PERMISSION_VIEW` opens the read-only permission catalogue.
-- **User Roles is Partially Available:** `USER_ROLE_VIEW` opens an informational placeholder. Backend role-assignment APIs exist, but the editor is not functional.
+- `USER_ROLE_VIEW` opens the assignment list. Users with `USER_ROLE_ASSIGN` or `USER_ROLE_UPDATE` can add or remove global and site-scoped role assignments and save the complete assignment set.
 - **Create User** exists at `/create-user` with `USER_ROLE_ASSIGN`; employee creation is the more complete site/role-aware onboarding path.
 
 Avoid granting create/update/delete simply because view is needed. Example: a technician can receive `EQUIPMENT_VIEW`, `REQUEST_VIEW`, and assignment/work-log permissions, while a store user receives spare and stock-processing permissions.

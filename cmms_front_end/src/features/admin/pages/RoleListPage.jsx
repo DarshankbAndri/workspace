@@ -7,6 +7,7 @@ import { useAuth } from '../../../shared/context/AuthContext';
 import { commonSearchFilter, createSearchPayload, equalFilter } from '../../../shared/utils/searchPayload';
 import CommonList from '../../../shared/components/common/CommonList';
 import CommonStatusDropdown from '../../../shared/components/common/CommonStatusDropdown';
+import { formatDateTime } from '../../../shared/utils/dateTime';
 
 function RoleListPage() {
   const navigate = useNavigate();
@@ -66,7 +67,7 @@ function RoleListPage() {
       renderCell: ({ row }) => <Chip size="small" color={row.status === 'ACTIVE' ? 'success' : 'default'} label={row.status} />,
     },
     { field: 'permissionCount', headerName: 'Permission Count', width: 150, valueGetter: ({ row }) => row.permissionCount ?? (row.permissions || []).length },
-    { field: 'createdAt', headerName: 'Created At', width: 180, valueFormatter: ({ value }) => value ? new Date(value).toLocaleString() : '' },
+    { field: 'createdAt', headerName: 'Created At', width: 180, valueFormatter: ({ value }) => formatDateTime(value, '') },
     {
       field: 'actions',
       headerName: 'Actions',

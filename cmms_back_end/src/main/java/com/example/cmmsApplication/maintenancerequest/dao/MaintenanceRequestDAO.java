@@ -31,6 +31,10 @@ public class MaintenanceRequestDAO {
     public long countByStatus(String status) { return repository.countByStatus(status); }
     public long countBySiteIds(Collection<Long> siteIds) { return repository.countBySiteIdIn(siteIds); }
     public long countBySiteIdsAndStatus(Collection<Long> siteIds, String status) { return repository.countBySiteIdInAndStatus(siteIds, status); }
+    public long countNotClosed(Collection<Long> siteIds, boolean allSites) {
+        List<String> closed = Arrays.asList("CLOSED", "COMPLETED", "CANCELLED", "REJECTED");
+        return allSites ? repository.countByStatusNotIn(closed) : repository.countBySiteIdInAndStatusNotIn(siteIds, closed);
+    }
     public long countOpenRequests() { return repository.countByStatusIn(Arrays.asList("OPEN", "IN_PROGRESS", "ON_HOLD")); }
     public long countOpenRequestsBySiteId(Long siteId) { return repository.countBySiteIdAndStatusIn(siteId, Arrays.asList("OPEN", "IN_PROGRESS", "ON_HOLD")); }
     public long countOpenRequestsByEquipmentId(Long equipmentId) { return repository.countByEquipmentIdAndStatusNotIn(equipmentId, Arrays.asList("CLOSED", "COMPLETED", "CANCELLED", "REJECTED")); }

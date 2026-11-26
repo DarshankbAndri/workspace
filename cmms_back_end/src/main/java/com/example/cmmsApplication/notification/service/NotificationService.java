@@ -1,5 +1,5 @@
 package com.example.cmmsApplication.notification.service;
-
+import com.example.cmmsApplication.common.time.CurrentTimeProvider;
 
 import com.example.cmmsApplication.common.observability.ObservabilityMetrics;
 import com.example.cmmsApplication.common.security.service.AccessControlService;
@@ -29,7 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -89,7 +89,7 @@ public class NotificationService {
         Notification notification = getOwnedNotification(id);
         if (!"READ".equalsIgnoreCase(notification.getStatus())) {
             notification.setStatus("READ");
-            notification.setReadAt(LocalDateTime.now());
+            notification.setReadAt(CurrentTimeProvider.now());
         }
         Notification saved = notificationDAO.save(notification);
         NotificationDTO dto = toDTO(saved);
@@ -104,7 +104,7 @@ public class NotificationService {
         notificationDAO.findActiveByRecipientUserId(userId).forEach((notification) -> {
             if ("UNREAD".equalsIgnoreCase(notification.getStatus())) {
                 notification.setStatus("READ");
-                notification.setReadAt(LocalDateTime.now());
+                notification.setReadAt(CurrentTimeProvider.now());
                 notificationDAO.save(notification);
             }
         });
@@ -132,7 +132,7 @@ public class NotificationService {
                 "PM_SCHEDULE", schedule.getId(), schedule.getScheduleCode(),
                 "/maintenance/preventive/" + schedule.getId() + "/view", schedule.getPriority(), "PM_DUE:" + schedule.getId() + ":" + runDate);
         schedule.setLastNotificationStatus("IN_APP_QUEUED for " + schedule.getScheduleCode());
-        schedule.setLastNotificationAt(LocalDateTime.now());
+        schedule.setLastNotificationAt(CurrentTimeProvider.now());
     }
 
     public void createOverdueRequestAlert(MaintenanceRequest request, LocalDate runDate) {
@@ -256,7 +256,7 @@ public class NotificationService {
             try {
                 if (emailNotificationService.send(saved)) {
                     saved.setEmailStatus("SENT");
-                    saved.setSentEmailAt(LocalDateTime.now());
+                    saved.setSentEmailAt(CurrentTimeProvider.now());
                 } else {
                     saved.setEmailStatus("FAILED");
                 }

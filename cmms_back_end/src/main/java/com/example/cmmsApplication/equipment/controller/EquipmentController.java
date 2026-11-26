@@ -27,6 +27,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("/equipment")
 public class EquipmentController {
+    private final com.example.cmmsApplication.equipment.service.EquipmentChecklistService checklistService;
     private final EquipmentService equipmentService;
     private final EquipmentDocumentService equipmentDocumentService;
     private final EquipmentSpareBomService equipmentSpareBomService;
@@ -51,6 +52,11 @@ public class EquipmentController {
     public ResponseEntity<ApiResponse<?>> delete(@PathVariable Long id) {
         equipmentService.delete(id);
         return ResponseFactory.ok(null);
+    }
+
+    @GetMapping("/{id}/checklists")
+    public ResponseEntity<ApiResponse<?>> getChecklists(@PathVariable Long id) {
+        return ResponseFactory.ok(checklistService.get(id));
     }
 
     @GetMapping("/{id}/summary")

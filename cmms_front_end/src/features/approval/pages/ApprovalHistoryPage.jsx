@@ -23,6 +23,7 @@ import CommonDatePicker from '../../../shared/components/common/CommonDatePicker
 import CommonInput from '../../../shared/components/common/CommonInput';
 import CommonList from '../../../shared/components/common/CommonList';
 import CommonStatusDropdown from '../../../shared/components/common/CommonStatusDropdown';
+import { endOfBusinessDayUtc, formatDateTime, startOfBusinessDayUtc } from '../../../shared/utils/dateTime';
 import { APPROVAL_ACTION_OPTIONS, APPROVAL_MODULE_OPTIONS, APPROVAL_STATUS_OPTIONS } from '../../../shared/constants/statusOptions';
 
 function ApprovalHistoryPage() {
@@ -54,8 +55,8 @@ function ApprovalHistoryPage() {
         equalFilter('actionCode', filters.actionCode),
         equalFilter('approvalStatus', filters.approvalStatus),
         equalFilter('siteId', filters.siteId, 'NUMBER'),
-        rangeFilter('requestedAt', filters.requestedFrom ? `${filters.requestedFrom}T00:00:00` : '', 'gte', 'DATETIME'),
-        rangeFilter('requestedAt', filters.requestedTo ? `${filters.requestedTo}T23:59:59` : '', 'lte', 'DATETIME'),
+        rangeFilter('requestedAt', filters.requestedFrom ? startOfBusinessDayUtc(filters.requestedFrom) : '', 'gte', 'DATETIME'),
+        rangeFilter('requestedAt', filters.requestedTo ? endOfBusinessDayUtc(filters.requestedTo) : '', 'lte', 'DATETIME'),
         commonSearchFilter(filters.search),
       ],
       paginationModel,
@@ -107,7 +108,7 @@ function ApprovalHistoryPage() {
     { field: 'referenceCode', headerName: 'Reference', minWidth: 170, flex: 0.8 },
     { field: 'siteName', headerName: 'Site', minWidth: 170, flex: 0.8 },
     { field: 'requestedByName', headerName: 'Requested By', minWidth: 160, flex: 0.8 },
-    { field: 'requestedAt', headerName: 'Requested At', minWidth: 180, flex: 0.8, valueFormatter: ({ value }) => value ? new Date(value).toLocaleString() : '' },
+    { field: 'requestedAt', headerName: 'Requested At', minWidth: 180, flex: 0.8, valueFormatter: ({ value }) => formatDateTime(value, '') },
     { field: 'approvalStatus', headerName: 'Status', minWidth: 130, flex: 0.6 },
     { field: 'approverRoleCode', headerName: 'Approver Role', minWidth: 160, flex: 0.7 },
     {
@@ -130,7 +131,7 @@ function ApprovalHistoryPage() {
     { field: 'actionStatus', headerName: 'Action', minWidth: 130, flex: 0.6 },
     { field: 'approverName', headerName: 'Approver', minWidth: 170, flex: 0.8 },
     { field: 'comments', headerName: 'Comments', minWidth: 240, flex: 1.2 },
-    { field: 'actionAt', headerName: 'Action At', minWidth: 180, flex: 0.8, valueFormatter: ({ value }) => value ? new Date(value).toLocaleString() : '' },
+    { field: 'actionAt', headerName: 'Action At', minWidth: 180, flex: 0.8, valueFormatter: ({ value }) => formatDateTime(value, '') },
   ];
 
   return (

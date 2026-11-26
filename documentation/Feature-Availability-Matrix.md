@@ -10,7 +10,7 @@
 | Dashboard | Role/site-aware metrics and widgets | Available | Card click-through is not consistently implemented |
 | Company/Site | Profile, logo, site CRUD | Available | Site capacity/timezone not implemented |
 | Employees | Employee, site, login, role assignment | Available | No Team master |
-| Access | Roles and permission catalogue | Available | User Roles editor Partially Available |
+| Access | Roles, permission catalogue, and user-role assignment | Available | Global and site-scoped user-role editor |
 | Vendor/AMC | Vendor CRUD, contracts, equipment coverage, renewal | Available | No vendor self-service portal |
 | Equipment | CRUD and linked operational context | Available | No separate category/type masters |
 | Requests | Create/view/edit and downstream work | Available | State-dependent actions vary |

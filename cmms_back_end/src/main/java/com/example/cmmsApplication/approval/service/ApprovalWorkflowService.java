@@ -16,6 +16,7 @@ import com.example.cmmsApplication.common.search.dto.PageProperties;
 import com.example.cmmsApplication.common.search.dto.PagePropertiesDTO;
 import com.example.cmmsApplication.common.search.dto.SearchCriteriaDTO;
 import com.example.cmmsApplication.common.search.dto.SearchDTO;
+import com.example.cmmsApplication.common.time.UtcInstantParser;
 import com.example.cmmsApplication.approval.entity.ApprovalAction;
 import com.example.cmmsApplication.approval.entity.ApprovalConfig;
 import com.example.cmmsApplication.approval.entity.ApprovalRequest;
@@ -42,7 +43,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -230,6 +231,42 @@ public class ApprovalWorkflowService {
                         buildApprovalHistoryPageable(effectiveSearch.getPagination()))
                 .map((request) -> toDTO(request, false));
         return new PageProperties(page.getContent(), page.getTotalElements(), page.getNumber(), page.getSize(), page.getTotalPages());
+    }
+
+    @Transactional(readOnly = true)
+    public PageProperties searchPendingApprovals(SearchDTO searchDTO) {
+        SearchDTO effectiveSearch = prepareApprovalHistorySearch(searchDTO);
+        effectiveSearch.getSearchCriteriaList().removeIf(
+                (criteria) -> "approvalStatus".equals(criteria.getFilterKey()));
+
+        SearchCriteriaDTO pendingCriteria = new SearchCriteriaDTO();
+        pendingCriteria.setFilterKey("approvalStatus");
+        pendingCriteria.setDataType("VARCHAR");
+        pendingCriteria.setValue("PENDING");
+        pendingCriteria.setOperation("equal");
+        effectiveSearch.getSearchCriteriaList().add(pendingCriteria);
+
+        Specification<ApprovalRequest> specification = buildApprovalHistorySpecification(effectiveSearch);
+        if (!accessControlService.isAdmin()) {
+            Set<String> roles = accessControlService.getRoles();
+            specification = specification.and((root, query, criteriaBuilder) -> {
+                List<Predicate> eligibleRoles = new ArrayList<>();
+                eligibleRoles.add(criteriaBuilder.isNull(root.get("approverRoleCode")));
+                eligibleRoles.add(criteriaBuilder.equal(
+                        criteriaBuilder.trim(root.get("approverRoleCode")), ""));
+                if (!roles.isEmpty()) {
+                    eligibleRoles.add(root.get("approverRoleCode").in(roles));
+                }
+                return criteriaBuilder.or(eligibleRoles.toArray(new Predicate[0]));
+            });
+        }
+
+        Page<ApprovalRequestDTO> page = approvalRequestDAO.search(
+                        specification,
+                        buildApprovalHistoryPageable(effectiveSearch.getPagination()))
+                .map((request) -> toDTO(request, false));
+        return new PageProperties(
+                page.getContent(), page.getTotalElements(), page.getNumber(), page.getSize(), page.getTotalPages());
     }
 
     @Transactional(readOnly = true)
@@ -439,11 +476,11 @@ public class ApprovalWorkflowService {
         return criteriaBuilder.lower(path.as(String.class));
     }
 
-    private Predicate dateTimePredicate(jakarta.persistence.criteria.Path<LocalDateTime> path,
+    private Predicate dateTimePredicate(jakarta.persistence.criteria.Path<Instant> path,
                                         Object value,
                                         String operation,
                                         jakarta.persistence.criteria.CriteriaBuilder criteriaBuilder) {
-        LocalDateTime dateTime = LocalDateTime.parse(value.toString().trim());
+        Instant dateTime = UtcInstantParser.parse(value.toString().trim());
         if ("gte".equals(operation)) {
             return criteriaBuilder.greaterThanOrEqualTo(path, dateTime);
         }
@@ -517,8 +554,8 @@ public class ApprovalWorkflowService {
         if (Integer.class.equals(javaType)) {
             return Integer.valueOf(text);
         }
-        if (LocalDateTime.class.equals(javaType)) {
-            return LocalDateTime.parse(text);
+        if (Instant.class.equals(javaType)) {
+            return UtcInstantParser.parse(text);
         }
         return text;
     }

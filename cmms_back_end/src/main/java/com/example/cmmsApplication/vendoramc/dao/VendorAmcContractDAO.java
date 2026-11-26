@@ -1,5 +1,6 @@
 package com.example.cmmsApplication.vendoramc.dao;
 
+import com.example.cmmsApplication.common.time.CurrentTimeProvider;
 import com.example.cmmsApplication.vendoramc.entity.VendorAmcContract;
 import com.example.cmmsApplication.vendoramc.repository.VendorAmcContractRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,5 +26,7 @@ public class VendorAmcContractDAO {
     public long countByStatus(String status) { return repository.countByStatus(status); }
     public List<VendorAmcContract> findExpiring(LocalDate today, LocalDate warningDate) { return repository.findExpiring(today, warningDate); }
     public List<VendorAmcContract> findExpired(LocalDate today) { return repository.findExpired(today); }
-    public long countCoveredEquipment(Collection<String> statuses) { return repository.countCoveredEquipment(statuses); }
+    public long countCoveredEquipment(Collection<String> statuses) {
+        return repository.countCoveredEquipment(statuses, CurrentTimeProvider.today());
+    }
 }

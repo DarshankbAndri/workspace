@@ -1,15 +1,20 @@
 package com.example.cmmsApplication.approval.entity;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import com.example.cmmsApplication.common.time.CurrentTimeProvider;
 
 import com.example.cmmsApplication.site.entity.Site;
 import com.example.cmmsApplication.user.entity.User;
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "approval_request")
 @Getter
 @Setter
@@ -41,7 +46,7 @@ public class ApprovalRequest {
     private User requestedBy;
 
     @Column(name = "requested_at", nullable = false)
-    private LocalDateTime requestedAt;
+    private Instant requestedAt;
 
     @Column(name = "approval_status", nullable = false, length = 30)
     private String approvalStatus = "PENDING";
@@ -65,23 +70,25 @@ public class ApprovalRequest {
     private String payloadJson;
 
     @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    @CreatedDate
+    private Instant createdAt;
 
     @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    @LastModifiedDate
+    private Instant updatedAt;
 
     @PrePersist
     public void onCreate() {
         if (requestedAt == null) {
-            requestedAt = LocalDateTime.now();
+            requestedAt = CurrentTimeProvider.now();
         }
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
+        createdAt = CurrentTimeProvider.now();
+        updatedAt = CurrentTimeProvider.now();
     }
 
     @PreUpdate
     public void onUpdate() {
-        updatedAt = LocalDateTime.now();
+        updatedAt = CurrentTimeProvider.now();
     }
 
     public Long getId() { return id; }
@@ -98,8 +105,8 @@ public class ApprovalRequest {
     public void setSite(Site site) { this.site = site; }
     public User getRequestedBy() { return requestedBy; }
     public void setRequestedBy(User requestedBy) { this.requestedBy = requestedBy; }
-    public LocalDateTime getRequestedAt() { return requestedAt; }
-    public void setRequestedAt(LocalDateTime requestedAt) { this.requestedAt = requestedAt; }
+    public Instant getRequestedAt() { return requestedAt; }
+    public void setRequestedAt(Instant requestedAt) { this.requestedAt = requestedAt; }
     public String getApprovalStatus() { return approvalStatus; }
     public void setApprovalStatus(String approvalStatus) { this.approvalStatus = approvalStatus; }
     public String getApproverRoleCode() { return approverRoleCode; }
@@ -114,8 +121,8 @@ public class ApprovalRequest {
     public void setRemarks(String remarks) { this.remarks = remarks; }
     public String getPayloadJson() { return payloadJson; }
     public void setPayloadJson(String payloadJson) { this.payloadJson = payloadJson; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
-    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+    public Instant getCreatedAt() { return createdAt; }
+    public void setCreatedAt(Instant createdAt) { this.createdAt = createdAt; }
+    public Instant getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(Instant updatedAt) { this.updatedAt = updatedAt; }
 }

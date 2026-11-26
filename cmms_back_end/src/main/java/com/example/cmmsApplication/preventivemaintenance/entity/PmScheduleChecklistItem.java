@@ -1,7 +1,12 @@
 package com.example.cmmsApplication.preventivemaintenance.entity;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import com.example.cmmsApplication.common.time.CurrentTimeProvider;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,12 +16,13 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "pm_schedule_checklist_item")
 @Getter
 @Setter
@@ -29,6 +35,11 @@ public class PmScheduleChecklistItem {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pm_schedule_id", nullable = false)
     private PreventiveMaintenanceSchedule schedule;
+
+    @Column(name = "source_equipment_checklist_item_id")
+    private Long sourceEquipmentChecklistItemId;
+    @Column(name = "source_checklist_name", length = 200)
+    private String sourceChecklistName;
 
     @Column(name = "sequence_number", nullable = false)
     private Integer sequenceNumber;
@@ -52,19 +63,21 @@ public class PmScheduleChecklistItem {
     private Boolean active = true;
 
     @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    @CreatedDate
+    private Instant createdAt;
 
     @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt;
+    @LastModifiedDate
+    private Instant updatedAt;
 
     @PrePersist
     public void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
+        createdAt = CurrentTimeProvider.now();
+        updatedAt = CurrentTimeProvider.now();
     }
 
     @PreUpdate
     public void onUpdate() {
-        updatedAt = LocalDateTime.now();
+        updatedAt = CurrentTimeProvider.now();
     }
 }

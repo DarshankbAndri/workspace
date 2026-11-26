@@ -2,6 +2,7 @@ import api from '../../../shared/services/api';
 
 export const getMaintenanceAssignments = (siteId) => api.get('/maintenance/assignments', { params: siteId ? { siteId } : {} }).then((response) => response.data);
 export const getMyMaintenanceAssignments = () => api.get('/maintenance/assignments/my').then((response) => response.data);
+export const searchMyMaintenanceAssignments = (data) => api.post('/maintenance/assignments/my/search', data).then((response) => response.data);
 export const searchMaintenanceAssignments = (data) => api.post('/maintenance/assignments/search', data).then((response) => response.data);
 export const getMaintenanceAssignmentById = (id) => api.get(`/maintenance/assignments/${id}`).then((response) => response.data);
 export const createMaintenanceAssignment = (data) => api.post('/maintenance/assignments', data).then((response) => response.data);

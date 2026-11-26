@@ -1,5 +1,5 @@
 package com.example.cmmsApplication.assignment.service;
-
+import com.example.cmmsApplication.common.time.CurrentTimeProvider;
 import com.example.cmmsApplication.assignment.dao.MaintenanceAssignmentChecklistDAO;
 import com.example.cmmsApplication.assignment.dao.MaintenanceAssignmentDAO;
 import com.example.cmmsApplication.assignment.dto.MaintenanceAssignmentChecklistItemDTO;
@@ -19,7 +19,7 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -39,6 +39,7 @@ public class MaintenanceAssignmentChecklistService {
     private static final Set<String> RESPONSE_TYPES = Set.of("CHECKBOX", "TEXT", "NUMBER", "PHOTO");
     private static final Set<String> STATUSES = Set.of("PENDING", "COMPLETED", "NOT_APPLICABLE");
 
+    private final com.example.cmmsApplication.maintenancerequest.dao.RequestChecklistItemDAO requestChecklistDAO;
     private final MaintenanceAssignmentChecklistDAO checklistDAO;
     private final MaintenanceAssignmentDAO assignmentDAO;
     private final AccessControlService accessControlService;
@@ -72,7 +73,7 @@ public class MaintenanceAssignmentChecklistService {
         if ("COMPLETED".equals(status) || "NOT_APPLICABLE".equals(status)) {
             User user = accessControlService.getCurrentUser();
             item.setCompletedBy(user);
-            item.setCompletedAt(LocalDateTime.now());
+            item.setCompletedAt(CurrentTimeProvider.now());
         } else {
             item.setCompletedBy(null);
             item.setCompletedAt(null);
@@ -82,6 +83,8 @@ public class MaintenanceAssignmentChecklistService {
 
     public void deleteItem(Long assignmentId, Long itemId) {
         MaintenanceAssignmentChecklistItem item = getOwnedItem(assignmentId, itemId);
+        if (item.getSourcePmChecklistItem() != null || item.getSourceRequestChecklistItem() != null)
+            throw new InvalidOperationException("Steps copied from a schedule or request cannot be deleted");
         checklistDAO.findProofsByItemId(item.getId()).forEach(this::deleteStoredProofQuietly);
         checklistDAO.deleteProofsByItemId(item.getId());
         checklistDAO.deleteItem(item);
@@ -144,10 +147,37 @@ public class MaintenanceAssignmentChecklistService {
         if (!checklistProperties.isEnabled() || assignment == null || templates == null || templates.isEmpty()) {
             return;
         }
+        var copied = checklistDAO.findByAssignmentId(assignment.getId()).stream().filter(i -> i.getSourcePmChecklistItem() != null)
+            .map(i -> i.getSourcePmChecklistItem().getId()).collect(Collectors.toSet());
         for (PmScheduleChecklistItem template : templates) {
+            if (!copied.add(template.getId())) continue;
             MaintenanceAssignmentChecklistItem item = new MaintenanceAssignmentChecklistItem();
             item.setAssignment(assignment);
             item.setSourcePmChecklistItem(template);
+            item.setSequenceNumber(template.getSequenceNumber());
+            item.setTaskTitle(template.getTaskTitle());
+            item.setInstructions(template.getInstructions());
+            item.setRequired(Boolean.TRUE.equals(template.getRequired()));
+            item.setProofRequired(Boolean.TRUE.equals(template.getProofRequired()));
+            item.setResponseType(defaultResponseType(template.getResponseType()));
+            item.setStatus("PENDING");
+            checklistDAO.saveItem(item);
+        }
+    }
+
+    public void copyFromRequest(MaintenanceAssignment assignment) {
+        if (!checklistProperties.isEnabled() || assignment == null || assignment.getRequest() == null) return;
+        var templates = requestChecklistDAO.findByOwnerId(assignment.getRequest().getId()).stream().filter(i -> Boolean.TRUE.equals(i.getActive())).toList();
+        if (templates.isEmpty()) {
+            return;
+        }
+        var copied = checklistDAO.findByAssignmentId(assignment.getId()).stream().filter(i -> i.getSourceRequestChecklistItem() != null)
+            .map(i -> i.getSourceRequestChecklistItem().getId()).collect(Collectors.toSet());
+        for (com.example.cmmsApplication.maintenancerequest.entity.RequestChecklistItem template : templates) {
+            if (!copied.add(template.getId())) continue;
+            MaintenanceAssignmentChecklistItem item = new MaintenanceAssignmentChecklistItem();
+            item.setAssignment(assignment);
+            item.setSourceRequestChecklistItem(template);
             item.setSequenceNumber(template.getSequenceNumber());
             item.setTaskTitle(template.getTaskTitle());
             item.setInstructions(template.getInstructions());
@@ -294,6 +324,7 @@ public class MaintenanceAssignmentChecklistService {
                 .id(item.getId())
                 .assignmentId(item.getAssignment() == null ? null : item.getAssignment().getId())
                 .sourcePmChecklistItemId(item.getSourcePmChecklistItem() == null ? null : item.getSourcePmChecklistItem().getId())
+                .sourceRequestChecklistItemId(item.getSourceRequestChecklistItem() == null ? null : item.getSourceRequestChecklistItem().getId())
                 .sequenceNumber(item.getSequenceNumber())
                 .taskTitle(item.getTaskTitle())
                 .instructions(item.getInstructions())

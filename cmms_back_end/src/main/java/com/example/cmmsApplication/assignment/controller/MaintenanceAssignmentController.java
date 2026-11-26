@@ -59,6 +59,11 @@ public class MaintenanceAssignmentController {
         return ResponseFactory.ok(assignmentService.getMyAssignments());
     }
 
+    @PostMapping("/my/search")
+    public ResponseEntity<ApiResponse<?>> searchMyAssignments(@RequestBody(required = false) SearchDTO searchDTO) {
+        return ResponseFactory.ok(listSearchService.searchMyMaintenanceAssignments(searchDTO));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<?>> getById(@PathVariable Long id) {
         return ResponseFactory.ok(assignmentService.getById(id));

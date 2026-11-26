@@ -12,7 +12,7 @@
 | Employees | `EMPLOYEE_VIEW` | `EMPLOYEE_CREATE` | `EMPLOYEE_UPDATE` | `EMPLOYEE_DELETE` | Login/site/role assignment embedded |
 | Roles | `ROLE_VIEW` | `ROLE_CREATE` | `ROLE_UPDATE` | `ROLE_DELETE` | Permission catalogue may also be required |
 | Permissions | `PERMISSION_VIEW` | — | — | — | Read-only catalogue |
-| User Roles | `USER_ROLE_VIEW` | — | `USER_ROLE_ASSIGN` | — | UI editor partial |
+| User Roles | `USER_ROLE_VIEW` | — | `USER_ROLE_ASSIGN` or `USER_ROLE_UPDATE` | — | Global and site-scoped assignment editor |
 | Vendors | `VENDOR_VIEW` | `VENDOR_CREATE` | `VENDOR_UPDATE` | `VENDOR_DELETE` | — |
 | Vendor AMC | `VENDOR_AMC_VIEW` | `VENDOR_AMC_CREATE` | `VENDOR_AMC_UPDATE` | `VENDOR_AMC_DELETE` | `VENDOR_AMC_ASSIGN_EQUIPMENT`, `VENDOR_AMC_RENEW` |
 | Equipment | `EQUIPMENT_VIEW` | `EQUIPMENT_CREATE` | `EQUIPMENT_UPDATE` | `EQUIPMENT_DELETE` | — |

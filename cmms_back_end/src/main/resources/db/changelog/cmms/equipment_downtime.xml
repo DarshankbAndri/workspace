@@ -14,10 +14,10 @@
             </column>
             <column name="site_id" type="BIGINT"/>
             <column name="request_id" type="BIGINT"/>
-            <column name="downtime_start" type="TIMESTAMP">
+            <column name="downtime_start" type="TIMESTAMP WITH TIME ZONE">
                 <constraints nullable="false"/>
             </column>
-            <column name="downtime_end" type="TIMESTAMP"/>
+            <column name="downtime_end" type="TIMESTAMP WITH TIME ZONE"/>
             <column name="downtime_minutes" type="BIGINT"/>
             <column name="reason" type="VARCHAR(120)">
                 <constraints nullable="false"/>
@@ -26,10 +26,10 @@
                 <constraints nullable="false"/>
             </column>
             <column name="remarks" type="VARCHAR(1000)"/>
-            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
-            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="updated_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -81,8 +81,8 @@
             <column name="lost_quantity" type="NUMERIC(14,2)"/>
             <column name="lost_amount" type="NUMERIC(14,2)"/>
             <column name="verified_by_user_id" type="BIGINT"/>
-            <column name="verified_at" type="TIMESTAMP"/>
-            <column name="closed_at" type="TIMESTAMP"/>
+            <column name="verified_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="closed_at" type="TIMESTAMP WITH TIME ZONE"/>
             <column name="closure_remarks" type="VARCHAR(1000)"/>
         </addColumn>
         <addForeignKeyConstraint constraintName="fk_downtime_verified_by_user"

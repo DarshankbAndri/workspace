@@ -7,7 +7,7 @@ import lombok.Data;
 import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Data
 @NoArgsConstructor
@@ -34,7 +34,7 @@ public class SparePartReorderDTO {
     private String remarks;
     private Long requestedBy;
     private String requestedByName;
-    private LocalDateTime requestedAt;
-    private LocalDateTime updatedAt;
+    private Instant requestedAt;
+    private Instant updatedAt;
 
 }

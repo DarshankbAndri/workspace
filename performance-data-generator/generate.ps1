@@ -1,13 +1,15 @@
 [CmdletBinding()]
 param(
     [Parameter(Mandatory = $true)]
-    [ValidatePattern('^[A-Za-z0-9_-]{1,20}$')]
+    [ValidatePattern('^[A-Za-z0-9_-]{1,25}$')]
     [string]$RunId,
 
     [string]$DbHost = 'localhost',
     [ValidateRange(1, 65535)][int]$DbPort = 5432,
     [string]$Database = 'cmms_db',
     [string]$DbUser = 'postgres',
+    [ValidatePattern('^[A-Za-z0-9_+\-/]+$')]
+    [string]$BusinessTimeZone = 'Asia/Kolkata',
 
     [ValidateRange(1, 1000000)][long]$Sites = 100,
     [ValidateRange(1, 10000000)][long]$Employees = 5000,
@@ -34,6 +36,7 @@ $arguments = @(
     '--username', $DbUser,
     '--file', $sqlFile,
     '--set', "run_id=$RunId",
+    '--set', "business_time_zone=$BusinessTimeZone",
     '--set', "site_count=$Sites",
     '--set', "employee_count=$Employees",
     '--set', "equipment_count=$Equipment",
@@ -46,6 +49,7 @@ $arguments = @(
 )
 
 Write-Host "Generating CMMS performance data for run '$RunId'..."
+Write-Host "Business timezone: '$BusinessTimeZone'"
 Write-Host 'The PostgreSQL password will be requested by psql if it is not already configured.'
 & psql @arguments
 if ($LASTEXITCODE -ne 0) {

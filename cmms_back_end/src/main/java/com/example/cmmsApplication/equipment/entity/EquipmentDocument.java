@@ -1,5 +1,5 @@
 package com.example.cmmsApplication.equipment.entity;
-
+import com.example.cmmsApplication.common.time.CurrentTimeProvider;
 import com.example.cmmsApplication.user.entity.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,7 +12,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -61,13 +61,13 @@ public class EquipmentDocument {
     private User uploadedBy;
 
     @Column(name = "uploaded_at", nullable = false, updatable = false)
-    private LocalDateTime uploadedAt;
+    private Instant uploadedAt;
 
     @Column(name = "remarks", length = 1000)
     private String remarks;
 
     @PrePersist
     public void onCreate() {
-        uploadedAt = LocalDateTime.now();
+        uploadedAt = CurrentTimeProvider.now();
     }
 }

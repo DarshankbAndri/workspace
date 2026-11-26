@@ -2,7 +2,7 @@
 
 **Application:** Solar Power Plant Computerized Maintenance Management System (CMMS)  
 **Document version:** 1.0  
-**Verified against source:** 21 July 2026  
+**Verified against source:** 18 September 2026
 **Audience:** Business users, plant operators, maintenance and store managers, administrators, developers, testers, and client/demo users
 
 ---
@@ -384,7 +384,7 @@ Save/update uses `POST /api/maintenance/assignments` and `PUT /api/maintenance/a
 ## 11. Assignment Checklist Add/Edit/Proof Upload
 
 **Location:** Assignment edit/view → Checklist tab  
-**Permissions:** `ASSIGNMENT_CHECKLIST_VIEW`, `ASSIGNMENT_CHECKLIST_UPDATE`; the UI refers to proof-specific permission names, while CSV maps proof upload/delete under `ASSIGNMENT_CHECKLIST_UPDATE`—see inconsistencies.
+**Permissions:** `ASSIGNMENT_CHECKLIST_VIEW`, `ASSIGNMENT_CHECKLIST_UPDATE`, `ASSIGNMENT_CHECKLIST_PROOF_UPLOAD`, and `ASSIGNMENT_CHECKLIST_PROOF_DELETE`. View permission permits proof downloads; upload/delete use their matching specific permissions.
 
 | Field | Mapping | Required | Purpose/validation |
 |---|---|---:|---|
@@ -762,7 +762,6 @@ Vendor + Site → AMC Contract → Equipment Mapping
 | Meter Reading Create/Correction | No route/module/entity/API found. |
 | User Profile Update | Navbar displays identity but has no profile edit route. |
 | Change Password | Navbar links to `/change-password`, but `App.jsx` has no matching route/page; link falls through wildcard navigation. |
-| User Role Assignment editor | `/admin/user-roles` exists but renders only an informational placeholder. APIs exist. |
 | Report Configuration | Reports have runtime filters only; no saved report configuration form. |
 | Store/Warehouse master | Storage location is free text; no store/bin master. |
 | Purchase Order/quotation | Reorder request exists; full procurement workflow does not. |
@@ -772,20 +771,14 @@ Vendor + Site → AMC Contract → Equipment Mapping
 ## 27. Inconsistencies and Implementation Issues Found
 
 1. Navbar change-password link has no route/page.
-2. User Role Assignment page is a placeholder despite available APIs.
-3. Employee role dropdown API access is not clearly mapped under `EMPLOYEE_CREATE/UPDATE` in the CSV; test runtime with restriction enabled.
-4. Role form loads the permission catalogue, but `ROLE_CREATE/UPDATE` do not have explicit `GET /api/admin/permissions` helper rows; users may also need `PERMISSION_VIEW`.
-5. Notification settings load roles, but notification configuration permissions do not explicitly map role helper APIs.
-6. Assignment UI checks proof/attachment-specific permission names (`ASSIGNMENT_CHECKLIST_PROOF_UPLOAD`, etc.) while the CSV maps those APIs under broader checklist/work-log permissions. Button visibility and API authorization can diverge.
-7. PM routes reuse maintenance-request permission codes instead of dedicated PM create/update/view permissions.
-8. User Management and several dialog pages directly use MUI form fields rather than required common components.
-9. Site expected capacity/timezone fields are absent.
-10. Equipment expected type/vendor/parent/meter configuration fields are absent.
-11. Maintenance request expected failure type and attachments are absent.
-12. Reorder receipt marks the full request received after any positive receipt; partial receipts are not modeled.
-13. Spare part master and site stock fields share one edit form; editing one site's record can update shared master details.
-14. Transfer posts source-out/destination-in immediately; no in-transit/receipt confirmation.
-15. API restriction is currently configured `cmms.security.api-permission-restriction-enabled=false`; production should deliberately review this setting.
+2. PM routes reuse maintenance-request permission codes instead of dedicated PM create/update/view permissions.
+3. User Management and several dialog pages directly use MUI form fields rather than required common components.
+4. Site expected capacity/timezone fields are absent.
+5. Equipment expected type/vendor/parent/meter configuration fields are absent.
+6. Maintenance request expected failure type and attachments are absent.
+7. Reorder receipt marks the full request received after any positive receipt; partial receipts are not modeled.
+8. Spare part master and site stock fields share one edit form; editing one site's record can update shared master details.
+9. Transfer posts source-out/destination-in immediately; no in-transit/receipt confirmation.
 
 ## 28. Common Validation and Troubleshooting
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import { epochMillis } from '../../../shared/utils/dateTime';
 import { Alert, Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Grid, IconButton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from '@mui/material';
 import { Add, Delete, Edit } from '@mui/icons-material';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -153,7 +154,7 @@ function SparePartFormPage() {
     } else {
       setBomRows((current) => [
         ...current,
-        { ...payload, ...equipmentSummary(selectedEquipment), localId: `new-${Date.now()}-${Math.random()}` },
+        { ...payload, ...equipmentSummary(selectedEquipment), localId: `new-${epochMillis()}-${Math.random()}` },
       ]);
     }
     resetBomForm();

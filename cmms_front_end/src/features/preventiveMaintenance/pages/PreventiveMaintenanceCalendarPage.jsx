@@ -7,8 +7,8 @@ import { getSites } from '../../site/services/siteService';
 import { generatePMWorkOrder, getPMCalendarSchedules } from '../services/preventiveMaintenanceService';
 import { useAuth } from '../../../shared/context/AuthContext';
 import CommonDropdown from '../../../shared/components/common/CommonDropdown';
+import { calendarDate, dateKey, formatCalendarHeading, today } from '../../../shared/utils/dateTime';
 
-const dayMs = 24 * 60 * 60 * 1000;
 const weekdayLabels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const priorityColors = {
   LOW: 'info',
@@ -17,37 +17,20 @@ const priorityColors = {
   CRITICAL: 'error',
 };
 
-const toDateKey = (date) => {
-  const copy = new Date(date);
-  copy.setHours(0, 0, 0, 0);
-  return copy.toISOString().slice(0, 10);
-};
-
-const addDays = (date, days) => new Date(date.getTime() + (days * dayMs));
+const addDays = (date, days) => date.plus({ days });
 
 const startOfWeek = (date) => {
-  const start = new Date(date);
-  start.setHours(0, 0, 0, 0);
-  start.setDate(start.getDate() - start.getDay());
-  return start;
+  return date.startOf('day').minus({ days: date.weekday % 7 });
 };
 
-const startOfMonthGrid = (date) => startOfWeek(new Date(date.getFullYear(), date.getMonth(), 1));
+const startOfMonthGrid = (date) => startOfWeek(date.startOf('month'));
 
 const endOfMonthGrid = (date) => {
-  const end = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-  end.setHours(0, 0, 0, 0);
-  return addDays(end, 6 - end.getDay());
+  const end = date.endOf('month').startOf('day');
+  return addDays(end, 6 - (end.weekday % 7));
 };
 
-const formatHeaderDate = (date, viewMode) => {
-  if (viewMode === 'month') {
-    return date.toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
-  }
-  const start = startOfWeek(date);
-  const end = addDays(start, 6);
-  return `${start.toLocaleDateString(undefined, { month: 'short', day: 'numeric' })} - ${end.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}`;
-};
+const formatHeaderDate = (date, viewMode) => formatCalendarHeading(dateKey(date), viewMode);
 
 const formatApiError = (err, fallback) => {
   const apiError = err.response?.data || err.apiError;
@@ -62,7 +45,7 @@ const buildDays = (anchorDate, viewMode) => {
   const end = viewMode === 'month' ? endOfMonthGrid(anchorDate) : addDays(start, 6);
   const days = [];
   for (let cursor = start; cursor <= end; cursor = addDays(cursor, 1)) {
-    days.push(new Date(cursor));
+    days.push(cursor);
   }
   return days;
 };
@@ -71,11 +54,7 @@ function PreventiveMaintenanceCalendarPage() {
   const navigate = useNavigate();
   const { hasPermission } = useAuth();
   const [viewMode, setViewMode] = React.useState('month');
-  const [anchorDate, setAnchorDate] = React.useState(() => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    return today;
-  });
+  const [anchorDate, setAnchorDate] = React.useState(() => calendarDate());
   const [filters, setFilters] = React.useState({ siteId: '', equipmentId: '' });
   const [sites, setSites] = React.useState([]);
   const [equipments, setEquipments] = React.useState([]);
@@ -85,13 +64,14 @@ function PreventiveMaintenanceCalendarPage() {
   const [success, setSuccess] = React.useState('');
 
   const visibleDays = React.useMemo(() => buildDays(anchorDate, viewMode), [anchorDate, viewMode]);
-  const rangeStart = toDateKey(visibleDays[0]);
-  const rangeEnd = toDateKey(visibleDays[visibleDays.length - 1]);
+  const rangeStart = dateKey(visibleDays[0]);
+  const rangeEnd = dateKey(visibleDays[visibleDays.length - 1]);
   const filteredEquipments = React.useMemo(() => (
     equipments.filter((equipment) => !filters.siteId || String(equipment.siteId || '') === String(filters.siteId))
   ), [equipments, filters.siteId]);
 
   const loadRows = React.useCallback(() => {
+    if (!rangeStart || !rangeEnd) return;
     setLoading(true);
     setError('');
     getPMCalendarSchedules({
@@ -135,15 +115,13 @@ function PreventiveMaintenanceCalendarPage() {
   const moveRange = (direction) => {
     setAnchorDate((current) => (
       viewMode === 'month'
-        ? new Date(current.getFullYear(), current.getMonth() + direction, 1)
+        ? current.plus({ months: direction }).startOf('month')
         : addDays(current, direction * 7)
     ));
   };
 
   const goToday = () => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    setAnchorDate(today);
+    setAnchorDate(calendarDate());
   };
 
   const handleGenerate = async (schedule) => {
@@ -160,7 +138,7 @@ function PreventiveMaintenanceCalendarPage() {
 
   const renderTask = (task) => {
     const priority = task.priority || 'MEDIUM';
-    const overdue = task.nextDueDate && task.nextDueDate < toDateKey(new Date());
+    const overdue = task.nextDueDate && task.nextDueDate < today();
     return (
       <Box key={task.id} sx={{ border: 1, borderColor: 'divider', borderRadius: 1, p: 1, bgcolor: 'background.paper' }}>
         <Stack direction="row" spacing={0.75} alignItems="center" justifyContent="space-between">
@@ -255,10 +233,10 @@ function PreventiveMaintenanceCalendarPage() {
         </Box>
         <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(7, minmax(0, 1fr))' }}>
           {visibleDays.map((day) => {
-            const key = toDateKey(day);
+            const key = dateKey(day);
             const tasks = rowsByDate[key] || [];
-            const inCurrentMonth = day.getMonth() === anchorDate.getMonth();
-            const isToday = key === toDateKey(new Date());
+            const inCurrentMonth = day.month === anchorDate.month;
+            const isToday = key === today();
             return (
               <Box
                 key={key}
@@ -273,7 +251,7 @@ function PreventiveMaintenanceCalendarPage() {
               >
                 <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 1 }}>
                   <Typography variant="body2" fontWeight={isToday ? 900 : 700} color={isToday ? 'primary.main' : 'text.primary'}>
-                    {day.getDate()}
+                    {day.day}
                   </Typography>
                   {tasks.length > 0 && <Chip size="small" label={tasks.length} color="primary" variant="outlined" />}
                 </Stack>

@@ -1,5 +1,5 @@
 package com.example.cmmsApplication.spareparts.service;
-
+import com.example.cmmsApplication.common.time.CurrentTimeProvider;
 
 import lombok.RequiredArgsConstructor;
 import com.example.cmmsApplication.approval.service.ApprovalWorkflowService;
@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -110,7 +110,7 @@ public class MaintenanceSpareUsageService {
         usage.setStatus(REQUESTED);
         usage.setRemarks(dto.getRemarks());
         usage.setRequestedBy(currentUser);
-        usage.setRequestedAt(LocalDateTime.now());
+        usage.setRequestedAt(CurrentTimeProvider.now());
         return toDTO(usageDAO.save(usage));
     }
 
@@ -166,7 +166,7 @@ public class MaintenanceSpareUsageService {
         requireStatus(usage, REQUESTED, "Only requested spare lines can be manager-rejected.");
         usage.setStatus(MANAGER_REJECTED);
         usage.setRejectedBy(accessControlService.getCurrentUser());
-        usage.setRejectedAt(LocalDateTime.now());
+        usage.setRejectedAt(CurrentTimeProvider.now());
         usage.setRemarks(effectiveRemarks(dto, usage.getRemarks()));
         return toDTO(usageDAO.save(usage));
     }
@@ -293,7 +293,7 @@ public class MaintenanceSpareUsageService {
         usage.setConsumedQty(consumed);
         usage.setReturnedQty(returned);
         usage.setConsumedBy(accessControlService.getCurrentUser());
-        usage.setConsumedAt(LocalDateTime.now());
+        usage.setConsumedAt(CurrentTimeProvider.now());
         usage.setTotalCost(total(consumed, usage.getUnitCost()));
         usage.setRemarks(effectiveRemarks(dto, usage.getRemarks()));
         if (returned.compareTo(BigDecimal.ZERO) > 0 && consumed.add(returned).compareTo(issued) == 0) {
@@ -321,7 +321,7 @@ public class MaintenanceSpareUsageService {
         }
         usage.setStatus(CANCELLED);
         usage.setCancelledBy(accessControlService.getCurrentUser());
-        usage.setCancelledAt(LocalDateTime.now());
+        usage.setCancelledAt(CurrentTimeProvider.now());
         usage.setRemarks(effectiveRemarks(dto, usage.getRemarks()));
         return toDTO(usageDAO.save(usage));
     }
@@ -455,7 +455,7 @@ public class MaintenanceSpareUsageService {
         usage.setStatus(RESERVED);
         usage.setReservedBy(accessControlService.getCurrentUser());
         usage.setStoreApprovedBy(accessControlService.getCurrentUser());
-        usage.setReservedAt(LocalDateTime.now());
+        usage.setReservedAt(CurrentTimeProvider.now());
         usage.setRemarks(remarks);
         return usageDAO.save(usage);
     }
@@ -475,7 +475,7 @@ public class MaintenanceSpareUsageService {
         usage.setStatus(ISSUED);
         usage.setIssuedBy(accessControlService.getCurrentUser());
         usage.setStoreApprovedBy(accessControlService.getCurrentUser());
-        usage.setIssuedAt(LocalDateTime.now());
+        usage.setIssuedAt(CurrentTimeProvider.now());
         usage.setRemarks(remarks);
         return usageDAO.save(usage);
     }

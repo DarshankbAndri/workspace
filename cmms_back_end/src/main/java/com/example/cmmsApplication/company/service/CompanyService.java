@@ -1,5 +1,5 @@
 package com.example.cmmsApplication.company.service;
-
+import com.example.cmmsApplication.common.time.CurrentTimeProvider;
 
 import com.example.cmmsApplication.common.config.FileStorageConfig;
 import com.example.cmmsApplication.company.dao.CompanyDAO;
@@ -18,7 +18,7 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Locale;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -100,7 +100,7 @@ public class CompanyService {
         company.setAddress(blankToNull(dto.getAddress()));
         company.setStatus(isBlank(dto.getStatus()) ? "ACTIVE" : dto.getStatus());
         if (company.getCreatedDate() == null) {
-            company.setCreatedDate(LocalDateTime.now());
+            company.setCreatedDate(CurrentTimeProvider.now());
         }
     }
 

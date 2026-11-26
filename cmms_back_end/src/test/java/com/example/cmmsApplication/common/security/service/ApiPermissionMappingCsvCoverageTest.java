@@ -54,10 +54,23 @@ class ApiPermissionMappingCsvCoverageTest {
         assertAllowed("EQUIPMENT_CREATE", "GET", "/api/hr/sites");
         assertAllowed("EQUIPMENT_CREATE", "POST", "/api/equipment");
         assertAllowed("REQUEST_VIEW", "GET", "/api/maintenance/requests");
+        assertAllowed("ASSIGNMENT_VIEW", "POST", "/api/maintenance/assignments/my/search");
+        assertAllowed("APPROVAL_VIEW", "POST", "/api/approvals/pending/search");
         assertAllowed("ASSIGNMENT_CHECKLIST_VIEW", "GET", "/api/maintenance/assignments/1/checklist");
+        assertAllowed("ASSIGNMENT_CHECKLIST_VIEW", "GET", "/api/maintenance/assignments/1/checklist/2/proof/3");
         assertAllowed("ASSIGNMENT_WORK_LOG_VIEW", "GET", "/api/maintenance/assignments/1/work-logs");
+        assertAllowed("ASSIGNMENT_WORK_LOG_VIEW", "GET", "/api/maintenance/assignments/1/work-logs/2/attachments/3");
+        assertAllowed("ASSIGNMENT_WORK_LOG_ATTACHMENT_UPLOAD", "POST", "/api/maintenance/assignments/1/work-logs/2/attachments");
+        assertAllowed("ASSIGNMENT_WORK_LOG_ATTACHMENT_DELETE", "DELETE", "/api/maintenance/assignments/1/work-logs/2/attachments/3");
         assertAllowed("SPARE_USAGE_VIEW", "GET", "/api/maintenance/assignments/1/spares");
         assertAllowed("NOTIFICATION_VIEW", "GET", "/api/notifications");
+        assertAllowed("ROLE_CREATE", "GET", "/api/admin/permissions/grouped");
+        assertAllowed("ROLE_UPDATE", "GET", "/api/admin/roles/1");
+        assertAllowed("EMPLOYEE_CREATE", "GET", "/api/admin/roles");
+        assertAllowed("APPROVAL_CONFIG_VIEW", "GET", "/api/admin/roles");
+        assertAllowed("NOTIFICATION_CONFIG_VIEW", "GET", "/api/admin/roles");
+        assertAllowed("USER_ROLE_VIEW", "GET", "/api/admin/roles");
+        assertAllowed("USER_ROLE_VIEW", "GET", "/api/hr/sites");
     }
 
     @Test
@@ -206,6 +219,8 @@ class ApiPermissionMappingCsvCoverageTest {
                 "POST /api/preventive-maintenance/schedules/generate-due-work-orders",
                 "GET /api/maintenance/assignments",
                 "POST /api/maintenance/assignments/search",
+                "GET /api/maintenance/assignments/my",
+                "POST /api/maintenance/assignments/my/search",
                 "GET /api/maintenance/assignments/1",
                 "POST /api/maintenance/assignments",
                 "PUT /api/maintenance/assignments/1",
@@ -233,6 +248,7 @@ class ApiPermissionMappingCsvCoverageTest {
                 "GET /api/reports/equipment-history",
                 "GET /api/reports/downtime-analysis",
                 "GET /api/approvals/pending",
+                "POST /api/approvals/pending/search",
                 "GET /api/approvals/history",
                 "POST /api/approvals/history/search",
                 "GET /api/approvals/1",

@@ -1,5 +1,5 @@
 package com.example.cmmsApplication.spareparts.service;
-
+import com.example.cmmsApplication.common.time.CurrentTimeProvider;
 
 import com.example.cmmsApplication.common.search.service.ListSearchService;
 import com.example.cmmsApplication.common.security.service.AccessControlService;
@@ -43,7 +43,7 @@ import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -502,7 +502,7 @@ public class SparePartService {
         transaction.setReferenceType(referenceType);
         transaction.setReferenceId(referenceId);
         transaction.setRemarks(remarks);
-        transaction.setTransactionDate(LocalDateTime.now());
+        transaction.setTransactionDate(CurrentTimeProvider.now());
         User user = accessControlService.getCurrentUser();
         transaction.setCreatedBy(user);
         return transactionDAO.save(transaction);

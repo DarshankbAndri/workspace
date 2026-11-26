@@ -9,7 +9,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Data;
@@ -46,8 +46,8 @@ public class EmployeeDTO {
     private String confirmPassword;
     private UserRole authRole;
     private String accountStatus;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private Instant createdAt;
+    private Instant updatedAt;
     @Valid
     private List<EmployeeSiteAssignmentDTO> siteAssignments = new ArrayList<>();
     @Valid
@@ -93,10 +93,10 @@ public class EmployeeDTO {
     public void setAuthRole(UserRole authRole) { this.authRole = authRole; }
     public String getAccountStatus() { return accountStatus; }
     public void setAccountStatus(String accountStatus) { this.accountStatus = accountStatus; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
-    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+    public Instant getCreatedAt() { return createdAt; }
+    public void setCreatedAt(Instant createdAt) { this.createdAt = createdAt; }
+    public Instant getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(Instant updatedAt) { this.updatedAt = updatedAt; }
     public List<EmployeeSiteAssignmentDTO> getSiteAssignments() { return siteAssignments; }
     public void setSiteAssignments(List<EmployeeSiteAssignmentDTO> siteAssignments) { this.siteAssignments = siteAssignments; }
     public List<EmployeeRoleAssignmentDTO> getRoleAssignments() { return roleAssignments; }

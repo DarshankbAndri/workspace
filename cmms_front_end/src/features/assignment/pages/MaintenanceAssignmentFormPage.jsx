@@ -49,6 +49,7 @@ import CommonDropdown from '../../../shared/components/common/CommonDropdown';
 import CommonFormActions from '../../../shared/components/common/CommonFormActions';
 import ConfirmDialog from '../../../shared/components/common/ConfirmDialog';
 import { getDropdownOptions } from '../../../shared/utils/dropdownHelper';
+import { formatDateTime, toDateTimeInput, toUtcDateTime, today } from '../../../shared/utils/dateTime';
 
 const initialForm = {
   siteId: '',
@@ -56,7 +57,7 @@ const initialForm = {
   vendorId: '',
   assignedEmployeeId: '',
   assignedTo: '',
-  assignedDate: new Date().toISOString().slice(0, 10),
+  assignedDate: today(),
   plannedStartDate: '',
   plannedEndDate: '',
   actualStartDate: '',
@@ -106,16 +107,6 @@ const statusColors = {
   RETURNED: 'default',
 };
 
-const toDateTimeInput = (value) => {
-  if (!value) return '';
-  return String(value).slice(0, 16);
-};
-
-const toApiDateTime = (value) => {
-  if (!value) return null;
-  return value.length === 16 ? `${value}:00` : value;
-};
-
 const employeeLabel = (employee) => {
   const name = `${employee.firstName || ''} ${employee.lastName || ''}`.trim();
   return `${employee.employeeCode || employee.id} - ${name || 'Employee'}`;
@@ -126,12 +117,18 @@ function MaintenanceAssignmentFormPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const { hasPermission } = useAuth();
+  const canViewChecklist = hasPermission('ASSIGNMENT_CHECKLIST_VIEW');
+  const canViewWorkLogs = hasPermission('ASSIGNMENT_WORK_LOG_VIEW');
+  const canViewSpares = hasPermission('SPARE_USAGE_VIEW');
+  const hasWorkflowAccess = canViewChecklist || canViewWorkLogs || canViewSpares;
   const isEdit = Boolean(id) && !location.pathname.endsWith('/view');
   const isView = location.pathname.endsWith('/view');
   const workflowTabFromQuery = React.useMemo(() => {
     const targetTab = new URLSearchParams(location.search).get('tab');
-    return workflowTabByQuery[targetTab] ?? 0;
-  }, [location.search]);
+    const requestedTab = workflowTabByQuery[targetTab];
+    const allowedTabs = [canViewChecklist && 0, canViewWorkLogs && 1, canViewSpares && 2].filter((value) => value !== false);
+    return allowedTabs.includes(requestedTab) ? requestedTab : (allowedTabs[0] ?? false);
+  }, [canViewChecklist, canViewSpares, canViewWorkLogs, location.search]);
   const requestIdFromQuery = React.useMemo(() => new URLSearchParams(location.search).get('requestId') || '', [location.search]);
   const [form, setForm] = React.useState(initialForm);
   const [sites, setSites] = React.useState([]);
@@ -215,38 +212,38 @@ function MaintenanceAssignmentFormPage() {
   }, [form.siteId]);
 
   const loadSpares = React.useCallback(() => {
-    if (!id) {
+    if (!id || !canViewSpares) {
       setSpareRows([]);
       return;
     }
     getAssignmentSpares(id)
       .then((data) => setSpareRows(data || []))
       .catch(() => setError('Unable to load assignment spare usage.'));
-  }, [id]);
+  }, [canViewSpares, id]);
 
   React.useEffect(() => { loadSpares(); }, [loadSpares]);
 
   const loadChecklist = React.useCallback(() => {
-    if (!id) {
+    if (!id || !canViewChecklist) {
       setChecklistRows([]);
       return;
     }
     getAssignmentChecklist(id)
       .then((data) => setChecklistRows(data || []))
       .catch(() => setError('Unable to load assignment checklist.'));
-  }, [id]);
+  }, [canViewChecklist, id]);
 
   React.useEffect(() => { loadChecklist(); }, [loadChecklist]);
 
   const loadWorkLogs = React.useCallback(() => {
-    if (!id) {
+    if (!id || !canViewWorkLogs) {
       setWorkLogRows([]);
       return;
     }
     getAssignmentWorkLogs(id)
       .then((data) => setWorkLogRows(data || []))
       .catch(() => setError('Unable to load technician work logs.'));
-  }, [id]);
+  }, [canViewWorkLogs, id]);
 
   React.useEffect(() => { loadWorkLogs(); }, [loadWorkLogs]);
 
@@ -406,8 +403,8 @@ function MaintenanceAssignmentFormPage() {
       const payload = {
         ...workLogForm,
         technicianEmployeeId: Number(workLogForm.technicianEmployeeId),
-        startTime: toApiDateTime(workLogForm.startTime),
-        endTime: toApiDateTime(workLogForm.endTime),
+        startTime: toUtcDateTime(workLogForm.startTime),
+        endTime: toUtcDateTime(workLogForm.endTime),
       };
       if (editingWorkLogId) {
         await updateAssignmentWorkLog(id, editingWorkLogId, payload);
@@ -786,16 +783,16 @@ function MaintenanceAssignmentFormPage() {
           />
         </Paper>
       </Box>
-      {id && (
+      {id && hasWorkflowAccess && (
         <Paper sx={{ borderRadius: 1, mt: 2 }}>
           <Tabs value={workflowTab} onChange={(event, nextTab) => setWorkflowTab(nextTab)} variant="scrollable" scrollButtons="auto">
-            <Tab label={`Checklist (${completedChecklistCount}/${checklistRows.length})`} />
-            <Tab label={`Work Logs (${completedWorkLogCount}/${workLogRows.length})`} />
-            <Tab label={`Spare Parts (${spareRows.length})`} />
+            {canViewChecklist && <Tab value={0} label={`Checklist (${completedChecklistCount}/${checklistRows.length})`} />}
+            {canViewWorkLogs && <Tab value={1} label={`Work Logs (${completedWorkLogCount}/${workLogRows.length})`} />}
+            {canViewSpares && <Tab value={2} label={`Spare Parts (${spareRows.length})`} />}
           </Tabs>
         </Paper>
       )}
-      {id && workflowTab === 0 && (
+      {id && canViewChecklist && workflowTab === 0 && (
         <Paper sx={{ p: 3, borderRadius: 1, mt: 2 }}>
           <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" alignItems={{ xs: 'stretch', sm: 'center' }} spacing={1.5} sx={{ mb: 2 }}>
             <Stack direction="row" spacing={1} alignItems="center">
@@ -852,7 +849,7 @@ function MaintenanceAssignmentFormPage() {
                           </IconButton>
                         </Tooltip>
                       )}
-                      {!isView && hasPermission('ASSIGNMENT_CHECKLIST_UPDATE') && !row.sourcePmChecklistItemId && (
+                      {!isView && hasPermission('ASSIGNMENT_CHECKLIST_UPDATE') && !row.sourcePmChecklistItemId && !row.sourceRequestChecklistItemId && (
                         <Tooltip title="Delete"><IconButton color="error" onClick={() => handleDeleteChecklistRow(row)}><Delete fontSize="small" /></IconButton></Tooltip>
                       )}
                     </Stack>
@@ -860,7 +857,7 @@ function MaintenanceAssignmentFormPage() {
                   {row.completedAt && (
                     <Grid item xs={12}>
                       <Typography variant="caption" color="text.secondary">
-                        Completed {new Date(row.completedAt).toLocaleString()} {row.completedByName ? `by ${row.completedByName}` : ''}
+                        Completed {formatDateTime(row.completedAt)} {row.completedByName ? `by ${row.completedByName}` : ''}
                       </Typography>
                     </Grid>
                   )}
@@ -887,7 +884,7 @@ function MaintenanceAssignmentFormPage() {
           </Stack>
         </Paper>
       )}
-      {id && workflowTab === 1 && (
+      {id && canViewWorkLogs && workflowTab === 1 && (
         <Paper sx={{ p: 3, borderRadius: 1, mt: 2 }}>
           <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" alignItems={{ xs: 'stretch', sm: 'center' }} spacing={1.5} sx={{ mb: 2 }}>
             <Stack direction="row" spacing={1} alignItems="center">
@@ -927,7 +924,7 @@ function MaintenanceAssignmentFormPage() {
                   <Grid item xs={12} md={2.5}>
                     <Typography variant="subtitle2" fontWeight={800}>{row.technicianName || row.technicianEmployeeCode}</Typography>
                     <Typography variant="caption" color="text.secondary">
-                      {row.startTime ? new Date(row.startTime).toLocaleString() : ''}{row.endTime ? ` - ${new Date(row.endTime).toLocaleString()}` : ''}
+                      {formatDateTime(row.startTime, '')}{row.endTime ? ` - ${formatDateTime(row.endTime, '')}` : ''}
                     </Typography>
                   </Grid>
                   <Grid item xs={12} md={1.5}><Chip size="small" label={(row.completionStatus || '').replaceAll('_', ' ')} color={row.completionStatus === 'COMPLETED' ? 'success' : row.completionStatus === 'FOLLOW_UP_REQUIRED' ? 'warning' : 'default'} /></Grid>
@@ -975,10 +972,10 @@ function MaintenanceAssignmentFormPage() {
           </Stack>
         </Paper>
       )}
-      {id && workflowTab === 2 && (
+      {id && canViewSpares && workflowTab === 2 && (
         <Paper sx={{ p: 3, borderRadius: 1, mt: 2 }}>
           <Typography variant="h6" fontWeight={800} sx={{ mb: 2 }}>Spare Part Requests</Typography>
-          {!isView && (
+          {!isView && hasPermission('SPARE_USAGE_CREATE') && (
             <Grid container spacing={2} sx={{ mb: 2 }}>
               <Grid item xs={12} md={5}>
                 <CommonDropdown label="Spare Part" value={spareForm.stockId} onChange={updateSpareField('stockId')} options={sparePartOptions} />

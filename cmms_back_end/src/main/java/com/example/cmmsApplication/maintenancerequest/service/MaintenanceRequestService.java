@@ -1,5 +1,5 @@
 package com.example.cmmsApplication.maintenancerequest.service;
-
+import com.example.cmmsApplication.common.time.CurrentTimeProvider;
 
 import com.example.cmmsApplication.approval.service.ApprovalWorkflowService;
 import com.example.cmmsApplication.assignment.dao.MaintenanceAssignmentDAO;
@@ -47,6 +47,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Transactional
 public class MaintenanceRequestService {
+    private final RequestChecklistService checklistService;
     private final MaintenanceRequestDAO requestDAO;
     private final EquipmentService equipmentService;
     private final SiteService siteService;
@@ -72,6 +73,7 @@ public class MaintenanceRequestService {
         boolean approvalRequired = approvalWorkflowService.isApprovalEnabled(ApprovalWorkflowService.MAINTENANCE_REQUEST, ApprovalWorkflowService.CREATE);
         request.setStatus(approvalRequired ? MaintenanceRequestStatus.PENDING_APPROVAL.value() : MaintenanceRequestStatus.OPEN.value());
         MaintenanceRequest saved = requestDAO.save(request);
+        checklistService.saveChecklistItems(saved, dto.getChecklistItems());
         MaintenanceRequestDTO result = toDTO(saved);
         if (approvalRequired) {
             ApprovalRequestDTO approval = approvalWorkflowService.createApprovalRequest(
@@ -98,7 +100,9 @@ public class MaintenanceRequestService {
         if (requestDAO.existsByRequestNumberAndIdNot(request.getRequestNumber(), id)) {
             throw new InvalidOperationException("Request number already exists: " + request.getRequestNumber());
         }
-        return toDTO(requestDAO.save(request));
+        MaintenanceRequest saved = requestDAO.save(request);
+        checklistService.saveChecklistItems(saved, dto.getChecklistItems());
+        return toDTO(saved);
     }
 
     public MaintenanceRequestDTO transition(Long id, MaintenanceRequestTransitionDTO dto) {
@@ -188,7 +192,7 @@ public class MaintenanceRequestService {
                 .unassigned(requestDAO.countUnassigned(scope.siteIds(), scope.allSites()))
                 .assigned(count(scope, MaintenanceRequestStatus.ASSIGNED.value()))
                 .inProgress(count(scope, MaintenanceRequestStatus.IN_PROGRESS.value()))
-                .overdue(requestDAO.countOverdue(scope.siteIds(), scope.allSites(), LocalDate.now()))
+                .overdue(requestDAO.countOverdue(scope.siteIds(), scope.allSites(), CurrentTimeProvider.today()))
                 .critical(requestDAO.countCritical(scope.siteIds(), scope.allSites()))
                 .completed(count(scope, MaintenanceRequestStatus.COMPLETED.value()))
                 .closed(count(scope, MaintenanceRequestStatus.CLOSED.value()))
@@ -321,11 +325,12 @@ public class MaintenanceRequestService {
     }
 
     private String generateRequestNumber() {
-        return "MR-" + LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE) + "-" + System.currentTimeMillis();
+        return "MR-" + CurrentTimeProvider.today().format(DateTimeFormatter.BASIC_ISO_DATE) + "-" + CurrentTimeProvider.epochMillis();
     }
 
     private MaintenanceRequestDTO toDTO(MaintenanceRequest request) {
         MaintenanceRequestDTO dto = new MaintenanceRequestDTO();
+        dto.setChecklistItems(checklistService.get(request.getId()));
         dto.setId(request.getId());
         dto.setRequestNumber(request.getRequestNumber());
         dto.setEquipmentId(request.getEquipment().getId());

@@ -1,35 +1,55 @@
 import React from 'react';
 import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Snackbar, Stack, TextField, Typography } from '@mui/material';
 import { CheckCircle, Cancel, Visibility } from '@mui/icons-material';
-import { getPendingApprovals, approveApproval, rejectApproval } from '../services/approvalService';
+import { searchPendingApprovals, approveApproval, rejectApproval } from '../services/approvalService';
 import { getSites } from '../../site/services/siteService';
 import { useAuth } from '../../../shared/context/AuthContext';
 import { PERMISSIONS } from '../../../shared/utils/permissionRoutes';
+import { createSearchPayload, equalFilter, rangeFilter } from '../../../shared/utils/searchPayload';
 import CommonDropdown from '../../../shared/components/common/CommonDropdown';
 import CommonList from '../../../shared/components/common/CommonList';
 import CommonFilterPanel from '../../../shared/components/common/CommonFilterPanel';
 import CommonPageHeader from '../../../shared/components/common/CommonPageHeader';
 import CommonStatusChip from '../../../shared/components/common/CommonStatusChip';
 import { APPROVAL_ACTION_OPTIONS, APPROVAL_MODULE_OPTIONS } from '../../../shared/constants/statusOptions';
+import { formatDateTime, toBusinessDateInput } from '../../../shared/utils/dateTime';
 
 function ApprovalInboxPage() {
   const { hasPermission } = useAuth();
   const [rows, setRows] = React.useState([]);
   const [sites, setSites] = React.useState([]);
-  const [filters, setFilters] = React.useState({ moduleCode: '', actionCode: '', siteId: '', status: '', requestedFrom: '', requestedTo: '' });
+  const [filters, setFilters] = React.useState({ moduleCode: '', actionCode: '', siteId: '', requestedFrom: '', requestedTo: '' });
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState('');
   const [success, setSuccess] = React.useState('');
   const [decision, setDecision] = React.useState(null);
   const [comments, setComments] = React.useState('');
+  const [rowCount, setRowCount] = React.useState(0);
+  const [paginationModel, setPaginationModel] = React.useState({ page: 0, pageSize: 10 });
+  const [sortModel, setSortModel] = React.useState([]);
 
   const loadRows = React.useCallback(() => {
     setLoading(true);
-    getPendingApprovals()
-      .then((data) => setRows(data || []))
+    setError('');
+    const payload = createSearchPayload({
+      filters: [
+        equalFilter('moduleCode', filters.moduleCode),
+        equalFilter('actionCode', filters.actionCode),
+        equalFilter('siteId', filters.siteId, 'NUMBER'),
+        rangeFilter('requestedAt', filters.requestedFrom ? `${filters.requestedFrom}T00:00:00` : '', 'greater_than_equal', 'DATETIME'),
+        rangeFilter('requestedAt', filters.requestedTo ? `${filters.requestedTo}T23:59:59` : '', 'less_than_equal', 'DATETIME'),
+      ],
+      paginationModel,
+      sortModel,
+    });
+    searchPendingApprovals(payload)
+      .then((page) => {
+        setRows(page.data || []);
+        setRowCount(page.totalRecords || 0);
+      })
       .catch((err) => setError(err.response?.data?.message || 'Unable to load approvals.'))
       .finally(() => setLoading(false));
-  }, []);
+  }, [filters, paginationModel, sortModel]);
 
   React.useEffect(() => { loadRows(); }, [loadRows]);
   React.useEffect(() => {
@@ -37,7 +57,7 @@ function ApprovalInboxPage() {
   }, []);
 
   const visibleRows = React.useMemo(() => rows.filter((row) => {
-    const requestedDate = row.requestedAt ? row.requestedAt.slice(0, 10) : '';
+    const requestedDate = toBusinessDateInput(row.requestedAt);
     return (!filters.moduleCode || row.moduleCode === filters.moduleCode)
       && (!filters.actionCode || row.actionCode === filters.actionCode)
       && (!filters.siteId || String(row.siteId || '') === String(filters.siteId))
@@ -46,7 +66,17 @@ function ApprovalInboxPage() {
       && (!filters.requestedTo || requestedDate <= filters.requestedTo);
   }), [rows, filters]);
 
-  const updateFilter = (field) => (event) => setFilters((current) => ({ ...current, [field]: event.target.value }));
+  const resetPage = () => setPaginationModel((current) => ({ ...current, page: 0 }));
+  const updateFilter = (field) => (event) => {
+    setFilters((current) => ({ ...current, [field]: event.target.value }));
+    resetPage();
+  };
+  const updatePaginationModel = (model) => {
+    setPaginationModel((current) => ({
+      page: model.pageSize !== current.pageSize ? 0 : model.page,
+      pageSize: model.pageSize,
+    }));
+  };
 
   const submitDecision = async () => {
     if (!decision) return;
@@ -72,7 +102,7 @@ function ApprovalInboxPage() {
     { field: 'referenceCode', headerName: 'Reference Code', minWidth: 170, flex: 0.8 },
     { field: 'siteName', headerName: 'Site', minWidth: 170, flex: 0.8 },
     { field: 'requestedByName', headerName: 'Requested By', minWidth: 160, flex: 0.8 },
-    { field: 'requestedAt', headerName: 'Requested At', minWidth: 180, flex: 0.8, valueFormatter: ({ value }) => value ? new Date(value).toLocaleString() : '' },
+    { field: 'requestedAt', headerName: 'Requested At', minWidth: 180, flex: 0.8, valueFormatter: ({ value }) => formatDateTime(value, '') },
     { field: 'approvalStatus', headerName: 'Status', minWidth: 140, flex: 0.6, renderCell: ({ value }) => <CommonStatusChip value={value} /> },
     {
       field: 'actions',
@@ -114,13 +144,21 @@ function ApprovalInboxPage() {
         </Stack>
       </CommonFilterPanel>
       <CommonList
-        rows={visibleRows}
+        rows={rows}
         columns={columns}
         loading={loading}
         emptyMessage="No pending approvals found."
         onRetry={loadRows}
         tableTestId="approval-inbox-table"
-        dataGridProps={{ initialState: { pagination: { paginationModel: { pageSize: 10 } } } }}
+        dataGridProps={{
+          paginationMode: 'server',
+          sortingMode: 'server',
+          rowCount,
+          paginationModel,
+          onPaginationModelChange: updatePaginationModel,
+          sortModel,
+          onSortModelChange: (model) => { setSortModel(model); resetPage(); },
+        }}
       />
       <Dialog
         open={Boolean(decision)}

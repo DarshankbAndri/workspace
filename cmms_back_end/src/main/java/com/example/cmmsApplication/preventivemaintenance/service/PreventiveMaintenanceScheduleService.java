@@ -1,5 +1,5 @@
 package com.example.cmmsApplication.preventivemaintenance.service;
-
+import com.example.cmmsApplication.common.time.CurrentTimeProvider;
 
 import lombok.RequiredArgsConstructor;
 import com.example.cmmsApplication.approval.service.ApprovalWorkflowService;
@@ -38,7 +38,6 @@ import java.math.RoundingMode;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -59,6 +58,8 @@ public class PreventiveMaintenanceScheduleService {
     private static final Set<String> ACTIVE_AMC_STATUSES = Set.of("ACTIVE", "EXPIRING_SOON");
 
     private final PreventiveMaintenanceScheduleDAO scheduleDAO;
+    private final com.example.cmmsApplication.equipment.service.EquipmentChecklistService equipmentChecklistService;
+    private final com.example.cmmsApplication.maintenancerequest.service.RequestChecklistService requestChecklistService;
     private final PmScheduleChecklistItemDAO checklistItemDAO;
     private final MaintenanceRequestDAO requestDAO;
     private final MaintenanceAssignmentDAO assignmentDAO;
@@ -155,7 +156,7 @@ public PreventiveMaintenanceScheduleDTO create(PreventiveMaintenanceScheduleDTO 
 
     @Transactional(readOnly = true)
     public List<PreventiveMaintenanceScheduleDTO> getUpcoming(int days) {
-        LocalDate today = LocalDate.now();
+        LocalDate today = CurrentTimeProvider.today();
         return scheduleDAO.findUpcoming(today, today.plusDays(days)).stream()
                 .filter((schedule) -> accessControlService.isAdmin()
                         || (schedule.getSite() != null && accessControlService.getAllowedSiteIds().contains(schedule.getSite().getId())))
@@ -189,30 +190,30 @@ public PreventiveMaintenanceScheduleDTO create(PreventiveMaintenanceScheduleDTO 
     }
 
     public List<PreventiveMaintenanceScheduleDTO> generateDueWorkOrders() {
-        Instant started = Instant.now();
+        long started = CurrentTimeProvider.monotonicNanos();
         try {
             List<PreventiveMaintenanceScheduleDTO> generated = new ArrayList<>();
-            for (PreventiveMaintenanceSchedule schedule : scheduleDAO.findDue(LocalDate.now())) {
+            for (PreventiveMaintenanceSchedule schedule : scheduleDAO.findDue(CurrentTimeProvider.today())) {
                 if (isPastEndDate(schedule)) {
                     completeSchedule(schedule);
                 } else {
                     generated.add(generateWorkOrder(schedule));
                 }
             }
-            observabilityMetrics.recordPmGeneration("success", generated.size(), Duration.between(started, Instant.now()));
+            observabilityMetrics.recordPmGeneration("success", generated.size(), CurrentTimeProvider.elapsedSince(started));
             return generated;
         } catch (RuntimeException ex) {
-            observabilityMetrics.recordPmGeneration("failure", 0, Duration.between(started, Instant.now()));
+            observabilityMetrics.recordPmGeneration("failure", 0, CurrentTimeProvider.elapsedSince(started));
             throw ex;
         }
     }
 
-    @Scheduled(cron = "0 0 6 * * *")
+    @Scheduled(cron = "0 0 6 * * *", zone = "${cmms.time.business-zone:Asia/Kolkata}")
     public void generateDueWorkOrdersDaily() {
-        Instant started = Instant.now();
+        long started = CurrentTimeProvider.monotonicNanos();
         int generated = 0;
         try {
-            List<PreventiveMaintenanceSchedule> dueSchedules = scheduleDAO.findDue(LocalDate.now());
+            List<PreventiveMaintenanceSchedule> dueSchedules = scheduleDAO.findDue(CurrentTimeProvider.today());
             for (PreventiveMaintenanceSchedule schedule : dueSchedules) {
                 if (isPastEndDate(schedule)) {
                     completeSchedule(schedule);
@@ -221,21 +222,21 @@ public PreventiveMaintenanceScheduleDTO create(PreventiveMaintenanceScheduleDTO 
                     generated++;
                 }
             }
-            observabilityMetrics.recordPmGeneration("success", generated, Duration.between(started, Instant.now()));
+            observabilityMetrics.recordPmGeneration("success", generated, CurrentTimeProvider.elapsedSince(started));
         } catch (RuntimeException ex) {
-            observabilityMetrics.recordPmGeneration("failure", generated, Duration.between(started, Instant.now()));
+            observabilityMetrics.recordPmGeneration("failure", generated, CurrentTimeProvider.elapsedSince(started));
             // Keep the scheduler from failing the application if business data blocks one run.
         }
     }
 
     public PreventiveMaintenanceScheduleDTO generateWorkOrder(Long id) {
-        Instant started = Instant.now();
+        long started = CurrentTimeProvider.monotonicNanos();
         try {
             PreventiveMaintenanceScheduleDTO result = generateWorkOrder(getEntity(id));
-            observabilityMetrics.recordPmGeneration("success", 1, Duration.between(started, Instant.now()));
+            observabilityMetrics.recordPmGeneration("success", 1, CurrentTimeProvider.elapsedSince(started));
             return result;
         } catch (RuntimeException ex) {
-            observabilityMetrics.recordPmGeneration("failure", 0, Duration.between(started, Instant.now()));
+            observabilityMetrics.recordPmGeneration("failure", 0, CurrentTimeProvider.elapsedSince(started));
             throw ex;
         }
     }
@@ -309,13 +310,14 @@ public PreventiveMaintenanceScheduleDTO create(PreventiveMaintenanceScheduleDTO 
             request.setVendor(schedule.getVendor());
         }
         MaintenanceRequest savedRequest = requestDAO.save(request);
+        requestChecklistService.copyFromPm(savedRequest, checklistItemDAO.findActiveByScheduleId(schedule.getId()));
 
         if (schedule.getVendor() != null || (schedule.getAssignedTo() != null && !schedule.getAssignedTo().isBlank())) {
             MaintenanceAssignment assignment = new MaintenanceAssignment();
             assignment.setRequest(savedRequest);
             assignment.setVendor(schedule.getVendor());
             assignment.setAssignedTo(resolveAssignedTo(schedule));
-            assignment.setAssignedDate(LocalDate.now());
+            assignment.setAssignedDate(CurrentTimeProvider.today());
             assignment.setPlannedStartDate(schedule.getNextDueDate());
             assignment.setPlannedEndDate(schedule.getNextDueDate());
             assignment.setStatus("ASSIGNED");
@@ -331,7 +333,7 @@ public PreventiveMaintenanceScheduleDTO create(PreventiveMaintenanceScheduleDTO 
             schedule.setActive(false);
             schedule.setStatus("COMPLETED");
             schedule.setLastNotificationStatus("PM_SCHEDULE_COMPLETED");
-            schedule.setLastNotificationAt(LocalDateTime.now());
+            schedule.setLastNotificationAt(CurrentTimeProvider.now());
         }
         return scheduleDAO.save(schedule);
     }
@@ -414,7 +416,7 @@ public PreventiveMaintenanceScheduleDTO create(PreventiveMaintenanceScheduleDTO 
         schedule.setActive(false);
         schedule.setStatus("COMPLETED");
         schedule.setLastNotificationStatus("PM_SCHEDULE_COMPLETED");
-        schedule.setLastNotificationAt(LocalDateTime.now());
+        schedule.setLastNotificationAt(CurrentTimeProvider.now());
         return scheduleDAO.save(schedule);
     }
 
@@ -461,22 +463,22 @@ public PreventiveMaintenanceScheduleDTO create(PreventiveMaintenanceScheduleDTO 
     private void notifyVendor(PreventiveMaintenanceSchedule schedule, MaintenanceRequest request) {
         if (schedule.getVendor() == null) {
             schedule.setLastNotificationStatus("NO_VENDOR_ASSIGNED");
-            schedule.setLastNotificationAt(LocalDateTime.now());
+            schedule.setLastNotificationAt(CurrentTimeProvider.now());
             return;
         }
         String channel = schedule.getVendor().getEmail() == null || schedule.getVendor().getEmail().isBlank()
                 ? "CONTACT_PENDING"
                 : "EMAIL_QUEUED";
         schedule.setLastNotificationStatus(channel + " for " + request.getRequestNumber());
-        schedule.setLastNotificationAt(LocalDateTime.now());
+        schedule.setLastNotificationAt(CurrentTimeProvider.now());
     }
 
     private String generateScheduleCode() {
-        return "PM-" + LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE) + "-" + System.currentTimeMillis();
+        return "PM-" + CurrentTimeProvider.today().format(DateTimeFormatter.BASIC_ISO_DATE) + "-" + CurrentTimeProvider.epochMillis();
     }
 
     private String generateRequestNumber(PreventiveMaintenanceSchedule schedule) {
-        return "PMWO-" + schedule.getId() + "-" + schedule.getNextDueDate().format(DateTimeFormatter.BASIC_ISO_DATE) + "-" + System.currentTimeMillis();
+        return "PMWO-" + schedule.getId() + "-" + schedule.getNextDueDate().format(DateTimeFormatter.BASIC_ISO_DATE) + "-" + CurrentTimeProvider.epochMillis();
     }
 
     private PreventiveMaintenanceScheduleDTO toDTO(PreventiveMaintenanceSchedule schedule) {
@@ -530,38 +532,45 @@ public PreventiveMaintenanceScheduleDTO create(PreventiveMaintenanceScheduleDTO 
         dto.setApprovalStatus(approval.getApprovalStatus());
     }
 
-    private void saveChecklistItems(PreventiveMaintenanceSchedule schedule, List<PmScheduleChecklistItemDTO> checklistItems) {
-        checklistItemDAO.deleteByScheduleId(schedule.getId());
-        if (checklistItems == null || checklistItems.isEmpty()) {
+    public void saveChecklistItems(PreventiveMaintenanceSchedule owner, List<PmScheduleChecklistItemDTO> rows) {
+        List<PmScheduleChecklistItem> existing = checklistItemDAO.findByScheduleId(owner.getId());
+        if (rows == null) {
+            for (PmScheduleChecklistItem item : existing) if (Boolean.TRUE.equals(item.getActive()))
+                equipmentChecklistService.validateSource(owner.getEquipment().getId(), item.getSourceEquipmentChecklistItemId(), true);
             return;
         }
-        int fallbackSequence = 1;
-        for (PmScheduleChecklistItemDTO dto : checklistItems) {
-            if (dto == null || dto.getTaskTitle() == null || dto.getTaskTitle().isBlank()) {
-                continue;
-            }
-            PmScheduleChecklistItem item = new PmScheduleChecklistItem();
-            item.setSchedule(schedule);
-            item.setSequenceNumber(dto.getSequenceNumber() == null ? fallbackSequence : dto.getSequenceNumber());
-            item.setTaskTitle(dto.getTaskTitle().trim());
-            item.setInstructions(emptyToNull(dto.getInstructions()));
-            item.setRequired(dto.getRequired() == null || dto.getRequired());
-            item.setProofRequired(Boolean.TRUE.equals(dto.getProofRequired()));
-            item.setResponseType(normalizeChecklistResponseType(dto.getResponseType()));
-            item.setActive(dto.getActive() == null || dto.getActive());
+        java.util.Set<Long> retained = new java.util.HashSet<>(), sources = new java.util.HashSet<>();
+        int sequence = 1;
+        for (PmScheduleChecklistItemDTO dto : rows) {
+            if (dto == null) throw new InvalidOperationException("Checklist step is required");
+            com.example.cmmsApplication.equipment.service.EquipmentChecklistService.validateStep(dto.getTaskTitle(), dto.getInstructions(), dto.getResponseType());
+            PmScheduleChecklistItem item = dto.getId() == null ? new PmScheduleChecklistItem() : existing.stream().filter(i -> i.getId().equals(dto.getId()))
+                .findFirst().orElseThrow(() -> new InvalidOperationException("Checklist step does not belong to this record"));
+            if (item.getId() != null && !retained.add(item.getId())) throw new InvalidOperationException("Duplicate checklist step");
+            Long sourceId = dto.getSourceEquipmentChecklistItemId();
+            if (sourceId != null && !sources.add(sourceId)) throw new InvalidOperationException("Duplicate equipment checklist step");
+            boolean sameSource = item.getId() != null && java.util.Objects.equals(item.getSourceEquipmentChecklistItemId(), sourceId);
+            var source = equipmentChecklistService.validateSource(owner.getEquipment().getId(), sourceId, sameSource);
+            if (!sameSource) item.setSourceChecklistName(source == null || source.getChecklist() == null ? null : source.getChecklist().getName());
+            item.setSourceEquipmentChecklistItemId(sourceId);
+            item.setSchedule(owner); item.setSequenceNumber(sequence++); item.setTaskTitle(dto.getTaskTitle().trim()); item.setInstructions(dto.getInstructions());
+            item.setRequired(dto.getRequired() == null || dto.getRequired()); item.setProofRequired(Boolean.TRUE.equals(dto.getProofRequired()));
+            item.setResponseType(com.example.cmmsApplication.equipment.service.EquipmentChecklistService.responseType(dto.getResponseType())); item.setActive(true);
             checklistItemDAO.save(item);
-            fallbackSequence++;
         }
+        existing.stream().filter(i -> !retained.contains(i.getId())).forEach(i -> { i.setActive(false); checklistItemDAO.save(i); });
     }
 
     private List<PmScheduleChecklistItemDTO> checklistDTOs(Long scheduleId) {
-        return checklistItemDAO.findByScheduleId(scheduleId).stream()
+        return checklistItemDAO.findActiveByScheduleId(scheduleId).stream()
                 .map(this::toChecklistDTO)
                 .collect(Collectors.toList());
     }
 
     private PmScheduleChecklistItemDTO toChecklistDTO(PmScheduleChecklistItem item) {
         return PmScheduleChecklistItemDTO.builder()
+                .sourceEquipmentChecklistItemId(item.getSourceEquipmentChecklistItemId())
+                .sourceChecklistName(item.getSourceChecklistName())
                 .id(item.getId())
                 .sequenceNumber(item.getSequenceNumber())
                 .taskTitle(item.getTaskTitle())

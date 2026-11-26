@@ -1,11 +1,8 @@
 package com.example.cmmsApplication.common.response;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import java.time.Instant;
 
 public class ApiResponse<T> {
-    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Instant timestamp;
     private int status;
     private boolean success;

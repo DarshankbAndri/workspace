@@ -24,9 +24,10 @@ export default defineConfig(({ mode }) => {
       port: devServerPort, 
       host: '0.0.0.0',
       strictPort: true,
+      allowedHosts:['vm-243'],
       proxy: {
         '/api': {
-          target: env.VITE_API_PROXY_TARGET || 'http://localhost:4200',
+          target: env.VITE_API_PROXY_TARGET || 'http://localhost:6100',
           changeOrigin: true,
           timeout: proxyTimeout,
           proxyTimeout,

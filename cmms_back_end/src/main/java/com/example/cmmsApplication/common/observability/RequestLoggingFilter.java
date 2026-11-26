@@ -2,6 +2,7 @@ package com.example.cmmsApplication.common.observability;
 
 import com.example.cmmsApplication.common.response.ApiErrorCode;
 import com.example.cmmsApplication.common.response.ResponseFactory;
+import com.example.cmmsApplication.common.time.CurrentTimeProvider;
 import com.example.cmmsApplication.user.repository.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -37,7 +38,7 @@ public class RequestLoggingFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        long started = System.nanoTime();
+        long started = CurrentTimeProvider.monotonicNanos();
         Exception failure = null;
         try {
             filterChain.doFilter(request, response);
@@ -58,7 +59,7 @@ public class RequestLoggingFilter extends OncePerRequestFilter {
     }
 
     private void logSummary(HttpServletRequest request, HttpServletResponse response, long started, Exception failure, String userId) {
-        long durationMs = (System.nanoTime() - started) / 1_000_000;
+        long durationMs = CurrentTimeProvider.elapsedSince(started).toMillis();
         int status = failure == null ? response.getStatus() : HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
         String errorCode = resolveErrorCode(request, status);
         String method = request.getMethod();

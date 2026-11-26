@@ -14,6 +14,8 @@
     <include file="db/changelog/cmms/company_master.xml"/>
     <include file="db/changelog/cmms/vendor_master.xml"/>
     <include file="db/changelog/cmms/equipment_master.xml"/>
+    <include file="db/changelog/cmms/equipment_checklist.xml"/>
+    <include file="db/changelog/cmms/equipment_checklist_item.xml"/>
     <include file="db/changelog/cmms/vendor_amc_contract.xml"/>
     <include file="db/changelog/cmms/equipment_amc_mapping.xml"/>
     <include file="db/changelog/cmms/equipment_document.xml"/>
@@ -24,6 +26,7 @@
     <include file="db/changelog/cmms/preventive_maintenance_schedule.xml"/>
     <include file="db/changelog/cmms/pm_schedule_checklist_item.xml"/>
     <include file="db/changelog/cmms/maintenance_request.xml"/>
+    <include file="db/changelog/cmms/request_checklist_item.xml"/>
     <include file="db/changelog/cmms/maintenance_assignment.xml"/>
     <include file="db/changelog/cmms/maintenance_assignment_checklist_item.xml"/>
     <include file="db/changelog/cmms/maintenance_assignment_checklist_proof.xml"/>

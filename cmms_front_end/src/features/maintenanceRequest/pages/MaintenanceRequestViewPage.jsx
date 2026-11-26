@@ -1,4 +1,5 @@
 import React from 'react';
+import CommonChecklistEditor from '../../../shared/components/common/CommonChecklistEditor';
 import { Alert, Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Grid, LinearProgress, Skeleton, Snackbar, Stack, Typography } from '@mui/material';
 import { Assignment, Build, Cancel, CheckCircle, Edit, Inventory, Lock, Pause, PlayArrow, Replay, Timeline } from '@mui/icons-material';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -7,6 +8,7 @@ import { useAuth } from '../../../shared/context/AuthContext';
 import CommonFormActions from '../../../shared/components/common/CommonFormActions';
 import CommonFormCard from '../../../shared/components/common/CommonFormCard';
 import CommonTextArea from '../../../shared/components/common/CommonTextArea';
+import { compareDateOnly, daysBetweenDates, today } from '../../../shared/utils/dateTime';
 
 function MaintenanceRequestViewPage() {
   const { id } = useParams();
@@ -124,6 +126,7 @@ function MaintenanceRequestViewPage() {
           <Stack spacing={3}>
             <RequestSummary request={request} />
             <RequestLifecycle status={request?.status} />
+            <CommonChecklistEditor items={request?.checklistItems || []} readOnly />
             <Grid container spacing={2.5}>
               {fields.map((field) => (
                 <Grid item xs={12} sm={field.size || 6} md={field.size || 4} key={field.label}>
@@ -341,11 +344,8 @@ function formatMinutes(value) {
 
 function ageingLabel(value) {
   if (!value) return '-';
-  const requested = new Date(`${value}T00:00:00`);
-  if (Number.isNaN(requested.getTime())) return '-';
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const days = Math.max(0, Math.floor((today - requested) / 86400000));
+  const days = Math.max(0, daysBetweenDates(value));
+  if (!Number.isFinite(days)) return '-';
   return days === 0 ? 'Today' : `${days} day${days === 1 ? '' : 's'}`;
 }
 
@@ -353,10 +353,7 @@ function isOverdue(request) {
   if (!request?.targetCompletionDate || ['COMPLETED', 'CLOSED', 'CANCELLED', 'REJECTED'].includes(String(request.status || '').toUpperCase())) {
     return false;
   }
-  const target = new Date(`${request.targetCompletionDate}T00:00:00`);
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  return target < today;
+  return compareDateOnly(request.targetCompletionDate, today()) < 0;
 }
 
 function formatLabel(value) {

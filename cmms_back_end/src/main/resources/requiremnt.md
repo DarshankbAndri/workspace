@@ -59,8 +59,8 @@ approval_config
 - approver_role_code VARCHAR(100)
 - min_approval_count INTEGER DEFAULT 1
 - status VARCHAR(20) DEFAULT 'ACTIVE'
-- created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-- updated_at TIMESTAMP
+- created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+- updated_at TIMESTAMP WITH TIME ZONE
 - UNIQUE(module_code, action_code)
 
 Initial module/action configs:
@@ -91,7 +91,7 @@ approval_request
 - reference_code VARCHAR(100)
 - site_id BIGINT
 - requested_by BIGINT
-- requested_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+- requested_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 - approval_status VARCHAR(30) DEFAULT 'PENDING'
 - approver_role_code VARCHAR(100)
 - min_approval_count INTEGER DEFAULT 1
@@ -99,8 +99,8 @@ approval_request
 - rejected_count INTEGER DEFAULT 0
 - remarks TEXT
 - payload_json TEXT
-- created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-- updated_at TIMESTAMP
+- created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+- updated_at TIMESTAMP WITH TIME ZONE
 
 approval_action
 - approval_action_id BIGSERIAL PRIMARY KEY
@@ -108,7 +108,7 @@ approval_action
 - approver_user_id BIGINT NOT NULL
 - action_status VARCHAR(30) NOT NULL
 - comments TEXT
-- action_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+- action_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 - FOREIGN KEY approval_request_id REFERENCES approval_request(approval_request_id)
 
 approval_status values:

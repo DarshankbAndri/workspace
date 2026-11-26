@@ -1,11 +1,11 @@
 [CmdletBinding()]
 param(
     [Parameter(Mandatory = $true)]
-    [ValidatePattern('^[A-Za-z0-9_-]{1,20}$')]
+    [ValidatePattern('^[A-Za-z0-9_-]{1,25}$')]
     [string]$RunId,
 
     [Parameter(Mandatory = $true)]
-    [ValidatePattern('^[A-Za-z0-9_-]{1,20}$')]
+    [ValidatePattern('^[A-Za-z0-9_-]{1,25}$')]
     [string]$ConfirmRunId,
 
     [string]$DbHost = 'localhost',

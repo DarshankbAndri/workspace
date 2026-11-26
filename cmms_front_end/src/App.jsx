@@ -162,7 +162,7 @@ function App() {
           <Route path="/maintenance/preventive/view/:id" element={protectedPage(<PreventiveMaintenanceViewPage />, 'REQUEST_VIEW')} />
           <Route path="/approvals/pending" element={protectedPage(<ApprovalInboxPage />, 'APPROVAL_VIEW')} />
           <Route path="/approvals/history" element={protectedPage(<ApprovalHistoryPage />, 'APPROVAL_VIEW')} />
-          <Route path="/notifications" element={protectedPage(<NotificationCenterPage />)} />
+          <Route path="/notifications" element={protectedPage(<NotificationCenterPage />, 'NOTIFICATION_VIEW')} />
           <Route path="/reports/equipment-history" element={protectedPage(<EquipmentHistoryPage />, 'REPORT_VIEW')} />
           <Route path="/reports/downtime-analysis" element={protectedPage(<DowntimeAnalysisPage />, 'REPORT_VIEW')} />
           <Route path="/reports/equipment-cost" element={protectedPage(<EquipmentCostReportPage />, 'REPORT_VIEW')} />
