@@ -12,7 +12,7 @@ const ROOT = path.resolve(__dirname, '..');
 const BASE_URL = (process.env.CMMS_BASE_URL || 'http://localhost:6200').replace(/\/$/, '');
 const USERNAME = process.env.CMMS_USERNAME || 'superadmin';
 const PASSWORD = process.env.CMMS_PASSWORD||'andritz';
-const MAX_RECORD_COUNT = 200;
+const MAX_RECORD_COUNT = 2000;
 const globalCountOverride = process.env.RECORD_COUNT === undefined ? null : parseCount(process.env.RECORD_COUNT, 'RECORD_COUNT');
 const PREFIX = (process.env.RUN_PREFIX || 'SOLAR-DEMO').replace(/[^A-Za-z0-9-]/g, '-').toUpperCase();
 const HEADLESS = process.env.HEADLESS !== 'false';
@@ -142,7 +142,6 @@ async function selectOption(page, label, optionText) {
   const input = page.getByLabel(label, { exact: false }).first();
   await input.waitFor({ state: 'visible', timeout: 15000 });
   await input.click();
-  await input.fill(optionText);
   await page.getByRole('option', { name: optionText, exact: true }).last().click({ timeout: 15000 });
 }
 
@@ -172,7 +171,6 @@ async function selectLastFirst(page, label) {
 async function selectRowOption(page, row, inputIndex, optionText) {
   const input = row.getByRole('combobox').nth(inputIndex);
   await input.click();
-  await input.fill(optionText);
   await page.getByRole('option', { name: optionText, exact: true }).last().click({ timeout: 15000 });
 }
 
@@ -299,10 +297,76 @@ async function equipment(page) {
   });
 }
 
+async function vendorAmc(page) {
+  const existing = new Set();
+  const covered = new Set();
+  const startDate = data.isoDate(-7);
+  const endDate = data.isoDate(357);
+  let pageNumber = 0;
+  let totalPages;
+  do {
+    const contracts = normalize(await api(page, '/vendor-amc/search', {
+      method: 'POST', body: JSON.stringify({ pagination: { pageNumber, recordsPerPage: 100 } }),
+    }));
+    for (const contract of contracts.data) {
+      existing.add(contract.contractNumber);
+      if (!['ACTIVE', 'EXPIRING_SOON'].includes(contract.status)) continue;
+      for (const mapping of contract.equipmentMappings) {
+        if (mapping.active && mapping.coverageStartDate <= endDate && mapping.coverageEndDate >= startDate) {
+          covered.add(mapping.equipmentId);
+        }
+      }
+    }
+    pageNumber += 1;
+    totalPages = contracts.totalPages;
+  } while (pageNumber < totalPages);
+
+  const sites = arrayOf(await api(page, '/hr/sites')).filter((s) => s.siteCode?.startsWith(`${PREFIX}-SITE-`) && s.status !== 'INACTIVE');
+  const vendors = arrayOf(await api(page, '/vendors')).filter((v) => v.vendorCode?.startsWith(`${PREFIX}-VEN-`) && v.active);
+  const equipment = arrayOf(await api(page, '/equipment')).filter((e) =>
+    e.equipmentCode?.startsWith(`${PREFIX}-`) && e.status !== 'INACTIVE' && !covered.has(e.id));
+  const candidates = [];
+  for (const site of sites) {
+    const assigned = vendors.filter((v) => v.siteAssignments.some((a) => a.siteId === site.id && a.status === 'ACTIVE'));
+    if (!assigned.length) continue;
+    const assets = equipment.filter((e) => e.siteId === site.id);
+    for (const [index, asset] of assets.entries()) {
+      candidates.push({ site, asset, vendor: assigned[index % assigned.length] });
+    }
+  }
+  candidates.sort((a, b) => a.asset.id - b.asset.id);
+  await runRecords(page, 'vendorAmc', existing, (i) => `${PREFIX}-AMC-${data.pad(i + 1)}`, async (i) => {
+    const candidate = candidates.shift();
+    if (!candidate) throw new Error('Each AMC needs an uncovered generated asset and an active generated vendor assigned to its site.');
+    const { site, asset, vendor } = candidate;
+    const item = data.vendorAmc(i, PREFIX, asset, vendor);
+    await gotoForm(page, '/vendor-amc/create', 'Create AMC Contract');
+    await selectOption(page, 'Site', `${site.siteName} (${site.siteCode})`);
+    await selectOption(page, 'Vendor', `${vendor.vendorCode} - ${vendor.vendorName}`);
+    await selectOption(page, 'Contract Type', 'LABOR ONLY');
+    await selectOption(page, 'Covered Equipment', `${asset.equipmentCode} - ${asset.equipmentName}`);
+    await fill(page, 'Start Date', startDate);
+    await fill(page, 'End Date', endDate);
+    for (const [label, key] of [
+      ['Contract Number', 'contractNumber'], ['Contract Name', 'contractName'], ['Contract Value', 'contractValue'],
+      ['Response Time (Hours)', 'responseTimeHours'], ['Resolution Time (Hours)', 'resolutionTimeHours'],
+      ['Coverage Description', 'coverageDescription'], ['Contact Person', 'contactPerson'],
+      ['Contact Phone', 'contactPhone'], ['Contact Email', 'contactEmail'],
+    ]) await fill(page, label, item[key]);
+    const saved = await submit(page, '/vendor-amc');
+    if (saved?.vendorId !== vendor.id || saved.siteId !== site.id ||
+        !saved.equipmentMappings?.some((m) => m.active && m.equipmentId === asset.id)) {
+      throw new Error(`Unable to verify the vendor, site and equipment mapping for ${item.contractNumber}.`);
+    }
+  });
+}
+
 async function spareParts(page) {
   const siteRows = arrayOf(await api(page, '/hr/sites')); const siteByCode = new Map(siteRows.map((r) => [r.siteCode, r]));
-  const search = await api(page, '/spare-parts/search', { method: 'POST', body: JSON.stringify({ searchCriteriaList: [], dataOption: 'all', pagination: { status: 'OFF' } }) }).catch(() => []);
-  const existing = new Set(arrayOf(search).map((r) => r.partCode));
+  const existing = new Set();
+  for (const site of siteRows) {
+    for (const part of arrayOf(await api(page, `/spare-parts/site/${site.id}`))) existing.add(part.partCode);
+  }
   await runRecords(page, 'spareParts', existing, (i) => data.spare(i, PREFIX).partCode, async (i) => {
     const item = data.spare(i, PREFIX); const wanted = data.site(i, PREFIX); const site = siteByCode.get(wanted.siteCode) || siteRows[i % siteRows.length];
     await gotoForm(page, '/inventory/spare-parts/new', 'Add Spare Part');
@@ -314,9 +378,11 @@ async function spareParts(page) {
 
 async function pmSchedules(page) {
   const sites = arrayOf(await api(page, '/hr/sites')); const equipments = arrayOf(await api(page, '/equipment'));
-  const existingRows = arrayOf(await api(page, '/preventive-maintenance/schedules')); const existing = new Set(existingRows.map((r) => `${r.equipmentId}|${r.title}`));
-  const ownEquipment = equipments.filter((e) => e.equipmentCode?.startsWith(PREFIX));
-  await runRecords(page, 'preventiveMaintenance', existing, (i) => `${ownEquipment[i % ownEquipment.length]?.id}|${data.pmTasks[i % data.pmTasks.length][0]} - ${data.pad(i + 1)}`, async (i) => {
+  const ownEquipment = equipments.filter((e) => e.equipmentCode?.startsWith(`${PREFIX}-`));
+  const equipmentIds = new Set(ownEquipment.map((e) => e.id));
+  const existingRows = arrayOf(await api(page, '/preventive-maintenance/schedules'));
+  const existing = new Set(existingRows.filter((r) => equipmentIds.has(r.equipmentId)).map((r) => r.title));
+  await runRecords(page, 'preventiveMaintenance', existing, (i) => `${data.pmTasks[i % data.pmTasks.length][0]} - ${data.pad(i + 1)}`, async (i) => {
     const eq = ownEquipment[i % ownEquipment.length]; if (!eq) throw new Error('No generated equipment available.'); const site = sites.find((s) => String(s.id) === String(eq.siteId)); const task = data.pmTasks[i % data.pmTasks.length];
     const title = `${task[0]} - ${data.pad(i + 1)}`; await gotoForm(page, '/maintenance/preventive/new', 'Add PM Schedule');
     await selectOption(page, 'Site', `${site.siteName} (${site.siteCode})`); await selectOption(page, 'Equipment', `${eq.equipmentCode} - ${eq.equipmentName}`);
@@ -346,7 +412,7 @@ async function assignments(page) {
     await gotoForm(page, '/maintenance/assignments/new', 'Add Assignment');
     const targetSite = arrayOf(await api(page, '/hr/sites')).find((s) => String(s.id) === String(request.siteId));
     if (targetSite) await selectOption(page, 'Site', `${targetSite.siteName} (${targetSite.siteCode})`);
-    await selectFirst(page, 'Request'); await selectFirst(page, 'Vendor'); await fillLast(page, 'Assigned To', 'Solar O&M Field Technician');
+    await selectOption(page, 'Request', `${request.requestNumber} - ${request.title}`); await selectFirst(page, 'Vendor'); await fillLast(page, 'Assigned To', 'Solar O&M Field Technician');
     await fill(page, 'Assigned Date', data.isoDate(-(i % 20))); await fill(page, 'Planned Start', data.isoDate(i % 5)); await fill(page, 'Planned End', data.isoDate(7 + (i % 5))); await fill(page, 'Estimated Cost', 12000 + (i % 20) * 1750); await fill(page, 'Remarks', 'Solar plant corrective maintenance assignment with LOTO and permit-to-work requirements.');
     return { requestId: request.id, ...(await submit(page, '/maintenance/assignments')) };
   });
@@ -385,7 +451,7 @@ async function spareRequests(page) {
     const assignment = assignments[i % assignments.length]; if (!assignment) throw new Error('No generated assignment available.');
     await gotoForm(page, `/maintenance/assignments/${assignment.id}/edit`, 'Edit Assignment');
     await page.getByRole('tab', { name: /Spare Parts/ }).click(); await selectFirst(page, 'Spare Part');
-    await fill(page, 'Quantity', 1 + (i % 3)); await fill(page, 'Remarks', `${PREFIX}: Required for safe restoration and plant availability.`);
+    await fill(page, 'Quantity', 1 + (i % 3)); await fillLast(page, 'Remarks', `${PREFIX}: Required for safe restoration and plant availability.`);
     return submit(page, `/maintenance/assignments/${assignment.id}/spares`, /^Request Spare$/);
   });
 }
@@ -403,26 +469,25 @@ async function purchaseRequests(page) {
   const spares = spareGroups.filter((row) => row.partCode?.startsWith(PREFIX));
   const generatedStockIds = new Set(spares.map((row) => String(row.id)));
   const reorders = arrayOf(await api(page, '/spare-part-reorders')).filter((row) => generatedStockIds.has(String(row.stockId)));
-  // A preferred vendor can make a stock item ineligible when that vendor is not
-  // assigned to the stock's site. Reuse stock items that the UI/backend have
-  // already accepted; multiple reorder requests per stock are supported.
-  const acceptedStockIds = [...new Set(reorders.map((row) => String(row.stockId)))];
-  const acceptedSpares = acceptedStockIds.map((id) => spares.find((row) => String(row.id) === id)).filter(Boolean);
-  const candidates = acceptedSpares.length > 0 ? acceptedSpares : spares;
-  const existing = new Set(Array.from({ length: Math.min(reorders.length, countFor('purchaseRequests')) }, (_, index) => String(index)));
+  const acceptedStockIds = new Set(reorders.map((row) => String(row.stockId)));
+  const eligible = spares.filter((row) => !row.preferredVendorId || acceptedStockIds.has(String(row.id)));
+  const candidates = (eligible.length ? eligible : spares).sort((a, b) => Number(b.lowStock) - Number(a.lowStock) || a.id - b.id);
+  const remarks = (i) => `${PREFIX}: Purchase request ${data.pad(i + 1)} for minimum-stock replenishment and planned solar plant maintenance.`;
+  const existing = new Set(reorders.map((row) => row.remarks));
   await page.goto(`${BASE_URL}/inventory/spare-parts`, { waitUntil: 'domcontentloaded' });
   await page.getByRole('heading', { name: 'Spare Parts Inventory' }).waitFor();
-  await runRecords(page, 'purchaseRequests', existing, (i) => String(i), async (i) => {
+  await runRecords(page, 'purchaseRequests', existing, remarks, async (i) => {
     const spare = candidates[i % candidates.length]; if (!spare) throw new Error('No generated spare part available.');
-    await fill(page, 'Search', spare.partCode); await sleep(900);
-    await page.locator('.MuiDataGrid-overlay').waitFor({ state: 'hidden', timeout: 30000 }).catch(() => {});
+    await fill(page, 'Search', spare.partCode);
+    const row = page.locator(`.MuiDataGrid-row[data-id="${spare.id}"]`);
+    await row.waitFor({ state: 'visible' });
     await page.locator('.MuiDataGrid-virtualScroller').evaluate((element) => { element.scrollLeft = element.scrollWidth; });
-    await page.getByRole('button', { name: 'Create reorder' }).first().waitFor({ state: 'visible', timeout: 20000 });
-    await page.getByRole('button', { name: 'Create reorder' }).first().click(); await page.getByRole('heading', { name: 'Create Reorder Request' }).waitFor();
+    await row.getByRole('button', { name: 'Create reorder' }).click(); await page.getByRole('heading', { name: 'Create Reorder Request' }).waitFor();
     await fill(page, 'Requested Quantity', Math.max(5, Number(spare.minimumStock || 5) * 2)); await fill(page, 'Estimated Unit Cost', spare.unitCost || 1000); await fill(page, 'Expected Date', data.isoDate(14 + (i % 30)));
-    await fill(page, 'Remarks', `${PREFIX}: Purchase request ${data.pad(i + 1)} for minimum-stock replenishment and planned solar plant maintenance.`);
+    await fill(page, 'Remarks', remarks(i));
     const saved = await submit(page, '/spare-part-reorders', /^Create$/);
-    await page.getByRole('heading', { name: 'Create Reorder Request' }).waitFor({ state: 'hidden', timeout: 10000 });
+    await page.getByRole('heading', { name: 'Create Reorder Request' }).waitFor({ state: 'hidden', timeout: 5000 })
+      .catch(() => page.reload({ waitUntil: 'domcontentloaded' }));
     return saved;
   });
 }
@@ -433,7 +498,7 @@ async function downtime(page) {
   await runRecords(page, 'downtime', existing, (i) => `${PREFIX}: ${data.downtimeReasons[i % data.downtimeReasons.length]} ${data.pad(i + 1)}`, async (i) => {
     const eq = equipments[i % equipments.length]; const site = sites.find((s) => String(s.id) === String(eq.siteId)); const reason = `${PREFIX}: ${data.downtimeReasons[i % data.downtimeReasons.length]} ${data.pad(i + 1)}`;
     await gotoForm(page, '/maintenance/downtime/new', 'Add Downtime'); await selectOption(page, 'Site', `${site.siteName} (${site.siteCode})`); await selectOption(page, 'Equipment', `${eq.equipmentCode} - ${eq.equipmentName}`);
-    await fill(page, 'Reason', reason); await fill(page, 'Start Time', data.localDateTime(6 + (i % 120))); await fill(page, 'End Time', data.localDateTime(2 + (i % 5))); await fill(page, 'Remarks', 'Recorded from the plant event log and reviewed by the shift engineer.');
+    await fill(page, /^Reason\s*\*?$/, reason); await fill(page, 'Start Time', data.localDateTime(6 + (i % 120))); await fill(page, 'End Time', data.localDateTime(2 + (i % 5))); await fill(page, 'Remarks', 'Recorded from the plant event log and reviewed by the shift engineer.');
     return submit(page, '/maintenance/downtime');
   });
 }
@@ -447,8 +512,8 @@ async function documentUnsupported() {
 
 async function validate(page) {
   if (!selected('validation')) return;
-  const result = startResult('validation', 7);
-  const routes = ['/hr/sites', '/hr/employees', '/vendors', '/equipment', '/inventory/spare-parts', '/maintenance/preventive', '/maintenance/requests'];
+  const routes = ['/hr/sites', '/hr/employees', '/vendors', '/equipment', '/vendor-amc', '/inventory/spare-parts', '/maintenance/preventive', '/maintenance/requests'];
+  const result = startResult('validation', routes.length);
   for (let i = 0; i < routes.length; i += 1) {
     try { await page.goto(`${BASE_URL}${routes[i]}`, { waitUntil: 'domcontentloaded', timeout: 30000 }); await page.locator('body').waitFor({ state: 'visible' }); if (await page.getByText('Access Denied', { exact: true }).count()) throw new Error('Access denied'); result.successCount += 1; }
     catch (error) { await captureFailure(page, result, i, error); }
@@ -466,8 +531,12 @@ async function validate(page) {
     const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, ignoreHTTPSErrors: true });
     const page = await context.newPage(); page.setDefaultTimeout(20000);
     const access = await login(page);
-    await company(page); await sites(page); await roles(page); await employees(page); await vendors(page); await equipment(page); await spareParts(page);
-    await pmSchedules(page); await maintenanceRequests(page); await assignments(page); await workLogs(page); await spareRequests(page); await downtime(page); await purchaseRequests(page); await validate(page); await documentUnsupported();
+    const handlers = { company, sites, roles, employees, vendors, equipment, vendorAmc, spareParts, preventiveMaintenance: pmSchedules,
+      maintenanceRequests, assignments, workLogs, spareRequests, downtime, purchaseRequests, validation: validate };
+    for (const module of moduleConfig.dependencyOrder) {
+      if (selected(module)) await handlers[module](page);
+    }
+    await documentUnsupported();
     writeReports({ loginUser: access.user?.username || USERNAME, roles: access.roles, completedAt: new Date().toISOString() });
   } catch (error) {
     console.error(error.stack || error.message); writeReports({ fatalError: error.message, completedAt: new Date().toISOString() }); process.exitCode = 1;

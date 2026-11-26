@@ -8,6 +8,7 @@ This Playwright runner creates realistic, connected solar power plant demo data 
 
 - Sites, roles, employees with site execution assignments, and vendors with site assignments
 - Equipment and site-level spare-part inventory, including intentional low-stock records
+- Vendor AMCs with annual labor coverage, response and resolution times, and a covered asset at the vendor's assigned site
 - Preventive-maintenance schedules and maintenance requests
 - Assignments, technician work logs, assignment spare requests, and equipment downtime
 - Reorder requests when the login user has `REORDER_CREATE`
@@ -40,7 +41,7 @@ Set the required record count for each module in `config/generation-counts.json`
 }
 ```
 
-The committed configuration contains every supported module, so each part can be adjusted in one place. Counts must be whole numbers from 0 through 200. Dependencies are still processed in the safe order defined in `config/modules.json`.
+The committed configuration contains every supported module, so each part can be adjusted in one place. Counts must be whole numbers from 0 through 2000. Dependencies are still processed in the safe order defined in `config/modules.json`.
 
 For a temporary run, `RECORD_COUNT` overrides every configured module count. `MODULES` can restrict the run to a comma-separated subset:
 

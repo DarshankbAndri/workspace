@@ -159,7 +159,20 @@ function spare(index, prefix) {
   };
 }
 
+function vendorAmc(index, prefix, asset, vendor) {
+  const critical = ['HIGH', 'CRITICAL'].includes(asset.criticality);
+  return {
+    contractNumber: `${prefix}-AMC-${pad(index + 1)}`,
+    contractName: `${asset.equipmentName} annual maintenance`,
+    contractValue: Math.round((asset.purchaseCost || 250000) * (critical ? 0.08 : 0.05)),
+    responseTimeHours: critical ? 2 : 8,
+    resolutionTimeHours: critical ? 24 : 48,
+    coverageDescription: `Quarterly inspection, fault diagnosis and corrective labor for ${asset.equipmentCode}. Replacement parts are billed separately.`,
+    contactPerson: vendor.contactPerson, contactPhone: vendor.phone, contactEmail: vendor.email,
+  };
+}
+
 module.exports = {
-  pad, isoDate, localDateTime, site, employee, vendor, equipment, spare,
+  pad, isoDate, localDateTime, site, employee, vendor, equipment, spare, vendorAmc,
   pmTasks, issues, roles, downtimeReasons,
 };

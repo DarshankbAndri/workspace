@@ -1,18 +1,19 @@
 {
   "defaultCount": 0,
   "counts": {
-    "sites": 2,
-    "roles": 10,
-    "employees": 10,
-    "vendors": 10,
-    "equipment": 100,
-    "spareParts": 200,
-    "preventiveMaintenance": 20,
-    "maintenanceRequests": 20,
-    "assignments": 20,
-    "workLogs": 20,
-    "spareRequests": 20,
-    "downtime": 20,
-    "purchaseRequests": 20
+    "sites": 5,
+    "roles": 20,
+    "employees": 50,
+    "vendors": 40,
+    "equipment": 1000,
+    "vendorAmc": 100,
+    "spareParts": 2000,
+    "preventiveMaintenance": 100,
+    "maintenanceRequests": 100,
+    "assignments": 100,
+    "workLogs": 100,
+    "spareRequests": 100,
+    "downtime": 100,
+    "purchaseRequests": 100
   }
 }

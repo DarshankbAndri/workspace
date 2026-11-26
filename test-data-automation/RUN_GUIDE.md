@@ -108,6 +108,7 @@ The current example is configured for:
     "employees": 10,
     "vendors": 0,
     "equipment": 100,
+    "vendorAmc": 10,
     "spareParts": 0,
     "preventiveMaintenance": 0,
     "maintenanceRequests": 20,
@@ -123,7 +124,7 @@ The current example is configured for:
 Rules:
 
 - Use `0` to disable a module.
-- Use a whole number from `1` through `200` to generate that many records.
+- Use a whole number from `1` through `2000` to generate that many records.
 - Keep prerequisite data enabled or already present. For example, employees and equipment require sites; maintenance requests require equipment.
 - Records are created in dependency order automatically.
 
@@ -188,6 +189,18 @@ Remove-Item Env:MODULES
 ```
 
 Use a different `RUN_PREFIX` for the full run if you do not want the smoke-test records included in the same dataset.
+
+### Generate vendor annual maintenance contracts
+
+From the automation directory, use the same `RUN_PREFIX` as your generated sites, vendors and equipment. Set `counts.vendorAmc` to the desired total. Each contract needs one active asset without overlapping coverage and an active vendor assigned to the same site.
+
+```powershell
+$env:MODULES = 'vendorAmc'
+npm run generate
+Remove-Item Env:MODULES
+```
+
+For a fresh dataset, select `sites,vendors,equipment,vendorAmc` together. The generator skips contract numbers already present on reruns. The audit counts saved contracts with a covered asset at the contract site.
 
 ## 11. Check the result
 

@@ -1,14 +1,15 @@
 const fs = require('fs');
 const path = require('path');
 const { chromium } = require('playwright');
+const generationConfig = require('../config/generation-counts.json');
 require('dotenv').config({ path: path.resolve(__dirname, '..', '.env') });
 
 const ROOT = path.resolve(__dirname, '..');
 const BASE_URL = (process.env.CMMS_BASE_URL || 'http://localhost:6200').replace(/\/$/, '');
 const USERNAME = process.env.CMMS_USERNAME || 'superadmin';
 const PASSWORD = process.env.CMMS_PASSWORD;
-const PREFIX = (process.env.RUN_PREFIX || 'SOLAR-DEMO').toUpperCase();
-const TARGET = Number(process.env.RECORD_COUNT || 100);
+const PREFIX = (process.env.RUN_PREFIX || 'SOLAR-DEMO').replace(/[^A-Za-z0-9-]/g, '-').toUpperCase();
+const globalTarget = process.env.RECORD_COUNT === undefined ? null : Number(process.env.RECORD_COUNT);
 const JSON_PATH = path.join(ROOT, 'reports', 'data-creation-report.json');
 const CSV_PATH = path.join(ROOT, 'reports', 'data-creation-report.csv');
 const INSTALLED_BROWSER_CANDIDATES = [
@@ -31,7 +32,7 @@ const csv = (value) => `"${String(value ?? '').replace(/"/g, '""')}"`;
   const page = await browser.newPage();
   try {
     await page.goto(`${BASE_URL}/login`, { waitUntil: 'domcontentloaded' });
-    await page.getByLabel('Username').fill(USERNAME); await page.getByLabel('Password').fill(PASSWORD);
+    await page.getByLabel('Username').fill(USERNAME); await page.getByLabel(/^Password/).fill(PASSWORD);
     await page.getByRole('button', { name: /^(Login|Sign in)$/i }).click();
     await page.waitForURL((url) => !url.pathname.endsWith('/login'), { timeout: 30000 });
     const api = (endpoint) => page.evaluate(async (target) => {
@@ -46,6 +47,14 @@ const csv = (value) => `"${String(value ?? '').replace(/"/g, '""')}"`;
     const vendors = rows(await api('/vendors')).filter((r) => r.vendorCode?.startsWith(PREFIX));
     const equipment = rows(await api('/equipment')).filter((r) => r.equipmentCode?.startsWith(PREFIX));
     const equipmentIds = new Set(equipment.map((r) => String(r.id)));
+    let vendorAmc = 0;
+    for (const vendor of vendors.filter((v) => v.vendorCode.startsWith(`${PREFIX}-VEN-`))) {
+      const contracts = rows(await api(`/vendors/${vendor.id}/amc-contracts`));
+      vendorAmc += contracts.filter((contract) =>
+        contract.contractNumber?.startsWith(`${PREFIX}-AMC-`) &&
+        contract.equipmentMappings?.some((m) => m.active && m.siteId === contract.siteId && equipmentIds.has(String(m.equipmentId)))
+      ).length;
+    }
     const spareParts = [];
     for (const site of sites) spareParts.push(...rows(await api(`/spare-parts/site/${site.id}`)).filter((r) => r.partCode?.startsWith(PREFIX)));
     const spareIds = new Set(spareParts.map((r) => String(r.id)));
@@ -63,19 +72,22 @@ const csv = (value) => `"${String(value ?? '').replace(/"/g, '""')}"`;
     try { purchaseRequests = rows(await api('/spare-part-reorders')).filter((r) => spareIds.has(String(r.stockId))).length; }
     catch (error) { purchaseAuditError = error.message; }
 
-    const counts = { sites: sites.length, roles: roles.length, employees: employees.length, vendors: vendors.length, equipment: equipment.length, spareParts: spareParts.length, preventiveMaintenance: pm.length, maintenanceRequests: requests.length, assignments: assignments.length, workLogs, spareRequests, downtime: downtime.length, purchaseRequests };
+    const counts = { sites: sites.length, roles: roles.length, employees: employees.length, vendors: vendors.length, equipment: equipment.length, vendorAmc, spareParts: spareParts.length, preventiveMaintenance: pm.length, maintenanceRequests: requests.length, assignments: assignments.length, workLogs, spareRequests, downtime: downtime.length, purchaseRequests };
     const now = new Date().toISOString();
-    const modules = Object.entries(counts).map(([module, count]) => ({
-      module, requestedCount: TARGET, successCount: count ?? 0, failedCount: count == null ? TARGET : Math.max(0, TARGET - count), skippedCount: 0,
-      startTime: now, endTime: now,
-      failureReason: count == null ? `Unable to audit: ${purchaseAuditError}` : count < TARGET ? `Actual prefixed count is ${count}; target is ${TARGET}.` : '',
-    }));
+    const modules = Object.entries(counts).map(([module, count]) => {
+      const target = globalTarget ?? generationConfig.counts[module] ?? generationConfig.defaultCount;
+      return {
+        module, requestedCount: target, successCount: count ?? 0, failedCount: Math.max(0, target - (count ?? 0)), skippedCount: 0,
+        startTime: now, endTime: now,
+        failureReason: count == null ? `Unable to audit: ${purchaseAuditError}` : count < target ? `Actual prefixed count is ${count}; target is ${target}.` : '',
+      };
+    });
     modules.unshift({ module: 'company', requestedCount: 1, successCount: 0, failedCount: 0, skippedCount: 1, startTime: now, endTime: now, failureReason: 'Existing singleton company profile preserved.' });
     const documentedSkips = {
       teams: 'No team master or UI create route exists.', equipmentCategories: 'No category master create UI exists.', equipmentTypes: 'No equipment type create UI exists.',
       meterReadings: 'No meter/runtime reading UI exists.', notifications: 'Notifications are workflow-generated; no create UI exists.', inventory: 'Inventory is included in spareParts.',
     };
-    const report = { generatedAt: now, auditType: 'Authenticated persisted-count audit', baseUrl: BASE_URL, runPrefix: PREFIX, recordCount: TARGET, creationMethod: 'Playwright UI forms; authenticated frontend APIs used for audit only.', noDirectDatabaseInsert: true, modules, documentedSkips };
+    const report = { generatedAt: now, auditType: 'Authenticated persisted-count audit', baseUrl: BASE_URL, runPrefix: PREFIX, recordCount: globalTarget, configuredCounts: generationConfig.counts, creationMethod: 'Playwright UI forms; authenticated frontend APIs used for audit only.', noDirectDatabaseInsert: true, modules, documentedSkips };
     fs.writeFileSync(JSON_PATH, `${JSON.stringify(report, null, 2)}\n`);
     const headers = ['module','requestedCount','successCount','failedCount','skippedCount','startTime','endTime','failureReason'];
     fs.writeFileSync(CSV_PATH, `${headers.join(',')}\n${modules.map((r) => headers.map((h) => csv(r[h])).join(',')).join('\n')}\n`);
