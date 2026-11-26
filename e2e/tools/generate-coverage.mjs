@@ -1,41 +1,77 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import ts from 'typescript';
 
-const root = path.resolve('..');
-const testRoot = path.resolve('tests');
-const tests = [];
-const walk = (directory, files = []) => {
-  for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
-    const value = path.join(directory, entry.name);
-    if (entry.isDirectory()) walk(value, files);
-    else files.push(value);
-  }
-  return files;
-};
-const testText = walk(testRoot).filter((file) => file.endsWith('.ts')).map((file) => fs.readFileSync(file, 'utf8')).join('\n');
-const controllerRoot = path.join(root, 'cmms_back_end', 'src', 'main', 'java');
-for (const file of walk(controllerRoot).filter((item) => item.endsWith('Controller.java'))) {
-  const source = fs.readFileSync(file, 'utf8');
-  const controller = path.basename(file, '.java');
-  const base = source.match(/@RequestMapping\("([^"]*)"\)/)?.[1] || '';
-  const mapping = /@(Get|Post|Put|Delete|Patch)Mapping(?:\(\s*(?:value\s*=\s*)?"([^"]*)"[^)]*\))?/g;
-  for (const match of source.matchAll(mapping)) {
-    const method = match[1].toUpperCase();
-    const endpoint = `${base}${match[2] || ''}`.replace(/\/+/g, '/') || '/';
-    const literal = endpoint.replace(/\{[^}]+\}/g, '');
-    const covered = testText.includes(endpoint) || (literal.length > 4 && testText.includes(literal));
-    tests.push({ controller, method, endpoint, covered });
-  }
+const e2eRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const walk = (directory) => fs.readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
+  const file = path.join(directory, entry.name);
+  return entry.isDirectory() ? walk(file) : [file];
+});
+
+export function normalizeRoute(value) {
+  return ('/' + value.split('?')[0].replace(/^\/+|\/+$/g, '')).replace(/\{[^}]+\}/g, '{}');
 }
-tests.sort((a, b) => a.controller.localeCompare(b.controller) || a.endpoint.localeCompare(b.endpoint));
-const lines = [
-  '# API Test Coverage', '',
-  'Generated from the current controller source. `COVERED` means a functional test directly references the route; `PARTIAL` means it is inventoried and covered by contract, authentication and permission sweeps only.', '',
-  '| Controller | Method | Endpoint | UI Used | API Test | Security Test | Status |',
-  '|---|---|---|---|---|---|---|',
-  ...tests.map((item) => `| ${item.controller} | ${item.method} | \`${item.endpoint}\` | Inventory checked | ${item.covered ? 'Direct' : 'Contract'} | Anonymous sweep | ${item.covered ? 'COVERED' : 'PARTIAL'} |`),
-  '', `Total controller operations: ${tests.length}. Direct functional coverage: ${tests.filter((item) => item.covered).length}. Contract/security-only: ${tests.filter((item) => !item.covered).length}.`, '',
-];
-fs.mkdirSync(path.resolve('docs'), { recursive: true });
-fs.writeFileSync(path.resolve('docs/API_TEST_COVERAGE.md'), lines.join('\n'));
-console.log(`Wrote ${tests.length} endpoint rows to docs/API_TEST_COVERAGE.md.`);
+
+export function controllerOperations(source, controller) {
+  source = source.replace(/\/\*[\s\S]*?\*\/|\/\/[^\n]*/g, '');
+  const base = source.match(/@RequestMapping\(\s*(?:(?:value|path)\s*=\s*)?"([^"]*)"/)?.[1] || '';
+  const mapping = /@(Get|Post|Put|Delete|Patch)Mapping(?:\(\s*(?:(?:value|path)\s*=\s*)?"([^"]*)"[^)]*\))?/g;
+  return [...source.matchAll(mapping)].map((match) => ({
+    controller, method: match[1].toUpperCase(), endpoint: base + (match[2] || '') || '/',
+  }));
+}
+
+export function requestReferences(source, file = 'test.ts') {
+  const syntax = ts.createSourceFile(file, source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TS);
+  const references = [];
+  const verbs = { get: 'GET', getData: 'GET', post: 'POST', postData: 'POST', search: 'POST',
+    put: 'PUT', putData: 'PUT', delete: 'DELETE', deleteData: 'DELETE', patch: 'PATCH' };
+  function visit(node) {
+    if (ts.isCallExpression(node) && ts.isPropertyAccessExpression(node.expression)) {
+      const method = verbs[node.expression.name.text];
+      const argument = node.arguments[0];
+      let route;
+      if (argument && (ts.isStringLiteral(argument) || ts.isNoSubstitutionTemplateLiteral(argument))) route = argument.text;
+      if (argument && ts.isTemplateExpression(argument)) {
+        route = argument.head.text + argument.templateSpans.map((span) => '{parameter}' + span.literal.text).join('');
+      }
+      // Unresolved route variables and loops are deliberately not guessed.
+      if (method && route && !route.startsWith('{') && !route.includes('://')) {
+        const line = syntax.getLineAndCharacterOfPosition(node.getStart()).line + 1;
+        references.push({ method, route: normalizeRoute(route), file, line });
+      }
+    }
+    ts.forEachChild(node, visit);
+  }
+  visit(syntax);
+  return references;
+}
+
+export function generateCoverage() {
+  const controllers = walk(path.join(e2eRoot, '../cmms_back_end/src/main/java'))
+    .filter((file) => file.endsWith('Controller.java'))
+    .flatMap((file) => controllerOperations(fs.readFileSync(file, 'utf8'), path.basename(file, '.java')));
+  const references = walk(path.join(e2eRoot, 'tests')).filter((file) => file.endsWith('.spec.ts'))
+    .flatMap((file) => requestReferences(fs.readFileSync(file, 'utf8'), path.relative(e2eRoot, file).replaceAll('\\', '/')));
+  const rows = controllers.sort((a, b) => a.controller.localeCompare(b.controller) || a.endpoint.localeCompare(b.endpoint) || a.method.localeCompare(b.method))
+    .map((operation) => ({ ...operation, references: references.filter((reference) =>
+      reference.method === operation.method && reference.route === normalizeRoute(operation.endpoint)) }));
+  const referenced = rows.filter((row) => row.references.length).length;
+  const lines = [
+    '# API automation inventory', '',
+    'This is a static method-and-path reference inventory, **not a test pass rate or proof of full scenario coverage**. A request can be setup, a negative assertion, or cleanup. See the scenario plan and Playwright results for behavior and execution evidence. Dynamic route variables/loops and helper calls may be undercounted. Unreferenced operations remain gaps for review; anonymous/contract sweeps do not prove business correctness.', '',
+    '| Controller | Method | Endpoint | Direct request references |',
+    '|---|---|---|---|',
+    ...rows.map((row) => '| ' + row.controller + ' | ' + row.method + ' | `' + row.endpoint + '` | ' + (row.references.length
+      ? [...new Set(row.references.map((ref) => '[' + ref.file + ':' + ref.line + '](../' + ref.file + '#L' + ref.line + ')'))].join(', ')
+      : 'No statically resolved reference') + ' |'),
+    '', 'Controller operations: ' + rows.length + '. Operations with direct method/path references: ' + referenced +
+      '. Without a resolved direct reference: ' + (rows.length - referenced) + '.', '',
+  ];
+  fs.writeFileSync(path.join(e2eRoot, 'docs/API_TEST_COVERAGE.md'), lines.join('\n'));
+  console.log('Inventoried ' + rows.length + ' operations; ' + referenced + ' have method/path references (not a coverage percentage).');
+  return rows;
+}
+
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) generateCoverage();

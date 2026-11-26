@@ -19,4 +19,16 @@ test('@regression vendor AMC mapping, date validation and renewal history', asyn
   expect((await api.getData<Array<unknown>>(`/vendor-amc/${contract.id}/equipment`)).length).toBe(1);
   await expectApiError(await api.post('/vendor-amc', { ...payload, contractNumber: uniqueCode(runId, 'BAD'),
     startDate: '2027-01-01', endDate: '2026-01-01' }), 400);
+  const renewal = await api.postData<Record<string, unknown>>(`/vendor-amc/${contract.id}/renew`, {
+    ...payload, contractNumber: uniqueCode(runId, 'RENEW'), startDate: '2027-09-01', endDate: '2028-08-31',
+  }, 201);
+  resources.add(`renewal ${renewal.id}`, () => api.deleteData(`/vendor-amc/${renewal.id}`));
+  expect(renewal.id).not.toBe(contract.id);
+  expect(renewal.renewedFromContractId).toBe(contract.id);
+  const previous = await api.getData<Record<string, unknown>>(`/vendor-amc/${contract.id}`);
+  expect(previous.status).toBe('RENEWED');
+  expect(previous.startDate).toBe(payload.startDate);
+  expect(previous.endDate).toBe(payload.endDate);
+  const oldMappings = await api.getData<Array<Record<string, unknown>>>(`/vendor-amc/${contract.id}/equipment`);
+  expect(oldMappings.map((item) => item.equipmentId)).toContain(master.equipment.id);
 });

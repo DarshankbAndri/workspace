@@ -1,5 +1,9 @@
 # Application Defects Found
 
+## Revalidation on 2026-11-26
+
+The entries below are historical findings from the earlier branch/run, not current open failures. On the current `main_v1` source, the final full 106-case run passed, including frontend/OpenAPI alignment and the PM calendar route. The expanded scenario plan and current execution evidence are recorded in `AUTOMATION_PLAN.md`. The old repository-branch discrepancy below no longer describes this workspace.
+
 ## BUG-E2E-001 — Dormant frontend helpers have no backend contract
 
 Module: Shared frontend API  

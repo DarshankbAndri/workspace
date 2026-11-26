@@ -21,6 +21,12 @@ export function requireAdminCredentials(): void {
   }
 }
 
+export function requireTestDatabase(): void {
+  if (!/(?:^|[_-])(e2e|test)(?:$|[_-])/i.test(env.testDatabaseName)) {
+    throw new Error('Set E2E_TEST_DATABASE_NAME to the dedicated backend test database (name must contain e2e or test). Never run mutation tests against application data.');
+  }
+}
+
 export function destructiveResetAllowed(): boolean {
   const explicit = process.env.E2E_ALLOW_DESTRUCTIVE_RESET === 'true';
   const safeName = /(?:^|[_-])(e2e|test)(?:$|[_-])/i.test(env.testDatabaseName);

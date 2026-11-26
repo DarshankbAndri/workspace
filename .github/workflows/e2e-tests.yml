@@ -38,7 +38,7 @@ jobs:
           cache: maven
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: npm
           cache-dependency-path: |
             cmms_front_end/package-lock.json
@@ -50,7 +50,7 @@ jobs:
         working-directory: cmms_back_end
         env:
           FILE_STORAGE_PATH: ${{ runner.temp }}/cmms-documents
-        run: nohup java -jar target/cmms-back-end-1.0.0.jar --server.port=6100 > ../backend-e2e.log 2>&1 &
+        run: nohup java -jar target/cmms-back-end-1.0.0.jar --server.port=6100 --cmms.approval.enabled=true > ../backend-e2e.log 2>&1 &
       - name: Wait for database migrations
         run: npx --yes wait-on@8 http://127.0.0.1:6100/api/actuator/health
       - name: Generate ephemeral test credential
@@ -76,12 +76,15 @@ jobs:
         working-directory: cmms_front_end
         run: |
           npm ci
+          npm test
           npm run build
           nohup npm run dev -- --host 127.0.0.1 --port 6200 > ../frontend-e2e.log 2>&1 &
       - name: Install Playwright
         working-directory: e2e
         run: |
           npm ci
+          npm run typecheck
+          npm run test:tools
           npx playwright install --with-deps chromium
       - name: Wait for services
         run: npx --yes wait-on@8 http://127.0.0.1:6100/api/actuator/health http://127.0.0.1:6200

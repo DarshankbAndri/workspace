@@ -1,38 +1,18 @@
-# RBAC Test Matrix
+# RBAC automation matrix
 
-Actual roles: `SUPER_ADMIN`, `ADMIN`, `HR_ADMIN`, `MAINTENANCE_MANAGER`, `SITE_MANAGER`, `TECHNICIAN`, `VIEWER`.
+This records executable checks, not inferred guarantees for every seeded role. API permissions come from api-permission-mapping.csv; record/site ownership remains a separate service check.
 
-`SUPER_ADMIN` and `ADMIN` receive all permission codes. Other expectations below come from Liquibase role-permission data. Site access is an additional requirement even when the permission is allowed.
+| Account/condition | Allowed assertion | Denied assertion | Test |
+|---|---|---|---|
+| Administrator | Effective roles/permissions and business setup | Anonymous sweep covers missing JWT separately | security/rbac.spec.ts, api/unauthenticated-endpoints.spec.ts |
+| Temporary viewer with SITE_VIEW/EQUIPMENT_VIEW | Own-site read | Site create/update/delete, equipment/role/config writes, unmapped path | security/rbac.spec.ts |
+| Temporary site-A account | Own equipment/list/search | Site-B equipment/employee/vendor reads, delete, hostile site filter | security/cross-site-security.spec.ts |
+| Existing session after role mutation | Read after restoring permission | Read after permission or role removal, including fresh login | auth/account-lifecycle.spec.ts |
+| Inactive employee login | Previously valid login | Login and token refresh after disabling | auth/account-lifecycle.spec.ts |
+| Technician and other employee at same site | Assigned technician sees own job | Caller cannot impersonate technician through My Assignments search | assignment/my-assignments.spec.ts |
+| Temporary approver and ordinary account | Approve/reject eligible request | Ordinary actor cannot approve, final decision cannot repeat | configuration/approval-and-notifications.spec.ts |
+| Notification recipient and different account | Own read/archive | Other user's read denied | configuration/approval-and-notifications.spec.ts |
+| Site-scoped report viewer | Own equipment cost report | Another site's report/dashboard | report/deterministic-reports.spec.ts |
+| UI viewer | Read-only site view | Edit button absent; direct edit route denied | ui/site-navigation.spec.ts |
 
-Legend: A = allowed when site scope also permits; D = denied; R = read-only operation.
-
-| API family | HTTP methods | Permission(s) | SUPER_ADMIN | HR_ADMIN | MAINTENANCE_MANAGER | SITE_MANAGER | TECHNICIAN | VIEWER |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `/api/hr/sites` | GET/POST/PUT/DELETE | SITE_* | A | A | D | D | D | R |
-| `/api/hr/employees` | GET/POST/PUT/DELETE | EMPLOYEE_* | A | A | D | D | D | R |
-| `/api/admin/roles` | GET/POST/PUT/DELETE | ROLE_* | A | D | D | D | D | D |
-| `/api/admin/permissions` | GET | PERMISSION_VIEW | A | D | D | D | D | D |
-| `/api/admin/users/*/roles` | GET/PUT | USER_ROLE_VIEW/UPDATE | A | assign only | D | D | D | D |
-| `/api/company/**` | GET/POST/PUT | COMPANY_* | A | D | D | D | D | D |
-| `/api/equipment` | GET/POST/PUT/DELETE | EQUIPMENT_* | A | D | R | A except delete | R | R |
-| `/api/equipment/*/documents` | GET/POST/DELETE | EQUIPMENT_VIEW/UPDATE/DELETE | A | D | R/upload | R/upload | R | R |
-| `/api/maintenance/requests` | GET/POST/PUT/DELETE | REQUEST_* | A | D | A except delete | A except delete | R/update transition | R |
-| `/api/approvals` | GET/POST | APPROVAL_VIEW/APPROVE/REJECT | A | D | A | A | D | D |
-| `/api/admin/approval-config` | GET/POST/PUT | APPROVAL_CONFIG_* | A | D | D | D | D | D |
-| `/api/maintenance/assignments` | GET/POST/PUT/DELETE | ASSIGNMENT_* | A | D | A except delete | A except delete | own read/work | R |
-| assignment checklist | GET/POST/PUT/DELETE | ASSIGNMENT_CHECKLIST_* | A | D | A | A | view/update/upload | D |
-| assignment work logs | GET/POST/PUT/DELETE | ASSIGNMENT_WORK_LOG_* | A | D | A | A | view/create/update/upload | D |
-| `/api/maintenance/downtime` | GET/POST/PUT/DELETE/actions | DOWNTIME_* | A | D | view/create/update | view/create/update | view/create | R |
-| `/api/spare-parts` | GET/POST/PUT/DELETE | SPARE_PART_* | A | D | view/create/update | view/create/update | R | R |
-| stock transactions | GET/POST | STOCK_TRANSACTION_* | A | D | A | A | R | R |
-| spare usage workflow | GET/POST/PUT/DELETE | SPARE_USAGE_* | A | D | A | A | view/create/consume | R |
-| `/api/spare-part-reorders` | GET/POST/PUT | REORDER_* | A | D | A | A | R | R |
-| PM schedules/calendar | GET/POST/PUT/DELETE/generate | REQUEST_*, PM_CALENDAR_VIEW | A | D | A except delete | A except delete | R | R |
-| `/api/vendors` | GET/POST/PUT/DELETE | VENDOR_* | A | D | R | R | D | R |
-| `/api/vendor-amc` | GET/POST/PUT/DELETE/actions | VENDOR_AMC_* | A | D | A | A | R | R |
-| `/api/notifications` | GET/PUT | authenticated owner | A | A | A | A | A | A |
-| notification settings | GET/PUT | NOTIFICATION_CONFIG_VIEW/UPDATE | A | D | D | D | D | D |
-| `/api/reports/**` | GET | REPORT_VIEW | A | D | A | A | D | A |
-| `/api/dashboard/**` | GET | dashboard/module widget permission | A | dashboard only | permitted modules | permitted modules | permitted modules | read modules |
-
-The automation reads `api-permission-mapping.csv` and fails when a protected OpenAPI operation is unmapped. Endpoint-level generated output is written to `API_TEST_COVERAGE.md`.
+All temporary account passwords are randomly generated. Teardown disables accounts and roles. Full seeded-role-by-endpoint permutations, multiple approval thresholds and all cross-parent file attacks remain explicit backlog items in AUTOMATION_PLAN.md.

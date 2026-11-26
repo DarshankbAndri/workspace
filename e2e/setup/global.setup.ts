@@ -1,10 +1,11 @@
 import { request, type FullConfig } from '@playwright/test';
 import fs from 'node:fs';
 import path from 'node:path';
-import { env, requireAdminCredentials } from '../helpers/env.js';
+import { env, requireAdminCredentials, requireTestDatabase } from '../helpers/env.js';
 
 export default async function globalSetup(_config: FullConfig): Promise<void> {
   requireAdminCredentials();
+  requireTestDatabase();
   const api = await request.newContext({ baseURL: env.apiBaseUrl });
   try {
     const health = await api.get('actuator/health');

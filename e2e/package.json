@@ -14,6 +14,8 @@
     "test:debug": "playwright test --debug",
     "test:report": "playwright show-report playwright-report",
     "test:list": "playwright test --list",
+    "typecheck": "tsc --noEmit",
+    "test:tools": "node --test tools/*.test.mjs",
     "docs:coverage": "node tools/generate-coverage.mjs",
     "cleanup:e2e": "node cleanup/run-cleanup.mjs"
   },

@@ -35,6 +35,15 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
+      testIgnore: '**/configuration/**',
+      use: { ...devices['Desktop Chrome'], channel },
+    },
+    {
+      name: 'configuration',
+      testMatch: '**/configuration/**/*.spec.ts',
+      dependencies: ['chromium'],
+      fullyParallel: false,
+      workers: 1,
       use: { ...devices['Desktop Chrome'], channel },
     },
   ],

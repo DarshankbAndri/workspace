@@ -1,43 +1,29 @@
-# Feature Test Coverage
+# Feature automation coverage
 
-Status reflects executable tests against the current source. Endpoint detail is in `API_TEST_COVERAGE.md`.
+Updated 2026-11-26. This inventory identifies executable suites, not complete scenario coverage. Runtime results are separate from implemented tests. See [the audit, implementation plan and remaining backlog](AUTOMATION_PLAN.md).
 
-| Feature | Implemented behavior | Automation status |
+| Feature | Executable tests under tests/ | Assertions and limits |
 |---|---|---|
-| Startup | frontend, health, database-backed APIs, public time | Covered by global setup and smoke |
-| Authentication | JWT login/refresh, bad and empty credentials, protected routes, logout state | Covered |
-| Authorization | deny-unmapped CSV policy and anonymous rejection | All operations inventoried; non-admin matrix needs configured accounts |
-| Site isolation | site-aware services and cross-site relationship validation | FK attack covered; scoped-user direct-ID scenario conditional on account |
-| Company | singleton company and logo | UI/contract covered; singleton mutation not run |
-| Sites | CRUD, duplicate validation, search/paging/sort | Covered |
-| Employees | create/update/site assignment/email validation/search | Covered |
-| Users | current-user access and management UI/API contracts | Partial; disable/re-auth needs seeded user accounts |
-| Roles/permissions | role CRUD, permission persistence, duplicate validation, catalogs | Covered; viewer enforcement conditional on account |
-| Equipment | CRUD relationship, search, summaries and health routes | Covered |
-| Equipment documents | upload, metadata, download, invalid type and cleanup | Covered |
-| Equipment BOM | routes/UI/authorization contract | Partial |
-| Maintenance requests | create, transitions, search, related records, invalid/cancelled state | Covered |
-| Approval workflow | configuration, pending/history, approve/reject | Pending/history UI/routes covered; cross-user actions environment-dependent |
-| Assignments/My Assignments | create/start/complete/search/request sync and identity-search route | Covered; impersonation attack needs technician accounts |
-| Checklist | CRUD/proof routes | Contract/security only |
-| Work logs | create/list/completion and completion prerequisite | Covered |
-| Downtime | full status sequence, RCA, duration and invalid transition | Covered |
-| Spare parts | stock-in, absolute adjustment, ledger and invalid quantity | Covered |
-| Spare usage/reorders | reserve/issue/consume/return/purchase workflow | Contract/UI only |
-| Preventive maintenance | schedule CRUD, due date, generation and duplicate behavior | Covered |
-| Vendors/AMC | vendor lifecycle, contract validation and equipment mapping | Covered |
-| Notifications/settings | list/count/read-all plus settings UI/contracts | Inbox covered; recipient/settings toggle partial |
-| Reports | all six report APIs and three pages | Covered for success/paging; aggregation fixture partial |
-| Dashboard | summary/overview/widgets plus UI | Covered for contracts; deterministic count deltas partial |
-| Pagination/search/sort | thirteen search APIs, including identity-controlled Pending Approvals and My Assignments; hostile values and invalid sort | Covered |
-| Date/time | UTC `Z`, drift, zone metadata and timezone-less rejection | Covered |
-| UI integration | 41 routes; browser exceptions and API 4xx/5xx captured | Covered; PM calendar defect found |
+| Authentication/accounts | auth/authentication.spec.ts, auth/account-lifecycle.spec.ts | Login, refresh/logout UI, password failures/change, disabled account, live permission removal. Stateless logout is not token revocation. |
+| Permission/site isolation | security/rbac.spec.ts, security/cross-site-security.spec.ts | Self-created non-admin accounts; allowed read, denied write, direct ID/list/search and hostile site filter. Not an exhaustive default-role matrix. |
+| Company | configuration/company.spec.ts | Create if absent, update/restore, duplicate code, invalid email/name. Logo interaction remains a gap. |
+| Sites/UI navigation | site/site-crud.spec.ts, ui/site-navigation.spec.ts | CRUD, duplicate, search, list/view/edit/save, viewer edit denial. Other modules have route smoke rather than full form interaction. |
+| Employees/vendors/equipment | integration/master-data.spec.ts, integration/master-data-lifecycles.spec.ts | Relationships, edits and selected duplicate/validation cases. |
+| Roles/users | integration/master-data-lifecycles.spec.ts, auth/account-lifecycle.spec.ts | Role catalog/CRUD; permission and role removal on existing token; employee account state. |
+| Equipment documents/BOM | equipment/documents.spec.ts, equipment/spare-bom.spec.ts | Upload/download/delete, BOM persistence, duplicate/quantity/site validation. |
+| Maintenance | workflow/complete-maintenance-lifecycle.spec.ts, workflow/maintenance-rejection-lifecycle.spec.ts | Request/assignment synchronization, completion and invalid/cancelled flows. |
+| My Assignments | assignment/my-assignments.spec.ts | Real technician identity and attempted filter impersonation; linked profile identity. |
+| Checklist | assignment/checklist-execution.spec.ts | Required step/proof gates, invalid status, persisted completion, proof bytes, wrong-assignment IDs. Propagation variants additionally have backend unit tests. |
+| Work logs | assignment/work-log-attachments.spec.ts | Invalid time, update, persisted action, attachment round trip/deletion and wrong-parent ID. |
+| Approvals | configuration/approval-and-notifications.spec.ts | Real approver approve/reject, unauthorized actor, repeated decisions, request/history state. Multiple-approver and wrong-role/site permutations remain. |
+| Downtime | downtime/downtime-lifecycle.spec.ts | Status sequence, RCA, duration and invalid transition. |
+| Inventory | spare-parts/inventory.spec.ts, spare-parts/spare-workflow.spec.ts | Receipt/adjust ledger, manager approve/reject, stock reservation, issue, partial consume/return, release on cancellation, linked shortage purchase/receipt. Concurrency and transfer/import remain. |
+| PM | preventive-maintenance/schedule.spec.ts | Create/read, sequential generation dates, persisted next due date, invalid frequency. Does not prove concurrent scheduler idempotency. |
+| AMC | vendor-amc/vendor-amc.spec.ts | Mapping, date validation, renewal linkage and preservation of original dates/mapping. |
+| Notifications | notification/notification-permissions.spec.ts, configuration/approval-and-notifications.spec.ts | Inbox/count, approver recipient ownership, read/archive, settings validation/restoration. External delivery/SSE reconnect remain. |
+| Reports/dashboard | report/deterministic-reports.spec.ts | Exact purchase/maintenance totals, three cost groups, history records, equipment KPI, forbidden other-site reporting. Other aggregate/widget fixtures remain. |
+| Search/time | pagination/search-sort-filter.spec.ts, regression/date-time-and-validation.spec.ts | Thirteen search endpoints, paging/hostile inputs, UTC/time contracts. |
+| API contracts | api/api-contract.spec.ts, api/unauthenticated-endpoints.spec.ts | Live OpenAPI/Axios/permission alignment and anonymous sweep. These do not prove business behavior. |
+| UI smoke | smoke/smoke.spec.ts, ui/all-module-routes.spec.ts | Basic route/API/browser-error checks, not full form workflows or accessibility. |
 
-## Environment prerequisites
-
-| Feature | Why incomplete in this run | Recommended validation |
-|---|---|---|
-| Cross-user RBAC/site attacks | only SUPER_ADMIN credentials were available | seed viewer, technician, manager, SITE-A and SITE-B users and set documented variables |
-| Real SMTP/SMS | no sandbox provider | use a provider sandbox and delivery telemetry |
-| Daily schedulers | production cron waits are nondeterministic | invoke guarded APIs and retain fixed-clock unit tests |
-| Sustained load | separate from regression | run existing k6 profiles after smoke |
+Global configuration cases run in a single-worker project after ordinary tests, with restoration. Non-admin accounts are created by fixtures, not optional credentials. The generated API inventory only counts method/path references and explicitly avoids claiming a functional coverage percentage.
